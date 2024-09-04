@@ -1,0 +1,5 @@
+This is the Privacy Statement for the Accessible Solitaire app.
+
+The Accessible Solitaire app does not access, collect, or transmit personal information.
+
+The app stores the player's choices made in the Settings page in the app. 
