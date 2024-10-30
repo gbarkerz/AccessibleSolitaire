@@ -4,6 +4,8 @@ The Accessible Solitaire game for Android is an exploration into building the mo
 
 You feedback can make a real difference, so please let me know by messaging "Sa11ytaire Help" at Facebook, or e-mail gbarkerz@hotmail.com.
 
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_DefaultGame.jpg)
+
 ## Playing the game
 
 The goal of the game is to build up four piles of playing cards, one per suit, in the target card piles shown near the top right of the game. The piles must be built up in order, starting with an ace and ending with a king.
@@ -32,13 +34,21 @@ By default, the things shown in the game are sized such that all parts of the ga
 
 Given that once everything is bigger the entire game won’t fit on the screen, the top part of the game containing the upturned cards and the target card piles can be scrolled to bring whatever’s of interest in that area into view. Also, the lower part of the game containing the dealt card piles can be scrolled separately from the top part, such that whatever dealt card piles are of interest can be brought into view.
 
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_Zoom150.jpg)
+
 ### "Card rank and suit display"
 
 By default, the content of cards is similar to those of traditional playing cards, such that main area shows a collection of small suit symbols. This means determining exactly which suit is being shown can be a challenge, given that the clubs and spade symbols are very similar, as are the diamonds and hearts symbols. The "Card rank and suit display" setting provides a way to have the card not show the collection of symbols and instead show one large number (or letter) to indicate the card's rank, and one large suit symbol.
 
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_ShowLargeRankSuit.jpg)
+
 ### "Show Zoom Card Button"
 
 The "Show Zoom Card Button" setting provides a way to have a zoom button shown at the top right corner of all cards. When that button is tapped, a large popup appears containing the associated card. To dismiss the popup, either tap its Close button, or tap outside the popup.
+
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_ShowZoomCardButton.jpg)
+
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_PopupLight.jpg)
 
 ## Using the TalkBack screen reader
 
@@ -64,9 +74,15 @@ TalkBack also announces details in response to some specific actions that are ta
 - When the Next Card button is tapped and the pile becomes empty: “9 of spades, 3 of Diamonds on top. No cards left in remaining cards pile”.
 - When the topmost upturned card is selected: “3 of Diamonds selected”.
 
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_TalkBackMoveBetweenDealtPiles.jpg)
+
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_TalkBackMoveToTargetPile.jpg)
+
 **Announcing the entire state of the game:** To have the current state of the entire game announced by TalkBack, go to the Settings page and check: “Show state announcement button”. When you then return to the game, a button called: "Screen reader announce game state" will follow the Menu button near the top-left of the game. When that button is tapped, TalkBack will announce the current state of the upturned cards, the target card piles, and the dealt card piles. For example:
 
 "Top upturned card is 6 of Clubs, then 9 of Diamonds, then 4 of Clubs.  More cards are available to turn over. Target piles, 2 of Clubs, 2 of Diamonds, Ace of Hearts, Empty Spades Pile. Pile 1, 10 of Hearts to King of Spades, Pile 2, Empty, Pile 3, 8 of Clubs, 2 Cards Face-down, Pile 4, 10 of Spades to Jack of Diamonds, 2 Cards Face-down, Pile 5, 7 of Clubs, 4 Cards Face-down, Pile 6, 4 of Diamonds, 1 Card Face-down, Pile 7, 5 of Diamonds, 6 Cards Face-down."
+
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_TalkBackGameState.jpg)
 
 **Please note:** TalkBack sometimes makes announcements that are not helpful and can be confusing. For example, transitioning states of selection for a card being moved before it announces the card's final selection state. Also when a card is being moved and TalkBack announces the a card in a pile and the count of cards in that pile, when that card is not the one of most interest during a move. Over time I hope to reduce the number of unwanted announcements made by TalkBack.  
 
@@ -76,7 +92,15 @@ TalkBack also announces details in response to some specific actions that are ta
 
 The colours shown in the game depend on whether the **Android Dark Mode** setting is on when the game is started. 
 
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_DarkZoom.jpg)
+
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_DarkShowZoomCard.jpg)
+
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_DarkPopup.jpg)
+
 In addition, the game has a "Card Appearance" setting which can be used to lower the brightness of cards shown in the game.
+
+![Todo add description](/ReadmeScreenshots/AccessibleSolitaire_DarkenCards.jpg)
 
 ## Other Settings
 
