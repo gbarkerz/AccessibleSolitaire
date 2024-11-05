@@ -4,6 +4,8 @@ The Accessible Solitaire game for Android is an exploration into building the mo
 
 Your feedback can make a real difference, so please let me know by messaging "Sa11ytaire Help" at Facebook, or e-mail gbarkerz@hotmail.com.
 
+Some technical details relating to building the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe).
+
 ## Playing the game
 
 The goal of the game is to build up four piles of playing cards, one per suit, in the target card piles shown near the top right of the game. The piles must be built up in order, starting with an ace and ending with a king.
