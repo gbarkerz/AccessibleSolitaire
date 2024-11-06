@@ -113,3 +113,27 @@ The game has two settings which can influence how challenging it is for the game
 ### "Screen Reader"
 
 As mentioned above, the "Show state announcement button" can be used to have the TalkBack screen reader announce the entire state of the game. If TalkBack is not running, this button appears to do nothing when tapped. 
+
+## New options introduced in Version 1.18
+
+Accessible Solitaire V1.18 introduced two new options. 
+
+### Select via face-down card
+
+Often when selecting a partially obscured card in a dealt card pile, the card of interest is the lowest face-up card in the pile. Given that that card can be difficult to tap on due to the amount of card that's shown, the "Select via face-down card" option means a tap on any face-down card in a dealt card pile will select or deselect the nearest face-up card in the same pile. This will often make it less challenging to select the lowest face-up card in a dealt card pile.
+
+### Highlight selected card set
+
+Often when moving cards between dealt card piles, multiple cards are moved in a single move action. For example, in the following image the 6 of Hearts is selected in preparation for moving it over to a 7 of Spades in another dealt card pile. On top of the 6 of Hearts are four other cards, and those cards will be moved to the other dealt card pile when the 6 of Hearts is moved. By default, when the 6 of Hearts is selected, the visuals associated with all the cards lying on top of the 6 of Hearts are not changed, despite the fact that the next operation will impact all those cards. The "Highlight selected card set" option has the visuals for those related cards change to indicate they will be moved when the selected card is moved.
+
+Note that the accessible name of the cards associated with the selected card always includes the phase: "in selected set", to indicate that the cards are impacted by the moving of the selected card in the same dealt card pile.
+
+![A game in progress with a 6 of Hearts selected in a dealt card pile. Four cards lie above the 6 of Hearts, and their backgrounds show a gradient shading from white at the top left corner, down to light purple at the bottom right corner. TalkBack's highlight is around one of the partially shown card above the 6 of Hearts, and its caption is: "3 of Spades, in selected set, 6 of 7, in list Pile 6"](/ReadmeScreenshots/V1.18_SelectedSetLight.jpg)
+
+The following image shows the new highlight for cards associated with the selected dealt card, when the cards show a large suit symbol and rank letter, and the Zoom Card button in their top right corners.
+
+![A game in progress with all cards showing a large suit symbol and rank letter, and the Zoom Card button in their top right corner. One card is selected, and all associated cards have a gradient white-purple background.](/ReadmeScreenshots/V1.18_SelectedSetLightLarge.jpg)
+
+The following image shows the new highlight for cards associated with the selected dealt card, when the Android Dark Mode setting was on when the Accessible Solitaire was started.
+
+![A game in progress with all cards showing the app's Dark Mode colours. One card is selected, and all associated cards have a gradient black-yellow background.](/ReadmeScreenshots/V1.18_SelectedSetDark.jpg)
