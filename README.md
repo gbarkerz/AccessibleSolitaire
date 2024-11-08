@@ -137,3 +137,20 @@ The following image shows the new highlight for cards associated with the select
 The following image shows the new highlight for cards associated with the selected dealt card, when the Android Dark Mode setting was on when the Accessible Solitaire was started.
 
 ![A game in progress with all cards showing the app's Dark Mode colours. One card is selected, and all associated cards have a gradient black-yellow background.](/ReadmeScreenshots/V1.18_SelectedSetDark.jpg)
+
+## New options introduced in Version 1.19
+
+Accessible Solitaire V1.19 introduced the following option.
+
+### Merge face-down cards
+
+Given that all the face-down cards in the dealt card piles can occupy a lot of space in the game, you may prefer to have only one face-down card shown in each dealt card pile if the pile has any face-down cards. By choosing this option, only one face-down card is shown in each dealt card pile, and the total number of face-down cards in the associated pile is shown on that face-down card.  
+
+Note: This option might be particularly interesting when playing the game with the TalkBack screen reader. By default when swiping to move TalkBack through a dealt card pile, TalkBack will move to each face-down card in turn before it reaches the face-up cards in the pile. By merging all the face-down cards, TalkBack will encounter the one face-down card shown, announce the count of face-down cards, then with the next swipe will move to the first face-up card in the pile. Note that when TalkBack moves to the lowest face-down card in the pile, it will always announce the count of face-down cards in that pile regardless of whether the face-down cards are merged. 
+
+Also, when TalkBack announces the position of a card in a dealt card pile and the total count of cards in the pile, it will announce details as if the face-down cards are not merged. 
+
+![A game in progress with the face-down cards in each dealt card piel merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. TalkBack's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. TalkBack's caption says: 6 Face-down, 1 of 8, In list Pile 7](/ReadmeScreenshots/V1.19_MergeFaceDownCards.jpg)
+
+
+
