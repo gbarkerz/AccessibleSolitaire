@@ -150,7 +150,21 @@ Note: This option might be particularly interesting when playing the game with t
 
 Also, when TalkBack announces the position of a card in a dealt card pile and the total count of cards in the pile, it will announce details as if the face-down cards are not merged. 
 
-![A game in progress with the face-down cards in each dealt card piel merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. TalkBack's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. TalkBack's caption says: 6 Face-down, 1 of 8, In list Pile 7](/ReadmeScreenshots/V1.19_MergeFaceDownCards.jpg)
+![A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. TalkBack's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. TalkBack's caption says: 6 Face-down, 1 of 8, In list Pile 7](/ReadmeScreenshots/V1.19_MergeFaceDownCards.jpg)
 
+## Android Switch Access 
 
+The Accessible Solitaire game can be played using the Android Switch Access feature. This might also be known as “Universal Switch” on some devices. For information relating to this Android feature, please visit [Switch Access](https://support.google.com/accessibility/android/topic/6151780).
+
+### Tips on using Android Switch Access
+
+When playing Accessible Solitaire with a switch, please consider the following:
+
+1. At the Accessible Solitaire Settings page, turn on “Merge face-down cards”. This reduces the number of switch presses required before reaching dealt cards of interest.
+
+2. At the Android Switch Settings set a “Default scan method” of “Group”. This reduces the number of switch presses required when moving to a group containing a card of interest.
+
+3. When a card of interest is selected using a switch, the Android Switch “global menu” may appear, and another switch press is then required to tap the card. If you’d prefer a card to be tapped automatically when selected, at the Android Switch Settings select turn on the “Enable auto-select” option. (On some devices this may be called “Auto tap to select”.) Also consider reducing the delay before the auto-tap occurs after the card is selected.
+
+![A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The Android Switch Access highlight surrounds the entire set of seven dealt card piles, with the topmost face-up cards in two of the piles protruding slightly below the bottom of the highlight.](/ReadmeScreenshots/AccessibleSolitaire_SwitchAccess.jpg)
 
