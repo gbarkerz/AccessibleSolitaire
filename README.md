@@ -59,14 +59,14 @@ The TalkBack screen reader announces the name of whatever it encounters in the g
 - "Menu, Button"
 - "Next card, Button"”
 - "Upturned Cards"
-- "Target card piles"
+- "Clubs pile"
 - "Dealt card piles"
 
 All cards in the upturned card piles or target card piles behave like switches, with a toggled state to indicate whether a card has been selected in preparation for moving it. As such, TalkBack will announce them as switches and either On or Off depending on their toggled state. For example, if the Ace of Clubs is shown in the Clubs target card piles, TalkBack will say either "OFF, Ace of Clubs, Switch" or "ON, Ace of Clubs, Switch".  
 
 When TalkBack encounters a card in one of the dealt card piles, it announces the details of the card. The details always include the rank and suit of the card if the card is face-up, or the phrase "Face down" if the card is face-down. The details also include the position of the card in the dealt card pile, the count of cards in that pile, and whether the card is selected. For example: "10 of Diamonds, selected, 3 of 4". TalkBack might also announce which dealt card pile the card is in, as either its "dealt card pile" or "list pile".
 
-TalkBack can be moved directly to an element in the game  by touching the element, or by swiping right or left to have TalkBack move to the next or previous element respectively. When navigating forward by swipe gesture, TalkBack will announce the container of the target card piles as: "Target Card Piles", and the container of the dealt card piles as: "Dealt card piles".
+TalkBack can be moved directly to an element in the game  by touching the element, or by swiping right or left to have TalkBack move to the next or previous element respectively. When navigating forward by swipe gesture, TalkBack will announce the container of the dealt card piles as: "Dealt card piles".
 
 TalkBack also announces details in response to some specific actions that are taken in the game. For example:
 
