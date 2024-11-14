@@ -6,6 +6,16 @@ Your feedback can make a real difference, so please let me know by messaging "Sa
 
 Some technical details relating to building the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe).
 
+Short videos demonstrating some of the ways that Accessible Solitaire can be played are referenced below. Please note that currently these videos do not have captions of audio descriptions.
+
+[Playing Accessible Solitaire for Android with various zoom features](https://youtu.be/uy4U3ORwIh0)
+
+[Playing Accessible Solitaire for Android with the Android TalkBack screen reader](https://youtu.be/6I04Rj7vMZA)
+
+[Playing Accessible Solitaire for Android with Android Switch Access](https://youtu.be/Foa-Oz6LvCA)
+
+[Playing Accessible Solitaire for Android with Android Voice Access](https://youtu.be/zEMFCMTLPx8)
+
 ## Playing the game
 
 The goal of the game is to build up four piles of playing cards, one per suit, in the target card piles shown near the top right of the game. The piles must be built up in order, starting with an ace and ending with a king.
@@ -168,3 +178,30 @@ When playing Accessible Solitaire with a switch, please consider the following:
 
 ![A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The Android Switch Access highlight surrounds the entire set of seven dealt card piles, with the topmost face-up cards in two of the piles protruding slightly below the bottom of the highlight.](/ReadmeScreenshots/AccessibleSolitaire_SwitchAccess.jpg)
 
+## Android Voice Access 
+
+**Important:** Development of the game-playing experience using Android Voice Access is in progress, and you may currently find the quality of the experience unsatisfactory.
+
+Technically the Accessible Solitaire game can be played using the Android Voice Access feature. For information relating to this Android feature, please visit [Voice Access](https://support.google.com/accessibility/android/topic/6151842).
+
+### Common phrases
+
+Phrases that are commonly used in the game are as follows:
+
+- The name of a card. For example: "three of diamonds".
+- "next card", to turn over the next card in the remaining cards pile.
+- "turn over cards", when the remaining card pile is empty and all upturned cards are to be turned back over.
+- The name of an empty target card pile. For example: "clubs pile" or "hearts pile".
+- The name of an empty dealt card pile. For example: "pile one" or "pile seven".
+
+### Tips on using Android Voice Access
+
+When playing Accessible Solitaire with speech, please consider the following:
+
+1. To increase the likelihood of spoken card names being recognised by Android Voice Access, go to the Accessible Solitaire Settings page and turn on the "Speak card name to select it" option.
+
+2. After speaking, check whether Android Voice Access correctly recognised the phrase you spoke. For example, it might incorrectly recognise the spoken phrase "ten of" as "turn off", in which case the intended card will not be selected. In that case, perhaps say "tap ten" followed by a slight pause, and then speak the remainder of the card name.
+
+3. If a card or a button in the game cannot be selected or clicked using its name, use the Android Voice Access command "Show numbers" to have a number shown above the card or button, and then speak that number.
+
+![A game in progress with the Ace of Clubs selected in dealt pile four. The Android Voice Access feature is displaying the following text at the top of the screen: "Tapped Ace of clubs"](/ReadmeScreenshots/AccessibleSolitaire_VoiceAccess.jpg)
