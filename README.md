@@ -6,7 +6,7 @@ Your feedback can make a real difference, so please let me know by messaging "Sa
 
 Some technical details relating to building the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe).
 
-Short videos demonstrating some of the ways that Accessible Solitaire can be played are referenced below. Please note that currently these videos do not have captions of audio descriptions.
+Short videos demonstrating some of the ways that Accessible Solitaire can be played are referenced below. Please note that currently these videos do not have captions or audio descriptions.
 
 [Playing Accessible Solitaire for Android with various zoom features](https://youtu.be/uy4U3ORwIh0)
 
