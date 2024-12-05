@@ -1,6 +1,8 @@
-# Accessible Solitaire for Android
+# Accessible Solitaire for iOS and Android
 
-The Accessible Solitaire game for Android is an exploration into building the most accessible solitaire game possible for Android phones. Today the game focuses on the experience for players who use zoom features or the TalkBack screen reader, but in the future I'd like to also explore how the game might be played with a switch device. The game can always be made more accessible, so please provide feedback to help me learn how I should prioritise its accessibility improvements.
+The Accessible Solitaire game is an exploration into building the most accessible solitaire game possible for iOS devices like iPhones and iPads, and Android phones. 
+
+Today the game focuses on the experience for players who use zoom features or the TalkBack screen reader, but in the future I'd like to also explore how the game might be played with a switch device. The game can always be made more accessible, so please provide feedback to help me learn how I should prioritise its accessibility improvements.
 
 Your feedback can make a real difference, so please let me know by messaging "Sa11ytaire Help" at Facebook, or e-mail gbarkerz@hotmail.com.
 
