@@ -2,4 +2,6 @@ This is the Privacy Statement for the Accessible Solitaire app.
 
 The Accessible Solitaire app does not access, collect, or transmit personal information.
 
-The app stores the player's choices made in the Settings page in the app. 
+The only data stored by the app are the player's choices made in the Settings pages in the app.
+
+To learn more about the app, please visit https://github.com/gbarkerz/AccessibleSolitaire.
