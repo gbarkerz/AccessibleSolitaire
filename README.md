@@ -1,4 +1,4 @@
-# Accessible Solitaire for iOS and Android
+By# Accessible Solitaire for iOS and Android
 
 The Accessible Solitaire game is an exploration into building the most accessible solitaire game possible for iOS devices like iPhones and iPads, and Android phones. 
 
@@ -44,8 +44,10 @@ In addition to being able to move cards from the remaining card pile to the targ
 
 Cards are moved from the upturned card pile, or the dealt card piles, until all four target card piles have been built up and the game is won. If it is not possible to make any more moves which help to build up the target card piles, the game cannot be won and you would restart the game.
 
+Figure 1: A solitaire game running on iOS with various cards moved between the three main areas of the game.
 ![iOS: A solitaire game in progress with various cards moved between the three main areas of the game.](/ReadmeScreenshots/AccessibleSolitaire_DefaultGame_iOS.jpg)
 
+Figure 2: A solitaire game running on Android with various cards moved between the three main areas of the game.
 ![Android: A solitaire game in progress with various cards moved between the three main areas of the game.](/ReadmeScreenshots/AccessibleSolitaire_DefaultGame.jpg)
 
 ## Size of things shown in the game
@@ -58,28 +60,36 @@ By default, the things shown in the game are sized such that all parts of the ga
 
 Once everything is bigger, the entire game won’t fit on the screen and so the top part of the game containing the upturned cards and the target card piles can be scrolled to bring whatever’s of interest in that area into view. Also, the lower part of the game containing the dealt card piles can be scrolled separately from the top part, such that whatever dealt card piles are of interest can be brought into view.
 
+Figure 3: A solitaire game running on iOS, zoomed to 150% and showing portions of the two main areas of the game scrolled into view.
 ![iOS: The game zoomed to 150%, showing portions of the two main areas of the game scrolled into view.](/ReadmeScreenshots/AccessibleSolitaire_Zoom150_iOS.jpg)
 
+Figure 4: A solitaire game running on Android, zoomed to 150% and showing portions of the two main areas of the game scrolled into view.
 ![Android: The game zoomed to 150%, showing portions of the two main areas of the game scrolled into view.](/ReadmeScreenshots/AccessibleSolitaire_Zoom150.jpg)
 
 ### "Card rank and suit display"
 
 By default, the content of cards is similar to those of traditional playing cards, such that the main area shows a collection of small suit symbols. This means determining exactly which suit is being shown can be a challenge, given that the clubs and spade symbols are very similar, as are the diamonds and hearts symbols. The "Card rank and suit display" setting provides a way to have the card not show the traditional collection of symbols, and instead show one large number (or letter) to indicate the card's rank, and one large suit symbol.
 
+Figure 5: A solitaire game running on iOS, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.
 ![iOS: A game in progress, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.](/ReadmeScreenshots/AccessibleSolitaire_ShowLargeRankSuit_iOS.jpg)
 
+Figure 6: A solitaire game running on Android, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.
 ![Android: A game in progress, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.](/ReadmeScreenshots/AccessibleSolitaire_ShowLargeRankSuit.jpg)
 
 ### "Show Zoom Card Button"
 
 The "Show Zoom Card Button" setting provides a way to have a zoom button shown at the top right corner of all face-up cards. When that button is tapped, a large popup appears containing the associated card. To dismiss the popup, either tap its Close button, or tap outside the popup.
 
+Figure 7: A solitaire game running on iOS, with all face-up cards showing a zoom icon at their top right corners.
 ![iOS: A game in progress with all face-up cards showing a zoom icon at their top right corners.](/ReadmeScreenshots/AccessibleSolitaire_ShowZoomCardButton_iOS.jpg)
 
+Figure 8: A solitaire game running on iOS, with a large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.
 ![iOS: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/AccessibleSolitaire_PopupLight_iOS.jpg)
 
+Figure 9: A solitaire game running on Android, with all face-up cards showing a zoom icon at their top right corners.
 ![Android: A game in progress with all face-up cards showing a zoom icon at their top right corners.](/ReadmeScreenshots/AccessibleSolitaire_ShowZoomCardButton.jpg)
 
+Figure 10: A solitaire game running on Android, with a large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.
 ![Android: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/AccessibleSolitaire_PopupLight.jpg)
 
 ## Using a switch device (iOS Switch Control or Android Switch Access)
@@ -96,8 +106,10 @@ When playing Accessible Solitaire with a switch, please consider the following:
 
 3. When a card of interest is selected using a switch, the a menu of actions may appear, and another switch press is then required to tap the card. If you’d prefer a card to be tapped automatically when selected, change the device's Switch settings to have the card tapped with a single click of the switch. Also consider reducing the delay before the auto-tap occurs after the card is selected.
 
-![iOS: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The Android Switch Access highlight surrounds the entire set of seven dealt card piles, with the topmost face-up cards in two of the piles protruding slightly below the bottom of the highlight.](/ReadmeScreenshots/AccessibleSolitaire_SwitchAccess_iOS.jpg)
+Figure 11: A solitaire game running on iOS, with Switch Control faint highlighting 6 of the 7 dealt card piles and strong highlighting the entire fourth dealt card pile.
+![iOS: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. A faint dashed highlight surrounds the first 6 dealt card piles, and a stronger highlight surrounds the cards in the fourth dealt cards pile.](/ReadmeScreenshots/AccessibleSolitaire_SwitchAccess_iOS.jpg)
 
+Figure 12: A solitaire game running on Android, with Switch Access highlighting the entire set of the 7 dealt card piles.
 ![Android: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The Android Switch Access highlight surrounds the entire set of seven dealt card piles, with the topmost face-up cards in two of the piles protruding slightly below the bottom of the highlight.](/ReadmeScreenshots/AccessibleSolitaire_SwitchAccess.jpg)
 
 ## Using speech (iOS Voice Control only) 
@@ -116,7 +128,8 @@ Phrases that are commonly used in the game are: "tap", followed by one of the th
 - The name of an empty target card pile. For example: "clubs pile" or "hearts pile".
 - The name of an empty dealt card pile. For example: "pile one" or "pile seven".
 
-![iOS: A game in progress with the Ace of Clubs selected in dealt pile four. The Android Voice Access feature is displaying the following text at the top of the screen: "Tapped Ace of clubs"](/ReadmeScreenshots/AccessibleSolitaire_VoiceAccess_iOS.jpg)
+Figure 13: A solitaire game running on iOS, with Voice Control showing names by all interactable elements.
+![iOS: A game in progress with iOS Voice Controls showing names by all interactable controls. For example, "Diamonds" by the Diamonds target card pile, and "4" by the 4 of Spades.](/ReadmeScreenshots/AccessibleSolitaire_VoiceAccess_iOS.jpg)
 
 
 ## Using a screen reader (iOS VoiceOver or Android TalkBack)
