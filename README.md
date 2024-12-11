@@ -161,16 +161,22 @@ The screen reader also announces details in response to some specific actions th
 
 **TIP:** When using the iOS VoiceOver screen reader, turn off the VoiceOver"Text Recognition" setting to prevent VoiceOver attempting to recognise any text shown on the cards and announcing that text in addition to the name of the card.
 
-![iOS: VoiceOver's highlight at a partially obscured 8 of Clubs card in a dealt card pile, and TalkBack's caption showing the text, Revealed 8 of Clubs, 5 of 5 in dealt card pile 6](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveBetweenDealtPiles.jpg)
+Figure 14: A solitaire game running on iOS, with VoiceOver highlighting the 3 of Spades and its caption showing an announcement relating to a move.
+![iOS: VoiceOver's highlight at a partially obscured 3 of Spades card in a dealt card pile, and VocieOver's caption showing the text, Moved 2 of Hearts, revealed 8 of Clubs, 1 of 1 in dealt card pile 5](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveBetweenDealtPiles.jpg)
 
-![iOS: VoiceOver's highlight at the 3 of Spades card in the Spades target pile, and TalkBack's caption showing the text, Moved 3 of Spades, Revealed Empty card pile in dealt card pile 3](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveToTargetPile.jpg)
+Figure 14: A solitaire game running on iOS, with VoiceOver highlighting the Jack of Spades and its caption showing an announcement relating to a move.
+![iOS: VoiceOver's highlight at the Jack of Spades card in a dealt card pile, and VoiceOver's caption showing the text, Moved Kink of Clubs to Empty Dealt card pile 2](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveToTargetPile.jpg)
 
-![iOS: VoiceOver's highlight around the "Screen reader announce game state" button, and TalkBack's caption showing the entire state of the game, including what cards are shown in the upturned cards pile, the target cards piles, and all dealt cards piles.](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverGameState.jpg)
+Figure 16: A solitaire game running on iOS, with VoiceOver announcing the entire state of the game.
+![iOS: VoiceOver's highlight around the "Screen reader announce game state" button, and VoiceOver's caption showing the entire state of the game, including what cards are shown in the upturned cards pile, the target cards piles, and all dealt cards piles.](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverGameState.jpg)
 
+Figure 17: A solitaire game running on Android, with TalkBack highlighting the 8 of Clubs and its caption showing an announcement relating to a move.
 ![Android: TalkBack's highlight at a partially obscured 8 of Clubs card in a dealt card pile, and TalkBack's caption showing the text, Revealed 8 of Clubs, 5 of 5 in dealt card pile 6](/ReadmeScreenshots/AccessibleSolitaire_TalkBackMoveBetweenDealtPiles.jpg)
 
+Figure 18: A solitaire game running on Android, with TalkBack highlighting the 3 of Spades and its caption showing an announcement relating to a move.
 ![Android: TalkBack's highlight at the 3 of Spades card in the Spades target pile, and TalkBack's caption showing the text, Moved 3 of Spades, Revealed Empty card pile in dealt card pile 3](/ReadmeScreenshots/AccessibleSolitaire_TalkBackMoveToTargetPile.jpg)
 
+Figure 19: A solitaire game running on Android, with TalkBack announcing the entire state of the game.
 ![Android: TalkBack's highlight around the "Screen reader announce game state" button, and TalkBack's caption showing the entire state of the game, including what cards are shown in the upturned cards pile, the target cards piles, and all dealt cards piles.](/ReadmeScreenshots/AccessibleSolitaire_TalkBackGameState.jpg)
 
 **Please note:** The screen readers sometimes makes announcements that are not helpful and can be confusing. For example, various transitioning selection states of a card being moved before it announces the card's final selection state. Also when a card is being moved and the screen reader announces the position of a card in a pile and the count of cards in that pile, sometimes those details do not relate to the card of most interest during a move. Over time I hope to reduce the number of unwanted announcements made by the screen reader.  
@@ -181,22 +187,30 @@ The screen reader also announces details in response to some specific actions th
 
 The colours shown in the game depend on whether the device's ** Dark Mode** setting is on when the game is started. 
 
+Figure 20: A solitaire game running on iOS at a zoom level of 150%, with all cards showing a large rank letter and suit symbol, using the app's dark mode colours.
 ![iOS: A game in progress at a zoom level of 150%, with all cards showing a large rank letter and suit symbol, using the app's dark mode colours.](/ReadmeScreenshots/AccessibleSolitaire_DarkZoom_iOS.jpg)
 
+Figure 21: A solitaire game running on iOS with all cards showing a zoom icon at their top right corners, using the app's dark mode colours.
 ![iOS: A game in progress with all cards showing a zoom icon at their top right corners, using the app's dark mode colours.](/ReadmeScreenshots/AccessibleSolitaire_DarkShowZoomCard_iOS.jpg)
 
+Figure 22: A solitaire game running on iOS with a large popup window showing a 10 of Hearts card, using the app's dark mode colours.
 ![iOS: A large popup window showing a 10 of Clubs card, using the app's dark mode colours.](/ReadmeScreenshots/AccessibleSolitaire_DarkPopup_iOS.jpg)
 
+Figure 23: A solitaire game running on Android at a zoom level of 150%, with all cards showing a large rank letter and suit symbol, using the app's dark mode colours.
 ![Android: A game in progress at a zoom level of 150%, with all cards showing a large rank letter and suit symbol, using the app's dark mode colours.](/ReadmeScreenshots/AccessibleSolitaire_DarkZoom.jpg)
 
+Figure 24: A solitaire game running on Android with all cards showing a zoom icon at their top right corners, using the app's dark mode colours.
 ![Android: A game in progress with all cards showing a zoom icon at their top right corners, using the app's dark mode colours.](/ReadmeScreenshots/AccessibleSolitaire_DarkShowZoomCard.jpg)
 
+Figure 25: A solitaire game running on iOS with a large popup window showing a 10 of Clubs card, using the app's dark mode colours.
 ![Android: A large popup window showing a 10 of Clubs card, using the app's dark mode colours.](/ReadmeScreenshots/AccessibleSolitaire_DarkPopup.jpg)
 
 In addition, the game has a **"Card Appearance"** setting which can be used to lower the brightness of cards shown in the game.
 
+Figure 26: A solitaire game running on iOS with all cards having a grey background instead of the default white background.
 ![iOS: A game in progress with all cards having a grey background instead of the default white background.](/ReadmeScreenshots/AccessibleSolitaire_DarkenCards_iOS.jpg)
 
+Figure 27: A solitaire game running on Android with all cards having a grey background instead of the default white background.
 ![Android: A game in progress with all cards having a grey background instead of the default white background.](/ReadmeScreenshots/AccessibleSolitaire_DarkenCards.jpg)
 
 ## Other Settings
