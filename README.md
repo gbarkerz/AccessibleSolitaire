@@ -164,7 +164,7 @@ The screen reader also announces details in response to some specific actions th
 Figure 14: A solitaire game running on iOS, with VoiceOver highlighting the 3 of Spades and its caption showing an announcement relating to a move.
 ![iOS: VoiceOver's highlight at a partially obscured 3 of Spades card in a dealt card pile, and VocieOver's caption showing the text, Moved 2 of Hearts, revealed 8 of Clubs, 1 of 1 in dealt card pile 5](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveBetweenDealtPiles.jpg)
 
-Figure 14: A solitaire game running on iOS, with VoiceOver highlighting the Jack of Spades and its caption showing an announcement relating to a move.
+Figure 15: A solitaire game running on Android, with TalkBack highlighting the Jack of Spades and its caption showing an announcement relating to a move.
 ![iOS: VoiceOver's highlight at the Jack of Spades card in a dealt card pile, and VoiceOver's caption showing the text, Moved Kink of Clubs to Empty Dealt card pile 2](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveToTargetPile.jpg)
 
 Figure 16: A solitaire game running on iOS, with VoiceOver announcing the entire state of the game.
@@ -231,9 +231,11 @@ Note: This option might be particularly interesting when playing the game with t
 
 Not also that when the screen reader announces the position of a card in a dealt card pile and the total count of cards in the pile, it will announce details as if the face-down cards are not merged. 
 
+Figure 28: A solitaire game running on Android with the face-down cards in each dealt card pile merged into a single face-down card.
 ![Android: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. TalkBack's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. TalkBack's caption says: 6 Face-down, 1 of 8, In list Pile 7](/ReadmeScreenshots/V1.19_MergeFaceDownCards.jpg)
 
-![iOS: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. TalkBack's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. TalkBack's caption says: 6 Face-down, 1 of 8, In list Pile 7](/ReadmeScreenshots/V1.19_MergeFaceDownCards_iOS.jpg)
+Figure 29: A solitaire game running on iOS with the face-down cards in each dealt card pile merged into a single face-down card.
+![iOS: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. VoiceOver's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. VoiceOver's caption says: 6 Face-down, 1 of 8](/ReadmeScreenshots/V1.19_MergeFaceDownCards_iOS.jpg)
 
 ### Select via face-down card
 
@@ -245,18 +247,16 @@ Often when moving cards between dealt card piles, multiple cards are moved in a 
 
 Note that the names of the cards associated with the selected card always includes the phase: "in selected set" when annouced by the screen reader, to indicate that the cards are impacted by the moving of the selected card in the same dealt card pile.
 
-![Android: A game in progress with a 6 of Hearts selected in a dealt card pile. Four cards lie above the 6 of Hearts, and their backgrounds show a gradient shading from white at the top left corner, down to light purple at the bottom right corner. TalkBack's highlight is around one of the partially shown card above the 6 of Hearts, and its caption is: "3 of Spades, in selected set, 6 of 7, in list Pile 6"](/ReadmeScreenshots/V1.18_SelectedSetLight.jpg)
+Figure 30: A solitaire game running on Android with a dealt card selected and all cards on top of that selected card also highlighted.
+![Android: A game in progress with a 6 of Hearts selected in a dealt card pile. Four cards lie above the 6 of Hearts, and their backgrounds are light purple. TalkBack's highlight is around one of the partially shown card above the 6 of Hearts, and its caption is: "3 of Spades, in selected set, 6 of 7, in list Pile 6"](/ReadmeScreenshots/V1.18_SelectedSetLight.jpg)
 
-![iOS: A game in progress with a 6 of Hearts selected in a dealt card pile. Four cards lie above the 6 of Hearts, and their backgrounds show a gradient shading from white at the top left corner, down to light purple at the bottom right corner. TalkBack's highlight is around one of the partially shown card above the 6 of Hearts, and its caption is: "3 of Spades, in selected set, 6 of 7, in list Pile 6"](/ReadmeScreenshots/V1.18_SelectedSetLight_iOS.jpg)
-
-The following images shows the new highlight for cards associated with the selected dealt card, when the cards show a large suit symbol and rank letter, and the Zoom Card button in their top right corners.
-
-![iOS: A game in progress with all cards showing a large suit symbol and rank letter, and the Zoom Card button in their top right corner. One card is selected, and all associated cards have a gradient white-purple background.](/ReadmeScreenshots/V1.18_SelectedSetLightLarge_iOS.jpg)
-
-![Android: A game in progress with all cards showing a large suit symbol and rank letter, and the Zoom Card button in their top right corner. One card is selected, and all associated cards have a gradient white-purple background.](/ReadmeScreenshots/V1.18_SelectedSetLightLarge.jpg)
+Figure 31: A solitaire game running on iOS with a dealt card selected and all cards on top of that selected card also highlighted.
+![iOS: A game in progress with a 6 of Hearts selected in a dealt card pile. Four cards lie above the 6 of Hearts, and their backgrounds are light purple](/ReadmeScreenshots/V1.18_SelectedSetLight_iOS.jpg)
 
 The following image shows the new highlight for cards associated with the selected dealt card, when the device's Dark Mode setting was on when the Accessible Solitaire was started.
 
+Figure 32: A solitaire game running on iOS showing the app's Dark Mode colours, with a dealt card selected and all cards on top of that selected card also highlighted.
 ![iOS: A game in progress with all cards showing the app's Dark Mode colours. One card is selected, and all associated cards have a gradient black-yellow background.](/ReadmeScreenshots/V1.18_SelectedSetDark_iOS.jpg)
 
+Figure 33: A solitaire game running on Android showing the app's Dark Mode colours, with a dealt card selected and all cards on top of that selected card also highlighted.
 ![Android: A game in progress with all cards showing the app's Dark Mode colours. One card is selected, and all associated cards have a gradient black-yellow background.](/ReadmeScreenshots/V1.18_SelectedSetDark.jpg)
