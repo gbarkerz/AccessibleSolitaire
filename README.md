@@ -32,6 +32,8 @@ The goal of the game is to build up four piles of playing cards, one per suit, i
 
 **Please note:** When moving a card, first tap the card to be moved and then tap the place where you'd like the card to go. Do not try dragging cards around the game.
 
+**Please note:** The "Next card" button is used to turn over cards from a pile of face-down cards near the top left corner of the app. The button does not show any text on it, rather it shows a picture of the Herbi cartoon character wearing a scarf. 
+
 Seven dealt card piles are shown along the bottom half of the game, with the left-most pile having only one card, and each pile then containing one more card, up to the right-most card pile which contains seven cards. Only the last card in each dealt card pile is shown face-up, and all the other cards in the pile are face-down. 
 
 The last card in a pile can be moved to a target card pile if it continues the order of the cards being added to the target card pile. For example, a 2 of Hearts in a dealt card pile can be moved on top of an Ace of Hearts in the Hearts target card pile. An Ace is always the first card to be moved to a target card pile.
