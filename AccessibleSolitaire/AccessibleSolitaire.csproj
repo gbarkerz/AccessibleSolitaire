@@ -1,0 +1,577 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net9.0-android35.0;net9.0-ios</TargetFrameworks>
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>Sa11ytaire4All</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+    <!-- Display name -->
+		<ApplicationTitle>Accessible Solitaire</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>a11y.guybarker.accessiblesolitaire</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+  <PropertyGroup>
+    <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+    <BaseOutputPath></BaseOutputPath>
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
+
+    <!-- Barker: Manually add this - Speed up loading when debugging -->
+    <UseInterpreter>false</UseInterpreter>
+    <ProvisioningType>manual</ProvisioningType>
+    
+  </PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Splash\splashscreen.svg">
+      <Color>#FFFFFF</Color>
+    </MauiSplashScreen>
+
+    <!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+    <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+
+		<!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\*" />
+    <MauiFont Include="Resources\Fonts\fontawesome6freesolid900.otf" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\AppIcon\appiconfg.svg" />
+	  <None Remove="Resources\Images\Cards\blackjack.png" />
+	  <None Remove="Resources\Images\Cards\blackking.png" />
+	  <None Remove="Resources\Images\Cards\blackqueen.png" />
+	  <None Remove="Resources\Images\Cards\clubs1.svg" />
+	  <None Remove="Resources\Images\Cards\clubs10.svg" />
+	  <None Remove="Resources\Images\Cards\clubs11.svg" />
+	  <None Remove="Resources\Images\Cards\clubs12.svg" />
+	  <None Remove="Resources\Images\Cards\clubs13.svg" />
+	  <None Remove="Resources\Images\Cards\clubs2.svg" />
+	  <None Remove="Resources\Images\Cards\clubs3.svg" />
+	  <None Remove="Resources\Images\Cards\clubs4.svg" />
+	  <None Remove="Resources\Images\Cards\clubs5.svg" />
+	  <None Remove="Resources\Images\Cards\clubs6.svg" />
+	  <None Remove="Resources\Images\Cards\clubs7.svg" />
+	  <None Remove="Resources\Images\Cards\clubs8.svg" />
+	  <None Remove="Resources\Images\Cards\clubs9.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkblackjack.png" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkblackking.png" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkblackqueen.png" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs1.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs10.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs11.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs12.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs13.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs2.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs3.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs4.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs5.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs6.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs7.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs8.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkclubs9.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds1.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds10.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds11.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds12.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds13.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds2.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds3.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds4.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds5.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds6.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds7.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds8.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkdiamonds9.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkemptyclubs.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkemptydiamonds.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkemptyhearts.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkemptyspades.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts1.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts10.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts11.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts12.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts13.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts2.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts3.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts4.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts5.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts6.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts7.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts8.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkhearts9.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkredjack.png" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkredking.png" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkredqueen.png" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades1.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades10.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades11.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades12.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades13.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades2.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades3.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades4.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades5.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades6.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades7.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades8.svg" />
+	  <None Remove="Resources\Images\Cards\DarkMode\darkspades9.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds1.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds10.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds11.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds12.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds13.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds2.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds3.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds4.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds5.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds6.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds7.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds8.svg" />
+	  <None Remove="Resources\Images\Cards\diamonds9.svg" />
+	  <None Remove="Resources\Images\Cards\hearts1.svg" />
+	  <None Remove="Resources\Images\Cards\hearts10.svg" />
+	  <None Remove="Resources\Images\Cards\hearts11.svg" />
+	  <None Remove="Resources\Images\Cards\hearts12.svg" />
+	  <None Remove="Resources\Images\Cards\hearts13.svg" />
+	  <None Remove="Resources\Images\Cards\hearts2.svg" />
+	  <None Remove="Resources\Images\Cards\hearts3.svg" />
+	  <None Remove="Resources\Images\Cards\hearts4.svg" />
+	  <None Remove="Resources\Images\Cards\hearts5.svg" />
+	  <None Remove="Resources\Images\Cards\hearts6.svg" />
+	  <None Remove="Resources\Images\Cards\hearts7.svg" />
+	  <None Remove="Resources\Images\Cards\hearts8.svg" />
+	  <None Remove="Resources\Images\Cards\hearts9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargeclubs9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargediamonds9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargehearts9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeDarkMode\darklargespades9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largeclubs9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largediamonds9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largehearts9.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades1.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades10.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades11.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades12.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades13.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades2.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades3.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades4.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades5.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades6.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades7.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades8.svg" />
+	  <None Remove="Resources\Images\Cards\LargeLightMode\largespades9.svg" />
+	  <None Remove="Resources\Images\Cards\redjack.png" />
+	  <None Remove="Resources\Images\Cards\redking.png" />
+	  <None Remove="Resources\Images\Cards\redqueen.png" />
+	  <None Remove="Resources\Images\Cards\spades1.svg" />
+	  <None Remove="Resources\Images\Cards\spades10.svg" />
+	  <None Remove="Resources\Images\Cards\spades11.svg" />
+	  <None Remove="Resources\Images\Cards\spades12.svg" />
+	  <None Remove="Resources\Images\Cards\spades13.svg" />
+	  <None Remove="Resources\Images\Cards\spades2.svg" />
+	  <None Remove="Resources\Images\Cards\spades3.svg" />
+	  <None Remove="Resources\Images\Cards\spades4.svg" />
+	  <None Remove="Resources\Images\Cards\spades5.svg" />
+	  <None Remove="Resources\Images\Cards\spades6.svg" />
+	  <None Remove="Resources\Images\Cards\spades7.svg" />
+	  <None Remove="Resources\Images\Cards\spades8.svg" />
+	  <None Remove="Resources\Images\Cards\spades9.svg" />
+	  <None Remove="Resources\Images\Cards\TargetCardPiles\emptyclubs.svg" />
+	  <None Remove="Resources\Images\Cards\TargetCardPiles\emptydiamonds.svg" />
+	  <None Remove="Resources\Images\Cards\TargetCardPiles\emptyhearts.svg" />
+	  <None Remove="Resources\Images\Cards\TargetCardPiles\emptyspades.svg" />
+	  <None Remove="Resources\Suits\clubs.svg" />
+	  <None Remove="Resources\Suits\diamonds.svg" />
+	  <None Remove="Resources\Suits\hearts.svg" />
+	  <None Remove="Resources\Suits\spades.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#FFFFFF" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargeclubs9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargediamonds9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargehearts9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeDarkMode\darklargespades9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\blackjack.png" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\blackking.png" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\blackqueen.png" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\clubs9.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkblackjack.png" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkblackking.png" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkblackqueen.png" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs1.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs10.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs11.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs12.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs13.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs2.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs3.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs4.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs5.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs6.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs7.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs8.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkclubs9.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds1.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds10.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds11.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds12.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds13.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds2.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds3.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds4.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds5.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds6.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds7.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds8.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkdiamonds9.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkemptyclubs.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkemptydiamonds.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkemptyhearts.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkemptyspades.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts1.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts10.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts11.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts12.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts13.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts2.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts3.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts4.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts5.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts6.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts7.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts8.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkhearts9.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkredjack.png" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkredking.png" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkredqueen.png" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades1.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades10.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades11.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades12.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades13.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades2.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades3.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades4.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades5.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades6.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades7.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades8.svg" />
+		<MauiImage Include="Resources\Images\Cards\DarkMode\darkspades9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\diamonds9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\hearts9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largeclubs9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largediamonds9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largehearts9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LargeLightMode\largespades9.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\redjack.png" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\redking.png" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\redqueen.png" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades1.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades10.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades11.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades12.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades13.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades2.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades3.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades4.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades5.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades6.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades7.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades8.svg" />
+		<MauiImage Include="Resources\Images\Cards\LightMode\spades9.svg" />
+		<MauiImage Include="Resources\Images\Cards\TargetCardPiles\emptyclubs.svg" />
+		<MauiImage Include="Resources\Images\Cards\TargetCardPiles\emptydiamonds.svg" />
+		<MauiImage Include="Resources\Images\Cards\TargetCardPiles\emptyhearts.svg" />
+		<MauiImage Include="Resources\Images\Cards\TargetCardPiles\emptyspades.svg" />
+		<MauiImage Include="Resources\Suits\clubs.svg" />
+		<MauiImage Include="Resources\Suits\diamonds.svg" />
+		<MauiImage Include="Resources\Suits\hearts.svg" />
+		<MauiImage Include="Resources\Suits\spades.svg" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="11.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="6.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.30" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.30" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="StringResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>StringResources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CardPileCardSwitch.xaml.cs">
+	    <DependentUpon>CardPileCardSwitch.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SettingsPage.xaml.cs">
+	    <DependentUpon>SettingsPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="StringResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\CardPileCardSwitch.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CardPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+</Project>

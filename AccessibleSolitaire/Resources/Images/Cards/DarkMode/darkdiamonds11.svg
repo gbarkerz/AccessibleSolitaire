@@ -1,0 +1,34 @@
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="755" height="960">
+
+  <defs>
+
+    <g id="cornersuitsymbol">
+      <path transform="scale(0.25)" style="fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" d="M 126,0 C 88,64 44,126 0,185 C 46,245 91,307 126,371 C 164,306 205,243 253,185 C 206,126 163,63 126,0 z" />
+    </g>
+
+    <g id="suitsymbol">
+      <path transform="scale(1.25)" style="fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" d="M 126,0 C 88,64 44,126 0,185 C 46,245 91,307 126,371 C 164,306 205,243 253,185 C 206,126 163,63 126,0 z" />
+    </g>
+
+  </defs>
+
+   <!-- Top left corner. -->
+
+   <text x="12" y="40" transform="scale(3)" fill="red" stroke="red" font-size="40" font-weight="bold">J</text>
+   <use href="#cornersuitsymbol" transform="translate(30 140)"  />
+
+   <!-- Left column. -->
+
+   <!-- Middle column. -->
+
+   <!-- Right column. -->
+
+   <!-- Bottom right corner. -->
+
+   <text x="205" y="302" transform="scale(3) rotate(180 219 290)" fill="red" stroke="red" font-size="40" font-weight="bold">J</text>
+   <use href="#cornersuitsymbol" transform="translate(590 700) rotate(180 58 60)" />
+
+</svg>

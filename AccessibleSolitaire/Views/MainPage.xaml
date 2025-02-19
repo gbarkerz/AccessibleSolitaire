@@ -1,0 +1,1062 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Sa11ytaire4All"
+             xmlns:local_views="clr-namespace:Sa11ytaire4All.Views"
+             xmlns:local_source="clr-namespace:Sa11ytaire4All.Source"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:Sa11ytaire4All.ViewModels"
+             xmlns:resources="clr-namespace:Sa11ytaire4All"
+             Padding="0"
+             x:Name="MainPageInstance"
+             x:Class="Sa11ytaire4All.MainPage">
+
+
+    <!-- Layout note: To adjust the layout for Landscape and for Portrait, code-behind sets various
+        properties (including grid and row details) when the UI is initialised. Some work is also 
+        done in a variety of converters based on orientation, but it seems likely that this will be 
+        replaced with a more approved method of setting orientation-specific properties at some point. -->
+
+    <ContentPage.Resources>
+
+        <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
+        <local_views:ConverterForCardImageHorizontalVerticalOptions x:Key="ConverterForCardImageHorizontalVerticalOptions" />
+        <local_views:ConverterForCollectionViewHorizontalVerticalOptions x:Key="ConverterForCollectionViewHorizontalVerticalOptions" />
+        <local_views:CardWidthToDealtCardPileCollectionViewWidthConverter x:Key="CardWidthToDealtCardPileCollectionViewWidthConverter" />
+        <local_views:CardHeightToCollectionViewHeightConverter x:Key="CardHeightToCollectionViewHeightConverter" />
+        <local_views:ConverterForDealtCardZoomButtonToGridRowColumn x:Key="ConverterForDealtCardZoomButtonToGridRowColumn" />
+        <local_views:ConverterForDealtCardLabelHorizontalOptions x:Key="ConverterForDealtCardLabelHorizontalOptions" />
+        <local_views:CardWidthSelectedToCardImageWidth x:Key="CardWidthSelectedToCardImageWidth" />
+        <local_views:CardHeightSelectedToCardImageHeight x:Key="CardHeightSelectedToCardImageHeight" />
+        <local_views:DealtCardSelectedMarginConverter x:Key="DealtCardSelectedMarginConverter" />
+        <local_views:MainPageHeightToDealtCardGridHeight x:Key="MainPageHeightToDealtCardGridHeight" />
+        <local_views:IsFaceDownToVisibilityConverter x:Key="IsFaceDownToVisibilityConverter" />
+        <local_views:CardHeightToLabelFontSizeConverter x:Key="CardHeightToLabelFontSizeConverter" />
+        <local_views:IsLastCardInPileToShowZoomCardButtonRowSpanConverter x:Key="IsLastCardInPileToShowZoomCardButtonRowSpanConverter" />
+        <local_views:ScrollViewWidthToGridWidthRequestConverter x:Key="ScrollViewWidthToGridWidthRequestConverter" />
+        <local_views:ScrollViewHeightToGridHeightRequestConverter x:Key="ScrollViewHeightToGridHeightRequestConverter" />
+        <local_views:ScrollViewHeightToDealtCardPileCollectionViewConverter x:Key="ScrollViewHeightToDealtCardPileCollectionViewConverter" />
+        <local_views:IsCardSwitchCardToIsEnabled x:Key="IsCardSwitchCardToIsEnabled" />
+        <local_views:CardStateToShowZoomCardButtonConverter x:Key="CardStateToShowZoomCardButtonConverter" />
+        <local_views:IsFaceDownToBackgroundColorConverter x:Key="IsFaceDownToBackgroundColorConverter" />
+        <local_views:InSelectedSetToBackgroundConverter x:Key="InSelectedSetToBackgroundConverter" />
+        <local_views:CardBrightnessToGradientStopConverter x:Key="CardBrightnessToGradientStopConverter" />
+        <local_views:CardBrightnessToCardFrameIsVisible x:Key="CardBrightnessToCardFrameIsVisible" />
+        <local_views:CardWidthToImageWidthConverter x:Key="CardWidthToImageWidthConverter" />
+        <local_views:CardWidthToHamburgerWidthConverter x:Key="CardWidthToHamburgerWidthConverter" />
+        <local_views:CardWidthToHamburgerHeightConverter x:Key="CardWidthToHamburgerHeightConverter" />
+        <local_views:IsObscuredCardToMargin x:Key="IsObscuredCardToMargin" />
+        <local_views:PictureCardToCardImageConverter x:Key="PictureCardToCardImageConverter" />
+        <local_views:CardToCardImageConverter x:Key="CardToCardImageConverter" />
+        <local_views:NextCardIsEmptyToImageConverter x:Key="NextCardIsEmptyToImageConverter" />
+        <local_views:NextCardIsEmptyToAccessibleName x:Key="NextCardIsEmptyToAccessibleName" />
+        <local_views:CardWidthToTargetCardWidthConverter x:Key="CardWidthToTargetCardWidthConverter" />
+
+        <!-- The following converters relate to the merging of face-down dealt cards.  -->
+        <local_views:FaceDownCountLabelToIsVisibleConverter x:Key="FaceDownCountLabelToIsVisibleConverter" />
+        <local_views:MergedToLabelPaddingConverter x:Key="MergedToLabelPaddingConverter" />
+        <local_views:MergedToHeightRequestConverter x:Key="MergedToHeightRequestConverter" />
+        <local_views:MergedToWidthRequestConverter x:Key="MergedToWidthRequestConverter" />
+        <local_views:MergedCardToIsVisibleConverter x:Key="MergedCardToIsVisibleConverter" />
+
+        <!-- Style the four target piles. -->
+
+        <Style x:Key="CardPileCardSwitchStyle" TargetType="local_views:CardPileCardSwitch">
+            <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="WidthRequest" Value="{Binding 
+                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                x:DataType=vm:DealtCardViewModel,
+                Path=CardWidth, Converter={StaticResource CardWidthToTargetCardWidthConverter}}" />
+            <Setter Property="HeightRequest" Value="{Binding 
+                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                x:DataType=vm:DealtCardViewModel,
+                Path=CardHeight}" />
+            <Setter Property="CardBrightness"
+                Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
+                    AncestorType={x:Type vm:DealtCardViewModel}}, x:DataType=vm:DealtCardViewModel,
+                Path=CardBrightness}" />
+            <Setter Property="ShowZoomCardButton" 
+                Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
+                    AncestorType={x:Type vm:DealtCardViewModel}}, x:DataType=vm:DealtCardViewModel,
+                Path=ShowZoomCardButton}" />
+        </Style>
+
+        <!-- Style the CollectionViews containing the dealt cards. -->
+
+        <!-- Note: Ideally the FlowDirection binding would be done at one high-level container and so
+            apply to all UI in the app. However when testing that, the FlowDirection of the CollectionViews 
+            did not consistently match that of the rest of the UI. So set it explicitly on each of the 
+            CollectionViews and on high-level Grid inside the upper ScrollView. -->
+
+        <Style x:Key="CollectionViewStyle" TargetType="CollectionView">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="ItemSizingStrategy" Value="MeasureAllItems" />
+            <Setter Property="FlowDirection" 
+                Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
+                AncestorType={x:Type vm:DealtCardViewModel}},
+                x:DataType=vm:DealtCardViewModel,
+                Path=FlipGameLayoutHorizontally,
+                Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}" />
+        </Style>
+
+        <!-- Define the UI for the cards in the dealt card piles. -->
+
+        <!-- Barker Todo: Remove the use of CardIsInAccessibleTree below once I know how to use multi-binding in XAML 
+            with an attached property. -->
+
+        <DataTemplate x:Key="PlayingCollectionViewTemplate" x:DataType="{x:Type local_source:DealtCard}">
+
+            <!-- Barker Todo: Remove the VerticalStackLayout if possible, and put any related necessary
+                action into the contained Border instead. No point in having this VerticalStackLayout
+                container if it's not necessary. -->
+
+            <VerticalStackLayout
+                AutomationProperties.IsInAccessibleTree="{Binding CardIsInAccessibleTree}"
+                SemanticProperties.Description="{Binding BindingContext.AccessibleName, Mode=OneWay, 
+                    Source={RelativeSource Self}}"
+                Padding="0" Margin="0">
+
+                <!-- The width and height of this Border and the contained Grid is unaffected by 
+                    whether the dealt card is selected. -->
+                
+                <Border x:Name="CardBorder" 
+                    Margin="0" Padding="0"
+                    AutomationProperties.IsInAccessibleTree="False"
+                    Stroke="{AppThemeBinding Light=Black, Dark=White}"
+                    StrokeThickness="0.5">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" 
+                            CommandParameter="{Binding Card}"/>
+                    </Border.GestureRecognizers>
+
+                    <Border.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource MergedToWidthRequestConverter}">
+                            <Binding Path="IsLastCardInPile" />
+                            <Binding Path="FaceDown" />
+                            <Binding Path="CurrentCardIndexInDealtCardPile" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.MergeFaceDownCards" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{x:Reference LowerScrollView}"
+                                x:DataType="ScrollView"
+                                Path="Width" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext" />
+                            <Binding Path="CurrentDealtCardPileIndex" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.ExtendDealtCardHitTarget" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.ZoomLevel" />
+                        </MultiBinding>
+                    </Border.WidthRequest>
+                    <Border.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource MergedToHeightRequestConverter}">
+                            <Binding Path="IsLastCardInPile" />
+                            <Binding Path="FaceDown" />
+                            <Binding Path="CurrentCardIndexInDealtCardPile" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.MergeFaceDownCards" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
+                        </MultiBinding>
+                    </Border.HeightRequest>
+
+                    <!-- IsVisible is required on Android when face-down cards are merged. However, if the same 
+                        binding is tried on iOS, the Border sometimes ends up incorrectly being invisible. 
+                        So on iOS, the converter always returns true. -->
+                    <Border.IsVisible>
+                        <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource MergedCardToIsVisibleConverter}">
+                            <Binding Path="IsLastCardInPile" />
+                            <Binding Path="FaceDown" />
+                            <Binding Path="CurrentCardIndexInDealtCardPile" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.MergeFaceDownCards" />
+                        </MultiBinding>
+                    </Border.IsVisible>
+
+                    <!-- When a dealt card is selected, the size of the card images contained in the card
+                        is reduced. This reveals the BackgroundColor of this Grid. -->
+                    
+                    <Grid Padding="0" Margin="0"
+                        AutomationProperties.IsInAccessibleTree="False"
+                        BackgroundColor="{Binding FaceDown, Mode=OneWay, 
+                            Converter={StaticResource IsFaceDownToBackgroundColorConverter}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Note: MAUI automatically converts the integer CountFaceDownCardsInPile value below to a string. -->
+                        <Label Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="FaceDownCountLabel"
+                            AutomationProperties.IsInAccessibleTree="False"
+                            BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
+                            HorizontalOptions="{Binding FaceDown, Mode=OneWay, ConverterParameter=0,
+                                Converter={StaticResource ConverterForDealtCardLabelHorizontalOptions}}"
+                            VerticalOptions="{Binding FaceDown, Mode=OneWay, ConverterParameter=1,
+                                Converter={StaticResource ConverterForDealtCardLabelHorizontalOptions}}"
+                            Margin="2,0,0,0"
+                            FontAutoScalingEnabled="False"
+                            FontAttributes="Bold"
+                            FontSize="{Binding 
+                                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                    AncestorType={x:Type vm:DealtCardViewModel}},
+                                x:DataType=vm:DealtCardViewModel,
+                                Path=CardHeight, 
+                                Converter={StaticResource CardHeightToLabelFontSizeConverter}}"
+                            Text="{Binding CountFaceDownCardsInPile, Mode=OneWay}">
+                            <Label.Padding>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource MergedToLabelPaddingConverter}">
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.CardHeight" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.ZoomLevel" />
+                                </MultiBinding>
+                            </Label.Padding>
+                            <Label.IsVisible>
+                                <MultiBinding Mode="OneWay"
+                                    Converter="{StaticResource FaceDownCountLabelToIsVisibleConverter}">
+                                    <Binding Path="FaceDown" />
+                                    <Binding Path="CurrentCardIndexInDealtCardPile" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.MergeFaceDownCards" />
+                                </MultiBinding>
+                            </Label.IsVisible>
+                        </Label>
+
+                        <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="CardImage"
+                            AutomationProperties.IsInAccessibleTree="False"
+                            Margin="0"
+                            Aspect="Fill" 
+                            IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
+                            Source="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}">
+                            
+                            <!-- Layout note: All dealt cards need to have explicit sizes set to ensure that the 
+                                appropriate portion and aspect ratio of the card image is shown regardless of 
+                                whether the card is fully shown or partially obscurred. Also here the width 
+                                and height is adjusted as required depending on whether the card is selected. -->
+                            
+                            <Image.WidthRequest>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.CardWidth" />
+                                </MultiBinding>
+                            </Image.WidthRequest>
+                            <Image.HeightRequest>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource CardHeightSelectedToCardImageHeight}">
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.CardHeight" />
+                                </MultiBinding>
+                            </Image.HeightRequest>
+
+                            <Image.HorizontalOptions>
+                                <MultiBinding Mode="OneWay" ConverterParameter="0"
+                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
+                                    <Binding Path="IsLastCardInPile" />
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                </MultiBinding>
+                            </Image.HorizontalOptions>
+                            <Image.VerticalOptions>
+                                <MultiBinding Mode="OneWay" ConverterParameter="1"
+                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
+                                    <Binding Path="IsLastCardInPile" />
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                </MultiBinding>
+                            </Image.VerticalOptions>
+
+                            <Image.BackgroundColor>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource InSelectedSetToBackgroundConverter}">
+                                    <Binding Path="InSelectedSet" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.HighlightSelectedCardSet" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="vm:DealtCardViewModel"
+                                        Path="HighlightSelectedCardSet" />
+                                </MultiBinding>
+                            </Image.BackgroundColor>
+                        </Image>
+
+                        <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="PictureCardImage"
+                            AutomationProperties.IsInAccessibleTree="False"
+                            Margin="0"
+                            BackgroundColor="Transparent"
+                            Aspect="Fill" 
+                            IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
+                            Source="{Binding Card, Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}">
+                            <Image.WidthRequest>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.CardWidth" />
+                                </MultiBinding>
+                            </Image.WidthRequest>
+                            <Image.HeightRequest>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource CardHeightSelectedToCardImageHeight}">
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.CardHeight" />
+                                </MultiBinding>
+                            </Image.HeightRequest>
+                            <Image.HorizontalOptions>
+                                <MultiBinding Mode="OneWay" ConverterParameter="0"
+                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
+                                    <Binding Path="IsLastCardInPile" />
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                </MultiBinding>
+                            </Image.HorizontalOptions>
+                            <Image.VerticalOptions>
+                                <MultiBinding Mode="OneWay" ConverterParameter="1"
+                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
+                                    <Binding Path="IsLastCardInPile" />
+                                    <Binding Path="CardSelected" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                </MultiBinding>
+                            </Image.VerticalOptions>
+                        </Image>
+
+                        <!-- Optionally shown button to show a large popup of the card. -->
+                        <ImageButton 
+                            Grid.Row="{Binding FaceDown, Mode=OneWay, ConverterParameter=0,
+                                Converter={StaticResource ConverterForDealtCardZoomButtonToGridRowColumn}}"
+                            Grid.Column="{Binding FaceDown, Mode=OneWay, ConverterParameter=1,
+                                Converter={StaticResource ConverterForDealtCardZoomButtonToGridRowColumn}}"
+                            SemanticProperties.Description="{x:Static resources:StringResources.ZoomCard}"
+                            Source="{AppThemeBinding Light=zoomicon2.png, Dark=zoomicon3.png}" 
+                            Aspect="Fill"
+                            BackgroundColor="Transparent"
+                            Clicked="CardZoomButton_Clicked">
+                            <ImageButton.IsVisible>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource CardStateToShowZoomCardButtonConverter}">
+                                    <Binding Path="IsLastCardInPile" />
+                                    <Binding Path="CardState" />
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.ShowZoomCardButton" />
+                                </MultiBinding>
+                            </ImageButton.IsVisible>
+                        </ImageButton>
+
+                        <Border Grid.RowSpan="3" Grid.ColumnSpan="3"
+                            AutomationProperties.IsInAccessibleTree="False"
+                            Margin="0" Padding="0"
+                            StrokeThickness="0"
+                            InputTransparent="True">
+                            <Border.IsVisible>
+                                <MultiBinding Mode="OneWay" Converter="{StaticResource CardBrightnessToCardFrameIsVisible}">
+                                    <Binding Source="{x:Reference MainPageInstance}" 
+                                        x:DataType="{x:Type local:MainPage}"
+                                        Path="BindingContext.CardBrightness" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="vm:DealtCardViewModel"
+                                        Path="CardBrightness" />
+                                    <Binding Path="FaceDown" />
+                                </MultiBinding>
+                            </Border.IsVisible>
+                            <Border.Background>
+                                <LinearGradientBrush>
+                                    <GradientStop
+                                        Color="{Binding Source={x:Reference MainPageInstance}, 
+                                            Path=BindingContext.CardBrightness,
+                                            Converter={StaticResource CardBrightnessToGradientStopConverter},
+                                            ConverterParameter=0}"
+                                        Offset="0.0" />
+                                    <GradientStop
+                                        Color="{Binding Source={x:Reference MainPageInstance}, 
+                                            Path=BindingContext.CardBrightness,
+                                            Converter={StaticResource CardBrightnessToGradientStopConverter},
+                                            ConverterParameter=1}"                                                
+                                        Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                    </Grid>
+
+                </Border>
+            </VerticalStackLayout>
+        </DataTemplate>
+
+    </ContentPage.Resources>
+
+    <!-- Layout note: MainPageGrid Grid occupies the entire screen. -->
+    <Grid x:Name="MainPageGrid"
+        Margin="0" Padding="0"
+        BackgroundColor="{AppThemeBinding Light=Green, Dark=#004000}">
+
+        <!-- The MainPageGrid Grid above contains the system's status bar (wifi, battery, etc) and
+            navigation bar. For sizing calculations later, we do not want to include the height
+            of those bars. So add this InnerMainGrid Grid here, which does not include the system ,
+            bars, and whose height fits all the rows of cards appropriately. -->
+        <Grid x:Name="InnerMainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="6*" />
+            </Grid.RowDefinitions>
+        
+            <!-- Add a MediaElement in order to be able to play sounds in the game.
+                Screen readers do not navigate to this element. -->
+            
+            <!-- Barker: The use of the MediaElement worked fine initially, but after an update
+                the app would crash on iOS. After a later update, it worked ok again on iOS but
+                started crashing on Android. It turned out that the crash could be avoided by
+                creating the MediaElement in code-behind rather than XAML. So do that until 
+                hopefully some later update gets the XAML working in both iOS and Android. -->
+            <!--<toolkit:MediaElement x:Name="MainMediaElement" 
+                ShouldShowPlaybackControls="False"/>-->
+
+            <!-- Layout note: UpperScrollView ScrollView occupies the top portion of the screen.
+                (Landscape: 1 row occupying 1/3rd of screen, Portrait: 2 rows occupying 2/9ths.)
+                The ScrollView contains all the interactive elements above the dealt cards piles. -->
+
+            <ScrollView x:Name="UpperScrollView"
+                Grid.Row="0"
+                BackgroundColor="{AppThemeBinding Light=Green, Dark=#004000}"
+                Margin="0" Padding="0"
+                Orientation="Both">
+
+                <!-- Layout note: This Grid contains all the UI elements above the dealt card piles. 
+                    At zoom levels above 100% the Grid is larger than the screen and can be brought 
+                    into view via the containing ScrollView. -->
+
+                <Grid Margin="0" Padding="0"
+                    FlowDirection="{Binding 
+                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                        x:DataType=vm:DealtCardViewModel,
+                        Path=FlipGameLayoutHorizontally,
+                        Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- First the Menu and Speak Status buttons to the left of the Next Card button. -->
+
+                    <VerticalStackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                        HorizontalOptions="Start"
+                        Margin="0" Padding="0">
+
+                        <ImageButton
+                            SemanticProperties.Description="{x:Static resources:StringResources.Menu}"
+                            Source="hamburger.png" Aspect="Fill"
+                            WidthRequest="{Binding 
+                                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                x:DataType=vm:DealtCardViewModel,
+                                Path=CardWidth,
+                                Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                            HeightRequest="{Binding 
+                                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                x:DataType=vm:DealtCardViewModel,
+                                Path=CardWidth,
+                                Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
+                            Clicked="MenuButton_Click"
+                            BackgroundColor="Transparent"
+                            Margin="4" Padding="0" 
+                            BorderWidth="0" CornerRadius="0" />
+                    
+                        <ImageButton x:Name="StateAnnouncementButton"
+                            SemanticProperties.Description="{x:Static resources:StringResources.AnnouceState}"
+                            WidthRequest="{Binding 
+                                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                x:DataType=vm:DealtCardViewModel,
+                                Path=CardWidth,
+                                    Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                            HeightRequest="{Binding 
+                                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                x:DataType=vm:DealtCardViewModel,
+                                Path=CardWidth,
+                                Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
+                            Clicked="StateAnnouncementButton_Clicked"
+                            BackgroundColor="Transparent"
+                            Margin="0" Padding="0" 
+                            BorderWidth="0" CornerRadius="0"
+                            HorizontalOptions="Center" VerticalOptions="Start">
+                            <ImageButton.Source>
+                                <FontImageSource  
+                                    Glyph="&#xf27a;"
+                                    FontFamily="FA" 
+                                    Color="White" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </VerticalStackLayout>
+                
+                    <!-- Add the Next Card button and the upturned cards. -->
+
+                    <Grid x:Name="TopCornerPiles" 
+                        Grid.Row="0" Grid.Column="1"
+                        Padding="0" Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Add the Next Card button. -->
+
+                        <Grid Grid.Column="0" 
+                            Padding="0" Margin="0" 
+                            VerticalOptions="Center">
+                            <local_source:NextCardPileButton x:Name="NextCardDeck" 
+                                                             Clicked="NextCard_Click"
+                                SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 
+                                    Source={RelativeSource Self}, 
+                                    x:DataType={x:Type local_source:NextCardPileButton},
+                                    Converter={StaticResource NextCardIsEmptyToAccessibleName}}"
+                                x:Uid="NextCardPile"
+                                CornerRadius="0"
+                                Margin="0" Padding="0"
+                                BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
+                                BorderWidth="1"
+                                HeightRequest="{Binding 
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                        AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                    x:DataType=vm:DealtCardViewModel,
+                                    Path=CardHeight}"
+                                WidthRequest="{Binding 
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                        AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                    x:DataType=vm:DealtCardViewModel,
+                                    Path=CardWidth}"
+                                Aspect="Fill"
+                                Source="{Binding IsEmpty, Mode=OneWay, 
+                                    Source={RelativeSource Self}, 
+                                    x:DataType={x:Type local_source:NextCardPileButton},
+                                    Converter={StaticResource NextCardIsEmptyToImageConverter}}">
+                            </local_source:NextCardPileButton>
+                        </Grid>
+
+                        <!-- Note: The CardPileCard elements below represent the three upturned cards and
+                            the target card piles. -->
+
+                        <!-- Add the three upturned cards. -->
+                    
+                        <Grid Grid.Column="1" Grid.ColumnSpan="2"
+                            AutomationProperties.IsInAccessibleTree="False"
+                            Margin="2,0,0,0" Padding="0" 
+                            VerticalOptions="CenterAndExpand">
+
+                            <Grid x:Name="UpturnedCardsGrid"
+                                Margin="0" Padding="0" 
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="StartAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
+                                    x:Name="CardDeckUpturnedObscuredLower" AutomationId="CardDeckUpturnedObscuredLower" 
+                                    IsEnabled="{Binding Path=Card, Mode=OneWay, 
+                                        Source={RelativeSource Self}, 
+                                        x:DataType={x:Type local_views:CardPileCardSwitch},
+                                        Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                    BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
+                                    Padding="0"
+                                    Margin="{Binding 
+                                        Path=CardWidth, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                        x:DataType=vm:DealtCardViewModel,
+                                        Converter={StaticResource IsObscuredCardToMargin}}" />
+
+                                <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
+                                    x:Name="CardDeckUpturnedObscuredHigher" AutomationId="CardDeckUpturnedObscuredHigher"
+                                    IsEnabled="{Binding Path=Card, Mode=OneWay, 
+                                        Source={RelativeSource Self}, 
+                                        x:DataType={x:Type local_views:CardPileCardSwitch},
+                                        Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                    BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
+                                    Padding="0"
+                                    Margin="{Binding 
+                                        Path=CardWidth, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                                        x:DataType=vm:DealtCardViewModel,
+                                        Converter={StaticResource IsObscuredCardToMargin}}" />
+
+                                <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
+                                    Margin="0" Padding="0"
+                                    x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
+                                    IsEnabled="{Binding Path=Card, Mode=OneWay, 
+                                        Source={RelativeSource Self}, 
+                                        x:DataType={x:Type local_views:CardPileCardSwitch},
+                                        Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                    BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
+
+                            </Grid>
+                        </Grid>
+                    </Grid>
+            
+                    <!-- Add the four target piles. -->
+
+                    <!-- Note: We no longer have a container for the four target piles, as when a screen reader is running,
+                        the container can interfere with touch targeting the target piles. A touch sometimes stays on the 
+                        container and sometimes hits the target pile. -->
+
+                    <!-- Layout note: TargetPiles Grid contains for four target card piles. 
+                        (Landscape: In row 0 following the upturned cards, Portrait: In row 1 beneath the upturned cards.) -->
+                
+                    <Grid x:Name="TargetPiles"
+                        Margin="0" Padding="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
+                            IsEnabled="True"
+                            BackgroundColor="LightGreen"
+                            Margin="8,0,2,0" Padding="0"
+                            x:Name="TargetPileC" AutomationId="TargetPileC" />
+
+                        <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
+                            IsEnabled="True"
+                            BackgroundColor="LightGreen"
+                            Margin="0,0,2,0" Padding="0"
+                            x:Name="TargetPileD" AutomationId="TargetPileD" />
+
+                        <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
+                            IsEnabled="True"
+                            BackgroundColor="LightGreen"
+                            Margin="0,0,2,0" Padding="0"
+                            x:Name="TargetPileH" AutomationId="TargetPileH" />
+
+                        <local_views:CardPileCardSwitch Grid.Column="3" Style="{StaticResource CardPileCardSwitchStyle}"
+                            IsEnabled="True"
+                            BackgroundColor="LightGreen"
+                            Margin="0,0,8,0" Padding="0"
+                            x:Name="TargetPileS" AutomationId="TargetPileS" />
+
+                    </Grid>
+                </Grid>
+
+            </ScrollView>
+
+            <!-- Add the seven dealt card piles.  -->
+
+            <!-- IMPORTANT: Originally this ScrollView could scroll in both directions, meaning that the contained 
+                CollectionViews never scrolled vertically individually, rather the ScrollView scrolled to bring
+                CollectionViews into view. But periodically when moving cards to a dealt card pile, the app would 
+                close unexpectedly with no helpful debug info. It was found this crash could be avoided by avoiding
+                having the vertically-scrollable-enabled CollectionViews contained in the vertically-scrollable-enabled
+                ScrollView. Instead we now have the ScrollView only scroll horizontally for landscape orientation 
+                (required when the in-app Zoom level is > 100%) and each contained CollectionView can be individually 
+                scrolled vertically. (Similar approach for portrait.) -->
+
+            <!-- Layout note: LowerScrollView ScrollView contains the dealt card piles and occupies the lower portion
+                of the screen. 
+                    Landscape: 2/3rds of the screen and Vertical Orientation, 
+                    Portrait: 7/9ths of the screen and Horizontal Orientation.
+            --> 
+        
+            <ScrollView x:Name="LowerScrollView"
+                AutomationProperties.IsInAccessibleTree="False"
+                Padding="0" Margin="0">
+
+                <!-- Layout note: This Grid contains all the dealt card piles. At an app zoom levels of 100% the
+                    Grid occupies exactly the entire ScrollView at the lower portion of the screen. At zoom levels 
+                    larger than 100%, the ScrollView remains the same size, but the contained Grid becomes larger 
+                    and portions of it are brought on screen by scrolling the containing ScrollView.
+                -->
+
+                <Grid x:Name="CardPileGrid"
+                    FlowDirection="{Binding 
+                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                        x:DataType=vm:DealtCardViewModel,
+                        Path=FlipGameLayoutHorizontally,
+                        Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"
+                    Padding="0" Margin="0">
+
+                    <!-- Layout note: The Grid is always only bigger than the containing ScrollView in one direction.
+                        At an app zoom level greater than 100%, in Landscape the Grid is wider than the ScrollView, 
+                        and in Portrait the Grid is taller than the ScrollView. This means that when needing to 
+                        scroll a CollectionView in the direction that the Grid can't scroll, it's the individual 
+                        CollectionView that's bringing an item into view. -->
+                
+                    <!-- Layout note:
+                        The Grid's WidthRequest and HeightRequest are set explicitly, width one dimension always
+                        equaling the same dimension for the ScrollView, and the other dimension being a multiple
+                        of the ScrollView's other dimension based on teh current zoom level.
+                    -->
+                    
+                    <Grid.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewWidthToGridWidthRequestConverter}">
+                            <Binding 
+                                Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                x:DataType="ScrollView"
+                                Path="Width" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                    AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="vm:DealtCardViewModel"
+                                Path="ZoomLevel" />
+                        </MultiBinding>
+                    </Grid.WidthRequest> 
+
+                    <Grid.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewHeightToGridHeightRequestConverter}">
+                            <Binding 
+                                Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                x:DataType="ScrollView"
+                                Path="Height" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                    AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="vm:DealtCardViewModel"
+                                Path="ZoomLevel" />
+                        </MultiBinding>
+                    </Grid.HeightRequest>
+
+                    <!-- Layout note: The Grid has 7 rows and 7 columns. The contained CollectionViews have their
+                        width and height set explicitly, and so all the Grid's ColumnDefintions and RowDefinitions
+                        are "Auto" here rather than "*". -->
+                
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Layout note: The CollectionView's ItemsLayout is set to Horizontal or Vertical
+                        depending on screen orientation. -->
+
+                    <!-- Layout note: All CollectionViews have their WidthRequests and HeighRequests set explicitly.
+                        
+                        CollectionView WidthRequest
+                            Landscape: Set to the width of a dealt card.    
+                            Portrait: Set to the width of the ScrollView containing the Grid containing the CollectionsView.    
+                        
+                        CollectionView HeightRequest
+                            Landscape: Set to the height of the ScrollView containing the Grid containing the CollectionsView.    
+                            Portrait: Set to the height of a dealt card.
+                    -->
+                    
+                    <!-- Barker: Replace all the duplicated WidthRequest and HeightRequest MultiBinding below 
+                        and add it to the CollectionView styling. -->
+                    
+                    <CollectionView x:Name="CardPile1" AutomationId="CardPile1"
+                        Style="{StaticResource CollectionViewStyle}"
+                        ItemsSource="{Binding DealtCards1}"
+                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                        SelectionChanged="CardPile_SelectionChanged">
+                        
+                        <CollectionView.WidthRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardWidth" />
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Width" />
+                            </MultiBinding>
+                        </CollectionView.WidthRequest>
+
+                        <CollectionView.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Height" />
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardHeight" />
+                            </MultiBinding>
+                        </CollectionView.HeightRequest>
+                    </CollectionView>
+
+                    <CollectionView x:Name="CardPile2" AutomationId="CardPile2" 
+                        Style="{StaticResource CollectionViewStyle}"
+                        ItemsSource="{Binding DealtCards2}"
+                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                        SelectionChanged="CardPile_SelectionChanged">
+
+                        <CollectionView.WidthRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardWidth" />
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Width" />
+                            </MultiBinding>
+                        </CollectionView.WidthRequest>
+
+                        <CollectionView.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Height" />
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardHeight" />
+                            </MultiBinding>
+                        </CollectionView.HeightRequest>
+                    </CollectionView>
+
+                    <CollectionView x:Name="CardPile3" AutomationId="CardPile3" 
+                        Style="{StaticResource CollectionViewStyle}"
+                        ItemsSource="{Binding DealtCards3}"
+                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                        SelectionChanged="CardPile_SelectionChanged">
+
+                        <CollectionView.WidthRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardWidth" />
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Width" />
+                            </MultiBinding>
+                        </CollectionView.WidthRequest>
+
+                        <CollectionView.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Height" />
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardHeight" />
+                            </MultiBinding>
+                        </CollectionView.HeightRequest>
+                    </CollectionView>
+
+                    <CollectionView x:Name="CardPile4" AutomationId="CardPile4" 
+                        Style="{StaticResource CollectionViewStyle}"
+                        ItemsSource="{Binding DealtCards4}"
+                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                        SelectionChanged="CardPile_SelectionChanged">
+
+                        <CollectionView.WidthRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardWidth" />
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Width" />
+                            </MultiBinding>
+                        </CollectionView.WidthRequest>
+
+                        <CollectionView.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Height" />
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardHeight" />
+                            </MultiBinding>
+                        </CollectionView.HeightRequest>
+                    </CollectionView>
+
+                    <CollectionView x:Name="CardPile5" AutomationId="CardPile5" 
+                        Style="{StaticResource CollectionViewStyle}"
+                        ItemsSource="{Binding DealtCards5}"
+                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                        SelectionChanged="CardPile_SelectionChanged">
+                        
+                        <CollectionView.WidthRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardWidth" />
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Width" />
+                            </MultiBinding>
+                        </CollectionView.WidthRequest>
+
+                        <CollectionView.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Height" />
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardHeight" />
+                            </MultiBinding>
+                        </CollectionView.HeightRequest>
+                    </CollectionView>
+
+                    <CollectionView x:Name="CardPile6" AutomationId="CardPile6" 
+                        Style="{StaticResource CollectionViewStyle}"
+                        ItemsSource="{Binding DealtCards6}"
+                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                        SelectionChanged="CardPile_SelectionChanged">
+
+                        <CollectionView.WidthRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardWidth" />
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Width" />
+                            </MultiBinding>
+                        </CollectionView.WidthRequest>
+
+                        <CollectionView.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Height" />
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardHeight" />
+                            </MultiBinding>
+                        </CollectionView.HeightRequest>
+                    </CollectionView>
+
+                    <CollectionView x:Name="CardPile7" AutomationId="CardPile7" 
+                        Style="{StaticResource CollectionViewStyle}"
+                        ItemsSource="{Binding DealtCards7}"
+                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                        SelectionChanged="CardPile_SelectionChanged">
+
+                        <CollectionView.WidthRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardWidth" />
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Width" />
+                            </MultiBinding>
+                        </CollectionView.WidthRequest>
+
+                        <CollectionView.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                                <Binding 
+                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
+                                    x:DataType="ScrollView"
+                                    Path="Height" />
+                                <Binding Source="{x:Reference MainPageInstance}" 
+                                    x:DataType="{x:Type local:MainPage}"
+                                    Path="BindingContext.CardHeight" />
+                            </MultiBinding>
+                        </CollectionView.HeightRequest>
+                    </CollectionView>
+
+                </Grid>
+
+            </ScrollView>
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

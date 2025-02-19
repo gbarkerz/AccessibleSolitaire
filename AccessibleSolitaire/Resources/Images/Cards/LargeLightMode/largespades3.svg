@@ -1,0 +1,33 @@
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="755" height="960">
+
+  <defs>
+
+    <g id="cornersuitsymbol">
+      <path transform="scale(0.25)" style="fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" d="M 122,128 C 0,253 119,343 216,283 C 198,348 188,354 177,371 L 281,371 C 267,353 253,348 239,284 C 338,340 442,242 332,128 C 261,65 233,8 227,0 C 221,7 188,66 122,128 z" />
+    </g>
+
+    <g id="suitsymbol">
+      <path transform="scale(1.2)" style="fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" d="M 122,128 C 0,253 119,343 216,283 C 198,348 188,354 177,371 L 281,371 C 267,353 253,348 239,284 C 338,340 442,242 332,128 C 261,65 233,8 227,0 C 221,7 188,66 122,128 z" />
+    </g>
+
+  </defs>
+
+   <!-- Top left corner. -->
+
+   <text x="8" y="40" transform="scale(3)" fill="black" stroke="black" font-family="sans-serif" font-size="40" font-weight="bold">3</text>
+   <use href="#cornersuitsymbol" transform="translate(8 140)"  />
+
+   <!-- Main area. -->
+
+   <text x="100" y="120" transform="scale(3)" fill="black" stroke="black" font-size="80" font-weight="bold">3</text>
+   <use href="#suitsymbol" transform="translate(100 400)"  />
+
+   <!-- Bottom right corner. -->
+
+   <text x="205" y="302" transform="scale(3) rotate(180 221 290)" fill="black" stroke="black" font-family="sans-serif" font-size="40" font-weight="bold">3</text>
+   <use href="#cornersuitsymbol" transform="translate(600 700) rotate(180 64 60)" />
+
+</svg>

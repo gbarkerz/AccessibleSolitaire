@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Sa11ytaire4All.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Sa11ytaire4All"
+    xmlns:resources="clr-namespace:Sa11ytaire4All"
+    Shell.NavBarIsVisible="False"
+    Shell.Title="Accessible Solitaire">
+
+    <ShellContent
+        Title="{x:Static resources:StringResources.AccessibleSolitaireVersion}"
+        Icon="cardback.png"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    
+    <MenuItem x:Name="HelpMenuItem" 
+        Clicked="HelpMenuItem_Clicked"
+        Text="Help in Facebook">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#xf05a;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <MenuItem x:Name="SettingsMenuItem" 
+        Clicked="SettingsMenuItem_Clicked"
+        Text="Settings">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#xf013;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <MenuItem x:Name="RestartGameMenuItem" 
+        Clicked="RestartGameMenuItem_Clicked"
+        Text="Restart Game">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#x1F3C1;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+</Shell>

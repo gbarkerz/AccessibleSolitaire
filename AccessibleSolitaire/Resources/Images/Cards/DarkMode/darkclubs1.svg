@@ -1,0 +1,36 @@
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="755" height="960">
+
+  <defs>
+
+    <g id="cornersuitsymbol">
+      <path transform="scale(0.25)" style="color:#FFFFFF;fill:#FFFFFF;fill-opacity:1.0000000;fill-rule:nonzero;stroke:#FFFFFF;stroke-width:1.0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:block;overflow:visible" d="M 146,160 C 87,132 0,165 21,241 C 41,315 127,298 157,254 C 144,339 122,352 109,370 L 248,370 C 234,351 209,339 194,252 C 224,297 314,313 334,240 C 353,169 266,128 208,160 C 263,123 283,0 178,0 C 72,0 89,125 146,160 z" />
+    </g>
+
+    <g id="suitsymbol">
+      <path transform="scale(1.25)" style="color:#FFFFFF;fill:#FFFFFF;fill-opacity:1.0000000;fill-rule:nonzero;stroke:#FFFFFF;stroke-width:1.0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:block;overflow:visible" d="M 146,160 C 87,132 0,165 21,241 C 41,315 127,298 157,254 C 144,339 122,352 109,370 L 248,370 C 234,351 209,339 194,252 C 224,297 314,313 334,240 C 353,169 266,128 208,160 C 263,123 283,0 178,0 C 72,0 89,125 146,160 z" />
+    </g>
+
+  </defs>
+
+   <!-- Top left corner. -->
+
+   <text x="8" y="40" transform="scale(3)" fill="white" stroke="white" font-size="40" font-weight="bold">A</text>
+   <use href="#cornersuitsymbol" transform="translate(20 140)"  />
+
+   <!-- Left column. -->
+
+   <!-- Middle column. -->
+
+  <use href="#suitsymbol" transform="translate(145 220)" />
+
+   <!-- Right column. -->
+
+   <!-- Bottom right corner. -->
+
+   <text x="201" y="302" transform="scale(3) rotate(180 220 290)" fill="white" stroke="white" font-size="40" font-weight="bold">A</text>
+   <use href="#cornersuitsymbol" transform="translate(600 700) rotate(180 58 60)" />
+
+</svg>

@@ -1,0 +1,52 @@
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:local_views="clr-namespace:Sa11ytaire4All.Views"
+               xmlns:resources="clr-namespace:Sa11ytaire4All"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               Color="Transparent"
+               x:Class="Sa11ytaire4All.Views.CardPopup">
+
+    <!-- Barker: In an attempt to use some compiled binding, I added the following to the Popup XAML above. 
+        But having done that, on release builds the popup was empty, so I apparently broke the binding.
+        (This didn't happen on debug builds.) So remove this for now, and try to get compiled binding 
+        working at some point in the future. -->
+    <!--x:DataType="{x:Type local_views:CardPopup}"-->
+
+    <toolkit:Popup.Resources>
+        <local_views:CardToCardPopupAccessibleName x:Key="CardToCardPopupAccessibleName" />
+        <local_views:CardToCardImageConverter x:Key="CardToCardImageConverter" />
+        <local_views:PictureCardToCardImageConverter x:Key="PictureCardToCardImageConverter" />
+    </toolkit:Popup.Resources>
+
+    <Grid
+        BackgroundColor="Transparent"
+        Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Image Grid.ColumnSpan="2"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+            Source="{Binding ., Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}" />
+
+        <!-- Note: This accessibility is set based on the Android TalkBack experience, NOT the earlier Samsung "Screen Reader". -->
+
+        <Image Grid.ColumnSpan="2"
+            SemanticProperties.Description="{Binding ., Mode=OneWay, Converter={StaticResource CardToCardPopupAccessibleName}}"
+            BackgroundColor="Transparent"
+            Source="{Binding ., Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}" />
+
+        <Button Grid.Column="1" Grid.Row="1"
+            TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
+            Margin="8,0,0,0" Padding="8"
+            Text="{x:Static resources:StringResources.Close}" 
+            Clicked="CloseButton_Clicked" />
+
+    </Grid>
+    
+</toolkit:Popup>

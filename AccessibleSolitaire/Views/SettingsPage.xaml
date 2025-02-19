@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resources="clr-namespace:Sa11ytaire4All"
+             xmlns:local_views="clr-namespace:Sa11ytaire4All.Views"
+             x:Class="Sa11ytaire4All.Views.SettingsPage"
+             Title="Settings Page">
+
+    <Grid Margin="10" Padding="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Padding="0" Margin="0">
+            <ScrollView Orientation="Horizontal" HorizontalOptions="Start">
+                <Label Text="{x:Static resources:StringResources.Settings}"
+                    SemanticProperties.HeadingLevel="Level1" FontSize="Title"
+                    HorizontalOptions="Center" VerticalOptions="Center" />
+            </ScrollView>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Number of cards turned over. -->
+
+                <Label Grid.Row="0" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,8,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.CardTurnCount}" />
+
+                <Label Grid.Row="1" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.CardTurnCountInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="2" Padding="0" Margin="8,0,8,0">
+                    <Label 
+                        Margin="0" VerticalOptions="Center" Padding="0"
+                        Text="{x:Static resources:StringResources.CardTurnCountPicker}" />
+
+                    <Picker x:Name="CardTurnCountPicker"
+                        Margin="0"
+                        SemanticProperties.Description="{x:Static resources:StringResources.CardTurnCount}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.CardTurnCountInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Allow any card to be moved to an empty dealt card pile. -->
+
+                <Label Grid.Row="3" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,8,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.KingsOnlyToEmptyPile}" />
+
+                <Label Grid.Row="4" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.KingsOnlyToEmptyPileInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="5" Padding="0" Margin="8,0,8,0">
+                    <Label 
+                        Margin="0" VerticalOptions="Center" Padding="0"
+                        Text="{x:Static resources:StringResources.KingsOnlyToEmptyPileSwitchName}" />
+
+                    <Switch x:Name="KingsOnlyToEmptyPileSwitch"
+                        Margin="0"
+                        SemanticProperties.Description="{x:Static resources:StringResources.KingsOnlyToEmptyPile}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.KingsOnlyToEmptyPileInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Zoom Level. -->
+
+                <Label Grid.Row="6" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,8,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.ZoomLevel}" />
+
+                <Label Grid.Row="7" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.ZoomInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="8" Padding="0" Margin="8,0,8,0">
+                    <Label 
+                        Margin="0" VerticalOptions="Center" Padding="0"
+                        Text="{x:Static resources:StringResources.ZoomLevelPickerLevel}" />
+
+                    <Picker x:Name="ZoomPicker"
+                        Margin="0"
+                        SemanticProperties.Description="{x:Static resources:StringResources.ZoomLevel}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.ZoomInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Show rank and suit large in cards. -->
+
+                <Label Grid.Row="9" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,8,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.ShowRankSuitLarge}" />
+
+                <Label Grid.Row="10" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.ShowRankSuitLargeInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+                    <Label 
+                        Margin="0" VerticalOptions="Center" Padding="0"
+                        Text="{x:Static resources:StringResources.ShowRankSuitLargeSwitchName}" />
+
+                    <Switch x:Name="ShowRankSuitLargeSwitch"
+                        Margin="0"
+                        SemanticProperties.Description="{x:Static resources:StringResources.ShowRankSuitLarge}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.ShowRankSuitLargeInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Show zoom card button in cards. -->
+
+                <Label Grid.Row="12" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,8,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.ShowZoomCardButton}" />
+
+                <Label Grid.Row="13" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.ShowZoomCardButtonInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="14" Padding="0" Margin="8,0,8,0">
+                    <Label 
+                        Margin="0" VerticalOptions="Center" Padding="0"
+                        Text="{x:Static resources:StringResources.ShowZoomCardButtonSwitchName}" />
+
+                    <Switch x:Name="ShowZoomCardButtonSwitch"
+                        Margin="0"
+                        SemanticProperties.Description="{x:Static resources:StringResources.ShowZoomCardButton}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.ShowZoomCardButtonInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Darken Cards. -->
+
+                <Label Grid.Row="15"
+                    FontAttributes="Bold" 
+                    Margin="8,20,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.CardAppearence}" />
+
+                <Label Grid.Row="16" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.CardAppearenceInstructions}" />
+
+                <Grid Grid.Row="17">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" 
+                        Text="{x:Static resources:StringResources.Darker}" 
+                        VerticalOptions="Center" Margin="8,0,8,0" Padding="0" />
+
+                    <Slider Grid.Column="1" x:Name="CardBrightnessSlider"
+                        Maximum="100" Minimum="1" Value="100"
+                        VerticalOptions="Center" 
+                        SemanticProperties.Description="{x:Static resources:StringResources.CardAppearence}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.CardAppearenceInstructions}" />
+
+                    <Label  Grid.Column="2"
+                        Text="{x:Static resources:StringResources.Lighter}" 
+                        VerticalOptions="Center" Margin="8,0,8,0" Padding="0" />
+
+                </Grid>
+
+                <!-- Show State Announcement button. -->
+
+                <Label Grid.Row="18" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.ShowStateAnnouncementButton}" />
+
+                <Label Grid.Row="19" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.ShowStateAnnouncementButtonInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="20" Padding="0" Margin="8,0,8,0">
+
+                    <Label
+                        VerticalOptions="Center"                
+                        Text="{x:Static resources:StringResources.ShowStateAnnouncementButtonCheckboxLabel}" 
+                        Margin="0" Padding="0" />
+
+                    <Switch x:Name="ShowStateAnnouncementButtonCheckbox"
+                        Margin="0" HorizontalOptions="Start"
+                        SemanticProperties.Description="{x:Static resources:StringResources.ShowStateAnnouncementButtonCheckboxLabel}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.ShowStateAnnouncementButtonInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Allow selection by tap on face-down card in dealt card pile. -->
+
+                <Label Grid.Row="21" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.AllowSelectionByFaceDownCard}" />
+
+                <Label Grid.Row="22" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.AllowSelectionByFaceDownCardInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="23" Padding="0" Margin="8,0,8,0">
+
+                    <Label
+                        VerticalOptions="Center"                
+                        Text="{x:Static resources:StringResources.AllowSelectionByFaceDownCardCheckboxLabel}" 
+                        Margin="0" Padding="0" />
+
+                    <Switch x:Name="AllowSelectionByFaceDownCardCheckbox"
+                        Margin="0" HorizontalOptions="Start"
+                        SemanticProperties.Description="{x:Static resources:StringResources.AllowSelectionByFaceDownCardCheckboxLabel}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.AllowSelectionByFaceDownCardInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Allow highlight of all cards in a selected set in a dealt card pile. -->
+
+                <Label Grid.Row="24" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.HighlightSelectedCardSet}" />
+
+                <Label Grid.Row="25" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.HighlightSelectedCardSetInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="26" Padding="0" Margin="8,0,8,0">
+
+                    <Label
+                        VerticalOptions="Center"                
+                        Text="{x:Static resources:StringResources.HighlightSelectedCardSetSwitchLabel}" 
+                        Margin="0" Padding="0" />
+
+                    <Switch x:Name="HighlightSelectedCardSetSwitch"
+                        Margin="0" HorizontalOptions="Start"
+                        SemanticProperties.Description="{x:Static resources:StringResources.HighlightSelectedCardSetSwitchLabel}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.AllowSelectionByFaceDownCardInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Merge all face-down cards into one visual item in a dealt card pile. -->
+
+                <Label Grid.Row="27" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.MergeFaceDownCards}" />
+
+                <Label Grid.Row="28" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.MergeFaceDownCardsInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="29" Padding="0" Margin="8,0,8,0">
+
+                    <Label
+                        VerticalOptions="Center"                
+                        Text="{x:Static resources:StringResources.MergeFaceDownCardsSwitchLabel}" 
+                        Margin="0" Padding="0" />
+
+                    <Switch x:Name="MergeFaceDownCardsSwitch"
+                        Margin="0" HorizontalOptions="Start"
+                        SemanticProperties.Description="{x:Static resources:StringResources.MergeFaceDownCardsSwitchLabel}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.MergeFaceDownCardsInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Flip layout to be right-to-left rather than left-to-right. -->
+
+                <Label Grid.Row="30" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.FlipGameLayoutHorizontally}" />
+
+                <Label Grid.Row="31" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.FlipGameLayoutHorizontallyInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="32" Padding="0" Margin="8,0,8,0">
+
+                    <Label
+                        VerticalOptions="Center"                
+                        Text="{x:Static resources:StringResources.FlipGameLayoutHorizontallySwitchLabel}" 
+                        Margin="0" Padding="0" />
+
+                    <Switch x:Name="FlipGameLayoutHorizontallySwitch"
+                        Margin="0" HorizontalOptions="Start"
+                        SemanticProperties.Description="{x:Static resources:StringResources.FlipGameLayoutHorizontallySwitchLabel}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.FlipGameLayoutHorizontallyInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Extend top-most dealt cards hit-target area. -->
+
+                <Label Grid.Row="33" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.ExtendDealtCardHitTarget}" />
+
+                <Label Grid.Row="34" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.ExtendDealtCardHitTargetInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="35" Padding="0" Margin="8,0,8,0">
+
+                    <Label
+                        VerticalOptions="Center"                
+                        Text="{x:Static resources:StringResources.ExtendDealtCardHitTargetCheckboxLabel}" 
+                        Margin="0" Padding="0" />
+
+                    <Switch x:Name="ExtendDealtCardHitTargetCheckbox"
+                        Margin="0" HorizontalOptions="Start"
+                        SemanticProperties.Description="{x:Static resources:StringResources.ExtendDealtCardHitTargetCheckboxLabel}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.ExtendDealtCardHitTargetInstructions}" />
+                </HorizontalStackLayout>
+
+                <!-- Sounds. -->
+
+                <Grid x:Name="SoundsSettingsGrid" Grid.Row="36"
+                    IsVisible="False">
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" 
+                        FontAttributes="Bold" 
+                        Margin="8,20,0,0"
+                        FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                        Text="{x:Static resources:StringResources.Sounds}" />
+
+                    <Label Grid.Row="1" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.PlaySoundSuccessfulMove}" />
+
+                    <HorizontalStackLayout Grid.Row="2" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.PlaySoundSuccessfulMoveSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="PlaySoundSuccessfulMoveSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:StringResources.PlaySoundSuccessfulMoveSwitchLabel}" />
+
+                    </HorizontalStackLayout>
+
+                    <Label Grid.Row="3" 
+                        Margin="8,8,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.PlaySoundUnsuccessfulMove}" />
+
+                    <HorizontalStackLayout Grid.Row="4" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.PlaySoundUnsuccessfulMoveSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="PlaySoundUnsuccessfulMoveSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:StringResources.PlaySoundUnsuccessfulMoveSwitchLabel}" />
+
+                    </HorizontalStackLayout>
+
+                    <Label Grid.Row="5" 
+                        Margin="8,8,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.PlaySoundOther}" />
+
+                    <HorizontalStackLayout Grid.Row="6" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.PlaySoundOtherSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="PlaySoundOtherSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:StringResources.PlaySoundOtherSwitchLabel}" />
+
+                    </HorizontalStackLayout>
+
+                </Grid>
+
+            </Grid>
+        
+        </ScrollView>
+
+        <Button Grid.Row="2" x:Name="CloseButton" 
+            TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
+            HorizontalOptions="End" Margin="8" Padding="8"
+            Text="{x:Static resources:StringResources.Close}" 
+            Clicked="CloseButton_Clicked" />
+    </Grid>
+
+</ContentPage>

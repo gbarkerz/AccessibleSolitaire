@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local_source="clr-namespace:Sa11ytaire4All.Source"
+             xmlns:local_views="clr-namespace:Sa11ytaire4All.Views"
+             xmlns:resources="clr-namespace:Sa11ytaire4All"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="{x:Type local_views:CardPileCardSwitch}"
+             Margin="0" Padding="0"
+             x:Class="Sa11ytaire4All.Views.CardPileCardSwitch">
+    
+    <ContentView.Resources>
+        <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
+        <local_views:IsToggledToMarginConverter x:Key="IsToggledToMarginConverter" />
+        <local_views:IsToggledToBackgroundColorConverter x:Key="IsToggledToBackgroundColorConverter" />
+        <local_views:CardBrightnessToToggleCardFrameIsVisible x:Key="CardBrightnessToToggleCardFrameIsVisible" />
+        <local_views:CardBrightnessToGradientStopConverter x:Key="CardBrightnessToGradientStopConverter" />
+        <local_views:CardToShowZoomCardButtonConverter x:Key="CardToShowZoomCardButtonConverter" />
+    </ContentView.Resources>
+
+    <!-- The CardPileCardSwitch element is used to represent the three upturned cards and
+        the four target card piles. -->
+
+    <Grid 
+        Margin="0" Padding="0"
+        BackgroundColor="Transparent">
+
+        <Grid 
+            Margin="0" Padding="0"
+            BackgroundColor="{Binding IsToggled, Mode=OneWay,
+                Source={x:Reference CardSwitch}, x:DataType=Switch,
+                    Converter={StaticResource IsToggledToBackgroundColorConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Bind the visibility of the Switch to the enabled state of the containing CardPileCardSwitch. -->
+            <Switch x:Name="CardSwitch"
+                Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
+                Margin="{Binding IsToggled, Mode=OneWay,
+                    Source={x:Reference CardSwitch}, x:DataType=Switch,
+                        Converter={StaticResource IsToggledToMarginConverter},
+                            ConverterParameter=0}"
+                IsVisible="{Binding IsEnabled, Mode=OneWay, 
+                    Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
+                SemanticProperties.Description="{Binding CardPileAccessibleName, Mode=OneWay, 
+                    Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
+                AutomationId="{Binding AutomationId, Mode=OneWay, 
+                    Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
+                ThumbColor="Transparent"
+                BackgroundColor="Transparent"
+                Toggled="CardPileCardSwitch_Toggled">
+                <Switch.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" />
+                </Switch.GestureRecognizers>
+            </Switch>
+
+            <Border 
+                Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
+                Stroke="{AppThemeBinding Light=Black, Dark=White}" 
+                StrokeThickness="1" BackgroundColor="Transparent"
+                InputTransparent="True"
+                Margin="0" Padding="0">
+
+                <Image
+                    Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
+                    AutomationProperties.IsInAccessibleTree="False"
+                    BackgroundColor="{Binding Card, Mode=OneWay, 
+                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}},
+                            Converter={StaticResource CardToBackgroundConverter}}"
+                    InputTransparent="True"
+                    Margin="{Binding IsToggled, Mode=OneWay,
+                        Source={x:Reference CardSwitch}, x:DataType=Switch,
+                        Converter={StaticResource IsToggledToMarginConverter},
+                            ConverterParameter=1}"
+                    Aspect="Fill"
+                    Source="{Binding CardPileImage, Mode=OneWay, 
+                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
+                </Image>
+
+            </Border>
+
+            <!--Optionally shown button to show a large popup of the card.-->
+            <ImageButton Grid.Row="0" Grid.Column="1" 
+                SemanticProperties.Description="{x:Static resources:StringResources.ZoomCard}"
+                Source="{AppThemeBinding Light=zoomicon2.png, Dark=zoomicon3.png}" 
+                Aspect="Fill"
+                Margin="0,2,2,0"
+                BackgroundColor="Transparent"
+                Clicked="CardZoomButton_Clicked">
+                <ImageButton.IsVisible>
+                    <MultiBinding Mode="OneWay" 
+                        Converter="{StaticResource CardToShowZoomCardButtonConverter}">
+                        <Binding Source="{RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}"
+                            Path="CardPileImage" />
+                        <Binding Source="{RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}"
+                            Path="ShowZoomCardButton" />
+                    </MultiBinding>
+                </ImageButton.IsVisible>
+            </ImageButton>
+
+        </Grid>
+
+        <Image
+            AutomationProperties.IsInAccessibleTree="False"
+            BackgroundColor="Transparent"
+            InputTransparent="True"
+            Margin="{Binding IsToggled, Mode=OneWay,
+                Source={x:Reference CardSwitch}, x:DataType=Switch,
+                Converter={StaticResource IsToggledToMarginConverter},
+                    ConverterParameter=1}"
+            Aspect="Fill"
+            Source="{Binding PictureCardPileImage, Mode=OneWay,
+                Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
+        </Image>
+
+        <Border Margin="0" Padding="0" 
+           AutomationProperties.IsInAccessibleTree="False"
+           StrokeThickness="0"
+           InputTransparent="True">
+            <Border.IsVisible>
+                <MultiBinding Mode="OneWay" Converter="{StaticResource CardBrightnessToToggleCardFrameIsVisible}">
+                    <Binding Path="CardBrightness" />
+                    <Binding Source="{RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}" Path="Card" />
+                </MultiBinding>
+            </Border.IsVisible>
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop
+                        Color="{Binding Path=CardBrightness, 
+                            Converter={StaticResource CardBrightnessToGradientStopConverter},
+                            ConverterParameter=0}"
+                        Offset="0.0" />
+                    <GradientStop
+                        Color="{Binding Path=CardBrightness, 
+                            Converter={StaticResource CardBrightnessToGradientStopConverter},
+                            ConverterParameter=1}"                                                
+                        Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+    </Grid>
+</ContentView>
