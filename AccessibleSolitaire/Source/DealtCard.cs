@@ -23,6 +23,39 @@ namespace Sa11ytaire4All.Source
         public static readonly BindableProperty CurrentDealtCardPileIndexProperty =
             BindableProperty.Create(nameof(CurrentDealtCardPileIndex), typeof(int), typeof(DealtCard));
 
+        public static readonly BindableProperty CardTintColourProperty =
+            BindableProperty.Create(nameof(CardTintColour), typeof(Color), typeof(DealtCard));
+
+        public Color CardTintColour
+        {
+            get 
+            {
+                Color suitColour;
+
+                switch (this.Card.Suit)
+                {
+                    case Suit.Clubs:
+                        suitColour = MainPage.SuitColorsClubs;
+                        break;
+
+                    case Suit.Diamonds:
+                        suitColour = MainPage.SuitColorsDiamonds;
+                        break;
+
+                    case Suit.Hearts:
+                        suitColour = MainPage.SuitColorsHearts;
+                        break;
+
+                    default: // Suit.Spades:
+                        suitColour = MainPage.SuitColorsSpades;
+                        break;
+                }
+
+                return suitColour; 
+            }
+        }
+
+
         public int CurrentCardIndexInDealtCardPile 
         {
             get 
@@ -325,6 +358,8 @@ namespace Sa11ytaire4All.Source
             if (this.Card != null)
             {
                 OnPropertyChanged("Card");
+
+                OnPropertyChanged("CardTintColour");
             }
         }
 

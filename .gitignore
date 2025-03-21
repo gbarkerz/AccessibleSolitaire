@@ -4,3 +4,5 @@
 /.vs/AccessibleSolitaire/v17
 /.vs
 AccessibleSolitaire/AccessibleSolitaire.csproj.user
+/AccessibleSolitaire/bin
+/AccessibleSolitaire/obj

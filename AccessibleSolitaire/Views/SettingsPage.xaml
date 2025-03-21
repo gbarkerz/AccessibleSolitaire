@@ -57,11 +57,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <!-- Number of cards turned over. -->
@@ -112,9 +107,9 @@
                         SemanticProperties.Hint="{x:Static resources:StringResources.KingsOnlyToEmptyPileInstructions}" />
                 </HorizontalStackLayout>
 
-                <!-- Zoom Level. -->
+                <!-- Zoom Level. UNLIKELY TO BE HELPFUL, SO REMOVED. -->
 
-                <Label Grid.Row="6" 
+                <!--<Label Grid.Row="6" 
                     FontAttributes="Bold" 
                     Margin="8,20,8,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
@@ -134,22 +129,22 @@
                         Margin="0"
                         SemanticProperties.Description="{x:Static resources:StringResources.ZoomLevel}"
                         SemanticProperties.Hint="{x:Static resources:StringResources.ZoomInstructions}" />
-                </HorizontalStackLayout>
+                </HorizontalStackLayout>-->
 
                 <!-- Show rank and suit large in cards. -->
 
-                <Label Grid.Row="9" 
+                <Label Grid.Row="6" 
                     FontAttributes="Bold" 
                     Margin="8,20,8,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.ShowRankSuitLarge}" />
 
-                <Label Grid.Row="10" 
+                <Label Grid.Row="7" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.ShowRankSuitLargeInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="8" Padding="0" Margin="8,0,8,0">
                     <Label 
                         Margin="0" VerticalOptions="Center" Padding="0"
                         Text="{x:Static resources:StringResources.ShowRankSuitLargeSwitchName}" />
@@ -162,18 +157,18 @@
 
                 <!-- Show zoom card button in cards. -->
 
-                <Label Grid.Row="12" 
+                <Label Grid.Row="9" 
                     FontAttributes="Bold" 
                     Margin="8,20,8,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.ShowZoomCardButton}" />
 
-                <Label Grid.Row="13" 
+                <Label Grid.Row="10" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.ShowZoomCardButtonInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="14" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
                     <Label 
                         Margin="0" VerticalOptions="Center" Padding="0"
                         Text="{x:Static resources:StringResources.ShowZoomCardButtonSwitchName}" />
@@ -184,9 +179,9 @@
                         SemanticProperties.Hint="{x:Static resources:StringResources.ShowZoomCardButtonInstructions}" />
                 </HorizontalStackLayout>
 
-                <!-- Darken Cards. -->
+                <!-- Darken Cards. UNLIKELY TO BE HELPFUL, SO REMOVED. -->
 
-                <Label Grid.Row="15"
+                <!--<Label Grid.Row="15"
                     FontAttributes="Bold" 
                     Margin="8,20,0,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
@@ -218,22 +213,22 @@
                         Text="{x:Static resources:StringResources.Lighter}" 
                         VerticalOptions="Center" Margin="8,0,8,0" Padding="0" />
 
-                </Grid>
+                </Grid>-->
 
                 <!-- Show State Announcement button. -->
 
-                <Label Grid.Row="18" 
+                <Label Grid.Row="12" 
                     FontAttributes="Bold" 
                     Margin="8,20,0,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.ShowStateAnnouncementButton}" />
 
-                <Label Grid.Row="19" 
+                <Label Grid.Row="13" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.ShowStateAnnouncementButtonInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="20" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="14" Padding="0" Margin="8,0,8,0">
 
                     <Label
                         VerticalOptions="Center"                
@@ -248,18 +243,18 @@
 
                 <!-- Allow selection by tap on face-down card in dealt card pile. -->
 
-                <Label Grid.Row="21" 
+                <Label Grid.Row="15" 
                     FontAttributes="Bold" 
                     Margin="8,20,0,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.AllowSelectionByFaceDownCard}" />
 
-                <Label Grid.Row="22" 
+                <Label Grid.Row="16" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.AllowSelectionByFaceDownCardInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="23" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="17" Padding="0" Margin="8,0,8,0">
 
                     <Label
                         VerticalOptions="Center"                
@@ -274,18 +269,18 @@
 
                 <!-- Allow highlight of all cards in a selected set in a dealt card pile. -->
 
-                <Label Grid.Row="24" 
+                <Label Grid.Row="18" 
                     FontAttributes="Bold" 
                     Margin="8,20,0,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.HighlightSelectedCardSet}" />
 
-                <Label Grid.Row="25" 
+                <Label Grid.Row="19" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.HighlightSelectedCardSetInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="26" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="20" Padding="0" Margin="8,0,8,0">
 
                     <Label
                         VerticalOptions="Center"                
@@ -300,18 +295,18 @@
 
                 <!-- Merge all face-down cards into one visual item in a dealt card pile. -->
 
-                <Label Grid.Row="27" 
+                <Label Grid.Row="21" 
                     FontAttributes="Bold" 
                     Margin="8,20,0,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.MergeFaceDownCards}" />
 
-                <Label Grid.Row="28" 
+                <Label Grid.Row="22" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.MergeFaceDownCardsInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="29" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="23" Padding="0" Margin="8,0,8,0">
 
                     <Label
                         VerticalOptions="Center"                
@@ -326,18 +321,18 @@
 
                 <!-- Flip layout to be right-to-left rather than left-to-right. -->
 
-                <Label Grid.Row="30" 
+                <Label Grid.Row="24" 
                     FontAttributes="Bold" 
                     Margin="8,20,0,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.FlipGameLayoutHorizontally}" />
 
-                <Label Grid.Row="31" 
+                <Label Grid.Row="25" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.FlipGameLayoutHorizontallyInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="32" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="26" Padding="0" Margin="8,0,8,0">
 
                     <Label
                         VerticalOptions="Center"                
@@ -352,18 +347,18 @@
 
                 <!-- Extend top-most dealt cards hit-target area. -->
 
-                <Label Grid.Row="33" 
+                <Label Grid.Row="27" 
                     FontAttributes="Bold" 
                     Margin="8,20,0,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
                     Text="{x:Static resources:StringResources.ExtendDealtCardHitTarget}" />
 
-                <Label Grid.Row="34" 
+                <Label Grid.Row="28" 
                     Margin="8,0,8,0"
                     LineBreakMode="WordWrap"
                     Text="{x:Static resources:StringResources.ExtendDealtCardHitTargetInstructions}" />
 
-                <HorizontalStackLayout Grid.Row="35" Padding="0" Margin="8,0,8,0">
+                <HorizontalStackLayout Grid.Row="29" Padding="0" Margin="8,0,8,0">
 
                     <Label
                         VerticalOptions="Center"                
@@ -376,9 +371,91 @@
                         SemanticProperties.Hint="{x:Static resources:StringResources.ExtendDealtCardHitTargetInstructions}" />
                 </HorizontalStackLayout>
 
+                <!-- Suit Colours. -->
+
+                <Grid x:Name="SuitColoursSettingsGrid" Grid.Row="30">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" 
+                        FontAttributes="Bold" 
+                        Margin="8,20,0,0"
+                        FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                        Text="{x:Static resources:StringResources.SuitColours}" />
+
+                    <Label Grid.Row="1" 
+                       Margin="8,0,8,0"
+                       LineBreakMode="WordWrap"
+                       Text="{x:Static resources:StringResources.SuitColoursInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="2" Padding="0" Margin="8,0,8,0">
+
+                        <Label 
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.SuitColoursClubsPickerLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Picker x:Name="SuitColoursClubsPicker"
+                            Margin="0" WidthRequest="200"
+                            SemanticProperties.Description="{x:Static resources:StringResources.SuitColoursClubsPickerLabel}"
+                            SemanticProperties.Hint="{x:Static resources:StringResources.SuitColoursInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Grid.Row="3" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.SuitColoursDiamondsPickerLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Picker x:Name="SuitColoursDiamondsPicker"
+                            Margin="0" WidthRequest="200"
+                            SemanticProperties.Description="{x:Static resources:StringResources.SuitColoursDiamondsPickerLabel}"
+                            SemanticProperties.Hint="{x:Static resources:StringResources.SuitColoursInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Grid.Row="4" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.SuitColoursHeartsPickerLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Picker x:Name="SuitColoursHeartsPicker"
+                            Margin="0" WidthRequest="200"
+                            SemanticProperties.Description="{x:Static resources:StringResources.SuitColoursHeartsPickerLabel}"
+                            SemanticProperties.Hint="{x:Static resources:StringResources.SuitColoursInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Grid.Row="5" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.SuitColoursSpadesPickerLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Picker x:Name="SuitColoursSpadesPicker"
+                            Margin="0" WidthRequest="200"
+                            SemanticProperties.Description="{x:Static resources:StringResources.SuitColoursSpadesPickerLabel}"
+                            SemanticProperties.Hint="{x:Static resources:StringResources.SuitColoursInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                </Grid>
+                
                 <!-- Sounds. -->
 
-                <Grid x:Name="SoundsSettingsGrid" Grid.Row="36"
+                <Grid x:Name="SoundsSettingsGrid" Grid.Row="31"
                     IsVisible="False">
                     
                     <Grid.RowDefinitions>

@@ -7,9 +7,11 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="{x:Type local_views:CardPileCardSwitch}"
              Margin="0" Padding="0"
+             x:Name="CardPileCardSwitchInstance"
              x:Class="Sa11ytaire4All.Views.CardPileCardSwitch">
     
     <ContentView.Resources>
+        <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
         <local_views:IsToggledToMarginConverter x:Key="IsToggledToMarginConverter" />
         <local_views:IsToggledToBackgroundColorConverter x:Key="IsToggledToBackgroundColorConverter" />
@@ -67,7 +69,7 @@
                 InputTransparent="True"
                 Margin="0" Padding="0">
 
-                <Image
+                <Image x:Name="TintedCardImage"
                     Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
                     AutomationProperties.IsInAccessibleTree="False"
                     BackgroundColor="{Binding Card, Mode=OneWay, 
@@ -81,6 +83,34 @@
                     Aspect="Fill"
                     Source="{Binding CardPileImage, Mode=OneWay, 
                         Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
+
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior
+                            BindingContext="{Binding Path=BindingContext, 
+                                Source={x:Reference TintedCardImage}}">
+
+                            <toolkit:IconTintColorBehavior.TintColor>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource SuitSuitColoursToColor}">
+                                    <Binding Path="Card" />
+                                    <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursClubs" />
+                                    <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursDiamonds" />
+                                    <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursHearts" />
+                                    <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursSpades" />
+                                </MultiBinding>
+                            </toolkit:IconTintColorBehavior.TintColor>
+
+                        </toolkit:IconTintColorBehavior>
+                    </Image.Behaviors>
+
                 </Image>
 
             </Border>
@@ -117,6 +147,32 @@
             Aspect="Fill"
             Source="{Binding PictureCardPileImage, Mode=OneWay,
                 Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
+            <Image.Behaviors>
+                <toolkit:IconTintColorBehavior
+                                    BindingContext="{Binding Path=BindingContext, 
+                                        Source={x:Reference TintedCardImage}}">
+
+                    <toolkit:IconTintColorBehavior.TintColor>
+                        <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource SuitSuitColoursToColor}">
+                            <Binding Path="Card" />
+                            <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursClubs" />
+                            <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursDiamonds" />
+                            <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursHearts" />
+                            <Binding 
+                                        Source="{x:Reference CardPileCardSwitchInstance}"
+                                        Path="SuitColoursSpades" />
+                        </MultiBinding>
+                    </toolkit:IconTintColorBehavior.TintColor>
+
+                </toolkit:IconTintColorBehavior>
+            </Image.Behaviors>
         </Image>
 
         <Border Margin="0" Padding="0" 

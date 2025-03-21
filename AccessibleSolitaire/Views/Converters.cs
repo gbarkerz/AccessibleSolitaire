@@ -12,6 +12,62 @@ namespace Sa11ytaire4All.Views
     // device. At some point, replace these unusual converters with whatever the
     // correct way of setting orientation-specific properties is.
 
+    public class SuitSuitColoursToColor : IMultiValueConverter
+    {
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null || (values.Length < 5))
+            {
+                return null;
+            }
+
+            if (values[0] == null)
+            {
+                // No Card supplied.
+                return null;
+            }
+
+            if ((values[1] == null) || (values[2] == null) ||
+                (values[3] == null) || (values[4] == null))
+            {
+                return null;
+            }
+
+            var card = (Card)values[0];
+            var suit = card.Suit;
+
+            Color? suitColor;
+
+            switch (suit)
+            {
+                case Suit.Clubs:
+                    suitColor = (Color)values[1];
+                    break;
+
+                case Suit.Diamonds:
+                    suitColor = (Color)values[2];
+                    break;
+
+                case Suit.Hearts:
+                    suitColor = (Color)values[3];
+                    break;
+
+                default: // Suit.Spades:
+                    suitColor = (Color)values[4];
+                    break;
+            }
+
+
+            return suitColor;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
     public class CardWidthToDealtCardPileCollectionViewWidthConverter : IMultiValueConverter
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

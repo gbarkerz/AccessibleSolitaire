@@ -4,6 +4,7 @@
                xmlns:resources="clr-namespace:Sa11ytaire4All"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                Color="Transparent"
+               x:Name="CardPopupInstance"
                x:Class="Sa11ytaire4All.Views.CardPopup">
 
     <!-- Barker: In an attempt to use some compiled binding, I added the following to the Popup XAML above. 
@@ -13,6 +14,7 @@
     <!--x:DataType="{x:Type local_views:CardPopup}"-->
 
     <toolkit:Popup.Resources>
+        <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToCardPopupAccessibleName x:Key="CardToCardPopupAccessibleName" />
         <local_views:CardToCardImageConverter x:Key="CardToCardImageConverter" />
         <local_views:PictureCardToCardImageConverter x:Key="PictureCardToCardImageConverter" />
@@ -36,10 +38,42 @@
 
         <!-- Note: This accessibility is set based on the Android TalkBack experience, NOT the earlier Samsung "Screen Reader". -->
 
-        <Image Grid.ColumnSpan="2"
+        <Image Grid.ColumnSpan="2" x:Name="TintedCardImage"
             SemanticProperties.Description="{Binding ., Mode=OneWay, Converter={StaticResource CardToCardPopupAccessibleName}}"
             BackgroundColor="Transparent"
-            Source="{Binding ., Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}" />
+            Source="{Binding ., Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}">
+
+            <!-- IconTintBehavior doesn't seem to work with an Image in a Popup. -->
+            <!--<Image.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="Cyan">
+                    BindingContext="{Binding Path=BindingContext, 
+                        Source={x:Reference TintedCardImage}}">
+
+                    <toolkit:IconTintColorBehavior.TintColor>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource SuitSuitColoursToColor}">
+                            <Binding 
+                                Source="{x:Reference CardPopupInstance}"
+                                Path="Card" />
+                            <Binding 
+                                Source="{x:Reference CardPopupInstance}"
+                                Path="SuitColoursClubs" />
+                            <Binding 
+                                Source="{x:Reference CardPopupInstance}"
+                                Path="SuitColoursDiamonds" />
+                            <Binding 
+                                Source="{x:Reference CardPopupInstance}"
+                                Path="SuitColoursHearts" />
+                            <Binding 
+                                Source="{x:Reference CardPopupInstance}"
+                                Path="SuitColoursSpades" />
+                        </MultiBinding>
+                    </toolkit:IconTintColorBehavior.TintColor>
+
+                </toolkit:IconTintColorBehavior>
+            </Image.Behaviors>-->
+            
+        </Image>
 
         <Button Grid.Column="1" Grid.Row="1"
             TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"

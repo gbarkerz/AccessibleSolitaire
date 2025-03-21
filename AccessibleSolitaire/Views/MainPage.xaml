@@ -11,7 +11,6 @@
              x:Name="MainPageInstance"
              x:Class="Sa11ytaire4All.MainPage">
 
-
     <!-- Layout note: To adjust the layout for Landscape and for Portrait, code-behind sets various
         properties (including grid and row details) when the UI is initialised. Some work is also 
         done in a variety of converters based on orientation, but it seems likely that this will be 
@@ -19,6 +18,7 @@
 
     <ContentPage.Resources>
 
+        <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
         <local_views:ConverterForCardImageHorizontalVerticalOptions x:Key="ConverterForCardImageHorizontalVerticalOptions" />
         <local_views:ConverterForCollectionViewHorizontalVerticalOptions x:Key="ConverterForCollectionViewHorizontalVerticalOptions" />
@@ -251,13 +251,44 @@
                             </Label.IsVisible>
                         </Label>
 
-                        <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="CardImage"
+                        <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="TintedCardImage"
                             AutomationProperties.IsInAccessibleTree="False"
                             Margin="0"
                             Aspect="Fill" 
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
                             Source="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}">
-                            
+
+                            <Image.Behaviors>
+
+                                <toolkit:IconTintColorBehavior
+                                    BindingContext="{Binding Path=BindingContext, 
+                                        Source={x:Reference TintedCardImage}}">
+                                    
+                                    <toolkit:IconTintColorBehavior.TintColor>
+                                        <MultiBinding Mode="OneWay" 
+                                            Converter="{StaticResource SuitSuitColoursToColor}">
+
+                                            <!-- *** This works in debug, but get nulled in release. *** -->
+                                            <Binding Path="Card" />
+                                            
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursClubs" />
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursDiamonds" />
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursHearts" />
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursSpades" />
+                                        </MultiBinding>
+                                    </toolkit:IconTintColorBehavior.TintColor>
+                                    
+                                </toolkit:IconTintColorBehavior>
+                            </Image.Behaviors>
+
                             <!-- Layout note: All dealt cards need to have explicit sizes set to ensure that the 
                                 appropriate portion and aspect ratio of the card image is shown regardless of 
                                 whether the card is fully shown or partially obscurred. Also here the width 
@@ -326,6 +357,32 @@
                             Aspect="Fill" 
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
                             Source="{Binding Card, Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}">
+                            <!--<Image.Behaviors>
+                                <toolkit:IconTintColorBehavior
+                                    BindingContext="{Binding Path=BindingContext, 
+                                        Source={x:Reference TintedCardImage}}">
+
+                                    <toolkit:IconTintColorBehavior.TintColor>
+                                        <MultiBinding Mode="OneWay" 
+                                            Converter="{StaticResource SuitSuitColoursToColor}">
+                                            <Binding Path="Card" />
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursClubs" />
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursDiamonds" />
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursHearts" />
+                                            <Binding Source="{x:Reference MainPageInstance}" 
+                                                x:DataType="{x:Type local:MainPage}"
+                                                Path="BindingContext.SuitColoursSpades" />
+                                        </MultiBinding>
+                                    </toolkit:IconTintColorBehavior.TintColor>
+
+                                </toolkit:IconTintColorBehavior>
+                            </Image.Behaviors>-->
                             <Image.WidthRequest>
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
@@ -619,6 +676,22 @@
                                         Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                     Padding="0"
+                                    SuitColoursClubs="{Binding
+                                        Path=SuitColoursClubs, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursDiamonds="{Binding
+                                        Path=SuitColoursDiamonds, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursHearts="{Binding
+                                        Path=SuitColoursHearts, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursSpades="{Binding
+                                        Path=SuitColoursSpades, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
                                     Margin="{Binding 
                                         Path=CardWidth, Mode=OneWay,
                                         Source={RelativeSource Mode=FindAncestorBindingContext, 
@@ -634,6 +707,22 @@
                                         Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                     Padding="0"
+                                    SuitColoursClubs="{Binding
+                                        Path=SuitColoursClubs, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursDiamonds="{Binding
+                                        Path=SuitColoursDiamonds, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursHearts="{Binding
+                                        Path=SuitColoursHearts, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursSpades="{Binding
+                                        Path=SuitColoursSpades, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
                                     Margin="{Binding 
                                         Path=CardWidth, Mode=OneWay,
                                         Source={RelativeSource Mode=FindAncestorBindingContext, 
@@ -648,6 +737,22 @@
                                         Source={RelativeSource Self}, 
                                         x:DataType={x:Type local_views:CardPileCardSwitch},
                                         Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                    SuitColoursClubs="{Binding
+                                        Path=SuitColoursClubs, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursDiamonds="{Binding
+                                        Path=SuitColoursDiamonds, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursHearts="{Binding
+                                        Path=SuitColoursHearts, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursSpades="{Binding
+                                        Path=SuitColoursSpades, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
 
                             </Grid>
@@ -676,24 +781,88 @@
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="8,0,2,0" Padding="0"
+                                    SuitColoursClubs="{Binding
+                                        Path=SuitColoursClubs, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursDiamonds="{Binding
+                                        Path=SuitColoursDiamonds, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursHearts="{Binding
+                                        Path=SuitColoursHearts, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursSpades="{Binding
+                                        Path=SuitColoursSpades, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
                             x:Name="TargetPileC" AutomationId="TargetPileC" />
 
                         <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,2,0" Padding="0"
+                                    SuitColoursClubs="{Binding
+                                        Path=SuitColoursClubs, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursDiamonds="{Binding
+                                        Path=SuitColoursDiamonds, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursHearts="{Binding
+                                        Path=SuitColoursHearts, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursSpades="{Binding
+                                        Path=SuitColoursSpades, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
                             x:Name="TargetPileD" AutomationId="TargetPileD" />
 
                         <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,2,0" Padding="0"
+                                    SuitColoursClubs="{Binding
+                                        Path=SuitColoursClubs, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursDiamonds="{Binding
+                                        Path=SuitColoursDiamonds, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursHearts="{Binding
+                                        Path=SuitColoursHearts, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursSpades="{Binding
+                                        Path=SuitColoursSpades, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
                             x:Name="TargetPileH" AutomationId="TargetPileH" />
 
                         <local_views:CardPileCardSwitch Grid.Column="3" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,8,0" Padding="0"
+                                    SuitColoursClubs="{Binding
+                                        Path=SuitColoursClubs, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursDiamonds="{Binding
+                                        Path=SuitColoursDiamonds, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursHearts="{Binding
+                                        Path=SuitColoursHearts, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
+                                    SuitColoursSpades="{Binding
+                                        Path=SuitColoursSpades, Mode=OneWay,
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type vm:DealtCardViewModel}}}"
                             x:Name="TargetPileS" AutomationId="TargetPileS" />
 
                     </Grid>

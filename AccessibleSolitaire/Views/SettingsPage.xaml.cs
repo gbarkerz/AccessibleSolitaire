@@ -1,9 +1,12 @@
 
+using Microsoft.Maui.Graphics.Converters;
+
 namespace Sa11ytaire4All.Views;
 
 public partial class SettingsPage : ContentPage
 {
-	public SettingsPage()
+
+    public SettingsPage()
 	{
 		InitializeComponent();
 
@@ -11,13 +14,39 @@ public partial class SettingsPage : ContentPage
         SoundsSettingsGrid.IsVisible = true;
 #endif
 
-        for (int i = 100; i <= 400; i += 25)
+        //for (int i = 100; i <= 400; i += 25)
+        //{
+        //    ZoomPicker.Items.Add(i.ToString() + "%");
+        //}
+
+        //var currentZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
+        //ZoomPicker.SelectedItem = currentZoomLevel.ToString() + "%";
+
+        var pickers = new Picker[]{ 
+            SuitColoursClubsPicker,
+            SuitColoursDiamondsPicker,
+            SuitColoursHeartsPicker,
+            SuitColoursSpadesPicker};
+
+        foreach (var picker in pickers)
         {
-            ZoomPicker.Items.Add(i.ToString() + "%");
+            foreach (var colourName in MainPage.suitColours.Keys)
+            {
+                picker.Items.Add(colourName);
+            }
         }
 
-        var currentZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
-        ZoomPicker.SelectedItem = currentZoomLevel.ToString() + "%";
+        var currentColour = (string)Preferences.Get("SuitColoursClubs", "Black");
+        SuitColoursClubsPicker.SelectedItem = currentColour;
+
+        currentColour = (string)Preferences.Get("SuitColoursDiamonds", "Red");
+        SuitColoursDiamondsPicker.SelectedItem = currentColour;
+
+        currentColour = (string)Preferences.Get("SuitColoursHearts", "Red");
+        SuitColoursHeartsPicker.SelectedItem = currentColour;
+
+        currentColour = (string)Preferences.Get("SuitColoursSpades", "Black");
+        SuitColoursSpadesPicker.SelectedItem = currentColour;
 
         var showRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
         ShowRankSuitLargeSwitch.IsToggled = showRankSuitLarge;
@@ -25,8 +54,8 @@ public partial class SettingsPage : ContentPage
         var showZoomCardButton = (bool)Preferences.Get("ShowZoomCardButton", false);
         ShowZoomCardButtonSwitch.IsToggled = showZoomCardButton;
 
-        var cardBrightness = (int)Preferences.Get("CardBrightness", 100);
-        CardBrightnessSlider.Value = cardBrightness;
+        //var cardBrightness = (int)Preferences.Get("CardBrightness", 100);
+        //CardBrightnessSlider.Value = cardBrightness;
 
         var showAnnouncementButton = (bool)Preferences.Get("ShowStateAnnouncementButton", false);
         ShowStateAnnouncementButtonCheckbox.IsToggled = showAnnouncementButton;
@@ -73,20 +102,44 @@ public partial class SettingsPage : ContentPage
 
     private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        if (ZoomPicker != null)
-        {
-            var selectedItem = ZoomPicker.SelectedItem;
-            if (selectedItem != null)
-            {
-                var selectionString = selectedItem.ToString();
-                if (selectionString != null)
-                {
-                    var newZoomLevelString = selectionString.Replace("%", "");
-                    var newZoomLevel = int.Parse(newZoomLevelString);
+        //if (ZoomPicker != null)
+        //{
+        //    var selectedItem = ZoomPicker.SelectedItem;
+        //    if (selectedItem != null)
+        //    {
+        //        var selectionString = selectedItem.ToString();
+        //        if (selectionString != null)
+        //        {
+        //            var newZoomLevelString = selectionString.Replace("%", "");
+        //            var newZoomLevel = int.Parse(newZoomLevelString);
 
-                    Preferences.Set("ZoomLevel", newZoomLevel);
-                }
-            }
+        //            Preferences.Set("ZoomLevel", newZoomLevel);
+        //        }
+        //    }
+        //}
+
+        var selectedColourItem = SuitColoursClubsPicker.SelectedItem as string;
+        if (selectedColourItem != null)
+        {
+            Preferences.Set("SuitColoursClubs", selectedColourItem);
+        }
+
+        selectedColourItem = SuitColoursDiamondsPicker.SelectedItem as string;
+        if (selectedColourItem != null)
+        {
+            Preferences.Set("SuitColoursDiamonds", selectedColourItem);
+        }
+
+        selectedColourItem = SuitColoursHeartsPicker.SelectedItem as string;
+        if (selectedColourItem != null)
+        {
+            Preferences.Set("SuitColoursHearts", selectedColourItem);
+        }
+
+        selectedColourItem = SuitColoursSpadesPicker.SelectedItem as string;
+        if (selectedColourItem != null)
+        {
+            Preferences.Set("SuitColoursSpades", selectedColourItem);
         }
 
         var showRankSuitLarge = ShowRankSuitLargeSwitch.IsToggled;
@@ -95,8 +148,8 @@ public partial class SettingsPage : ContentPage
         var showZoomCardButton = ShowZoomCardButtonSwitch.IsToggled;
         Preferences.Set("ShowZoomCardButton", showZoomCardButton);
 
-        var cardBrightnessValue = (int)CardBrightnessSlider.Value;
-        Preferences.Set("CardBrightness", cardBrightnessValue);
+        //var cardBrightnessValue = (int)CardBrightnessSlider.Value;
+        //Preferences.Set("CardBrightness", cardBrightnessValue);
 
         var showStateAnnouncementButton = ShowStateAnnouncementButtonCheckbox.IsToggled;
         Preferences.Set("ShowStateAnnouncementButton", showStateAnnouncementButton);

@@ -356,6 +356,62 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
+    public static readonly BindableProperty SuitColoursClubsProperty =
+        BindableProperty.Create(nameof(SuitColoursClubs), typeof(Color), typeof(CardPileCardSwitch));
+
+    public Color SuitColoursClubs
+    {
+        get => (Color)GetValue(SuitColoursClubsProperty);
+        set
+        {
+            SetValue(SuitColoursClubsProperty, value);
+
+            this.OnPropertyChanged("SuitColoursClubs");
+        }
+    }
+
+    public static readonly BindableProperty SuitColoursDiamondsProperty =
+        BindableProperty.Create(nameof(SuitColoursDiamonds), typeof(Color), typeof(CardPileCardSwitch));
+
+    public Color SuitColoursDiamonds
+    {
+        get => (Color)GetValue(SuitColoursDiamondsProperty);
+        set
+        {
+            SetValue(SuitColoursDiamondsProperty, value);
+
+            this.OnPropertyChanged("SuitColoursDiamonds");
+        }
+    }
+
+    public static readonly BindableProperty SuitColoursHeartsProperty =
+        BindableProperty.Create(nameof(SuitColoursHearts), typeof(Color), typeof(CardPileCardSwitch));
+
+    public Color SuitColoursHearts
+    {
+        get => (Color)GetValue(SuitColoursHeartsProperty);
+        set
+        {
+            SetValue(SuitColoursHeartsProperty, value);
+
+            this.OnPropertyChanged("SuitColoursHearts");
+        }
+    }
+
+    public static readonly BindableProperty SuitColoursSpadesProperty =
+        BindableProperty.Create(nameof(SuitColoursSpades), typeof(Color), typeof(CardPileCardSwitch));
+
+    public Color SuitColoursSpades
+    {
+        get => (Color)GetValue(SuitColoursSpadesProperty);
+        set
+        {
+            SetValue(SuitColoursSpadesProperty, value);
+
+            this.OnPropertyChanged("SuitColoursSpades");
+        }
+    }
+
     public bool IsCardSwitchToggled()
     {
         var cardSwitch = this.FindByName("CardSwitch") as Switch;

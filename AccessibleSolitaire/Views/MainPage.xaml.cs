@@ -1,9 +1,11 @@
-﻿using CommunityToolkit.Maui.Views;
+﻿using Android.Content;
+using CommunityToolkit.Maui.Views;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using static Android.Icu.Text.CaseMap;
 using Switch = Microsoft.Maui.Controls.Switch;
 
 // Important note on input:
@@ -62,17 +64,34 @@ namespace Sa11ytaire4All
 
         private MediaElement mainMediaElement;
 
+        static public Dictionary<string, Color> suitColours;
+
+        static public Color SuitColorsClubs;
+        static public Color SuitColorsDiamonds;
+        static public Color SuitColorsHearts;
+        static public Color SuitColorsSpades;
+
         public MainPage()
         {
             MainPage.MainPageSingleton = this;
 
             this.BindingContext = new DealtCardViewModel();
 
+            suitColours = new Dictionary<string, Color>();
+            suitColours.Add("Black", Colors.Black);
+            suitColours.Add("Red", Colors.Red);
+            suitColours.Add("Green", Colors.Green);
+            suitColours.Add("Blue", Colors.Blue);
+            suitColours.Add("Slate", Colors.DarkSlateGrey);
+            suitColours.Add("Purple", Colors.Purple);
+            suitColours.Add("Brown", Colors.Brown);
+            suitColours.Add("Gold", Color.FromArgb("#FF957410"));
+
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
                 vm.ZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
-
+                
                 vm.CardBrightness = (int)Preferences.Get("CardBrightness", 100);
 
                 vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
@@ -183,9 +202,13 @@ namespace Sa11ytaire4All
 
             if (showPopup)
             {
-                var popup = new CardPopup(card);
+                var vm = this.BindingContext as DealtCardViewModel;
+                if (vm != null)
+                {
+                    var popup = new CardPopup(card, vm);
 
-                this.ShowPopup(popup);
+                    this.ShowPopup(popup);
+                }
             }
         }
 
@@ -358,6 +381,47 @@ namespace Sa11ytaire4All
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
+                try
+                {
+                    var suitColourNameClubs = (string)Preferences.Get("SuitColoursClubs", "Black");
+                    vm.SuitColoursClubs = suitColours[suitColourNameClubs];
+
+                    var suitColourNameDiamonds = (string)Preferences.Get("SuitColoursDiamonds", "Red");
+                    vm.SuitColoursDiamonds = suitColours[suitColourNameDiamonds];
+
+                    var suitColourNameHearts = (string)Preferences.Get("SuitColoursHearts", "Red");
+                    vm.SuitColoursHearts = suitColours[suitColourNameHearts];
+
+                    var suitColourNameSpades = (string)Preferences.Get("SuitColoursSpades", "Black");
+                    vm.SuitColoursSpades = suitColours[suitColourNameSpades];
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("MainPage Attempt to handle suit colours: " + ex.Message);
+
+                    vm.SuitColoursClubs = Colors.Black;
+                    vm.SuitColoursDiamonds = Colors.Red;
+                    vm.SuitColoursHearts = Colors.Red;
+                    vm.SuitColoursSpades = Colors.Black;
+                }
+                var refreshSuitColours = false;
+
+                //DisplayAlert("GBTest", "More cheese Gromit?", "OK");
+
+
+                if ((MainPage.SuitColorsClubs != vm.SuitColoursClubs) ||
+                    (MainPage.SuitColorsDiamonds != vm.SuitColoursDiamonds) ||
+                    (MainPage.SuitColorsHearts != vm.SuitColoursHearts) ||
+                    (MainPage.SuitColorsSpades != vm.SuitColoursSpades))
+                {
+                    refreshSuitColours = true;
+
+                    MainPage.SuitColorsClubs = vm.SuitColoursClubs;
+                    MainPage.SuitColorsDiamonds = vm.SuitColoursDiamonds;
+                    MainPage.SuitColorsHearts = vm.SuitColoursHearts;
+                    MainPage.SuitColorsSpades = vm.SuitColoursSpades;
+                }
+
                 var showZoomCardButton = (bool)Preferences.Get("ShowZoomCardButton", false);
                 vm.ShowZoomCardButton = showZoomCardButton;
 
@@ -367,7 +431,7 @@ namespace Sa11ytaire4All
                 MainPage.ShowRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
 
                 // Refresh the visuals on all cards if necessary.
-                if (MainPage.ShowRankSuitLarge != previousShowRankSuitLarge)
+                if (refreshSuitColours || (MainPage.ShowRankSuitLarge != previousShowRankSuitLarge))
                 {
                     // Refresh all the face-up cards to show the required visuals.
                     for (int i = 0; i < cCardPiles; i++)
@@ -375,6 +439,8 @@ namespace Sa11ytaire4All
                         for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                         {
                             var pileCard = vm.DealtCards[i][j];
+
+                            //DisplayAlert("GBTest", "RefreshVisuals", "OK");
 
                             pileCard.RefreshVisuals();
                         }
@@ -892,8 +958,13 @@ namespace Sa11ytaire4All
             Debug.WriteLine("State announcement: " + fullAnnouncement);
         }
 
-        private void MakeDelayedScreenReaderAnnouncement(string announcement)
+        private void MakeDelayedScreenReaderAnnouncement(string? announcement)
         {
+            if (announcement == null)
+            {
+                return;
+            }
+            
             if (timerDelayScreenReaderAnnouncement == null)
             {
                 timerDelayScreenReaderAnnouncement = new Timer(
@@ -1075,9 +1146,13 @@ namespace Sa11ytaire4All
                 var dealtCard = imageButton.BindingContext as DealtCard;
                 if (dealtCard != null)
                 {
-                    var popup = new CardPopup(dealtCard.Card);
+                    var vm = this.BindingContext as DealtCardViewModel;
+                    if (vm != null)
+                    {
+                        var popup = new CardPopup(dealtCard.Card, vm);
 
-                    this.ShowPopup(popup);
+                        this.ShowPopup(popup);
+                    }
                 }
             }
         }
