@@ -67,19 +67,18 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-
     public class CardWidthToDealtCardPileCollectionViewWidthConverter : IMultiValueConverter
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values == null || (values.Length < 2))
             {
-                return null;
+                return 0;
             }
 
             if ((values[0] == null) || (values[1] == null))
             {
-                return null;
+                return 0;
             }
 
             var cardWidth = (double)values[0];
@@ -104,28 +103,16 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || (values.Length < 3))
             {
-                return null;
+                return 0;
             }
 
-            if (values[0] == null)
+            if ((values[0] == null) || (values[1] == null) || (values[2] == null))
             {
-                return null;
+                return 0;
             }
 
             var cardHeight = (double)values[0];
-
-            if (values[1] == null)
-            {
-                return null;
-            }
-
             var zoomLevel = (int)values[1];
-
-            if (values[2] == null)
-            {
-                return null;
-            }
-
             var scrollViewHeight = (double)values[2];
 
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
@@ -152,12 +139,12 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || (values.Length < 3))
             {
-                return null;
+                return LayoutOptions.Start;
             }
 
             if ((values[0] == null) || (values[1] == null) || (values[2] == null))
             {
-                return null;
+                return LayoutOptions.Start;
             }
 
             var IsLastCardInPile = (bool)values[0];
@@ -335,7 +322,7 @@ namespace Sa11ytaire4All.Views
         {
             if (DeviceDisplay.Current.MainDisplayInfo.Orientation != DisplayOrientation.Portrait)
             {
-                return null;
+                return 0;
             }
 
             if (value == null)
@@ -452,12 +439,12 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || (values.Length < 2))
             {
-                return null;
+                return 0;
             }
 
             if ((values[0] == null) || (values[1] == null))
             {
-                return null;
+                return 0;
             }
 
             var cardSelected = (bool)values[0];
@@ -481,12 +468,12 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || (values.Length < 2))
             {
-                return null;
+                return 0;
             }
 
             if ((values[0] == null) || (values[1] == null))
             {
-                return null;
+                return 0;
             }
 
             var cardSelected = (bool)values[0];
@@ -692,7 +679,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return new Thickness();
             }
 
             var cardWidth = (double)value;
@@ -817,7 +804,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return 0;
             }
 
             // The label's font size must never be more than the card height.
@@ -825,7 +812,7 @@ namespace Sa11ytaire4All.Views
 
             if (cardHeight <= 0)
             {
-                return null;
+                return 0;
             }
 
             return (cardHeight / 6) - 1;
@@ -863,12 +850,12 @@ namespace Sa11ytaire4All.Views
         {
             if (Application.Current == null)
             {
-                return null;
+                return Colors.Transparent;
             }
 
             if (value == null)
             {
-                return null;
+                return Colors.Transparent;
             }
 
             var isFaceDown = (bool)value;
@@ -919,27 +906,23 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || (values.Length < 2))
             {
-                return null;
+                return Colors.Transparent;
             }
 
             if ((values[0] == null) || (values[1] == null))
             {
-                return null;
+                return Colors.Transparent;
             }
 
             var inSelectedSet = (bool)values[0];
             var highlightSelectedCardSet = (bool)values[1];
 
-            //Brush? brush = null;
-            Color? color = null;
+            Color? color = Colors.Transparent;
             
             if (Application.Current != null)
             {
                 if (highlightSelectedCardSet && inSelectedSet)
                 {
-                    //brush = (Application.Current.RequestedTheme != AppTheme.Dark ? 
-                    //            inSelectedSetLightBrush : inSelectedSetDarkBrush);
-
                     color = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                 inSelectedSetLightColor : inSelectedSetDarkColor);
                 }
@@ -949,7 +932,6 @@ namespace Sa11ytaire4All.Views
                 }
             }
 
-            //return brush;
             return color;
         }
 
@@ -1006,7 +988,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return false;
             }
 
             bool isEmpty = (bool)value;
@@ -1027,7 +1009,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return new Thickness();
             }
 
             var isToggled = (bool)value;
@@ -1068,7 +1050,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return 0;
             }
 
             var cardHeight = (double)value;
@@ -1088,7 +1070,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return 0;
             }
 
             var cardWidth = (double)value;
@@ -1108,7 +1090,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return 0;
             }
 
             var cardWidth = (double)value;
@@ -1128,7 +1110,7 @@ namespace Sa11ytaire4All.Views
         {
             if (value == null)
             {
-                return null;
+                return 0;
             }
 
             var cardHeight = (double)value;
@@ -1431,28 +1413,16 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || values.Length < 2)
             {
-                return null;
+                return false;
             }
 
-            if (values[0] == null)
+            if ((values[0] == null) || (values[1] == null) || (values[2] == null))
             {
-                return null;
+                return false;
             }
 
             var faceDown = (bool)values[0];
-
-            if (values[1] == null)
-            {
-                return null;
-            }
-
             var currentCardIndexInDealtCardPile = (int)values[1];
-
-            if (values[2] == null)
-            {
-                return null;
-            }
-
             var mergeFaceDownCards = (bool)values[2];
 
             return (mergeFaceDownCards && faceDown && (currentCardIndexInDealtCardPile == 0));
@@ -1528,47 +1498,24 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || values.Length < 5)
             {
-                return null;
+                return 0;
             }
 
-            if (values[0] == null)
+            if ((values[0] == null) || (values[1] == null) || (values[2] == null) ||
+                (values[3] == null) || (values[4] == null))
             {
-                return null;
+                return 0;
             }
 
             var isLastCardInPile = (bool)values[0];
-
-            if (values[1] == null)
-            {
-                return null;
-            }
-
             var faceDown = (bool)values[1];
-
-            if (values[2] == null)
-            {
-                return null;
-            }
-
             var currentCardIndexInDealtCardPile = (int)values[2];
-
-            if (values[3] == null)
-            {
-                return null;
-            }
-
             var mergeFaceDownCards = (bool)values[3];
-
-            if (values[4] == null)
-            {
-                return null;
-            }
-
             var cardHeight = (double)values[4];
 
             if (cardHeight <= 0)
             {
-                return null;
+                return 0;
             }
 
             var height = (double)cardHeight;
@@ -1640,14 +1587,14 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || values.Length < 9)
             {
-                return null;
+                return 0;
             }
 
             if ((values[0] == null) || (values[1] == null) || (values[2] == null) ||
                 (values[3] == null) || (values[4] == null) || (values[5] == null) ||
                 (values[6] == null) || (values[7] == null) || (values[8] == null))
             {
-                return null;
+                return 0;
             }
 
             var isLastCardInPile = (bool)values[0];
@@ -1665,13 +1612,13 @@ namespace Sa11ytaire4All.Views
                 (mainPageBindingContext == null) ||
                 (currentDealtCardPileIndex < 0) || (currentDealtCardPileIndex > 6))
             {
-                return null;
+                return 0;
             }
 
             var vm = mainPageBindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
-                return null;
+                return 0;
             }
 
             var itemsSource = vm.DealtCards[currentDealtCardPileIndex];
@@ -1799,26 +1746,15 @@ namespace Sa11ytaire4All.Views
         {
             if (values == null || values.Length < 2)
             {
-                return null;
+                return new Thickness(0);
             }
 
-            if (values[0] == null)
+            if ((values[0] == null) || (values[1] == null))
             {
-                return null;
+                return new Thickness(0);
             }
 
             var cardHeight = (double)values[0];
-
-            if (cardHeight <= 0)
-            {
-                return null;
-            }
-
-            if (values[1] == null)
-            {
-                return null;
-            }
-
             var zoomLevel = (int)values[1];
 
             var padding = new Thickness(0);
