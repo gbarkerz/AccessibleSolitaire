@@ -38,42 +38,10 @@
 
         <!-- Note: This accessibility is set based on the Android TalkBack experience, NOT the earlier Samsung "Screen Reader". -->
 
-        <Image Grid.ColumnSpan="2" x:Name="TintedCardImage"
+        <Image Grid.ColumnSpan="2"
             SemanticProperties.Description="{Binding ., Mode=OneWay, Converter={StaticResource CardToCardPopupAccessibleName}}"
             BackgroundColor="Transparent"
-            Source="{Binding ., Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}">
-
-            <!-- IconTintBehavior doesn't seem to work with an Image in a Popup. -->
-            <!--<Image.Behaviors>
-                <toolkit:IconTintColorBehavior TintColor="Cyan">
-                    BindingContext="{Binding Path=BindingContext, 
-                        Source={x:Reference TintedCardImage}}">
-
-                    <toolkit:IconTintColorBehavior.TintColor>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource SuitSuitColoursToColor}">
-                            <Binding 
-                                Source="{x:Reference CardPopupInstance}"
-                                Path="Card" />
-                            <Binding 
-                                Source="{x:Reference CardPopupInstance}"
-                                Path="SuitColoursClubs" />
-                            <Binding 
-                                Source="{x:Reference CardPopupInstance}"
-                                Path="SuitColoursDiamonds" />
-                            <Binding 
-                                Source="{x:Reference CardPopupInstance}"
-                                Path="SuitColoursHearts" />
-                            <Binding 
-                                Source="{x:Reference CardPopupInstance}"
-                                Path="SuitColoursSpades" />
-                        </MultiBinding>
-                    </toolkit:IconTintColorBehavior.TintColor>
-
-                </toolkit:IconTintColorBehavior>
-            </Image.Behaviors>-->
-            
-        </Image>
+            Source="{Binding ., Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}" />
 
         <Button Grid.Column="1" Grid.Row="1"
             TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"

@@ -1,11 +1,9 @@
-﻿using Android.Content;
-using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Views;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using static Android.Icu.Text.CaseMap;
 using Switch = Microsoft.Maui.Controls.Switch;
 
 // Important note on input:
@@ -65,11 +63,6 @@ namespace Sa11ytaire4All
         private MediaElement mainMediaElement;
 
         static public Dictionary<string, Color> suitColours;
-
-        static public Color SuitColorsClubs;
-        static public Color SuitColorsDiamonds;
-        static public Color SuitColorsHearts;
-        static public Color SuitColorsSpades;
 
         public MainPage()
         {
@@ -404,23 +397,6 @@ namespace Sa11ytaire4All
                     vm.SuitColoursHearts = Colors.Red;
                     vm.SuitColoursSpades = Colors.Black;
                 }
-                var refreshSuitColours = false;
-
-                //DisplayAlert("GBTest", "More cheese Gromit?", "OK");
-
-
-                if ((MainPage.SuitColorsClubs != vm.SuitColoursClubs) ||
-                    (MainPage.SuitColorsDiamonds != vm.SuitColoursDiamonds) ||
-                    (MainPage.SuitColorsHearts != vm.SuitColoursHearts) ||
-                    (MainPage.SuitColorsSpades != vm.SuitColoursSpades))
-                {
-                    refreshSuitColours = true;
-
-                    MainPage.SuitColorsClubs = vm.SuitColoursClubs;
-                    MainPage.SuitColorsDiamonds = vm.SuitColoursDiamonds;
-                    MainPage.SuitColorsHearts = vm.SuitColoursHearts;
-                    MainPage.SuitColorsSpades = vm.SuitColoursSpades;
-                }
 
                 var showZoomCardButton = (bool)Preferences.Get("ShowZoomCardButton", false);
                 vm.ShowZoomCardButton = showZoomCardButton;
@@ -431,7 +407,7 @@ namespace Sa11ytaire4All
                 MainPage.ShowRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
 
                 // Refresh the visuals on all cards if necessary.
-                if (refreshSuitColours || (MainPage.ShowRankSuitLarge != previousShowRankSuitLarge))
+                if (MainPage.ShowRankSuitLarge != previousShowRankSuitLarge)
                 {
                     // Refresh all the face-up cards to show the required visuals.
                     for (int i = 0; i < cCardPiles; i++)

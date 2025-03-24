@@ -69,7 +69,7 @@
                 InputTransparent="True"
                 Margin="0" Padding="0">
 
-                <Image x:Name="TintedCardImage"
+                <Image
                     Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
                     AutomationProperties.IsInAccessibleTree="False"
                     BackgroundColor="{Binding Card, Mode=OneWay, 
@@ -82,36 +82,7 @@
                             ConverterParameter=1}"
                     Aspect="Fill"
                     Source="{Binding CardPileImage, Mode=OneWay, 
-                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
-
-                    <Image.Behaviors>
-                        <toolkit:IconTintColorBehavior
-                            BindingContext="{Binding Path=BindingContext, 
-                                Source={x:Reference TintedCardImage}}">
-
-                            <toolkit:IconTintColorBehavior.TintColor>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource SuitSuitColoursToColor}">
-                                    <Binding Path="Card" />
-                                    <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursClubs" />
-                                    <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursDiamonds" />
-                                    <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursHearts" />
-                                    <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursSpades" />
-                                </MultiBinding>
-                            </toolkit:IconTintColorBehavior.TintColor>
-
-                        </toolkit:IconTintColorBehavior>
-                    </Image.Behaviors>
-
-                </Image>
+                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}" />
 
             </Border>
 
@@ -146,34 +117,7 @@
                     ConverterParameter=1}"
             Aspect="Fill"
             Source="{Binding PictureCardPileImage, Mode=OneWay,
-                Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
-            <Image.Behaviors>
-                <toolkit:IconTintColorBehavior
-                                    BindingContext="{Binding Path=BindingContext, 
-                                        Source={x:Reference TintedCardImage}}">
-
-                    <toolkit:IconTintColorBehavior.TintColor>
-                        <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource SuitSuitColoursToColor}">
-                            <Binding Path="Card" />
-                            <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursClubs" />
-                            <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursDiamonds" />
-                            <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursHearts" />
-                            <Binding 
-                                        Source="{x:Reference CardPileCardSwitchInstance}"
-                                        Path="SuitColoursSpades" />
-                        </MultiBinding>
-                    </toolkit:IconTintColorBehavior.TintColor>
-
-                </toolkit:IconTintColorBehavior>
-            </Image.Behaviors>
-        </Image>
+                Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}" />
 
         <Border Margin="0" Padding="0" 
            AutomationProperties.IsInAccessibleTree="False"
