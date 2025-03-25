@@ -3,6 +3,7 @@
 
 using Sa11ytaire4All.ViewModels;
 using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Sa11ytaire4All.Source
 {
@@ -12,52 +13,14 @@ namespace Sa11ytaire4All.Source
         public int cardIndex;
     }
 
-    public class DealtCard : BindableObject
+    public partial class DealtCard : ObservableObject
     {
-        public static readonly BindableProperty CurrentCardIndicesProperty =
-            BindableProperty.Create(nameof(CurrentCardIndices), typeof(CardIndices), typeof(DealtCard));
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
+        private int currentCardIndexInDealtCardPile;
 
-        public static readonly BindableProperty CurrentCardIndexInDealtCardPileProperty =
-            BindableProperty.Create(nameof(CurrentCardIndexInDealtCardPile), typeof(int), typeof(DealtCard));
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
+        private int currentDealtCardPileIndex;
 
-        public static readonly BindableProperty CurrentDealtCardPileIndexProperty =
-            BindableProperty.Create(nameof(CurrentDealtCardPileIndex), typeof(int), typeof(DealtCard));
-
-        public int CurrentCardIndexInDealtCardPile 
-        {
-            get 
-            { 
-                return (int)GetValue(CurrentCardIndexInDealtCardPileProperty); 
-            }
-            set
-            {
-                if (CurrentCardIndexInDealtCardPile != value)
-                {
-                    SetValue(CurrentCardIndexInDealtCardPileProperty, value);
-
-                    OnPropertyChanged("CurrentCardIndexInDealtCardPile");
-                    OnPropertyChanged("CurrentCardIndices");
-                }
-            }
-        }
-
-        public int CurrentDealtCardPileIndex
-        {
-            get
-            {
-                return (int)GetValue(CurrentDealtCardPileIndexProperty);
-            }
-            set
-            {
-                if (CurrentDealtCardPileIndex != value)
-                {
-                    SetValue(CurrentDealtCardPileIndexProperty, value);
-
-                    OnPropertyChanged("CurrentDealtCardPileIndex");
-                    OnPropertyChanged("CurrentCardIndices");
-                }
-            }
-        }
 
         public CardIndices CurrentCardIndices
         {
@@ -71,75 +34,13 @@ namespace Sa11ytaire4All.Source
             }
         }
 
-        public static readonly BindableProperty CardProperty =
-            BindableProperty.Create(nameof(Card), typeof(Card), typeof(DealtCard));
+        [ObservableProperty] private Card card;
 
-        public static readonly BindableProperty CardStateProperty =
-            BindableProperty.Create(nameof(CardState), typeof(CardState), typeof(DealtCard));
-
-        public static readonly BindableProperty FaceDownProperty =
-            BindableProperty.Create(nameof(FaceDown), typeof(bool), typeof(DealtCard));
-
-        public static readonly BindableProperty AccessibleNameProperty =
-            BindableProperty.Create(nameof(AccessibleName), typeof(string), typeof(DealtCard));
-
-        public static readonly BindableProperty IsLastCardInPileProperty =
-            BindableProperty.Create(nameof(IsLastCardInPile), typeof(bool), typeof(DealtCard));
-
-        public static readonly BindableProperty CardSelectedProperty =
-            BindableProperty.Create(nameof(CardSelected), typeof(bool), typeof(DealtCard));
-
-        public static readonly BindableProperty InSelectedSetProperty =
-            BindableProperty.Create(nameof(InSelectedSet), typeof(bool), typeof(DealtCard));
-
-        public static readonly BindableProperty CountFaceDownCardsInPileProperty =
-            BindableProperty.Create(nameof(CountFaceDownCardsInPile), typeof(int), typeof(DealtCard));
-
-        public Card Card
-        {
-            get { return (Card)GetValue(CardProperty); }
-            set
-            {
-                if (Card != value)
-                {
-                    SetValue(CardProperty, value);
-
-                    OnPropertyChanged("Card");
-                }
-            }
-        }
-
-        public CardState CardState
-        {
-            get { return (CardState)GetValue(CardStateProperty); }
-            set
-            {
-                if (CardState != value)
-                {
-                    SetValue(CardStateProperty, value);
-
-                    OnPropertyChanged("CardState");
-                }
-            }
-        }
+        [ObservableProperty] private CardState cardState;
 
         // Barker Future: Remove FaceDown and replace with use of CardState only.
-        public bool FaceDown
-        {
-            get { return (bool)GetValue(FaceDownProperty); }
-            set
-            {
-                if (FaceDown != value)
-                {
-                    SetValue(FaceDownProperty, value);
-
-                    OnPropertyChanged("FaceDown");
-                    
-                    // This is required to force a refresh of the height of the card.
-                    OnPropertyChanged("CardIsInAccessibleTree");
-                }
-            }
-        }
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(CardIsInAccessibleTree))]
+        private bool faceDown;
 
         public string AccessibleNameWithoutSelectionAndMofN
         {
@@ -258,67 +159,15 @@ namespace Sa11ytaire4All.Source
             }
         }
 
-        public bool IsLastCardInPile
-        {
-            get { return (bool)GetValue(IsLastCardInPileProperty); }
-            set
-            {
-                if (IsLastCardInPile != value)
-                {
-                    SetValue(IsLastCardInPileProperty, value);
+        [ObservableProperty] private bool isLastCardInPile;
 
-                    OnPropertyChanged("IsLastCardInPile");
-                }
-            }
-        }
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
+        private bool cardSelected;
 
-        public bool CardSelected
-        {
-            get { return (bool)GetValue(CardSelectedProperty); }
-            set
-            {
-                if (CardSelected != value)
-                {
-                    SetValue(CardSelectedProperty, value);
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
+        private bool inSelectedSet;
 
-                    OnPropertyChanged("CardSelected");
-
-                    // If a card becomes selected or unselected, its accessible name changes.
-                    OnPropertyChanged("AccessibleName");
-                }
-            }
-        }
-
-        public bool InSelectedSet
-        {
-            get { return (bool)GetValue(InSelectedSetProperty); }
-            set
-            {
-                if (InSelectedSet != value)
-                {
-                    SetValue(InSelectedSetProperty, value);
-
-                    OnPropertyChanged("InSelectedSet");
-
-                    // If a card becomes part of a selected or unselected set, its accessible name changes.
-                    OnPropertyChanged("AccessibleName");
-                }
-            }
-        }
-
-        public int CountFaceDownCardsInPile
-        {
-            get { return (int)GetValue(CountFaceDownCardsInPileProperty); }
-            set
-            {
-                if (CountFaceDownCardsInPile != value)
-                {
-                    SetValue(CountFaceDownCardsInPileProperty, value);
-
-                    OnPropertyChanged("CountFaceDownCardsInPile");
-                }
-            }
-        }
+        [ObservableProperty] private int countFaceDownCardsInPile;
 
         public void RefreshVisuals()
         {
