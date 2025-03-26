@@ -5,11 +5,11 @@
              xmlns:local_views="clr-namespace:Sa11ytaire4All.Views"
              xmlns:resources="clr-namespace:Sa11ytaire4All"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:DataType="{x:Type local_views:CardPileCardSwitch}"
              Margin="0" Padding="0"
              x:Name="CardPileCardSwitchInstance"
-             x:Class="Sa11ytaire4All.Views.CardPileCardSwitch">
-    
+             x:Class="Sa11ytaire4All.Views.CardPileCardSwitch"
+             x:DataType="{x:Type local_views:CardPileCardSwitch}">
+
     <ContentView.Resources>
         <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
@@ -69,7 +69,7 @@
                 InputTransparent="True"
                 Margin="0" Padding="0">
 
-                <Image
+                <Image x:Name="TintedCardImage"
                     Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
                     AutomationProperties.IsInAccessibleTree="False"
                     BackgroundColor="{Binding Card, Mode=OneWay, 
@@ -82,7 +82,41 @@
                             ConverterParameter=1}"
                     Aspect="Fill"
                     Source="{Binding CardPileImage, Mode=OneWay, 
-                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}" />
+                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
+
+                    <Image.Behaviors>
+
+                        <toolkit:IconTintColorBehavior
+                            BindingContext="{Binding Path=BindingContext, 
+                                Source={x:Reference TintedCardImage}}">
+
+                            <toolkit:IconTintColorBehavior.TintColor>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource SuitSuitColoursToColor}">
+
+                                    <!-- This works in Debug, but in Release the Card here is null when passed to the converter. -->
+                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
+                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                                Path="BindingContext.Card" />
+                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
+                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                                Path="BindingContext.SuitColoursClubsSwitch" />
+                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
+                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                                Path="BindingContext.SuitColoursDiamondsSwitch" />
+                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
+                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                                Path="BindingContext.SuitColoursHeartsSwitch" />
+                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
+                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                                Path="BindingContext.SuitColoursSpadesSwitch" />
+                                </MultiBinding>
+                            </toolkit:IconTintColorBehavior.TintColor>
+
+                        </toolkit:IconTintColorBehavior>
+                    </Image.Behaviors>
+                
+                </Image>
 
             </Border>
 

@@ -838,6 +838,23 @@ namespace Sa11ytaire4All
 
                 CardDeckUpturnedObscuredLower.Card = (_deckUpturned.Count > 2 ?
                                                         _deckUpturned[_deckUpturned.Count - 3] : null);
+
+                // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
+                SetCardSuitColours(CardDeckUpturned);
+                SetCardSuitColours(CardDeckUpturnedObscuredHigher);
+                SetCardSuitColours(CardDeckUpturnedObscuredLower);
+            }
+        }
+
+        private void SetCardSuitColours(CardPileCardSwitch cardSwitch)
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm != null)
+            {
+                cardSwitch.SuitColoursClubsSwitch = vm.SuitColoursClubs;
+                cardSwitch.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
+                cardSwitch.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
+                cardSwitch.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
             }
         }
 

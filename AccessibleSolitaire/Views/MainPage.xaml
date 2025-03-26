@@ -655,16 +655,9 @@
                                         Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                     Padding="0"
-                                    SuitColoursClubs="{Binding
-                                        Path=SuitColoursClubs, Mode=OneWay}"
-                                    SuitColoursDiamonds="{Binding
-                                        Path=SuitColoursDiamonds, Mode=OneWay}"
-                                    SuitColoursHearts="{Binding
-                                        Path=SuitColoursHearts, Mode=OneWay}"
-                                    SuitColoursSpades="{Binding
-                                        Path=SuitColoursSpades, Mode=OneWay}"
-                                    Margin="{Binding 
-                                        Path=CardWidth, Mode=OneWay,
+                                    Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
+                                        Source={x:Reference MainPageInstance},
+                                        x:DataType={x:Type local:MainPage},
                                         Converter={StaticResource IsObscuredCardToMargin}}" />
 
                                 <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
@@ -675,39 +668,20 @@
                                         Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                     Padding="0"
-                                    SuitColoursClubs="{Binding
-                                        Path=SuitColoursClubs, Mode=OneWay}"
-                                    SuitColoursDiamonds="{Binding
-                                        Path=SuitColoursDiamonds, Mode=OneWay}"
-                                    SuitColoursHearts="{Binding
-                                        Path=SuitColoursHearts, Mode=OneWay}"
-                                    SuitColoursSpades="{Binding
-                                        Path=SuitColoursSpades, Mode=OneWay}"
-                                    Margin="{Binding 
-                                        Path=CardWidth, Mode=OneWay,
+                                    Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
+                                        Source={x:Reference MainPageInstance},
+                                        x:DataType={x:Type local:MainPage},
                                         Converter={StaticResource IsObscuredCardToMargin}}" />
 
                                 <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
                                     Margin="0" Padding="0"
                                     x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
-                                    IsEnabled="{Binding Path=Card, Mode=OneWay, 
-                                        Source={RelativeSource Self}, 
-                                        x:DataType={x:Type local_views:CardPileCardSwitch},
-                                        Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
-                                    SuitColoursClubs="{Binding
-                                        Path=SuitColoursClubs, Mode=OneWay}"
-                                    SuitColoursDiamonds="{Binding
-                                        Path=SuitColoursDiamonds, Mode=OneWay}"
-                                    SuitColoursHearts="{Binding
-                                        Path=SuitColoursHearts, Mode=OneWay}"
-                                    SuitColoursSpades="{Binding
-                                        Path=SuitColoursSpades, Mode=OneWay}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
 
                             </Grid>
                         </Grid>
                     </Grid>
-            
+
                     <!-- Add the four target piles. -->
 
                     <!-- Note: We no longer have a container for the four target piles, as when a screen reader is running,
@@ -730,56 +704,24 @@
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="8,0,2,0" Padding="0"
-                                    SuitColoursClubs="{Binding
-                                        Path=SuitColoursClubs, Mode=OneWay}"
-                                    SuitColoursDiamonds="{Binding
-                                        Path=SuitColoursDiamonds, Mode=OneWay}"
-                                    SuitColoursHearts="{Binding
-                                        Path=SuitColoursHearts, Mode=OneWay}"
-                                    SuitColoursSpades="{Binding
-                                        Path=SuitColoursSpades, Mode=OneWay}"
                             x:Name="TargetPileC" AutomationId="TargetPileC" />
 
                         <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,2,0" Padding="0"
-                                    SuitColoursClubs="{Binding
-                                        Path=SuitColoursClubs, Mode=OneWay}"
-                                    SuitColoursDiamonds="{Binding
-                                        Path=SuitColoursDiamonds, Mode=OneWay}"
-                                    SuitColoursHearts="{Binding
-                                        Path=SuitColoursHearts, Mode=OneWay}"
-                                    SuitColoursSpades="{Binding
-                                        Path=SuitColoursSpades, Mode=OneWay}"
                             x:Name="TargetPileD" AutomationId="TargetPileD" />
 
                         <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,2,0" Padding="0"
-                                    SuitColoursClubs="{Binding
-                                        Path=SuitColoursClubs, Mode=OneWay}"
-                                    SuitColoursDiamonds="{Binding
-                                        Path=SuitColoursDiamonds, Mode=OneWay}"
-                                    SuitColoursHearts="{Binding
-                                        Path=SuitColoursHearts, Mode=OneWay}"
-                                    SuitColoursSpades="{Binding
-                                        Path=SuitColoursSpades, Mode=OneWay}"
                             x:Name="TargetPileH" AutomationId="TargetPileH" />
 
                         <local_views:CardPileCardSwitch Grid.Column="3" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,8,0" Padding="0"
-                                    SuitColoursClubs="{Binding
-                                        Path=SuitColoursClubs, Mode=OneWay}"
-                                    SuitColoursDiamonds="{Binding
-                                        Path=SuitColoursDiamonds, Mode=OneWay}"
-                                    SuitColoursHearts="{Binding
-                                        Path=SuitColoursHearts, Mode=OneWay}"
-                                    SuitColoursSpades="{Binding
-                                        Path=SuitColoursSpades, Mode=OneWay}"
                             x:Name="TargetPileS" AutomationId="TargetPileS" />
 
                     </Grid>
