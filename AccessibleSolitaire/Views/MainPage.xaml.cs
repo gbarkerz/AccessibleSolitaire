@@ -430,6 +430,13 @@ namespace Sa11ytaire4All
                     TargetPileD.RefreshVisuals();
                     TargetPileH.RefreshVisuals();
                     TargetPileS.RefreshVisuals();
+
+                    // If we don't set the colours here, the default colours show initially.
+                    timerSetSuitColours = new Timer(
+                        new TimerCallback((s) => DelayedTimerSetSuitColours()),
+                            null,
+                            TimeSpan.FromMilliseconds(2000),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
@@ -491,6 +498,23 @@ namespace Sa11ytaire4All
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
             }
+        }
+
+        private Timer timerSetSuitColours;
+
+        private void DelayedTimerSetSuitColours()
+        {
+            timerSetSuitColours?.Dispose();
+            timerSetSuitColours = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                SetCardSuitColours(TargetPileC);
+                SetCardSuitColours(TargetPileD);
+                SetCardSuitColours(TargetPileH);
+                SetCardSuitColours(TargetPileS);
+            });
         }
 
         private void MakeFirstDealSounds()

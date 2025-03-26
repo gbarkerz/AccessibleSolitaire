@@ -16,47 +16,76 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || (values.Length < 5))
+            if (values == null || (values.Length < 6))
             {
                 return null;
             }
 
+            // We must have all stui colours supplied.
+            if ((values[2] == null) || (values[3] == null) ||
+                (values[4] == null) || (values[5] == null))
+            {
+                return null;
+            }
+
+            Color? suitColor = null;
+
+            // We were supplied with a card?
             if (values[0] == null)
             {
-                // No Card supplied.
-                return null;
-            }
+                // No Card supplied, so perhaps this is an empty target card pile.
+                if (values[1] == null)
+                {
+                    // No AutomationId supplied.
+                    return null;
+                }
 
-            if ((values[1] == null) || (values[2] == null) ||
-                (values[3] == null) || (values[4] == null))
+                var automationId = values[1] as string;
+
+                switch (automationId)
+                {
+                    case "TargetPileC":
+                        suitColor = (Color)values[2];
+                        break;
+
+                    case "TargetPileD":
+                        suitColor = (Color)values[3];
+                        break;
+
+                    case "TargetPileH":
+                        suitColor = (Color)values[4];
+                        break;
+
+                    case "TargetPileS":
+                        suitColor = (Color)values[5];
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
             {
-                return null;
+                var card = (Card)values[0];
+                switch (card.Suit)
+                {
+                    case Suit.Clubs:
+                        suitColor = (Color)values[2];
+                        break;
+
+                    case Suit.Diamonds:
+                        suitColor = (Color)values[3];
+                        break;
+
+                    case Suit.Hearts:
+                        suitColor = (Color)values[4];
+                        break;
+
+                    default: // Suit.Spades:
+                        suitColor = (Color)values[5];
+                        break;
+                }
             }
-
-            var card = (Card)values[0];
-            var suit = card.Suit;
-
-            Color? suitColor;
-
-            switch (suit)
-            {
-                case Suit.Clubs:
-                    suitColor = (Color)values[1];
-                    break;
-
-                case Suit.Diamonds:
-                    suitColor = (Color)values[2];
-                    break;
-
-                case Suit.Hearts:
-                    suitColor = (Color)values[3];
-                    break;
-
-                default: // Suit.Spades:
-                    suitColor = (Color)values[4];
-                    break;
-            }
-
 
             return suitColor;
         }

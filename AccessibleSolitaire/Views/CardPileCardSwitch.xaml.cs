@@ -10,9 +10,9 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
 {
     public CardPileCardSwitch()
 	{
-		InitializeComponent();
+        BindingContext = this;
 
-        BindingContext = this;  
+        InitializeComponent();
     }
 
     private Card? card = null;

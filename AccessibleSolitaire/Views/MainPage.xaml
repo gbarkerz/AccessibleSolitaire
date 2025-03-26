@@ -271,7 +271,8 @@
 
                                             <!-- This works in Debug, but in Release the Card here is null when passed to the converter. -->
                                             <Binding Path="Card" />
-                                            
+                                            <Binding Path="AutomationId" />
+
                                             <Binding Source="{x:Reference MainPageInstance}" 
                                                 x:DataType="{x:Type local:MainPage}"
                                                 Path="BindingContext.SuitColoursClubs" />
@@ -358,32 +359,6 @@
                             Aspect="Fill" 
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
                             Source="{Binding Card, Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}">
-                            <!--<Image.Behaviors>
-                                <toolkit:IconTintColorBehavior
-                                    BindingContext="{Binding Path=BindingContext, 
-                                        Source={x:Reference TintedCardImage}}">
-
-                                    <toolkit:IconTintColorBehavior.TintColor>
-                                        <MultiBinding Mode="OneWay" 
-                                            Converter="{StaticResource SuitSuitColoursToColor}">
-                                            <Binding Path="Card" />
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursClubs" />
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursDiamonds" />
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursHearts" />
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursSpades" />
-                                        </MultiBinding>
-                                    </toolkit:IconTintColorBehavior.TintColor>
-
-                                </toolkit:IconTintColorBehavior>
-                            </Image.Behaviors>-->
                             <Image.WidthRequest>
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
