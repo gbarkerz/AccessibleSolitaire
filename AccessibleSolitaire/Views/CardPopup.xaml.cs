@@ -10,13 +10,6 @@ public partial class CardPopup : Popup
     {
         this.BindingContext = card;
 
-        // IconTintBehavior doesn't seem to work with an Image in a Popup.
-        //this.Card = card;
-        //this.SuitColoursClubs = vm.SuitColoursClubs;
-        //this.SuitColoursDiamonds = vm.SuitColoursDiamonds;
-        //this.SuitColoursHearts = vm.SuitColoursHearts;
-        //this.SuitColoursSpades = vm.SuitColoursSpades;
-
         InitializeComponent();
     }
 

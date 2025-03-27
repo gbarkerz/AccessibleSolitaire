@@ -60,6 +60,13 @@
                 <Switch.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" />
                 </Switch.GestureRecognizers>
+
+                <Switch.Behaviors>
+                    <toolkit:TouchBehavior
+                        BindingContext="{Binding Source={x:Reference CardPileCardSwitchInstance}, Path=BindingContext, x:DataType=local_views:CardPileCardSwitch}"
+                        LongPressDuration="2000"
+                        LongPressCompleted="TouchBehavior_LongPressCompleted" />
+                </Switch.Behaviors>
             </Switch>
 
             <Border 

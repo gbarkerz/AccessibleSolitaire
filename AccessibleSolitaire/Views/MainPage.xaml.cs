@@ -211,6 +211,10 @@ namespace Sa11ytaire4All
         {
             Debug.WriteLine("Accessible Solitaire: Enter OnTapGestureRecognizerTapped.");
 
+            // BARKER TODO: If the Zoom Popup is visible now, it probably means that a tap has been released
+            // after a long press. So do nothing here in that case. We don't want a card to be selected as
+            // part of a long press.
+
             var tappedCard = args.Parameter as Card;
             if (tappedCard == null)
             {
@@ -1268,6 +1272,29 @@ namespace Sa11ytaire4All
                 }
             }
 #endif
+        }
+
+        private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
+        {
+            var border = sender as Border;
+            if (border != null)
+            {
+                var bindingContext = border.BindingContext;
+                if (bindingContext != null)
+                {
+                    var dealtCard = bindingContext as DealtCard;
+                    if (dealtCard != null)
+                    {
+                        var vm = this.BindingContext as DealtCardViewModel;
+                        if (vm != null)
+                        {
+                            var popup = new CardPopup(dealtCard.Card, vm);
+
+                            this.ShowPopup(popup);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -484,4 +484,12 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
             cardsSwitch.IsToggled = !cardsSwitch.IsToggled;
         }
     }
+
+    private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
+    {
+        if ((MainPage.MainPageSingleton != null) && (this.Card != null))
+        {
+            MainPage.MainPageSingleton.ShowZoomedCardPopup(this.Card, false);
+        }
+    }
 }

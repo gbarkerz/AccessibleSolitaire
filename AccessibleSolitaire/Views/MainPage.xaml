@@ -135,6 +135,13 @@
                             CommandParameter="{Binding Card}"/>
                     </Border.GestureRecognizers>
 
+                    <Border.Behaviors>
+                        <toolkit:TouchBehavior
+                            BindingContext="{Binding Source={x:Reference MainPageInstance}, Path=BindingContext, x:DataType=local:MainPage}"
+                            LongPressDuration="2000"
+                            LongPressCompleted="TouchBehavior_LongPressCompleted" />
+                    </Border.Behaviors>
+                
                     <Border.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                                 Converter="{StaticResource MergedToWidthRequestConverter}">
