@@ -918,6 +918,33 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Press and hold on card to zoom.
+        /// </summary>
+        internal static string LongPressOnCard {
+            get {
+                return ResourceManager.GetString("LongPressOnCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press and hold on a card for the card to fill the screen. Select the number of seconds required to press and hold on the card, or select &quot;Never&quot; to turn off the press and hold..
+        /// </summary>
+        internal static string LongPressOnCardInstructions {
+            get {
+                return ResourceManager.GetString("LongPressOnCardInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seconds:.
+        /// </summary>
+        internal static string LongPressOnCardPickerName {
+            get {
+                return ResourceManager.GetString("LongPressOnCardPickerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set.
         /// </summary>
         internal static string MapAccessKeysPrimaryButtonText {

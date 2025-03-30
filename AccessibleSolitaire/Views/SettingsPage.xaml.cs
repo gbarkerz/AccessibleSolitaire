@@ -36,6 +36,14 @@ public partial class SettingsPage : ContentPage
             }
         }
 
+        for (int i = 0; i < 6; ++i)
+        {
+            LongPressOnCardPicker.Items.Add(i == 0 ? "Never" : i.ToString());
+        }
+
+        var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
+        LongPressOnCardPicker.SelectedIndex = longPressZoomDuration / 1000;
+
         var currentColour = (string)Preferences.Get("SuitColoursClubs", "Black");
         SuitColoursClubsPicker.SelectedItem = currentColour;
 
@@ -51,8 +59,8 @@ public partial class SettingsPage : ContentPage
         var showRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
         ShowRankSuitLargeSwitch.IsToggled = showRankSuitLarge;
 
-        var showZoomCardButton = (bool)Preferences.Get("ShowZoomCardButton", false);
-        ShowZoomCardButtonSwitch.IsToggled = showZoomCardButton;
+        //var showZoomCardButton = (bool)Preferences.Get("ShowZoomCardButton", false);
+        //ShowZoomCardButtonSwitch.IsToggled = showZoomCardButton;
 
         //var cardBrightness = (int)Preferences.Get("CardBrightness", 100);
         //CardBrightnessSlider.Value = cardBrightness;
@@ -118,6 +126,15 @@ public partial class SettingsPage : ContentPage
         //    }
         //}
 
+        if (LongPressOnCardPicker != null)
+        {
+            var selectedIndex = LongPressOnCardPicker.SelectedIndex;
+            if (selectedIndex >= 0)
+            {
+                Preferences.Set("LongPressZoomDuration", selectedIndex * 1000);
+            }
+        }
+
         var selectedColourItem = SuitColoursClubsPicker.SelectedItem as string;
         if (selectedColourItem != null)
         {
@@ -145,8 +162,9 @@ public partial class SettingsPage : ContentPage
         var showRankSuitLarge = ShowRankSuitLargeSwitch.IsToggled;
         Preferences.Set("ShowRankSuitLarge", showRankSuitLarge);
 
-        var showZoomCardButton = ShowZoomCardButtonSwitch.IsToggled;
-        Preferences.Set("ShowZoomCardButton", showZoomCardButton);
+
+        //var showZoomCardButton = ShowZoomCardButtonSwitch.IsToggled;
+        //Preferences.Set("ShowZoomCardButton", showZoomCardButton);
 
         //var cardBrightnessValue = (int)CardBrightnessSlider.Value;
         //Preferences.Set("CardBrightness", cardBrightnessValue);

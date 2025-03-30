@@ -7,10 +7,31 @@ using Sa11ytaire4All.ViewModels;
 
 namespace Sa11ytaire4All.Views
 {
-    // Barker Important: Some of the converts here don't actual convert anything.
+    // Barker Important: Some of the converters here don't actual convert anything.
     // Rather the exist to set properties based on the current orientation of the
     // device. At some point, replace these unusual converters with whatever the
     // correct way of setting orientation-specific properties is.
+
+    public class LongPressZoomDurationToActualDuration : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            int timeout = (int)value;
+
+            // Assume ten minutes is sufficient for the "Never" timeout.
+            return (timeout > 0 ? timeout : 600000);
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     public class SuitSuitColoursToColor : IMultiValueConverter
     {

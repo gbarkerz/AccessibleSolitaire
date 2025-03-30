@@ -56,5 +56,7 @@ namespace Sa11ytaire4All.ViewModels
         [ObservableProperty] private bool flipGameLayoutHorizontally;
 
         [ObservableProperty] private bool extendDealtCardHitTarget;
+
+        [ObservableProperty] private int longPressZoomDuration;
     }
 }

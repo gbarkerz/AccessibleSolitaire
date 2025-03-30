@@ -693,4 +693,13 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="SuitColoursSpadesPickerLabel" xml:space="preserve">
     <value>Spades:</value>
   </data>
+  <data name="LongPressOnCard" xml:space="preserve">
+    <value>Press and hold on card to zoom</value>
+  </data>
+  <data name="LongPressOnCardInstructions" xml:space="preserve">
+    <value>Press and hold on a card for the card to fill the screen. Select the number of seconds required to press and hold on the card, or select "Never" to turn off the press and hold.</value>
+  </data>
+  <data name="LongPressOnCardPickerName" xml:space="preserve">
+    <value>Seconds:</value>
+  </data>
 </root>

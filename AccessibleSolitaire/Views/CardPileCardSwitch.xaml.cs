@@ -412,6 +412,20 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
+    public static readonly BindableProperty LongPressZoomDurationProperty =
+        BindableProperty.Create(nameof(LongPressZoomDuration), typeof(int), typeof(CardPileCardSwitch));
+
+    public int LongPressZoomDuration
+    {
+        get => (int)GetValue(LongPressZoomDurationProperty);
+        set
+        {
+            SetValue(LongPressZoomDurationProperty, value);
+
+            this.OnPropertyChanged("LongPressZoomDuration");
+        }
+    }
+
     public bool IsCardSwitchToggled()
     {
         var cardSwitch = this.FindByName("CardSwitch") as Switch;

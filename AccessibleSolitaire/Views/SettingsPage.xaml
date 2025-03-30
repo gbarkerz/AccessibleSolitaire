@@ -155,9 +155,9 @@
                         SemanticProperties.Hint="{x:Static resources:StringResources.ShowRankSuitLargeInstructions}" />
                 </HorizontalStackLayout>
 
-                <!-- Show zoom card button in cards. -->
+                <!-- Show zoom card button in cards. UNLIKELY TO BE HELPFUL, SO REMOVED. -->
 
-                <Label Grid.Row="9" 
+                <!--<Label Grid.Row="9" 
                     FontAttributes="Bold" 
                     Margin="8,20,8,0"
                     FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
@@ -177,6 +177,30 @@
                         Margin="0"
                         SemanticProperties.Description="{x:Static resources:StringResources.ShowZoomCardButton}"
                         SemanticProperties.Hint="{x:Static resources:StringResources.ShowZoomCardButtonInstructions}" />
+                </HorizontalStackLayout>-->
+
+                <!-- Timeout for long press on cards. -->
+
+                <Label Grid.Row="9" 
+                    FontAttributes="Bold" 
+                    Margin="8,20,8,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.LongPressOnCard}" />
+
+                <Label Grid.Row="10" 
+                    Margin="8,0,8,0"
+                    LineBreakMode="WordWrap"
+                    Text="{x:Static resources:StringResources.LongPressOnCardInstructions}" />
+
+                <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+                    <Label 
+                        Margin="0" VerticalOptions="Center" Padding="0"
+                        Text="{x:Static resources:StringResources.LongPressOnCardPickerName}" />
+
+                    <Picker x:Name="LongPressOnCardPicker"
+                        Margin="0"
+                        SemanticProperties.Description="{x:Static resources:StringResources.LongPressOnCard}"
+                        SemanticProperties.Hint="{x:Static resources:StringResources.LongPressOnCardInstructions}" />
                 </HorizontalStackLayout>
 
                 <!-- Darken Cards. UNLIKELY TO BE HELPFUL, SO REMOVED. -->

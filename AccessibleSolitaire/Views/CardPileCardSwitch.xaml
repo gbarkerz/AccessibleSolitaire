@@ -11,6 +11,7 @@
              x:DataType="{x:Type local_views:CardPileCardSwitch}">
 
     <ContentView.Resources>
+        <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
         <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
         <local_views:IsToggledToMarginConverter x:Key="IsToggledToMarginConverter" />
@@ -63,8 +64,9 @@
 
                 <Switch.Behaviors>
                     <toolkit:TouchBehavior
-                        BindingContext="{Binding Source={x:Reference CardPileCardSwitchInstance}, Path=BindingContext, x:DataType=local_views:CardPileCardSwitch}"
-                        LongPressDuration="2000"
+                        BindingContext="{Binding Path=BindingContext, 
+                            Source={x:Reference CardPileCardSwitchInstance}, x:DataType=local_views:CardPileCardSwitch}"
+                        LongPressDuration="{Binding BindingContext.LongPressZoomDuration}"
                         LongPressCompleted="TouchBehavior_LongPressCompleted" />
                 </Switch.Behaviors>
             </Switch>

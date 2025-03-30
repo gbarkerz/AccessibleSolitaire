@@ -198,9 +198,11 @@ namespace Sa11ytaire4All
                 var vm = this.BindingContext as DealtCardViewModel;
                 if (vm != null)
                 {
-                    var popup = new CardPopup(card, vm);
+                    DisplayAlert("Accessible Solitaire", "Zoom card now", "OK");
 
-                    this.ShowPopup(popup);
+                    //var popup = new CardPopup(card, vm);
+
+                    //this.ShowPopup(popup);
                 }
             }
         }
@@ -355,6 +357,9 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
+                var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
+                vm.LongPressZoomDuration = longPressZoomDuration;
+
                 var currentZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
                 if (vm.ZoomLevel != currentZoomLevel)
                 {
@@ -419,8 +424,6 @@ namespace Sa11ytaire4All
                         for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                         {
                             var pileCard = vm.DealtCards[i][j];
-
-                            //DisplayAlert("GBTest", "RefreshVisuals", "OK");
 
                             pileCard.RefreshVisuals();
                         }
@@ -1288,9 +1291,11 @@ namespace Sa11ytaire4All
                         var vm = this.BindingContext as DealtCardViewModel;
                         if (vm != null)
                         {
-                            var popup = new CardPopup(dealtCard.Card, vm);
+                            DisplayAlert("Accessible Solitaire", "Zoom card now", "OK");
 
-                            this.ShowPopup(popup);
+                            //var popup = new CardPopup(dealtCard.Card, vm);
+
+                            //this.ShowPopup(popup);
                         }
                     }
                 }

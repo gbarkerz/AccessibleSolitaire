@@ -19,6 +19,7 @@
 
     <ContentPage.Resources>
 
+        <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
         <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
         <local_views:ConverterForCardImageHorizontalVerticalOptions x:Key="ConverterForCardImageHorizontalVerticalOptions" />
@@ -137,8 +138,11 @@
 
                     <Border.Behaviors>
                         <toolkit:TouchBehavior
-                            BindingContext="{Binding Source={x:Reference MainPageInstance}, Path=BindingContext, x:DataType=local:MainPage}"
-                            LongPressDuration="2000"
+                            BindingContext="{Binding Path=BindingContext, 
+                                Source={x:Reference MainPageInstance}, x:DataType=local:MainPage}"
+                            LongPressDuration="{Binding Path=BindingContext.LongPressZoomDuration, 
+                                Source={x:Reference MainPageInstance}, x:DataType=local:MainPage,
+                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                             LongPressCompleted="TouchBehavior_LongPressCompleted" />
                     </Border.Behaviors>
                 
@@ -637,6 +641,10 @@
                                         Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                     Padding="0"
+                                    LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                        Source={x:Reference MainPageInstance},
+                                        x:DataType={x:Type local:MainPage},
+                                        Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                                     Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
                                         Source={x:Reference MainPageInstance},
                                         x:DataType={x:Type local:MainPage},
@@ -650,6 +658,10 @@
                                         Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                     Padding="0"
+                                    LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                        Source={x:Reference MainPageInstance},
+                                        x:DataType={x:Type local:MainPage},
+                                        Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                                     Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
                                         Source={x:Reference MainPageInstance},
                                         x:DataType={x:Type local:MainPage},
@@ -658,6 +670,10 @@
                                 <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
                                     Margin="0" Padding="0"
                                     x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
+                                    LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                        Source={x:Reference MainPageInstance},
+                                        x:DataType={x:Type local:MainPage},
+                                        Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                                     BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
 
                             </Grid>
@@ -686,24 +702,40 @@
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="8,0,2,0" Padding="0"
+                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                Source={x:Reference MainPageInstance},
+                                x:DataType={x:Type local:MainPage},
+                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                             x:Name="TargetPileC" AutomationId="TargetPileC" />
 
                         <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,2,0" Padding="0"
+                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                Source={x:Reference MainPageInstance},
+                                x:DataType={x:Type local:MainPage},
+                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                             x:Name="TargetPileD" AutomationId="TargetPileD" />
 
                         <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,2,0" Padding="0"
+                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                Source={x:Reference MainPageInstance},
+                                x:DataType={x:Type local:MainPage},
+                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                             x:Name="TargetPileH" AutomationId="TargetPileH" />
 
                         <local_views:CardPileCardSwitch Grid.Column="3" Style="{StaticResource CardPileCardSwitchStyle}"
                             IsEnabled="True"
                             BackgroundColor="LightGreen"
                             Margin="0,0,8,0" Padding="0"
+                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                Source={x:Reference MainPageInstance},
+                                x:DataType={x:Type local:MainPage},
+                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                             x:Name="TargetPileS" AutomationId="TargetPileS" />
 
                     </Grid>
