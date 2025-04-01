@@ -405,9 +405,6 @@ namespace Sa11ytaire4All
                     vm.SuitColoursSpades = Colors.Black;
                 }
 
-                var showZoomCardButton = (bool)Preferences.Get("ShowZoomCardButton", false);
-                vm.ShowZoomCardButton = showZoomCardButton;
-
                 // Barker: Remove use of this static.
 
                 var previousShowRankSuitLarge = MainPage.ShowRankSuitLarge;

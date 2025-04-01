@@ -45,8 +45,6 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty] private bool showStateAnnouncementButton;
 
-        [ObservableProperty] private bool showZoomCardButton;
-
         [ObservableProperty] private bool highlightSelectedCardSet;
 
         [ObservableProperty] private bool mergeFaceDownCards;

@@ -16,7 +16,6 @@
         <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
         <local_views:IsToggledToMarginConverter x:Key="IsToggledToMarginConverter" />
         <local_views:IsToggledToBackgroundColorConverter x:Key="IsToggledToBackgroundColorConverter" />
-        <local_views:CardToShowZoomCardButtonConverter x:Key="CardToShowZoomCardButtonConverter" />
     </ContentView.Resources>
 
     <!-- The CardPileCardSwitch element is used to represent the three upturned cards and
@@ -129,25 +128,6 @@
                 </Image>
 
             </Border>
-
-            <!--Optionally shown button to show a large popup of the card.-->
-            <ImageButton Grid.Row="0" Grid.Column="1" 
-                SemanticProperties.Description="{x:Static resources:StringResources.ZoomCard}"
-                Source="{AppThemeBinding Light=zoomicon2.png, Dark=zoomicon3.png}" 
-                Aspect="Fill"
-                Margin="0,2,2,0"
-                BackgroundColor="Transparent"
-                Clicked="CardZoomButton_Clicked">
-                <ImageButton.IsVisible>
-                    <MultiBinding Mode="OneWay" 
-                        Converter="{StaticResource CardToShowZoomCardButtonConverter}">
-                        <Binding Source="{RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}"
-                            Path="CardPileImage" />
-                        <Binding Source="{RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}"
-                            Path="ShowZoomCardButton" />
-                    </MultiBinding>
-                </ImageButton.IsVisible>
-            </ImageButton>
 
         </Grid>
 

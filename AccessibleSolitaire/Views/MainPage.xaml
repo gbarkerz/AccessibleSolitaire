@@ -34,12 +34,10 @@
         <local_views:MainPageHeightToDealtCardGridHeight x:Key="MainPageHeightToDealtCardGridHeight" />
         <local_views:IsFaceDownToVisibilityConverter x:Key="IsFaceDownToVisibilityConverter" />
         <local_views:CardHeightToLabelFontSizeConverter x:Key="CardHeightToLabelFontSizeConverter" />
-        <local_views:IsLastCardInPileToShowZoomCardButtonRowSpanConverter x:Key="IsLastCardInPileToShowZoomCardButtonRowSpanConverter" />
         <local_views:ScrollViewWidthToGridWidthRequestConverter x:Key="ScrollViewWidthToGridWidthRequestConverter" />
         <local_views:ScrollViewHeightToGridHeightRequestConverter x:Key="ScrollViewHeightToGridHeightRequestConverter" />
         <local_views:ScrollViewHeightToDealtCardPileCollectionViewConverter x:Key="ScrollViewHeightToDealtCardPileCollectionViewConverter" />
         <local_views:IsCardSwitchCardToIsEnabled x:Key="IsCardSwitchCardToIsEnabled" />
-        <local_views:CardStateToShowZoomCardButtonConverter x:Key="CardStateToShowZoomCardButtonConverter" />
         <local_views:IsFaceDownToBackgroundColorConverter x:Key="IsFaceDownToBackgroundColorConverter" />
         <local_views:InSelectedSetToBackgroundConverter x:Key="InSelectedSetToBackgroundConverter" />
         <local_views:CardWidthToImageWidthConverter x:Key="CardWidthToImageWidthConverter" />
@@ -75,10 +73,6 @@
                     AncestorType={x:Type vm:DealtCardViewModel}}, 
                 x:DataType=vm:DealtCardViewModel,
                 Path=CardHeight}" />
-            <Setter Property="ShowZoomCardButton" 
-                Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
-                    AncestorType={x:Type vm:DealtCardViewModel}}, x:DataType=vm:DealtCardViewModel,
-                Path=ShowZoomCardButton}" />
         </Style>
 
         <!-- Style the CollectionViews containing the dealt cards. -->
@@ -403,29 +397,6 @@
                                 </MultiBinding>
                             </Image.VerticalOptions>
                         </Image>
-
-                        <!-- Optionally shown button to show a large popup of the card. -->
-                        <ImageButton 
-                            Grid.Row="{Binding FaceDown, Mode=OneWay, ConverterParameter=0,
-                                Converter={StaticResource ConverterForDealtCardZoomButtonToGridRowColumn}}"
-                            Grid.Column="{Binding FaceDown, Mode=OneWay, ConverterParameter=1,
-                                Converter={StaticResource ConverterForDealtCardZoomButtonToGridRowColumn}}"
-                            SemanticProperties.Description="{x:Static resources:StringResources.ZoomCard}"
-                            Source="{AppThemeBinding Light=zoomicon2.png, Dark=zoomicon3.png}" 
-                            Aspect="Fill"
-                            BackgroundColor="Transparent"
-                            Clicked="CardZoomButton_Clicked">
-                            <ImageButton.IsVisible>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource CardStateToShowZoomCardButtonConverter}">
-                                    <Binding Path="IsLastCardInPile" />
-                                    <Binding Path="CardState" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ShowZoomCardButton" />
-                                </MultiBinding>
-                            </ImageButton.IsVisible>
-                        </ImageButton>
 
                     </Grid>
 

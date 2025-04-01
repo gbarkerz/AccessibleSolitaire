@@ -1476,33 +1476,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Zoom Card Button.
-        /// </summary>
-        internal static string ShowZoomCardButton {
-            get {
-                return ResourceManager.GetString("ShowZoomCardButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Check this option if you&apos;d like each card to show a button to zoom in on the card and so make the contents of the card easier to see..
-        /// </summary>
-        internal static string ShowZoomCardButtonInstructions {
-            get {
-                return ResourceManager.GetString("ShowZoomCardButtonInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show Zoom Card Button:.
-        /// </summary>
-        internal static string ShowZoomCardButtonSwitchName {
-            get {
-                return ResourceManager.GetString("ShowZoomCardButtonSwitchName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Signing in....
         /// </summary>
         internal static string SigningIn {
@@ -1751,15 +1724,6 @@ namespace Sa11ytaire4All {
         internal static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zoom card.
-        /// </summary>
-        internal static string ZoomCard {
-            get {
-                return ResourceManager.GetString("ZoomCard", resourceCulture);
             }
         }
         

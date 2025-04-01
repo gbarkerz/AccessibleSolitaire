@@ -578,18 +578,6 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="ShowRankSuitLargeSwitchName" xml:space="preserve">
     <value>Show large rank and suit:</value>
   </data>
-  <data name="ZoomCard" xml:space="preserve">
-    <value>Zoom card</value>
-  </data>
-  <data name="ShowZoomCardButton" xml:space="preserve">
-    <value>Show Zoom Card Button</value>
-  </data>
-  <data name="ShowZoomCardButtonSwitchName" xml:space="preserve">
-    <value>Show Zoom Card Button:</value>
-  </data>
-  <data name="ShowZoomCardButtonInstructions" xml:space="preserve">
-    <value>Check this option if you'd like each card to show a button to zoom in on the card and so make the contents of the card easier to see.</value>
-  </data>
   <data name="Popup" xml:space="preserve">
     <value>Popup</value>
   </data>

@@ -322,23 +322,6 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
-    public static readonly BindableProperty ShowZoomCardButtonProperty =
-        BindableProperty.Create(nameof(ShowZoomCardButton), typeof(bool), typeof(CardPileCardSwitch));
-
-    public bool ShowZoomCardButton
-    {
-        get => (bool)GetValue(ShowZoomCardButtonProperty);
-        set
-        {
-            if (ShowZoomCardButton != value)
-            {
-                SetValue(ShowZoomCardButtonProperty, value);
-
-                this.OnPropertyChanged("ShowZoomCardButton");
-            }
-        }
-    }
-
     public static readonly BindableProperty SuitColoursClubsSwitchProperty =
         BindableProperty.Create(nameof(SuitColoursClubsSwitch), typeof(Color), typeof(CardPileCardSwitch));
 
