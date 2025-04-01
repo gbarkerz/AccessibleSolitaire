@@ -147,8 +147,8 @@
                                 x:DataType="{x:Type local:MainPage}"
                                 Path="BindingContext.CardWidth" />
                             <Binding 
-                                Source="{x:Reference LowerScrollView}"
-                                x:DataType="ScrollView"
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
                                 Path="Width" />
                             <Binding Source="{x:Reference MainPageInstance}" 
                                 x:DataType="{x:Type local:MainPage}"
@@ -159,6 +159,7 @@
                                 Path="BindingContext.ExtendDealtCardHitTarget" />
                         </MultiBinding>
                     </Border.WidthRequest>
+                    
                     <Border.HeightRequest>
                         <MultiBinding Mode="OneWay" 
                                 Converter="{StaticResource MergedToHeightRequestConverter}">
@@ -657,333 +658,285 @@
 
             <!-- Add the seven dealt card piles.  -->
 
-            <ScrollView x:Name="LowerScrollView"
-                AutomationProperties.IsInAccessibleTree="False"
+            <Grid x:Name="CardPileGrid"
+                FlowDirection="{Binding 
+                    Path=FlipGameLayoutHorizontally,
+                    Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"
                 Padding="0" Margin="0">
+                   
+                <!-- Layout note: The Grid has 7 rows and 7 columns. The contained CollectionViews have their
+                    width and height set explicitly, and so all the Grid's ColumnDefintions and RowDefinitions
+                    are "Auto" here rather than "*". -->
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                <!-- Layout note: This Grid contains all the dealt card piles. At an app zoom levels of 100% the
-                    Grid occupies exactly the entire ScrollView at the lower portion of the screen. At zoom levels 
-                    larger than 100%, the ScrollView remains the same size, but the contained Grid becomes larger 
-                    and portions of it are brought on screen by scrolling the containing ScrollView.
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Layout note: The CollectionView's ItemsLayout is set to Horizontal or Vertical
+                    depending on screen orientation. -->
+
+                <!-- Layout note: All CollectionViews have their WidthRequests and HeighRequests set explicitly.
+                        
+                    CollectionView WidthRequest
+                        Landscape: Set to the width of a dealt card.    
+                        Portrait: Set to the width of the ScrollView containing the Grid containing the CollectionsView.    
+                        
+                    CollectionView HeightRequest
+                        Landscape: Set to the height of the ScrollView containing the Grid containing the CollectionsView.    
+                        Portrait: Set to the height of a dealt card.
                 -->
-
-                <Grid x:Name="CardPileGrid"
-                    FlowDirection="{Binding 
-                        Path=FlipGameLayoutHorizontally,
-                        Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"
-                    Padding="0" Margin="0">
-
-                    <!-- Layout note: The Grid is always only bigger than the containing ScrollView in one direction.
-                        At an app zoom level greater than 100%, in Landscape the Grid is wider than the ScrollView, 
-                        and in Portrait the Grid is taller than the ScrollView. This means that when needing to 
-                        scroll a CollectionView in the direction that the Grid can't scroll, it's the individual 
-                        CollectionView that's bringing an item into view. -->
-                
-                    <!-- Layout note:
-                        The Grid's WidthRequest and HeightRequest are set explicitly, width one dimension always
-                        equaling the same dimension for the ScrollView, and the other dimension being a multiple
-                        of the ScrollView's other dimension based on teh current zoom level.
-                    -->
                     
-                    <Grid.WidthRequest>
+                <!-- Barker: Replace all the duplicated WidthRequest and HeightRequest MultiBinding below 
+                    and add it to the CollectionView styling. -->
+                    
+                <CollectionView x:Name="CardPile1" AutomationId="CardPile1"
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards1}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged">
+                        
+                    <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewWidthToGridWidthRequestConverter}">
+                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
                             <Binding 
-                                Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                x:DataType="ScrollView"
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
                                 Path="Width" />
-                            <Binding 
-                                Path="ZoomLevel" />
                         </MultiBinding>
-                    </Grid.WidthRequest> 
+                    </CollectionView.WidthRequest>
 
-                    <Grid.HeightRequest>
+                    <CollectionView.HeightRequest>
                         <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToGridHeightRequestConverter}">
+                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
                             <Binding 
-                                Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                x:DataType="ScrollView"
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
                                 Path="Height" />
-                            <Binding 
-                                Path="ZoomLevel" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
                         </MultiBinding>
-                    </Grid.HeightRequest>
+                    </CollectionView.HeightRequest>
+                </CollectionView>
 
-                    <!-- Layout note: The Grid has 7 rows and 7 columns. The contained CollectionViews have their
-                        width and height set explicitly, and so all the Grid's ColumnDefintions and RowDefinitions
-                        are "Auto" here rather than "*". -->
-                
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <CollectionView x:Name="CardPile2" AutomationId="CardPile2" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards2}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                    <CollectionView.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Width" />
+                        </MultiBinding>
+                    </CollectionView.WidthRequest>
 
-                    <!-- Layout note: The CollectionView's ItemsLayout is set to Horizontal or Vertical
-                        depending on screen orientation. -->
+                    <CollectionView.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Height" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
+                        </MultiBinding>
+                    </CollectionView.HeightRequest>
+                </CollectionView>
 
-                    <!-- Layout note: All CollectionViews have their WidthRequests and HeighRequests set explicitly.
+                <CollectionView x:Name="CardPile3" AutomationId="CardPile3" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards3}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged">
+
+                    <CollectionView.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Width" />
+                        </MultiBinding>
+                    </CollectionView.WidthRequest>
+
+                    <CollectionView.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Height" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
+                        </MultiBinding>
+                    </CollectionView.HeightRequest>
+                </CollectionView>
+
+                <CollectionView x:Name="CardPile4" AutomationId="CardPile4" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards4}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged">
+
+                    <CollectionView.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Width" />
+                        </MultiBinding>
+                    </CollectionView.WidthRequest>
+
+                    <CollectionView.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Height" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
+                        </MultiBinding>
+                    </CollectionView.HeightRequest>
+                </CollectionView>
+
+                <CollectionView x:Name="CardPile5" AutomationId="CardPile5" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards5}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged">
                         
-                        CollectionView WidthRequest
-                            Landscape: Set to the width of a dealt card.    
-                            Portrait: Set to the width of the ScrollView containing the Grid containing the CollectionsView.    
-                        
-                        CollectionView HeightRequest
-                            Landscape: Set to the height of the ScrollView containing the Grid containing the CollectionsView.    
-                            Portrait: Set to the height of a dealt card.
-                    -->
-                    
-                    <!-- Barker: Replace all the duplicated WidthRequest and HeightRequest MultiBinding below 
-                        and add it to the CollectionView styling. -->
-                    
-                    <CollectionView x:Name="CardPile1" AutomationId="CardPile1"
-                        Style="{StaticResource CollectionViewStyle}"
-                        ItemsSource="{Binding DealtCards1}"
-                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                        SelectionChanged="CardPile_SelectionChanged">
-                        
-                        <CollectionView.WidthRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardWidth" />
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Width" />
-                            </MultiBinding>
-                        </CollectionView.WidthRequest>
+                    <CollectionView.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Width" />
+                        </MultiBinding>
+                    </CollectionView.WidthRequest>
 
-                        <CollectionView.HeightRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Height" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardHeight" />
-                            </MultiBinding>
-                        </CollectionView.HeightRequest>
-                    </CollectionView>
+                    <CollectionView.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Height" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
+                        </MultiBinding>
+                    </CollectionView.HeightRequest>
+                </CollectionView>
 
-                    <CollectionView x:Name="CardPile2" AutomationId="CardPile2" 
-                        Style="{StaticResource CollectionViewStyle}"
-                        ItemsSource="{Binding DealtCards2}"
-                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                        SelectionChanged="CardPile_SelectionChanged">
+                <CollectionView x:Name="CardPile6" AutomationId="CardPile6" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards6}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged">
 
-                        <CollectionView.WidthRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardWidth" />
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Width" />
-                            </MultiBinding>
-                        </CollectionView.WidthRequest>
+                    <CollectionView.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Width" />
+                        </MultiBinding>
+                    </CollectionView.WidthRequest>
 
-                        <CollectionView.HeightRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Height" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardHeight" />
-                            </MultiBinding>
-                        </CollectionView.HeightRequest>
-                    </CollectionView>
+                    <CollectionView.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Height" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
+                        </MultiBinding>
+                    </CollectionView.HeightRequest>
+                </CollectionView>
 
-                    <CollectionView x:Name="CardPile3" AutomationId="CardPile3" 
-                        Style="{StaticResource CollectionViewStyle}"
-                        ItemsSource="{Binding DealtCards3}"
-                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                        SelectionChanged="CardPile_SelectionChanged">
+                <CollectionView x:Name="CardPile7" AutomationId="CardPile7" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards7}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged">
 
-                        <CollectionView.WidthRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardWidth" />
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Width" />
-                            </MultiBinding>
-                        </CollectionView.WidthRequest>
+                    <CollectionView.WidthRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Width" />
+                        </MultiBinding>
+                    </CollectionView.WidthRequest>
 
-                        <CollectionView.HeightRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Height" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardHeight" />
-                            </MultiBinding>
-                        </CollectionView.HeightRequest>
-                    </CollectionView>
+                    <CollectionView.HeightRequest>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
+                            <Binding 
+                                Source="{x:Reference CardPileGrid}"
+                                x:DataType="Grid"
+                                Path="Height" />
+                            <Binding Source="{x:Reference MainPageInstance}" 
+                                x:DataType="{x:Type local:MainPage}"
+                                Path="BindingContext.CardHeight" />
+                        </MultiBinding>
+                    </CollectionView.HeightRequest>
+                </CollectionView>
 
-                    <CollectionView x:Name="CardPile4" AutomationId="CardPile4" 
-                        Style="{StaticResource CollectionViewStyle}"
-                        ItemsSource="{Binding DealtCards4}"
-                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                        SelectionChanged="CardPile_SelectionChanged">
-
-                        <CollectionView.WidthRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardWidth" />
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Width" />
-                            </MultiBinding>
-                        </CollectionView.WidthRequest>
-
-                        <CollectionView.HeightRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Height" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardHeight" />
-                            </MultiBinding>
-                        </CollectionView.HeightRequest>
-                    </CollectionView>
-
-                    <CollectionView x:Name="CardPile5" AutomationId="CardPile5" 
-                        Style="{StaticResource CollectionViewStyle}"
-                        ItemsSource="{Binding DealtCards5}"
-                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                        SelectionChanged="CardPile_SelectionChanged">
-                        
-                        <CollectionView.WidthRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardWidth" />
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Width" />
-                            </MultiBinding>
-                        </CollectionView.WidthRequest>
-
-                        <CollectionView.HeightRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Height" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardHeight" />
-                            </MultiBinding>
-                        </CollectionView.HeightRequest>
-                    </CollectionView>
-
-                    <CollectionView x:Name="CardPile6" AutomationId="CardPile6" 
-                        Style="{StaticResource CollectionViewStyle}"
-                        ItemsSource="{Binding DealtCards6}"
-                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                        SelectionChanged="CardPile_SelectionChanged">
-
-                        <CollectionView.WidthRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardWidth" />
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Width" />
-                            </MultiBinding>
-                        </CollectionView.WidthRequest>
-
-                        <CollectionView.HeightRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Height" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardHeight" />
-                            </MultiBinding>
-                        </CollectionView.HeightRequest>
-                    </CollectionView>
-
-                    <CollectionView x:Name="CardPile7" AutomationId="CardPile7" 
-                        Style="{StaticResource CollectionViewStyle}"
-                        ItemsSource="{Binding DealtCards7}"
-                        ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                        SelectionChanged="CardPile_SelectionChanged">
-
-                        <CollectionView.WidthRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardWidth" />
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Width" />
-                            </MultiBinding>
-                        </CollectionView.WidthRequest>
-
-                        <CollectionView.HeightRequest>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                                <Binding 
-                                    Source="{RelativeSource AncestorType={x:Type ScrollView}}"
-                                    x:DataType="ScrollView"
-                                    Path="Height" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                    x:DataType="{x:Type local:MainPage}"
-                                    Path="BindingContext.CardHeight" />
-                            </MultiBinding>
-                        </CollectionView.HeightRequest>
-                    </CollectionView>
-
-                </Grid>
-
-            </ScrollView>
+            </Grid>
 
         </Grid>
 

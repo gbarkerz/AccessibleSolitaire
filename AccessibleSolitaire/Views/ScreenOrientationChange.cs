@@ -34,8 +34,8 @@
             // of the CollectionViews.
             SetCollectionViewsVisibility(false);
 
-            //UpperGrid.IsVisible = false;
-            //LowerScrollView.IsVisible = false;
+            UpperGrid.IsVisible = false;
+            CardPileGrid.IsVisible = false;
         }
 
         private void DelayedSetOrientationLayout()
@@ -49,7 +49,7 @@
                 SetOrientationLayout();
 
                 UpperGrid.IsVisible = true;
-                //LowerScrollView.IsVisible = true;
+                CardPileGrid.IsVisible = true;
 
                 // Actually, on Android when moving from portrait to landscape, sometimes the width
                 // of the CollectionViews is too narrow. So delay making the CollectionViews visible
@@ -127,17 +127,13 @@
         {
             if (isPortrait)
             {
-                LowerScrollView.Orientation = ScrollOrientation.Vertical;
-
-                Grid.SetRow(LowerScrollView, 2);
-                Grid.SetRowSpan(LowerScrollView, 7);
+                Grid.SetRow(CardPileGrid, 2);
+                Grid.SetRowSpan(CardPileGrid, 7);
             }
             else
             {
-                LowerScrollView.Orientation = ScrollOrientation.Horizontal;
-
-                Grid.SetRow(LowerScrollView, 3);
-                Grid.SetRowSpan(LowerScrollView, 6);
+                Grid.SetRow(CardPileGrid, 3);
+                Grid.SetRowSpan(CardPileGrid, 6);
             }
 
             SetCollectionViewsOrientationLayout(isPortrait);
