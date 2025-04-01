@@ -16,8 +16,6 @@
         <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
         <local_views:IsToggledToMarginConverter x:Key="IsToggledToMarginConverter" />
         <local_views:IsToggledToBackgroundColorConverter x:Key="IsToggledToBackgroundColorConverter" />
-        <local_views:CardBrightnessToToggleCardFrameIsVisible x:Key="CardBrightnessToToggleCardFrameIsVisible" />
-        <local_views:CardBrightnessToGradientStopConverter x:Key="CardBrightnessToGradientStopConverter" />
         <local_views:CardToShowZoomCardButtonConverter x:Key="CardToShowZoomCardButtonConverter" />
     </ContentView.Resources>
 
@@ -165,30 +163,5 @@
             Source="{Binding PictureCardPileImage, Mode=OneWay,
                 Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}" />
 
-        <Border Margin="0" Padding="0" 
-           AutomationProperties.IsInAccessibleTree="False"
-           StrokeThickness="0"
-           InputTransparent="True">
-            <Border.IsVisible>
-                <MultiBinding Mode="OneWay" Converter="{StaticResource CardBrightnessToToggleCardFrameIsVisible}">
-                    <Binding Path="CardBrightness" />
-                    <Binding Source="{RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}" Path="Card" />
-                </MultiBinding>
-            </Border.IsVisible>
-            <Border.Background>
-                <LinearGradientBrush>
-                    <GradientStop
-                        Color="{Binding Path=CardBrightness, 
-                            Converter={StaticResource CardBrightnessToGradientStopConverter},
-                            ConverterParameter=0}"
-                        Offset="0.0" />
-                    <GradientStop
-                        Color="{Binding Path=CardBrightness, 
-                            Converter={StaticResource CardBrightnessToGradientStopConverter},
-                            ConverterParameter=1}"                                                
-                        Offset="1.0" />
-                </LinearGradientBrush>
-            </Border.Background>
-        </Border>
     </Grid>
 </ContentView>

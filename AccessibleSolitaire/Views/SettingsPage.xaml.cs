@@ -59,12 +59,6 @@ public partial class SettingsPage : ContentPage
         var showRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
         ShowRankSuitLargeSwitch.IsToggled = showRankSuitLarge;
 
-        //var showZoomCardButton = (bool)Preferences.Get("ShowZoomCardButton", false);
-        //ShowZoomCardButtonSwitch.IsToggled = showZoomCardButton;
-
-        //var cardBrightness = (int)Preferences.Get("CardBrightness", 100);
-        //CardBrightnessSlider.Value = cardBrightness;
-
         var showAnnouncementButton = (bool)Preferences.Get("ShowStateAnnouncementButton", false);
         ShowStateAnnouncementButtonCheckbox.IsToggled = showAnnouncementButton;
 
@@ -161,13 +155,6 @@ public partial class SettingsPage : ContentPage
 
         var showRankSuitLarge = ShowRankSuitLargeSwitch.IsToggled;
         Preferences.Set("ShowRankSuitLarge", showRankSuitLarge);
-
-
-        //var showZoomCardButton = ShowZoomCardButtonSwitch.IsToggled;
-        //Preferences.Set("ShowZoomCardButton", showZoomCardButton);
-
-        //var cardBrightnessValue = (int)CardBrightnessSlider.Value;
-        //Preferences.Set("CardBrightness", cardBrightnessValue);
 
         var showStateAnnouncementButton = ShowStateAnnouncementButtonCheckbox.IsToggled;
         Preferences.Set("ShowStateAnnouncementButton", showStateAnnouncementButton);

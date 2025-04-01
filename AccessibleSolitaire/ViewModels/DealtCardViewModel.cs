@@ -43,8 +43,6 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty] private int zoomLevel;
 
-        [ObservableProperty] private int cardBrightness;
-
         [ObservableProperty] private bool showStateAnnouncementButton;
 
         [ObservableProperty] private bool showZoomCardButton;

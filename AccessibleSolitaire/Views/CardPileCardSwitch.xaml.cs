@@ -339,23 +339,6 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
-    public static readonly BindableProperty CardBrightnessProperty =
-        BindableProperty.Create(nameof(CardBrightness), typeof(int), typeof(CardPileCardSwitch));
-
-    public int CardBrightness
-    {
-        get => (int)GetValue(CardBrightnessProperty);
-        set
-        {
-            if (CardBrightness != value)
-            {
-                SetValue(CardBrightnessProperty, value);
-
-                this.OnPropertyChanged("CardBrightness");
-            }
-        }
-    }
-
     public static readonly BindableProperty SuitColoursClubsSwitchProperty =
         BindableProperty.Create(nameof(SuitColoursClubsSwitch), typeof(Color), typeof(CardPileCardSwitch));
 

@@ -42,8 +42,6 @@
         <local_views:CardStateToShowZoomCardButtonConverter x:Key="CardStateToShowZoomCardButtonConverter" />
         <local_views:IsFaceDownToBackgroundColorConverter x:Key="IsFaceDownToBackgroundColorConverter" />
         <local_views:InSelectedSetToBackgroundConverter x:Key="InSelectedSetToBackgroundConverter" />
-        <local_views:CardBrightnessToGradientStopConverter x:Key="CardBrightnessToGradientStopConverter" />
-        <local_views:CardBrightnessToCardFrameIsVisible x:Key="CardBrightnessToCardFrameIsVisible" />
         <local_views:CardWidthToImageWidthConverter x:Key="CardWidthToImageWidthConverter" />
         <local_views:CardWidthToHamburgerWidthConverter x:Key="CardWidthToHamburgerWidthConverter" />
         <local_views:CardWidthToHamburgerHeightConverter x:Key="CardWidthToHamburgerHeightConverter" />
@@ -77,10 +75,6 @@
                     AncestorType={x:Type vm:DealtCardViewModel}}, 
                 x:DataType=vm:DealtCardViewModel,
                 Path=CardHeight}" />
-            <Setter Property="CardBrightness"
-                Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
-                    AncestorType={x:Type vm:DealtCardViewModel}}, x:DataType=vm:DealtCardViewModel,
-                Path=CardBrightness}" />
             <Setter Property="ShowZoomCardButton" 
                 Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
                     AncestorType={x:Type vm:DealtCardViewModel}}, x:DataType=vm:DealtCardViewModel,
@@ -432,42 +426,6 @@
                                 </MultiBinding>
                             </ImageButton.IsVisible>
                         </ImageButton>
-
-                        <Border Grid.RowSpan="3" Grid.ColumnSpan="3"
-                            AutomationProperties.IsInAccessibleTree="False"
-                            Margin="0" Padding="0"
-                            StrokeThickness="0"
-                            InputTransparent="True">
-                            <Border.IsVisible>
-                                <MultiBinding Mode="OneWay" Converter="{StaticResource CardBrightnessToCardFrameIsVisible}">
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.CardBrightness" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
-                                            AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="vm:DealtCardViewModel"
-                                        Path="CardBrightness" />
-                                    <Binding Path="FaceDown" />
-                                </MultiBinding>
-                            </Border.IsVisible>
-                            <Border.Background>
-                                <LinearGradientBrush>
-                                    <GradientStop
-                                        Color="{Binding Source={x:Reference MainPageInstance}, 
-                                            Path=BindingContext.CardBrightness,
-                                            Converter={StaticResource CardBrightnessToGradientStopConverter},
-                                            ConverterParameter=0}"
-                                        Offset="0.0" />
-                                    <GradientStop
-                                        Color="{Binding Source={x:Reference MainPageInstance}, 
-                                            Path=BindingContext.CardBrightness,
-                                            Converter={StaticResource CardBrightnessToGradientStopConverter},
-                                            ConverterParameter=1}"                                                
-                                        Offset="1.0" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                        </Border>
 
                     </Grid>
 

@@ -84,8 +84,6 @@ namespace Sa11ytaire4All
             if (vm != null)
             {
                 vm.ZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
-                
-                vm.CardBrightness = (int)Preferences.Get("CardBrightness", 100);
 
                 vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
                 vm.MergeFaceDownCards = (bool)Preferences.Get("MergeFaceDownCards", true);
@@ -456,8 +454,6 @@ namespace Sa11ytaire4All
                 }
 
                 vm.ZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
-
-                vm.CardBrightness = (int)Preferences.Get("CardBrightness", 100);
 
                 vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
 

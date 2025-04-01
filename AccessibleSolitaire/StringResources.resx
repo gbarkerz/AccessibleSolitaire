@@ -210,13 +210,6 @@
   <data name="CardAppearence" xml:space="preserve">
     <value>Card Appearence</value>
   </data>
-  <data name="CardAppearenceCheckboxLabel" xml:space="preserve">
-    <value>Darken cards:</value>
-  </data>
-  <data name="CardAppearenceInstructions" xml:space="preserve">
-    <value>If you find the face of the playing cards too bright, have the cards shown darker.</value>
-    <comment>Have </comment>
-  </data>
   <data name="CardDeckUpturned.AutomationProperties.HelpText" xml:space="preserve">
     <value>Top-most upturned card</value>
   </data>

@@ -452,37 +452,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class CardBrightnessToGradientStopConverter : IValueConverter
-    {
-        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            var cardBrightness = (int?)value;
-            if (cardBrightness == null)
-            {
-                return Colors.White;
-            }
-
-            Color color;
-
-            var alphaPercent = (0xFF * (1.0 - (float)cardBrightness / 100f));
-
-            // Leave the upper left corner a little lighter.
-            if ((string?)parameter == "0")
-            {
-                alphaPercent /= 2;
-            }
-
-            color = Color.FromInt(((byte)alphaPercent) << 24);
-
-            return color;
-        }
-
-        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class CardWidthSelectedToCardImageWidth : IMultiValueConverter
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -551,33 +520,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class CardBrightnessToCardFrameIsVisible : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return false;
-            }
-
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return false;
-            }
-
-            var cardBrightness = (int)values[0];
-
-            // The FaceDown value is not currently used.
-
-            return (cardBrightness < 100);
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    
     public class ScrollViewWidthToGridWidthRequestConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -685,36 +627,6 @@ namespace Sa11ytaire4All.Views
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
             return isPortrait ? cardHeight : scrollViewHeight;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CardBrightnessToToggleCardFrameIsVisible : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return false;
-            }
-
-            if (values[0] == null)
-            {
-                return false;
-            }
-
-            var cardBrightness = (int)values[0];
-            var card = (Card)values[1];
-
-            // Try darkening the element regardless of whether a card is selected.
-            //var frameIsVisible = (cardBrightness < 100) && (card != null);
-            var frameIsVisible = (cardBrightness < 100);
-
-            return frameIsVisible;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

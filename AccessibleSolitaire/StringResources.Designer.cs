@@ -376,24 +376,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Darken cards:.
-        /// </summary>
-        internal static string CardAppearenceCheckboxLabel {
-            get {
-                return ResourceManager.GetString("CardAppearenceCheckboxLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If you find the face of the playing cards too bright, have the cards shown darker..
-        /// </summary>
-        internal static string CardAppearenceInstructions {
-            get {
-                return ResourceManager.GetString("CardAppearenceInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Top-most upturned card.
         /// </summary>
         internal static string CardDeckUpturned_AutomationProperties_HelpText {
