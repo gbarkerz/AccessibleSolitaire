@@ -42,7 +42,7 @@ namespace Sa11ytaire4All.Views
                 return null;
             }
 
-            // We must have all stui colours supplied.
+            // We must have all suit colours supplied.
             if ((values[2] == null) || (values[3] == null) ||
                 (values[4] == null) || (values[5] == null))
             {
@@ -1442,14 +1442,14 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || values.Length < 9)
+            if (values == null || values.Length < 8)
             {
                 return 0;
             }
 
             if ((values[0] == null) || (values[1] == null) || (values[2] == null) ||
                 (values[3] == null) || (values[4] == null) || (values[5] == null) ||
-                (values[6] == null) || (values[7] == null) || (values[8] == null))
+                (values[6] == null) || (values[7] == null))
             {
                 return 0;
             }
@@ -1463,7 +1463,6 @@ namespace Sa11ytaire4All.Views
             var mainPageBindingContext = values[6];
             var currentDealtCardPileIndex = (int)values[7];
             var extendDealtCardHitTarget = (bool)values[8];
-            var zoomLevel = (int)values[9];
 
             if ((cardWidth <= 0) || (scrollViewWidth <= 0) ||
                 (mainPageBindingContext == null) ||
@@ -1537,7 +1536,7 @@ namespace Sa11ytaire4All.Views
             {
                 // This is the topmost card in the dealt card pile. Should we extend the hit target 
                 // for the dealt card? (This setting only applies at 100% zoom level.)
-                if (extendDealtCardHitTarget && (zoomLevel == 100))
+                if (extendDealtCardHitTarget)
                 {
                     // Start with the card almost reaching the far side of the screen.
                     width = scrollViewWidth - 20;
@@ -1597,22 +1596,16 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class MergedToLabelPaddingConverter : IMultiValueConverter
+    public class MergedToLabelPaddingConverter : IValueConverter
     {
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values == null || values.Length < 2)
+            if (value == null)
             {
                 return new Thickness(0);
             }
 
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return new Thickness(0);
-            }
-
-            var cardHeight = (double)values[0];
-            var zoomLevel = (int)values[1];
+            var cardHeight = (double)value;
 
             var padding = new Thickness(0);
 
@@ -1626,7 +1619,7 @@ namespace Sa11ytaire4All.Views
             return padding;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

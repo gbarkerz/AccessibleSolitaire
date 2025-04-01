@@ -196,11 +196,9 @@ namespace Sa11ytaire4All
                 var vm = this.BindingContext as DealtCardViewModel;
                 if (vm != null)
                 {
-                    DisplayAlert("Accessible Solitaire", "Zoom card now", "OK");
+                    var popup = new CardPopup(card, vm);
 
-                    //var popup = new CardPopup(card, vm);
-
-                    //this.ShowPopup(popup);
+                    this.ShowPopup(popup);
                 }
             }
         }
@@ -366,8 +364,8 @@ namespace Sa11ytaire4All
                     // properties are adjusted, and make evreything visible again shortly afterwards.
                     SetCollectionViewsVisibility(false);
 
-                    UpperScrollView.IsVisible = false;
-                    LowerScrollView.IsVisible = false;
+                    UpperGrid.IsVisible = false;
+                    UpperGrid.IsVisible = false;
 
                     vm.CardWidth = (double)((double)(currentZoomLevel * originalCardWidth) / 100);
                     vm.CardHeight = (double)((double)(currentZoomLevel * originalCardHeight) / 100) - 1;
@@ -541,8 +539,8 @@ namespace Sa11ytaire4All
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                UpperScrollView.IsVisible = true;
-                LowerScrollView.IsVisible = true;
+                UpperGrid.IsVisible = true;
+                UpperGrid.IsVisible = true;
 
                 SetCollectionViewsVisibility(true);
             });
@@ -1284,11 +1282,9 @@ namespace Sa11ytaire4All
                         var vm = this.BindingContext as DealtCardViewModel;
                         if (vm != null)
                         {
-                            DisplayAlert("Accessible Solitaire", "Zoom card now", "OK");
+                            var popup = new CardPopup(dealtCard.Card, vm);
 
-                            //var popup = new CardPopup(dealtCard.Card, vm);
-
-                            //this.ShowPopup(popup);
+                            this.ShowPopup(popup);
                         }
                     }
                 }

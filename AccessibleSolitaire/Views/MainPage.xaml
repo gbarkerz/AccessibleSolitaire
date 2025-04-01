@@ -157,9 +157,6 @@
                             <Binding Source="{x:Reference MainPageInstance}" 
                                 x:DataType="{x:Type local:MainPage}"
                                 Path="BindingContext.ExtendDealtCardHitTarget" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ZoomLevel" />
                         </MultiBinding>
                     </Border.WidthRequest>
                     <Border.HeightRequest>
@@ -219,6 +216,9 @@
                             VerticalOptions="{Binding FaceDown, Mode=OneWay, ConverterParameter=1,
                                 Converter={StaticResource ConverterForDealtCardLabelHorizontalOptions}}"
                             Margin="2,0,0,0"
+                            Padding="{Binding Path=BindingContext.CardHeight, 
+                                Source={x:Reference MainPageInstance}, x:DataType=local:MainPage,
+                                Converter={StaticResource MergedToLabelPaddingConverter}}"
                             FontAutoScalingEnabled="False"
                             FontAttributes="Bold"
                             FontSize="{Binding 
@@ -228,17 +228,7 @@
                                 Path=CardHeight, 
                                 Converter={StaticResource CardHeightToLabelFontSizeConverter}}"
                             Text="{Binding CountFaceDownCardsInPile, Mode=OneWay}">
-                            <Label.Padding>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource MergedToLabelPaddingConverter}">
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.CardHeight" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ZoomLevel" />
-                                </MultiBinding>
-                            </Label.Padding>
+
                             <Label.IsVisible>
                                 <MultiBinding Mode="OneWay"
                                     Converter="{StaticResource FaceDownCountLabelToIsVisibleConverter}">
@@ -434,261 +424,239 @@
             <!--<toolkit:MediaElement x:Name="MainMediaElement" 
                 ShouldShowPlaybackControls="False"/>-->
 
-            <!-- Layout note: UpperScrollView ScrollView occupies the top portion of the screen.
+            <!-- Layout note: UpperGrid occupies the top portion of the screen.
                 (Landscape: 1 row occupying 1/3rd of screen, Portrait: 2 rows occupying 2/9ths.)
-                The ScrollView contains all the interactive elements above the dealt cards piles. -->
+                The Grid contains all the interactive elements above the dealt cards piles. -->
 
-            <ScrollView x:Name="UpperScrollView"
+            <!-- Layout note: This Grid contains all the UI elements above the dealt card piles. -->
+
+            <Grid x:Name="UpperGrid"
                 Grid.Row="0"
                 BackgroundColor="{AppThemeBinding Light=Green, Dark=#004000}"
                 Margin="0" Padding="0"
-                Orientation="Both">
+                FlowDirection="{Binding Path=FlipGameLayoutHorizontally,
+                    Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                <!-- Layout note: This Grid contains all the UI elements above the dealt card piles. 
-                    At zoom levels above 100% the Grid is larger than the screen and can be brought 
-                    into view via the containing ScrollView. -->
+                <!-- First the Menu and Speak Status buttons to the left of the Next Card button. -->
 
-                <Grid Margin="0" Padding="0"
-                    FlowDirection="{Binding Path=FlipGameLayoutHorizontally,
-                        Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}">
+                <VerticalStackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                    HorizontalOptions="Start"
+                    Margin="0" Padding="0">
+
+                    <ImageButton
+                        SemanticProperties.Description="{x:Static resources:StringResources.Menu}"
+                        Source="hamburger.png" Aspect="Fill"
+                        WidthRequest="{Binding 
+                            Path=CardWidth,
+                            Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                        HeightRequest="{Binding 
+                            Path=CardWidth,
+                            Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
+                        Clicked="MenuButton_Click"
+                        BackgroundColor="Transparent"
+                        Margin="4" Padding="0" 
+                        BorderWidth="0" CornerRadius="0" />
+                    
+                    <ImageButton x:Name="StateAnnouncementButton"
+                        SemanticProperties.Description="{x:Static resources:StringResources.AnnouceState}"
+                        WidthRequest="{Binding 
+                            Path=CardWidth,
+                                Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                        HeightRequest="{Binding 
+                            Path=CardWidth,
+                            Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
+                        Clicked="StateAnnouncementButton_Clicked"
+                        BackgroundColor="Transparent"
+                        Margin="0" Padding="0" 
+                        BorderWidth="0" CornerRadius="0"
+                        HorizontalOptions="Center" VerticalOptions="Start">
+                        <ImageButton.Source>
+                            <FontImageSource  
+                                Glyph="&#xf27a;"
+                                FontFamily="FA" 
+                                Color="White" />
+                        </ImageButton.Source>
+                    </ImageButton>
+
+                </VerticalStackLayout>
+                
+                <!-- Add the Next Card button and the upturned cards. -->
+
+                <Grid x:Name="TopCornerPiles" 
+                    Grid.Row="0" Grid.Column="1"
+                    Padding="0" Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
 
-                    <!-- First the Menu and Speak Status buttons to the left of the Next Card button. -->
+                    <!-- Add the Next Card button. -->
 
-                    <VerticalStackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                        HorizontalOptions="Start"
-                        Margin="0" Padding="0">
-
-                        <ImageButton
-                            SemanticProperties.Description="{x:Static resources:StringResources.Menu}"
-                            Source="hamburger.png" Aspect="Fill"
-                            WidthRequest="{Binding 
-                                Path=CardWidth,
-                                Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                    <Grid Grid.Column="0" 
+                        Padding="0" Margin="0" 
+                        VerticalOptions="Center">
+                        <local_source:NextCardPileButton x:Name="NextCardDeck" 
+                                                            Clicked="NextCard_Click"
+                            SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 
+                                Source={RelativeSource Self}, 
+                                x:DataType={x:Type local_source:NextCardPileButton},
+                                Converter={StaticResource NextCardIsEmptyToAccessibleName}}"
+                            x:Uid="NextCardPile"
+                            CornerRadius="0"
+                            Margin="0" Padding="0"
+                            BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
+                            BorderWidth="1"
                             HeightRequest="{Binding 
-                                Path=CardWidth,
-                                Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
-                            Clicked="MenuButton_Click"
-                            BackgroundColor="Transparent"
-                            Margin="4" Padding="0" 
-                            BorderWidth="0" CornerRadius="0" />
-                    
-                        <ImageButton x:Name="StateAnnouncementButton"
-                            SemanticProperties.Description="{x:Static resources:StringResources.AnnouceState}"
+                                Path=CardHeight}"
                             WidthRequest="{Binding 
-                                Path=CardWidth,
-                                    Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
-                            HeightRequest="{Binding 
-                                Path=CardWidth,
-                                Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
-                            Clicked="StateAnnouncementButton_Clicked"
-                            BackgroundColor="Transparent"
-                            Margin="0" Padding="0" 
-                            BorderWidth="0" CornerRadius="0"
-                            HorizontalOptions="Center" VerticalOptions="Start">
-                            <ImageButton.Source>
-                                <FontImageSource  
-                                    Glyph="&#xf27a;"
-                                    FontFamily="FA" 
-                                    Color="White" />
-                            </ImageButton.Source>
-                        </ImageButton>
-
-                    </VerticalStackLayout>
-                
-                    <!-- Add the Next Card button and the upturned cards. -->
-
-                    <Grid x:Name="TopCornerPiles" 
-                        Grid.Row="0" Grid.Column="1"
-                        Padding="0" Margin="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Add the Next Card button. -->
-
-                        <Grid Grid.Column="0" 
-                            Padding="0" Margin="0" 
-                            VerticalOptions="Center">
-                            <local_source:NextCardPileButton x:Name="NextCardDeck" 
-                                                             Clicked="NextCard_Click"
-                                SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 
-                                    Source={RelativeSource Self}, 
-                                    x:DataType={x:Type local_source:NextCardPileButton},
-                                    Converter={StaticResource NextCardIsEmptyToAccessibleName}}"
-                                x:Uid="NextCardPile"
-                                CornerRadius="0"
-                                Margin="0" Padding="0"
-                                BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
-                                BorderWidth="1"
-                                HeightRequest="{Binding 
-                                    Path=CardHeight}"
-                                WidthRequest="{Binding 
-                                    Path=CardWidth}"
-                                Aspect="Fill"
-                                Source="{Binding IsEmpty, Mode=OneWay, 
-                                    Source={RelativeSource Self}, 
-                                    x:DataType={x:Type local_source:NextCardPileButton},
-                                    Converter={StaticResource NextCardIsEmptyToImageConverter}}">
-                            </local_source:NextCardPileButton>
-                        </Grid>
-
-                        <!-- Note: The CardPileCard elements below represent the three upturned cards and
-                            the target card piles. -->
-
-                        <!-- Add the three upturned cards. -->
-                    
-                        <Grid Grid.Column="1" Grid.ColumnSpan="2"
-                            AutomationProperties.IsInAccessibleTree="False"
-                            Margin="2,0,0,0" Padding="0" 
-                            VerticalOptions="CenterAndExpand">
-
-                            <Grid x:Name="UpturnedCardsGrid"
-                                Margin="0" Padding="0" 
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="StartAndExpand">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
-                                    x:Name="CardDeckUpturnedObscuredLower" AutomationId="CardDeckUpturnedObscuredLower" 
-                                    IsEnabled="{Binding Path=Card, Mode=OneWay, 
-                                        Source={RelativeSource Self}, 
-                                        x:DataType={x:Type local_views:CardPileCardSwitch},
-                                        Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
-                                    BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
-                                    Padding="0"
-                                    LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                        Source={x:Reference MainPageInstance},
-                                        x:DataType={x:Type local:MainPage},
-                                        Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                                    Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
-                                        Source={x:Reference MainPageInstance},
-                                        x:DataType={x:Type local:MainPage},
-                                        Converter={StaticResource IsObscuredCardToMargin}}" />
-
-                                <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
-                                    x:Name="CardDeckUpturnedObscuredHigher" AutomationId="CardDeckUpturnedObscuredHigher"
-                                    IsEnabled="{Binding Path=Card, Mode=OneWay, 
-                                        Source={RelativeSource Self}, 
-                                        x:DataType={x:Type local_views:CardPileCardSwitch},
-                                        Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
-                                    BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
-                                    Padding="0"
-                                    LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                        Source={x:Reference MainPageInstance},
-                                        x:DataType={x:Type local:MainPage},
-                                        Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                                    Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
-                                        Source={x:Reference MainPageInstance},
-                                        x:DataType={x:Type local:MainPage},
-                                        Converter={StaticResource IsObscuredCardToMargin}}" />
-
-                                <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
-                                    Margin="0" Padding="0"
-                                    x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
-                                    LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                        Source={x:Reference MainPageInstance},
-                                        x:DataType={x:Type local:MainPage},
-                                        Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                                    BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
-
-                            </Grid>
-                        </Grid>
+                                Path=CardWidth}"
+                            Aspect="Fill"
+                            Source="{Binding IsEmpty, Mode=OneWay, 
+                                Source={RelativeSource Self}, 
+                                x:DataType={x:Type local_source:NextCardPileButton},
+                                Converter={StaticResource NextCardIsEmptyToImageConverter}}">
+                        </local_source:NextCardPileButton>
                     </Grid>
 
-                    <!-- Add the four target piles. -->
+                    <!-- Note: The CardPileCard elements below represent the three upturned cards and
+                        the target card piles. -->
 
-                    <!-- Note: We no longer have a container for the four target piles, as when a screen reader is running,
-                        the container can interfere with touch targeting the target piles. A touch sometimes stays on the 
-                        container and sometimes hits the target pile. -->
+                    <!-- Add the three upturned cards. -->
+                    
+                    <Grid Grid.Column="1" Grid.ColumnSpan="2"
+                        AutomationProperties.IsInAccessibleTree="False"
+                        Margin="2,0,0,0" Padding="0" 
+                        VerticalOptions="CenterAndExpand">
 
-                    <!-- Layout note: TargetPiles Grid contains for four target card piles. 
-                        (Landscape: In row 0 following the upturned cards, Portrait: In row 1 beneath the upturned cards.) -->
-                
-                    <Grid x:Name="TargetPiles"
-                        Margin="0" Padding="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="UpturnedCardsGrid"
+                            Margin="0" Padding="0" 
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="StartAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                        <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
-                            IsEnabled="True"
-                            BackgroundColor="LightGreen"
-                            Margin="8,0,2,0" Padding="0"
-                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                Source={x:Reference MainPageInstance},
-                                x:DataType={x:Type local:MainPage},
-                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                            x:Name="TargetPileC" AutomationId="TargetPileC" />
+                            <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
+                                x:Name="CardDeckUpturnedObscuredLower" AutomationId="CardDeckUpturnedObscuredLower" 
+                                IsEnabled="{Binding Path=Card, Mode=OneWay, 
+                                    Source={RelativeSource Self}, 
+                                    x:DataType={x:Type local_views:CardPileCardSwitch},
+                                    Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
+                                Padding="0"
+                                LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                    Source={x:Reference MainPageInstance},
+                                    x:DataType={x:Type local:MainPage},
+                                    Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                                Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
+                                    Source={x:Reference MainPageInstance},
+                                    x:DataType={x:Type local:MainPage},
+                                    Converter={StaticResource IsObscuredCardToMargin}}" />
 
-                        <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
-                            IsEnabled="True"
-                            BackgroundColor="LightGreen"
-                            Margin="0,0,2,0" Padding="0"
-                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                Source={x:Reference MainPageInstance},
-                                x:DataType={x:Type local:MainPage},
-                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                            x:Name="TargetPileD" AutomationId="TargetPileD" />
+                            <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
+                                x:Name="CardDeckUpturnedObscuredHigher" AutomationId="CardDeckUpturnedObscuredHigher"
+                                IsEnabled="{Binding Path=Card, Mode=OneWay, 
+                                    Source={RelativeSource Self}, 
+                                    x:DataType={x:Type local_views:CardPileCardSwitch},
+                                    Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
+                                Padding="0"
+                                LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                    Source={x:Reference MainPageInstance},
+                                    x:DataType={x:Type local:MainPage},
+                                    Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                                Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
+                                    Source={x:Reference MainPageInstance},
+                                    x:DataType={x:Type local:MainPage},
+                                    Converter={StaticResource IsObscuredCardToMargin}}" />
 
-                        <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
-                            IsEnabled="True"
-                            BackgroundColor="LightGreen"
-                            Margin="0,0,2,0" Padding="0"
-                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                Source={x:Reference MainPageInstance},
-                                x:DataType={x:Type local:MainPage},
-                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                            x:Name="TargetPileH" AutomationId="TargetPileH" />
+                            <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
+                                Margin="0" Padding="0"
+                                x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
+                                LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                                    Source={x:Reference MainPageInstance},
+                                    x:DataType={x:Type local:MainPage},
+                                    Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                                BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
 
-                        <local_views:CardPileCardSwitch Grid.Column="3" Style="{StaticResource CardPileCardSwitchStyle}"
-                            IsEnabled="True"
-                            BackgroundColor="LightGreen"
-                            Margin="0,0,8,0" Padding="0"
-                            LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                Source={x:Reference MainPageInstance},
-                                x:DataType={x:Type local:MainPage},
-                                Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                            x:Name="TargetPileS" AutomationId="TargetPileS" />
-
+                        </Grid>
                     </Grid>
                 </Grid>
 
-            </ScrollView>
+                <!-- Add the four target piles. -->
+
+                <!-- Note: We no longer have a container for the four target piles, as when a screen reader is running,
+                    the container can interfere with touch targeting the target piles. A touch sometimes stays on the 
+                    container and sometimes hits the target pile. -->
+
+                <!-- Layout note: TargetPiles Grid contains for four target card piles. 
+                    (Landscape: In row 0 following the upturned cards, Portrait: In row 1 beneath the upturned cards.) -->
+                
+                <Grid x:Name="TargetPiles"
+                    Margin="0" Padding="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="LightGreen"
+                        Margin="8,0,2,0" Padding="0"
+                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                            Source={x:Reference MainPageInstance},
+                            x:DataType={x:Type local:MainPage},
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileC" AutomationId="TargetPileC" />
+
+                    <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="LightGreen"
+                        Margin="0,0,2,0" Padding="0"
+                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                            Source={x:Reference MainPageInstance},
+                            x:DataType={x:Type local:MainPage},
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileD" AutomationId="TargetPileD" />
+
+                    <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="LightGreen"
+                        Margin="0,0,2,0" Padding="0"
+                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                            Source={x:Reference MainPageInstance},
+                            x:DataType={x:Type local:MainPage},
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileH" AutomationId="TargetPileH" />
+
+                    <local_views:CardPileCardSwitch Grid.Column="3" Style="{StaticResource CardPileCardSwitchStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="LightGreen"
+                        Margin="0,0,8,0" Padding="0"
+                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
+                            Source={x:Reference MainPageInstance},
+                            x:DataType={x:Type local:MainPage},
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileS" AutomationId="TargetPileS" />
+
+                </Grid>
+            </Grid>
 
             <!-- Add the seven dealt card piles.  -->
 
-            <!-- IMPORTANT: Originally this ScrollView could scroll in both directions, meaning that the contained 
-                CollectionViews never scrolled vertically individually, rather the ScrollView scrolled to bring
-                CollectionViews into view. But periodically when moving cards to a dealt card pile, the app would 
-                close unexpectedly with no helpful debug info. It was found this crash could be avoided by avoiding
-                having the vertically-scrollable-enabled CollectionViews contained in the vertically-scrollable-enabled
-                ScrollView. Instead we now have the ScrollView only scroll horizontally for landscape orientation 
-                (required when the in-app Zoom level is > 100%) and each contained CollectionView can be individually 
-                scrolled vertically. (Similar approach for portrait.) -->
-
-            <!-- Layout note: LowerScrollView ScrollView contains the dealt card piles and occupies the lower portion
-                of the screen. 
-                    Landscape: 2/3rds of the screen and Vertical Orientation, 
-                    Portrait: 7/9ths of the screen and Horizontal Orientation.
-            --> 
-        
             <ScrollView x:Name="LowerScrollView"
                 AutomationProperties.IsInAccessibleTree="False"
                 Padding="0" Margin="0">

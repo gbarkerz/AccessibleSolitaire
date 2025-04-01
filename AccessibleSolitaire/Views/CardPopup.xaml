@@ -32,16 +32,39 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Image Grid.ColumnSpan="2"
+        <Image Grid.ColumnSpan="2" x:Name="TintedCardImage"
             BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-            Source="{Binding ., Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}" />
+            Source="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}">
+
+            <Image.Behaviors>
+
+                <toolkit:IconTintColorBehavior
+                    BindingContext="{Binding Path=BindingContext, 
+                        Source={x:Reference TintedCardImage}}">
+
+                    <toolkit:IconTintColorBehavior.TintColor>
+                        <MultiBinding Mode="OneWay" 
+                                Converter="{StaticResource SuitSuitColoursToColor}">
+                            <Binding Path="Card" />
+                            <Binding Path="AutomationId" />
+                            <Binding Path="SuitColoursClubs" />
+                            <Binding Path="SuitColoursDiamonds" />
+                            <Binding Path="SuitColoursHearts" />
+                            <Binding Path="SuitColoursSpades" />
+                        </MultiBinding>
+                    </toolkit:IconTintColorBehavior.TintColor>
+
+                </toolkit:IconTintColorBehavior>
+            </Image.Behaviors>
+        </Image>
 
         <!-- Note: This accessibility is set based on the Android TalkBack experience, NOT the earlier Samsung "Screen Reader". -->
 
         <Image Grid.ColumnSpan="2"
-            SemanticProperties.Description="{Binding ., Mode=OneWay, Converter={StaticResource CardToCardPopupAccessibleName}}"
+            SemanticProperties.Description="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardPopupAccessibleName}}"
             BackgroundColor="Transparent"
-            Source="{Binding ., Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}" />
+            Source="{Binding Card, Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}">
+        </Image>
 
         <Button Grid.Column="1" Grid.Row="1"
             TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"

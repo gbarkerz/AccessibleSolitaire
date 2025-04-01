@@ -1,14 +1,22 @@
 using CommunityToolkit.Maui.Views;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
+using System.ComponentModel;
 
 namespace Sa11ytaire4All.Views;
 
-public partial class CardPopup : Popup
+public partial class CardPopup : Popup, INotifyPropertyChanged
 {
     public CardPopup(Card card, DealtCardViewModel vm)
     {
-        this.BindingContext = card;
+        this.BindingContext = this;
+
+        this.Card = card;
+
+        this.SuitColoursClubs = vm.SuitColoursClubs;
+        this.SuitColoursDiamonds = vm.SuitColoursDiamonds;
+        this.SuitColoursHearts = vm.SuitColoursHearts;
+        this.SuitColoursSpades = vm.SuitColoursSpades;
 
         InitializeComponent();
     }
