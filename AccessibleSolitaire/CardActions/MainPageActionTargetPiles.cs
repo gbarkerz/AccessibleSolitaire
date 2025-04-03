@@ -7,7 +7,7 @@ namespace Sa11ytaire4All
     public sealed partial class MainPage : ContentPage
     {
         // A card in one of the Target Card piles or the Upturned Card has been selected.
-        public void CardPileCardSelected(Switch cardSwitch)
+        public void CardPileCardSelected(Button cardSwitch)
         {
             CardPileCardSwitch? targetPileSwitch = null;
             CardPileCardSwitch? obscuredCardSwitch = null;
@@ -60,18 +60,20 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            targetPileSwitch.IsToggled = !targetPileSwitch.IsToggled;
+
             // If we've just untoggled a target card pile, there's nothing more to do here.
-            if (!targetPileSwitch.IsCardSwitchToggled())
+            if (!targetPileSwitch.IsToggled)
             {
                 return;
             }
 
             // If multiple target buttons are selected, unselect them and return.
             int countTargetButtonsSelected = 0;
-            countTargetButtonsSelected += (TargetPileC.IsCardSwitchToggled() ? 1 : 0);
-            countTargetButtonsSelected += (TargetPileD.IsCardSwitchToggled() ? 1 : 0);
-            countTargetButtonsSelected += (TargetPileH.IsCardSwitchToggled() ? 1 : 0);
-            countTargetButtonsSelected += (TargetPileS.IsCardSwitchToggled() ? 1 : 0);
+            countTargetButtonsSelected += (TargetPileC.IsToggled ? 1 : 0);
+            countTargetButtonsSelected += (TargetPileD.IsToggled ? 1 : 0);
+            countTargetButtonsSelected += (TargetPileH.IsToggled ? 1 : 0);
+            countTargetButtonsSelected += (TargetPileS.IsToggled ? 1 : 0);
 
             if (countTargetButtonsSelected > 1)
             {
@@ -83,7 +85,7 @@ namespace Sa11ytaire4All
             var cardWasMoved = false;
 
             // Is the top card in the Upturned Card pile checked?
-            if (CardDeckUpturned.IsCardSwitchToggled() && (_deckUpturned.Count > 0))
+            if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
             {
                 // Attempt to move the upturned card to the target pile. This action is synchronous.
                 cardWasMoved = MoveUpturnedCardToTargetPileAsAppropriate(targetPileSwitch);
@@ -146,7 +148,7 @@ namespace Sa11ytaire4All
             }
 
             // If the upturned card is not checked, there's nothing to do here.
-            if (CardDeckUpturned.IsCardSwitchToggled())
+            if (CardDeckUpturned.IsToggled)
             {
                 // cardAbove here is the upturned card.
                 DealtCard cardAbove = new DealtCard();

@@ -88,7 +88,7 @@ namespace Sa11ytaire4All
             {
                 // There is no upturned card in the upturned card pile. So 
                 // make sure the empty upturned card is not left selected.
-                if (CardDeckUpturned.IsCardSwitchToggled())
+                if (CardDeckUpturned.IsToggled)
                 {
                     CardDeckUpturned.SetToggledState(false);
                 }
@@ -97,13 +97,13 @@ namespace Sa11ytaire4All
             }
 
             // Change the selection state of the upturned card.
-            //cardDeckUpturned.SetToggledState(!cardDeckUpturned.IsCardSwitchToggled());
+            cardDeckUpturned.SetToggledState(!cardDeckUpturned.IsToggled);
 
             // Always deselect all dealt cards and the target card piles 
             // when the upturned card is selected.
             ClearAllSelections(false);
 
-            if (CardDeckUpturned.IsCardSwitchToggled())
+            if (CardDeckUpturned.IsToggled)
             {
                 string selectedAnnouncement =
                     cardDeckUpturned.Card.GetCardAccessibleName() + " " +

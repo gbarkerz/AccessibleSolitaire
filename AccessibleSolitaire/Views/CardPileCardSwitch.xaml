@@ -28,62 +28,46 @@
         <Grid 
             Margin="0" Padding="0"
             BackgroundColor="{Binding IsToggled, Mode=OneWay,
-                Source={x:Reference CardSwitch}, x:DataType=Switch,
                     Converter={StaticResource IsToggledToBackgroundColorConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="4*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
 
-            <!-- Bind the visibility of the Switch to the enabled state of the containing CardPileCardSwitch. -->
-            <Switch x:Name="CardSwitch"
-                Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
+            <!-- Bind the visibility to the enabled state of the containing CardPileCardSwitch. -->
+
+            <Button
+                x:Name="CardSwitch"
                 Margin="{Binding IsToggled, Mode=OneWay,
-                    Source={x:Reference CardSwitch}, x:DataType=Switch,
-                        Converter={StaticResource IsToggledToMarginConverter},
-                            ConverterParameter=0}"
+                    Converter={StaticResource IsToggledToMarginConverter},
+                        ConverterParameter=0}"
                 IsVisible="{Binding IsEnabled, Mode=OneWay, 
                     Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
                 SemanticProperties.Description="{Binding CardPileAccessibleName, Mode=OneWay, 
                     Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
                 AutomationId="{Binding AutomationId, Mode=OneWay, 
                     Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
-                ThumbColor="Transparent"
                 BackgroundColor="Transparent"
-                Toggled="CardPileCardSwitch_Toggled">
-                <Switch.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" />
-                </Switch.GestureRecognizers>
+                Clicked="CardSwitch_Clicked">
 
-                <Switch.Behaviors>
+                <Button.Behaviors>
                     <toolkit:TouchBehavior
                         BindingContext="{Binding Path=BindingContext, 
                             Source={x:Reference CardPileCardSwitchInstance}, x:DataType=local_views:CardPileCardSwitch}"
                         LongPressDuration="{Binding BindingContext.LongPressZoomDuration}"
                         LongPressCompleted="TouchBehavior_LongPressCompleted" />
-                </Switch.Behaviors>
-            </Switch>
+                </Button.Behaviors>
+            </Button>
 
             <Border 
-                Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
                 Stroke="{AppThemeBinding Light=Black, Dark=White}" 
                 StrokeThickness="1" BackgroundColor="Transparent"
                 InputTransparent="True"
                 Margin="0" Padding="0">
 
                 <Image x:Name="TintedCardImage"
-                    Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"                    
                     AutomationProperties.IsInAccessibleTree="False"
                     BackgroundColor="{Binding Card, Mode=OneWay, 
                         Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}},
                             Converter={StaticResource CardToBackgroundConverter}}"
                     InputTransparent="True"
                     Margin="{Binding IsToggled, Mode=OneWay,
-                        Source={x:Reference CardSwitch}, x:DataType=Switch,
                         Converter={StaticResource IsToggledToMarginConverter},
                             ConverterParameter=1}"
                     Aspect="Fill"
@@ -136,7 +120,6 @@
             BackgroundColor="Transparent"
             InputTransparent="True"
             Margin="{Binding IsToggled, Mode=OneWay,
-                Source={x:Reference CardSwitch}, x:DataType=Switch,
                 Converter={StaticResource IsToggledToMarginConverter},
                     ConverterParameter=1}"
             Aspect="Fill"

@@ -259,7 +259,6 @@
                                         <MultiBinding Mode="OneWay" 
                                             Converter="{StaticResource SuitSuitColoursToColor}">
 
-                                            <!-- This works in Debug, but in Release the Card here is null when passed to the converter. -->
                                             <Binding Path="Card" />
                                             <Binding Path="AutomationId" />
 

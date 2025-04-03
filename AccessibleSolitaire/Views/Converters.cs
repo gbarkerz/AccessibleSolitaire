@@ -58,7 +58,7 @@ namespace Sa11ytaire4All.Views
                 if (values[1] == null)
                 {
                     // No AutomationId supplied.
-                    return null;
+                    return Colors.Transparent;
                 }
 
                 var automationId = values[1] as string;
@@ -102,8 +102,13 @@ namespace Sa11ytaire4All.Views
                         suitColor = (Color)values[4];
                         break;
 
-                    default: // Suit.Spades:
+                    case Suit.Spades:
                         suitColor = (Color)values[5];
+                        break;
+
+                    default:
+                        suitColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                            Colors.LightGrey : Colors.Grey);
                         break;
                 }
             }

@@ -392,48 +392,31 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
-    public bool IsCardSwitchToggled()
-    {
-        var cardSwitch = this.FindByName("CardSwitch") as Switch;
-        if (cardSwitch == null)
-        {
-            return false;
-        }
+    public static readonly BindableProperty IsToggledProperty =
+        BindableProperty.Create(nameof(IsToggled), typeof(bool), typeof(CardPileCardSwitch));
 
-        return cardSwitch.IsToggled;
+    public bool IsToggled
+    {
+        get => (bool)GetValue(IsToggledProperty);
+        set
+        {
+            SetValue(IsToggledProperty, value);
+
+            this.OnPropertyChanged("IsToggled");
+        }
     }
 
     public void SetToggledState(bool toggledState)
     {
-        var cardSwitch = this.FindByName("CardSwitch") as Switch;
+        var cardSwitch = this.FindByName("CardSwitch") as Button;
         if (cardSwitch == null)
         {
             return;
         }
 
-        cardSwitch.IsToggled = toggledState;
-    }
+        Debug.WriteLine("SetToggledState: " + cardSwitch.AutomationId);
 
-    // This gets called when the tap is on the tiny switch slider UI.
-    private void CardPileCardSwitch_Toggled(object sender, ToggledEventArgs e)
-    {
-        var cardSwitch = sender as Switch;
-        if (cardSwitch == null)
-        {  
-            return;
-        }
-
-        Debug.WriteLine("CardSwitch Toggled: " + cardSwitch.AutomationId);
-
-        MainPage.MainPageSingleton?.CardPileCardSelected(cardSwitch);
-
-        var accessibleName = SemanticProperties.GetDescription(cardSwitch);
-
-        string announcement =
-            accessibleName + " " +
-            MainPage.MyGetString(cardSwitch.IsToggled ? "Selected" : "Unselected");
-
-        SemanticScreenReader.Default.Announce(announcement);
+        IsToggled = toggledState;
     }
 
     public void RefreshVisuals()
@@ -454,22 +437,32 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
-    private void OnTapGestureRecognizerTapped(object sender, TappedEventArgs args)
-    {
-        Debug.WriteLine("Accessible Solitaire: Enter CardSwitchPileCard OnTapGestureRecognizerTapped.");
-
-        var cardsSwitch = sender as Switch;
-        if (cardsSwitch != null)
-        {
-            cardsSwitch.IsToggled = !cardsSwitch.IsToggled;
-        }
-    }
-
     private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
     {
         if ((MainPage.MainPageSingleton != null) && (this.Card != null))
         {
             MainPage.MainPageSingleton.ShowZoomedCardPopup(this.Card, false);
         }
+    }
+
+    private void CardSwitch_Clicked(object sender, EventArgs e)
+    {
+        var cardSwitch = sender as Button;
+        if (cardSwitch == null)
+        {
+            return;
+        }
+
+        Debug.WriteLine("CardSwitch CLicked: " + cardSwitch.AutomationId);
+
+        MainPage.MainPageSingleton?.CardPileCardSelected(cardSwitch);
+
+        var accessibleName = SemanticProperties.GetDescription(cardSwitch);
+
+        string announcement =
+            accessibleName + " " +
+            MainPage.MyGetString(IsToggled ? "Selected" : "Unselected");
+
+        SemanticScreenReader.Default.Announce(announcement);
     }
 }

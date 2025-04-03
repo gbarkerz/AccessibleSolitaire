@@ -114,7 +114,7 @@ namespace Sa11ytaire4All
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
             }
-            else if (CardDeckUpturned.IsCardSwitchToggled() && (_deckUpturned.Count > 0))
+            else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
             {
                 // Attempt to move the upturned card to this list.
                 var cardUpturned = new DealtCard();
@@ -227,7 +227,7 @@ namespace Sa11ytaire4All
             bool movedCard = false;
 
             // Consider moving the upturned card to this Card Pile.
-            if (CardDeckUpturned.IsCardSwitchToggled() && (_deckUpturned.Count > 0))
+            if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
             {
                 // Is the upturned card a King?
                 var movingCard = _deckUpturned[_deckUpturned.Count - 1];
@@ -409,22 +409,22 @@ namespace Sa11ytaire4All
             CardPileCardSwitch? targetPileSwitch = null;
             List<Card>? listTargetPile = null;
 
-            if (TargetPileC.IsCardSwitchToggled())
+            if (TargetPileC.IsToggled)
             {
                 targetPileSwitch = TargetPileC;
                 listTargetPile = _targetPiles[0];
             }
-            else if (TargetPileD.IsCardSwitchToggled())
+            else if (TargetPileD.IsToggled)
             {
                 targetPileSwitch = TargetPileD;
                 listTargetPile = _targetPiles[1];
             }
-            else if (TargetPileH.IsCardSwitchToggled())
+            else if (TargetPileH.IsToggled)
             {
                 targetPileSwitch = TargetPileH;
                 listTargetPile = _targetPiles[2];
             }
-            else if (TargetPileS.IsCardSwitchToggled())
+            else if (TargetPileS.IsToggled)
             {
                 targetPileSwitch = TargetPileS;
                 listTargetPile = _targetPiles[3];
