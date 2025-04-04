@@ -72,13 +72,20 @@ namespace Sa11ytaire4All
 
             suitColours = new Dictionary<string, Color>();
             suitColours.Add("Black", Colors.Black);
+            suitColours.Add("Dark Red", Colors.DarkRed);
+            suitColours.Add("Dark Orange", Colors.DarkOrange);
+            suitColours.Add("Dark Yellow", Color.FromArgb("#FF8B8000"));
+            suitColours.Add("Dark Green", Colors.DarkGreen);
+            suitColours.Add("Dark Blue", Colors.DarkBlue);
+            suitColours.Add("Dark Indigo", Color.FromArgb("#FF1F0954"));
+            suitColours.Add("Dark Violet", Colors.DarkViolet);
             suitColours.Add("Red", Colors.Red);
+            suitColours.Add("Orange", Colors.Orange);
+            suitColours.Add("Yellow", Colors.Yellow);
             suitColours.Add("Green", Colors.Green);
             suitColours.Add("Blue", Colors.Blue);
-            suitColours.Add("Slate", Colors.DarkSlateGrey);
-            suitColours.Add("Purple", Colors.Purple);
-            suitColours.Add("Brown", Colors.Brown);
-            suitColours.Add("Gold", Color.FromArgb("#FF957410"));
+            suitColours.Add("Indigo", Colors.Indigo);
+            suitColours.Add("Violet", Colors.Violet);
 
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
@@ -239,7 +246,13 @@ namespace Sa11ytaire4All
                 // Toggle the selection state of the card which was tapped on.
                 if (list.SelectedItem == dealtCard)
                 {
-                    list.SelectedItem = null;
+                    // On Android, deselecting a card inside the tap handler seems not to work.
+                    // So delay the deselection a little until we're out of the tap handler.
+                    timerDeselectDealtCard = new Timer(
+                        new TimerCallback((s) => DelayDeselectDealtCard(list)),
+                            null,
+                            TimeSpan.FromMilliseconds(200),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
                 else
                 {
@@ -248,6 +261,20 @@ namespace Sa11ytaire4All
             }
 
             tapGestureProcessingInProgress = false;
+        }
+
+        private Timer? timerDeselectDealtCard;
+
+        private void DelayDeselectDealtCard(CollectionView list)
+        {
+            timerDeselectDealtCard?.Dispose();
+            timerDeselectDealtCard = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                list.SelectedItem = null;
+            });
         }
 
         public static CollectionView? FindCollectionView(DealtCard dealtCard)

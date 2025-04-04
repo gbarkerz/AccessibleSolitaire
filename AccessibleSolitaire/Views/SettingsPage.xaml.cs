@@ -14,14 +14,6 @@ public partial class SettingsPage : ContentPage
         SoundsSettingsGrid.IsVisible = true;
 #endif
 
-        //for (int i = 100; i <= 400; i += 25)
-        //{
-        //    ZoomPicker.Items.Add(i.ToString() + "%");
-        //}
-
-        //var currentZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
-        //ZoomPicker.SelectedItem = currentZoomLevel.ToString() + "%";
-
         var pickers = new Picker[]{ 
             SuitColoursClubsPicker,
             SuitColoursDiamondsPicker,
@@ -104,22 +96,6 @@ public partial class SettingsPage : ContentPage
 
     private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        //if (ZoomPicker != null)
-        //{
-        //    var selectedItem = ZoomPicker.SelectedItem;
-        //    if (selectedItem != null)
-        //    {
-        //        var selectionString = selectedItem.ToString();
-        //        if (selectionString != null)
-        //        {
-        //            var newZoomLevelString = selectionString.Replace("%", "");
-        //            var newZoomLevel = int.Parse(newZoomLevelString);
-
-        //            Preferences.Set("ZoomLevel", newZoomLevel);
-        //        }
-        //    }
-        //}
-
         if (LongPressOnCardPicker != null)
         {
             var selectedIndex = LongPressOnCardPicker.SelectedIndex;
