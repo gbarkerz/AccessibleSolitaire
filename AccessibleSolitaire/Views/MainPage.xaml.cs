@@ -74,14 +74,14 @@ namespace Sa11ytaire4All
             suitColours.Add("Black", Colors.Black);
             suitColours.Add("Dark Red", Colors.DarkRed);
             suitColours.Add("Dark Orange", Colors.DarkOrange);
-            suitColours.Add("Dark Yellow", Color.FromArgb("#FF8B8000"));
+            suitColours.Add("Dark Gold", Colors.DarkGoldenrod);
             suitColours.Add("Dark Green", Colors.DarkGreen);
             suitColours.Add("Dark Blue", Colors.DarkBlue);
             suitColours.Add("Dark Indigo", Color.FromArgb("#FF1F0954"));
             suitColours.Add("Dark Violet", Colors.DarkViolet);
             suitColours.Add("Red", Colors.Red);
             suitColours.Add("Orange", Colors.Orange);
-            suitColours.Add("Yellow", Colors.Yellow);
+            suitColours.Add("Dark Yellow", Color.FromArgb("#FF8B8000"));
             suitColours.Add("Green", Colors.Green);
             suitColours.Add("Blue", Colors.Blue);
             suitColours.Add("Indigo", Colors.Indigo);

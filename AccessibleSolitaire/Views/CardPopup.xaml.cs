@@ -7,6 +7,8 @@ namespace Sa11ytaire4All.Views;
 
 public partial class CardPopup : Popup, INotifyPropertyChanged
 {
+    static private bool zoomPopupIsVisible = false;
+
     public CardPopup(Card card, DealtCardViewModel vm)
     {
         this.BindingContext = this;
@@ -19,6 +21,21 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
         this.SuitColoursSpades = vm.SuitColoursSpades;
 
         InitializeComponent();
+
+        // Barker Todo: Find a more appropriate way of determining whether the popup is displayed.
+        zoomPopupIsVisible = true;
+
+        this.Closed += CardPopup_Closed;
+    }
+
+    static public bool IsZoomPopupOpen()
+    {
+        return zoomPopupIsVisible;
+    }
+
+    private void CardPopup_Closed(object? sender, CommunityToolkit.Maui.Core.PopupClosedEventArgs e)
+    {
+        zoomPopupIsVisible = false;
     }
 
     public static readonly BindableProperty CardProperty =

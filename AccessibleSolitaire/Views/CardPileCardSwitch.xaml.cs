@@ -429,19 +429,15 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
-    private void CardZoomButton_Clicked(object sender, EventArgs e)
-    {
-        if ((MainPage.MainPageSingleton != null) && (this.Card != null))
-        {
-            MainPage.MainPageSingleton.ShowZoomedCardPopup(this.Card, false);
-        }
-    }
-
     private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
     {
         if ((MainPage.MainPageSingleton != null) && (this.Card != null))
         {
-            MainPage.MainPageSingleton.ShowZoomedCardPopup(this.Card, false);
+            // If the popup is already up, do nothing here.
+            if (!CardPopup.IsZoomPopupOpen())
+            {
+                MainPage.MainPageSingleton.ShowZoomedCardPopup(this.Card, false);
+            }
         }
     }
 
@@ -453,7 +449,14 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
             return;
         }
 
-        Debug.WriteLine("CardSwitch CLicked: " + cardSwitch.AutomationId);
+        Debug.WriteLine("CardSwitch Clicked: " + cardSwitch.AutomationId);
+
+        if (CardPopup.IsZoomPopupOpen())
+        {
+            Debug.WriteLine("Zoom Popup is open, so ignore tap on card.");
+
+            return;
+        }
 
         MainPage.MainPageSingleton?.CardPileCardSelected(cardSwitch);
 
