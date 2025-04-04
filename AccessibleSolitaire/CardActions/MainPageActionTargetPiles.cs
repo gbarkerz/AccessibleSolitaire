@@ -65,6 +65,13 @@ namespace Sa11ytaire4All
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!targetPileSwitch.IsToggled)
             {
+                var accessibleName = SemanticProperties.GetDescription(cardSwitch);
+
+                string announcement =
+                    accessibleName + " " + MainPage.MyGetString("Unselected");
+
+                MakeDelayedScreenReaderAnnouncement(announcement);
+
                 return;
             }
 
@@ -118,7 +125,8 @@ namespace Sa11ytaire4All
             if (targetPileSwitch.Card != null)
             {
                 string announcement =
-                    targetPileSwitch.Card.GetCardAccessibleName() + ".";
+                    targetPileSwitch.Card.GetCardAccessibleName() + " " + 
+                        MainPage.MyGetString("Selected");
 
                 MakeDelayedScreenReaderAnnouncement(announcement);
             }

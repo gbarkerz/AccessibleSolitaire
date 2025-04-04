@@ -136,7 +136,13 @@ namespace Sa11ytaire4All
                     DeselectCard(cardDealtPile);
                     DeselectCard(cardUpturned);
 
-                    listSelectionChanged.SelectedItem = null;
+                    // On Android, deselecting a card inside the tap handler seems not to work.
+                    // So delay the deselection a little until we're out of the tap handler.
+                    timerDeselectDealtCard = new Timer(
+                        new TimerCallback((s) => DelayDeselectDealtCard(listSelectionChanged)),
+                            null,
+                            TimeSpan.FromMilliseconds(200),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
 
                     // Move the upturned card to the CardPile list.
                     var itemsAdded = GetListSource(listSelectionChanged);
@@ -589,7 +595,14 @@ namespace Sa11ytaire4All
                 DeselectCard(cardAbove);
 
                 listAlreadySelected.SelectedItem = null;
-                listSelectionChanged.SelectedItem = null;
+
+                // On Android, deselecting a card inside the tap handler seems not to work.
+                // So delay the deselection a little until we're out of the tap handler.
+                timerDeselectDealtCard = new Timer(
+                    new TimerCallback((s) => DelayDeselectDealtCard(listSelectionChanged)),
+                        null,
+                        TimeSpan.FromMilliseconds(200),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
 
                 var movingCardData = new MovingCardData{
                     CardBelow = cardBelow,

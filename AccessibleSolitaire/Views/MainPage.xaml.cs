@@ -961,6 +961,8 @@ namespace Sa11ytaire4All
         {
             if (announcement != null)
             {
+                Debug.WriteLine("RaiseNotificationEvent: " + announcement);
+
                 SemanticScreenReader.Default.Announce(announcement);
             }
         }
@@ -1021,6 +1023,8 @@ namespace Sa11ytaire4All
 
         private void MakeScreenReaderAnnouncement(object announcement)
         {
+            Debug.WriteLine("MakeScreenReaderAnnouncement: " + announcement);
+
             timerDelayScreenReaderAnnouncement?.Dispose();
             timerDelayScreenReaderAnnouncement = null;
 

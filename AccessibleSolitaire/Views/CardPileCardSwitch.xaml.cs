@@ -82,6 +82,11 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
             {
                 // There is a card in this pile, so simply get the card's friendly name.
                 cardPileAccessibleName = this.Card.GetCardAccessibleName();
+
+                if (this.IsToggled)
+                {
+                    cardPileAccessibleName += " " + MainPage.MyGetString("Selected");
+                }
             }
 
             return cardPileAccessibleName;
@@ -459,13 +464,5 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
 
         MainPage.MainPageSingleton?.CardPileCardSelected(cardSwitch);
-
-        var accessibleName = SemanticProperties.GetDescription(cardSwitch);
-
-        string announcement =
-            accessibleName + " " +
-            MainPage.MyGetString(IsToggled ? "Selected" : "Unselected");
-
-        SemanticScreenReader.Default.Announce(announcement);
     }
 }
