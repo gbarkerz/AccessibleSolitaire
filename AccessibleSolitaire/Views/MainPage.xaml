@@ -37,7 +37,7 @@
         <local_views:ScrollViewWidthToGridWidthRequestConverter x:Key="ScrollViewWidthToGridWidthRequestConverter" />
         <local_views:ScrollViewHeightToGridHeightRequestConverter x:Key="ScrollViewHeightToGridHeightRequestConverter" />
         <local_views:ScrollViewHeightToDealtCardPileCollectionViewConverter x:Key="ScrollViewHeightToDealtCardPileCollectionViewConverter" />
-        <local_views:IsCardSwitchCardToIsEnabled x:Key="IsCardSwitchCardToIsEnabled" />
+        <local_views:IsCardButtonCardToIsEnabled x:Key="IsCardButtonCardToIsEnabled" />
         <local_views:IsFaceDownToBackgroundColorConverter x:Key="IsFaceDownToBackgroundColorConverter" />
         <local_views:InSelectedSetToBackgroundConverter x:Key="InSelectedSetToBackgroundConverter" />
         <local_views:CardWidthToImageWidthConverter x:Key="CardWidthToImageWidthConverter" />
@@ -59,7 +59,7 @@
 
         <!-- Style the four target piles. -->
 
-        <Style x:Key="CardPileCardSwitchStyle" TargetType="local_views:CardPileCardSwitch">
+        <Style x:Key="CardButtonStyle" TargetType="local_views:CardButton">
             <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
@@ -547,12 +547,12 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
+                            <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                                 x:Name="CardDeckUpturnedObscuredLower" AutomationId="CardDeckUpturnedObscuredLower" 
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
-                                    x:DataType={x:Type local_views:CardPileCardSwitch},
-                                    Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                    x:DataType={x:Type local_views:CardButton},
+                                    Converter={StaticResource IsCardButtonCardToIsEnabled}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                 Padding="0"
                                 LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
@@ -564,12 +564,12 @@
                                     x:DataType={x:Type local:MainPage},
                                     Converter={StaticResource IsObscuredCardToMargin}}" />
 
-                            <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
+                            <local_views:CardButton Grid.Column="1" Style="{StaticResource CardButtonStyle}"
                                 x:Name="CardDeckUpturnedObscuredHigher" AutomationId="CardDeckUpturnedObscuredHigher"
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
-                                    x:DataType={x:Type local_views:CardPileCardSwitch},
-                                    Converter={StaticResource IsCardSwitchCardToIsEnabled}}"
+                                    x:DataType={x:Type local_views:CardButton},
+                                    Converter={StaticResource IsCardButtonCardToIsEnabled}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                 Padding="0"
                                 LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
@@ -581,7 +581,7 @@
                                     x:DataType={x:Type local:MainPage},
                                     Converter={StaticResource IsObscuredCardToMargin}}" />
 
-                            <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
+                            <local_views:CardButton Grid.Column="2" Style="{StaticResource CardButtonStyle}"
                                 Margin="0" Padding="0"
                                 x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
                                 LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
@@ -612,7 +612,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <local_views:CardPileCardSwitch Grid.Column="0" Style="{StaticResource CardPileCardSwitchStyle}"
+                    <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
                         BackgroundColor="LightGreen"
                         Margin="8,0,2,0" Padding="0"
@@ -622,7 +622,7 @@
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileC" AutomationId="TargetPileC" />
 
-                    <local_views:CardPileCardSwitch Grid.Column="1" Style="{StaticResource CardPileCardSwitchStyle}"
+                    <local_views:CardButton Grid.Column="1" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
                         BackgroundColor="LightGreen"
                         Margin="0,0,2,0" Padding="0"
@@ -632,7 +632,7 @@
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileD" AutomationId="TargetPileD" />
 
-                    <local_views:CardPileCardSwitch Grid.Column="2" Style="{StaticResource CardPileCardSwitchStyle}"
+                    <local_views:CardButton Grid.Column="2" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
                         BackgroundColor="LightGreen"
                         Margin="0,0,2,0" Padding="0"
@@ -642,7 +642,7 @@
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileH" AutomationId="TargetPileH" />
 
-                    <local_views:CardPileCardSwitch Grid.Column="3" Style="{StaticResource CardPileCardSwitchStyle}"
+                    <local_views:CardButton Grid.Column="3" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
                         BackgroundColor="LightGreen"
                         Margin="0,0,8,0" Padding="0"

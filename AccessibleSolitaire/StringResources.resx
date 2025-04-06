@@ -596,7 +596,7 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="HighlightSelectedCardSetInstructions" xml:space="preserve">
     <value>Check this option it you'd like to highlight all cards that will be moved from a dealt card pile when a card is selected in that pile.</value>
   </data>
-  <data name="AllowSelectionByFaceDownCardSwitchLabel" xml:space="preserve">
+  <data name="AllowSelectionByFaceDownCardButtonLabel" xml:space="preserve">
     <value>Highlight selected card set:</value>
   </data>
   <data name="HighlightSelectedCardSetSwitchLabel" xml:space="preserve">

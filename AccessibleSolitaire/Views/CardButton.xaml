@@ -6,9 +6,9 @@
              xmlns:resources="clr-namespace:Sa11ytaire4All"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Margin="0" Padding="0"
-             x:Name="CardPileCardSwitchInstance"
-             x:Class="Sa11ytaire4All.Views.CardPileCardSwitch"
-             x:DataType="{x:Type local_views:CardPileCardSwitch}">
+             x:Name="CardButtonInstance"
+             x:Class="Sa11ytaire4All.Views.CardButton"
+             x:DataType="{x:Type local_views:CardButton}">
 
     <ContentView.Resources>
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
@@ -18,8 +18,17 @@
         <local_views:IsToggledToBackgroundColorConverter x:Key="IsToggledToBackgroundColorConverter" />
     </ContentView.Resources>
 
-    <!-- The CardPileCardSwitch element is used to represent the three upturned cards and
-        the four target card piles. -->
+    <!-- The CardButton element is used to represent the three upturned cards and the four target card piles. 
+        Originally this used a Switch, as that seemed the closest semantic match. The hope was that by doing
+        that, the screen reader would announce the toggled state of the card when navigating to the card, and
+        announce changes to the toggle state. However, changes to the state did not seem to get announced, 
+        and so the app atkes explicit action to announce changes to state, and embeds the current state in 
+        the name. To be consistent across the app, the card's state is announced as selected/unselected rather
+        than on/off. Also, on iOS, I couldn't find a way to resize the Switch to fill the area of the card, 
+        (this worked on Android). As such, the hit target when VoiceOver was running was far too small, as 
+        was the hit target for a long press hit target when VoiceOver wasn't running. Due to all this, the 
+        use of Switch was replaced with Button. All hit targets worked as expected then, and the app's announcements
+        of selected state continued to work fine. -->    
 
     <Grid 
         Margin="0" Padding="0"
@@ -30,26 +39,31 @@
             BackgroundColor="{Binding IsToggled, Mode=OneWay,
                     Converter={StaticResource IsToggledToBackgroundColorConverter}}">
 
-            <!-- Bind the visibility to the enabled state of the containing CardPileCardSwitch. -->
+            <!-- Barker Todo: Now that this contains a Button rather than a Switch, consider whether 
+                it would be practical to use an ImageButton here and remove the separate Image below.
+                This might not be practical given the use of Margins to show visually whether the 
+                CardButton is selected. -->
+            
+            <!-- Bind the visibility to the enabled state of the containing CardButton. -->
 
             <Button
-                x:Name="CardSwitch"
+                x:Name="InnerCardButton"
                 Margin="{Binding IsToggled, Mode=OneWay,
                     Converter={StaticResource IsToggledToMarginConverter},
                         ConverterParameter=0}"
                 IsVisible="{Binding IsEnabled, Mode=OneWay, 
-                    Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
+                    Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
                 SemanticProperties.Description="{Binding CardPileAccessibleName, Mode=OneWay, 
-                    Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
+                    Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
                 AutomationId="{Binding AutomationId, Mode=OneWay, 
-                    Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}"
+                    Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
                 BackgroundColor="Transparent"
-                Clicked="CardSwitch_Clicked">
+                Clicked="CardButton_Clicked">
 
                 <Button.Behaviors>
                     <toolkit:TouchBehavior
                         BindingContext="{Binding Path=BindingContext, 
-                            Source={x:Reference CardPileCardSwitchInstance}, x:DataType=local_views:CardPileCardSwitch}"
+                            Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton}"
                         LongPressDuration="{Binding BindingContext.LongPressZoomDuration}"
                         LongPressCompleted="TouchBehavior_LongPressCompleted" />
                 </Button.Behaviors>
@@ -64,7 +78,7 @@
                 <Image x:Name="TintedCardImage"
                     AutomationProperties.IsInAccessibleTree="False"
                     BackgroundColor="{Binding Card, Mode=OneWay, 
-                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}},
+                        Source={RelativeSource AncestorType={x:Type local_views:CardButton}},
                             Converter={StaticResource CardToBackgroundConverter}}"
                     InputTransparent="True"
                     Margin="{Binding IsToggled, Mode=OneWay,
@@ -72,7 +86,7 @@
                             ConverterParameter=1}"
                     Aspect="Fill"
                     Source="{Binding CardPileImage, Mode=OneWay, 
-                        Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}">
+                        Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}">
 
                     <Image.Behaviors>
 
@@ -85,23 +99,23 @@
                                     Converter="{StaticResource SuitSuitColoursToColor}">
 
                                     <!-- This works in Debug, but in Release the Card here is null when passed to the converter. -->
-                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
-                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                    <Binding Source="{x:Reference CardButtonInstance}" 
+                                                x:DataType="{x:Type local_views:CardButton}"
                                                 Path="BindingContext.Card" />
-                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
-                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                    <Binding Source="{x:Reference CardButtonInstance}" 
+                                                x:DataType="{x:Type local_views:CardButton}"
                                                 Path="BindingContext.AutomationId" />
-                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
-                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                    <Binding Source="{x:Reference CardButtonInstance}" 
+                                                x:DataType="{x:Type local_views:CardButton}"
                                                 Path="BindingContext.SuitColoursClubsSwitch" />
-                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
-                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                    <Binding Source="{x:Reference CardButtonInstance}" 
+                                                x:DataType="{x:Type local_views:CardButton}"
                                                 Path="BindingContext.SuitColoursDiamondsSwitch" />
-                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
-                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                    <Binding Source="{x:Reference CardButtonInstance}" 
+                                                x:DataType="{x:Type local_views:CardButton}"
                                                 Path="BindingContext.SuitColoursHeartsSwitch" />
-                                    <Binding Source="{x:Reference CardPileCardSwitchInstance}" 
-                                                x:DataType="{x:Type local_views:CardPileCardSwitch}"
+                                    <Binding Source="{x:Reference CardButtonInstance}" 
+                                                x:DataType="{x:Type local_views:CardButton}"
                                                 Path="BindingContext.SuitColoursSpadesSwitch" />
                                 </MultiBinding>
                             </toolkit:IconTintColorBehavior.TintColor>
@@ -124,7 +138,7 @@
                     ConverterParameter=1}"
             Aspect="Fill"
             Source="{Binding PictureCardPileImage, Mode=OneWay,
-                Source={RelativeSource AncestorType={x:Type local_views:CardPileCardSwitch}}}" />
+                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}" />
 
     </Grid>
 </ContentView>

@@ -6,16 +6,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Switch = Microsoft.Maui.Controls.Switch;
 
-// Important note on input:
-// The dealt cards in the CollectionViews require a tap for selection, and other cards require a tap
-// for toggle. For visual accessibility purposes, a gesture has been added to show a fullscreen popup
-// containing the card on which the gesture occurred. An attempt was made to use a long press as the
-// gesture, and while this worked on the dealt cards, it did not work on the CardSwitch cards. So
-// this was replaced with a double tap gesture. This worked on the CardSwitch cards, but broke the
-// default selection behavior on the dealt cards. To avoid that, a single tap handler was added to
-// the dealt cards. While the select and toggle behavior sitll works with TalkBack running, TalkBack
-// cannot invoke the zoom card popup.
-
 namespace Sa11ytaire4All
 {
     public enum CardState
@@ -589,50 +579,50 @@ namespace Sa11ytaire4All
             });
         }
 
-        private bool cardSwitchStateInProgress = false;
+        private bool cardButtonStateInProgress = false;
 
-        // Make sure all CardPileCardSwitches showing a card are enabled.
-        private void CheckAllCardSwitchState()
+        // Make sure all CardButtones showing a card are enabled.
+        private void CheckAllCardButtonState()
         {
-            if (cardSwitchStateInProgress)
+            if (cardButtonStateInProgress)
             {
                 return;
             }
 
-            cardSwitchStateInProgress = true;
+            cardButtonStateInProgress = true;
 
-            // Any CardSwitch showing a card should be enabled.
-            CheckCardSwitchState(CardDeckUpturnedObscuredLower);
-            CheckCardSwitchState(CardDeckUpturnedObscuredHigher);
-            CheckCardSwitchState(CardDeckUpturned);
+            // Any CardButton showing a card should be enabled.
+            CheckCardButtonState(CardDeckUpturnedObscuredLower);
+            CheckCardButtonState(CardDeckUpturnedObscuredHigher);
+            CheckCardButtonState(CardDeckUpturned);
 
-            CheckCardSwitchState(TargetPileC);
-            CheckCardSwitchState(TargetPileD);
-            CheckCardSwitchState(TargetPileH);
-            CheckCardSwitchState(TargetPileS);
+            CheckCardButtonState(TargetPileC);
+            CheckCardButtonState(TargetPileD);
+            CheckCardButtonState(TargetPileH);
+            CheckCardButtonState(TargetPileS);
 
-            cardSwitchStateInProgress = false;
+            cardButtonStateInProgress = false;
         }
 
-        private void CheckCardSwitchState(CardPileCardSwitch cardPileCardSwitch)
+        private void CheckCardButtonState(CardButton CardButton)
         {
-            if (cardPileCardSwitch.Card != null)
+            if (CardButton.Card != null)
             {
                 // Always run this on the UI thread.
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    cardPileCardSwitch.IsEnabled = true;
+                    CardButton.IsEnabled = true;
 
                     // Make sure the contained Switch is visible.
-                    var cardSwitch = cardPileCardSwitch.FindByName("CardSwitch") as Switch;
-                    if (cardSwitch != null)
+                    var cardButton = CardButton.FindByName("CardButton") as Switch;
+                    if (cardButton != null)
                     {
-                        cardSwitch.IsVisible = true;
+                        cardButton.IsVisible = true;
                     }
 
-                    // Now set the appropriate accessible name on the CardPileCardSwitch.
-                    var accessibleName = cardPileCardSwitch.CardPileAccessibleName;
-                    SemanticProperties.SetDescription(cardPileCardSwitch, accessibleName);
+                    // Now set the appropriate accessible name on the CardButton.
+                    var accessibleName = CardButton.CardPileAccessibleName;
+                    SemanticProperties.SetDescription(CardButton, accessibleName);
                 });
             }
         }
@@ -845,11 +835,11 @@ namespace Sa11ytaire4All
             Shell.Current.FlyoutIsPresented = true;
         }
 
-        private int GetTargetPileIndex(CardPileCardSwitch cardPileCardSwitch)
+        private int GetTargetPileIndex(CardButton CardButton)
         {
             int index = -1;
 
-            string pileId = cardPileCardSwitch.AutomationId.Replace("TargetPile", "");
+            string pileId = CardButton.AutomationId.Replace("TargetPile", "");
             switch (pileId)
             {
                 case "C":
@@ -895,15 +885,15 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void SetCardSuitColours(CardPileCardSwitch cardSwitch)
+        private void SetCardSuitColours(CardButton cardButton)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
-                cardSwitch.SuitColoursClubsSwitch = vm.SuitColoursClubs;
-                cardSwitch.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
-                cardSwitch.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
-                cardSwitch.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
+                cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
+                cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
+                cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
+                cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
             }
         }
 

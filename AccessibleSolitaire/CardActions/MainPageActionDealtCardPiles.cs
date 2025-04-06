@@ -412,7 +412,7 @@ namespace Sa11ytaire4All
         {
             bool movedCard = false;
 
-            CardPileCardSwitch? targetPileSwitch = null;
+            CardButton? targetPileSwitch = null;
             List<Card>? listTargetPile = null;
 
             if (TargetPileC.IsToggled)
@@ -670,7 +670,7 @@ namespace Sa11ytaire4All
             public CollectionView? ListAlreadySelected;
             public int ListAlreadySelectedIndex;
             public CollectionView? ListSelectionChanged;
-            public CardPileCardSwitch TargetPileSwitch;
+            public CardButton TargetPileSwitch;
             public int TargetPileIndex;
         }
 

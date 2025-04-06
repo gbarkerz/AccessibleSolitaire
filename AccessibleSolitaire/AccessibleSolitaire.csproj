@@ -556,8 +556,8 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>StringResources.resx</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\CardPileCardSwitch.xaml.cs">
-	    <DependentUpon>CardPileCardSwitch.xaml</DependentUpon>
+	  <Compile Update="Views\CardButton.xaml.cs">
+	    <DependentUpon>CardButton.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\SettingsPage.xaml.cs">
 	    <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -572,7 +572,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\CardPileCardSwitch.xaml">
+	  <MauiXaml Update="Views\CardButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CardPopup.xaml">

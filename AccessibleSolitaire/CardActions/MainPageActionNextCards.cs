@@ -82,7 +82,7 @@ namespace Sa11ytaire4All
             MakeDelayedScreenReaderAnnouncement(screenReaderAnnouncement);
         }
 
-        private void CardDeckUpturned_Clicked(CardPileCardSwitch cardDeckUpturned)
+        private void CardDeckUpturned_Clicked(CardButton cardDeckUpturned)
         {
             if (cardDeckUpturned.Card == null)
             {

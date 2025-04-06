@@ -2,13 +2,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Sa11ytaire4All.Source;
 
-using Switch = Microsoft.Maui.Controls.Switch;
-
 namespace Sa11ytaire4All.Views;
 
-public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
+public partial class CardButton : ContentView, INotifyPropertyChanged
 {
-    public CardPileCardSwitch()
+    public CardButton()
 	{
         BindingContext = this;
 
@@ -328,7 +326,7 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty SuitColoursClubsSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursClubsSwitch), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursClubsSwitch), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursClubsSwitch
     {
@@ -342,7 +340,7 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty SuitColoursDiamondsSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursDiamondsSwitch), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursDiamondsSwitch), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursDiamondsSwitch
     {
@@ -356,7 +354,7 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty SuitColoursHeartsSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursHeartsSwitch), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursHeartsSwitch), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursHeartsSwitch
     {
@@ -370,7 +368,7 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty SuitColoursSpadesSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursSpadesSwitch), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursSpadesSwitch), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursSpadesSwitch
     {
@@ -384,7 +382,7 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty LongPressZoomDurationProperty =
-        BindableProperty.Create(nameof(LongPressZoomDuration), typeof(int), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(LongPressZoomDuration), typeof(int), typeof(CardButton));
 
     public int LongPressZoomDuration
     {
@@ -398,7 +396,7 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty IsToggledProperty =
-        BindableProperty.Create(nameof(IsToggled), typeof(bool), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(IsToggled), typeof(bool), typeof(CardButton));
 
     public bool IsToggled
     {
@@ -413,13 +411,13 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
 
     public void SetToggledState(bool toggledState)
     {
-        var cardSwitch = this.FindByName("CardSwitch") as Button;
-        if (cardSwitch == null)
+        var cardButton = this.FindByName("InnerCardButton") as Button;
+        if (cardButton == null)
         {
             return;
         }
 
-        Debug.WriteLine("SetToggledState: " + cardSwitch.AutomationId);
+        Debug.WriteLine("SetToggledState: " + cardButton.AutomationId);
 
         IsToggled = toggledState;
     }
@@ -446,15 +444,15 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
         }
     }
 
-    private void CardSwitch_Clicked(object sender, EventArgs e)
+    private void CardButton_Clicked(object sender, EventArgs e)
     {
-        var cardSwitch = sender as Button;
-        if (cardSwitch == null)
+        var cardButton = sender as Button;
+        if (cardButton == null)
         {
             return;
         }
 
-        Debug.WriteLine("CardSwitch Clicked: " + cardSwitch.AutomationId);
+        Debug.WriteLine("CardButton Clicked: " + cardButton.AutomationId);
 
         if (CardPopup.IsZoomPopupOpen())
         {
@@ -463,6 +461,6 @@ public partial class CardPileCardSwitch : ContentView, INotifyPropertyChanged
             return;
         }
 
-        MainPage.MainPageSingleton?.CardPileCardSelected(cardSwitch);
+        MainPage.MainPageSingleton?.CardPileCardSelected(cardButton);
     }
 }

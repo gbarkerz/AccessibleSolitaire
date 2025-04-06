@@ -295,6 +295,15 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Highlight selected card set:.
+        /// </summary>
+        internal static string AllowSelectionByFaceDownCardButtonLabel {
+            get {
+                return ResourceManager.GetString("AllowSelectionByFaceDownCardButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select via face-down card:.
         /// </summary>
         internal static string AllowSelectionByFaceDownCardCheckboxLabel {
@@ -309,15 +318,6 @@ namespace Sa11ytaire4All {
         internal static string AllowSelectionByFaceDownCardInstructions {
             get {
                 return ResourceManager.GetString("AllowSelectionByFaceDownCardInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Highlight selected card set:.
-        /// </summary>
-        internal static string AllowSelectionByFaceDownCardSwitchLabel {
-            get {
-                return ResourceManager.GetString("AllowSelectionByFaceDownCardSwitchLabel", resourceCulture);
             }
         }
         

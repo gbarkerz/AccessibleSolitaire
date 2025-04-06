@@ -57,7 +57,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
 
 
     public static readonly BindableProperty SuitColoursClubsProperty =
-        BindableProperty.Create(nameof(SuitColoursClubs), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursClubs), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursClubs
     {
@@ -71,7 +71,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty SuitColoursDiamondsProperty =
-        BindableProperty.Create(nameof(SuitColoursDiamonds), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursDiamonds), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursDiamonds
     {
@@ -85,7 +85,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty SuitColoursHeartsProperty =
-        BindableProperty.Create(nameof(SuitColoursHearts), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursHearts), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursHearts
     {
@@ -99,7 +99,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
     }
 
     public static readonly BindableProperty SuitColoursSpadesProperty =
-        BindableProperty.Create(nameof(SuitColoursSpades), typeof(Color), typeof(CardPileCardSwitch));
+        BindableProperty.Create(nameof(SuitColoursSpades), typeof(Color), typeof(CardButton));
 
     public Color SuitColoursSpades
     {

@@ -7,12 +7,12 @@ namespace Sa11ytaire4All
     public sealed partial class MainPage : ContentPage
     {
         // A card in one of the Target Card piles or the Upturned Card has been selected.
-        public void CardPileCardSelected(Button cardSwitch)
+        public void CardPileCardSelected(Button cardButton)
         {
-            CardPileCardSwitch? targetPileSwitch = null;
-            CardPileCardSwitch? obscuredCardSwitch = null;
+            CardButton? targetPileSwitch = null;
+            CardButton? obscuredCardButton = null;
 
-            switch (cardSwitch.AutomationId)
+            switch (cardButton.AutomationId)
             {
                 case "TargetPileC":
                     targetPileSwitch = TargetPileC;
@@ -34,20 +34,20 @@ namespace Sa11ytaire4All
                     return;
 
                 case "CardDeckUpturnedObscuredLower":
-                    obscuredCardSwitch = CardDeckUpturnedObscuredLower;
+                    obscuredCardButton = CardDeckUpturnedObscuredLower;
                     break;
 
                 case "CardDeckUpturnedObscuredHigher":
-                    obscuredCardSwitch = CardDeckUpturnedObscuredHigher;
+                    obscuredCardButton = CardDeckUpturnedObscuredHigher;
                     break;
 
                 default:
                     break;
             }
 
-            if (obscuredCardSwitch != null)
+            if (obscuredCardButton != null)
             {
-                obscuredCardSwitch.SetToggledState(false);
+                obscuredCardButton.SetToggledState(false);
 
                 MakeDelayedScreenReaderAnnouncement(
                     MainPage.MyGetString("ObscuredUpturnedCardCannotBeSelected"));
@@ -65,7 +65,7 @@ namespace Sa11ytaire4All
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!targetPileSwitch.IsToggled)
             {
-                var accessibleName = SemanticProperties.GetDescription(cardSwitch);
+                var accessibleName = SemanticProperties.GetDescription(cardButton);
 
                 string announcement =
                     accessibleName + " " + MainPage.MyGetString("Unselected");
@@ -116,7 +116,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void ClearSelectionStatesAfterTargetCardSelectionChange(CardPileCardSwitch? targetPileSwitch)
+        private void ClearSelectionStatesAfterTargetCardSelectionChange(CardButton? targetPileSwitch)
         {
             CardDeckUpturned.SetToggledState(false);
 
@@ -143,7 +143,7 @@ namespace Sa11ytaire4All
         }
 
         // A Target Card pile button has been checked while the top card in the Upturned Card pile is checked.
-        private bool MoveUpturnedCardToTargetPileAsAppropriate(CardPileCardSwitch targetPileSwitch)
+        private bool MoveUpturnedCardToTargetPileAsAppropriate(CardButton targetPileSwitch)
         {
             bool movedCard = false;
 
@@ -265,7 +265,7 @@ namespace Sa11ytaire4All
 
         // A Target Card pile button has been selected while the top card in the Upturned Card pile is not selected,
         // so attempt to move a card from one of the Dealt Card piles.
-        private bool MoveDealtCardToTargetPileAsAppropriate(CardPileCardSwitch targetPileSwitch)
+        private bool MoveDealtCardToTargetPileAsAppropriate(CardButton targetPileSwitch)
         {
             // Determine which TargetPile has been invoked.
             int targetPileIndex = GetTargetPileIndex(targetPileSwitch);

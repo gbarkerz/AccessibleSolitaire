@@ -424,7 +424,7 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    // This convert is for the background for the CardPileCardSwitch, not a dealt card.
+    // This convert is for the background for the CardButton, not a dealt card.
     public class CardToBackgroundConverter : IValueConverter
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -686,7 +686,7 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class IsCardSwitchCardToIsEnabled : IValueConverter
+    public class IsCardButtonCardToIsEnabled : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
