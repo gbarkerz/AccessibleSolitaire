@@ -151,43 +151,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    // The dealt card pile CollectionView height is always a multiple of the dealt card height.
-    public class CardHeightToCollectionViewHeightConverter : IMultiValueConverter
-    {
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 3))
-            {
-                return 0;
-            }
-
-            if ((values[0] == null) || (values[1] == null) || (values[2] == null))
-            {
-                return 0;
-            }
-
-            var cardHeight = (double)values[0];
-            var zoomLevel = (int)values[1];
-            var scrollViewHeight = (double)values[2];
-
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
-
-            var collectionViewHeight = cardHeight;
-
-            if (!isPortrait)
-            {
-                collectionViewHeight = scrollViewHeight;
-            }
-
-            return cardHeight;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class ConverterForCardImageHorizontalVerticalOptions : IMultiValueConverter
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -249,70 +212,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class ConverterForCollectionViewHorizontalVerticalOptions : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            var isHorizontal = ((string?)parameter == "0");
-
-            var option = LayoutOptions.Start;
-
-            if (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
-            {
-                if (!isHorizontal)
-                {
-                    option = LayoutOptions.Fill;
-                }
-            }
-            else
-            {
-                if (isHorizontal)
-                {
-                    option = LayoutOptions.Fill;
-                }
-            }
-
-            return option;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ConverterForDealtCardZoomButtonToGridRowColumn : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            var isRow = ((string?)parameter == "0");
-
-            var index = 0;
-
-            if (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
-            {
-                if (isRow)
-                {
-                    index = 2;
-                }
-            }
-            else
-            {
-                if (!isRow)
-                {
-                    index = 2;
-                }
-            }
-
-            return index;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class ConverterForDealtCardLabelHorizontalOptions : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -345,63 +244,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class DealtCardSelectedMarginConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            Thickness marginThickness;
-
-            // Barker: Perhaps account for the current zoom level here?
-
-            if (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
-            {
-                marginThickness = new Thickness(0, 6, 0, 6);
-            }
-            else
-            {
-                marginThickness = new Thickness(6, 0, 6, 0);
-            }
-
-            return marginThickness;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class MainPageHeightToDealtCardGridHeight : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            if (DeviceDisplay.Current.MainDisplayInfo.Orientation != DisplayOrientation.Portrait)
-            {
-                return 0;
-            }
-
-            if (value == null)
-            {
-                return 0;
-            }
-
-            var mainPageHeight = (double)value;
-
-            if (mainPageHeight <= 0)
-            {
-                return 0;
-            }
-
-            return (
-                (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait ? 7 : 6)
-                    * mainPageHeight) / 9;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     // The toolkit's InvertedBoolConverter doesn't appear to be available on iOS, so include this instead.
     public class IsFaceDownToVisibilityConverter : IValueConverter
@@ -525,83 +367,7 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class ScrollViewWidthToGridWidthRequestConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return 0;
-            }
 
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return 0;
-            }
-
-            var scrollViewWidth = (double)values[0];
-            if (scrollViewWidth <= 0)
-            {
-                return 0;
-            }
-
-            var gridWidth = scrollViewWidth;
-
-            var zoomLevel = (int)values[1];
-
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
-            if (!isPortrait)
-            {
-                gridWidth = (zoomLevel * scrollViewWidth) / 100;
-            }
-
-            return gridWidth;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ScrollViewHeightToGridHeightRequestConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return 0;
-            }
-
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return 0;
-            }
-
-            var scrollViewHeight = (double)values[0];
-            if (scrollViewHeight <= 0)
-            {
-                return 0;
-            }
-
-            var zoomLevel = (int)values[1];
-
-            var gridHeight = scrollViewHeight;
-
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
-            if (isPortrait)
-            {
-                gridHeight = (zoomLevel * scrollViewHeight) / 100;
-            }
-
-            return gridHeight;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     public class ScrollViewHeightToDealtCardPileCollectionViewConverter : IMultiValueConverter
     {
@@ -749,18 +515,6 @@ namespace Sa11ytaire4All.Views
 
     public class InSelectedSetToBackgroundConverter : IMultiValueConverter
     {
-        // Alpha values on brushes here don't seem to currently work on iOS, so use solid colours.
-
-        //private static readonly LinearGradientBrush inSelectedSetLightBrush = new LinearGradientBrush(
-        //                                                                        new GradientStopCollection() {
-        //                                                                            new GradientStop(Colors.White, 0),
-        //                                                                            new GradientStop(Colors.MediumPurple, 100) });
-
-        //private static readonly LinearGradientBrush inSelectedSetDarkBrush = new LinearGradientBrush(
-        //                                                                        new GradientStopCollection() {
-        //                                                                            new GradientStop(Colors.Black, 0),
-        //                                                                            new GradientStop(Colors.Yellow, 100) });
-
         private static readonly Color inSelectedSetLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
         private static readonly Color inSelectedSetDarkColor = Color.FromRgb(0x30, 0x30, 0x00);
 
@@ -946,26 +700,6 @@ namespace Sa11ytaire4All.Views
         }
     }
     
-    public class CardWidthToImageWidthConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            if (value == null)
-            {
-                return 0;
-            }
-
-            var cardWidth = (double)value;
-
-            return cardWidth - 1;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class CardWidthToHamburgerHeightConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

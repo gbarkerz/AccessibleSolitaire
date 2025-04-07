@@ -7,25 +7,25 @@ namespace Sa11ytaire4All
     public sealed partial class MainPage : ContentPage
     {
         // A card in one of the Target Card piles or the Upturned Card has been selected.
-        public void CardPileCardSelected(Button cardButton)
+        public void CardButtonClicked(Button clickedCardButton)
         {
-            CardButton? targetPileSwitch = null;
+            CardButton? cardButton = null;
             CardButton? obscuredCardButton = null;
 
-            switch (cardButton.AutomationId)
+            switch (clickedCardButton.AutomationId)
             {
                 case "TargetPileC":
-                    targetPileSwitch = TargetPileC;
+                    cardButton = TargetPileC;
                     break;
 
                 case "TargetPileD":
-                    targetPileSwitch = TargetPileD;
+                    cardButton = TargetPileD;
                     break;
                 case "TargetPileH":
-                    targetPileSwitch = TargetPileH;
+                    cardButton = TargetPileH;
                     break;
                 case "TargetPileS":
-                    targetPileSwitch = TargetPileS;
+                    cardButton = TargetPileS;
                     break;
 
                 // Barker Todo: Move reacting to the upturned card click to somewhere unrelated to the target card piles.
@@ -55,15 +55,16 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if (targetPileSwitch == null)
+            if (cardButton == null)
             {
                 return;
             }
 
-            targetPileSwitch.IsToggled = !targetPileSwitch.IsToggled;
+            // Toggle the state of the CardButton clicked.
+            cardButton.IsToggled = !cardButton.IsToggled;
 
             // If we've just untoggled a target card pile, there's nothing more to do here.
-            if (!targetPileSwitch.IsToggled)
+            if (!cardButton.IsToggled)
             {
                 var accessibleName = SemanticProperties.GetDescription(cardButton);
 
@@ -95,12 +96,12 @@ namespace Sa11ytaire4All
             if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
             {
                 // Attempt to move the upturned card to the target pile. This action is synchronous.
-                cardWasMoved = MoveUpturnedCardToTargetPileAsAppropriate(targetPileSwitch);
+                cardWasMoved = MoveUpturnedCardToTargetPileAsAppropriate(cardButton);
 
                 // If a card wasn't moved, then leave only the selected target pile card selected.
                 if (!cardWasMoved)
                 {
-                    ClearSelectionStatesAfterTargetCardSelectionChange(targetPileSwitch);
+                    ClearSelectionStatesAfterTargetCardSelectionChange(cardButton);
                 }
                 else if (GameOver()) // A card was moved from the Upturned Card Pile to a Target Card Pile.
                 {
@@ -112,20 +113,20 @@ namespace Sa11ytaire4All
                 // Attempt to move a card from from of the Dealt Card piles to the Target Card pile.
                 // We use a timer here to delay the moving of the card to the target card pile
                 // asynchronously.
-                cardWasMoved = MoveDealtCardToTargetPileAsAppropriate(targetPileSwitch);
+                cardWasMoved = MoveDealtCardToTargetPileAsAppropriate(cardButton);
             }
         }
 
-        private void ClearSelectionStatesAfterTargetCardSelectionChange(CardButton? targetPileSwitch)
+        private void ClearSelectionStatesAfterTargetCardSelectionChange(CardButton? cardButton)
         {
             CardDeckUpturned.SetToggledState(false);
 
             ClearDealtCardPileSelections();
 
-            if (targetPileSwitch.Card != null)
+            if (cardButton.Card != null)
             {
                 string announcement =
-                    targetPileSwitch.Card.GetCardAccessibleName() + " " + 
+                    cardButton.Card.GetCardAccessibleName() + " " + 
                         MainPage.MyGetString("Selected");
 
                 MakeDelayedScreenReaderAnnouncement(announcement);
@@ -133,7 +134,7 @@ namespace Sa11ytaire4All
             else
             {
                 // Do not leave an empty target card pile selected when no card was moved to it.
-                targetPileSwitch.SetToggledState(false);
+                cardButton.SetToggledState(false);
             }
 
             if (GameOver())
@@ -143,7 +144,7 @@ namespace Sa11ytaire4All
         }
 
         // A Target Card pile button has been checked while the top card in the Upturned Card pile is checked.
-        private bool MoveUpturnedCardToTargetPileAsAppropriate(CardButton targetPileSwitch)
+        private bool MoveUpturnedCardToTargetPileAsAppropriate(CardButton cardButton)
         {
             bool movedCard = false;
 
@@ -164,7 +165,7 @@ namespace Sa11ytaire4All
                 cardAbove.Card = _deckUpturned[_deckUpturned.Count - 1];
 
                 // Figure out which TargetPile has been invoked.
-                int targetPileIndex = GetTargetPileIndex(targetPileSwitch);
+                int targetPileIndex = GetTargetPileIndex(cardButton);
 
                 // No action required if the upturned card doesn't match the suit of the TargetPile.
                 if (((targetPileIndex == 0) && (cardAbove.Card.Suit != Suit.Clubs)) ||
@@ -211,9 +212,9 @@ namespace Sa11ytaire4All
                     _targetPiles[targetPileIndex].Add(cardAbove.Card);
 
                     // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-                    SetCardSuitColours(targetPileSwitch);
+                    SetCardSuitColours(cardButton);
 
-                    targetPileSwitch.Card = cardAbove.Card;
+                    cardButton.Card = cardAbove.Card;
 
                     _deckUpturned.Remove(cardAbove.Card);
 
@@ -265,10 +266,10 @@ namespace Sa11ytaire4All
 
         // A Target Card pile button has been selected while the top card in the Upturned Card pile is not selected,
         // so attempt to move a card from one of the Dealt Card piles.
-        private bool MoveDealtCardToTargetPileAsAppropriate(CardButton targetPileSwitch)
+        private bool MoveDealtCardToTargetPileAsAppropriate(CardButton cardButton)
         {
             // Determine which TargetPile has been invoked.
-            int targetPileIndex = GetTargetPileIndex(targetPileSwitch);
+            int targetPileIndex = GetTargetPileIndex(cardButton);
 
             // Get the already-selected card from the other list if there is one.
             CollectionView? listAlreadySelected;
@@ -279,7 +280,7 @@ namespace Sa11ytaire4All
 
             if (listAlreadySelected == null)
             {
-                ClearSelectionStatesAfterTargetCardSelectionChange(targetPileSwitch);
+                ClearSelectionStatesAfterTargetCardSelectionChange(cardButton);
 
                 return false;
             }
@@ -294,7 +295,7 @@ namespace Sa11ytaire4All
                     CardAbove = cardAbove,
                     ListAlreadySelected = listAlreadySelected,
                     ListAlreadySelectedIndex = listAlreadySelectedIndex,
-                    TargetPileSwitch = targetPileSwitch,
+                    TargetPileCardButton = cardButton,
                     TargetPileIndex = targetPileIndex
                 };
 
@@ -312,7 +313,7 @@ namespace Sa11ytaire4All
 
             if (_targetPiles[targetPileIndex].Count == 0)
             {
-                targetPileSwitch.SetToggledState(false);
+                cardButton.SetToggledState(false);
             }
 
             return false;

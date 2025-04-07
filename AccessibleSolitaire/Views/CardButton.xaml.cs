@@ -461,6 +461,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
             return;
         }
 
-        MainPage.MainPageSingleton?.CardPileCardSelected(cardButton);
+        MainPage.MainPageSingleton?.CardButtonClicked(cardButton);
     }
 }

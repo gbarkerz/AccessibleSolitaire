@@ -738,11 +738,29 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GameAppearance.
+        /// </summary>
+        internal static string GameAppearance {
+            get {
+                return ResourceManager.GetString("GameAppearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The game has restarted..
         /// </summary>
         internal static string GameRestarted {
             get {
                 return ResourceManager.GetString("GameRestarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General Game Play.
+        /// </summary>
+        internal static string GeneralGamePlay {
+            get {
+                return ResourceManager.GetString("GeneralGamePlay", resourceCulture);
             }
         }
         
@@ -1350,6 +1368,15 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Screen Reader Usage.
+        /// </summary>
+        internal static string ScreenReaderUsage {
+            get {
+                return ResourceManager.GetString("ScreenReaderUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select card without Alt key.
         /// </summary>
         internal static string SelectCardWithoutAltKeyCheckBox_Content {
@@ -1679,6 +1706,15 @@ namespace Sa11ytaire4All {
         internal static string TopUpturnedCardIs {
             get {
                 return ResourceManager.GetString("TopUpturnedCardIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Touch Interaction.
+        /// </summary>
+        internal static string TouchInteraction {
+            get {
+                return ResourceManager.GetString("TouchInteraction", resourceCulture);
             }
         }
         

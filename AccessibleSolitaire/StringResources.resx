@@ -683,4 +683,16 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="LongPressOnCardPickerName" xml:space="preserve">
     <value>Seconds:</value>
   </data>
+  <data name="GeneralGamePlay" xml:space="preserve">
+    <value>General Game Play</value>
+  </data>
+  <data name="GameAppearance" xml:space="preserve">
+    <value>GameAppearance</value>
+  </data>
+  <data name="ScreenReaderUsage" xml:space="preserve">
+    <value>Screen Reader Usage</value>
+  </data>
+  <data name="TouchInteraction" xml:space="preserve">
+    <value>Touch Interaction</value>
+  </data>
 </root>

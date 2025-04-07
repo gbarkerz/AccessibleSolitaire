@@ -412,31 +412,31 @@ namespace Sa11ytaire4All
         {
             bool movedCard = false;
 
-            CardButton? targetPileSwitch = null;
+            CardButton? cardButton = null;
             List<Card>? listTargetPile = null;
 
             if (TargetPileC.IsToggled)
             {
-                targetPileSwitch = TargetPileC;
+                cardButton = TargetPileC;
                 listTargetPile = _targetPiles[0];
             }
             else if (TargetPileD.IsToggled)
             {
-                targetPileSwitch = TargetPileD;
+                cardButton = TargetPileD;
                 listTargetPile = _targetPiles[1];
             }
             else if (TargetPileH.IsToggled)
             {
-                targetPileSwitch = TargetPileH;
+                cardButton = TargetPileH;
                 listTargetPile = _targetPiles[2];
             }
             else if (TargetPileS.IsToggled)
             {
-                targetPileSwitch = TargetPileS;
+                cardButton = TargetPileS;
                 listTargetPile = _targetPiles[3];
             }
 
-            if ((targetPileSwitch != null) && (listTargetPile != null) && (listTargetPile.Count > 0))
+            if ((cardButton != null) && (listTargetPile != null) && (listTargetPile.Count > 0))
             {
                 try
                 {
@@ -461,11 +461,11 @@ namespace Sa11ytaire4All
 
                             if (listTargetPile.Count == 0)
                             {
-                                targetPileSwitch.Card = null;
+                                cardButton.Card = null;
                             }
                             else
                             {
-                                targetPileSwitch.Card = listTargetPile[listTargetPile.Count - 1];
+                                cardButton.Card = listTargetPile[listTargetPile.Count - 1];
                             }
 
                             var itemsAdded = GetListSource(listDealtCardPile);
@@ -670,7 +670,7 @@ namespace Sa11ytaire4All
             public CollectionView? ListAlreadySelected;
             public int ListAlreadySelectedIndex;
             public CollectionView? ListSelectionChanged;
-            public CardButton TargetPileSwitch;
+            public CardButton TargetPileCardButton;
             public int TargetPileIndex;
         }
 
@@ -828,7 +828,7 @@ namespace Sa11ytaire4All
             var cardAbove = movingCardData.CardAbove;
             var listAlreadySelected = movingCardData.ListAlreadySelected;
             var listAlreadySelectedIndex = movingCardData.ListAlreadySelectedIndex;
-            var targetPileSwitch = movingCardData.TargetPileSwitch;
+            var targetPileCardButton = movingCardData.TargetPileCardButton;
             var targetPileIndex = movingCardData.TargetPileIndex;
 
             // Only the last card in a dealt card pile can be moved up to a target card pile.
@@ -977,10 +977,10 @@ namespace Sa11ytaire4All
                     // We know the target pile list isn't empty if we're here.
                     int count = _targetPiles[targetPileIndex].Count;
                     Card card = _targetPiles[targetPileIndex][count - 1];
-                    targetPileSwitch.Card = card;
+                    targetPileCardButton.Card = card;
 
                     // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-                    SetCardSuitColours(targetPileSwitch);
+                    SetCardSuitColours(targetPileCardButton);
 
                     // Have screen readers make a related announcement.
                     string announcement =
@@ -998,7 +998,7 @@ namespace Sa11ytaire4All
 
                 PlaySound(movedCard);
 
-                targetPileSwitch.SetToggledState(false);
+                targetPileCardButton.SetToggledState(false);
 
                 if (GameOver())
                 {
