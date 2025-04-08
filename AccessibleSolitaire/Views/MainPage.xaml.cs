@@ -361,6 +361,9 @@ namespace Sa11ytaire4All
 
         private bool firstAppAppearanceSinceStarting = true;
 
+        // We always set the suit colours on startup.
+        private bool InitialSetSuitColours = true;
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -395,6 +398,11 @@ namespace Sa11ytaire4All
                             TimeSpan.FromMilliseconds(500),
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
+
+                var previousColoursClubs = vm.SuitColoursClubs;
+                var previousColoursDiamonds = vm.SuitColoursDiamonds;
+                var previousColoursHearts = vm.SuitColoursHearts;
+                var previousColoursSpades = vm.SuitColoursSpades;
 
                 try
                 {
@@ -447,12 +455,21 @@ namespace Sa11ytaire4All
                     TargetPileD.RefreshVisuals();
                     TargetPileH.RefreshVisuals();
                     TargetPileS.RefreshVisuals();
+                }
 
-                    // If we don't set the colours here, the default colours show initially.
+                // If we don't set the colours here, the default colours show initially.
+                if (InitialSetSuitColours ||
+                    (previousColoursClubs != vm.SuitColoursClubs) ||
+                    (previousColoursDiamonds != vm.SuitColoursDiamonds) ||
+                    (previousColoursHearts != vm.SuitColoursHearts) ||
+                    (previousColoursSpades != vm.SuitColoursSpades))
+                {
+                    InitialSetSuitColours = false;
+
                     timerSetSuitColours = new Timer(
                         new TimerCallback((s) => DelayedTimerSetSuitColours()),
                             null,
-                            TimeSpan.FromMilliseconds(2000),
+                            TimeSpan.FromMilliseconds(1000),
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
@@ -525,6 +542,10 @@ namespace Sa11ytaire4All
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
             {
+                SetCardSuitColours(CardDeckUpturnedObscuredLower);
+                SetCardSuitColours(CardDeckUpturnedObscuredHigher);
+                SetCardSuitColours(CardDeckUpturned);
+
                 SetCardSuitColours(TargetPileC);
                 SetCardSuitColours(TargetPileD);
                 SetCardSuitColours(TargetPileH);
@@ -748,13 +769,13 @@ namespace Sa11ytaire4All
         {
             if (includeUpturnedCard)
             {
-                CardDeckUpturned.SetToggledState(false);
+                CardDeckUpturned.IsToggled = false;
             }
 
-            TargetPileC.SetToggledState(false);
-            TargetPileD.SetToggledState(false);
-            TargetPileH.SetToggledState(false);
-            TargetPileS.SetToggledState(false);
+            TargetPileC.IsToggled = false;
+            TargetPileD.IsToggled = false;
+            TargetPileH.IsToggled = false;
+            TargetPileS.IsToggled = false;
         }
 
         public void RestartGame(bool screenReaderAnnouncement)
@@ -1167,30 +1188,6 @@ namespace Sa11ytaire4All
             }
 
             return stateMessage;
-        }
-
-        private void CardZoomButton_Clicked(object sender, EventArgs e)
-        {
-            if (sender is ImageButton)
-            {
-                var imageButton = sender as ImageButton;
-                if (imageButton == null)
-                {
-                    return;
-                }
-
-                var dealtCard = imageButton.BindingContext as DealtCard;
-                if (dealtCard != null)
-                {
-                    var vm = this.BindingContext as DealtCardViewModel;
-                    if (vm != null)
-                    {
-                        var popup = new CardPopup(dealtCard.Card, vm);
-
-                        this.ShowPopup(popup);
-                    }
-                }
-            }
         }
 
         private void VerticalStackLayout_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

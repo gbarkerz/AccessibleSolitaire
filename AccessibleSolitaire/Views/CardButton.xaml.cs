@@ -80,11 +80,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
             {
                 // There is a card in this pile, so simply get the card's friendly name.
                 cardPileAccessibleName = this.Card.GetCardAccessibleName();
+            }
 
-                if (this.IsToggled)
-                {
-                    cardPileAccessibleName += " " + MainPage.MyGetString("Selected");
-                }
+            if (this.IsToggled)
+            {
+                cardPileAccessibleName += " " + MainPage.MyGetString("Selected");
             }
 
             return cardPileAccessibleName;
@@ -406,20 +406,8 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
             SetValue(IsToggledProperty, value);
 
             this.OnPropertyChanged("IsToggled");
+            this.OnPropertyChanged("CardPileAccessibleName");
         }
-    }
-
-    public void SetToggledState(bool toggledState)
-    {
-        var cardButton = this.FindByName("InnerCardButton") as Button;
-        if (cardButton == null)
-        {
-            return;
-        }
-
-        Debug.WriteLine("SetToggledState: " + cardButton.AutomationId);
-
-        IsToggled = toggledState;
     }
 
     public void RefreshVisuals()

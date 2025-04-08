@@ -47,10 +47,10 @@
             <!-- Bind the visibility to the enabled state of the containing CardButton. -->
 
             <Button
-                x:Name="InnerCardButton"
                 Margin="{Binding IsToggled, Mode=OneWay,
+                    Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton,
                     Converter={StaticResource IsToggledToMarginConverter},
-                        ConverterParameter=0}"
+                    ConverterParameter=0}"
                 IsVisible="{Binding IsEnabled, Mode=OneWay, 
                     Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
                 SemanticProperties.Description="{Binding CardPileAccessibleName, Mode=OneWay, 

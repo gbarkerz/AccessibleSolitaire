@@ -47,7 +47,7 @@ namespace Sa11ytaire4All
 
             if (obscuredCardButton != null)
             {
-                obscuredCardButton.SetToggledState(false);
+                obscuredCardButton.IsToggled = false;
 
                 MakeDelayedScreenReaderAnnouncement(
                     MainPage.MyGetString("ObscuredUpturnedCardCannotBeSelected"));
@@ -59,9 +59,6 @@ namespace Sa11ytaire4All
             {
                 return;
             }
-
-            // Toggle the state of the CardButton clicked.
-            cardButton.IsToggled = !cardButton.IsToggled;
 
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!cardButton.IsToggled)
@@ -119,7 +116,7 @@ namespace Sa11ytaire4All
 
         private void ClearSelectionStatesAfterTargetCardSelectionChange(CardButton? cardButton)
         {
-            CardDeckUpturned.SetToggledState(false);
+            CardDeckUpturned.IsToggled = false;
 
             ClearDealtCardPileSelections();
 
@@ -134,7 +131,7 @@ namespace Sa11ytaire4All
             else
             {
                 // Do not leave an empty target card pile selected when no card was moved to it.
-                cardButton.SetToggledState(false);
+                cardButton.IsToggled = false;
             }
 
             if (GameOver())
@@ -313,7 +310,7 @@ namespace Sa11ytaire4All
 
             if (_targetPiles[targetPileIndex].Count == 0)
             {
-                cardButton.SetToggledState(false);
+                cardButton.IsToggled = false;
             }
 
             return false;

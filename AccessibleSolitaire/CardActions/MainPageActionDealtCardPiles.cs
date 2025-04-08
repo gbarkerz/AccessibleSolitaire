@@ -998,7 +998,7 @@ namespace Sa11ytaire4All
 
                 PlaySound(movedCard);
 
-                targetPileCardButton.SetToggledState(false);
+                targetPileCardButton.IsToggled = false;
 
                 if (GameOver())
                 {

@@ -82,34 +82,51 @@ namespace Sa11ytaire4All
             MakeDelayedScreenReaderAnnouncement(screenReaderAnnouncement);
         }
 
+        private DateTime timePreviousClickUpturnedButton = DateTime.Now;
+
         private void CardDeckUpturned_Clicked(CardButton cardDeckUpturned)
         {
+            if ((DateTime.Now - timePreviousClickUpturnedButton).TotalMilliseconds < 500)
+            {
+                return;
+            }
+
+            timePreviousClickUpturnedButton = DateTime.Now;
+
             if (cardDeckUpturned.Card == null)
             {
                 // There is no upturned card in the upturned card pile. So 
                 // make sure the empty upturned card is not left selected.
                 if (CardDeckUpturned.IsToggled)
                 {
-                    CardDeckUpturned.SetToggledState(false);
+                    CardDeckUpturned.IsToggled = false;
                 }
 
                 return;
             }
 
-            // Change the selection state of the upturned card.
-            cardDeckUpturned.SetToggledState(!cardDeckUpturned.IsToggled);
-
             // Always deselect all dealt cards and the target card piles 
             // when the upturned card is selected.
             ClearAllSelections(false);
 
+            ToggleUpturnedCardSelection(cardDeckUpturned);
+        }
+
+        private void ToggleUpturnedCardSelection(CardButton cardDeckUpturned)
+        {
+            // Change the selection state of the upturned card.
+            cardDeckUpturned.IsToggled = !cardDeckUpturned.IsToggled;
+
             if (CardDeckUpturned.IsToggled)
             {
-                string selectedAnnouncement =
-                    cardDeckUpturned.Card.GetCardAccessibleName() + " " +
-                    MainPage.MyGetString("Selected");
+                if (cardDeckUpturned.Card != null)
+                {
+                    string selectedAnnouncement =
+                        cardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                        MainPage.MyGetString("Selected");
 
-                MakeDelayedScreenReaderAnnouncement(selectedAnnouncement);
+                    MakeDelayedScreenReaderAnnouncement(selectedAnnouncement);
+                }
             }
         }
     }
