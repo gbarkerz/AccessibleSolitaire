@@ -60,6 +60,9 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            // Change the selection state of the target pile CardButton.
+            cardButton.IsToggled = !cardButton.IsToggled;
+
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!cardButton.IsToggled)
             {
