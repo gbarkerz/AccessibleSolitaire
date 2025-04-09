@@ -151,7 +151,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V1.31.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.0.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -1103,6 +1103,15 @@ namespace Sa11ytaire4All {
         internal static string NoMoveIsAvailable {
             get {
                 return ResourceManager.GetString("NoMoveIsAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No next cards left.
+        /// </summary>
+        internal static string NoNextCardsLeft {
+            get {
+                return ResourceManager.GetString("NoNextCardsLeft", resourceCulture);
             }
         }
         

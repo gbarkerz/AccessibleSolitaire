@@ -148,7 +148,7 @@
     <value>9</value>
   </data>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V1.31</value>
+    <value>Accessible Solitaire V2.0</value>
   </data>
   <data name="AccessKeyClubsPileLabel.Text" xml:space="preserve">
     <value>Clubs pile:</value>
@@ -694,5 +694,8 @@ Please click the Menu button and review the Help content to learn how to get the
   </data>
   <data name="TouchInteraction" xml:space="preserve">
     <value>Touch Interaction</value>
+  </data>
+  <data name="NoNextCardsLeft" xml:space="preserve">
+    <value>No next cards left</value>
   </data>
 </root>

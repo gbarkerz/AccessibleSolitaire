@@ -11,6 +11,7 @@ public partial class SettingsPage : ContentPage
 		InitializeComponent();
 
 #if IOS
+        SoundsSettingsHeader.IsVisible = true;
         SoundsSettingsGrid.IsVisible = true;
 #endif
 

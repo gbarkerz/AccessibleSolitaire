@@ -53,7 +53,9 @@ namespace Sa11ytaire4All
             }
             else
             {
-                if (_deckUpturned.Count > 0)
+                var someCardsLeft = _deckUpturned.Count > 0;
+
+                if (someCardsLeft)
                 {
                     soundFilename = "restack.mp4";
                 }
@@ -70,7 +72,8 @@ namespace Sa11ytaire4All
 
                 ClearUpturnedPileButton();
 
-                screenReaderAnnouncement += MainPage.MyGetString("AllUpturnedCardsTurnedBack");
+                screenReaderAnnouncement += MainPage.MyGetString(
+                                                someCardsLeft ? "AllUpturnedCardsTurnedBack" : "NoNextCardsLeft");
             }
 
             PlaySoundFile(soundFilename);
@@ -117,16 +120,13 @@ namespace Sa11ytaire4All
             // Change the selection state of the upturned card.
             cardDeckUpturned.IsToggled = !cardDeckUpturned.IsToggled;
 
-            if (CardDeckUpturned.IsToggled)
+            if (cardDeckUpturned.Card != null)
             {
-                if (cardDeckUpturned.Card != null)
-                {
-                    string selectedAnnouncement =
-                        cardDeckUpturned.Card.GetCardAccessibleName() + " " +
-                        MainPage.MyGetString("Selected");
+                string selectionAnnouncement =
+                    cardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                        MainPage.MyGetString(CardDeckUpturned.IsToggled ? "Selected" : "Unselected");
 
-                    MakeDelayedScreenReaderAnnouncement(selectedAnnouncement);
-                }
+                MakeDelayedScreenReaderAnnouncement(selectionAnnouncement);
             }
         }
     }

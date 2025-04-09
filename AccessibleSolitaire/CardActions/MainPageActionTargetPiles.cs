@@ -66,10 +66,7 @@ namespace Sa11ytaire4All
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!cardButton.IsToggled)
             {
-                var accessibleName = SemanticProperties.GetDescription(cardButton);
-
-                string announcement =
-                    accessibleName + " " + MainPage.MyGetString("Unselected");
+                string announcement = cardButton.CardPileAccessibleName + " " +  MainPage.MyGetString("Unselected");
 
                 MakeDelayedScreenReaderAnnouncement(announcement);
 
@@ -119,6 +116,11 @@ namespace Sa11ytaire4All
 
         private void ClearSelectionStatesAfterTargetCardSelectionChange(CardButton? cardButton)
         {
+            if (cardButton == null)
+            {
+                return;
+            }
+
             CardDeckUpturned.IsToggled = false;
 
             ClearDealtCardPileSelections();
@@ -126,8 +128,7 @@ namespace Sa11ytaire4All
             if (cardButton.Card != null)
             {
                 string announcement =
-                    cardButton.Card.GetCardAccessibleName() + " " + 
-                        MainPage.MyGetString("Selected");
+                    cardButton.Card.GetCardAccessibleName() + " " + MainPage.MyGetString("Selected");
 
                 MakeDelayedScreenReaderAnnouncement(announcement);
             }
