@@ -6,7 +6,7 @@ Today the game focuses on the experiences for players who use zoom features, scr
 
 Your feedback can make a real difference, so please let me know by messaging "Sa11ytaire Help" at Facebook, or e-mail gbarkerz@hotmail.com.
 
-Some technical details relating to building the Android version of the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe).
+Some technical details relating to building the Android version of the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe) and [Accessible Solitaire for iOS and Android: Reaching the Starting Line](https://www.linkedin.com/pulse/accessible-solitaire-ios-android-reaching-starting-line-guy-barker-8ad9e).
 
 Short videos demonstrating some of the ways that Accessible Solitaire can be played are referenced below. Please note that currently these videos do not have captions or audio descriptions.
 
@@ -52,25 +52,17 @@ Figure 1: A solitaire game running on iOS with various cards moved between the t
 Figure 2: A solitaire game running on Android with various cards moved between the three main areas of the game.
 ![Android: A solitaire game in progress with various cards moved between the three main areas of the game.](/ReadmeScreenshots/AccessibleSolitaire_DefaultGame.jpg)
 
+## Differences between Version 1 and Version 2 of Accessible Solitaire
+
+Based on feedback, three features that were available in Version 1 have been removed for Version 2. These features were: in-app zoom of two areas of the app, buttons on each card to show a zoomed version of the card, and a setting to make all parts of the game darker. Also, based on feedback, two features have been added to version 2. These features are a long press on a card to show a zoomed popup of the card, and a setting to change the colours used for the four playing card suits. Also in Version 2, screen readers consider the playing cards shown in the remaining cards pile and target card piles to be buttons rather than switches.  
+
 ## Size of things shown in the game
 
-The game has three settings which can help make the contents of cards easier to see.
+The game has three features which can help make the contents of cards easier to see.
 
-### "Zoom level"
+### Card rank and suit display
 
-By default, the things shown in the game are sized such that all parts of the game fit onto the device screen. This means on phone screens, some things might be so small that they're not easy to see or tap. The size of things shown in the game can be changed by tapping the Menu button near the top-left of the game and tapping the “Settings” item. The game's settings contains a "Zoom Level" setting which can be increased to make everything bigger in the game.
-
-Once everything is bigger, the entire game won’t fit on the screen and so the top part of the game containing the upturned cards and the target card piles can be scrolled to bring whatever’s of interest in that area into view. Also, the lower part of the game containing the dealt card piles can be scrolled separately from the top part, such that whatever dealt card piles are of interest can be brought into view.
-
-Figure 3: A solitaire game running on iOS, zoomed to 150% and showing portions of the two main areas of the game scrolled into view.
-![iOS: The game zoomed to 150%, showing portions of the two main areas of the game scrolled into view.](/ReadmeScreenshots/AccessibleSolitaire_Zoom150_iOS.jpg)
-
-Figure 4: A solitaire game running on Android, zoomed to 150% and showing portions of the two main areas of the game scrolled into view.
-![Android: The game zoomed to 150%, showing portions of the two main areas of the game scrolled into view.](/ReadmeScreenshots/AccessibleSolitaire_Zoom150.jpg)
-
-### "Card rank and suit display"
-
-By default, the content of cards is similar to those of traditional playing cards, such that the main area shows a collection of small suit symbols. This means determining exactly which suit is being shown can be a challenge, given that the clubs and spade symbols are very similar, as are the diamonds and hearts symbols. The "Card rank and suit display" setting provides a way to have the card not show the traditional collection of symbols, and instead show one large number (or letter) to indicate the card's rank, and one large suit symbol.
+A setting in the app can be used to have the content of playing cards be similar to those of traditional playing cards, such that the main area shows a collection of small suit symbols. A collection of small symbols can make determining exactly which suit is being shown  challenge, given that the clubs and spade symbols are very similar, as are the diamonds and hearts symbols. A such, a "Card rank and suit display" setting provides a way to have the card not show the traditional collection of symbols, and instead show one large number (or letter) to indicate the card's rank, and one large suit symbol. By default, the "Card rank and suit display" setting is on.
 
 Figure 5: A solitaire game running on iOS, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.
 ![iOS: A game in progress, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.](/ReadmeScreenshots/AccessibleSolitaire_ShowLargeRankSuit_iOS.jpg)
@@ -78,21 +70,19 @@ Figure 5: A solitaire game running on iOS, with all cards showing a large number
 Figure 6: A solitaire game running on Android, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.
 ![Android: A game in progress, with all cards showing a large number or letter indicating the card's rank and a large suit symbol.](/ReadmeScreenshots/AccessibleSolitaire_ShowLargeRankSuit.jpg)
 
-### "Show Zoom Card Button"
+### Show a cardplaying in a zoomed popup
 
-The "Show Zoom Card Button" setting provides a way to have a zoom button shown at the top right corner of all face-up cards. When that button is tapped, a large popup appears containing the associated card. To dismiss the popup, either tap its Close button, or tap outside the popup.
-
-Figure 7: A solitaire game running on iOS, with all face-up cards showing a zoom icon at their top right corners.
-![iOS: A game in progress with all face-up cards showing a zoom icon at their top right corners.](/ReadmeScreenshots/AccessibleSolitaire_ShowZoomCardButton_iOS.jpg)
+If a player places their finger on a playing card of interest, and leaves their finger on the card for a specific time, a zoomed version of the card will popup. To dismiss the popup, either tap its Close button, or tap outside the popup. The time required for the popup to appear when a finger is on the card can be adjusted with the "Press and hold on card to zoom" setting, and this setting can also be used to never show the zoom popup.
 
 Figure 8: A solitaire game running on iOS, with a large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.
 ![iOS: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/AccessibleSolitaire_PopupLight_iOS.jpg)
 
-Figure 9: A solitaire game running on Android, with all face-up cards showing a zoom icon at their top right corners.
-![Android: A game in progress with all face-up cards showing a zoom icon at their top right corners.](/ReadmeScreenshots/AccessibleSolitaire_ShowZoomCardButton.jpg)
-
 Figure 10: A solitaire game running on Android, with a large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.
 ![Android: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/AccessibleSolitaire_PopupLight.jpg)
+
+### Changes the colours used for suits 
+
+By default, the colours of suits are the traditional playing card colours, those being black clubs, red diamonds, red hearts, and black spades. Having the same colours used for different suits can make it a challenge to differentiate clubs from spades, and diamonds from hearts. So a setting can be used to change the colours used for each suit.  
 
 ## Using a switch device (iOS Switch Control or Android Switch Access)
 
@@ -133,7 +123,6 @@ Phrases that are commonly used in the game are: "tap", followed by one of the th
 Figure 13: A solitaire game running on iOS, with Voice Control showing names by all interactable elements.
 ![iOS: A game in progress with iOS Voice Controls showing names by all interactable controls. For example, "Diamonds" by the Diamonds target card pile, and "4" by the 4 of Spades.](/ReadmeScreenshots/AccessibleSolitaire_VoiceAccess_iOS.jpg)
 
-
 ## Using a screen reader (iOS VoiceOver or Android TalkBack)
 
 A screen reader announces the name of whatever it encounters in the game. For example: 
@@ -141,16 +130,16 @@ A screen reader announces the name of whatever it encounters in the game. For ex
 - "Menu, Button"
 - "Next card, Button"
 
-All cards in the upturned card piles or target card piles behave like switches, with a toggled state to indicate whether a card has been selected in preparation for moving it. As such, the screen reader will announce them as switches and either On or Off depending on their toggled state. For example, if the Ace of Clubs is shown in the Clubs target card piles, a screen reader will say either "OFF, Ace of Clubs, Switch" or "ON, Ace of Clubs, Switch".  
+All cards in the upturned card piles or target card piles behave like buttons, whose names include the word "selected" if the card has been selected in readiness to move the card. For example, if the Ace of Clubs is shown in the Clubs target card piles, a screen reader will say either "Ace of Clubs, button" or "Ace of Clubs, selected, button".  
 
 When the screen reader encounters a card in one of the dealt card piles, it announces the details of the card. The details always include the rank and suit of the card if the card is face-up, or the phrase "Face down" if the card is face-down. The details also include the position of the card in the dealt card pile, the count of cards in that pile, and whether the card is selected. For example: "10 of Diamonds, selected, 3 of 4". The screen reader might also announce which dealt card pile the card is in, as either its "dealt card pile" or "list pile".
 
-The screen reader can be moved directly to an element in the game  by touching the element, or by swiping right or left to have TalkBack move to the next or previous element respectively. When navigating forward by swipe gesture, TalkBack will announce the container of the dealt card piles as: "Dealt card piles".
+The screen reader can be moved directly to an element in the game by touching the element, or by swiping right or left to have TalkBack move to the next or previous element respectively. When navigating forward by swipe gesture, TalkBack will announce the container of the dealt card piles as: "Dealt card piles".
 
 The screen reader also announces details in response to some specific actions that are taken in the game. For example:
 
 - When selecting a card in a dealt card pile: "3 of Clubs, selected, 3 of 3 in dealt card pile 3".
-- When a  card has been moved from a dealt card pile up to a target card pile, and the next card in the pile is turned face-up: "Moved Ace of Hearts, Revealed Jack of Diamonds, 4 of 4 in dealt card pile 5".
+- When a card has been moved from a dealt card pile up to a target card pile, and the next card in the pile is turned face-up: "Moved Ace of Hearts, Revealed Jack of Diamonds, 4 of 4 in dealt card pile 5".
 - When the Next Card button is tapped and two cards are turned over: "5 of Hearts, 6 of Spades on top".
 - When the Next Card button is tapped and the pile becomes empty: “9 of spades, 3 of Diamonds on top. No cards left in remaining cards pile”.
 - When the topmost upturned card is selected: “3 of Diamonds selected”.
@@ -158,6 +147,8 @@ The screen reader also announces details in response to some specific actions th
 **Announcing the entire state of the game:** To have the current state of the entire game announced by the screen reader, go to the Settings page and check: “Show state announcement button”. When you then return to the game, a button called: "Screen reader announce game state" will follow the Menu button near the top-left of the game. When that button is tapped, the screen reader will announce the current state of the upturned cards, the target card piles, and the dealt card piles. For example:
 
 "Top upturned card is 6 of Clubs, then 9 of Diamonds, then 4 of Clubs.  More cards are available to turn over. Target piles, 2 of Clubs, 2 of Diamonds, Ace of Hearts, Empty Spades Pile. Pile 1, 10 of Hearts to King of Spades, Pile 2, Empty, Pile 3, 8 of Clubs, 2 Cards Face-down, Pile 4, 10 of Spades to Jack of Diamonds, 2 Cards Face-down, Pile 5, 7 of Clubs, 4 Cards Face-down, Pile 6, 4 of Diamonds, 1 Card Face-down, Pile 7, 5 of Diamonds, 6 Cards Face-down."
+
+**Extend dealt card hit targets:** This setting only applies using a portrait screen orientation. When turned on, the hit target for each of the topmost dealt cards extends across the width of the screen. The hit target is represented by a solid colour, and the dealt card appears in the middle of the area. Extending the hit target area may make it quicker to find the topmost card in each pile when moving your finger over the screen while using a screen reader.
 
 **Note:** When using the Android TalkBack screen reader, the screen reader will move to the three containers associated with the upturned cards pile, the target card piles, and the dealt card piles, and announce their names in addition to moving to the cards contained inside those groups. When using the iOS VoiceOver screen reader, the screen reader only moves to the cards, and does not move to the three containers.
 
@@ -207,23 +198,11 @@ Figure 24: A solitaire game running on Android with all cards showing a zoom ico
 Figure 25: A solitaire game running on iOS with a large popup window showing a 10 of Clubs card, using the app's dark mode colours.
 ![Android: A large popup window showing a 10 of Clubs card, using the app's dark mode colours.](/ReadmeScreenshots/AccessibleSolitaire_DarkPopup.jpg)
 
-In addition, the game has a **"Card Appearance"** setting which can be used to lower the brightness of cards shown in the game.
-
-Figure 26: A solitaire game running on iOS with all cards having a grey background instead of the default white background.
-![iOS: A game in progress with all cards having a grey background instead of the default white background.](/ReadmeScreenshots/AccessibleSolitaire_DarkenCards_iOS.jpg)
-
-Figure 27: A solitaire game running on Android with all cards having a grey background instead of the default white background.
-![Android: A game in progress with all cards having a grey background instead of the default white background.](/ReadmeScreenshots/AccessibleSolitaire_DarkenCards.jpg)
-
 ## Other Settings
 
 ### "Number of cards turned up" and "Empty Dealt Card Pile"
 
 The game has two settings which can influence how challenging it is for the game to be won. One of those settings, "Number of cards turned up", controls how many cards are turned over from the remaining card pile when the Next Card button is tapped. If cards are turned up one at a time, the game is more likely to be won, but if the cards are turned up three at a time, you may find it less common for the game to be won. The other setting, "Empty Dealt Card Pile", controls what cards can be moved to empty dealt card piles. If this is set such that any card can be moved to an empty dealt card pile, the game is more likely to be won, and the game is less likely to be won if only Kings can be moved to an empty dealt card pile.
-
-### "Screen Reader"
-
-As mentioned above, the "Show state announcement button" can be used to have the  screen reader announce the entire state of the game. If the screen reader is not running, this button appears to do nothing when tapped. 
 
 ### Merge face-down cards
 
@@ -239,9 +218,17 @@ Figure 28: A solitaire game running on Android with the face-down cards in each 
 Figure 29: A solitaire game running on iOS with the face-down cards in each dealt card pile merged into a single face-down card.
 ![iOS: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. VoiceOver's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. VoiceOver's caption says: 6 Face-down, 1 of 8](/ReadmeScreenshots/V1.19_MergeFaceDownCards_iOS.jpg)
 
+### Flip layout horizontally
+
+The "Flip layout" setting flips the layout of all things in the app horizontally. This might be helpful for players who prefer the Next Card button to be near the top right of the screen rather than the top left.
+
 ### Select via face-down card
 
 Often when selecting a partially obscured card in a dealt card pile, the card of interest is the lowest face-up card in the pile. Given that that card can be difficult to tap on due to the amount of card that's shown, the "Select via face-down card" option means a tap on any face-down card in a dealt card pile will select or deselect the nearest face-up card in the same pile. This will often make it less challenging to select the lowest face-up card in a dealt card pile. The option is on by default.
+
+### Sounds
+
+This setting is currently only available on iOS, and can be used to have sounds played following specific events happening in the game.
 
 ### Highlight selected card set
 
