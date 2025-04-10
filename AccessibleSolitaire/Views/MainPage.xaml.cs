@@ -61,6 +61,7 @@ namespace Sa11ytaire4All
             this.BindingContext = new DealtCardViewModel();
 
             suitColours = new Dictionary<string, Color>();
+            suitColours.Add("Default", Colors.Transparent);
             suitColours.Add("Black", Colors.Black);
             suitColours.Add("Dark Red", Colors.DarkRed);
             suitColours.Add("Dark Orange", Colors.DarkOrange);
@@ -406,17 +407,17 @@ namespace Sa11ytaire4All
 
                 try
                 {
-                    var suitColourNameClubs = (string)Preferences.Get("SuitColoursClubs", "Black");
-                    vm.SuitColoursClubs = suitColours[suitColourNameClubs];
+                    var suitColourNameClubs = (string)Preferences.Get("SuitColoursClubs", "Default");
+                    vm.SuitColoursClubs = DetermineSuitColour(suitColourNameClubs, Colors.Black, Colors.White);
 
-                    var suitColourNameDiamonds = (string)Preferences.Get("SuitColoursDiamonds", "Red");
-                    vm.SuitColoursDiamonds = suitColours[suitColourNameDiamonds];
+                    var suitColourNameDiamonds = (string)Preferences.Get("SuitColoursDiamonds", "Default");
+                    vm.SuitColoursDiamonds = DetermineSuitColour(suitColourNameDiamonds, Colors.Red, Colors.Red);
 
-                    var suitColourNameHearts = (string)Preferences.Get("SuitColoursHearts", "Red");
-                    vm.SuitColoursHearts = suitColours[suitColourNameHearts];
+                    var suitColourNameHearts = (string)Preferences.Get("SuitColoursHearts", "Default");
+                    vm.SuitColoursHearts = DetermineSuitColour(suitColourNameHearts, Colors.Red, Colors.Red);
 
-                    var suitColourNameSpades = (string)Preferences.Get("SuitColoursSpades", "Black");
-                    vm.SuitColoursSpades = suitColours[suitColourNameSpades];
+                    var suitColourNameSpades = (string)Preferences.Get("SuitColoursSpades", "Default");
+                    vm.SuitColoursSpades = DetermineSuitColour(suitColourNameSpades, Colors.Black, Colors.White);
                 }
                 catch (Exception ex)
                 {
@@ -530,6 +531,23 @@ namespace Sa11ytaire4All
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
             }
+        }
+
+        private Color DetermineSuitColour(string suitColourName, Color DefaultLight, Color DefaultDark)
+        {
+            Color suitColour;
+
+            if (suitColourName == "Default")
+            {
+                suitColour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                        DefaultLight : DefaultDark);
+            }
+            else
+            {
+                suitColour = suitColours[suitColourName];
+            }
+
+            return suitColour;
         }
 
         private Timer timerSetSuitColours;
@@ -1297,12 +1315,15 @@ namespace Sa11ytaire4All
                     var dealtCard = bindingContext as DealtCard;
                     if (dealtCard != null)
                     {
-                        var vm = this.BindingContext as DealtCardViewModel;
-                        if (vm != null)
+                        if ((dealtCard.Card != null) && (dealtCard.Card.Suit != Suit.NoSuit))
                         {
-                            var popup = new CardPopup(dealtCard.Card, vm);
+                            var vm = this.BindingContext as DealtCardViewModel;
+                            if (vm != null)
+                            {
+                                var popup = new CardPopup(dealtCard.Card, vm);
 
-                            this.ShowPopup(popup);
+                                this.ShowPopup(popup);
+                            }
                         }
                     }
                 }

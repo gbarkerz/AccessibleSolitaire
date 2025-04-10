@@ -37,16 +37,16 @@ public partial class SettingsPage : ContentPage
         var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
         LongPressOnCardPicker.SelectedIndex = longPressZoomDuration / 1000;
 
-        var currentColour = (string)Preferences.Get("SuitColoursClubs", "Black");
+        var currentColour = (string)Preferences.Get("SuitColoursClubs", "Default");
         SuitColoursClubsPicker.SelectedItem = currentColour;
 
-        currentColour = (string)Preferences.Get("SuitColoursDiamonds", "Red");
+        currentColour = (string)Preferences.Get("SuitColoursDiamonds", "Default");
         SuitColoursDiamondsPicker.SelectedItem = currentColour;
 
-        currentColour = (string)Preferences.Get("SuitColoursHearts", "Red");
+        currentColour = (string)Preferences.Get("SuitColoursHearts", "Default");
         SuitColoursHeartsPicker.SelectedItem = currentColour;
 
-        currentColour = (string)Preferences.Get("SuitColoursSpades", "Black");
+        currentColour = (string)Preferences.Get("SuitColoursSpades", "Default");
         SuitColoursSpadesPicker.SelectedItem = currentColour;
 
         var showRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
