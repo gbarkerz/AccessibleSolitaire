@@ -75,10 +75,10 @@ Figure 4: A solitaire game running on Android, with all cards showing a large nu
 If a player places their finger on a playing card of interest, and leaves their finger on the card for a specific time, a zoomed version of the card will popup. To dismiss the popup, either tap its Close button, or tap outside the popup. The time required for the popup to appear when a finger is on the card can be adjusted with the "Press and hold on card to zoom" setting, and this setting can also be used to never show the zoom popup.
 
 Figure 5: A solitaire game running on iOS, with a large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.
-![iOS: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/AccessibleSolitaire_PopupLight_iOS.jpg)
+![iOS: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/iOS_Zoom_3ofSpades.jpg)
 
 Figure 6: A solitaire game running on Android, with a large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.
-![Android: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/AccessibleSolitaire_PopupLight.jpg)
+![Android: A large popup window showing a 3 of Spades card, with the rest of the game greyed out in the background.](/ReadmeScreenshots/Android_Zoom_3ofSpades.jpg)
 
 ### Changes the colours used for suits 
 
