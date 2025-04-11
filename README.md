@@ -90,9 +90,6 @@ Figure 7: A solitaire game running on iOS, with the following suit colours: Club
 Figure 8: A solitaire game running on iOS, with the following suit colours: Clubs dark green, Diamonds dark gold, Hearts dark indigo, Spades dark gold.
 ![iOS: Playing cards with the following suit colours: Clubs dark green, Diamonds dark gold, Hearts dark indigo, Spades dark gold.](/ReadmeScreenshots/V2_SuitColours_Light.jpg)
 
-Figure 9: A solitaire game running on iOS with the app's dark colour theme, with the following suit colours: Clubs violet, Diamonds dark violet, Hearts dark red, Spades blue.
-![iOS: Playing cards with the following suit colours: Clubs violet, Diamonds dark violet, Hearts dark red, Spades blue.](/ReadmeScreenshots/V2_SuitColours_Dark.jpg)
-
 ## Using a switch device (iOS Switch Control or Android Switch Access)
 
 The Accessible Solitaire game can be played using iOS Switch Control or Android Switch Access. For more information on these features, please visit [Use Switch Control to navigate your iPhone, iPad or iPod touch](https://support.apple.com/119835) or [Switch Access](https://support.google.com/accessibility/android/topic/6151780).
@@ -107,10 +104,10 @@ When playing Accessible Solitaire with a switch, please consider the following:
 
 3. When a card of interest is selected using a switch, the a menu of actions may appear, and another switch press is then required to tap the card. If you’d prefer a card to be tapped automatically when selected, change the device's Switch settings to have the card tapped with a single click of the switch. Also consider reducing the delay before the auto-tap occurs after the card is selected.
 
-Figure 10: A solitaire game running on iOS, with Switch Control faint highlighting 6 of the 7 dealt card piles and strong highlighting the entire fourth dealt card pile.
+Figure 9: A solitaire game running on iOS, with Switch Control faint highlighting 6 of the 7 dealt card piles and strong highlighting the entire fourth dealt card pile.
 ![iOS: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. A faint dashed highlight surrounds the first 6 dealt card piles, and a stronger highlight surrounds the cards in the fourth dealt cards pile.](/ReadmeScreenshots/AccessibleSolitaire_SwitchAccess_iOS.jpg)
 
-Figure 11: A solitaire game running on Android, with Switch Access highlighting the entire set of the 7 dealt card piles.
+Figure 10: A solitaire game running on Android, with Switch Access highlighting the entire set of the 7 dealt card piles.
 ![Android: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The Android Switch Access highlight surrounds the entire set of seven dealt card piles, with the topmost face-up cards in two of the piles protruding slightly below the bottom of the highlight.](/ReadmeScreenshots/AccessibleSolitaire_SwitchAccess.jpg)
 
 ## Using speech (iOS Voice Control only) 
@@ -129,7 +126,7 @@ Phrases that are commonly used in the game are: "tap", followed by one of the th
 - The name of an empty target card pile. For example: "clubs pile" or "hearts pile".
 - The name of an empty dealt card pile. For example: "pile one" or "pile seven".
 
-Figure 12: A solitaire game running on iOS, with Voice Control showing names by all interactable elements.
+Figure 11: A solitaire game running on iOS, with Voice Control showing names by all interactable elements.
 ![iOS: A game in progress with iOS Voice Controls showing names by all interactable controls. For example, "Diamonds" by the Diamonds target card pile, and "4" by the 4 of Spades.](/ReadmeScreenshots/AccessibleSolitaire_VoiceAccess_iOS.jpg)
 
 ## Using a screen reader (iOS VoiceOver or Android TalkBack)
@@ -163,22 +160,22 @@ The screen reader also announces details in response to some specific actions th
 
 **TIP:** When using the iOS VoiceOver screen reader, turn off the VoiceOver"Text Recognition" setting to prevent VoiceOver attempting to recognise any text shown on the cards and announcing that text in addition to the name of the card.
 
-Figure 13: A solitaire game running on iOS, with VoiceOver highlighting the 3 of Spades and its caption showing an announcement relating to a move.
+Figure 12: A solitaire game running on iOS, with VoiceOver highlighting the 3 of Spades and its caption showing an announcement relating to a move.
 ![iOS: VoiceOver's highlight at a partially obscured 3 of Spades card in a dealt card pile, and VocieOver's caption showing the text, Moved 2 of Hearts, revealed 8 of Clubs, 1 of 1 in dealt card pile 5](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveBetweenDealtPiles.jpg)
 
-Figure 14: A solitaire game running on iOS, with VoiceOver highlighting the Jack of Spades and its caption showing an announcement relating to a move.
+Figure 13: A solitaire game running on iOS, with VoiceOver highlighting the Jack of Spades and its caption showing an announcement relating to a move.
 ![iOS: VoiceOver's highlight at the Jack of Spades card in a dealt card pile, and VoiceOver's caption showing the text, Moved King of Clubs to Empty Dealt card pile 2](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveToTargetPile.jpg)
 
-Figure 15: A solitaire game running on iOS, with VoiceOver announcing the entire state of the game.
+Figure 14: A solitaire game running on iOS, with VoiceOver announcing the entire state of the game.
 ![iOS: VoiceOver's highlight around the "Screen reader announce game state" button, and VoiceOver's caption showing the entire state of the game, including what cards are shown in the upturned cards pile, the target cards piles, and all dealt cards piles.](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverGameState.jpg)
 
-Figure 16: A solitaire game running on Android, with TalkBack highlighting the 8 of Clubs and its caption showing an announcement relating to a move.
+Figure 15: A solitaire game running on Android, with TalkBack highlighting the 8 of Clubs and its caption showing an announcement relating to a move.
 ![Android: TalkBack's highlight at a partially obscured 8 of Clubs card in a dealt card pile, and TalkBack's caption showing the text, Revealed 8 of Clubs, 5 of 5 in dealt card pile 6](/ReadmeScreenshots/AccessibleSolitaire_TalkBackMoveBetweenDealtPiles.jpg)
 
-Figure 17: A solitaire game running on Android, with TalkBack highlighting the 3 of Spades and its caption showing an announcement relating to a move.
+Figure 16: A solitaire game running on Android, with TalkBack highlighting the 3 of Spades and its caption showing an announcement relating to a move.
 ![Android: TalkBack's highlight at the 3 of Spades card in the Spades target pile, and TalkBack's caption showing the text, Moved 3 of Spades, Revealed Empty card pile in dealt card pile 3](/ReadmeScreenshots/AccessibleSolitaire_TalkBackMoveToTargetPile.jpg)
 
-Figure 18: A solitaire game running on Android, with TalkBack announcing the entire state of the game.
+Figure 17: A solitaire game running on Android, with TalkBack announcing the entire state of the game.
 ![Android: TalkBack's highlight around the "Screen reader announce game state" button, and TalkBack's caption showing the entire state of the game, including what cards are shown in the upturned cards pile, the target cards piles, and all dealt cards piles.](/ReadmeScreenshots/AccessibleSolitaire_TalkBackGameState.jpg)
 
 **Please note:** The screen readers sometimes makes announcements that are not helpful and can be confusing. For example, various transitioning selection states of a card being moved before it announces the card's final selection state. Also when a card is being moved and the screen reader announces the position of a card in a pile and the count of cards in that pile, sometimes those details do not relate to the card of most interest during a move. Over time I hope to reduce the number of unwanted announcements made by the screen reader.  
@@ -188,6 +185,12 @@ Figure 18: A solitaire game running on Android, with TalkBack announcing the ent
 ## Colours shown in the game
 
 The colours shown in the game depend on whether the device's ** Dark Mode** setting is on when the game is started. 
+
+Figure 18: A solitaire game running on iOS with its Dark Mode colours shown.
+![iOS: A game in progress with the backgrounds of all playing cards shown as black, and the suits colours as follows: Clubs white, Diamonds red, Hearts red, and Spades white.](/ReadmeScreenshots/iOS_DarkMode.jpg)
+
+Figure 19: A solitaire game running on Android with its Dark Mode colours shown.
+![Android: A game in progress with the backgrounds of all playing cards shown as black, and the suits colours as follows: Clubs white, Diamonds red, Hearts red, and Spades white.](/ReadmeScreenshots/Android_DarkMode.jpg)
 
 ## Other Settings
 
@@ -203,18 +206,21 @@ Note: This option might be particularly interesting when playing the game with t
 
 Not also that when the screen reader announces the position of a card in a dealt card pile and the total count of cards in the pile, it will announce details as if the face-down cards are not merged. 
 
-Figure 19: A solitaire game running on Android with the face-down cards in each dealt card pile merged into a single face-down card.
+Figure 20: A solitaire game running on Android with the face-down cards in each dealt card pile merged into a single face-down card.
 ![Android: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. TalkBack's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. TalkBack's caption says: 6 Face-down, 1 of 8, In list Pile 7](/ReadmeScreenshots/V1.19_MergeFaceDownCards.jpg)
 
-Figure 20: A solitaire game running on iOS with the face-down cards in each dealt card pile merged into a single face-down card.
+Figure 21: A solitaire game running on iOS with the face-down cards in each dealt card pile merged into a single face-down card.
 ![iOS: A game in progress with the face-down cards in each dealt card pile merged into a single face-down card. The face-down card shows the count of face-down card in its associated pile. VoiceOver's highlight is at the face-down card shown at dealt card pile 7. That face-down card shows a number 6, and above that card are two face-up cards. VoiceOver's caption says: 6 Face-down, 1 of 8](/ReadmeScreenshots/V1.19_MergeFaceDownCards_iOS.jpg)
 
 ### Flip layout horizontally
 
 The "Flip layout" setting flips the layout of all things in the app horizontally. This might be helpful for players who prefer the Next Card button to be near the top right of the screen rather than the top left.
 
-Figure 21: A solitaire game running on iOS with the layout of the game flipped horizontally.
-![iOS: A game in progress with the target card piles shown at the left half of the top of the screen, ordered Spades, Hearts, Diamonds then Clubs. To the right of those piles is the remaining cards pile, the Next Cards button, and then the Menu button. Beneath those areas are the dealt cards piles, with the seventh pile at the left sides of the piles, and the first pile at the right side of the screen.](/ReadmeScreenshots/V2_Flip_Layout.jpg)
+Figure 22: A solitaire game running on iOS with the layout of the game flipped horizontally.
+![iOS: A game in progress with the target card piles shown at the left half of the top of the screen, ordered Spades, Hearts, Diamonds then Clubs. To the right of those piles is the remaining cards pile, the Next Cards button, and then the Menu button. Beneath those areas are the dealt cards piles, with the seventh pile at the left sides of the piles, and the first pile at the right side of the screen.](/ReadmeScreenshots/iOS_Flip.jpg)
+
+Figure 23: A solitaire game running on Android  the layout of the game flipped horizontally.
+![Android: A game in progress with the target card piles shown at the left half of the top of the screen, ordered Spades, Hearts, Diamonds then Clubs. To the right of those piles is the remaining cards pile, the Next Cards button, and then the Menu button. Beneath those areas are the dealt cards piles, with the seventh pile at the left sides of the piles, and the first pile at the right side of the screen.](/ReadmeScreenshots/Android_Flip.jpg)
 
 ### Select via face-down card
 
@@ -230,16 +236,26 @@ Often when moving cards between dealt card piles, multiple cards are moved in a 
 
 Note that the names of the cards associated with the selected card always includes the phase: "in selected set" when announced by the screen reader, to indicate that the cards are impacted by the moving of the selected card in the same dealt card pile.
 
-Figure 22: A solitaire game running on Android with a dealt card selected and all cards on top of that selected card also highlighted.
+Figure 24: A solitaire game running on Android with a dealt card selected and all cards on top of that selected card also highlighted.
 ![Android: A game in progress with a 6 of Hearts selected in a dealt card pile. Four cards lie above the 6 of Hearts, and their backgrounds are light purple. TalkBack's highlight is around one of the partially shown card above the 6 of Hearts, and its caption is: "3 of Spades, in selected set, 6 of 7, in list Pile 6"](/ReadmeScreenshots/V1.18_SelectedSetLight.jpg)
 
-Figure 23: A solitaire game running on iOS with a dealt card selected and all cards on top of that selected card also highlighted.
+Figure 25: A solitaire game running on iOS with a dealt card selected and all cards on top of that selected card also highlighted.
 ![iOS: A game in progress with a 6 of Hearts selected in a dealt card pile. Four cards lie above the 6 of Hearts, and their backgrounds are light purple](/ReadmeScreenshots/V1.18_SelectedSetLight_iOS.jpg)
 
 The following image shows the new highlight for cards associated with the selected dealt card, when the device's Dark Mode setting was on when the Accessible Solitaire was started.
 
-Figure 24: A solitaire game running on iOS showing the app's Dark Mode colours, with a dealt card selected and all cards on top of that selected card also highlighted.
+Figure 26: A solitaire game running on iOS showing the app's Dark Mode colours, with a dealt card selected and all cards on top of that selected card also highlighted.
 ![iOS: A game in progress with all cards showing the app's Dark Mode colours. One card is selected, and all associated cards have a gradient black-yellow background.](/ReadmeScreenshots/V1.18_SelectedSetDark_iOS.jpg)
 
-Figure 25: A solitaire game running on Android showing the app's Dark Mode colours, with a dealt card selected and all cards on top of that selected card also highlighted.
+Figure 27: A solitaire game running on Android showing the app's Dark Mode colours, with a dealt card selected and all cards on top of that selected card also highlighted.
 ![Android: A game in progress with all cards showing the app's Dark Mode colours. One card is selected, and all associated cards have a gradient black-yellow background.](/ReadmeScreenshots/V1.18_SelectedSetDark.jpg)
+
+### Screen orientation
+
+The solitaire game will automatically change its layout to support either landscape or portrait sreen orientation.
+
+Figure 28: A solitaire game running on Android in a portrait screen orientation.
+![Android: A game in progress with the seven dealt cards piles shown running vertically down thw screen, and each dealt card piles' cards running horizontally.](/ReadmeScreenshots/Android_Portrait.jpg)
+
+Figure 29: A solitaire game running on iOS in a portrait screen orientation.
+![iOS: A game in progress with the seven dealt cards piles shown running vertically down thw screen, and each dealt card piles' cards running horizontally.](/ReadmeScreenshots/Android_Portrait.jpg)
