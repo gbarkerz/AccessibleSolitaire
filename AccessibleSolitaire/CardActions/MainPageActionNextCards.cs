@@ -120,6 +120,11 @@ namespace Sa11ytaire4All
             // Change the selection state of the upturned card.
             cardDeckUpturned.IsToggled = !cardDeckUpturned.IsToggled;
 
+#if WINDOWS
+            // On Windows, the acual width of the card doesn't update without a nudge.
+            cardDeckUpturned.RefreshVisuals();
+#endif
+
             if (cardDeckUpturned.Card != null)
             {
                 string selectionAnnouncement =

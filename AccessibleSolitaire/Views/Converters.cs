@@ -319,7 +319,7 @@ namespace Sa11ytaire4All.Views
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
             return cardWidth - 2 - // '2' here to account for the margins between CollectionViews.
-                (cardSelected && !isPortrait ? 12 : 0);
+                    (cardSelected && !isPortrait ? 12 : 0);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -1351,6 +1351,10 @@ namespace Sa11ytaire4All.Views
 #if ANDROID
             // Barker Todo: Understand why the adjustment is required to move the Label text up
             // on Android but not on iOS.
+
+            // Barker Todo: Trying to set a negative top padding on Windows causes an exception,
+            // so I need to figure out an alternative way to shift the displayed number us.
+
             var partiallyShownHeight = (cardHeight / 6) - 1;
             padding.Top = -partiallyShownHeight / 4;
 #endif

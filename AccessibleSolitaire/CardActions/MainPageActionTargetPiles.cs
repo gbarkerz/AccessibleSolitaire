@@ -63,6 +63,11 @@ namespace Sa11ytaire4All
             // Change the selection state of the target pile CardButton.
             cardButton.IsToggled = !cardButton.IsToggled;
 
+#if WINDOWS
+            // On Windows, the acual width of the card doesn't update without a nudge.
+            cardButton.RefreshVisuals();
+#endif
+
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!cardButton.IsToggled)
             {

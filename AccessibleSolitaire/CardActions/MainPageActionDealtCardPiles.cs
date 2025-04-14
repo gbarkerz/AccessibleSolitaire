@@ -35,31 +35,6 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void DeselectFirstSelectedCardInEachCollectionView()
-        {
-            for (int i = 0; i < cCardPiles; i++)
-            {
-                var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
-                if (collectionView != null)
-                {
-                    var items = collectionView.ItemsSource;
-                    foreach (var item in items)
-                    {
-                        var dealtCard = item as DealtCard;
-                        if (dealtCard != null)
-                        {
-                            if (dealtCard.CardSelected)
-                            {
-                                DeselectCard(dealtCard);
-
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         // The selection state of one of the card in the Dealt Card piles has changed.
         private void CardPile_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -386,6 +361,11 @@ namespace Sa11ytaire4All
                 cardRevealed.FaceDown = false;
                 cardRevealed.CardState = CardState.FaceUp;
                 cardRevealed.IsLastCardInPile = true;
+
+#if WINDOWS
+                // On Windows, the acual width of the card doesn't update without a nudge.
+                cardRevealed.RefreshVisuals();
+#endif
             }
             else
             {
@@ -566,6 +546,11 @@ namespace Sa11ytaire4All
                 // selected. As such, announce this result. Note that the new selection state is already
                 // incorporated into the card name.
                 cardBelow.CardSelected = true;
+
+#if WINDOWS
+                // On Windows, the acual width of the card doesn't update without a nudge.
+                cardBelow.RefreshVisuals();
+#endif
 
                 // All cards above this selected card in the dealt card pile will move along with the 
                 // selected card, so update their visuals to make sure this is clear to the player.
@@ -788,6 +773,12 @@ namespace Sa11ytaire4All
                     cardRevealed.IsLastCardInPile = true;
 
                     cardRevealedName = cardRevealed.AccessibleName;
+
+#if WINDOWS
+                    // On Windows, the acual width of the card doesn't update without a nudge.
+                    cardRevealed.RefreshVisuals();
+#endif
+
                 }
                 else
                 {
@@ -915,6 +906,11 @@ namespace Sa11ytaire4All
                             cardRevealedAnnouncement = MainPage.MyGetString("EmptyCardPile");
                         }
 
+#if WINDOWS
+                        // On Windows, the acual width of the card doesn't update without a nudge.
+                        listArray[listArray.Count - 1].RefreshVisuals();
+#endif
+
                         movedCard = true;
                     }
                 }
@@ -966,6 +962,11 @@ namespace Sa11ytaire4All
 
                             listArray[listArray.Count - 1].FaceDown = false;
                             listArray[listArray.Count - 1].IsLastCardInPile = true;
+
+#if WINDOWS
+                            // On Windows, the acual width of the card doesn't update without a nudge.
+                            listArray[listArray.Count - 1].RefreshVisuals();
+#endif
 
                             movedCard = true;
                         }
