@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Platform;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
@@ -150,7 +151,7 @@ namespace Sa11ytaire4All
             // the names of the three main groups, but there are no names shown for any element
             // inside the groups, and saying the name of a dealt card has no effect.
 
-#if ANDROID
+#if (ANDROID || WINDOWS)
             var resmgr = StringResources.ResourceManager;
 
             SemanticProperties.SetDescription(UpturnedCardsGrid, resmgr.GetString("UpturnedCards"));

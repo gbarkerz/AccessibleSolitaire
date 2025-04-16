@@ -140,6 +140,9 @@ namespace Sa11ytaire4All.Source
                 // Assume the card is accessible to a screen reader.
                 var cardIsInAccessibleTree = true;
 
+// Do not perform this on Windows, otherwise the merged face-down cards are still keyboard accessible but
+// don't get a custom accessible name set. Instead they're left with the default class name-based names.
+#if (IOS || Android)
                 // Barker: Remove the use of the singleton here.
                 if (MainPage.MainPageSingleton != null)
                 {
@@ -154,6 +157,7 @@ namespace Sa11ytaire4All.Source
                         }
                     }
                 }
+#endif
 
                 return cardIsInAccessibleTree;
             }
