@@ -6,7 +6,7 @@ Today the game focuses on the experiences for players who use zoom features, scr
 
 Your feedback can make a real difference, so please let me know by messaging "Sa11ytaire Help" at Facebook, or e-mail gbarkerz@hotmail.com.
 
-Some technical details relating to building the Android version of the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe) and [Accessible Solitaire for iOS and Android: Reaching the Starting Line](https://www.linkedin.com/pulse/accessible-solitaire-ios-android-reaching-starting-line-guy-barker-8ad9e).
+Some technical details relating to building the Android version of the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe), [Accessible Solitaire for iOS and Android: Reaching the Starting Line](https://www.linkedin.com/pulse/accessible-solitaire-ios-android-reaching-starting-line-guy-barker-8ad9e), and [.NET MAUI Day 2025: Sharing Practical Learnings on App Accessibility](https://www.linkedin.com/pulse/net-maui-day-2025-sharing-practical-learnings-app-guy-barker-0hxde).
 
 Short videos demonstrating some of the ways that Accessible Solitaire can be played are referenced below. Please note that currently these videos do not have captions or audio descriptions.
 
@@ -158,7 +158,7 @@ The screen reader also announces details in response to some specific actions th
 
 **Note:** When using the Android TalkBack screen reader, the screen reader will move to the three containers associated with the upturned cards pile, the target card piles, and the dealt card piles, and announce their names in addition to moving to the cards contained inside those groups. When using the iOS VoiceOver screen reader, the screen reader only moves to the cards, and does not move to the three containers.
 
-**TIP:** When using the iOS VoiceOver screen reader, turn off the VoiceOver"Text Recognition" setting to prevent VoiceOver attempting to recognise any text shown on the cards and announcing that text in addition to the name of the card.
+**TIP:** When using the iOS VoiceOver screen reader, turn off the VoiceOver "Text Recognition" setting to prevent VoiceOver attempting to recognise any text shown on the cards and announcing that text in addition to the name of the card.
 
 Figure 12: A solitaire game running on iOS, with VoiceOver highlighting the 3 of Spades and its caption showing an announcement relating to a move.
 ![iOS: VoiceOver's highlight at a partially obscured 3 of Spades card in a dealt card pile, and VocieOver's caption showing the text, Moved 2 of Hearts, revealed 8 of Clubs, 1 of 1 in dealt card pile 5](/ReadmeScreenshots/AccessibleSolitaire_VoiceOverMoveBetweenDealtPiles.jpg)
@@ -252,7 +252,7 @@ Figure 27: A solitaire game running on Android showing the app's Dark Mode colou
 
 ### Screen orientation
 
-The solitaire game will automatically change its layout to support either landscape or portrait sreen orientation.
+The solitaire game will automatically change its layout to support either landscape or portrait screen orientation.
 
 Figure 28: A solitaire game running on Android in a portrait screen orientation.
 ![Android: A game in progress with the seven dealt cards piles shown running vertically down thw screen, and each dealt card piles' cards running horizontally.](/ReadmeScreenshots/Android_Portrait.jpg)
