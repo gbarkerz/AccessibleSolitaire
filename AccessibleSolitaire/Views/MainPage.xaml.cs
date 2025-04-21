@@ -789,6 +789,10 @@ namespace Sa11ytaire4All
             if (includeUpturnedCard)
             {
                 CardDeckUpturned.IsToggled = false;
+
+#if WINDOWS
+                CardDeckUpturned.RefreshVisuals();
+#endif
             }
 
             TargetPileC.IsToggled = false;

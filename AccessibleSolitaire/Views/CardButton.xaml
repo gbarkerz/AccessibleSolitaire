@@ -11,6 +11,8 @@
              x:DataType="{x:Type local_views:CardButton}">
 
     <ContentView.Resources>
+        <local_views:IsButtonFocusedToOuterBorderBackgroundColor x:Key="IsButtonFocusedToOuterBorderBackgroundColor" />
+        <local_views:IsButtonFocusedToInnerBorderBackgroundColor x:Key="IsButtonFocusedToInnerBorderBackgroundColor" />
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
         <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
@@ -28,117 +30,158 @@
         (this worked on Android). As such, the hit target when VoiceOver was running was far too small, as 
         was the hit target for a long press hit target when VoiceOver wasn't running. Due to all this, the 
         use of Switch was replaced with Button. All hit targets worked as expected then, and the app's announcements
-        of selected state continued to work fine. -->    
-
-    <Grid 
-        Margin="0" Padding="0"
-        BackgroundColor="Transparent">
-
-        <Grid 
-            Margin="0" Padding="0"
-            BackgroundColor="{Binding IsToggled, Mode=OneWay,
-                    Converter={StaticResource IsToggledToBackgroundColorConverter}}">
-
-            <!-- Barker Todo: Now that this contains a Button rather than a Switch, consider whether 
-                it would be practical to use an ImageButton here and remove the separate Image below.
-                This might not be practical given the use of Margins to show visually whether the 
-                CardButton is selected. -->
+        of selected state continued to work fine. -->
+    
+        <Border Stroke="Black" StrokeThickness="1">
             
-            <!-- Bind the visibility to the enabled state of the containing CardButton. -->
+            <Grid Margin="0" Padding="0">
 
-            <Button
-                Margin="{Binding IsToggled, Mode=OneWay,
-                    Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton,
-                    Converter={StaticResource IsToggledToMarginConverter},
-                    ConverterParameter=0}"
-                IsVisible="{Binding IsEnabled, Mode=OneWay, 
-                    Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
-                SemanticProperties.Description="{Binding CardPileAccessibleName, Mode=OneWay, 
-                    Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
-                AutomationId="{Binding AutomationId, Mode=OneWay, 
-                    Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
-                BackgroundColor="Transparent"
-                Clicked="CardButton_Clicked">
+                <!-- The Two Borders below only exist to provide strongly keyboard focus feedback. -->
 
-                <Button.Behaviors>
-                    <toolkit:TouchBehavior
-                        BindingContext="{Binding Path=BindingContext, 
-                            Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton}"
-                        LongPressDuration="{Binding BindingContext.LongPressZoomDuration}"
-                        LongPressCompleted="TouchBehavior_LongPressCompleted" />
-                </Button.Behaviors>
-            </Button>
+                <!-- Barker Todo: Consider setting the Stroke and StrokeThickness for the Borders below
+                    rather than their BackgroundColors. -->
+        
+                <Border Margin="0" Padding="4"
+                    StrokeThickness="0">
+                    <Border.BackgroundColor>
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource IsButtonFocusedToOuterBorderBackgroundColor}">
 
-            <Border 
-                Stroke="{AppThemeBinding Light=Black, Dark=White}" 
-                StrokeThickness="1" BackgroundColor="Transparent"
-                InputTransparent="True"
-                Margin="0" Padding="0">
+                            <Binding Source="{x:Reference InnerButton}" 
+                                x:DataType="{x:Type Button}"
+                                Path="AutomationId" />
+                            <Binding Source="{x:Reference InnerButton}" 
+                                x:DataType="{x:Type Button}"
+                                Path="IsFocused" />
+                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                x:DataType="{x:Type local_views:CardButton}"
+                                Path="BindingContext.Card" />
 
-                <Image x:Name="TintedCardImage"
-                    AutomationProperties.IsInAccessibleTree="False"
-                    BackgroundColor="{Binding Card, Mode=OneWay, 
-                        Source={RelativeSource AncestorType={x:Type local_views:CardButton}},
-                            Converter={StaticResource CardToBackgroundConverter}}"
-                    InputTransparent="True"
-                    Margin="{Binding IsToggled, Mode=OneWay,
-                        Converter={StaticResource IsToggledToMarginConverter},
-                            ConverterParameter=1}"
-                    Aspect="Fill"
-                    Source="{Binding CardPileImage, Mode=OneWay, 
-                        Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}">
+                        </MultiBinding>
+                    </Border.BackgroundColor>
 
-                    <Image.Behaviors>
+                    <Border Margin="0" Padding="4"
+                        StrokeThickness="0">
+                        <Border.BackgroundColor>
 
-                        <toolkit:IconTintColorBehavior
-                            BindingContext="{Binding Path=BindingContext, 
-                                Source={x:Reference TintedCardImage}}">
+                        <MultiBinding Mode="OneWay" 
+                            Converter="{StaticResource IsButtonFocusedToInnerBorderBackgroundColor}">
 
-                            <toolkit:IconTintColorBehavior.TintColor>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource SuitSuitColoursToColor}">
+                            <Binding Source="{x:Reference InnerButton}" 
+                                x:DataType="{x:Type Button}"
+                                Path="AutomationId" />
+                            <Binding Source="{x:Reference InnerButton}" 
+                                x:DataType="{x:Type Button}"
+                                Path="IsFocused" />
+                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                x:DataType="{x:Type local_views:CardButton}"
+                                Path="BindingContext.Card" />
 
-                                    <!-- This works in Debug, but in Release the Card here is null when passed to the converter. -->
-                                    <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.Card" />
-                                    <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.AutomationId" />
-                                    <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursClubsSwitch" />
-                                    <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursDiamondsSwitch" />
-                                    <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursHeartsSwitch" />
-                                    <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursSpadesSwitch" />
-                                </MultiBinding>
-                            </toolkit:IconTintColorBehavior.TintColor>
+                        </MultiBinding>
+                    </Border.BackgroundColor>
 
-                        </toolkit:IconTintColorBehavior>
-                    </Image.Behaviors>
+                    <Grid 
+                        Margin="0" Padding="0"
+                        BackgroundColor="{Binding IsToggled, Mode=OneWay,
+                                Converter={StaticResource IsToggledToBackgroundColorConverter}}">
+
+                        <!-- Barker Todo: Now that this contains a Button rather than a Switch, consider whether 
+                            it would be practical to use an ImageButton here and remove the separate Image below.
+                            This might not be practical given the use of Margins to show visually whether the 
+                            CardButton is selected. -->
+            
+                        <!-- Bind the visibility to the enabled state of the containing CardButton. -->
+
+                        <Button x:Name="InnerButton" 
+                            Margin="{Binding IsToggled, Mode=OneWay,
+                                Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton,
+                                Converter={StaticResource IsToggledToMarginConverter},
+                                ConverterParameter=0}"
+                            IsVisible="{Binding IsEnabled, Mode=OneWay, 
+                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
+                            SemanticProperties.Description="{Binding CardPileAccessibleName, Mode=OneWay, 
+                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
+                            AutomationId="{Binding AutomationId, Mode=OneWay, 
+                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
+                            BackgroundColor="Transparent"
+                            CornerRadius="0"
+                            Clicked="CardButton_Clicked">
+
+                            <Button.Behaviors>
+                                <toolkit:TouchBehavior
+                                    BindingContext="{Binding Path=BindingContext, 
+                                        Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton}"
+                                    LongPressDuration="{Binding BindingContext.LongPressZoomDuration}"
+                                    LongPressCompleted="TouchBehavior_LongPressCompleted" />
+                            </Button.Behaviors>
+
+                        </Button>
+
+                        <Image x:Name="TintedCardImage"
+                            AutomationProperties.IsInAccessibleTree="False"
+                            BackgroundColor="{Binding Card, Mode=OneWay, 
+                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}},
+                                    Converter={StaticResource CardToBackgroundConverter}}"
+                            InputTransparent="True"
+                            Margin="{Binding IsToggled, Mode=OneWay,
+                                Converter={StaticResource IsToggledToMarginConverter},
+                                    ConverterParameter=1}"
+                            Aspect="Fill"
+                            Source="{Binding CardPileImage, Mode=OneWay, 
+                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}">
+
+                            <Image.Behaviors>
+
+                                <toolkit:IconTintColorBehavior
+                                    BindingContext="{Binding Path=BindingContext, 
+                                        Source={x:Reference TintedCardImage}}">
+
+                                    <toolkit:IconTintColorBehavior.TintColor>
+                                        <MultiBinding Mode="OneWay" 
+                                            Converter="{StaticResource SuitSuitColoursToColor}">
+
+                                            <!-- This works in Debug, but in Release the Card here is null when passed to the converter. -->
+                                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                                        x:DataType="{x:Type local_views:CardButton}"
+                                                        Path="BindingContext.Card" />
+                                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                                        x:DataType="{x:Type local_views:CardButton}"
+                                                        Path="BindingContext.AutomationId" />
+                                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                                        x:DataType="{x:Type local_views:CardButton}"
+                                                        Path="BindingContext.SuitColoursClubsSwitch" />
+                                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                                        x:DataType="{x:Type local_views:CardButton}"
+                                                        Path="BindingContext.SuitColoursDiamondsSwitch" />
+                                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                                        x:DataType="{x:Type local_views:CardButton}"
+                                                        Path="BindingContext.SuitColoursHeartsSwitch" />
+                                            <Binding Source="{x:Reference CardButtonInstance}" 
+                                                        x:DataType="{x:Type local_views:CardButton}"
+                                                        Path="BindingContext.SuitColoursSpadesSwitch" />
+                                        </MultiBinding>
+                                    </toolkit:IconTintColorBehavior.TintColor>
+
+                                </toolkit:IconTintColorBehavior>
+                            </Image.Behaviors>
                 
-                </Image>
+                        </Image>
 
+                        <Image
+                            AutomationProperties.IsInAccessibleTree="False"
+                            BackgroundColor="Transparent"
+                            InputTransparent="True"
+                            Margin="{Binding IsToggled, Mode=OneWay,
+                                Converter={StaticResource IsToggledToMarginConverter},
+                                    ConverterParameter=1}"
+                            Aspect="Fill"
+                            Source="{Binding PictureCardPileImage, Mode=OneWay,
+                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}" />
+
+                    </Grid>
+                </Border>
             </Border>
-
         </Grid>
+    </Border>
 
-        <Image
-            AutomationProperties.IsInAccessibleTree="False"
-            BackgroundColor="Transparent"
-            InputTransparent="True"
-            Margin="{Binding IsToggled, Mode=OneWay,
-                Converter={StaticResource IsToggledToMarginConverter},
-                    ConverterParameter=1}"
-            Aspect="Fill"
-            Source="{Binding PictureCardPileImage, Mode=OneWay,
-                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}" />
-
-    </Grid>
 </ContentView>

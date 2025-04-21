@@ -12,6 +12,117 @@ namespace Sa11ytaire4All.Views
     // device. At some point, replace these unusual converters with whatever the
     // correct way of setting orientation-specific properties is.
 
+    public class IsButtonFocusedToOuterBorderBackgroundColor : IMultiValueConverter
+    {
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null || (values.Length < 3))
+            {
+                return null;
+            }
+
+            if ((values[0] == null) || (values[1] == null))
+            {
+                return null;
+            }
+
+            var isFocused = (bool)values[1];
+
+            if (isFocused)
+            {
+                return Colors.Black;
+            }
+
+            if (values[2] != null)
+            {
+                return Colors.White;
+            }
+
+            var automationId = (string)values[0];
+
+            var colour = Colors.Transparent;
+
+            switch (automationId)
+            {
+                case "CardDeckUpturnedObscuredLower":
+                case "CardDeckUpturnedObscuredHigher":
+                case "CardDeckUpturned":
+
+                    colour = Color.FromRgb(0xC3, 0xC3, 0xC3);
+                    break;
+
+                default:
+
+                    colour = Colors.LightGreen;
+                    break;
+            }
+
+            // Barker Todo: Account for dark app theme here.
+            return colour;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsButtonFocusedToInnerBorderBackgroundColor : IMultiValueConverter
+    {
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null || (values.Length < 3))
+            {
+                return null;
+            }
+
+            if ((values[0] == null) || (values[1] == null))
+            {
+                return null;
+            }
+
+            var isFocused = (bool)values[1];
+
+            if (isFocused)
+            {
+                return Colors.White;
+            }
+
+            if (values[2] != null)
+            {
+                return Colors.White;
+            }
+
+            var automationId = (string)values[0];
+
+            var colour = Colors.Transparent;
+
+            switch (automationId)
+            {
+                case "CardDeckUpturnedObscuredLower":
+                case "CardDeckUpturnedObscuredHigher":
+                case "CardDeckUpturned":
+
+                    colour = Color.FromRgb(0xC3, 0xC3, 0xC3);
+                    break;
+
+                default:
+
+                    colour = Colors.LightGreen;
+                    break;
+            }
+
+            // Barker Todo: Account for dark app theme here.
+            return colour;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
     public class LongPressZoomDurationToActualDuration : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -443,6 +554,9 @@ namespace Sa11ytaire4All.Views
                 return 0;
             }
 
+#if WINDOWS
+            cardHeight = (2 * cardHeight) / 3;
+#endif
             return (cardHeight / 6) - 1;
         }
 
@@ -643,7 +757,7 @@ namespace Sa11ytaire4All.Views
                 }
                 else
                 {
-                    margin = new Thickness(8, 0, 8, 0);
+                    margin = new Thickness(8);
                 }
             }
             else
