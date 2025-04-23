@@ -492,32 +492,28 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Add the Next Card button. -->
-
-                    <Grid Grid.Column="0" 
-                        Padding="0" Margin="0" 
-                        VerticalOptions="Center">
-                        <local_source:NextCardPileButton x:Name="NextCardDeck" 
-                                                            Clicked="NextCard_Click"
-                            SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 
-                                Source={RelativeSource Self}, 
-                                x:DataType={x:Type local_source:NextCardPileButton},
-                                Converter={StaticResource NextCardIsEmptyToAccessibleName}}"
-                            x:Uid="NextCardPile"
-                            CornerRadius="0"
-                            Margin="0" Padding="0"
-                            BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
-                            BorderWidth="1"
-                            HeightRequest="{Binding 
-                                Path=CardHeight}"
-                            WidthRequest="{Binding 
-                                Path=CardWidth}"
-                            Aspect="Fill"
-                            Source="{Binding IsEmpty, Mode=OneWay, 
-                                Source={RelativeSource Self}, 
-                                x:DataType={x:Type local_source:NextCardPileButton},
-                                Converter={StaticResource NextCardIsEmptyToImageConverter}}">
-                        </local_source:NextCardPileButton>
-                    </Grid>
+                    <local_source:NextCardPileButton Grid.Column="0" x:Name="NextCardDeck" 
+                        Clicked="NextCard_Click"
+                        BackgroundColor="#0ED145"
+                        SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 
+                            Source={RelativeSource Self}, 
+                            x:DataType={x:Type local_source:NextCardPileButton},
+                            Converter={StaticResource NextCardIsEmptyToAccessibleName}}"
+                        x:Uid="NextCardPile"
+                        CornerRadius="0"
+                        Margin="0" Padding="0"
+                        BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
+                        BorderWidth="1"
+                        HeightRequest="{Binding 
+                            Path=CardHeight}"
+                        WidthRequest="{Binding 
+                            Path=CardWidth}"
+                        Aspect="Fill"
+                        Source="{Binding IsEmpty, Mode=OneWay, 
+                            Source={RelativeSource Self}, 
+                            x:DataType={x:Type local_source:NextCardPileButton},
+                            Converter={StaticResource NextCardIsEmptyToImageConverter}}">
+                    </local_source:NextCardPileButton>
 
                     <!-- Note: The CardPileCard elements below represent the three upturned cards and
                         the target card piles. -->

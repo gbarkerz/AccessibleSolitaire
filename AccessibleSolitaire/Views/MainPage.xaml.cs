@@ -674,6 +674,30 @@ namespace Sa11ytaire4All
         private double originalCardWidth = 0;
         private double originalCardHeight = 0;
 
+        static public bool IsPortrait()
+        {
+            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+
+#if WINDOWS 
+            if (MainPage.MainPageSingleton != null)
+            {
+                var grid = MainPage.MainPageSingleton.InnerMainGrid;
+                if (grid != null)
+                {
+                    if ((grid.Bounds.Width > 0) && (grid.Bounds.Height > 0))
+                    {
+                        isPortrait = (grid.Bounds.Height > grid.Bounds.Width);
+                    }
+                }
+            }
+#endif
+            return isPortrait;
+        }
+
+#if WINDOWS
+        private Rect previousGridBounds = new Rect();
+#endif
+
         private void CardPileGrid_SizeChanged(object? sender, EventArgs e)
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -682,12 +706,34 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            var isPortrait = MainPage.IsPortrait();
+
             // On iOS the topmost Grid containing the app UI also contains the system's status and navigation
             // base, which we do not want to include here. So base the app's UI sizing on the inner main Grid
             // which does not contain those bars.
             var mainContentGrid = InnerMainGrid;
 
-            if (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
+#if WINDOWS
+            var changeLayoutOrientation = false;
+
+            if ((mainContentGrid.Bounds.Width > 0) && (mainContentGrid.Bounds.Height > 0))
+            {
+                if ((previousGridBounds.Width > 0) && (previousGridBounds.Height > 0))
+                {
+                    var wasPortrait = (previousGridBounds.Height > previousGridBounds.Width);
+
+                    changeLayoutOrientation = (wasPortrait != isPortrait);
+                    if (changeLayoutOrientation)
+                    {
+                        ChangeLayoutOrientation();
+                    }
+                }
+
+                previousGridBounds = mainContentGrid.Bounds;
+            }
+#endif
+
+            if (isPortrait)
             {
                 vm.CardHeight = mainContentGrid.Height / 9;
                 vm.CardWidth = mainContentGrid.Width / 5;
@@ -728,6 +774,13 @@ namespace Sa11ytaire4All
             {
                 RefreshAllCardVisuals();
             }
+
+#if WINDOWS
+            if (changeLayoutOrientation)
+            {
+                ChangeLayoutOrientation();
+            }
+#endif
         }
 
         private void ClearTargetPileButtons()

@@ -251,7 +251,7 @@ namespace Sa11ytaire4All.Views
 
             var scrollViewWidth = (double)values[1];
 
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+            var isPortrait = MainPage.IsPortrait();
 
             return isPortrait ? scrollViewWidth : cardWidth;
         }
@@ -284,7 +284,8 @@ namespace Sa11ytaire4All.Views
 
             if (CardSelected)
             {
-                var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+                var isPortrait = MainPage.IsPortrait();
+
                 var isHorizontalOption = (string?)parameter == "0";
 
                 if ((isPortrait && !isHorizontalOption) ||
@@ -331,7 +332,7 @@ namespace Sa11ytaire4All.Views
 
             var options = LayoutOptions.Start;
 
-            if (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
+            if (MainPage.IsPortrait())
             {
                 if (!verticalOptions)
                 {
@@ -427,7 +428,7 @@ namespace Sa11ytaire4All.Views
             var cardSelected = (bool)values[0];
             var cardWidth = (double)values[1];
 
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+            var isPortrait = MainPage.IsPortrait();
 
             return cardWidth - 2 - // '2' here to account for the margins between CollectionViews.
                     (cardSelected && !isPortrait ? 12 : 0);
@@ -460,7 +461,7 @@ namespace Sa11ytaire4All.Views
             // of the card. This is achieved by reducing the height of the card, and centring the image in its
             // container. By doing this, the BackgroundColor of a containing element is revealed above and 
             // below the card.
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+            var isPortrait = MainPage.IsPortrait();
             if (isPortrait)
             {
                 if (cardSelected)
@@ -506,7 +507,7 @@ namespace Sa11ytaire4All.Views
                 return 0;
             }
 
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+            var isPortrait = MainPage.IsPortrait();
 
             return isPortrait ? cardHeight : scrollViewHeight;
         }
@@ -751,7 +752,7 @@ namespace Sa11ytaire4All.Views
                 var paramValue = parameter.ToString();
 
                 // Note: We currently show the same margin sizes for the dealt cards and all other cards.
-                if (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
+                if (MainPage.IsPortrait())
                 {
                     margin = new Thickness(0, 8, 0, 8);
                 }
@@ -1230,7 +1231,7 @@ namespace Sa11ytaire4All.Views
 
             var height = (double)cardHeight;
 
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+            var isPortrait = MainPage.IsPortrait();
 
             // In portrait orientation, all dealt cards have the same height.
             if (isPortrait)
@@ -1334,7 +1335,7 @@ namespace Sa11ytaire4All.Views
 
             var width = cardWidth;
 
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+            var isPortrait = MainPage.IsPortrait();
 
             // In landscape orientation, all dealt cards have the same width.
             if (!isPortrait)

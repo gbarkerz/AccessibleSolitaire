@@ -9,7 +9,11 @@
         private void Current_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
         {
             // The device screen has changed orientation, so update the layout of the UI accordingly.
+            ChangeLayoutOrientation();
+        }
 
+        private void ChangeLayoutOrientation()
+        {
             // We need to reset the cached initial dimensions here in order to recalculate the
             // new card size based on the new screen dimensions.
             OriginalCardWidth = 0;
@@ -92,7 +96,7 @@
 
         private void SetOrientationLayout()
         {
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+            var isPortrait = MainPage.IsPortrait();
 
             SetUpperGridViewOrientationLayout(isPortrait);
 

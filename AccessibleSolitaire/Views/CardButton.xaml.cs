@@ -412,12 +412,9 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void RefreshVisuals()
     {
-        if (this.card != null)
-        {
-            this.OnPropertyChanged("BackgroundColor");
-            this.OnPropertyChanged("CardPileImage");
-            this.OnPropertyChanged("PictureCardPileImage");
-        }
+        this.OnPropertyChanged("BackgroundColor");
+        this.OnPropertyChanged("CardPileImage");
+        this.OnPropertyChanged("PictureCardPileImage");
     }
 
     private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
