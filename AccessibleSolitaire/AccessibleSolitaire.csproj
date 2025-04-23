@@ -40,6 +40,10 @@
     
   </PropertyGroup>
 
+  <PropertyGroup>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.22621.0</TargetFrameworks>
+  </PropertyGroup>
+
   <!--<PropertyGroup>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.26100.0</TargetFrameworks>
   </PropertyGroup>-->
@@ -545,9 +549,9 @@
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="5.1.0" />
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="6.0.2" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.50" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.50" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>

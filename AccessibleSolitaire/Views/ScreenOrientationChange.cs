@@ -12,8 +12,8 @@
 
             // We need to reset the cached initial dimensions here in order to recalculate the
             // new card size based on the new screen dimensions.
-            originalCardWidth = 0;
-            originalCardHeight = 0;
+            OriginalCardWidth = 0;
+            OriginalCardHeight = 0;
 
             // Barker Investigate: If we attempt to change the layout of all the visible UI now,
             // on iOS the app can hang. Presumably the considerable work being done to move 
@@ -38,7 +38,7 @@
             CardPileGrid.IsVisible = false;
         }
 
-        private void DelayedSetOrientationLayout()
+        public void DelayedSetOrientationLayout()
         {
             timerSetOrientationLayout?.Dispose();
             timerSetOrientationLayout = null;

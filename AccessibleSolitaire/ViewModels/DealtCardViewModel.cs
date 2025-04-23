@@ -41,8 +41,6 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty] private Color suitColoursSpades;
 
-        [ObservableProperty] private int zoomLevel;
-
         [ObservableProperty] private bool showStateAnnouncementButton;
 
         [ObservableProperty] private bool highlightSelectedCardSet;

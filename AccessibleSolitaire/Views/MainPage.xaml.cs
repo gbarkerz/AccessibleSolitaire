@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Platform;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
@@ -82,8 +84,6 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
-                vm.ZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
-
                 vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
                 vm.MergeFaceDownCards = (bool)Preferences.Get("MergeFaceDownCards", true);
             }
@@ -378,28 +378,25 @@ namespace Sa11ytaire4All
                 var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
                 vm.LongPressZoomDuration = longPressZoomDuration;
 
-                var currentZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
-                if (vm.ZoomLevel != currentZoomLevel)
-                {
-                    // Barker: On iOS, the app apparently can hang trying to reduce the current zoom level.
-                    // As such, make all the game UI invisible while the CardWidth, CardHeight and ZoomLevel
-                    // properties are adjusted, and make evreything visible again shortly afterwards.
-                    SetCollectionViewsVisibility(false);
+                //if ((OriginalCardWidth == 0) && (OriginalCardHeight == 0))
+                //{
+                //    // Barker: On iOS, the app apparently can hang trying to relayout the app.
+                //    // As such, make all the game UI invisible while the CardWidth and CardHeight
+                //    // properties are adjusted, and make evreything visible again shortly afterwards.
+                //    SetCollectionViewsVisibility(false);
 
-                    UpperGrid.IsVisible = false;
-                    UpperGrid.IsVisible = false;
+                //    UpperGrid.IsVisible = false;
+                //    UpperGrid.IsVisible = false;
 
-                    vm.CardWidth = (double)((double)(currentZoomLevel * originalCardWidth) / 100);
-                    vm.CardHeight = (double)((double)(currentZoomLevel * originalCardHeight) / 100) - 1;
+                //    vm.CardWidth = OriginalCardWidth;
+                //    vm.CardHeight = OriginalCardHeight;
 
-                    vm.ZoomLevel = currentZoomLevel;
-
-                    timerSetZoomLevel = new Timer(
-                        new TimerCallback((s) => DelayedSetZoomLevel()),
-                            null,
-                            TimeSpan.FromMilliseconds(500),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
-                }
+                //    timerRelayoutApp = new Timer(
+                //        new TimerCallback((s) => DelayedRelayoutApp()),
+                //            null,
+                //            TimeSpan.FromMilliseconds(500),
+                //            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                //}
 
                 var previousColoursClubs = vm.SuitColoursClubs;
                 var previousColoursDiamonds = vm.SuitColoursDiamonds;
@@ -438,25 +435,7 @@ namespace Sa11ytaire4All
                 // Refresh the visuals on all cards if necessary.
                 if (MainPage.ShowRankSuitLarge != previousShowRankSuitLarge)
                 {
-                    // Refresh all the face-up cards to show the required visuals.
-                    for (int i = 0; i < cCardPiles; i++)
-                    {
-                        for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
-                        {
-                            var pileCard = vm.DealtCards[i][j];
-
-                            pileCard.RefreshVisuals();
-                        }
-                    }
-
-                    CardDeckUpturnedObscuredLower.RefreshVisuals();
-                    CardDeckUpturnedObscuredHigher.RefreshVisuals();
-                    CardDeckUpturned.RefreshVisuals();
-
-                    TargetPileC.RefreshVisuals();
-                    TargetPileD.RefreshVisuals();
-                    TargetPileH.RefreshVisuals();
-                    TargetPileS.RefreshVisuals();
+                    RefreshAllCardVisuals();
                 }
 
                 // If we don't set the colours here, the default colours show initially.
@@ -483,8 +462,6 @@ namespace Sa11ytaire4All
                 {
                     RefreshAllDealtCardPileCardIsInAccessibleTree();
                 }
-
-                vm.ZoomLevel = (int)Preferences.Get("ZoomLevel", 100);
 
                 vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
 
@@ -531,6 +508,33 @@ namespace Sa11ytaire4All
                             TimeSpan.FromMilliseconds(500),
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
+            }
+        }
+
+        private void RefreshAllCardVisuals()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm != null) && (vm.DealtCards != null))
+            {
+                // Refresh all the face-up cards to show the required visuals.
+                for (int i = 0; i < cCardPiles; i++)
+                {
+                    for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                    {
+                        var pileCard = vm.DealtCards[i][j];
+
+                        pileCard.RefreshVisuals();
+                    }
+                }
+
+                CardDeckUpturnedObscuredLower.RefreshVisuals();
+                CardDeckUpturnedObscuredHigher.RefreshVisuals();
+                CardDeckUpturned.RefreshVisuals();
+
+                TargetPileC.RefreshVisuals();
+                TargetPileD.RefreshVisuals();
+                TargetPileH.RefreshVisuals();
+                TargetPileS.RefreshVisuals();
             }
         }
 
@@ -586,22 +590,22 @@ namespace Sa11ytaire4All
 
         private Timer? timerPlayFirstDealSounds;
 
-        private Timer? timerSetZoomLevel;
+        //private Timer? timerRelayoutApp;
 
-        private void DelayedSetZoomLevel()
-        {
-            timerSetZoomLevel?.Dispose();
-            timerSetZoomLevel = null;
+        //private void DelayedRelayoutApp()
+        //{
+        //    timerRelayoutApp?.Dispose();
+        //    timerRelayoutApp = null;
 
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                UpperGrid.IsVisible = true;
-                UpperGrid.IsVisible = true;
+        //    // Always run this on the UI thread.
+        //    MainThread.BeginInvokeOnMainThread(() =>
+        //    {
+        //        UpperGrid.IsVisible = true;
+        //        UpperGrid.IsVisible = true;
 
-                SetCollectionViewsVisibility(true);
-            });
-        }
+        //        SetCollectionViewsVisibility(true);
+        //    });
+        //}
 
         private void ShowFirstRunMessage()
         {
@@ -694,24 +698,35 @@ namespace Sa11ytaire4All
                 vm.CardWidth = mainContentGrid.Width / 7;
             }
 
+            bool refreshAllCardVisuals = false;
+
             if (vm.CardWidth > 0)
             {
-                if (originalCardWidth == 0)
+                if (OriginalCardWidth == 0)
                 {
-                    originalCardWidth = vm.CardWidth;
+                    OriginalCardWidth = vm.CardWidth;
+
+                    refreshAllCardVisuals = true;
                 }
 
-                vm.CardWidth = (double)((double)(vm.ZoomLevel * originalCardWidth) / 100);
+                vm.CardWidth = OriginalCardWidth;
             }
 
             if (vm.CardHeight > 0)
             {
-                if (originalCardHeight == 0)
+                if (OriginalCardHeight == 0)
                 {
-                    originalCardHeight = vm.CardHeight;
+                    OriginalCardHeight = vm.CardHeight;
+
+                    refreshAllCardVisuals = true;
                 }
 
-                vm.CardHeight = (double)((double)(vm.ZoomLevel * originalCardHeight) / 100);
+                vm.CardHeight = OriginalCardHeight;
+            }
+
+            if (refreshAllCardVisuals)
+            {
+                RefreshAllCardVisuals();
             }
         }
 
@@ -986,6 +1001,16 @@ namespace Sa11ytaire4All
                         canMove = (isBelowRed != isAboveRed);
                     }
                 }
+
+                // Check whether we can move the card to an empty pile if necessary.
+                // NO! Don't include moves to empty card piles, as that fills the announcement.
+                //if (!canMove && checkEmptyPile && (cardBelow.CardState == CardState.KingPlaceHolder))
+                //{
+                //    if (!optionKingsOnlyToEmptyPile || (cardAbove.Card.Rank == 13))
+                //    {
+                //        canMove = true;
+                //    }
+                //}
             }
 
             return canMove;
@@ -1055,6 +1080,9 @@ namespace Sa11ytaire4All
 
         private Timer? timerDelayScreenReaderAnnouncement;
 
+        public double OriginalCardWidth { get => originalCardWidth; set => originalCardWidth = value; }
+        public double OriginalCardHeight { get => originalCardHeight; set => originalCardHeight = value; }
+
         private void MakeScreenReaderAnnouncement(object announcement)
         {
             Debug.WriteLine("MakeScreenReaderAnnouncement: " + announcement);
@@ -1073,7 +1101,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        private string AnnounceStateRemainingCards()
+        public string AnnounceStateRemainingCards()
         {
             string stateMessage = "";
 
@@ -1113,7 +1141,7 @@ namespace Sa11ytaire4All
             return stateMessage;
         }
 
-        private string AnnounceStateTargetPiles()
+        public string AnnounceStateTargetPiles()
         {
             string stateMessage = MyGetString("TargetPiles") + ", ";
 
@@ -1332,6 +1360,42 @@ namespace Sa11ytaire4All
                         }
                     }
                 }
+            }
+        }
+
+        private string Sa11ytaireHelpPage =
+            "https://www.facebook.com/permalink.php?story_fbid=pfbid036UmuvcKvmqBjkk2m2DRFNx7F7EpNwBJbPgTunUrvPnWebpkHuJikxpibtYijoP6tl&id=61564996280215";
+
+        public async void LaunchHelp()
+        {
+            try
+            {
+                // Open the Sa11ytaireHelp page on Facebook.
+                Uri uri = new Uri(Sa11ytaireHelpPage);
+
+                await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Unable to open browser: " + ex.Message);
+
+                // An unexpected error occurred. Perhaps no browser is available on the device.
+            }
+        }
+
+        public async void QueryRestartGame()
+        {
+            var answer = await DisplayAlert(
+                MainPage.MyGetString("Sa11ytaire"),
+                MainPage.MyGetString("QueryRestartGame"),
+                MainPage.MyGetString("Yes"),
+                MainPage.MyGetString("No"));
+
+            if (answer)
+            {
+                Shell.Current.FlyoutIsPresented = false;
+
+                MainPage.MainPageSingleton?.RestartGame(true);
             }
         }
     }
