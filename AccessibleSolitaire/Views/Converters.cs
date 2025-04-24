@@ -16,7 +16,7 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || (values.Length < 3))
+            if (values == null || (values.Length < 2))
             {
                 return null;
             }
@@ -31,11 +31,6 @@ namespace Sa11ytaire4All.Views
             if (isFocused)
             {
                 return Colors.Black;
-            }
-
-            if (values[2] != null)
-            {
-                return Colors.White;
             }
 
             var automationId = (string)values[0];
@@ -71,7 +66,7 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || (values.Length < 3))
+            if (values == null || (values.Length < 2))
             {
                 return null;
             }
@@ -84,11 +79,6 @@ namespace Sa11ytaire4All.Views
             var isFocused = (bool)values[1];
 
             if (isFocused)
-            {
-                return Colors.White;
-            }
-
-            if (values[2] != null)
             {
                 return Colors.White;
             }
@@ -293,6 +283,10 @@ namespace Sa11ytaire4All.Views
                 {
                     option = LayoutOptions.Center;
                 }
+
+#if WINDOWS
+                option = LayoutOptions.Center;
+#endif
             }
 
             return option;
@@ -385,7 +379,7 @@ namespace Sa11ytaire4All.Views
         {
             if (Application.Current == null)
             {
-                return Colors.White;
+                return Colors.Transparent;
             }
 
             // Note that the card can be null here, for example, for an empty target card pile.
@@ -395,7 +389,7 @@ namespace Sa11ytaire4All.Views
 
             if (Application.Current.RequestedTheme != AppTheme.Dark)
             {
-                backgroundColor = (card == null ? Colors.LightGreen : Colors.White);
+                backgroundColor = (card == null ? Colors.LightGreen : Colors.Transparent);
             }
             else
             {
@@ -430,8 +424,21 @@ namespace Sa11ytaire4All.Views
 
             var isPortrait = MainPage.IsPortrait();
 
-            return cardWidth - 2 - // '2' here to account for the margins between CollectionViews.
-                    (cardSelected && !isPortrait ? 12 : 0);
+            cardWidth -= 2; // '2' here to account for the margins between CollectionViews.
+
+#if WINDOWS
+            if (cardSelected)
+            {
+                cardWidth -= 32;
+            }
+#else
+            if (cardSelected && !isPortrait)
+            {
+                cardWidth -= 12;
+            }
+#endif
+
+            return cardWidth;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -457,17 +464,21 @@ namespace Sa11ytaire4All.Views
             var cardSelected = (bool)values[0];
             var cardHeight = (double)values[1];
 
-            // When a dealt card is selected in Portrait, wide horizontal lines appear at the top and bottom
-            // of the card. This is achieved by reducing the height of the card, and centring the image in its
-            // container. By doing this, the BackgroundColor of a containing element is revealed above and 
-            // below the card.
-            var isPortrait = MainPage.IsPortrait();
-            if (isPortrait)
+            if (cardSelected)
             {
-                if (cardSelected)
+#if WINDOWS
+                cardHeight -= 32;
+#else
+                // When a dealt card is selected in Portrait, wide horizontal lines appear at the top and bottom
+                // of the card. This is achieved by reducing the height of the card, and centring the image in its
+                // container. By doing this, the BackgroundColor of a containing element is revealed above and 
+                // below the card.
+                var isPortrait = MainPage.IsPortrait();
+                if (isPortrait)
                 {
                     cardHeight -= 16;
                 }
+#endif
             }
 
             return cardHeight;

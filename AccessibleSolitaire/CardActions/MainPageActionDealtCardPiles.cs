@@ -12,6 +12,10 @@ namespace Sa11ytaire4All
         {
             dealtCard.CardSelected = false;
 
+#if WINDOWS
+            dealtCard.RefreshVisuals();
+#endif
+
             // All cards above this deselected card in a dealt card pile are no longer
             // is the set of cards that will move along with the selected card.
             SetInSelectedSet(dealtCard);

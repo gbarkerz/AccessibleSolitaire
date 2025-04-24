@@ -53,9 +53,6 @@
                             <Binding Source="{x:Reference InnerButton}" 
                                 x:DataType="{x:Type Button}"
                                 Path="IsFocused" />
-                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                x:DataType="{x:Type local_views:CardButton}"
-                                Path="BindingContext.Card" />
 
                         </MultiBinding>
                     </Border.BackgroundColor>
@@ -73,9 +70,6 @@
                             <Binding Source="{x:Reference InnerButton}" 
                                 x:DataType="{x:Type Button}"
                                 Path="IsFocused" />
-                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                x:DataType="{x:Type local_views:CardButton}"
-                                Path="BindingContext.Card" />
 
                         </MultiBinding>
                     </Border.BackgroundColor>
