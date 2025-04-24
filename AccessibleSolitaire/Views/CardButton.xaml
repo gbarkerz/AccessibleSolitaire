@@ -140,25 +140,24 @@
                                         <MultiBinding Mode="OneWay" 
                                             Converter="{StaticResource SuitSuitColoursToColor}">
 
-                                            <!-- This works in Debug, but in Release the Card here is null when passed to the converter. -->
                                             <Binding Source="{x:Reference CardButtonInstance}" 
-                                                        x:DataType="{x:Type local_views:CardButton}"
-                                                        Path="BindingContext.Card" />
+                                                x:DataType="{x:Type local_views:CardButton}"
+                                                Path="BindingContext.Card" />
                                             <Binding Source="{x:Reference CardButtonInstance}" 
-                                                        x:DataType="{x:Type local_views:CardButton}"
-                                                        Path="BindingContext.AutomationId" />
+                                                x:DataType="{x:Type local_views:CardButton}"
+                                                Path="BindingContext.AutomationId" />
                                             <Binding Source="{x:Reference CardButtonInstance}" 
-                                                        x:DataType="{x:Type local_views:CardButton}"
-                                                        Path="BindingContext.SuitColoursClubsSwitch" />
+                                                x:DataType="{x:Type local_views:CardButton}"
+                                                Path="BindingContext.SuitColoursClubsSwitch" />
                                             <Binding Source="{x:Reference CardButtonInstance}" 
-                                                        x:DataType="{x:Type local_views:CardButton}"
-                                                        Path="BindingContext.SuitColoursDiamondsSwitch" />
+                                                x:DataType="{x:Type local_views:CardButton}"
+                                                Path="BindingContext.SuitColoursDiamondsSwitch" />
                                             <Binding Source="{x:Reference CardButtonInstance}" 
-                                                        x:DataType="{x:Type local_views:CardButton}"
-                                                        Path="BindingContext.SuitColoursHeartsSwitch" />
+                                                x:DataType="{x:Type local_views:CardButton}"
+                                                Path="BindingContext.SuitColoursHeartsSwitch" />
                                             <Binding Source="{x:Reference CardButtonInstance}" 
-                                                        x:DataType="{x:Type local_views:CardButton}"
-                                                        Path="BindingContext.SuitColoursSpadesSwitch" />
+                                                x:DataType="{x:Type local_views:CardButton}"
+                                                Path="BindingContext.SuitColoursSpadesSwitch" />
                                         </MultiBinding>
                                     </toolkit:IconTintColorBehavior.TintColor>
 

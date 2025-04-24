@@ -8,6 +8,7 @@ using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Switch = Microsoft.Maui.Controls.Switch;
+using System.Collections.Generic;
 
 namespace Sa11ytaire4All
 {
@@ -991,21 +992,41 @@ namespace Sa11ytaire4All
                                                         _deckUpturned[_deckUpturned.Count - 3] : null);
 
                 // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-                SetCardSuitColours(CardDeckUpturned);
-                SetCardSuitColours(CardDeckUpturnedObscuredHigher);
-                SetCardSuitColours(CardDeckUpturnedObscuredLower);
+
+                // Barker Todo: Re-enable this on iOS and Android if necessary.
+                //SetCardSuitColours(CardDeckUpturned);
+                //SetCardSuitColours(CardDeckUpturnedObscuredHigher);
+                //SetCardSuitColours(CardDeckUpturnedObscuredLower);
             }
         }
-
         private void SetCardSuitColours(CardButton cardButton)
         {
+            if (cardButton.Card == null)
+            {
+                return;
+            }
+
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
-                cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
-                cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
-                cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
-                cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
+                switch (cardButton.Card.Suit)
+                {
+                    case Suit.Clubs:
+                        cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
+                        break;
+
+                    case Suit.Diamonds:
+                        cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
+                        break;
+
+                    case Suit.Hearts:
+                        cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
+                        break;
+
+                    case Suit.Spades:
+                        cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
+                        break;
+                }
             }
         }
 

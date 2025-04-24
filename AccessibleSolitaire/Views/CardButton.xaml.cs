@@ -412,6 +412,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void RefreshVisuals()
     {
+        this.OnPropertyChanged("Card");
         this.OnPropertyChanged("BackgroundColor");
         this.OnPropertyChanged("CardPileImage");
         this.OnPropertyChanged("PictureCardPileImage");

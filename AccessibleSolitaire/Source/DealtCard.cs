@@ -178,8 +178,6 @@ namespace Sa11ytaire4All.Source
             if (this.Card != null)
             {
                 OnPropertyChanged("Card");
-
-                OnPropertyChanged("CardTintColour");
             }
         }
 
