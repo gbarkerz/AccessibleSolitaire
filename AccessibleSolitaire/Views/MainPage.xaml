@@ -85,7 +85,7 @@
                 Path=FlipGameLayoutHorizontally,
                 Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}" />
         </Style>
-
+        
         <!-- Define the UI for the cards in the dealt card piles. -->
 
         <!-- Barker Todo: Remove the use of CardIsInAccessibleTree below once I know how to use multi-binding in XAML 
@@ -101,8 +101,8 @@
                 AutomationProperties.IsInAccessibleTree="{Binding CardIsInAccessibleTree}"
                 SemanticProperties.Description="{Binding BindingContext.AccessibleName, Mode=OneWay, 
                     Source={RelativeSource Self}}"
-                Padding="0" Margin="0">
-
+                    Padding="0" Margin="0">
+                
                 <!-- The width and height of this Border and the contained Grid is unaffected by 
                     whether the dealt card is selected. -->
                 
@@ -184,8 +184,8 @@
 
                     <!-- When a dealt card is selected, the size of the card images contained in the card
                         is reduced. This reveals the BackgroundColor of this Grid. -->
-                    
-                    <Grid Padding="0" Margin="0"
+
+                    <Grid Padding="0" Margin="0" 
                         AutomationProperties.IsInAccessibleTree="False"
                         BackgroundColor="{Binding FaceDown, Mode=OneWay, 
                             Converter={StaticResource IsFaceDownToBackgroundColorConverter}}">
@@ -455,9 +455,27 @@
                             Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
                         Clicked="MenuButton_Click"
                         BackgroundColor="Transparent"
+                        BorderColor="Black"
                         Margin="4" Padding="0" 
-                        BorderWidth="0" CornerRadius="0" />
-                    
+                        CornerRadius="0">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="4" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </ImageButton>
+
                     <ImageButton x:Name="StateAnnouncementButton"
                         SemanticProperties.Description="{x:Static resources:StringResources.AnnouceState}"
                         WidthRequest="{Binding 
@@ -468,9 +486,27 @@
                             Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
                         Clicked="StateAnnouncementButton_Clicked"
                         BackgroundColor="Transparent"
+                        BorderColor="Black"
                         Margin="0" Padding="0" 
-                        BorderWidth="0" CornerRadius="0"
+                        CornerRadius="0"
                         HorizontalOptions="Center" VerticalOptions="Start">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="4" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+    
                         <ImageButton.Source>
                             <FontImageSource  
                                 Glyph="&#xf27a;"
@@ -503,7 +539,6 @@
                         CornerRadius="0"
                         Margin="0" Padding="0"
                         BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
-                        BorderWidth="1"
                         HeightRequest="{Binding 
                             Path=CardHeight}"
                         WidthRequest="{Binding 
@@ -513,6 +548,24 @@
                             Source={RelativeSource Self}, 
                             x:DataType={x:Type local_source:NextCardPileButton},
                             Converter={StaticResource NextCardIsEmptyToImageConverter}}">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="6" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+
                     </local_source:NextCardPileButton>
 
                     <!-- Note: The CardPileCard elements below represent the three upturned cards and
