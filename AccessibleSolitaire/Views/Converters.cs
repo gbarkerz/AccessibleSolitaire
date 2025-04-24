@@ -16,7 +16,7 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || (values.Length < 2))
+            if (values == null || (values.Length < 3))
             {
                 return null;
             }
@@ -31,6 +31,13 @@ namespace Sa11ytaire4All.Views
             if (isFocused)
             {
                 return Colors.Black;
+            }
+
+            var card = values[2];
+
+            if (card != null)
+            {
+                return Colors.White;
             }
 
             var automationId = (string)values[0];
@@ -66,7 +73,7 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || (values.Length < 2))
+            if (values == null || (values.Length < 3))
             {
                 return null;
             }
@@ -79,6 +86,13 @@ namespace Sa11ytaire4All.Views
             var isFocused = (bool)values[1];
 
             if (isFocused)
+            {
+                return Colors.White;
+            }
+
+            var card = values[2];
+
+            if (card != null)
             {
                 return Colors.White;
             }
@@ -379,7 +393,7 @@ namespace Sa11ytaire4All.Views
         {
             if (Application.Current == null)
             {
-                return Colors.Transparent;
+                return Colors.White;
             }
 
             // Note that the card can be null here, for example, for an empty target card pile.
@@ -389,7 +403,7 @@ namespace Sa11ytaire4All.Views
 
             if (Application.Current.RequestedTheme != AppTheme.Dark)
             {
-                backgroundColor = (card == null ? Colors.LightGreen : Colors.Transparent);
+                backgroundColor = (card == null ? Colors.LightGreen : Colors.White);
             }
             else
             {
