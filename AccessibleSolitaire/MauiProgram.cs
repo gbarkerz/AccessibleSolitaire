@@ -22,16 +22,15 @@ namespace Sa11ytaire4All
                 .UseMauiCommunityToolkitMediaElement()
                 .ConfigureMauiHandlers(handlers =>
                 {
-#if IOS
                     // Barker Todo: Investigate the advantages of CollectionViewHandler2.
                     // handlers.AddHandler<Microsoft.Maui.Controls.CollectionView, Microsoft.Maui.Controls.Handlers.Items2.CollectionViewHandler2>();
-#endif
+
+#if WINDOWS
                     Microsoft.Maui.Controls.Handlers.Items.CollectionViewHandler.Mapper.AppendToMapping("KeyboardAccessibleCollectionView", (handler, view) =>
                     {
-#if WINDOWS
                         handler.PlatformView.SingleSelectionFollowsFocus = false;
+                });
 #endif
-                    });
                 })
                 .ConfigureFonts(fonts =>
                 {

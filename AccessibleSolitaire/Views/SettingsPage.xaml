@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resources="clr-namespace:Sa11ytaire4All"
              xmlns:local_views="clr-namespace:Sa11ytaire4All.Views"
+             xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="Sa11ytaire4All.Views.SettingsPage"
              Title="Settings Page">
 
@@ -541,6 +542,7 @@
         </ScrollView>
 
         <Button Grid.Row="2" x:Name="CloseButton" 
+            windows:VisualElement.AccessKey="C"
             TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
             HorizontalOptions="End" Margin="8" Padding="8"
             Text="{x:Static resources:StringResources.Close}" 
