@@ -32,7 +32,9 @@
         use of Switch was replaced with Button. All hit targets worked as expected then, and the app's announcements
         of selected state continued to work fine. -->
     
-        <Border Stroke="Black" StrokeThickness="1">
+        <Border 
+            Stroke="{AppThemeBinding Light=Black, Dark=White}"
+            StrokeThickness="1">
             
             <Grid Margin="0" Padding="0">
 

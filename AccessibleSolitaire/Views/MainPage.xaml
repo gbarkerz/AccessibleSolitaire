@@ -455,7 +455,7 @@
                             Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
                         Clicked="MenuButton_Click"
                         BackgroundColor="Transparent"
-                        BorderColor="Black"
+                        BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                         Margin="4" Padding="0" 
                         CornerRadius="0">
                         <VisualStateManager.VisualStateGroups>
@@ -486,7 +486,7 @@
                             Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
                         Clicked="StateAnnouncementButton_Clicked"
                         BackgroundColor="Transparent"
-                        BorderColor="Black"
+                        BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                         Margin="0" Padding="0" 
                         CornerRadius="0"
                         HorizontalOptions="Center" VerticalOptions="Start">

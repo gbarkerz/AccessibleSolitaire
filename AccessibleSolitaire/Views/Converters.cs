@@ -30,14 +30,17 @@ namespace Sa11ytaire4All.Views
 
             if (isFocused)
             {
-                return Colors.Black;
+                return (Application.Current.RequestedTheme != AppTheme.Dark ?
+                            Colors.Black : Colors.White);
             }
 
             var card = values[2];
 
+            // Not focused, and no card on CardButton.
             if (card != null)
             {
-                return Colors.White;
+                return (Application.Current.RequestedTheme != AppTheme.Dark ?
+                            Colors.White : Colors.Black);
             }
 
             var automationId = (string)values[0];
@@ -50,12 +53,14 @@ namespace Sa11ytaire4All.Views
                 case "CardDeckUpturnedObscuredHigher":
                 case "CardDeckUpturned":
 
-                    colour = Color.FromRgb(0xC3, 0xC3, 0xC3);
+                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                Color.FromRgb(0xC3, 0xC3, 0xC3) : Color.FromRgb(0x88, 0x88, 0x88));
                     break;
 
                 default:
 
-                    colour = Colors.LightGreen;
+                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                Colors.LightGreen : Colors.DarkGreen);
                     break;
             }
 
@@ -87,14 +92,17 @@ namespace Sa11ytaire4All.Views
 
             if (isFocused)
             {
-                return Colors.White;
+                return (Application.Current.RequestedTheme != AppTheme.Dark ?
+                            Colors.White : Colors.Black);
             }
 
             var card = values[2];
 
+            // Not focused, and no card on CardButton.
             if (card != null)
             {
-                return Colors.White;
+                return (Application.Current.RequestedTheme != AppTheme.Dark ?
+                            Colors.White : Colors.Black);
             }
 
             var automationId = (string)values[0];
@@ -107,12 +115,14 @@ namespace Sa11ytaire4All.Views
                 case "CardDeckUpturnedObscuredHigher":
                 case "CardDeckUpturned":
 
-                    colour = Color.FromRgb(0xC3, 0xC3, 0xC3);
+                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                Color.FromRgb(0xC3, 0xC3, 0xC3) : Color.FromRgb(0x88, 0x88, 0x88));
                     break;
 
                 default:
 
-                    colour = Colors.LightGreen;
+                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                Colors.LightGreen : Colors.DarkGreen);
                     break;
             }
 

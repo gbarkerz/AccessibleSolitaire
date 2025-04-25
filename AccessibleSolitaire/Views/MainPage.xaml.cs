@@ -74,13 +74,13 @@ namespace Sa11ytaire4All
             suitColours.Add("Dark Blue", Colors.DarkBlue);
             suitColours.Add("Dark Indigo", Color.FromArgb("#FF1F0954"));
             suitColours.Add("Dark Violet", Colors.DarkViolet);
-            suitColours.Add("Red", Colors.Red);
-            suitColours.Add("Orange", Colors.Orange);
-            suitColours.Add("Dark Yellow", Color.FromArgb("#FF8B8000"));
-            suitColours.Add("Green", Colors.Green);
-            suitColours.Add("Blue", Colors.Blue);
-            suitColours.Add("Indigo", Colors.Indigo);
-            suitColours.Add("Violet", Colors.Violet);
+            suitColours.Add("White", Colors.White);
+            suitColours.Add("Yellow", Colors.Yellow);
+            suitColours.Add("Pink", Colors.Pink);
+            suitColours.Add("Cyan", Colors.Cyan);
+            suitColours.Add("Light Blue", Colors.LightBlue);
+            suitColours.Add("Light Green", Colors.LightGreen);
+            suitColours.Add("Light Coral", Colors.LightCoral);
 
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
