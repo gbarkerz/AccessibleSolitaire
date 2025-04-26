@@ -1,0 +1,56 @@
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:resources="clr-namespace:Sa11ytaire4All"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               Color="{AppThemeBinding Light=White, Dark=Black}"
+               x:Class="Sa11ytaire4All.Views.ShortcutsPopup">
+
+    <Border 
+        StrokeThickness="2"
+        Stroke="{AppThemeBinding Light=Black, Dark=White}">
+
+        <Grid 
+            BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+            Padding="8">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0"
+                SemanticProperties.HeadingLevel="Level1"
+                Margin="0,0,0,8"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                FontAttributes="Bold"
+                Text="{x:Static resources:StringResources.KeyboardShortcutsTitle}" />
+
+            <Label Grid.Row="1"
+                Margin="0,0,0,8"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                Text="{x:Static resources:StringResources.KeyboardShortcutsSubtitle}" />
+
+            <ScrollView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+                <Label 
+                    HorizontalOptions="Center"
+                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                    Text="{x:Static resources:StringResources.KeyboardShortcutsList}" />
+            </ScrollView>
+
+            <Button Grid.Column="1" Grid.Row="3"
+                    TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
+                    Padding="8"
+                    Text="{x:Static resources:StringResources.Close}" 
+                    Clicked="CloseButton_Clicked" />
+
+        </Grid>
+    </Border>
+    
+</toolkit:Popup>

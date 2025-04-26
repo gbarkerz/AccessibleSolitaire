@@ -1,4 +1,5 @@
-﻿using Sa11ytaire4All.Source;
+﻿using CommunityToolkit.Maui.Views;
+using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
@@ -296,6 +297,13 @@ namespace Sa11ytaire4All
             }
 
             return isFocused;
+        }
+
+        public void ShowKeyboardShortcuts()
+        {
+            var popup = new ShortcutsPopup();
+
+            this.ShowPopup(popup);
         }
 #endif
     }

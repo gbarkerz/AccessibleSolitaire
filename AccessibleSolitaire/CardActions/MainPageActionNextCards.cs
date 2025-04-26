@@ -10,6 +10,11 @@ namespace Sa11ytaire4All
         // Turn over the next card in the Remaining Card pile.
         private void NextCard_Click(object sender, EventArgs e)
         {
+            PerformNextCardAction();
+        }
+
+        public void PerformNextCardAction()
+        { 
             // Barker Todo: Figure out why we get two rapid clicks when invoked by TalkBack.
             var timeSinceMostRecentNextCardClick = DateTime.Now - timeOfMostRecentNextCardClick;
             if (timeSinceMostRecentNextCardClick.TotalMilliseconds < 500)

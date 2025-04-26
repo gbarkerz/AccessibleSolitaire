@@ -563,6 +563,9 @@
 	  <Compile Update="Views\CardButton.xaml.cs">
 	    <DependentUpon>CardButton.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\ShortcutsPopup.xaml.cs">
+	    <DependentUpon>ShortcutsPopup.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SettingsPage.xaml.cs">
 	    <DependentUpon>SettingsPage.xaml</DependentUpon>
 	  </Compile>
@@ -577,6 +580,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\CardButton.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ShortcutsPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CardPopup.xaml">

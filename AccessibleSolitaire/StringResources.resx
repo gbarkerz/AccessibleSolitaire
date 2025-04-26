@@ -109,7 +109,7 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>2.1</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
     <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -697,5 +697,22 @@ Please click the Menu button and review the Help content to learn how to get the
   </data>
   <data name="NoNextCardsLeft" xml:space="preserve">
     <value>No next cards left</value>
+  </data>
+  <data name="KeyboardShortcutsList" xml:space="preserve">
+    <value>F1: Show this list of keyboard shortcuts.
+F6: Move keyboard focus between the main areas of the game.
+M: Screen reader announce available moves.
+U: Screen reader announce topmost upturned cards.
+T: Screen reader announce target card piles.
+D: Screen reader announce dealt card piles.
+N: Click Next Card button.
+R: Restart game.
+H: Show full help content in Facebook.</value>
+  </data>
+  <data name="KeyboardShortcutsTitle" xml:space="preserve">
+    <value>Keyboard Shortcuts</value>
+  </data>
+  <data name="KeyboardShortcutsSubtitle" xml:space="preserve">
+    <value>The following keyboard shortcuts are available in the Accessible Solitaire app.</value>
   </data>
 </root>

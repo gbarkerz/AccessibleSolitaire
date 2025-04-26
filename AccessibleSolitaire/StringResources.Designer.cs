@@ -864,6 +864,41 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to F1: Show this list of keyboard shortcuts.
+        ///F6: Move keyboard focus between the main areas of the game.
+        ///M: Screen reader announce available moves.
+        ///U: Screen reader announce topmost upturned cards.
+        ///T: Screen reader announce target card piles.
+        ///D: Screen reader announce dealt card piles.
+        ///N: Click Next Card button.
+        ///R: Restart game.
+        ///H: Show full help content in Facebook..
+        /// </summary>
+        internal static string KeyboardShortcutsList {
+            get {
+                return ResourceManager.GetString("KeyboardShortcutsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following keyboard shortcuts are available in the Accessible Solitaire app..
+        /// </summary>
+        internal static string KeyboardShortcutsSubtitle {
+            get {
+                return ResourceManager.GetString("KeyboardShortcutsSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyboard Shortcuts.
+        /// </summary>
+        internal static string KeyboardShortcutsTitle {
+            get {
+                return ResourceManager.GetString("KeyboardShortcutsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to King.
         /// </summary>
         internal static string King {

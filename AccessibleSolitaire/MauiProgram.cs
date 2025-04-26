@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
-using Microsoft.UI.Input;
-using Windows.System;
-using Windows.UI.Core;
 
 #if WINDOWS
 //using Microsoft.Maui.LifecycleEvents;
+using Microsoft.UI.Input;
+using Windows.System;
+using Windows.UI.Core;
 #endif 
 
 namespace Sa11ytaire4All
@@ -96,25 +96,37 @@ namespace Sa11ytaire4All
         {
             e.Handled = true;
 
-            if (e.Key == Windows.System.VirtualKey.F1)
+            if (e.Key == Windows.System.VirtualKey.H)
             {
                 MainPage.MainPageSingleton?.LaunchHelp();
             }
-            else if (e.Key == Windows.System.VirtualKey.F2)
+            else if (e.Key == Windows.System.VirtualKey.M)
+            {
+                MainPage.MainPageSingleton?.AnnounceAvailableMoves();
+            }
+            else if (e.Key == Windows.System.VirtualKey.U)
             {
                 MainPage.MainPageSingleton?.AnnounceStateRemainingCards();
             }
-            else if (e.Key == Windows.System.VirtualKey.F3)
+            else if (e.Key == Windows.System.VirtualKey.T)
             {
                 MainPage.MainPageSingleton?.AnnounceStateTargetPiles();
             }
-            else if (e.Key == Windows.System.VirtualKey.F4)
+            else if (e.Key == Windows.System.VirtualKey.D)
             {
                 MainPage.MainPageSingleton?.AnnounceStateDealtCardPiles();
             }
-            else if (e.Key == Windows.System.VirtualKey.F5)
+            else if (e.Key == Windows.System.VirtualKey.R)
             {
                 MainPage.MainPageSingleton?.QueryRestartGame();
+            }
+            else if (e.Key == Windows.System.VirtualKey.N)
+            {
+                MainPage.MainPageSingleton?.PerformNextCardAction();
+            }
+            else if (e.Key == Windows.System.VirtualKey.F1)
+            {
+                MainPage.MainPageSingleton?.ShowKeyboardShortcuts();
             }
             else if (e.Key == Windows.System.VirtualKey.F6)
             {
@@ -122,10 +134,6 @@ namespace Sa11ytaire4All
                 var shiftDown = shiftState.HasFlag(CoreVirtualKeyStates.Down);
 
                 MainPage.MainPageSingleton?.HandleF6(!shiftDown);
-            }
-            else if (e.Key == Windows.System.VirtualKey.F7)
-            {
-                MainPage.MainPageSingleton?.AnnounceAvailableMoves();
             }
             else
             {
