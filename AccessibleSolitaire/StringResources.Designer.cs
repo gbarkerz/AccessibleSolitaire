@@ -711,6 +711,15 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Press the F1 key to learn about the keyboard shortcuts available in the game..
+        /// </summary>
+        internal static string FirstRunMessageWindows {
+            get {
+                return ResourceManager.GetString("FirstRunMessageWindows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flip layout horizontally.
         /// </summary>
         internal static string FlipGameLayoutHorizontally {
@@ -890,7 +899,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following keyboard shortcuts are available in the Accessible Solitaire app..
+        ///   Looks up a localized string similar to The following keyboard shortcuts are available in the Accessible Solitaire game..
         /// </summary>
         internal static string KeyboardShortcutsSubtitle {
             get {

@@ -491,10 +491,19 @@ namespace Sa11ytaire4All
                 {
                     Preferences.Set("ShowFirstRunMessage", false);
 
+                    var delay = 1000;
+
+#if WINDOWS
+                    // Barker Todo: In testing, a delay of 1 second on Windows leads to an exception
+                    // relating to there being no root element when trying to display the first run 
+                    // message. So for now, add a hacky 5 second delay instead.
+                    delay = 5000;
+#endif
+
                     timerFirstRunAnnouncement = new Timer(
                         new TimerCallback((s) => ShowFirstRunMessage()),
                             null,
-                            TimeSpan.FromMilliseconds(1000),
+                            TimeSpan.FromMilliseconds(delay),
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
@@ -618,9 +627,20 @@ namespace Sa11ytaire4All
             {
                 var title = MyGetString("Sa11ytaire");
                 var message = MyGetString("FirstRunMessage");
+
+#if WINDOWS
+                message += "\r\n\r\n"+ MyGetString("FirstRunMessageWindows");
+#endif
                 var btnText = MyGetString("OK");
 
-                DisplayAlert(title, message, btnText);
+                try
+                {
+                    DisplayAlert(title, message, btnText);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("ShowFirstRunMessage: " + ex.Message);
+                }
             });
         }
 

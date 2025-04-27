@@ -713,7 +713,7 @@ H: Show full help content in Facebook.</value>
     <value>Keyboard Shortcuts</value>
   </data>
   <data name="KeyboardShortcutsSubtitle" xml:space="preserve">
-    <value>The following keyboard shortcuts are available in the Accessible Solitaire app.</value>
+    <value>The following keyboard shortcuts are available in the Accessible Solitaire game.</value>
   </data>
   <data name="TargetCardPile" xml:space="preserve">
     <value>Target card pile</value>
@@ -723,5 +723,8 @@ H: Show full help content in Facebook.</value>
   </data>
   <data name="In" xml:space="preserve">
     <value>in</value>
+  </data>
+  <data name="FirstRunMessageWindows" xml:space="preserve">
+    <value>Press the F1 key to learn about the keyboard shortcuts available in the game.</value>
   </data>
 </root>
