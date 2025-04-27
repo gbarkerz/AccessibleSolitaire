@@ -7,10 +7,21 @@ namespace Sa11ytaire4All.Views;
 public partial class CardButton : ContentView, INotifyPropertyChanged
 {
     public CardButton()
-	{
+    {
         BindingContext = this;
 
         InitializeComponent();
+
+#if WINDOWS
+        // Barker todo: Figure out why the Button Click handler doesn't get called on Windows.
+        TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+        tapGestureRecognizer.Tapped += (s, e) =>
+        {
+            HandleCardButtonClick(InnerButton);
+        };
+        
+        this.GestureRecognizers.Add(tapGestureRecognizer);
+#endif
     }
 
     private Card? card = null;
@@ -432,13 +443,18 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     private void CardButton_Clicked(object sender, EventArgs e)
     {
-        var cardButton = sender as Button;
-        if (cardButton == null)
+        var button = sender as Button;
+        if (button == null)
         {
             return;
         }
 
-        Debug.WriteLine("CardButton Clicked: " + cardButton.AutomationId);
+        HandleCardButtonClick(button);
+    }
+
+    private void HandleCardButtonClick(Button button)
+    {
+        Debug.WriteLine("CardButton Clicked: " + button.AutomationId);
 
         if (CardPopup.IsZoomPopupOpen())
         {
@@ -447,6 +463,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
             return;
         }
 
-        MainPage.MainPageSingleton?.CardButtonClicked(cardButton);
+        MainPage.MainPageSingleton?.CardButtonClicked(button);
     }
 }
