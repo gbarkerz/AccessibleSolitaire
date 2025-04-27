@@ -340,11 +340,11 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to can be moved to dealt card pile.
+        ///   Looks up a localized string similar to can be moved to.
         /// </summary>
-        internal static string CanBeMovedToDealtCardPile {
+        internal static string CanBeMovedTo {
             get {
-                return ResourceManager.GetString("CanBeMovedToDealtCardPile", resourceCulture);
+                return ResourceManager.GetString("CanBeMovedTo", resourceCulture);
             }
         }
         
@@ -833,6 +833,15 @@ namespace Sa11ytaire4All {
         internal static string HowAboutTurningOverCards {
             get {
                 return ResourceManager.GetString("HowAboutTurningOverCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to in.
+        /// </summary>
+        internal static string In {
+            get {
+                return ResourceManager.GetString("In", resourceCulture);
             }
         }
         
@@ -1682,6 +1691,15 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target card pile.
+        /// </summary>
+        internal static string TargetCardPile {
+            get {
+                return ResourceManager.GetString("TargetCardPile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target card piles.
         /// </summary>
         internal static string TargetCardPiles {
@@ -1777,6 +1795,15 @@ namespace Sa11ytaire4All {
         internal static string Upturned {
             get {
                 return ResourceManager.GetString("Upturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upturned card pile.
+        /// </summary>
+        internal static string UpturnedCardPile {
+            get {
+                return ResourceManager.GetString("UpturnedCardPile", resourceCulture);
             }
         }
         

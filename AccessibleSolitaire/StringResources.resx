@@ -198,8 +198,8 @@
   <data name="AnnouceState" xml:space="preserve">
     <value>Screen reader announce game state</value>
   </data>
-  <data name="CanBeMovedToDealtCardPile" xml:space="preserve">
-    <value>can be moved to dealt card pile</value>
+  <data name="CanBeMovedTo" xml:space="preserve">
+    <value>can be moved to</value>
   </data>
   <data name="CancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
@@ -714,5 +714,14 @@ H: Show full help content in Facebook.</value>
   </data>
   <data name="KeyboardShortcutsSubtitle" xml:space="preserve">
     <value>The following keyboard shortcuts are available in the Accessible Solitaire app.</value>
+  </data>
+  <data name="TargetCardPile" xml:space="preserve">
+    <value>Target card pile</value>
+  </data>
+  <data name="UpturnedCardPile" xml:space="preserve">
+    <value>Upturned card pile</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>in</value>
   </data>
 </root>

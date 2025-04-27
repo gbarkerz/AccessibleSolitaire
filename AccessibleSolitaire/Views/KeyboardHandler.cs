@@ -32,8 +32,15 @@ namespace Sa11ytaire4All
             DealtCard? destinationCard = null;
             DealtCard? sourceCard = null;
 
-            var inDealtCardPile = MyGetString("InDealtCardPile");
-            var canBeMovedToDealtCardPile = MyGetString("CanBeMovedToDealtCardPile");
+            // Barker Note: If this ever does get translated, consider using formatted strings here, 
+            // rather than concatenating all the various strings.
+
+            var inString = MyGetString("In");
+            var onString = MyGetString("On");
+            var upturnedCardPile = MyGetString("UpturnedCardPile");
+            var targetCardPile = MyGetString("TargetCardPile");
+            var dealtCardPile = MyGetString("DealtCardPile");
+            var canBeMovedTo = MyGetString("CanBeMovedTo");
             var noMoveIsAvailable = MyGetString("NoMoveIsAvailable");
 
             DealtCard? upturnedPseudoCard = null;
@@ -52,11 +59,8 @@ namespace Sa11ytaire4All
                 ++numberOfMoves;
 
                 // This is always the first string in the announcement.
-                moveComment = upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN +
-                    " " +
-                    "on upturned card pile"
-                    + " " + "can be moved to" + " " +
-                    suitTarget + " target card pile";
+                moveComment = upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " + 
+                    onString + " " + upturnedCardPile + " " + canBeMovedTo + " " + suitTarget + " " + targetCardPile;
             }
 
             // First move through all the dealt card piles to determine if a card can be moved on to the
@@ -84,8 +88,9 @@ namespace Sa11ytaire4All
                                         moveComment += ", \r\n";
                                     }
 
-                                    moveComment += upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN +
-                                        " on upturned card pile " + " can be moved to dealt card pile " + (d + 1).ToString();
+                                    moveComment += upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " + 
+                                        onString + " " + upturnedCardPile + " " + canBeMovedTo + " " + 
+                                        dealtCardPile + " " + (d + 1).ToString();
 
                                     numberOfMoves++;
                                 }
@@ -102,11 +107,10 @@ namespace Sa11ytaire4All
 
                                 ++numberOfMoves;
 
-                                // This is always the first string in the announcement.
                                 moveComment += destinationCard.AccessibleNameWithoutSelectionAndMofN +
                                     " " +
-                                    "on dealt card pile " + (d + 1).ToString() +
-                                    " " + "can be moved to" + " " +
+                                    onString + " " + dealtCardPile + " " + (d + 1).ToString() +
+                                    " " + canBeMovedTo + " " +
                                     suitTarget + " target card pile";
                             }
 
@@ -145,8 +149,6 @@ namespace Sa11ytaire4All
                                     // Ok, we now have the lowest face-up card in the source dealt card pile.
                                     if (sourceCard != null)
                                     {
-                                        var canMoveCardBetweenPiles = false;
-
                                         // Check whether the source card can be moved on top of another card in 
                                         // the destination pile.
 
@@ -158,9 +160,9 @@ namespace Sa11ytaire4All
                                             }
 
                                             moveComment += sourceCard.AccessibleNameWithoutSelectionAndMofN +
-                                                " " + inDealtCardPile + " " +
+                                                " " + inString + " " + dealtCardPile + " " +
                                                 localizedNumbers[s].ToString() +
-                                                " " + canBeMovedToDealtCardPile + " " +
+                                                " " + canBeMovedTo + " " + dealtCardPile + " " +
                                                 localizedNumbers[d].ToString();
 
                                             numberOfMoves++;
