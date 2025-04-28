@@ -837,7 +837,21 @@ namespace Sa11ytaire4All
             {
                 for (int i = 0; i < cCardPiles; i++)
                 {
+                    // Barker Todo: On Windows simply calling vm.DealtCards[i].Clear() here and then adding 
+                    // the new cards can leave the suit colours in the new cards wrong. So it seems that
+                    // something's up with the tint colour binding. However, explicitly removing all the
+                    // existing cards in the pile before adding the new cards seems to avoid this. So do
+                    // that for now, and investigate the correct fix.
+#if WINDOWS
+                    var previousCount = vm.DealtCards[i].Count;
+
+                    for (int previousItemIndex = 0; previousItemIndex < previousCount; ++previousItemIndex)
+                    {
+                        vm.DealtCards[i].RemoveAt(0);
+                    }
+#else
                     vm.DealtCards[i].Clear();
+#endif
 
                     for (int j = 0; j < (i + 1); j++)
                     {
@@ -1033,6 +1047,7 @@ namespace Sa11ytaire4All
                 //SetCardSuitColours(CardDeckUpturnedObscuredLower);
             }
         }
+
         private void SetCardSuitColours(CardButton cardButton)
         {
             if (cardButton.Card == null)
