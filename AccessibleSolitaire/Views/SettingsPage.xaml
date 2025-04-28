@@ -259,40 +259,51 @@
 
                     <!-- Merge all face-down cards into one visual item in a dealt card pile. -->
 
-                    <Label Grid.Row="12" 
+                    <Label Grid.Row="12" x:Name="MergeFaceDownCardsHeading" 
+                        IsVisible="False"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:StringResources.MergeFaceDownCards}" />
 
-                    <Label Grid.Row="13" 
-                        Margin="8,0,8,0"
-                        LineBreakMode="WordWrap"
-                        Text="{x:Static resources:StringResources.MergeFaceDownCardsInstructions}" />
+                    <Grid x:Name="MergeFaceDownCardsGrid" Grid.Row="13"
+                        IsVisible="False">
 
-                    <HorizontalStackLayout Grid.Row="14" Padding="0" Margin="8,0,8,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                        <Label
-                            VerticalOptions="Center"                
-                            Text="{x:Static resources:StringResources.MergeFaceDownCardsSwitchLabel}" 
-                            Margin="0" Padding="0" />
+                        <Label Grid.Row="0" 
+                            Margin="8,0,8,0"
+                            LineBreakMode="WordWrap"
+                            Text="{x:Static resources:StringResources.MergeFaceDownCardsInstructions}" />
 
-                        <Switch x:Name="MergeFaceDownCardsSwitch"
-                            Margin="0" HorizontalOptions="Start"
-                            SemanticProperties.Description="{x:Static resources:StringResources.MergeFaceDownCardsSwitchLabel}"
-                            SemanticProperties.Hint="{x:Static resources:StringResources.MergeFaceDownCardsInstructions}" />
+                        <HorizontalStackLayout Grid.Row="1" Padding="0" Margin="8,0,8,0">
 
-                    </HorizontalStackLayout>
+                            <Label
+                                VerticalOptions="Center"                
+                                Text="{x:Static resources:StringResources.MergeFaceDownCardsSwitchLabel}" 
+                                Margin="0" Padding="0" />
 
+                            <Switch x:Name="MergeFaceDownCardsSwitch"
+                                Margin="0" HorizontalOptions="Start"
+                                SemanticProperties.Description="{x:Static resources:StringResources.MergeFaceDownCardsSwitchLabel}"
+                                SemanticProperties.Hint="{x:Static resources:StringResources.MergeFaceDownCardsInstructions}" />
+
+                        </HorizontalStackLayout>
+
+                    </Grid>
+                    
                     <!-- Flip layout to be right-to-left rather than left-to-right. -->
 
-                    <Label Grid.Row="15"
+                    <Label Grid.Row="14"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:StringResources.FlipGameLayoutHorizontally}" />
 
-                    <Label Grid.Row="16" 
+                    <Label Grid.Row="15" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:StringResources.FlipGameLayoutHorizontallyInstructions}" />

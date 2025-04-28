@@ -86,7 +86,7 @@ namespace Sa11ytaire4All
             if (vm != null)
             {
                 vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
-                vm.MergeFaceDownCards = (bool)Preferences.Get("MergeFaceDownCards", true);
+                vm.MergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
             }
 
             this.InitializeComponent();
@@ -120,6 +120,17 @@ namespace Sa11ytaire4All
             RestartGame(false /* screenReaderAnnouncement. */);
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
+        }
+
+        public static bool GetMergeFaceDownCardsSetting()
+        {
+            // Don't merge face down cards on Windows.
+            var mergeFaceDownCardsSetting = false;
+
+#if IOS || ANDROID
+            mergeFaceDownCardsSetting = (bool)Preferences.Get("MergeFaceDownCards", true);
+#endif
+            return mergeFaceDownCardsSetting;
         }
 
         private void SetContainerAccessibleNames()
@@ -456,7 +467,7 @@ namespace Sa11ytaire4All
                 }
 
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
-                vm.MergeFaceDownCards = (bool)Preferences.Get("MergeFaceDownCards", true);
+                vm.MergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
 
                 // Refresh the accessibility of all cards if necessary.
                 if (vm.MergeFaceDownCards != previousMergeFaceDownCards)

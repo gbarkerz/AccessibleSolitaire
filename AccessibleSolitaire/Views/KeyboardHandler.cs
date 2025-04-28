@@ -22,10 +22,14 @@ namespace Sa11ytaire4All
             // Barker Note: We do not check whether a move from a target card pile is available down to 
             // a dealt card pile.
 
+            // Barker Note: We don't check for moves to empty card piles, as that would fill the announcement.
+
             // Barker Note: When moving between dealt card piles, we only check whether the lowest face-up 
             // card in a pile can be moved, not any of the other face-up cards that might lie above that one.
+            // This is important, because it's not the same dealt card as when checking whether a dealt card
+            // can be moved to a Target cad pile. For a move from a dealt card pile to a Target card pile,
+            // we only check the topmost card in the dealt card pile.
 
-            // Barker Note: We don't check for moves to empty card piles, as that would fill the announcement.
 
             int numberOfMoves = 0;
             string moveComment = "";

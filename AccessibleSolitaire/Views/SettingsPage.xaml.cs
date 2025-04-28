@@ -10,6 +10,11 @@ public partial class SettingsPage : ContentPage
 	{
 		InitializeComponent();
 
+#if IOS || ANDROID
+        MergeFaceDownCardsHeading.IsVisible = true;
+        MergeFaceDownCardsGrid.IsVisible = true;
+#endif
+
 #if IOS
         SoundsSettingsHeader.IsVisible = true;
         SoundsSettingsGrid.IsVisible = true;
@@ -64,7 +69,7 @@ public partial class SettingsPage : ContentPage
         var highlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
         HighlightSelectedCardSetSwitch.IsToggled = highlightSelectedCardSet;
 
-        var mergeFaceDownCards = (bool)Preferences.Get("MergeFaceDownCards", true);
+        var mergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
         MergeFaceDownCardsSwitch.IsToggled = mergeFaceDownCards;
 
         var flipGameLayoutHorizontally = (bool)Preferences.Get("FlipGameLayoutHorizontally", false);
