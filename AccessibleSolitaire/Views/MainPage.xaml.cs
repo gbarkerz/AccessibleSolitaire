@@ -711,17 +711,20 @@ namespace Sa11ytaire4All
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
 #if WINDOWS 
-            if (MainPage.MainPageSingleton != null)
-            {
-                var grid = MainPage.MainPageSingleton.InnerMainGrid;
-                if (grid != null)
-                {
-                    if ((grid.Bounds.Width > 0) && (grid.Bounds.Height > 0))
-                    {
-                        isPortrait = (grid.Bounds.Height > grid.Bounds.Width);
-                    }
-                }
-            }
+            // Barker Todo: I've yet to get the Dealt Card Piles to layout as required in portrait 
+            // on Windows. So for now, simply always show everything in landscape layout.
+            isPortrait = false;
+            //if (MainPage.MainPageSingleton != null)
+            //{
+            //    var grid = MainPage.MainPageSingleton.InnerMainGrid;
+            //    if (grid != null)
+            //    {
+            //        if ((grid.Bounds.Width > 0) && (grid.Bounds.Height > 0))
+            //        {
+            //            isPortrait = (grid.Bounds.Height > grid.Bounds.Width);
+            //        }
+            //    }
+            //}
 #endif
             return isPortrait;
         }
