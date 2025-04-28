@@ -148,7 +148,7 @@
     <value>9</value>
   </data>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.0</value>
+    <value>Accessible Solitaire V2.1</value>
   </data>
   <data name="AccessKeyClubsPileLabel.Text" xml:space="preserve">
     <value>Clubs pile:</value>
@@ -700,14 +700,18 @@ Please click the Menu button and review the Help content to learn how to get the
   </data>
   <data name="KeyboardShortcutsList" xml:space="preserve">
     <value>F1: Show this list of keyboard shortcuts.
+
 F6: Move keyboard focus between the main areas of the game.
+
 M: Screen reader announce available moves.
 U: Screen reader announce topmost upturned cards.
 T: Screen reader announce target card piles.
 D: Screen reader announce dealt card piles.
+
+H: Show full help content in Facebook.
 N: Click Next Card button.
 R: Restart game.
-H: Show full help content in Facebook.</value>
+Z: Show card zoom popup.</value>
   </data>
   <data name="KeyboardShortcutsTitle" xml:space="preserve">
     <value>Keyboard Shortcuts</value>
@@ -726,5 +730,8 @@ H: Show full help content in Facebook.</value>
   </data>
   <data name="FirstRunMessageWindows" xml:space="preserve">
     <value>Press the F1 key to learn about the keyboard shortcuts available in the game.</value>
+  </data>
+  <data name="ShowZoomPopup" xml:space="preserve">
+    <value>Show zoom popup</value>
   </data>
 </root>

@@ -95,6 +95,8 @@
                         <!-- Bind the visibility to the enabled state of the containing CardButton. -->
 
                         <Button x:Name="InnerButton" 
+                            Focused="CardButtonInnerButton_Focused"
+                            Unfocused="CardButtonInnerButton_Unfocused"
                             Margin="{Binding IsToggled, Mode=OneWay,
                                 Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton,
                                 Converter={StaticResource IsToggledToMarginConverter},

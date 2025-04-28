@@ -32,31 +32,37 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Image Grid.ColumnSpan="2" x:Name="TintedCardImage"
-            BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-            Source="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}">
+        <Border
+            StrokeThickness="1"
+            Stroke="{AppThemeBinding Light=Black, Dark=White}">
 
-            <Image.Behaviors>
+            <Image Grid.ColumnSpan="2" x:Name="TintedCardImage"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+                Source="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}">
 
-                <toolkit:IconTintColorBehavior
-                    BindingContext="{Binding Path=BindingContext, 
-                        Source={x:Reference TintedCardImage}}">
+                <Image.Behaviors>
 
-                    <toolkit:IconTintColorBehavior.TintColor>
-                        <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource SuitSuitColoursToColor}">
-                            <Binding Path="Card" />
-                            <Binding Path="AutomationId" />
-                            <Binding Path="SuitColoursClubs" />
-                            <Binding Path="SuitColoursDiamonds" />
-                            <Binding Path="SuitColoursHearts" />
-                            <Binding Path="SuitColoursSpades" />
-                        </MultiBinding>
-                    </toolkit:IconTintColorBehavior.TintColor>
+                    <toolkit:IconTintColorBehavior
+                        BindingContext="{Binding Path=BindingContext, 
+                            Source={x:Reference TintedCardImage}}">
 
-                </toolkit:IconTintColorBehavior>
-            </Image.Behaviors>
-        </Image>
+                        <toolkit:IconTintColorBehavior.TintColor>
+                            <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource SuitSuitColoursToColor}">
+                                <Binding Path="Card" />
+                                <Binding Path="AutomationId" />
+                                <Binding Path="SuitColoursClubs" />
+                                <Binding Path="SuitColoursDiamonds" />
+                                <Binding Path="SuitColoursHearts" />
+                                <Binding Path="SuitColoursSpades" />
+                            </MultiBinding>
+                        </toolkit:IconTintColorBehavior.TintColor>
+
+                    </toolkit:IconTintColorBehavior>
+                </Image.Behaviors>
+            </Image>
+
+        </Border>
 
         <!-- Note: This accessibility is set based on the Android TalkBack experience, NOT the earlier Samsung "Screen Reader". -->
 
@@ -73,5 +79,5 @@
             Clicked="CloseButton_Clicked" />
 
     </Grid>
-    
+
 </toolkit:Popup>

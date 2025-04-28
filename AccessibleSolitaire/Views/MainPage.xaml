@@ -102,6 +102,11 @@
                 SemanticProperties.Description="{Binding BindingContext.AccessibleName, Mode=OneWay, 
                     Source={RelativeSource Self}}"
                     Padding="0" Margin="0">
+                <FlyoutBase.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="{x:Static resources:StringResources.ShowZoomPopup}" />
+                    </MenuFlyout>
+                </FlyoutBase.ContextFlyout>
                 
                 <!-- The width and height of this Border and the contained Grid is unaffected by 
                     whether the dealt card is selected. -->

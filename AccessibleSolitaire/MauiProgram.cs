@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using Sa11ytaire4All.Source;
+using Sa11ytaire4All.ViewModels;
+using Sa11ytaire4All.Views;
 
 #if WINDOWS
 //using Microsoft.Maui.LifecycleEvents;
@@ -134,6 +137,35 @@ namespace Sa11ytaire4All
                 var shiftDown = shiftState.HasFlag(CoreVirtualKeyStates.Down);
 
                 MainPage.MainPageSingleton?.HandleF6(!shiftDown);
+            }
+            else if (e.Key == Windows.System.VirtualKey.Z)
+            {
+                // Note: Context menus seem to appear in response to a right click, but not in response
+                // to a press of the Context Menu key (VirtualKey.Application). So add a shortcut to 
+                // show the zoom card popup.
+
+                // Is keyboard focus on a CardButton?
+                var focusedCardButtonCard = CardButton.FocusedCardButtonCard;
+                if (focusedCardButtonCard != null)
+                {
+                    MainPage.MainPageSingleton?.ShowZoomedCardPopup(focusedCardButtonCard, false);
+                }
+                else
+                {
+                    var listViewItem = e.OriginalSource as Microsoft.UI.Xaml.Controls.ListViewItem;
+                    if ((listViewItem != null) && (listViewItem.Content != null))
+                    {
+                        var contentTemplateRoot = ((Microsoft.Maui.Controls.Platform.ItemContentControl)listViewItem.ContentTemplateRoot);
+                        if ((contentTemplateRoot != null) && (contentTemplateRoot.FormsDataContext != null))
+                        {
+                            var dealtCard = contentTemplateRoot.FormsDataContext as DealtCard;
+                            if (dealtCard != null)
+                            {
+                                MainPage.MainPageSingleton?.ShowZoomedCardPopup(dealtCard.Card, true);
+                            }
+                        }
+                    }
+                }
             }
             else
             {

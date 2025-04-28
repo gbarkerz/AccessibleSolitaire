@@ -465,4 +465,38 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
         MainPage.MainPageSingleton?.CardButtonClicked(button);
     }
+
+    private static Card? focusedCardButtonCard = null;
+
+    public static Card? FocusedCardButtonCard { get => focusedCardButtonCard; set => focusedCardButtonCard = value; }
+
+    private void CardButtonInnerButton_Focused(object sender, FocusEventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null)
+        {
+            var cardButton = button.BindingContext as CardButton;
+            if (cardButton != null)
+            {
+                Debug.WriteLine("Focused CardButton: " + cardButton.Card);
+
+                CardButton.FocusedCardButtonCard = card;
+            }
+        }
+    }
+
+    private void CardButtonInnerButton_Unfocused(object sender, FocusEventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null)
+        {
+            var cardButton = button.BindingContext as CardButton;
+            if (cardButton != null)
+            {
+                Debug.WriteLine("Unfocused CardButton: " + cardButton.Card);
+
+                CardButton.FocusedCardButtonCard = null;
+            }
+        }
+    }
 }
