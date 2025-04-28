@@ -453,7 +453,7 @@ namespace Sa11ytaire4All.Views
 #if WINDOWS
             if (cardSelected)
             {
-                cardWidth -= 32;
+                cardWidth -= 20;
             }
 #else
             if (cardSelected && !isPortrait)
@@ -491,7 +491,7 @@ namespace Sa11ytaire4All.Views
             if (cardSelected)
             {
 #if WINDOWS
-                cardHeight -= 32;
+                cardHeight -= 20;
 #else
                 // When a dealt card is selected in Portrait, wide horizontal lines appear at the top and bottom
                 // of the card. This is achieved by reducing the height of the card, and centring the image in its

@@ -4,9 +4,9 @@ using Microsoft.Maui.LifecycleEvents;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
+using System.Diagnostics;
 
 #if WINDOWS
-//using Microsoft.Maui.LifecycleEvents;
 using Microsoft.UI.Input;
 using Windows.System;
 using Windows.UI.Core;
@@ -152,25 +152,58 @@ namespace Sa11ytaire4All
                 }
                 else
                 {
-                    var listViewItem = e.OriginalSource as Microsoft.UI.Xaml.Controls.ListViewItem;
-                    if ((listViewItem != null) && (listViewItem.Content != null))
+                    var dealtCard = GetDealtCardFromListViewItem(e);
+                    if (dealtCard != null)
                     {
-                        var contentTemplateRoot = ((Microsoft.Maui.Controls.Platform.ItemContentControl)listViewItem.ContentTemplateRoot);
-                        if ((contentTemplateRoot != null) && (contentTemplateRoot.FormsDataContext != null))
-                        {
-                            var dealtCard = contentTemplateRoot.FormsDataContext as DealtCard;
-                            if (dealtCard != null)
-                            {
-                                MainPage.MainPageSingleton?.ShowZoomedCardPopup(dealtCard.Card, true);
-                            }
-                        }
+                        MainPage.MainPageSingleton?.ShowZoomedCardPopup(dealtCard.Card, true);
                     }
                 }
+            }
+            else if ((e.Key == Windows.System.VirtualKey.Space) ||
+                     (e.Key == Windows.System.VirtualKey.Enter))
+            {
+                e.Handled = false;
+
+                var dealtCard = GetDealtCardFromListViewItem(e);
+                if (dealtCard != null)
+                {
+                    // Always allow the default action when Space or Enter is pressed at a dealt card.
+                    // After that, perform the appropriate selection or deselection ourselves.
+                    if (dealtCard == MostRecentDealtCardKeyboardSpaceOrEnter)
+                    {
+                        MainPage.MainPageSingleton?.ToggleDealtCardSelectionFollowingKeyPress(dealtCard);
+
+                        e.Handled = true;
+                    }
+
+                    MostRecentDealtCardKeyboardSpaceOrEnter = dealtCard;
+                }
+
+                Debug.WriteLine("Process Space or Enter press: Handled " + e.Handled);
             }
             else
             {
                 e.Handled = false;
             }
+        }
+
+        static private DealtCard MostRecentDealtCardKeyboardSpaceOrEnter = null;
+
+        static private DealtCard? GetDealtCardFromListViewItem(Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            DealtCard? dealtCard = null;
+
+            var listViewItem = e.OriginalSource as Microsoft.UI.Xaml.Controls.ListViewItem;
+            if ((listViewItem != null) && (listViewItem.Content != null))
+            {
+                var contentTemplateRoot = ((Microsoft.Maui.Controls.Platform.ItemContentControl)listViewItem.ContentTemplateRoot);
+                if ((contentTemplateRoot != null) && (contentTemplateRoot.FormsDataContext != null))
+                {
+                    dealtCard = contentTemplateRoot.FormsDataContext as DealtCard;
+                }
+            }
+
+            return dealtCard;
         }
 #endif
     }

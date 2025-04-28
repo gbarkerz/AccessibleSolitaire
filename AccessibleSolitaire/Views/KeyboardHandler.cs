@@ -311,6 +311,25 @@ namespace Sa11ytaire4All
 
             this.ShowPopup(popup);
         }
+
+        public void ToggleDealtCardSelectionFollowingKeyPress(DealtCard dealtCard)
+        {
+            if (dealtCard != null)
+            {
+                var collectionView = FindCollectionViewFromDealtCard(dealtCard);
+                if (collectionView != null)
+                {
+                    if (dealtCard.CardSelected)
+                    {
+                        collectionView.SelectedItem = null;
+                    }
+                    else
+                    {
+                        collectionView.SelectedItem = dealtCard;
+                    }
+                }
+            }
+        }
 #endif
     }
 }
