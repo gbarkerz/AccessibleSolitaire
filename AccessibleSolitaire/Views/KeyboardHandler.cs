@@ -82,6 +82,12 @@ namespace Sa11ytaire4All
                         destinationCard = item as DealtCard;
                         if (destinationCard != null)
                         {
+                            // If this card is face down, ignore it.
+                            if (destinationCard.CardState == CardState.FaceDown)
+                            {
+                                continue;
+                            }
+
                             // Next check whether the upturned card pile can be moved on to the destination dealt card.
                             if (upturnedPseudoCard != null)
                             {

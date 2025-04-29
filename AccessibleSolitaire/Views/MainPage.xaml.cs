@@ -1165,11 +1165,11 @@ namespace Sa11ytaire4All
 
         private void StateAnnouncementButton_Clicked(object sender, EventArgs e)
         {
-            var announcementRemainingCards = AnnounceStateRemainingCards();
+            var announcementRemainingCards = AnnounceStateRemainingCards(false);
 
-            var announceStateTargetPiles = AnnounceStateTargetPiles();
+            var announceStateTargetPiles = AnnounceStateTargetPiles(false);
 
-            var announcementDealtCards = AnnounceStateDealtCardPiles();
+            var announcementDealtCards = AnnounceStateDealtCardPiles(false);
 
             var fullAnnouncement = announcementRemainingCards + " " +
                                     announceStateTargetPiles + " " +
@@ -1224,7 +1224,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        public string AnnounceStateRemainingCards()
+        public string AnnounceStateRemainingCards(bool makeAnnouncement)
         {
             string stateMessage = "";
 
@@ -1261,10 +1261,15 @@ namespace Sa11ytaire4All
                 stateMessage += " " + MyGetString("MoreCardsAreAvailable") + ".";
             }
 
+            if (makeAnnouncement)
+            {
+                MakeDelayedScreenReaderAnnouncement(stateMessage);
+            }
+
             return stateMessage;
         }
 
-        public string AnnounceStateTargetPiles()
+        public string AnnounceStateTargetPiles(bool makeAnnouncement)
         {
             string stateMessage = MyGetString("TargetPiles") + ", ";
 
@@ -1281,6 +1286,11 @@ namespace Sa11ytaire4All
                 (TargetPileS.Card == null ?
                     empty + " " + MyGetString("Spades") + " " + pile : TargetPileS.Card.GetCardAccessibleName()) + ".";
 
+            if (makeAnnouncement)
+            {
+                MakeDelayedScreenReaderAnnouncement(stateMessage);
+            }
+
             return stateMessage;
         }
 
@@ -1295,7 +1305,7 @@ namespace Sa11ytaire4All
             return requiredString;
         }
 
-        public string AnnounceStateDealtCardPiles()
+        public string AnnounceStateDealtCardPiles(bool makeAnnouncement)
         {
             string stateMessage = "";
 
@@ -1359,6 +1369,11 @@ namespace Sa11ytaire4All
 
                     stateMessage += (i < cCardPiles - 1 ? ", " : ".");
                 }
+            }
+
+            if (makeAnnouncement)
+            {
+                MakeDelayedScreenReaderAnnouncement(stateMessage);
             }
 
             return stateMessage;

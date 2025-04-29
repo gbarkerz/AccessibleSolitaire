@@ -109,15 +109,15 @@ namespace Sa11ytaire4All
             }
             else if (e.Key == Windows.System.VirtualKey.U)
             {
-                MainPage.MainPageSingleton?.AnnounceStateRemainingCards();
+                MainPage.MainPageSingleton?.AnnounceStateRemainingCards(true);
             }
             else if (e.Key == Windows.System.VirtualKey.T)
             {
-                MainPage.MainPageSingleton?.AnnounceStateTargetPiles();
+                MainPage.MainPageSingleton?.AnnounceStateTargetPiles(true);
             }
             else if (e.Key == Windows.System.VirtualKey.D)
             {
-                MainPage.MainPageSingleton?.AnnounceStateDealtCardPiles();
+                MainPage.MainPageSingleton?.AnnounceStateDealtCardPiles(true);
             }
             else if (e.Key == Windows.System.VirtualKey.R)
             {
