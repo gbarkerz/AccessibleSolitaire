@@ -2,6 +2,8 @@
 
 The Accessible Solitaire game is an exploration into building the most accessible solitaire game possible for iOS devices like iPhones and iPads, and Android phones. 
 
+A Windows version of the Accessible Solitaire game is currently under development, and related notes on that Windows version are included towards the end of this ReadMe.
+
 Today the game focuses on the experiences for players who use zoom features, screen readers, switch devices, or speech to play their games. The game can always be made more accessible, so please provide feedback to help me learn how I should prioritise its accessibility improvements.
 
 Your feedback can make a real difference, so please let me know by messaging "Sa11ytaire Help" at Facebook, or e-mail gbarkerz@hotmail.com.
@@ -259,3 +261,80 @@ Figure 28: A solitaire game running on Android in a portrait screen orientation.
 
 Figure 29: A solitaire game running on iOS in a portrait screen orientation.
 ![iOS: A game in progress with the seven dealt cards piles shown running vertically down thw screen, and each dealt card piles' cards running horizontally.](/ReadmeScreenshots/Android_Portrait.jpg)
+
+# Accessible Solitaire for Windows
+
+The Windows version of the Accessible Solitaire is still under development and has yet to be published. The following details relate to this app, and I hope to publish it to the Microsoft Store as soon as possible.
+
+The Windows app currently focuses on the game experience when using the keyboard, and not using other types of input at the device. Of particular interest is the screen reader experience when playing the game.
+
+The announcements made by a screen reader are the same (or very similar) to those made by screen readers when then game is played on an Apple device or Android phone.
+
+### Navigation
+
+The standard use of the Tab key and Arrow keys are used to navigate through the game. That is, a press of Tab (or Shift Tab) moves keyboard focus forward (or backward) through the elements in the game, and when keyboard focus is in a Dealt Card Pile, a 	press of the Up or Down Arrow moves keyboard focus up or down the items in the Dealt Card Pile.
+
+Please note that while keyboard focus shows as a large border around the focused element in most places in the game, it appears as a thin border around the card in the Dealt Card piles.
+
+The following image shows an in-progress Accessible Solitaire game running on Windows. Keyboard focus is at the four of Diamonds in the Diamonds Target Card pile, and the card has a black border which is much thicker than that shown around any other card.
+
+![Windows: An in-progress Accessible Solitaire game running on Windows. Keyboard focus is at the four of Diamonds in the Diamonds Target Card pile, and the card has a black border which is much thicker than that shown around any other card.](/ReadmeScreenshots/Windows_KeyboardFocus.jpg)
+
+### Clicking and Selecting
+
+When keyboard focus is at the Menu button or Next Card button, a press of Space or Enter will click the button. When keyboard focus is at a playing card anywhere in the game, a press of Space or Enter will select or deselect the card.
+
+The following image shows an in-progress Accessible Solitaire game running on Windows. A thick purple border is shown around the seven of Diamonds in the fifth Dealt Card pile, indicating that this card is selected.
+
+![Windows: An in-progress Accessible Solitaire game running on Windows.  thick purple border is shown around the seven of Diamonds in the fifth Dealt Card pile, indicating that this card is selected.](/ReadmeScreenshots/Windows_Selection.jpg)
+
+### Keyboard shortcuts
+
+F1: Pop up a window showing a list of keyboard shortcuts.
+
+F6 or Shift+F6: Move keyboard focus between the main areas of the game. When F6 is pressed, keyboard focus moves between the Next Card button, the Clubs Target Card pile, and the Dealt Card piles. Note that when keyboard focus is moved to the Dealt Card piles, keyboard focus does not appear until the Tab key is next pressed and keyboard focus moves to a playing card in one of the Dealt Card piles. 
+
+H: Show full help content in Facebook.
+N: Click Next Card button.
+R: Restart the game.
+Z: Show the zoom popup window for the playing card which currently has keyboard focus.
+
+The following image shows a window covering most of the Accessible Solitaire game, listing all available keyboard shortcuts.
+
+![Windows: A window covering most of the Accessible Solitaire game, listing all available keyboard shortcuts.](/ReadmeScreenshots/Windows_ShortcutList.jpg)
+
+The following image shows a large Window covering approximately half the Accessible Solitaire game running on Windows. The window shows a very large version of the six of Hearts playing card.
+
+![Windows: A large Window covering approximately half the Accessible Solitaire game running on Windows. The window shows a very large version of the six of Hearts playing card.](/ReadmeScreenshots/Window_ZoomCard.jpg)
+
+### Screen reader keyboard shortcuts
+
+When the following keyboard shortcuts are pressed, the game requests that if a screen reader is running, the following screen reader announcements are to be made.
+ 
+M: Announce available moves in the game.
+U: Announce the state of the topmost cards in the Upturned Cards pile.
+T: Announce the state of the Target Card piles.
+D: Announce the state of the Dealt Card piles.
+
+Regarding the screen reader’s announcement of available moves in the game, those moves include moving the topmost upturned card to a Target Card pile or to a Dealt Card pile, and moving a card from the top of a Dealt Card pile to a Target Card pile, or moving the lowest face-up card in a Dealt Card pile to the top of another Dealt Card pile. While there may be other moves available in the game which are not announced, the announced moves are typically the moves of most interest.
+
+Please also note that even if an available move is announced, that doesn’t necessarily mean that making that move can help to win the game, or even if the game can be won.
+
+The following image shows the NVDA Speech Viewer partially covering the Accessible Solitaire game. The speech viewer shows that in response to a press of the ‘m’ key, NVDA announced: “8 of Hearts in Dealt card pile 7 can be moved to Dealt card pile 3, 6 of Spades on Upturned card pile can be moved to Dealt card pile 6, 6 of Clubs in Dealt card pile 4 can be moved to Dealt card pile 6”. 
+
+![Windows: The NVDA Speech Viewer partially covering the Accessible Solitaire game. The speech viewer shows that in response to a press of the ‘m’ key, NVDA announced: “8 of Hearts in Dealt card pile 7 can be moved to Dealt card pile 3, 6 of Spades on Upturned card pile can be moved to Dealt card pile 6, 6 of Clubs in Dealt card pile 4 can be moved to Dealt card pile 6”](/ReadmeScreenshots/Windows_AnnounceMoves.jpg)
+
+The following image shows the NVDA Speech Viewer partially covering the Accessible Solitaire game. The speech viewer shows that in response to a press of the ‘u’ key, NVDA announced: “Top upturned card is 7 of Clubs, then Queen of Diamonds, then 10 of Diamonds.  More cards are available to turn over.” And in response to a press of the ‘t’ key, NVDA announced: “Target piles, Empty Clubs Pile, Ace of Diamonds, 2 of Hearts, 3 of Spades.”
+
+![Windows: The NVDA Speech Viewer partially covering the Accessible Solitaire game. The speech viewer shows that in response to a press of the ‘u’ key, NVDA announced: “Top upturned card is 7 of Clubs, then Queen of Diamonds, then 10 of Diamonds.  More cards are available to turn over.” And in response to a press of the ‘t’ key, NVDA announced: “Target piles, Empty Clubs Pile, Ace of Diamonds, 2 of Hearts, 3 of Spades.”](/ReadmeScreenshots/Windows_AnnounceState.jpg)
+
+### Differences between the Windows version of the game and the Apple and Android versions.
+
+Today the Windows version has no setting to merge the face-down cards in each Dealt Card pile.
+
+The Windows version also has no support for playing sounds in response to specific actions in the game. 
+
+The headings for settings shown on the Settings page visually appear unusually large.
+
+The game always shows its landscape layout, regardless of whether the app window currently has a portrait orientation.
+
