@@ -12,6 +12,31 @@ namespace Sa11ytaire4All.Views
     // device. At some point, replace these unusual converters with whatever the
     // correct way of setting orientation-specific properties is.
 
+    public class IsToggledToBorderPaddingConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var padding = 0;
+
+#if WINDOWS
+            padding = 4;
+#endif
+
+            return padding;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
     public class IsButtonFocusedToOuterBorderBackgroundColor : IMultiValueConverter
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -786,6 +811,9 @@ namespace Sa11ytaire4All.Views
             {
                 var paramValue = parameter.ToString();
 
+#if WINDOWS
+                margin = new Thickness(8);
+#else
                 // Note: We currently show the same margin sizes for the dealt cards and all other cards.
                 if (MainPage.IsPortrait())
                 {
@@ -793,8 +821,9 @@ namespace Sa11ytaire4All.Views
                 }
                 else
                 {
-                    margin = new Thickness(8);
+                    margin = new Thickness(8, 0, 8, 0);
                 }
+#endif
             }
             else
             {

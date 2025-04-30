@@ -11,6 +11,7 @@
              x:DataType="{x:Type local_views:CardButton}">
 
     <ContentView.Resources>
+        <local_views:IsToggledToBorderPaddingConverter x:Key="IsToggledToBorderPaddingConverter" />
         <local_views:IsButtonFocusedToOuterBorderBackgroundColor x:Key="IsButtonFocusedToOuterBorderBackgroundColor" />
         <local_views:IsButtonFocusedToInnerBorderBackgroundColor x:Key="IsButtonFocusedToInnerBorderBackgroundColor" />
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
@@ -43,7 +44,9 @@
                 <!-- Barker Todo: Consider setting the Stroke and StrokeThickness for the Borders below
                     rather than their BackgroundColors. -->
         
-                <Border Margin="0" Padding="4"
+                <Border Margin="0" 
+                    Padding="{Binding IsToggled, Mode=OneWay,
+                        Converter={StaticResource IsToggledToBorderPaddingConverter}}"
                     StrokeThickness="0">
                     <Border.BackgroundColor>
                         <MultiBinding Mode="OneWay" 
@@ -62,7 +65,9 @@
                         </MultiBinding>
                     </Border.BackgroundColor>
 
-                    <Border Margin="0" Padding="4"
+                    <Border Margin="0" 
+                        Padding="{Binding IsToggled, Mode=OneWay,
+                            Converter={StaticResource IsToggledToBorderPaddingConverter}}"
                         StrokeThickness="0">
                         <Border.BackgroundColor>
 
