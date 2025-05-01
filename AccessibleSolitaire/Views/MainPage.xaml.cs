@@ -76,7 +76,7 @@ namespace Sa11ytaire4All
             suitColours.Add("Dark Violet", Colors.DarkViolet);
             suitColours.Add("White", Colors.White);
             suitColours.Add("Yellow", Colors.Yellow);
-            suitColours.Add("Pink", Colors.Pink);
+            suitColours.Add("Pink", Color.FromArgb("#FFFF74A0")); // Colors.Pink is too light. 
             suitColours.Add("Cyan", Colors.Cyan);
             suitColours.Add("Light Blue", Colors.LightBlue);
             suitColours.Add("Light Green", Colors.LightGreen);
@@ -576,7 +576,7 @@ namespace Sa11ytaire4All
             return suitColour;
         }
 
-        private Timer timerSetSuitColours;
+        private Timer? timerSetSuitColours;
 
         private void DelayedTimerSetSuitColours()
         {
@@ -901,21 +901,29 @@ namespace Sa11ytaire4All
             SetUpturnedCardsVisuals();
         }
 
+        private void SetCardButtonToggledSelectionState(CardButton cardButton, bool isSelected)
+        {
+            if (cardButton.IsToggled != isSelected)
+            {
+                cardButton.IsToggled = isSelected;
+
+#if WINDOWS
+                cardButton.RefreshVisuals();
+#endif
+            }
+        }
+
         private void ClearCardButtonSelections(bool includeUpturnedCard)
         {
             if (includeUpturnedCard)
             {
-                CardDeckUpturned.IsToggled = false;
-
-#if WINDOWS
-                CardDeckUpturned.RefreshVisuals();
-#endif
+                SetCardButtonToggledSelectionState(CardDeckUpturned, false);
             }
 
-            TargetPileC.IsToggled = false;
-            TargetPileD.IsToggled = false;
-            TargetPileH.IsToggled = false;
-            TargetPileS.IsToggled = false;
+            SetCardButtonToggledSelectionState(TargetPileC, false);
+            SetCardButtonToggledSelectionState(TargetPileD, false);
+            SetCardButtonToggledSelectionState(TargetPileH, false);
+            SetCardButtonToggledSelectionState(TargetPileS, false);
         }
 
         public void RestartGame(bool screenReaderAnnouncement)
@@ -1030,51 +1038,76 @@ namespace Sa11ytaire4All
             }
             else
             {
-                CardDeckUpturned.IsEnabled = true;
-                CardDeckUpturned.Card = _deckUpturned[_deckUpturned.Count - 1];
-
-                CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 1 ?
-                                                        _deckUpturned[_deckUpturned.Count - 2] : null);
-
-                CardDeckUpturnedObscuredLower.Card = (_deckUpturned.Count > 2 ?
-                                                        _deckUpturned[_deckUpturned.Count - 3] : null);
-
-                // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-
-                // Barker Todo: Re-enable this on iOS and Android if necessary.
-                //SetCardSuitColours(CardDeckUpturned);
-                //SetCardSuitColours(CardDeckUpturnedObscuredHigher);
-                //SetCardSuitColours(CardDeckUpturnedObscuredLower);
+                SetUpturnedCards();
             }
+        }
+
+        private void SetUpturnedCards()
+        {
+            CardDeckUpturned.IsEnabled = true;
+            CardDeckUpturned.Card = _deckUpturned[_deckUpturned.Count - 1];
+
+            CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 1 ?
+                                                    _deckUpturned[_deckUpturned.Count - 2] : null);
+
+            CardDeckUpturnedObscuredLower.Card = (_deckUpturned.Count > 2 ?
+                                                    _deckUpturned[_deckUpturned.Count - 3] : null);
+
+            // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
+
+            // Barker Todo: Re-enable this on iOS and Android if necessary.
+            //SetCardSuitColours(CardDeckUpturned);
+            //SetCardSuitColours(CardDeckUpturnedObscuredHigher);
+            //SetCardSuitColours(CardDeckUpturnedObscuredLower);
         }
 
         private void SetCardSuitColours(CardButton cardButton)
         {
-            if (cardButton.Card == null)
-            {
-                return;
-            }
-
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
-                switch (cardButton.Card.Suit)
+                if (cardButton.Card == null)
                 {
-                    case Suit.Clubs:
-                        cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
-                        break;
+                    string pileId = cardButton.AutomationId.Replace("TargetPile", "");
+                    switch (pileId)
+                    {
+                        case "C":
+                            cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
+                            break;
 
-                    case Suit.Diamonds:
-                        cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
-                        break;
+                        case "D":
+                            cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
+                            break;
 
-                    case Suit.Hearts:
-                        cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
-                        break;
+                        case "H":
+                            cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
+                            break;
 
-                    case Suit.Spades:
-                        cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
-                        break;
+                        case "S":
+                            cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (cardButton.Card.Suit)
+                    {
+                        case Suit.Clubs:
+                            cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
+                            break;
+
+                        case Suit.Diamonds:
+                            cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
+                            break;
+
+                        case Suit.Hearts:
+                            cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
+                            break;
+
+                        case Suit.Spades:
+                            cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
+                            break;
+                    }
                 }
             }
         }

@@ -660,7 +660,7 @@
 
                     <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
-                        BackgroundColor="LightGreen"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="8,0,2,0" Padding="0"
                         LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
                             Source={x:Reference MainPageInstance},
@@ -670,7 +670,7 @@
 
                     <local_views:CardButton Grid.Column="1" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
-                        BackgroundColor="LightGreen"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="0,0,2,0" Padding="0"
                         LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
                             Source={x:Reference MainPageInstance},
@@ -680,7 +680,7 @@
 
                     <local_views:CardButton Grid.Column="2" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
-                        BackgroundColor="LightGreen"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="0,0,2,0" Padding="0"
                         LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
                             Source={x:Reference MainPageInstance},
@@ -690,7 +690,7 @@
 
                     <local_views:CardButton Grid.Column="3" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
-                        BackgroundColor="LightGreen"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="0,0,8,0" Padding="0"
                         LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
                             Source={x:Reference MainPageInstance},

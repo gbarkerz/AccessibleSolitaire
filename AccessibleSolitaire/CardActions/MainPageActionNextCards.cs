@@ -105,10 +105,7 @@ namespace Sa11ytaire4All
             {
                 // There is no upturned card in the upturned card pile. So 
                 // make sure the empty upturned card is not left selected.
-                if (CardDeckUpturned.IsToggled)
-                {
-                    CardDeckUpturned.IsToggled = false;
-                }
+                SetCardButtonToggledSelectionState(CardDeckUpturned, false);
 
                 return;
             }
@@ -123,7 +120,7 @@ namespace Sa11ytaire4All
         private void ToggleUpturnedCardSelection(CardButton cardDeckUpturned)
         {
             // Change the selection state of the upturned card.
-            cardDeckUpturned.IsToggled = !cardDeckUpturned.IsToggled;
+            SetCardButtonToggledSelectionState(CardDeckUpturned, !cardDeckUpturned.IsToggled);
 
 #if WINDOWS
             // On Windows, the acual width of the card doesn't update without a nudge.

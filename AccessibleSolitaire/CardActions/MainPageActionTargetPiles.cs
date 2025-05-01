@@ -47,7 +47,7 @@ namespace Sa11ytaire4All
 
             if (obscuredCardButton != null)
             {
-                obscuredCardButton.IsToggled = false;
+                SetCardButtonToggledSelectionState(obscuredCardButton, false);
 
                 MakeDelayedScreenReaderAnnouncement(
                     MainPage.MyGetString("ObscuredUpturnedCardCannotBeSelected"));
@@ -61,7 +61,7 @@ namespace Sa11ytaire4All
             }
 
             // Change the selection state of the target pile CardButton.
-            cardButton.IsToggled = !cardButton.IsToggled;
+            SetCardButtonToggledSelectionState(cardButton, !cardButton.IsToggled);
 
 #if WINDOWS
             // On Windows, the acual width of the card doesn't update without a nudge.
@@ -126,7 +126,7 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            CardDeckUpturned.IsToggled = false;
+            SetCardButtonToggledSelectionState(CardDeckUpturned, false);
 
             ClearDealtCardPileSelections();
 
@@ -140,7 +140,7 @@ namespace Sa11ytaire4All
             else
             {
                 // Do not leave an empty target card pile selected when no card was moved to it.
-                cardButton.IsToggled = false;
+                SetCardButtonToggledSelectionState(cardButton, false);
             }
 
             if (GameOver())
@@ -319,7 +319,7 @@ namespace Sa11ytaire4All
 
             if (_targetPiles[targetPileIndex].Count == 0)
             {
-                cardButton.IsToggled = false;
+                SetCardButtonToggledSelectionState(cardButton, false);
             }
 
             return false;

@@ -192,9 +192,9 @@ namespace Sa11ytaire4All.Views
                 return null;
             }
 
-            // We must have all suit colours supplied.
-            if ((values[2] == null) || (values[3] == null) ||
-                (values[4] == null) || (values[5] == null))
+            // We must have at least one suit colour supplied.
+            if ((values[2] == null) && (values[3] == null) &&
+                (values[4] == null) && (values[5] == null))
             {
                 return null;
             }
