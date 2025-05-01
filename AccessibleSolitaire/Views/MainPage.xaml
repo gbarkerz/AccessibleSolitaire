@@ -535,7 +535,7 @@
                     <!-- Add the Next Card button. -->
                     <local_source:NextCardPileButton Grid.Column="0" x:Name="NextCardDeck" 
                         Clicked="NextCard_Click"
-                        BackgroundColor="#0ED145"
+                        BackgroundColor="{AppThemeBinding Light=#0ED145, Dark=#0BA938}"
                         SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 
                             Source={RelativeSource Self}, 
                             x:DataType={x:Type local_source:NextCardPileButton},
