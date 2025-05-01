@@ -6,3 +6,6 @@
 AccessibleSolitaire/AccessibleSolitaire.csproj.user
 /AccessibleSolitaire/bin
 /AccessibleSolitaire/obj
+AccessibleSolitaire/Package.StoreAssociation.xml
+AccessibleSolitaire/Platforms/Windows/Package.appxmanifest
+AccessibleSolitaire/Properties/PublishProfiles/MSIX-win-x64.pubxml
