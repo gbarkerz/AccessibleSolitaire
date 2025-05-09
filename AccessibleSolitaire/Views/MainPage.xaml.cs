@@ -1054,11 +1054,9 @@ namespace Sa11ytaire4All
                                                     _deckUpturned[_deckUpturned.Count - 3] : null);
 
             // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-
-            // Barker Todo: Re-enable this on iOS and Android if necessary.
-            //SetCardSuitColours(CardDeckUpturned);
-            //SetCardSuitColours(CardDeckUpturnedObscuredHigher);
-            //SetCardSuitColours(CardDeckUpturnedObscuredLower);
+            SetCardSuitColours(CardDeckUpturned);
+            SetCardSuitColours(CardDeckUpturnedObscuredHigher);
+            SetCardSuitColours(CardDeckUpturnedObscuredLower);
         }
 
         private void SetCardSuitColours(CardButton cardButton)

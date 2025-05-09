@@ -50,6 +50,7 @@
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <DefaultLanguage>en-gb</DefaultLanguage>
   </PropertyGroup>
 
   <!--<PropertyGroup>

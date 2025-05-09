@@ -9,3 +9,4 @@ AccessibleSolitaire/AccessibleSolitaire.csproj.user
 AccessibleSolitaire/Package.StoreAssociation.xml
 AccessibleSolitaire/Platforms/Windows/Package.appxmanifest
 AccessibleSolitaire/Properties/PublishProfiles/MSIX-win-x64.pubxml
+AccessibleSolitaire/Platforms/Windows/Package.appxmanifest
