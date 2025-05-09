@@ -1388,7 +1388,7 @@ namespace Sa11ytaire4All
 
                 if ((indexLastFaceUp != -1) && (indexLastFaceUp != vm.DealtCards[i].Count - 1))
                 {
-                    stateMessage += " " + to + " " + (vm.DealtCards[i][indexLastFaceUp] as DealtCard).AccessibleName;
+                    stateMessage += " " + to + " " + (vm.DealtCards[i][indexLastFaceUp] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
                 }
 
                 stateMessage += ", ";

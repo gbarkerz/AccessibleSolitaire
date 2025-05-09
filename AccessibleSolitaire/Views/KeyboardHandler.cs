@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
@@ -9,7 +10,6 @@ namespace Sa11ytaire4All
     // This file contains code relating to reacting to keyboard input.
     public partial class MainPage : ContentPage
     {
-
 #if WINDOWS
         public void AnnounceAvailableMoves()
         {
@@ -29,7 +29,6 @@ namespace Sa11ytaire4All
             // This is important, because it's not the same dealt card as when checking whether a dealt card
             // can be moved to a Target cad pile. For a move from a dealt card pile to a Target card pile,
             // we only check the topmost card in the dealt card pile.
-
 
             int numberOfMoves = 0;
             string moveComment = "";
@@ -76,6 +75,8 @@ namespace Sa11ytaire4All
                 var destinationDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (d + 1));
                 if (destinationDealtCardPile != null)
                 {
+                    var countOfCardsInPile = destinationDealtCardPile.ItemsSource.Cast<DealtCard>().Count();
+
                     var items = destinationDealtCardPile.ItemsSource;
                     foreach (var item in items)
                     {
@@ -107,21 +108,25 @@ namespace Sa11ytaire4All
                             }
 
                             // Next check whether the destination card can be moved on to a target card pile.
-                            suitTarget = CanCardBeMovedToTargetPile(destinationCard);
-                            if (!string.IsNullOrEmpty(suitTarget))
+                            // Only do this if this card has no other cards lying on top of it.
+                            if (destinationCard.CurrentCardIndexInDealtCardPile == countOfCardsInPile - 1)
                             {
-                                if (numberOfMoves > 0)
+                                suitTarget = CanCardBeMovedToTargetPile(destinationCard);
+                                if (!string.IsNullOrEmpty(suitTarget))
                                 {
-                                    moveComment += ", \r\n";
+                                    if (numberOfMoves > 0)
+                                    {
+                                        moveComment += ", \r\n";
+                                    }
+
+                                    ++numberOfMoves;
+
+                                    moveComment += destinationCard.AccessibleNameWithoutSelectionAndMofN +
+                                        " " +
+                                        onString + " " + dealtCardPile + " " + (d + 1).ToString() +
+                                        " " + canBeMovedTo + " " +
+                                        suitTarget + " target card pile";
                                 }
-
-                                ++numberOfMoves;
-
-                                moveComment += destinationCard.AccessibleNameWithoutSelectionAndMofN +
-                                    " " +
-                                    onString + " " + dealtCardPile + " " + (d + 1).ToString() +
-                                    " " + canBeMovedTo + " " +
-                                    suitTarget + " target card pile";
                             }
 
                             // Now move through all the dealt card piles looking for a source card for amove.
@@ -159,6 +164,13 @@ namespace Sa11ytaire4All
                                     // Ok, we now have the lowest face-up card in the source dealt card pile.
                                     if (sourceCard != null)
                                     {
+                                        // Also, don't check whether an Ace in one dealt card pile can be moved onto 
+                                        // a Two in another dealt card pile. That's not particularly helpful.
+                                        if (sourceCard.Card.Rank == 1)
+                                        {
+                                            continue;
+                                        }
+
                                         // Check whether the source card can be moved on top of another card in 
                                         // the destination pile.
 
@@ -268,7 +280,7 @@ namespace Sa11ytaire4All
                 }
                 else
                 {
-                    CardPile1.Focus();
+                    MoveFocusToDealtCardPiles();
                 }
             }
             else if (IsCardButtonFocused(TargetPileC) ||
@@ -278,7 +290,7 @@ namespace Sa11ytaire4All
             {
                 if (forward)
                 {
-                    CardPile1.Focus();
+                    MoveFocusToDealtCardPiles();
                 }
                 else
                 {
@@ -296,6 +308,19 @@ namespace Sa11ytaire4All
                     TargetPileC.Focus();
                 }
             }
+        }
+
+        private void MoveFocusToDealtCardPiles()
+        {
+            CardPileGrid.Focus();
+
+            // Barker Todo: It seems that while keyboard focus moves to the dealt card piles Grid
+            // (or to CardPile1 if we chose to focus that instead of the Grid), no UIA FocusChanged 
+            // event is raised, and as such, a screen reader doesn't announce anything. Until this 
+            // is understood, manually announce the dealt card piles Grid. I do appreciate how 
+            // not-recommended this action is, but it plugs a hole in the UX for the moment.
+            var cardPile1Name = SemanticProperties.GetDescription(CardPileGrid);
+            MakeDelayedScreenReaderAnnouncement(cardPile1Name);
         }
 
         private bool IsCardButtonFocused(CardButton cardButton)
