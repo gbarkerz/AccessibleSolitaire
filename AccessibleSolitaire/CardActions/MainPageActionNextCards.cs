@@ -123,7 +123,7 @@ namespace Sa11ytaire4All
             SetCardButtonToggledSelectionState(CardDeckUpturned, !cardDeckUpturned.IsToggled);
 
 #if WINDOWS
-            // On Windows, the acual width of the card doesn't update without a nudge.
+            // On Windows, the actual width of the card doesn't update without a nudge.
             cardDeckUpturned.RefreshVisuals();
 #endif
 

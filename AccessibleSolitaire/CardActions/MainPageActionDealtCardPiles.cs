@@ -580,7 +580,7 @@ namespace Sa11ytaire4All
                 cardBelow.CardSelected = true;
 
 #if WINDOWS
-                // On Windows, the acual width of the card doesn't update without a nudge.
+                // On Windows, the actual width of the card doesn't update without a nudge.
                 cardBelow.RefreshVisuals();
 #endif
 
@@ -807,7 +807,7 @@ namespace Sa11ytaire4All
                     cardRevealedName = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
 
 #if WINDOWS
-                    // On Windows, the acual width of the card doesn't update without a nudge.
+                    // On Windows, the actual width of the card doesn't update without a nudge.
                     cardRevealed.RefreshVisuals();
 #endif
 
@@ -901,13 +901,17 @@ namespace Sa11ytaire4All
                     {
                         var listArray = vm.DealtCards[listAlreadySelectedIndex];
 
-                        var removedItem = listArray[listArray.Count - 1];
+                        var previousItemCount = listArray.Count;
+
+                        var removedItem = listArray[previousItemCount - 1];
                         items.Remove(removedItem);
+
+                        var updatedItemCount = previousItemCount - 1;
 
                         DealtCard? cardRevealed = null;
 
                         // Is the dealt card pile now empty?
-                        if (listArray.Count == 0)
+                        if (updatedItemCount == 0)
                         {
                             AddEmptyCardToCollectionView(items, listAlreadySelectedIndex);
                         }
@@ -915,22 +919,27 @@ namespace Sa11ytaire4All
                         {
                             // The source list is not empty. We will reveal the face-down card in the list
                             // where the card is moving from.
-                            cardRevealed = (DealtCard)listArray[listArray.Count - 1];
+                            cardRevealed = (DealtCard)listArray[updatedItemCount - 1];
 
                             // Update the count of face-down cards in the pile in the bottom card in the pile.
                             UpdatePileFaceDownCount(listArray, cardRevealed);
-                        }
 
-                        listArray[listArray.Count - 1].IsLastCardInPile = true;
-                        listArray[listArray.Count - 1].FaceDown = false;
+                            listArray[updatedItemCount - 1].IsLastCardInPile = true;
+                            listArray[updatedItemCount - 1].FaceDown = false;
+
+#if WINDOWS
+                            // On Windows, the actual width of the card doesn't update without a nudge.
+                            listArray[updatedItemCount - 1].RefreshVisuals();
+#endif
+                        }
 
                         if (cardRevealed != null)
                         {
                             cardRevealed.CardState = CardState.FaceUp;
 
-                            if (cardRevealed.AccessibleName != null)
+                            if (!string.IsNullOrEmpty(cardRevealed.AccessibleName))
                             {
-                                cardRevealedAnnouncement = cardRevealed.AccessibleName;
+                                cardRevealedAnnouncement = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
                             }
                         }
                         else
@@ -939,7 +948,7 @@ namespace Sa11ytaire4All
                         }
 
 #if WINDOWS
-                        // On Windows, the acual width of the card doesn't update without a nudge.
+                        // On Windows, the actual width of the card doesn't update without a nudge.
                         listArray[listArray.Count - 1].RefreshVisuals();
 #endif
 
@@ -967,11 +976,16 @@ namespace Sa11ytaire4All
                         {
                             var listArray = vm.DealtCards[listAlreadySelectedIndex];
 
-                            var removedItem = listArray[listArray.Count - 1];
+                            var previousItemCount = listArray.Count;
+
+                            // Remove the last item in the list.
+                            var removedItem = listArray[previousItemCount - 1];
                             listArray.Remove(removedItem);
 
+                            var updatedItemCount = previousItemCount - 1;
+
                             // Is the dealt card pile now empty?
-                            if (listArray.Count == 0)
+                            if (updatedItemCount < 1)
                             {
                                 AddEmptyCardToCollectionView(listArray, listAlreadySelectedIndex);
 
@@ -979,26 +993,27 @@ namespace Sa11ytaire4All
                             }
                             else
                             {
-                                var cardRevealed = listArray[listArray.Count - 1];
+                                var cardRevealed = listArray[updatedItemCount - 1];
 
                                 // Update the count of face-down cards in the pile in the bottom card in the pile.
                                 UpdatePileFaceDownCount(listArray, cardRevealed);
 
                                 cardRevealed.CardState = CardState.FaceUp;
 
-                                if (cardRevealed.AccessibleName != null)
-                                {
-                                    cardRevealedAnnouncement = cardRevealed.AccessibleName;
-                                }
-                            }
-
-                            listArray[listArray.Count - 1].FaceDown = false;
-                            listArray[listArray.Count - 1].IsLastCardInPile = true;
+                                listArray[updatedItemCount - 1].FaceDown = false;
+                                listArray[updatedItemCount - 1].IsLastCardInPile = true;
 
 #if WINDOWS
-                            // On Windows, the acual width of the card doesn't update without a nudge.
-                            listArray[listArray.Count - 1].RefreshVisuals();
+                                // On Windows, the actual width of the card doesn't update without a nudge.
+                                listArray[updatedItemCount - 1].RefreshVisuals();
 #endif
+
+                                if (!string.IsNullOrEmpty(cardRevealed.AccessibleName))
+                                {
+                                    cardRevealedAnnouncement = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
+                                }
+
+                            }
 
                             movedCard = true;
                         }
