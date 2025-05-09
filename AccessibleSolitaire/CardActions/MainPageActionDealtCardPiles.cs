@@ -91,6 +91,11 @@ namespace Sa11ytaire4All
                             null,
                             TimeSpan.FromMilliseconds(500),
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
+
+                    // Never leave the empty slot selected.
+                    selectedCard.CardSelected = false;
+
+                    listSelectionChanged.SelectedItem = null;
                 }
             }
             else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
