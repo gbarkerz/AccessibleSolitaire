@@ -254,6 +254,16 @@ namespace Sa11ytaire4All
 
                     SetUpturnedCardsVisuals();
 
+                    string announcement =
+                        MainPage.MyGetString("Moved") + " " +
+                        cardAddedToPile.Card.GetCardAccessibleName() + " " +
+                        MainPage.MyGetString("To") + " " +
+                        MainPage.MyGetString("DealtCardPile") + " " +
+                        localizedNumbers[listSelectedIndex] +
+                        ".";
+
+                    MakeDelayedScreenReaderAnnouncement(announcement);
+
                     ClearCardButtonSelections(true);
 
                     movedCard = true;
@@ -360,6 +370,8 @@ namespace Sa11ytaire4All
 
             var listEmptyIndex = GetDealtPileIndexFromCollectionView(listEmpty);
 
+            var cardRevealedName = "";
+
             if (cardRevealed != null)
             {
                 // Update the count of face-down cards in the pile in the bottom card in the pile.
@@ -371,8 +383,10 @@ namespace Sa11ytaire4All
                 cardRevealed.CardState = CardState.FaceUp;
                 cardRevealed.IsLastCardInPile = true;
 
+                cardRevealedName = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
+
 #if WINDOWS
-                // On Windows, the acual width of the card doesn't update without a nudge.
+                // On Windows, the actual width of the card doesn't update without a nudge.
                 cardRevealed.RefreshVisuals();
 #endif
             }
@@ -380,7 +394,12 @@ namespace Sa11ytaire4All
             {
                 // Add an "empty card" item to the list.
                 AddEmptyCardToCollectionView(itemsRemoved, listEmptyIndex);
+
+                cardRevealedName = MainPage.MyGetString("EmptyCardPile");
             }
+
+            string inDealtCardPile = MainPage.MyGetString("InDealtCardPile");
+            string revealedString = MainPage.MyGetString("Revealed");
 
             string announcement =
                 MainPage.MyGetString("Moved") + " " +
@@ -388,7 +407,11 @@ namespace Sa11ytaire4All
                 MainPage.MyGetString("To") + " " +
                 MainPage.MyGetString("Empty") + " " +
                 MainPage.MyGetString("DealtCardPile") + " " +
-                localizedNumbers[listEmptyIndex] +
+                localizedNumbers[listEmptyIndex] + ", " +
+                revealedString + " " +
+                cardRevealedName + " " +
+                inDealtCardPile + " " +
+                localizedNumbers[listKingIndex] +
                 ".";
 
             MakeDelayedScreenReaderAnnouncement(announcement);
@@ -781,7 +804,7 @@ namespace Sa11ytaire4All
                     cardRevealed.CardState = CardState.FaceUp;
                     cardRevealed.IsLastCardInPile = true;
 
-                    cardRevealedName = cardRevealed.AccessibleName;
+                    cardRevealedName = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
 
 #if WINDOWS
                     // On Windows, the acual width of the card doesn't update without a nudge.
