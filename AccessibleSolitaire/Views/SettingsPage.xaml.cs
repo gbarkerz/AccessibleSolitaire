@@ -175,6 +175,6 @@ public partial class SettingsPage : ContentPage
         var kingsOnlyToEmptyPile = KingsOnlyToEmptyPileSwitch.IsToggled;
         Preferences.Set("KingsOnlyToEmptyPile", kingsOnlyToEmptyPile);
 
-        await Navigation.PopModalAsync();
+        Navigation.PopModalAsync();
     }
 }
