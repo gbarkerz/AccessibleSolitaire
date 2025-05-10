@@ -1182,6 +1182,18 @@ namespace Sa11ytaire4All
 
         private async void ShowEndOfGameDialog()
         {
+            // It's possible that a screen reader announcement for the QueryRestartWonGame window
+            // will get stomped on by a delayed announcement relating to the last move in the game.
+            // To prevent this, dispose of the timer delaying the move announcement before showing
+            // the window.
+            if (timerDelayScreenReaderAnnouncement != null)
+            {
+                Debug.WriteLine("ShowEndOfGameDialog: Dispose of timerDelayScreenReaderAnnouncement.");
+
+                timerDelayScreenReaderAnnouncement?.Dispose();
+                timerDelayScreenReaderAnnouncement = null;
+            }
+
             var answer = await DisplayAlert(
                 MainPage.MyGetString("Sa11ytaire"),
                 MainPage.MyGetString("QueryRestartWonGame"),
