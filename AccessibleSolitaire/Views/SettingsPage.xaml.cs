@@ -100,7 +100,7 @@ public partial class SettingsPage : ContentPage
         KingsOnlyToEmptyPileSwitch.IsToggled = kingsOnlyToEmptyPile;
     }
 
-    private async void CloseButton_Clicked(object sender, EventArgs e)
+    private void CloseButton_Clicked(object sender, EventArgs e)
     {
         if (LongPressOnCardPicker != null)
         {

@@ -384,14 +384,14 @@
                     <HorizontalStackLayout Grid.Row="5" Padding="0" Margin="8,0,8,0">
 
                         <Label
-                        VerticalOptions="Center"                
-                        Text="{x:Static resources:StringResources.ExtendDealtCardHitTargetCheckboxLabel}" 
-                        Margin="0" Padding="0" />
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.ExtendDealtCardHitTargetCheckboxLabel}" 
+                            Margin="0" Padding="0" />
 
                         <Switch x:Name="ExtendDealtCardHitTargetCheckbox"
-                        Margin="0" HorizontalOptions="Start"
-                        SemanticProperties.Description="{x:Static resources:StringResources.ExtendDealtCardHitTargetCheckboxLabel}"
-                        SemanticProperties.Hint="{x:Static resources:StringResources.ExtendDealtCardHitTargetInstructions}" />
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:StringResources.ExtendDealtCardHitTargetCheckboxLabel}"
+                            SemanticProperties.Hint="{x:Static resources:StringResources.ExtendDealtCardHitTargetInstructions}" />
 
                     </HorizontalStackLayout>
 
