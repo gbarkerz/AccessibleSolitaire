@@ -181,6 +181,25 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine("Process Space or Enter press: Handled " + e.Handled);
             }
+            else if ((e.Key == Windows.System.VirtualKey.Left) ||
+                     (e.Key == Windows.System.VirtualKey.Right))
+            {
+                e.Handled = false;
+
+                var dealtCard = GetDealtCardFromListViewItem(e);
+                if (dealtCard != null)
+                {
+                    if (MainPage.MainPageSingleton != null)
+                    {
+                        bool moved = MainPage.MainPageSingleton.MoveToNearbyDealtCardPile(dealtCard, 
+                                                                    e.Key == Windows.System.VirtualKey.Right);
+                        if (moved)
+                        {
+                            e.Handled = true;
+                        }
+                    }
+                }
+            }
             else
             {
                 e.Handled = false;

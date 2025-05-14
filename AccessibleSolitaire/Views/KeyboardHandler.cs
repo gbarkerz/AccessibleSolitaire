@@ -4,6 +4,8 @@ using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace Sa11ytaire4All
 {
@@ -11,6 +13,42 @@ namespace Sa11ytaire4All
     public partial class MainPage : ContentPage
     {
 #if WINDOWS
+        public bool MoveToNearbyDealtCardPile(DealtCard dealtCard, bool moveForward)
+        {
+            var moved = false;
+
+            if (dealtCard != null)
+            {
+                // Barker Note: I've not found a way of moving keyboard focus directly to an
+                // item in a CollectionView. All I can do it move focus to the CollectionView
+                // and then have the user press Tab to move to a contained item. That defeats
+                // the object to reacting to an arrow press, so instead simulate a tab (or
+                // shift tab) in response to the arrow press.
+
+                if ((!moveForward && (dealtCard.CurrentDealtCardPileIndex > 0)) ||
+                    (moveForward && (dealtCard.CurrentDealtCardPileIndex < 6)))
+                {
+                    var inputSimulator = new InputSimulator();
+
+                    // Simulate pressing the Shift key if necessary.
+                    if (!moveForward)
+                    {
+                        inputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
+                    }
+
+                    // Simulate pressing the Tab key.
+                    inputSimulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
+
+                    if (!moveForward)
+                    {
+                        inputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
+                    }
+                }
+            }
+
+            return moved;
+        }
+
         public void AnnounceAvailableMoves()
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -310,17 +348,43 @@ namespace Sa11ytaire4All
             }
         }
 
+        private Timer? timerDelayTabPress;
+
         private void MoveFocusToDealtCardPiles()
         {
+            // Barker Note: I've not found a way of moving keyboard focus directly to an
+            // item in a CollectionView. All I can do it move focus to the CollectionView
+            // and then simulate a user press of Tab to move to a contained item.
+
+            // Barker Note: If we had left keyboard focus on the dealt card piles Grid, it seems that
+            // while keyboard focus moves to the Grid ok (or to CardPile1 if we chose to focus that
+            // instead of the Grid), no UIA FocusChanged event is raised, and as such, a screen reader
+            // doesn't announce anything.
+
             CardPileGrid.Focus();
 
-            // Barker Todo: It seems that while keyboard focus moves to the dealt card piles Grid
-            // (or to CardPile1 if we chose to focus that instead of the Grid), no UIA FocusChanged 
-            // event is raised, and as such, a screen reader doesn't announce anything. Until this 
-            // is understood, manually announce the dealt card piles Grid. I do appreciate how 
-            // not-recommended this action is, but it plugs a hole in the UX for the moment.
-            var cardPile1Name = SemanticProperties.GetDescription(CardPileGrid);
-            MakeDelayedScreenReaderAnnouncement(cardPile1Name);
+            if (timerDelayTabPress == null)
+            {
+                timerDelayTabPress = new Timer(
+                    new TimerCallback((s) => DelayTabPress()),
+                        null,
+                        TimeSpan.FromMilliseconds(200),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+            }
+        }
+
+        private void DelayTabPress()
+        {
+            timerDelayTabPress?.Dispose();
+            timerDelayTabPress = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                var inputSimulator = new InputSimulator();
+
+                inputSimulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
+            });
         }
 
         private bool IsCardButtonFocused(CardButton cardButton)
