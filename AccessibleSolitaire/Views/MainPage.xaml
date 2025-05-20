@@ -411,15 +411,10 @@
             </Grid.RowDefinitions>
         
             <!-- Add a MediaElement in order to be able to play sounds in the game.
-                Screen readers do not navigate to this element. -->
-            
-            <!-- Barker: The use of the MediaElement worked fine initially, but after an update
-                the app would crash on iOS. After a later update, it worked ok again on iOS but
-                started crashing on Android. It turned out that the crash could be avoided by
-                creating the MediaElement in code-behind rather than XAML. So do that until 
-                hopefully some later update gets the XAML working in both iOS and Android. -->
-            <!--<toolkit:MediaElement x:Name="MainMediaElement" 
-                ShouldShowPlaybackControls="False"/>-->
+                Screen readers do not navigate to this element. Note that on Android
+                we must have a minimum version of 26 to avoid a crash using MediaElement. -->
+            <toolkit:MediaElement x:Name="MainMediaElement" 
+                ShouldShowPlaybackControls="False"/>
 
             <!-- Layout note: UpperGrid occupies the top portion of the screen.
                 (Landscape: 1 row occupying 1/3rd of screen, Portrait: 2 rows occupying 2/9ths.)

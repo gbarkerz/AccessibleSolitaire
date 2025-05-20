@@ -54,8 +54,6 @@ namespace Sa11ytaire4All
         private bool playSoundUnsuccessfulMove = false;
         private bool playSoundOther = false;
 
-        private MediaElement mainMediaElement;
-
         static public Dictionary<string, Color> suitColours;
 
         public MainPage()
@@ -90,16 +88,6 @@ namespace Sa11ytaire4All
             }
 
             this.InitializeComponent();
-
-            // Barker: Use of MediaElement originally worked, but after an update now crashes on Android.
-            // So avoid use on Android until hopefully the crash goes away in a later updated.
-#if IOS
-            mainMediaElement = new CommunityToolkit.Maui.Views.MediaElement();
-            mainMediaElement.ShouldShowPlaybackControls = false;
-            mainMediaElement.IsVisible = false;
-
-            InnerMainGrid.Children.Add(mainMediaElement);
-#endif
 
             SetOrientationLayout();
 
@@ -1481,22 +1469,19 @@ namespace Sa11ytaire4All
 
         private void PlaySound(bool success)
         {
-#if IOS
             // Only play a sound if the relevant setting is turned on.
             if ((success && playSoundSuccessfulMove) ||
                 (!success && playSoundUnsuccessfulMove))
             {
-                mainMediaElement.Source = MediaSource.FromResource(
+                MainMediaElement.Source = MediaSource.FromResource(
                                             success ? "successmove.mp4" : "notsuccessmove.mp4");
 
-                mainMediaElement.Play();
+                MainMediaElement.Play();
             }
-#endif
         }
 
         private void PlaySoundFile(string soundFilename)
         {
-#if IOS
             if (string.IsNullOrEmpty(soundFilename))
             {
                 return;
@@ -1506,16 +1491,15 @@ namespace Sa11ytaire4All
             {
                 try
                 {
-                    mainMediaElement.Source = MediaSource.FromResource(soundFilename);
+                    MainMediaElement.Source = MediaSource.FromResource(soundFilename);
 
-                    mainMediaElement.Play();
+                    MainMediaElement.Play();
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("PlaySoundFile: " + ex.Message);
                 }
             }
-#endif
         }
 
         private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)

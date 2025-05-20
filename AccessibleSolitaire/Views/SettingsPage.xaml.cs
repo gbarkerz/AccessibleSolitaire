@@ -15,11 +15,6 @@ public partial class SettingsPage : ContentPage
         MergeFaceDownCardsGrid.IsVisible = true;
 #endif
 
-#if IOS
-        SoundsSettingsHeader.IsVisible = true;
-        SoundsSettingsGrid.IsVisible = true;
-#endif
-
         var pickers = new Picker[]{ 
             SuitColoursClubsPicker,
             SuitColoursDiamondsPicker,
@@ -75,7 +70,6 @@ public partial class SettingsPage : ContentPage
         var flipGameLayoutHorizontally = (bool)Preferences.Get("FlipGameLayoutHorizontally", false);
         FlipGameLayoutHorizontallySwitch.IsToggled = flipGameLayoutHorizontally;
 
-#if IOS
         var playSoundSuccessfulMove = (bool)Preferences.Get("PlaySoundSuccessfulMove", false);
         PlaySoundSuccessfulMoveSwitch.IsToggled = playSoundSuccessfulMove;
 
@@ -84,7 +78,6 @@ public partial class SettingsPage : ContentPage
 
         var playSoundOther = (bool)Preferences.Get("PlaySoundOther", false);
         PlaySoundOtherSwitch.IsToggled = playSoundOther;
-#endif
 
         // Game playing options.
 
@@ -156,7 +149,6 @@ public partial class SettingsPage : ContentPage
         var flipGameLayoutHorizontally = FlipGameLayoutHorizontallySwitch.IsToggled;
         Preferences.Set("FlipGameLayoutHorizontally", flipGameLayoutHorizontally);
 
-#if IOS
         var playSoundSuccessfulMove = PlaySoundSuccessfulMoveSwitch.IsToggled;
         Preferences.Set("PlaySoundSuccessfulMove", playSoundSuccessfulMove);
 
@@ -165,7 +157,6 @@ public partial class SettingsPage : ContentPage
 
         var playSoundOther = PlaySoundOtherSwitch.IsToggled;
         Preferences.Set("PlaySoundOther", playSoundOther);
-#endif
 
         // Game playing options.
 
