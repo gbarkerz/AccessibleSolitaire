@@ -206,7 +206,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        static private DealtCard MostRecentDealtCardKeyboardSpaceOrEnter = null;
+        static private DealtCard? MostRecentDealtCardKeyboardSpaceOrEnter = null;
 
         static private DealtCard? GetDealtCardFromListViewItem(Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {

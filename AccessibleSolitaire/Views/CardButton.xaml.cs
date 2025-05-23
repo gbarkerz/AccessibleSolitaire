@@ -339,7 +339,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursClubsSwitchProperty =
         BindableProperty.Create(nameof(SuitColoursClubsSwitch), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursClubsSwitch
+    public Color? SuitColoursClubsSwitch
     {
         get => (Color)GetValue(SuitColoursClubsSwitchProperty);
         set
@@ -353,7 +353,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursDiamondsSwitchProperty =
         BindableProperty.Create(nameof(SuitColoursDiamondsSwitch), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursDiamondsSwitch
+    public Color? SuitColoursDiamondsSwitch
     {
         get => (Color)GetValue(SuitColoursDiamondsSwitchProperty);
         set
@@ -367,7 +367,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursHeartsSwitchProperty =
         BindableProperty.Create(nameof(SuitColoursHeartsSwitch), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursHeartsSwitch
+    public Color? SuitColoursHeartsSwitch
     {
         get => (Color)GetValue(SuitColoursHeartsSwitchProperty);
         set
@@ -381,7 +381,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursSpadesSwitchProperty =
         BindableProperty.Create(nameof(SuitColoursSpadesSwitch), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursSpadesSwitch
+    public Color? SuitColoursSpadesSwitch
     {
         get => (Color)GetValue(SuitColoursSpadesSwitchProperty);
         set

@@ -59,7 +59,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursClubsProperty =
         BindableProperty.Create(nameof(SuitColoursClubs), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursClubs
+    public Color? SuitColoursClubs
     {
         get => (Color)GetValue(SuitColoursClubsProperty);
         set
@@ -73,7 +73,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursDiamondsProperty =
         BindableProperty.Create(nameof(SuitColoursDiamonds), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursDiamonds
+    public Color? SuitColoursDiamonds
     {
         get => (Color)GetValue(SuitColoursDiamondsProperty);
         set
@@ -87,7 +87,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursHeartsProperty =
         BindableProperty.Create(nameof(SuitColoursHearts), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursHearts
+    public Color? SuitColoursHearts
     {
         get => (Color)GetValue(SuitColoursHeartsProperty);
         set
@@ -101,7 +101,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
     public static readonly BindableProperty SuitColoursSpadesProperty =
         BindableProperty.Create(nameof(SuitColoursSpades), typeof(Color), typeof(CardButton));
 
-    public Color SuitColoursSpades
+    public Color? SuitColoursSpades
     {
         get => (Color)GetValue(SuitColoursSpadesProperty);
         set

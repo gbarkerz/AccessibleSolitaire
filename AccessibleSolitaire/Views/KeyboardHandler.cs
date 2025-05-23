@@ -95,7 +95,7 @@ namespace Sa11ytaire4All
 
             // First check whether the upturned card can be moved to any of the target piles.
             var suitTarget = CanCardBeMovedToTargetPile(upturnedPseudoCard);
-            if (!string.IsNullOrEmpty(suitTarget))
+            if ((upturnedPseudoCard != null) && !string.IsNullOrEmpty(suitTarget))
             {
                 ++numberOfMoves;
 
@@ -177,10 +177,12 @@ namespace Sa11ytaire4All
                                 {
                                     var itemsSource = vm.DealtCards[s];
 
+                                    DealtCard sourceDealtCard = (itemsSource[0] as DealtCard);
+
                                     // If this source dealt card pile is either empty, or only holds a King, no move is possible.
                                     if (itemsSource.Count() == 1 &&
-                                        (((itemsSource[0] as DealtCard).CardState == CardState.KingPlaceHolder) ||
-                                        (itemsSource[0] as DealtCard).Card.Rank == 13))
+                                        ((sourceDealtCard.CardState == CardState.KingPlaceHolder) ||
+                                        ((sourceDealtCard.Card != null) && (sourceDealtCard.Card.Rank == 13))))
                                     {
                                         continue;
                                     }
@@ -204,7 +206,7 @@ namespace Sa11ytaire4All
                                     {
                                         // Also, don't check whether an Ace in one dealt card pile can be moved onto 
                                         // a Two in another dealt card pile. That's not particularly helpful.
-                                        if (sourceCard.Card.Rank == 1)
+                                        if ((sourceCard.Card != null) && (sourceCard.Card.Rank == 1))
                                         {
                                             continue;
                                         }
@@ -245,7 +247,7 @@ namespace Sa11ytaire4All
             MakeDelayedScreenReaderAnnouncement(moveComment);
         }
 
-        private string CanCardBeMovedToTargetPile(DealtCard card)
+        private string CanCardBeMovedToTargetPile(DealtCard? card)
         {
             var suitTarget = "";
 

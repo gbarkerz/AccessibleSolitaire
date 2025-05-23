@@ -10,7 +10,7 @@ namespace Sa11ytaire4All
             InitializeComponent();
         }
 
-        private async void HelpMenuItem_Clicked(object sender, EventArgs e)
+        private void HelpMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;
 
@@ -25,7 +25,7 @@ namespace Sa11ytaire4All
             await Navigation.PushModalAsync(settingsPage);
         }
 
-        private async void RestartGameMenuItem_Clicked(object sender, EventArgs e)
+        private void RestartGameMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;
 

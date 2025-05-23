@@ -54,31 +54,32 @@ namespace Sa11ytaire4All
         private bool playSoundUnsuccessfulMove = false;
         private bool playSoundOther = false;
 
-        static public Dictionary<string, Color> suitColours;
+        public static Dictionary<string, Color> suitColours =
+            new Dictionary<string, Color>
+            {
+                { "Default", Colors.Transparent },
+                { "Black", Colors.Black },
+                { "Dark Red", Colors.DarkRed },
+                { "Dark Orange", Colors.DarkOrange },
+                { "Dark Gold", Colors.DarkGoldenrod },
+                { "Dark Green", Colors.DarkGreen },
+                { "Dark Blue", Colors.DarkBlue },
+                { "Dark Indigo", Color.FromArgb("#FF1F0954") },
+                { "Dark Violet", Colors.DarkViolet },
+                { "White", Colors.White },
+                { "Yellow", Colors.Yellow },
+                { "Pink", Color.FromArgb("#FFFF74A0") }, // Colors.Pink is too light. 
+                { "Cyan", Colors.Cyan },
+                { "Light Blue", Colors.LightBlue },
+                { "Light Green", Colors.LightGreen },
+                { "Light Coral", Colors.LightCoral }
+            };
 
         public MainPage()
         {
             MainPage.MainPageSingleton = this;
 
             this.BindingContext = new DealtCardViewModel();
-
-            suitColours = new Dictionary<string, Color>();
-            suitColours.Add("Default", Colors.Transparent);
-            suitColours.Add("Black", Colors.Black);
-            suitColours.Add("Dark Red", Colors.DarkRed);
-            suitColours.Add("Dark Orange", Colors.DarkOrange);
-            suitColours.Add("Dark Gold", Colors.DarkGoldenrod);
-            suitColours.Add("Dark Green", Colors.DarkGreen);
-            suitColours.Add("Dark Blue", Colors.DarkBlue);
-            suitColours.Add("Dark Indigo", Color.FromArgb("#FF1F0954"));
-            suitColours.Add("Dark Violet", Colors.DarkViolet);
-            suitColours.Add("White", Colors.White);
-            suitColours.Add("Yellow", Colors.Yellow);
-            suitColours.Add("Pink", Color.FromArgb("#FFFF74A0")); // Colors.Pink is too light. 
-            suitColours.Add("Cyan", Colors.Cyan);
-            suitColours.Add("Light Blue", Colors.LightBlue);
-            suitColours.Add("Light Green", Colors.LightGreen);
-            suitColours.Add("Light Coral", Colors.LightCoral);
 
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
@@ -108,6 +109,27 @@ namespace Sa11ytaire4All
             RestartGame(false /* screenReaderAnnouncement. */);
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
+
+            MainMediaElement.MediaEnded += MainMediaElement_MediaEnded;
+
+            this.Unloaded += MainPage_Unloaded;
+        }
+
+        private void MainMediaElement_MediaEnded(object? sender, EventArgs e)
+        {
+            // Barker Todo: On Android, the media element can be accessed outside of the app 
+            // by swiping down from the top of the screen while the app's running. Figure out
+            // how to prevent that. In the meantime, prevent that standalone media UI from 
+            // actually being able to play audio by nulling out the MediaElement source once 
+            // media play has completed.
+            MainMediaElement.Source = null;
+        }
+
+        private void MainPage_Unloaded(object? sender, EventArgs e)
+        {
+            // Release the MediaElement to prevent the standalone media element being available
+            // after the ap has been closed.
+            MainMediaElement.Handler?.DisconnectHandler();
         }
 
         public static bool GetMergeFaceDownCardsSetting()
@@ -168,7 +190,7 @@ namespace Sa11ytaire4All
 #endif
         }
 
-        public void ShowZoomedCardPopup(Card card, bool checkFaceUp)
+        public void ShowZoomedCardPopup(Card? card, bool checkFaceUp)
         {
             if (card == null)
             {
@@ -547,8 +569,14 @@ namespace Sa11ytaire4All
             }
         }
 
-        private Color DetermineSuitColour(string suitColourName, Color DefaultLight, Color DefaultDark)
+        private Color? DetermineSuitColour(string suitColourName, Color DefaultLight, Color DefaultDark)
         {
+            // Avoid build warnings re: Application.Current being null.
+            if (Application.Current == null)
+            {
+                return null;
+            }
+
             Color suitColour;
 
             if (suitColourName == "Default")
@@ -1050,52 +1078,55 @@ namespace Sa11ytaire4All
         private void SetCardSuitColours(CardButton cardButton)
         {
             var vm = this.BindingContext as DealtCardViewModel;
-            if (vm != null)
+            if (vm == null)
             {
-                if (cardButton.Card == null)
+                return;
+            }
+
+            if (cardButton.Card == null)
+            {
+                string pileId = cardButton.AutomationId.Replace("TargetPile", "");
+                switch (pileId)
                 {
-                    string pileId = cardButton.AutomationId.Replace("TargetPile", "");
-                    switch (pileId)
-                    {
-                        case "C":
-                            cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
-                            break;
+                    case "C":
+                        cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
+                        break;
 
-                        case "D":
-                            cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
-                            break;
+                    case "D":
+                        cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
+                        break;
 
-                        case "H":
-                            cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
-                            break;
+                    case "H":
+                        cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
+                        break;
 
-                        case "S":
-                            cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (cardButton.Card.Suit)
-                    {
-                        case Suit.Clubs:
-                            cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
-                            break;
-
-                        case Suit.Diamonds:
-                            cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
-                            break;
-
-                        case Suit.Hearts:
-                            cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
-                            break;
-
-                        case Suit.Spades:
-                            cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
-                            break;
-                    }
+                    case "S":
+                        cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
+                        break;
                 }
             }
+            else
+            {
+                switch (cardButton.Card.Suit)
+                {
+                    case Suit.Clubs:
+                        cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
+                        break;
+
+                    case Suit.Diamonds:
+                        cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
+                        break;
+
+                    case Suit.Hearts:
+                        cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
+                        break;
+
+                    case Suit.Spades:
+                        cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
+                        break;
+                }
+            }
+
         }
 
         // Barker: Use the approved method of getting the items source.
@@ -1124,7 +1155,7 @@ namespace Sa11ytaire4All
             card.CardState = (enable ? CardState.FaceUp : CardState.FaceDown);
         }
 
-        private bool CanMoveCardToDealtCardPile(DealtCard cardBelow, DealtCard cardAbove)
+        private bool CanMoveCardToDealtCardPile(DealtCard? cardBelow, DealtCard? cardAbove)
         {
             bool canMove = false;
 
@@ -1135,12 +1166,15 @@ namespace Sa11ytaire4All
                 // moved card will lie is the last card in the destination dealt card pile.
                 if (cardBelow.IsLastCardInPile)
                 {
-                    if (cardBelow.Card.Rank == cardAbove.Card.Rank + 1)
+                    if ((cardBelow.Card != null) && (cardAbove.Card != null))
                     {
-                        bool isBelowRed = ((cardBelow.Card.Suit == Suit.Diamonds) || (cardBelow.Card.Suit == Suit.Hearts));
-                        bool isAboveRed = ((cardAbove.Card.Suit == Suit.Diamonds) || (cardAbove.Card.Suit == Suit.Hearts));
+                        if (cardBelow.Card.Rank == cardAbove.Card.Rank + 1)
+                        {
+                            bool isBelowRed = ((cardBelow.Card.Suit == Suit.Diamonds) || (cardBelow.Card.Suit == Suit.Hearts));
+                            bool isAboveRed = ((cardAbove.Card.Suit == Suit.Diamonds) || (cardAbove.Card.Suit == Suit.Hearts));
 
-                        canMove = (isBelowRed != isAboveRed);
+                            canMove = (isBelowRed != isAboveRed);
+                        }
                     }
                 }
 

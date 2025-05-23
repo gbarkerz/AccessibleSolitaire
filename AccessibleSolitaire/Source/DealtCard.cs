@@ -34,7 +34,7 @@ namespace Sa11ytaire4All.Source
             }
         }
 
-        [ObservableProperty] private Card card;
+        [ObservableProperty] private Card? card;
 
         [ObservableProperty] private CardState cardState;
 
@@ -52,7 +52,7 @@ namespace Sa11ytaire4All.Source
                 {
                     name = MainPage.MyGetString("FaceDown");
                 }
-                else if (this.Card.Rank != 0)
+                else if ((this.Card != null) && (this.Card.Rank != 0))
                 {
                     name = this.Card.GetCardAccessibleName();
                 }
@@ -89,7 +89,7 @@ namespace Sa11ytaire4All.Source
                                 this.CountFaceDownCardsInPile.ToString() + " " : "") + 
                             MainPage.MyGetString("FaceDown");
                 }
-                else if (this.Card.Rank != 0)
+                else if ((this.Card != null) && (this.Card.Rank != 0))
                 {
                     name = this.Card.GetCardAccessibleName();
 

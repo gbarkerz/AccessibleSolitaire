@@ -101,7 +101,7 @@ namespace Sa11ytaire4All
             else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
             {
                 // Attempt to move the upturned card to this list.
-                var cardUpturned = new DealtCard();
+                DealtCard? cardUpturned = new DealtCard();
                 cardUpturned.CardState = CardState.FaceUp;
                 cardUpturned.Card = _deckUpturned[_deckUpturned.Count - 1];
 
@@ -289,7 +289,7 @@ namespace Sa11ytaire4All
                     listSelected.SelectedItem = null;
 
                     // Is the already selected card a King?
-                    if (CanCardBeMovedToEmptyDealtCardPile(cardMoving.Card))
+                    if ((cardMoving.Card != null) && CanCardBeMovedToEmptyDealtCardPile(cardMoving.Card))
                     {
                         MoveKingToEmptyCard(cardMoving, listSelected, listAlreadySelected, listAlreadySelectedIndex);
 
@@ -400,6 +400,11 @@ namespace Sa11ytaire4All
 
             string inDealtCardPile = MainPage.MyGetString("InDealtCardPile");
             string revealedString = MainPage.MyGetString("Revealed");
+
+            if (cardKing.Card == null)
+            {
+                return;
+            }
 
             string announcement =
                 MainPage.MyGetString("Moved") + " " +
@@ -687,7 +692,7 @@ namespace Sa11ytaire4All
             public CollectionView? ListAlreadySelected;
             public int ListAlreadySelectedIndex;
             public CollectionView? ListSelectionChanged;
-            public CardButton TargetPileCardButton;
+            public CardButton? TargetPileCardButton;
             public int TargetPileIndex;
         }
 
@@ -717,11 +722,22 @@ namespace Sa11ytaire4All
 
         private void DelayedAttemptToMoveCardBetweenPiles(MovingCardData movingCardData)
         {
-            var cardBelow = movingCardData.CardBelow;
-            var cardAbove = movingCardData.CardAbove;
+            DealtCard? cardBelow = movingCardData.CardBelow;
+            DealtCard? cardAbove = movingCardData.CardAbove;
+
+            if ((cardBelow == null) || (cardAbove == null))
+            {
+                return;
+            }
+
             var listAlreadySelected = movingCardData.ListAlreadySelected;
             var listAlreadySelectedIndex = movingCardData.ListAlreadySelectedIndex;
             var listSelectionChanged = movingCardData.ListSelectionChanged;
+
+            if ((listSelectionChanged == null) || (listAlreadySelected == null))
+            {
+                return;
+            }
 
             bool movedCard = false;
 
@@ -823,16 +839,19 @@ namespace Sa11ytaire4All
                 string inDealtCardPile = MainPage.MyGetString("InDealtCardPile");
                 string revealedString = MainPage.MyGetString("Revealed");
 
-                string announcement =
-                    MainPage.MyGetString("Moved") + " " +
-                    cardAbove.Card.GetCardAccessibleName() + ", " +
-                    revealedString + " " +
-                    cardRevealedName + " " +
-                    inDealtCardPile + " " +
-                    localizedNumbers[listAlreadySelectedIndex] +
-                    ".";
+                if (cardAbove.Card != null)
+                {
+                    string announcement =
+                        MainPage.MyGetString("Moved") + " " +
+                        cardAbove.Card.GetCardAccessibleName() + ", " +
+                        revealedString + " " +
+                        cardRevealedName + " " +
+                        inDealtCardPile + " " +
+                        localizedNumbers[listAlreadySelectedIndex] +
+                        ".";
 
-                MakeDelayedScreenReaderAnnouncement(announcement);
+                    MakeDelayedScreenReaderAnnouncement(announcement);
+                }
 
                 cardBelow.IsLastCardInPile = false;
 
@@ -854,6 +873,11 @@ namespace Sa11ytaire4All
             var targetPileCardButton = movingCardData.TargetPileCardButton;
             var targetPileIndex = movingCardData.TargetPileIndex;
 
+            if ((targetPileCardButton == null) || (listAlreadySelected == null))
+            {
+                return;
+            }
+
             // Only the last card in a dealt card pile can be moved up to a target card pile.
             if ((cardAbove != null) && (cardAbove.IsLastCardInPile))
             {
@@ -862,6 +886,11 @@ namespace Sa11ytaire4All
 
                 string inDealtCardPile = MainPage.MyGetString("InDealtCardPile");
                 string revealedString = MainPage.MyGetString("Revealed");
+
+                if (cardAbove.Card == null)
+                {
+                    return;
+                }
 
                 // No action if the select card's suit does not match the Target Pile.
                 if (((targetPileIndex == 0) && (cardAbove.Card.Suit != Suit.Clubs)) ||

@@ -116,6 +116,7 @@
                             CornerRadius="0"
                             Clicked="CardButton_Clicked">
 
+                            <!-- This works. -->
                             <Button.Behaviors>
                                 <toolkit:TouchBehavior
                                     BindingContext="{Binding Path=BindingContext, 
@@ -141,6 +142,7 @@
 
                             <Image.Behaviors>
 
+                                <!-- This works. -->
                                 <toolkit:IconTintColorBehavior
                                     BindingContext="{Binding Path=BindingContext, 
                                         Source={x:Reference TintedCardImage}}">

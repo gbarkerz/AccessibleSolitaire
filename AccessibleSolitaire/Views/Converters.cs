@@ -41,6 +41,12 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            // Avoid build warnings re: Application.Current being null.
+            if (Application.Current == null)
+            {
+                return null;
+            }
+
             if (values == null || (values.Length < 3))
             {
                 return null;
@@ -103,6 +109,12 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            // Avoid build warnings re: Application.Current being null.
+            if (Application.Current == null)
+            {
+                return null;
+            }
+
             if (values == null || (values.Length < 3))
             {
                 return null;
@@ -187,6 +199,12 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            // Avoid build warnings re: Application.Current being null.
+            if (Application.Current == null)
+            {
+                return null;
+            }
+
             if (values == null || (values.Length < 6))
             {
                 return null;

@@ -33,13 +33,13 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty] private double cardWidth;
 
-        [ObservableProperty] private Color suitColoursClubs;
+        [ObservableProperty] private Color? suitColoursClubs;
 
-        [ObservableProperty] private Color suitColoursDiamonds;
+        [ObservableProperty] private Color? suitColoursDiamonds;
 
-        [ObservableProperty] private Color suitColoursHearts;
+        [ObservableProperty] private Color? suitColoursHearts;
 
-        [ObservableProperty] private Color suitColoursSpades;
+        [ObservableProperty] private Color? suitColoursSpades;
 
         [ObservableProperty] private bool showStateAnnouncementButton;
 
