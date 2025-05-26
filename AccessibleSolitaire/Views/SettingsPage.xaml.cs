@@ -91,6 +91,9 @@ public partial class SettingsPage : ContentPage
 
         var kingsOnlyToEmptyPile = (bool)Preferences.Get("KingsOnlyToEmptyPile", false);
         KingsOnlyToEmptyPileSwitch.IsToggled = kingsOnlyToEmptyPile;
+
+        var keepGameAcrossSessions = (bool)Preferences.Get("KeepGameAcrossSessions", true);
+        KeepGameAcrossSessionsSwitch.IsToggled = keepGameAcrossSessions;
     }
 
     private void CloseButton_Clicked(object sender, EventArgs e)
@@ -166,6 +169,9 @@ public partial class SettingsPage : ContentPage
         var kingsOnlyToEmptyPile = KingsOnlyToEmptyPileSwitch.IsToggled;
         Preferences.Set("KingsOnlyToEmptyPile", kingsOnlyToEmptyPile);
 
+        var keepGameAcrossSessions = KeepGameAcrossSessionsSwitch.IsToggled;
+        Preferences.Set("KeepGameAcrossSessions", keepGameAcrossSessions);
+        
         Navigation.PopModalAsync();
     }
 }

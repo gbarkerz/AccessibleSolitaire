@@ -56,6 +56,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- Number of cards turned over. -->
@@ -104,6 +107,30 @@
                             Margin="0"
                             SemanticProperties.Description="{x:Static resources:StringResources.KingsOnlyToEmptyPile}"
                             SemanticProperties.Hint="{x:Static resources:StringResources.KingsOnlyToEmptyPileInstructions}" />
+                    </HorizontalStackLayout>
+
+                    <!-- Preserve in-progress games across sessions. -->
+
+                    <Label Grid.Row="6" 
+                        FontAttributes="Bold" 
+                        Margin="8,8,8,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:StringResources.KeepGameAcrossSessions}" />
+
+                    <Label Grid.Row="7" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.KeepGameAcrossSessionsInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="8" Padding="0" Margin="8,0,8,0">
+                        <Label 
+                            Margin="0" VerticalOptions="Center" Padding="0"
+                            Text="{x:Static resources:StringResources.KeepGameAcrossSessionsSwitchName}" />
+
+                        <Switch x:Name="KeepGameAcrossSessionsSwitch"
+                            Margin="0"
+                            SemanticProperties.Description="{x:Static resources:StringResources.KeepGameAcrossSessions}"
+                            SemanticProperties.Hint="{x:Static resources:StringResources.KeepGameAcrossSessionsInstructions}" />
                     </HorizontalStackLayout>
 
                 </Grid>

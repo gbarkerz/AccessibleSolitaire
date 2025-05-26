@@ -106,8 +106,6 @@ namespace Sa11ytaire4All
                 _targetPiles[i] = new List<Card>();
             }
 
-            RestartGame(false /* screenReaderAnnouncement. */);
-
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
 
             MainMediaElement.MediaEnded += MainMediaElement_MediaEnded;
@@ -382,6 +380,7 @@ namespace Sa11ytaire4All
         // General game-playing options.
         private int OptionCardTurnCount = 1;
         private bool OptionKingsOnlyToEmptyPile = false;
+        private bool OptionKeepGameAcrossSessions = true;
 
         private bool firstAppAppearanceSinceStarting = true;
 
@@ -498,6 +497,7 @@ namespace Sa11ytaire4All
 
                 OptionCardTurnCount = (int)Preferences.Get("CardTurnCount", 1);
                 OptionKingsOnlyToEmptyPile = (bool)Preferences.Get("KingsOnlyToEmptyPile", false);
+                OptionKeepGameAcrossSessions = (bool)Preferences.Get("KeepGameAcrossSessions", true);
 
                 allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);
 
@@ -532,6 +532,11 @@ namespace Sa11ytaire4All
                 if (firstAppAppearanceSinceStarting)
                 {
                     firstAppAppearanceSinceStarting = false;
+
+                    if (!OptionKeepGameAcrossSessions || !LoadSession())
+                    {
+                        RestartGame(false /* screenReaderAnnouncement. */);
+                    }
 
                     timerPlayFirstDealSounds = new Timer(
                         new TimerCallback((s) => MakeFirstDealSounds()),

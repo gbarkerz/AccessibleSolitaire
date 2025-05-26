@@ -7,8 +7,8 @@ namespace Sa11ytaire4All.Source
     // the accessible name of the card.
     public sealed class Card
     {
-        public Suit Suit;
-        public int Rank;
+        public Suit Suit { get; set; }
+        public int Rank { get; set; }
 
         public string GetCardAccessibleName()
         {

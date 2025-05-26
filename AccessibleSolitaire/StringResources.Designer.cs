@@ -151,7 +151,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.5.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.6.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -878,6 +878,33 @@ namespace Sa11ytaire4All {
         internal static string Jack {
             get {
                 return ResourceManager.GetString("Jack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game Sessions.
+        /// </summary>
+        internal static string KeepGameAcrossSessions {
+            get {
+                return ResourceManager.GetString("KeepGameAcrossSessions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintain in-progress games across game sessions, so after closing and re-opening the app, the earlier game can be continued..
+        /// </summary>
+        internal static string KeepGameAcrossSessionsInstructions {
+            get {
+                return ResourceManager.GetString("KeepGameAcrossSessionsInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep game state:.
+        /// </summary>
+        internal static string KeepGameAcrossSessionsSwitchName {
+            get {
+                return ResourceManager.GetString("KeepGameAcrossSessionsSwitchName", resourceCulture);
             }
         }
         

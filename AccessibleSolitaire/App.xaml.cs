@@ -1,4 +1,6 @@
-﻿namespace Sa11ytaire4All
+﻿using System.Diagnostics;
+
+namespace Sa11ytaire4All
 {
     public partial class App : Application
     {
@@ -16,6 +18,17 @@
             window.MinimumWidth = 600;
             window.MinimumHeight = 400;
 #endif
+
+            window.Destroying += (s, e) =>
+            {
+                Debug.WriteLine("Soliatire: App window destroying.");
+
+                var singleton = Sa11ytaire4All.MainPage.MainPageSingleton;
+                if (singleton != null)
+                {
+                    singleton.SaveSession();
+                }
+            };
 
             return window;
         }
