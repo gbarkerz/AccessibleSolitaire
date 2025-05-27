@@ -128,14 +128,22 @@ namespace Sa11ytaire4All
             // how to prevent that. In the meantime, prevent that standalone media UI from 
             // actually being able to play audio by nulling out the MediaElement source once 
             // media play has completed.
-            mainMediaElement.Source = null;
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                mainMediaElement.Source = null;
+            });
         }
 
         private void MainPage_Unloaded(object? sender, EventArgs e)
         {
             // Release the MediaElement to prevent the standalone media element being available
             // after the ap has been closed.
-            mainMediaElement.Handler?.DisconnectHandler();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                mainMediaElement.Handler?.DisconnectHandler();
+            });
         }
 
         public static bool GetMergeFaceDownCardsSetting()
