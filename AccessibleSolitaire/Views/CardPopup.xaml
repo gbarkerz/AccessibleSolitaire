@@ -3,6 +3,7 @@
                xmlns:local_views="clr-namespace:Sa11ytaire4All.Views"
                xmlns:resources="clr-namespace:Sa11ytaire4All"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
                Color="Transparent"
                x:Name="CardPopupInstance"
                x:Class="Sa11ytaire4All.Views.CardPopup">
@@ -73,6 +74,7 @@
         </Image>
 
         <Button Grid.Column="1" Grid.Row="1"
+            windows:VisualElement.AccessKey="C"
             TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
             Margin="8,0,0,0" Padding="8"
             Text="{x:Static resources:StringResources.Close}" 

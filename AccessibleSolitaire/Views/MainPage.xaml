@@ -412,9 +412,13 @@
         
             <!-- Add a MediaElement in order to be able to play sounds in the game.
                 Screen readers do not navigate to this element. Note that on Android
-                we must have a minimum version of 26 to avoid a crash using MediaElement. -->
-            <toolkit:MediaElement x:Name="MainMediaElement" 
-                ShouldShowPlaybackControls="False"/>
+                we must have a minimum version of 26 to avoid a crash using MediaElement. -->            
+            
+            <!-- Barker Todo: On iOS, inclusion of the MediaElment in XAML results in a crash,
+                possibly related to https://github.com/CommunityToolkit/Maui/discussions/2669.
+                Unless this is understood, create the MediaElement in code-behind instead. -->
+            <!--<toolkit:MediaElement x:Name="MainMediaElement" 
+                ShouldShowPlaybackControls="False"/>-->
 
             <!-- Layout note: UpperGrid occupies the top portion of the screen.
                 (Landscape: 1 row occupying 1/3rd of screen, Portrait: 2 rows occupying 2/9ths.)

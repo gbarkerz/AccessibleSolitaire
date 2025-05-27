@@ -57,11 +57,11 @@
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.26100.0</TargetFrameworks>
   </PropertyGroup>-->
 
-	<!--<ItemGroup>
-		<TrimmerRootAssembly Include="CommunityToolkit.Maui" />
-	</ItemGroup>-->
-	
-	<ItemGroup>
+  <ItemGroup>
+    <TrimmerRootAssembly Include="CommunityToolkit.Maui" RootMode="All" />
+  </ItemGroup>
+
+  <ItemGroup>
 		<!-- App Icon -->
 
     <!-- Splash Screen -->
@@ -586,6 +586,27 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\deal.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\movecard.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\movecards.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\notsuccessmove.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\restack.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\successmove.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>

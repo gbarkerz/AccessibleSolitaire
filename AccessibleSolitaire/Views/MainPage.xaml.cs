@@ -54,6 +54,8 @@ namespace Sa11ytaire4All
         private bool playSoundUnsuccessfulMove = false;
         private bool playSoundOther = false;
 
+        private MediaElement mainMediaElement;
+
         public static Dictionary<string, Color> suitColours =
             new Dictionary<string, Color>
             {
@@ -90,6 +92,12 @@ namespace Sa11ytaire4All
 
             this.InitializeComponent();
 
+            mainMediaElement = new CommunityToolkit.Maui.Views.MediaElement();
+            mainMediaElement.ShouldShowPlaybackControls = false;
+            mainMediaElement.IsVisible = false;
+
+            InnerMainGrid.Children.Add(mainMediaElement);
+
             SetOrientationLayout();
 
             SetContainerAccessibleNames();
@@ -108,7 +116,7 @@ namespace Sa11ytaire4All
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
 
-            MainMediaElement.MediaEnded += MainMediaElement_MediaEnded;
+            mainMediaElement.MediaEnded += MainMediaElement_MediaEnded;
 
             this.Unloaded += MainPage_Unloaded;
         }
@@ -120,14 +128,14 @@ namespace Sa11ytaire4All
             // how to prevent that. In the meantime, prevent that standalone media UI from 
             // actually being able to play audio by nulling out the MediaElement source once 
             // media play has completed.
-            MainMediaElement.Source = null;
+            mainMediaElement.Source = null;
         }
 
         private void MainPage_Unloaded(object? sender, EventArgs e)
         {
             // Release the MediaElement to prevent the standalone media element being available
             // after the ap has been closed.
-            MainMediaElement.Handler?.DisconnectHandler();
+            mainMediaElement.Handler?.DisconnectHandler();
         }
 
         public static bool GetMergeFaceDownCardsSetting()
@@ -1512,10 +1520,10 @@ namespace Sa11ytaire4All
             if ((success && playSoundSuccessfulMove) ||
                 (!success && playSoundUnsuccessfulMove))
             {
-                MainMediaElement.Source = MediaSource.FromResource(
+                mainMediaElement.Source = MediaSource.FromResource(
                                             success ? "successmove.mp4" : "notsuccessmove.mp4");
 
-                MainMediaElement.Play();
+                mainMediaElement.Play();
             }
         }
 
@@ -1530,9 +1538,9 @@ namespace Sa11ytaire4All
             {
                 try
                 {
-                    MainMediaElement.Source = MediaSource.FromResource(soundFilename);
+                    mainMediaElement.Source = MediaSource.FromResource(soundFilename);
 
-                    MainMediaElement.Play();
+                    mainMediaElement.Play();
                 }
                 catch (Exception ex)
                 {
