@@ -19,9 +19,12 @@ namespace Sa11ytaire4All
             window.MinimumHeight = 400;
 #endif
 
-            window.Destroying += (s, e) =>
+            // On Windows, we could use Destroying() here, but that's no guaranteed on mobile apparently,
+            // (and didn't work when tested on Android). So use Deactivating instead. The work being done
+            // here should be completed pretty quick.
+            window.Deactivated += (s, e) =>
             {
-                Debug.WriteLine("Soliatire: App window destroying.");
+                Debug.WriteLine("Soliatire: App window deactivating.");
 
                 var singleton = Sa11ytaire4All.MainPage.MainPageSingleton;
                 if (singleton != null)

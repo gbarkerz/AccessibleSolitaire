@@ -95,6 +95,10 @@ namespace Sa11ytaire4All
             mainMediaElement.ShouldShowPlaybackControls = false;
             mainMediaElement.IsVisible = false;
 
+#if WINDOWS || ANDROID
+            InnerMainGrid.Children.Add(mainMediaElement);
+#endif
+
             SetOrientationLayout();
 
             SetContainerAccessibleNames();
@@ -518,12 +522,12 @@ namespace Sa11ytaire4All
                 // the MediaElement behaves as though it's not longer attached beneath the Main page.
                 // So re-add it here, but figure this out! (Hopefully the fact the same element's 
                 // been added multiple times isn't going to cause problems in the meantime.)
-
+#if IOS
                 if (playSoundSuccessfulMove || playSoundUnsuccessfulMove || playSoundOther)
                 {
                     InnerMainGrid.Children.Add(mainMediaElement);
                 }
-
+#endif
                 // First-run message.
 
                 var showFirstRunMessage = (bool)Preferences.Get("ShowFirstRunMessage", true);
@@ -750,7 +754,7 @@ namespace Sa11ytaire4All
         {
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
-#if WINDOWS 
+#if WINDOWS
             // Barker Todo: I've yet to get the Dealt Card Piles to layout as required in portrait 
             // on Windows. So for now, simply always show everything in landscape layout.
             isPortrait = false;
