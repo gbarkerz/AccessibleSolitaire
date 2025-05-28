@@ -54,7 +54,7 @@ namespace Sa11ytaire4All
         private bool playSoundUnsuccessfulMove = false;
         private bool playSoundOther = false;
 
-        private MediaElement mainMediaElement;
+        private MediaElement mainMediaElement = new MediaElement();
 
         public static Dictionary<string, Color> suitColours =
             new Dictionary<string, Color>
@@ -92,11 +92,8 @@ namespace Sa11ytaire4All
 
             this.InitializeComponent();
 
-            mainMediaElement = new CommunityToolkit.Maui.Views.MediaElement();
             mainMediaElement.ShouldShowPlaybackControls = false;
             mainMediaElement.IsVisible = false;
-
-            InnerMainGrid.Children.Add(mainMediaElement);
 
             SetOrientationLayout();
 
@@ -139,11 +136,7 @@ namespace Sa11ytaire4All
         {
             // Release the MediaElement to prevent the standalone media element being available
             // after the ap has been closed.
-
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                mainMediaElement.Handler?.DisconnectHandler();
-            });
+            mainMediaElement.Handler?.DisconnectHandler();
         }
 
         public static bool GetMergeFaceDownCardsSetting()
@@ -521,6 +514,16 @@ namespace Sa11ytaire4All
                 playSoundUnsuccessfulMove = (bool)Preferences.Get("PlaySoundUnsuccessfulMove", false);
                 playSoundOther = (bool)Preferences.Get("PlaySoundOther", false);
 
+                // Barker Todo: It seems when the page reappears after dismissing the Settings page,
+                // the MediaElement behaves as though it's not longer attached beneath the Main page.
+                // So re-add it here, but figure this out! (Hopefully the fact the same element's 
+                // been added multiple times isn't going to cause problems in the meantime.)
+
+                if (playSoundSuccessfulMove || playSoundUnsuccessfulMove || playSoundOther)
+                {
+                    InnerMainGrid.Children.Add(mainMediaElement);
+                }
+
                 // First-run message.
 
                 var showFirstRunMessage = (bool)Preferences.Get("ShowFirstRunMessage", true);
@@ -552,13 +555,13 @@ namespace Sa11ytaire4All
                     if (!OptionKeepGameAcrossSessions || !LoadSession())
                     {
                         RestartGame(false /* screenReaderAnnouncement. */);
-                    }
 
-                    timerPlayFirstDealSounds = new Timer(
-                        new TimerCallback((s) => MakeFirstDealSounds()),
-                            null,
-                            TimeSpan.FromMilliseconds(500),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                        timerPlayFirstDealSounds = new Timer(
+                            new TimerCallback((s) => MakeFirstDealSounds()),
+                                null,
+                                TimeSpan.FromMilliseconds(500),
+                                TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    }
                 }
             }
         }
@@ -1531,6 +1534,8 @@ namespace Sa11ytaire4All
                 mainMediaElement.Source = MediaSource.FromResource(
                                             success ? "successmove.mp4" : "notsuccessmove.mp4");
 
+                Debug.WriteLine("PlaySound: " + mainMediaElement.Source.ToString());
+
                 mainMediaElement.Play();
             }
         }
@@ -1547,6 +1552,8 @@ namespace Sa11ytaire4All
                 try
                 {
                     mainMediaElement.Source = MediaSource.FromResource(soundFilename);
+
+                    Debug.WriteLine("PlaySoundFile: " + mainMediaElement.Source.ToString());
 
                     mainMediaElement.Play();
                 }

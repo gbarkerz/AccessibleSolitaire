@@ -1,6 +1,4 @@
 
-using Microsoft.Maui.Graphics.Converters;
-
 namespace Sa11ytaire4All.Views;
 
 public partial class SettingsPage : ContentPage
@@ -171,7 +169,7 @@ public partial class SettingsPage : ContentPage
 
         var keepGameAcrossSessions = KeepGameAcrossSessionsSwitch.IsToggled;
         Preferences.Set("KeepGameAcrossSessions", keepGameAcrossSessions);
-        
+
         Navigation.PopModalAsync();
     }
 }
