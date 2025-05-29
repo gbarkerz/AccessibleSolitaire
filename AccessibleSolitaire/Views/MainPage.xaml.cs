@@ -1629,5 +1629,18 @@ namespace Sa11ytaire4All
                 MainPage.MainPageSingleton?.RestartGame(true);
             }
         }
+
+        private void MenuFlyoutItemShowZoomPopup_Clicked(object sender, EventArgs e)
+        {
+            var menuFlyoutItem = sender as MenuFlyoutItem;
+            if (menuFlyoutItem != null)
+            {
+                var dealtCard = menuFlyoutItem.BindingContext as DealtCard;
+                if ((dealtCard != null) && (dealtCard.Card != null))
+                {
+                    ShowZoomedCardPopup(dealtCard.Card, true);
+                }
+            }
+        }
     }
 }

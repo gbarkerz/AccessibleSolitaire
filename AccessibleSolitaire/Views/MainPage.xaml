@@ -104,7 +104,9 @@
                     Padding="0" Margin="0">
                 <FlyoutBase.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="{x:Static resources:StringResources.ShowZoomPopup}" />
+                        <MenuFlyoutItem 
+                            Text="{x:Static resources:StringResources.ShowZoomPopup}" 
+                            Clicked="MenuFlyoutItemShowZoomPopup_Clicked" />
                     </MenuFlyout>
                 </FlyoutBase.ContextFlyout>
                 
