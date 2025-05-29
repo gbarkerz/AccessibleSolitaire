@@ -193,28 +193,16 @@ namespace Sa11ytaire4All
             SetUpturnedCardsVisuals();
 
             var targetCardPileCount = _targetPiles[0].Count;
-            if (targetCardPileCount > 0)
-            {
-                TargetPileC.Card = _targetPiles[0][targetCardPileCount - 1];
-            }
+            TargetPileC.Card = (targetCardPileCount > 0 ? _targetPiles[0][targetCardPileCount - 1] : null);
 
             targetCardPileCount = _targetPiles[1].Count;
-            if (targetCardPileCount > 0)
-            {
-                TargetPileD.Card = _targetPiles[1][targetCardPileCount - 1];
-            }
+            TargetPileD.Card = (targetCardPileCount > 0 ? _targetPiles[1][targetCardPileCount - 1] : null);
 
             targetCardPileCount = _targetPiles[2].Count;
-            if (targetCardPileCount > 0)
-            {
-                TargetPileH.Card = _targetPiles[2][targetCardPileCount - 1];
-            }
+            TargetPileH.Card = (targetCardPileCount > 0 ? _targetPiles[2][targetCardPileCount - 1] : null);
 
             targetCardPileCount = _targetPiles[3].Count;
-            if (targetCardPileCount > 0)
-            {
-                TargetPileS.Card = _targetPiles[3][targetCardPileCount - 1];
-            }
+            TargetPileS.Card = (targetCardPileCount > 0 ? _targetPiles[3][targetCardPileCount - 1] : null);
         }
     }
 }

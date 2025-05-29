@@ -25,7 +25,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>a11y.guybarker.accessiblesolitaire</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.6</string>
+	<string>2.7</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 </dict>
