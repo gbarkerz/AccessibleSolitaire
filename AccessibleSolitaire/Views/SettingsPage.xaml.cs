@@ -92,6 +92,18 @@ public partial class SettingsPage : ContentPage
 
         var keepGameAcrossSessions = (bool)Preferences.Get("KeepGameAcrossSessions", true);
         KeepGameAcrossSessionsSwitch.IsToggled = keepGameAcrossSessions;
+
+#if WINDOWS
+        this.Loaded += SettingsPage_Loaded;
+#endif
+    }
+
+    private void SettingsPage_Loaded(object? sender, EventArgs e)
+    {
+        // Always set focus to the first control in the Settings page. If we don't set focus here,
+        // focus can be left in the MainPage UI, and tabbing moves focus through the various areas
+        // of the game before moving to the Settings page UI.
+        CardTurnCountPicker.Focus();
     }
 
     private void CloseButton_Clicked(object sender, EventArgs e)

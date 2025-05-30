@@ -738,9 +738,9 @@ Z: Show card zoom popup.</value>
     <value>Game Sessions</value>
   </data>
   <data name="KeepGameAcrossSessionsInstructions" xml:space="preserve">
-    <value>Maintain in-progress games across game sessions, so after closing and re-opening the app, the earlier game can be continued.</value>
+    <value>Save the state of the current game when the app is closed, so when the app is next reopened the earlier game can be continued.</value>
   </data>
   <data name="KeepGameAcrossSessionsSwitchName" xml:space="preserve">
-    <value>Keep game state:</value>
+    <value>Save game state:</value>
   </data>
 </root>

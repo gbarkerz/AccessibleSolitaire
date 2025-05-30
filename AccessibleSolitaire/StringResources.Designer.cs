@@ -891,7 +891,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maintain in-progress games across game sessions, so after closing and re-opening the app, the earlier game can be continued..
+        ///   Looks up a localized string similar to Save the state of the current game when the app is closed, so when the app is next reopened the earlier game can be continued..
         /// </summary>
         internal static string KeepGameAcrossSessionsInstructions {
             get {
@@ -900,7 +900,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keep game state:.
+        ///   Looks up a localized string similar to Save game state:.
         /// </summary>
         internal static string KeepGameAcrossSessionsSwitchName {
             get {
