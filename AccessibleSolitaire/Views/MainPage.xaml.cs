@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Maui.Views;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Platform;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
-using Switch = Microsoft.Maui.Controls.Switch;
-using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Plugin.Maui.KeyListener;
 
 namespace Sa11ytaire4All
 {
@@ -77,6 +76,8 @@ namespace Sa11ytaire4All
                 { "Light Coral", Colors.LightCoral }
             };
 
+        private KeyboardBehavior? keyboardBehavior;
+
         public MainPage()
         {
             MainPage.MainPageSingleton = this;
@@ -120,6 +121,15 @@ namespace Sa11ytaire4All
             mainMediaElement.MediaEnded += MainMediaElement_MediaEnded;
 
             this.Unloaded += MainPage_Unloaded;
+
+            // Initialize cross-platform keyboard behavior
+            keyboardBehavior = new KeyboardBehavior();
+            this.Behaviors.Add(keyboardBehavior);
+        }
+
+        private void KeyboardBehavior_KeyDown(object? sender, KeyPressedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void MainMediaElement_MediaEnded(object? sender, EventArgs e)
@@ -731,10 +741,8 @@ namespace Sa11ytaire4All
                 // Always run this on the UI thread.
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    CardButton.IsEnabled = true;
-
-                    // Make sure the contained Switch is visible.
-                    var cardButton = CardButton.FindByName("CardButton") as Switch;
+                    CardButton.IsEnabled = true;                    // Make sure the contained Switch is visible.
+                    var cardButton = CardButton.FindByName("CardButton") as Microsoft.Maui.Controls.Switch;
                     if (cardButton != null)
                     {
                         cardButton.IsVisible = true;
@@ -1404,8 +1412,7 @@ namespace Sa11ytaire4All
 
             string empty = MyGetString("Empty");
             string pile = MyGetString("Pile");
-            string to = MyGetString("To");
-            string card = MyGetString("Card");
+            string to = MyGetString("Card");
             string cards = MyGetString("Cards");
             string facedown = MyGetString("FaceDown");
 
@@ -1456,9 +1463,8 @@ namespace Sa11ytaire4All
                 stateMessage += ", ";
 
                 if (cFaceDown > 0)
-                {
-                    stateMessage += cFaceDown + " " +
-                        (cFaceDown > 1 ? cards : card) + " " + facedown;
+                {                    stateMessage += cFaceDown + " " +
+                        (cFaceDown > 1 ? cards : to) + " " + facedown;
 
                     stateMessage += (i < cCardPiles - 1 ? ", " : ".");
                 }
@@ -1641,6 +1647,104 @@ namespace Sa11ytaire4All
                     ShowZoomedCardPopup(dealtCard.Card, true);
                 }
             }
+        }        
+        
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+            
+            // Subscribe to keyboard events
+            if (keyboardBehavior != null)
+            {
+                keyboardBehavior.KeyDown += OnKeyDown;
+                keyboardBehavior.KeyUp += OnKeyUp;
+            }
+        }
+
+        protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+        {
+            base.OnNavigatedFrom(args);
+            
+            // Unsubscribe from keyboard events
+            if (keyboardBehavior != null)
+            {
+                keyboardBehavior.KeyDown -= OnKeyDown;
+                keyboardBehavior.KeyUp -= OnKeyUp;
+            }
+        }
+
+        private void OnKeyDown(object? sender, KeyPressedEventArgs e)
+        {
+            // Handle key down events for cross-platform keyboard shortcuts
+            switch (e.Keys)
+            {
+                case KeyboardKeys.F1:
+                    ShowKeyboardShortcuts();
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.F6:
+                    // Check if Shift is pressed for backward navigation
+                    // Since we can't easily detect modifiers, we'll handle both directions
+                    HandleF6(e.Modifiers == KeyboardModifiers.Shift); // Forward by default
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.H:
+                    LaunchHelp();
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.N:
+                    PerformNextCardAction();
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.R:
+                    QueryRestartGame();
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.Z:
+                    var focusedCard = CardButton.FocusedCardButtonCard;
+                    if (focusedCard != null)
+                    {
+                        ShowZoomedCardPopup(focusedCard, false);
+                    }else{
+                        var dealtCard = CardDeckUpturned.Card;
+                        if (dealtCard != null)
+                        {
+                            ShowZoomedCardPopup(dealtCard, false);
+                        }
+                    }
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.M:
+                    AnnounceAvailableMoves();
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.U:
+                    AnnounceStateRemainingCards(true);
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.T:
+                    AnnounceStateTargetPiles(true);
+                    e.Handled = true;
+                    break;
+
+                case KeyboardKeys.D:
+                    AnnounceStateDealtCardPiles(true);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void OnKeyUp(object? sender, KeyPressedEventArgs e)
+        {
+            // Handle key up events if needed
         }
     }
 }
