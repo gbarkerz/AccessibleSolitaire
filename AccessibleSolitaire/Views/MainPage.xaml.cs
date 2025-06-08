@@ -1,13 +1,10 @@
 ﻿using CommunityToolkit.Maui.Views;
-using Microsoft.Maui.Controls;
+using Plugin.Maui.KeyListener;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Plugin.Maui.KeyListener;
 
 namespace Sa11ytaire4All
 {
@@ -1686,6 +1683,9 @@ namespace Sa11ytaire4All
                 case KeyboardKeys.F6:
                     // Check if Shift is pressed for backward navigation
                     // Since we can't easily detect modifiers, we'll handle both directions
+
+                    // Modifiers is a bitfield here, and we'll move backwards if the Shift key,
+                    // and only the Shift key, is pressed.
                     HandleF6(e.Modifiers == KeyboardModifiers.Shift); // Forward by default
                     e.Handled = true;
                     break;
@@ -1710,7 +1710,9 @@ namespace Sa11ytaire4All
                     if (focusedCard != null)
                     {
                         ShowZoomedCardPopup(focusedCard, false);
-                    }else{
+                    }
+                    else
+                    {
                         var dealtCard = CardDeckUpturned.Card;
                         if (dealtCard != null)
                         {
@@ -1738,6 +1740,20 @@ namespace Sa11ytaire4All
                 case KeyboardKeys.D:
                     AnnounceStateDealtCardPiles(true);
                     e.Handled = true;
+                    break;
+
+                case KeyboardKeys.LeftArrow:
+                case KeyboardKeys.RightArrow:
+
+                    e.Handled = false;
+
+                    if (MainPage.MainPageSingleton != null)
+                    {
+                        MainPage.MainPageSingleton.MoveToNearbyDealtCardPile(e.Keys == KeyboardKeys.RightArrow);
+
+                        e.Handled = true;
+                    }
+
                     break;
             }
         }

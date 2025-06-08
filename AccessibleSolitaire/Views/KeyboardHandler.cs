@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Views;
-using Microsoft.Maui.Controls;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
@@ -12,41 +11,29 @@ namespace Sa11ytaire4All
     // This file contains code relating to reacting to keyboard input.
     public partial class MainPage : ContentPage
     {
-#if WINDOWS
-        public bool MoveToNearbyDealtCardPile(DealtCard dealtCard, bool moveForward)
+        public void MoveToNearbyDealtCardPile(bool moveForward)
         {
-            var moved = false;
+            // Barker Note: I've not found a way of moving keyboard focus directly to an
+            // item in a CollectionView. All I can do it move focus to the CollectionView
+            // and then have the user press Tab to move to a contained item. That defeats
+            // the object to reacting to an arrow press, so instead simulate a tab (or
+            // shift tab) in response to the arrow press.
 
-            if (dealtCard != null)
+            var inputSimulator = new InputSimulator();
+
+            // Simulate pressing the Shift key if necessary.
+            if (!moveForward)
             {
-                // Barker Note: I've not found a way of moving keyboard focus directly to an
-                // item in a CollectionView. All I can do it move focus to the CollectionView
-                // and then have the user press Tab to move to a contained item. That defeats
-                // the object to reacting to an arrow press, so instead simulate a tab (or
-                // shift tab) in response to the arrow press.
-
-                if ((!moveForward && (dealtCard.CurrentDealtCardPileIndex > 0)) ||
-                    (moveForward && (dealtCard.CurrentDealtCardPileIndex < 6)))
-                {
-                    var inputSimulator = new InputSimulator();
-
-                    // Simulate pressing the Shift key if necessary.
-                    if (!moveForward)
-                    {
-                        inputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
-                    }
-
-                    // Simulate pressing the Tab key.
-                    inputSimulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-
-                    if (!moveForward)
-                    {
-                        inputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
-                    }
-                }
+                inputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
             }
 
-            return moved;
+            // Simulate pressing the Tab key.
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
+
+            if (!moveForward)
+            {
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
+            }
         }
 
         public void AnnounceAvailableMoves()
@@ -307,14 +294,14 @@ namespace Sa11ytaire4All
             return suitTarget;
         }
 
-        public void HandleF6(bool forward)
+        public void HandleF6(bool backwards)
         {
             if (NextCardDeck.IsFocused ||
                 IsCardButtonFocused(CardDeckUpturnedObscuredLower) ||
                 IsCardButtonFocused(CardDeckUpturnedObscuredHigher) ||
                 IsCardButtonFocused(CardDeckUpturned))
             {
-                if (forward)
+                if (!backwards)
                 {
                     TargetPileC.Focus();
                 }
@@ -328,7 +315,7 @@ namespace Sa11ytaire4All
                      IsCardButtonFocused(TargetPileH) ||
                      IsCardButtonFocused(TargetPileS))
             {
-                if (forward)
+                if (!backwards)
                 {
                     MoveFocusToDealtCardPiles();
                 }
@@ -339,7 +326,7 @@ namespace Sa11ytaire4All
             }
             else // Focus is on dealt card piles.
             {
-                if (forward)
+                if (!backwards)
                 {
                     NextCardDeck.Focus();
                 }
@@ -427,6 +414,5 @@ namespace Sa11ytaire4All
                 }
             }
         }
-#endif
     }
 }
