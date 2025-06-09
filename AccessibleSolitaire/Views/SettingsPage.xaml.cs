@@ -77,6 +77,12 @@ public partial class SettingsPage : ContentPage
         var playSoundOther = (bool)Preferences.Get("PlaySoundOther", false);
         PlaySoundOtherSwitch.IsToggled = playSoundOther;
 
+        var celebrationExperienceVisual = (bool)Preferences.Get("CelebrationExperienceVisual", false);
+        CelebrationExperienceVisualSwitch.IsToggled = celebrationExperienceVisual;
+
+        var celebrationExperienceAudio = (bool)Preferences.Get("CelebrationExperienceAudio", false);
+        CelebrationExperienceAudioSwitch.IsToggled = celebrationExperienceAudio;
+
         // Game playing options.
 
         for (int i = 1; i <= 3; ++i)
@@ -170,6 +176,12 @@ public partial class SettingsPage : ContentPage
 
         var playSoundOther = PlaySoundOtherSwitch.IsToggled;
         Preferences.Set("PlaySoundOther", playSoundOther);
+
+        var celebrationExperienceVisual = CelebrationExperienceVisualSwitch.IsToggled;
+        Preferences.Set("CelebrationExperienceVisual", celebrationExperienceVisual);
+
+        var celebrationExperienceAudio = CelebrationExperienceAudioSwitch.IsToggled;
+        Preferences.Set("CelebrationExperienceAudio", celebrationExperienceAudio);
 
         // Game playing options.
 

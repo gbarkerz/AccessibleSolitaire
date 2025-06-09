@@ -502,6 +502,69 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Celebration Experience.
+        /// </summary>
+        internal static string CelebrationExperience {
+            get {
+                return ResourceManager.GetString("CelebrationExperience", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio Experience.
+        /// </summary>
+        internal static string CelebrationExperienceAudio {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this setting to have a celebratory sound played when the game is won..
+        /// </summary>
+        internal static string CelebrationExperienceAudioInstructions {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceAudioInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio experience:.
+        /// </summary>
+        internal static string CelebrationExperienceAudioSwitchLabel {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceAudioSwitchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visual experience.
+        /// </summary>
+        internal static string CelebrationExperienceVisual {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceVisual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this setting to have the target card piles spin round when a game is won..
+        /// </summary>
+        internal static string CelebrationExperienceVisualInstructions {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceVisualInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visual celebration:.
+        /// </summary>
+        internal static string CelebrationExperienceVisualSwitchLabel {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceVisualSwitchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
@@ -1569,7 +1632,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Screen Reader.
+        ///   Looks up a localized string similar to Game state announcement.
         /// </summary>
         internal static string ShowStateAnnouncementButton {
             get {
@@ -1578,7 +1641,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show state announcement button:.
+        ///   Looks up a localized string similar to Show game state announcement button:.
         /// </summary>
         internal static string ShowStateAnnouncementButtonCheckboxLabel {
             get {
@@ -1601,15 +1664,6 @@ namespace Sa11ytaire4All {
         internal static string ShowZoomPopup {
             get {
                 return ResourceManager.GetString("ShowZoomPopup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Signing in....
-        /// </summary>
-        internal static string SigningIn {
-            get {
-                return ResourceManager.GetString("SigningIn", resourceCulture);
             }
         }
         

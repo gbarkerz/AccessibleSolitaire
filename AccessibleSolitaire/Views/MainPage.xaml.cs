@@ -49,7 +49,9 @@ namespace Sa11ytaire4All
         private bool playSoundSuccessfulMove = false;
         private bool playSoundUnsuccessfulMove = false;
         private bool playSoundOther = false;
-
+        private bool celebrationExperienceVisual = false;
+        private bool celebrationExperienceAudio = false;
+        
         private MediaElement mainMediaElement = new MediaElement();
 
         public static Dictionary<string, Color> suitColours =
@@ -531,6 +533,9 @@ namespace Sa11ytaire4All
                 playSoundSuccessfulMove = (bool)Preferences.Get("PlaySoundSuccessfulMove", false);
                 playSoundUnsuccessfulMove = (bool)Preferences.Get("PlaySoundUnsuccessfulMove", false);
                 playSoundOther = (bool)Preferences.Get("PlaySoundOther", false);
+
+                celebrationExperienceVisual = (bool)Preferences.Get("CelebrationExperienceVisual", false);
+                celebrationExperienceAudio = (bool)Preferences.Get("CelebrationExperienceAudio", false);
 
                 // Barker Todo: It seems when the page reappears after dismissing the Settings page,
                 // the MediaElement behaves as though it's not longer attached beneath the Main page.
@@ -1256,6 +1261,8 @@ namespace Sa11ytaire4All
                 timerDelayScreenReaderAnnouncement = null;
             }
 
+            StartCelebrating();
+
             var answer = await DisplayAlert(
                 MainPage.MyGetString("Sa11ytaire"),
                 MainPage.MyGetString("QueryRestartWonGame"),
@@ -1264,8 +1271,62 @@ namespace Sa11ytaire4All
 
             if (answer)
             {
+                TargetPileC.RotateTo(0, 0);
+                TargetPileD.RotateTo(0, 0);
+                TargetPileH.RotateTo(0, 0);
+                TargetPileS.RotateTo(0, 0);
+
                 RestartGame(true /* screenReaderAnnouncement. */);
             }
+        }
+
+        private Timer? timerDelayCardSpin;
+
+        private int countOfSpinningCards;
+
+        private void StartCelebrating()
+        {
+            if (celebrationExperienceVisual)
+            {
+                countOfSpinningCards = 0;
+
+                timerDelayCardSpin = new Timer(
+                    new TimerCallback((s) => DelayCardSpin()), null, 0, 200);
+            }
+        }
+
+        private void DelayCardSpin()
+        {
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                switch (countOfSpinningCards)
+                {
+                    case 0:
+                        TargetPileC.RelRotateTo(3600, 10000);
+                        break;
+
+                    case 1:
+                        TargetPileD.RelRotateTo(3600, 10000);
+                        break;
+
+                    case 2:
+                        TargetPileH.RelRotateTo(3600, 10000);
+                        break;
+
+                    case 3:
+                        TargetPileS.RelRotateTo(3600, 10000);
+                        break;
+
+                    default:
+                        timerDelayCardSpin?.Dispose();
+                        timerDelayCardSpin = null;
+
+                        break;
+                }
+
+                ++countOfSpinningCards;
+            });
         }
 
         private void StateAnnouncementButton_Clicked(object sender, EventArgs e)

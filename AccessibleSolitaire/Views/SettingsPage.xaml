@@ -36,6 +36,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <!-- General Game Play. -->
@@ -49,6 +51,7 @@
                 <Grid Grid.Row="1">
 
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -514,7 +517,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" 
@@ -573,6 +575,77 @@
 
                 </Grid>
 
+                <!-- Celebration Experience. -->
+
+                <Label x:Name="CelebrationExperienceHeader" Grid.Row="10" 
+                    FontAttributes="Bold" 
+                    Margin="8,12,0,0"
+                    FontSize="Subtitle" SemanticProperties.HeadingLevel="Level2"
+                    Text="{x:Static resources:StringResources.CelebrationExperience}" />
+
+                <Grid x:Name="CelebrationExperienceGrid" Grid.Row="11">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" 
+                        Margin="8,8,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.CelebrationExperienceVisual}" />
+
+                    <Label Grid.Row="1" 
+                        Margin="8,0,8,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.CelebrationExperienceVisualInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="2" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.CelebrationExperienceVisualSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="CelebrationExperienceVisualSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:StringResources.CelebrationExperienceVisual}" 
+                            SemanticProperties.Hint="{x:Static resources:StringResources.CelebrationExperienceVisualInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <Label Grid.Row="3" 
+                        Margin="8,8,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.CelebrationExperienceAudio}" />
+
+                    <Label Grid.Row="4" 
+                        Margin="8,0,8,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:StringResources.CelebrationExperienceAudioInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="5" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:StringResources.CelebrationExperienceAudioSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="CelebrationExperienceAudioSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:StringResources.CelebrationExperienceAudio}" 
+                            SemanticProperties.Hint="{x:Static resources:StringResources.CelebrationExperienceAudioInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                </Grid>
+                
             </Grid>
         
         </ScrollView>

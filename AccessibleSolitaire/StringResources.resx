@@ -471,16 +471,13 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>Show most recent notification</value>
   </data>
   <data name="ShowStateAnnouncementButton" xml:space="preserve">
-    <value>Screen Reader</value>
+    <value>Game state announcement</value>
   </data>
   <data name="ShowStateAnnouncementButtonCheckboxLabel" xml:space="preserve">
-    <value>Show state announcement button:</value>
+    <value>Show game state announcement button:</value>
   </data>
   <data name="ShowStateAnnouncementButtonInstructions" xml:space="preserve">
     <value>Show a button to have a screen reader announce the state of the entire game.</value>
-  </data>
-  <data name="SigningIn" xml:space="preserve">
-    <value>Signing in...</value>
   </data>
   <data name="SingleKeyToMoveCardCheckBox.Content" xml:space="preserve">
     <value>Single key to move card</value>
@@ -742,5 +739,26 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="KeepGameAcrossSessionsSwitchName" xml:space="preserve">
     <value>Save game state:</value>
+  </data>
+  <data name="CelebrationExperience" xml:space="preserve">
+    <value>Celebration Experience</value>
+  </data>
+  <data name="CelebrationExperienceVisual" xml:space="preserve">
+    <value>Visual experience</value>
+  </data>
+  <data name="CelebrationExperienceVisualInstructions" xml:space="preserve">
+    <value>Use this setting to have the target card piles spin round when a game is won.</value>
+  </data>
+  <data name="CelebrationExperienceVisualSwitchLabel" xml:space="preserve">
+    <value>Visual celebration:</value>
+  </data>
+  <data name="CelebrationExperienceAudio" xml:space="preserve">
+    <value>Audio Experience</value>
+  </data>
+  <data name="CelebrationExperienceAudioSwitchLabel" xml:space="preserve">
+    <value>Audio experience:</value>
+  </data>
+  <data name="CelebrationExperienceAudioInstructions" xml:space="preserve">
+    <value>Use this setting to have a celebratory sound played when the game is won.</value>
   </data>
 </root>
