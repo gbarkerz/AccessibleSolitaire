@@ -445,10 +445,12 @@ namespace Sa11ytaire4All
                     vm.SuitColoursClubs = DetermineSuitColour(suitColourNameClubs, Colors.Black, Colors.White);
 
                     var suitColourNameDiamonds = (string)Preferences.Get("SuitColoursDiamonds", "Default");
-                    vm.SuitColoursDiamonds = DetermineSuitColour(suitColourNameDiamonds, Colors.Red, Colors.Red);
+                    vm.SuitColoursDiamonds = DetermineSuitColour(suitColourNameDiamonds,
+                                                Color.FromRgb(0xD0, 0x00, 0x00), Colors.Red);
 
                     var suitColourNameHearts = (string)Preferences.Get("SuitColoursHearts", "Default");
-                    vm.SuitColoursHearts = DetermineSuitColour(suitColourNameHearts, Colors.Red, Colors.Red);
+                    vm.SuitColoursHearts = DetermineSuitColour(suitColourNameHearts,
+                                                Color.FromRgb(0xD0, 0x00, 0x00), Colors.Red);
 
                     var suitColourNameSpades = (string)Preferences.Get("SuitColoursSpades", "Default");
                     vm.SuitColoursSpades = DetermineSuitColour(suitColourNameSpades, Colors.Black, Colors.White);
@@ -467,8 +469,8 @@ namespace Sa11ytaire4All
                     else
                     {
                         vm.SuitColoursClubs = Colors.White;
-                        vm.SuitColoursDiamonds = Colors.Red;
-                        vm.SuitColoursHearts = Colors.Red;
+                        vm.SuitColoursDiamonds = Color.FromRgb(0xD0, 0x00, 0x00);
+                        vm.SuitColoursHearts = Color.FromRgb(0xD0, 0x00, 0x00);
                         vm.SuitColoursSpades = Colors.White;
                     }
                 }

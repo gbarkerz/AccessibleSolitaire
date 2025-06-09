@@ -456,7 +456,7 @@ namespace Sa11ytaire4All.Views
 
             if (Application.Current.RequestedTheme != AppTheme.Dark)
             {
-                backgroundColor = (card == null ? Colors.LightGreen : Colors.White);
+                backgroundColor = (card == null ? Color.FromRgb(0xC0, 0xFF, 0xC0) : Colors.White);
             }
             else
             {
