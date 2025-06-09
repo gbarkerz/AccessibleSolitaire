@@ -124,11 +124,6 @@ namespace Sa11ytaire4All
             this.Behaviors.Add(keyboardBehavior);
         }
 
-        private void KeyboardBehavior_KeyDown(object? sender, KeyPressedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void MainMediaElement_MediaEnded(object? sender, EventArgs e)
         {
             // Barker Todo: On Android, the media element can be accessed outside of the app 
@@ -462,10 +457,20 @@ namespace Sa11ytaire4All
                 {
                     Debug.WriteLine("MainPage Attempt to handle suit colours: " + ex.Message);
 
-                    vm.SuitColoursClubs = Colors.Black;
-                    vm.SuitColoursDiamonds = Colors.Red;
-                    vm.SuitColoursHearts = Colors.Red;
-                    vm.SuitColoursSpades = Colors.Black;
+                    if (Application.Current.RequestedTheme != AppTheme.Dark)
+                    {
+                        vm.SuitColoursClubs = Colors.Black;
+                        vm.SuitColoursDiamonds = Colors.Red;
+                        vm.SuitColoursHearts = Colors.Red;
+                        vm.SuitColoursSpades = Colors.Black;
+                    }
+                    else
+                    {
+                        vm.SuitColoursClubs = Colors.White;
+                        vm.SuitColoursDiamonds = Colors.Red;
+                        vm.SuitColoursHearts = Colors.Red;
+                        vm.SuitColoursSpades = Colors.White;
+                    }
                 }
 
                 // Barker: Remove use of this static.

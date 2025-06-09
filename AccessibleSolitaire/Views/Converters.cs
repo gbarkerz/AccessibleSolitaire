@@ -460,7 +460,7 @@ namespace Sa11ytaire4All.Views
             }
             else
             {
-                backgroundColor = (card == null ? Colors.DarkGreen : Color.FromRgb(0x20, 0x20, 0x20));
+                backgroundColor = (card == null ? Colors.Black : Color.FromRgb(0x20, 0x20, 0x20));
             }
 
             return backgroundColor;
