@@ -3,13 +3,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Maui.KeyListener;
 
-
-#if WINDOWS
-using Microsoft.UI.Input;
-using Windows.System;
-using Windows.UI.Core;
-#endif
-
 namespace Sa11ytaire4All
 {
     public static class MauiProgram
