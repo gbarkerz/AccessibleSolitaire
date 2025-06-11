@@ -81,7 +81,10 @@ namespace Sa11ytaire4All
                                                 someCardsLeft ? "AllUpturnedCardsTurnedBack" : "NoNextCardsLeft");
             }
 
-            PlaySoundFile(soundFilename);
+            if (playSoundOther)
+            {
+                PlaySoundFile(soundFilename);
+            }
 
             SetUpturnedCardsVisuals();
 

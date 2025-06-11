@@ -579,11 +579,14 @@ namespace Sa11ytaire4All
                     {
                         RestartGame(false /* screenReaderAnnouncement. */);
 
-                        timerPlayFirstDealSounds = new Timer(
+                        if (playSoundOther)
+                        {
+                            timerPlayFirstDealSounds = new Timer(
                             new TimerCallback((s) => MakeFirstDealSounds()),
                                 null,
                                 TimeSpan.FromMilliseconds(500),
                                 TimeSpan.FromMilliseconds(Timeout.Infinite));
+                        }
                     }
                 }
             }
@@ -1037,7 +1040,10 @@ namespace Sa11ytaire4All
             if (screenReaderAnnouncement)
             {
                 // We only play sounds if the app's ready to make sounds.
-                PlaySoundFile("deal.mp4");
+                if (playSoundOther)
+                {
+                    PlaySoundFile("deal.mp4");
+                }
 
                 var announcement = MainPage.MyGetString("GameRestarted");
                 MakeDelayedScreenReaderAnnouncement(announcement);
@@ -1286,6 +1292,11 @@ namespace Sa11ytaire4All
 
         private void StartCelebrating()
         {
+            if (celebrationExperienceAudio)
+            {
+                PlaySoundFile("cromptonspinningmule.mp4");
+            }
+
             if (celebrationExperienceVisual)
             {
                 countOfSpinningCards = 0;
@@ -1622,20 +1633,17 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if (playSoundOther)
+            try
             {
-                try
-                {
-                    mainMediaElement.Source = MediaSource.FromResource(soundFilename);
+                mainMediaElement.Source = MediaSource.FromResource(soundFilename);
 
-                    Debug.WriteLine("PlaySoundFile: " + mainMediaElement.Source.ToString());
+                Debug.WriteLine("PlaySoundFile: " + mainMediaElement.Source.ToString());
 
-                    mainMediaElement.Play();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("PlaySoundFile: " + ex.Message);
-                }
+                mainMediaElement.Play();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("PlaySoundFile: " + ex.Message);
             }
         }
 
