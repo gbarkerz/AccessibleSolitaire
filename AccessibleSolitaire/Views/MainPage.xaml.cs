@@ -134,6 +134,8 @@ namespace Sa11ytaire4All
             // actually being able to play audio by nulling out the MediaElement source once 
             // media play has completed.
 
+            Debug.WriteLine("MainMediaElement_MediaEnded called.");
+
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 mainMediaElement.Source = null;
@@ -542,7 +544,8 @@ namespace Sa11ytaire4All
                 // So re-add it here, but figure this out! (Hopefully the fact the same element's 
                 // been added multiple times isn't going to cause problems in the meantime.)
 #if IOS
-                if (playSoundSuccessfulMove || playSoundUnsuccessfulMove || playSoundOther)
+                if (playSoundSuccessfulMove || playSoundUnsuccessfulMove || playSoundOther ||
+                    celebrationExperienceAudio || celebrationExperienceVisual)
                 {
                     InnerMainGrid.Children.Add(mainMediaElement);
                 }
