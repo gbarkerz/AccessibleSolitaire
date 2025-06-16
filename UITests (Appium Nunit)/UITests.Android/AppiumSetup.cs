@@ -40,10 +40,10 @@ namespace UITests
             // Release builds have Fast Deployment disabled
             // https://learn.microsoft.com/xamarin/android/deploy-test/building-apps/build-process#fast-deployment
             androidOptions.AddAdditionalAppiumOption(MobileCapabilityType.NoReset, "true");
-            androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppPackage, "com.companyname.applicationname");
+            androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppPackage, "a11y.gbarker.accessiblesolitaire");
 
             //Make sure to set [Register("com.companyname.applicationname.MainActivity")] on the MainActivity of your android application
-            androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppActivity, $"com.companyname.applicationname.MainActivity");
+            androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppActivity, $"a11y.gbarker.accessiblesolitaire.MainActivity");
             // END DEBUG BUILD SETUP
 
 
@@ -51,7 +51,7 @@ namespace UITests
             // make sure there is an emulator with the name below
             // If not specified, make sure you have an emulator booted
             //androidOptions.AddAdditionalAppiumOption("avd", "pixel_5_-_api_33");
-
+            
             // Note there are many more options that you can use to influence the app under test according to your needs
 
             driver = new AndroidDriver(androidOptions);
