@@ -451,6 +451,7 @@
                     Margin="0" Padding="0">
 
                     <ImageButton
+                        AutomationId="AppMenuButton"
                         SemanticProperties.Description="{x:Static resources:StringResources.Menu}"
                         Source="hamburger.png" Aspect="Fill"
                         WidthRequest="{Binding 
@@ -535,6 +536,7 @@
 
                     <!-- Add the Next Card button. -->
                     <local_source:NextCardPileButton Grid.Column="0" x:Name="NextCardDeck" 
+                        AutomationId="NextCardButton"
                         Clicked="NextCard_Click"
                         BackgroundColor="{AppThemeBinding Light=#0ED145, Dark=#0BA938}"
                         SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 

@@ -10,3 +10,8 @@ AccessibleSolitaire/Package.StoreAssociation.xml
 AccessibleSolitaire/Platforms/Windows/Package.appxmanifest
 AccessibleSolitaire/Properties/PublishProfiles/MSIX-win-x64.pubxml
 AccessibleSolitaire/Platforms/Windows/Package.appxmanifest
+/UITests (Appium Nunit)/UITests.Android/bin
+/UITests (Appium Nunit)/UITests.Android/obj
+/UITests (Appium Nunit)/UITests.Shared/obj
+/UITests (Appium Nunit)/UITests.Windows/bin
+/UITests (Appium Nunit)/UITests.Windows/obj

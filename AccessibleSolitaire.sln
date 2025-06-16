@@ -5,6 +5,12 @@ VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessibleSolitaire", "AccessibleSolitaire\AccessibleSolitaire.csproj", "{0F0FE10C-B5B2-08AC-840A-2FF6F2C5C5BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests.Android", "UITests (Appium Nunit)\UITests.Android\UITests.Android.csproj", "{D3D65CBC-2CC1-4401-BDB9-7575D57E12CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests.Shared", "UITests (Appium Nunit)\UITests.Shared\UITests.Shared.csproj", "{EC64A811-8EA6-430B-8912-F0C672BAA461}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests.Windows", "UITests (Appium Nunit)\UITests.Windows\UITests.Windows.csproj", "{144010B5-535F-46FF-A38D-C6A4CB8CA5F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +23,18 @@ Global
 		{0F0FE10C-B5B2-08AC-840A-2FF6F2C5C5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F0FE10C-B5B2-08AC-840A-2FF6F2C5C5BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0F0FE10C-B5B2-08AC-840A-2FF6F2C5C5BC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D3D65CBC-2CC1-4401-BDB9-7575D57E12CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D65CBC-2CC1-4401-BDB9-7575D57E12CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D65CBC-2CC1-4401-BDB9-7575D57E12CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D65CBC-2CC1-4401-BDB9-7575D57E12CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC64A811-8EA6-430B-8912-F0C672BAA461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC64A811-8EA6-430B-8912-F0C672BAA461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC64A811-8EA6-430B-8912-F0C672BAA461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC64A811-8EA6-430B-8912-F0C672BAA461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{144010B5-535F-46FF-A38D-C6A4CB8CA5F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{144010B5-535F-46FF-A38D-C6A4CB8CA5F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{144010B5-535F-46FF-A38D-C6A4CB8CA5F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{144010B5-535F-46FF-A38D-C6A4CB8CA5F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
