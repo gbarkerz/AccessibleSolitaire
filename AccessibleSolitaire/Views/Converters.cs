@@ -1,6 +1,7 @@
 ﻿// Copyright(c) Guy Barker. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Diagnostics;
 using System.Globalization;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
@@ -231,6 +232,8 @@ namespace Sa11ytaire4All.Views
 
                 var automationId = values[1] as string;
 
+                Debug.WriteLine("SuitSuitColoursToColor: automationId " + automationId);
+
                 switch (automationId)
                 {
                     case "TargetPileC":
@@ -279,6 +282,71 @@ namespace Sa11ytaire4All.Views
                             Colors.LightGrey : Colors.Grey);
                         break;
                 }
+            }
+
+            return suitColor;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // DealtCardSuitSuitColoursToColor() has no supplied AutomationId.
+    public class DealtCardSuitSuitColoursToColor : IMultiValueConverter
+    {
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            // Avoid build warnings re: Application.Current being null.
+            if (Application.Current == null)
+            {
+                return null;
+            }
+
+            if (values == null || (values.Length < 5))
+            {
+                return null;
+            }
+
+            // We must have at least one suit colour supplied.
+            if ((values[1] == null) && (values[2] == null) &&
+                (values[3] == null) && (values[4] == null))
+            {
+                return null;
+            }
+
+            Color? suitColor = null;
+
+            // We were supplied with a card?
+            if (values[0] == null)
+            {
+                return null;
+            }
+
+            var card = (Card)values[0];
+            switch (card.Suit)
+            {
+                case Suit.Clubs:
+                    suitColor = (Color)values[1];
+                    break;
+
+                case Suit.Diamonds:
+                    suitColor = (Color)values[2];
+                    break;
+
+                case Suit.Hearts:
+                    suitColor = (Color)values[3];
+                    break;
+
+                case Suit.Spades:
+                    suitColor = (Color)values[4];
+                    break;
+
+                default:
+                    suitColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                        Colors.LightGrey : Colors.Grey);
+                    break;
             }
 
             return suitColor;

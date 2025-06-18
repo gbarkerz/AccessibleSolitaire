@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Maui.KeyListener;
 using Sa11ytaire4All.Source;
+using Sa11ytaire4All.Views;
 using System.Diagnostics;
 
 #if WINDOWS
@@ -87,7 +88,28 @@ namespace Sa11ytaire4All
         {
             e.Handled = true;
 
-            if ((e.Key == Windows.System.VirtualKey.Space) ||
+            if (e.Key == Windows.System.VirtualKey.Z)
+            {
+                // Note: Context menus seem to appear in response to a right click, but not in response
+                // to a press of the Context Menu key (VirtualKey.Application). So add a shortcut to 
+                // show the zoom card popup.
+
+                // Is keyboard focus on a CardButton?
+                var focusedCardButtonCard = CardButton.FocusedCardButtonCard;
+                if (focusedCardButtonCard != null)
+                {
+                    MainPage.MainPageSingleton?.ShowZoomedCardPopup(focusedCardButtonCard, false);
+                }
+                else
+                {
+                    var dealtCard = GetDealtCardFromListViewItem(e);
+                    if (dealtCard != null)
+                    {
+                        MainPage.MainPageSingleton?.ShowZoomedCardPopup(dealtCard.Card, true);
+                    }
+                }
+            }
+            else if ((e.Key == Windows.System.VirtualKey.Space) ||
                 (e.Key == Windows.System.VirtualKey.Enter))
             {
                 e.Handled = false;

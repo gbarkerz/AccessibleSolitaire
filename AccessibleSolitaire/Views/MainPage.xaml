@@ -20,7 +20,7 @@
     <ContentPage.Resources>
 
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
-        <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
+        <local_views:DealtCardSuitSuitColoursToColor x:Key="DealtCardSuitSuitColoursToColor" />
         <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
         <local_views:ConverterForCardImageHorizontalVerticalOptions x:Key="ConverterForCardImageHorizontalVerticalOptions" />
         <local_views:CardWidthToDealtCardPileCollectionViewWidthConverter x:Key="CardWidthToDealtCardPileCollectionViewWidthConverter" />
@@ -256,10 +256,9 @@
                                     
                                     <toolkit:IconTintColorBehavior.TintColor>
                                         <MultiBinding Mode="OneWay" 
-                                            Converter="{StaticResource SuitSuitColoursToColor}">
+                                            Converter="{StaticResource DealtCardSuitSuitColoursToColor}">
 
                                             <Binding Path="Card" />
-                                            <Binding Path="AutomationId" />
 
                                             <Binding Source="{x:Reference MainPageInstance}" 
                                                 x:DataType="{x:Type local:MainPage}"

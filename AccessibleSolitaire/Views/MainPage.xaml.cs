@@ -463,19 +463,22 @@ namespace Sa11ytaire4All
                 {
                     Debug.WriteLine("MainPage Attempt to handle suit colours: " + ex.Message);
 
-                    if (Application.Current.RequestedTheme != AppTheme.Dark)
+                    if (Application.Current != null) // To prevent build warning.
                     {
-                        vm.SuitColoursClubs = Colors.Black;
-                        vm.SuitColoursDiamonds = Colors.Red;
-                        vm.SuitColoursHearts = Colors.Red;
-                        vm.SuitColoursSpades = Colors.Black;
-                    }
-                    else
-                    {
-                        vm.SuitColoursClubs = Colors.White;
-                        vm.SuitColoursDiamonds = Color.FromRgb(0xD0, 0x00, 0x00);
-                        vm.SuitColoursHearts = Color.FromRgb(0xD0, 0x00, 0x00);
-                        vm.SuitColoursSpades = Colors.White;
+                        if (Application.Current.RequestedTheme != AppTheme.Dark)
+                        {
+                            vm.SuitColoursClubs = Colors.Black;
+                            vm.SuitColoursDiamonds = Colors.Red;
+                            vm.SuitColoursHearts = Colors.Red;
+                            vm.SuitColoursSpades = Colors.Black;
+                        }
+                        else
+                        {
+                            vm.SuitColoursClubs = Colors.White;
+                            vm.SuitColoursDiamonds = Color.FromRgb(0xD0, 0x00, 0x00);
+                            vm.SuitColoursHearts = Color.FromRgb(0xD0, 0x00, 0x00);
+                            vm.SuitColoursSpades = Colors.White;
+                        }
                     }
                 }
 
@@ -1280,6 +1283,7 @@ namespace Sa11ytaire4All
 
             if (answer)
             {
+                // Intentionally don't await any of these.
                 TargetPileC.RotateTo(0, 0);
                 TargetPileD.RotateTo(0, 0);
                 TargetPileH.RotateTo(0, 0);
@@ -1781,23 +1785,6 @@ namespace Sa11ytaire4All
 
                 case KeyboardKeys.R:
                     QueryRestartGame();
-                    e.Handled = true;
-                    break;
-
-                case KeyboardKeys.Z:
-                    var focusedCard = CardButton.FocusedCardButtonCard;
-                    if (focusedCard != null)
-                    {
-                        ShowZoomedCardPopup(focusedCard, false);
-                    }
-                    else
-                    {
-                        var dealtCard = CardDeckUpturned.Card;
-                        if (dealtCard != null)
-                        {
-                            ShowZoomedCardPopup(dealtCard, false);
-                        }
-                    }
                     e.Handled = true;
                     break;
 
