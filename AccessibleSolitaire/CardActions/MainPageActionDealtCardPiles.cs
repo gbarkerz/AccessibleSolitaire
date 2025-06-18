@@ -51,6 +51,8 @@ namespace Sa11ytaire4All
             // Only take action when a card has been selected.
             if ((e.CurrentSelection == null) || (e.CurrentSelection.Count == 0))
             {
+                Debug.WriteLine("CardPile_SelectionChanged: No selection in " + listSelectionChanged.AutomationId);
+
                 // A card is being deselected, so we must make sure no selection feedback is
                 // left showing on the cards. At most only one card can currently be selected.
                 DeselectFirstSelectedCardInCollectionView(listSelectionChanged);
@@ -72,13 +74,15 @@ namespace Sa11ytaire4All
 
                 if (listSelectionChanged != null)
                 {
-                    listSelectionChanged.SelectedItem = null;
+                    DeselectAllCardsFromDealtCardPile(listSelectionChanged);
                 }
 
                 DeselectCard(selectedCard);
 
                 return;
             }
+
+            Debug.WriteLine("CardPile_SelectionChanged: Selection of " + selectedCard.AccessibleNameWithoutSelectionAndMofN);
 
             // Has an empty card pile been selected?
             if (selectedCard.CardState == CardState.KingPlaceHolder)
@@ -95,7 +99,7 @@ namespace Sa11ytaire4All
                     // Never leave the empty slot selected.
                     selectedCard.CardSelected = false;
 
-                    listSelectionChanged.SelectedItem = null;
+                    DeselectAllCardsFromDealtCardPile(listSelectionChanged);
                 }
             }
             else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
@@ -286,7 +290,8 @@ namespace Sa11ytaire4All
                 {
                     // Always deselect the selected item prior to moving anything between lists.
                     DeselectCard(cardMoving);
-                    listSelected.SelectedItem = null;
+
+                    DeselectAllCardsFromDealtCardPile(listSelected);
 
                     // Is the already selected card a King?
                     if ((cardMoving.Card != null) && CanCardBeMovedToEmptyDealtCardPile(cardMoving.Card))
@@ -318,8 +323,8 @@ namespace Sa11ytaire4All
             }
 
             // Always deselect the selected items prior to moving anything between lists.
-            listEmpty.SelectedItem = null;
-            listKing.SelectedItem = null;
+            DeselectAllCardsFromDealtCardPile(listEmpty);
+            DeselectAllCardsFromDealtCardPile(listKing);
 
             var listArray = vm.DealtCards[listKingIndex];
 
@@ -542,7 +547,7 @@ namespace Sa11ytaire4All
                         PlaySound(movedCard);
                     }
 
-                    listDealtCardPile.SelectedItem = null;
+                    DeselectAllCardsFromDealtCardPile(listDealtCardPile);
                 }
                 catch (Exception ex)
                 {
@@ -616,7 +621,7 @@ namespace Sa11ytaire4All
                 DeselectCard(cardBelow);
                 DeselectCard(cardAbove);
 
-                listAlreadySelected.SelectedItem = null;
+                DeselectAllCardsFromDealtCardPile(listAlreadySelected);
 
                 // On Android, deselecting a card inside the tap handler seems not to work.
                 // So delay the deselection a little until we're out of the tap handler.

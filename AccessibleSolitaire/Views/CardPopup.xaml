@@ -14,6 +14,12 @@
         working at some point in the future. -->
     <!--x:DataType="{x:Type local_views:CardPopup}"-->
 
+    <!-- *** BUILD WARNINGS ***
+        Around ten of these:
+        XamlC warning XC0022: Binding could be compiled to improve runtime performance if x:DataType is specified. 
+            See https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/compiled-bindings for more information.    
+    -->
+
     <toolkit:Popup.Resources>
         <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToCardPopupAccessibleName x:Key="CardToCardPopupAccessibleName" />

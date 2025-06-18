@@ -17,6 +17,14 @@
         done in a variety of converters based on orientation, but it seems likely that this will be 
         replaced with a more approved method of setting orientation-specific properties at some point. -->
 
+    <!-- *** BUILD WARNINGS ***
+        Very many of these: XamlC warning XC0045: Binding: Property "<Some property>" not found on "System.Object". 
+
+        Also:
+        XamlC warning XC0045: Binding: Property "BindingContext" not found on "Sa11ytaire4All.Source.DealtCard".
+        XamlC warning XC0045: Binding: Property "BindingContext" not found on "Sa11ytaire4All.Source.DealtCard".
+    -->
+    
     <ContentPage.Resources>
 
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />

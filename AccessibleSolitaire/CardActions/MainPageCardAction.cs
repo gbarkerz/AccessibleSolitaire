@@ -21,7 +21,7 @@ namespace Sa11ytaire4All
             {
                 var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
 
-                list.SelectedItem = null;
+                DeselectAllCardsFromDealtCardPile(list);
             }
         }
 

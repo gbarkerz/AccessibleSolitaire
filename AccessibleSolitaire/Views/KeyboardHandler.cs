@@ -405,7 +405,7 @@ namespace Sa11ytaire4All
                 {
                     if (dealtCard.CardSelected)
                     {
-                        collectionView.SelectedItem = null;
+                        DeselectAllCardsFromDealtCardPile(collectionView);
                     }
                     else
                     {

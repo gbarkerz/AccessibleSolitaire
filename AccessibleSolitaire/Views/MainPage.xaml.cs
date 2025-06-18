@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls;
 using Plugin.Maui.KeyListener;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
@@ -51,7 +52,7 @@ namespace Sa11ytaire4All
         private bool playSoundOther = false;
         private bool celebrationExperienceVisual = false;
         private bool celebrationExperienceAudio = false;
-        
+
         private MediaElement mainMediaElement = new MediaElement();
 
         public static Dictionary<string, Color> suitColours =
@@ -124,6 +125,21 @@ namespace Sa11ytaire4All
             // Initialize cross-platform keyboard behavior
             keyboardBehavior = new KeyboardBehavior();
             this.Behaviors.Add(keyboardBehavior);
+
+#if IOS
+            // On iOS, if the dealt card piles' CollectionViews have a SelectionMode of Single,
+            // a selected card cannot be programmatically deselected. Apparently is we have a 
+            // SelectionMode of None, a CollectionView does maintain whatever SelectedItem we
+            // set, and yet it doesn't impact the behavior of the items.
+
+            CardPile1.SelectionMode = SelectionMode.None;
+            CardPile2.SelectionMode = SelectionMode.None;
+            CardPile3.SelectionMode = SelectionMode.None;
+            CardPile4.SelectionMode = SelectionMode.None;
+            CardPile5.SelectionMode = SelectionMode.None;
+            CardPile6.SelectionMode = SelectionMode.None;
+            CardPile7.SelectionMode = SelectionMode.None;
+#endif
         }
 
         private void MainMediaElement_MediaEnded(object? sender, EventArgs e)
@@ -245,7 +261,7 @@ namespace Sa11ytaire4All
 
         private void OnTapGestureRecognizerTapped(object sender, TappedEventArgs args)
         {
-            Debug.WriteLine("Accessible Solitaire: Enter OnTapGestureRecognizerTapped.");
+            Debug.WriteLine("OnTapGestureRecognizerTapped: Enter OnTapGestureRecognizerTapped.");
 
             // BARKER TODO: If the Zoom Popup is visible now, it probably means that a tap has been released
             // after a long press. So do nothing here in that case. We don't want a card to be selected as
@@ -260,7 +276,7 @@ namespace Sa11ytaire4All
             // Do not react to a tap on a card if we've still processing an earlier tap.
             if (tapGestureProcessingInProgress)
             {
-                Debug.WriteLine("Accessible Solitaire: Ignore tap gesture while earlier tap gesture is in progress.");
+                Debug.WriteLine("OnTapGestureRecognizerTapped: Ignore tap gesture while earlier tap gesture is in progress.");
 
                 return;
             }
@@ -272,11 +288,16 @@ namespace Sa11ytaire4All
             var dealtCard = FindDealtCardFromCard(tappedCard, allowSelectionByFaceDownCard, out list);
             if ((dealtCard != null) && (list != null))
             {
-                Debug.WriteLine("Tapped on card: " + dealtCard.AccessibleName);
+                Debug.WriteLine("OnTapGestureRecognizerTapped: Tapped on card: " + dealtCard.AccessibleName);
 
                 // Toggle the selection state of the card which was tapped on.
                 if (list.SelectedItem == dealtCard)
                 {
+                    Debug.WriteLine("OnTapGestureRecognizerTapped: Delay deselection of: " + dealtCard.AccessibleName);
+
+                    string announcement = "Deselected" + " " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                    MakeDelayedScreenReaderAnnouncement(announcement);
+
                     // On Android, deselecting a card inside the tap handler seems not to work.
                     // So delay the deselection a little until we're out of the tap handler.
                     timerDeselectDealtCard = new Timer(
@@ -287,6 +308,8 @@ namespace Sa11ytaire4All
                 }
                 else
                 {
+                    Debug.WriteLine("OnTapGestureRecognizerTapped: Selecting now: " + dealtCard.AccessibleName);
+
                     list.SelectedItem = dealtCard;
                 }
             }
@@ -304,7 +327,7 @@ namespace Sa11ytaire4All
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                list.SelectedItem = null;
+                DeselectAllCardsFromDealtCardPile(list);
             });
         }
 
@@ -1283,11 +1306,19 @@ namespace Sa11ytaire4All
 
             if (answer)
             {
-                // Intentionally don't await any of these.
+                // ***BUILD WARNINGS***
+                //    warning CS4014: Because this call is not awaited, execution of the current method
+                //      continues before the call is completed.
+                //        Consider applying the 'await' operator to the result of the call.
+
+                // Stop any target card piles from rotating.
                 TargetPileC.RotateTo(0, 0);
                 TargetPileD.RotateTo(0, 0);
                 TargetPileH.RotateTo(0, 0);
                 TargetPileS.RotateTo(0, 0);
+
+                // Stop any running sounds.
+                mainMediaElement.Source = null;
 
                 RestartGame(true /* screenReaderAnnouncement. */);
             }
@@ -1827,6 +1858,13 @@ namespace Sa11ytaire4All
         private void OnKeyUp(object? sender, KeyPressedEventArgs e)
         {
             // Handle key up events if needed
+        }
+
+        private void DeselectAllCardsFromDealtCardPile(CollectionView dealtCardPile)
+        {
+            Debug.WriteLine("DeselectAllCardsFromDealtCardPile: " + dealtCardPile.AutomationId);
+
+            dealtCardPile.SelectedItem = null;
         }
     }
 }

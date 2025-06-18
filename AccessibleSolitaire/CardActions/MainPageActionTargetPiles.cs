@@ -294,7 +294,7 @@ namespace Sa11ytaire4All
             if (cardAbove != null)
             {
                 // Always deselect the selected item prior to moving anything between lists.
-                listAlreadySelected.SelectedItem = null;
+                DeselectAllCardsFromDealtCardPile(listAlreadySelected);
 
                 var movingCardData = new MovingCardData
                 {
