@@ -260,9 +260,11 @@
 
                     </HorizontalStackLayout>
 
+                    <!-- Trial removal of this setting. -->
+
                     <!-- Allow highlight of all cards in a selected set in a dealt card pile. -->
 
-                    <Label Grid.Row="9" 
+                    <!--<Label Grid.Row="9" 
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
@@ -285,7 +287,7 @@
                             SemanticProperties.Description="{x:Static resources:StringResources.HighlightSelectedCardSetSwitchLabel}"
                             SemanticProperties.Hint="{x:Static resources:StringResources.AllowSelectionByFaceDownCardInstructions}" />
 
-                    </HorizontalStackLayout>
+                    </HorizontalStackLayout>-->
 
                     <!-- Merge all face-down cards into one visual item in a dealt card pile. -->
 
@@ -371,30 +373,31 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Show State Announcement button. -->
+                    <!-- Show State Announcement buttons. -->
 
                     <Label Grid.Row="0" 
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                        Text="{x:Static resources:StringResources.ShowStateAnnouncementButton}" />
+                        Text="{x:Static resources:StringResources.ShowScreenReaderAnnouncementButtons}" />
 
                     <Label Grid.Row="1" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
-                        Text="{x:Static resources:StringResources.ShowStateAnnouncementButtonInstructions}" />
+                        Text="{x:Static resources:StringResources.ShowScreenReaderAnnouncementButtonsInstructions}" />
 
                     <HorizontalStackLayout Grid.Row="2" Padding="0" Margin="8,0,8,0">
 
                         <Label
+                            LineBreakMode="WordWrap"
                             VerticalOptions="Center"                
-                            Text="{x:Static resources:StringResources.ShowStateAnnouncementButtonCheckboxLabel}" 
+                            Text="{x:Static resources:StringResources.ShowScreenReaderAnnouncementButtonsCheckboxLabel}" 
                             Margin="0" Padding="0" />
 
-                        <Switch x:Name="ShowStateAnnouncementButtonCheckbox"
+                        <Switch x:Name="ShowScreenReaderAnnouncementButtonsCheckbox"
                             Margin="0" HorizontalOptions="Start"
-                            SemanticProperties.Description="{x:Static resources:StringResources.ShowStateAnnouncementButtonCheckboxLabel}"
-                            SemanticProperties.Hint="{x:Static resources:StringResources.ShowStateAnnouncementButtonInstructions}" />
+                            SemanticProperties.Description="{x:Static resources:StringResources.ShowScreenReaderAnnouncementButtonsCheckboxLabel}"
+                            SemanticProperties.Hint="{x:Static resources:StringResources.ShowScreenReaderAnnouncementButtonsInstructions}" />
 
                     </HorizontalStackLayout>
 

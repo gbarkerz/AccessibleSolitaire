@@ -774,31 +774,30 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class InSelectedSetToBackgroundConverter : IMultiValueConverter
+    public class InSelectedSetToBackgroundConverter : IValueConverter
     {
         private static readonly Color inSelectedSetLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
         private static readonly Color inSelectedSetDarkColor = Color.FromRgb(0x30, 0x30, 0x00);
 
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values == null || (values.Length < 2))
+            if (Application.Current == null)
             {
                 return Colors.Transparent;
             }
 
-            if ((values[0] == null) || (values[1] == null))
+            if (value == null)
             {
                 return Colors.Transparent;
             }
 
-            var inSelectedSet = (bool)values[0];
-            var highlightSelectedCardSet = (bool)values[1];
+            var inSelectedSet = (bool)value;
 
             Color? color = Colors.Transparent;
-            
+
             if (Application.Current != null)
             {
-                if (highlightSelectedCardSet && inSelectedSet)
+                if (inSelectedSet)
                 {
                     color = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                 inSelectedSetLightColor : inSelectedSetDarkColor);
@@ -812,11 +811,57 @@ namespace Sa11ytaire4All.Views
             return color;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
     }
+
+    // Trial removal of highlightSelectedCardSet setting.
+    //public class InSelectedSetToBackgroundConverter : IMultiValueConverter
+    //{
+    //    private static readonly Color inSelectedSetLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
+    //    private static readonly Color inSelectedSetDarkColor = Color.FromRgb(0x30, 0x30, 0x00);
+
+    //    public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if (values == null || (values.Length < 2))
+    //        {
+    //            return Colors.Transparent;
+    //        }
+
+    //        if ((values[0] == null) || (values[1] == null))
+    //        {
+    //            return Colors.Transparent;
+    //        }
+
+    //        var inSelectedSet = (bool)values[0];
+
+    //        var highlightSelectedCardSet = (bool)values[1];
+
+    //        Color? color = Colors.Transparent;
+            
+    //        if (Application.Current != null)
+    //        {
+    //            if (highlightSelectedCardSet && inSelectedSet)
+    //            {
+    //                color = (Application.Current.RequestedTheme != AppTheme.Dark ?
+    //                            inSelectedSetLightColor : inSelectedSetDarkColor);
+    //            }
+    //            else
+    //            {
+    //                color = (Application.Current.RequestedTheme != AppTheme.Dark ? Colors.White : Colors.Black);
+    //            }
+    //        }
+
+    //        return color;
+    //    }
+
+    //    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 
     public class NextCardIsEmptyToImageConverter : IValueConverter
     {

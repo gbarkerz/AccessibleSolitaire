@@ -151,7 +151,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.9.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.10.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -331,11 +331,20 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Screen reader announce available moves.
+        /// </summary>
+        internal static string AnnounceAvailableMoves {
+            get {
+                return ResourceManager.GetString("AnnounceAvailableMoves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Screen reader announce game state.
         /// </summary>
-        internal static string AnnouceState {
+        internal static string AnnounceState {
             get {
-                return ResourceManager.GetString("AnnouceState", resourceCulture);
+                return ResourceManager.GetString("AnnounceState", resourceCulture);
             }
         }
         
@@ -1632,29 +1641,29 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Game state announcement.
+        ///   Looks up a localized string similar to Screen Reader Announcements.
         /// </summary>
-        internal static string ShowStateAnnouncementButton {
+        internal static string ShowScreenReaderAnnouncementButtons {
             get {
-                return ResourceManager.GetString("ShowStateAnnouncementButton", resourceCulture);
+                return ResourceManager.GetString("ShowScreenReaderAnnouncementButtons", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show game state announcement button:.
+        ///   Looks up a localized string similar to Show screen reader buttons:.
         /// </summary>
-        internal static string ShowStateAnnouncementButtonCheckboxLabel {
+        internal static string ShowScreenReaderAnnouncementButtonsCheckboxLabel {
             get {
-                return ResourceManager.GetString("ShowStateAnnouncementButtonCheckboxLabel", resourceCulture);
+                return ResourceManager.GetString("ShowScreenReaderAnnouncementButtonsCheckboxLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show a button to have a screen reader announce the state of the entire game..
+        ///   Looks up a localized string similar to Show buttons to have a screen reader announce the state of the entire game, and the moves currently available..
         /// </summary>
-        internal static string ShowStateAnnouncementButtonInstructions {
+        internal static string ShowScreenReaderAnnouncementButtonsInstructions {
             get {
-                return ResourceManager.GetString("ShowStateAnnouncementButtonInstructions", resourceCulture);
+                return ResourceManager.GetString("ShowScreenReaderAnnouncementButtonsInstructions", resourceCulture);
             }
         }
         

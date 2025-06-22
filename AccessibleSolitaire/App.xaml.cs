@@ -28,7 +28,7 @@ namespace Sa11ytaire4All
             window.Deactivated += (s, e) =>
 #endif
             {
-                Debug.WriteLine("Soliatire: App window Destroying or Deactivating.");
+                Debug.WriteLine("Solitaire: App window Destroying or Deactivating.");
 
                 var singleton = Sa11ytaire4All.MainPage.MainPageSingleton;
                 if (singleton != null)

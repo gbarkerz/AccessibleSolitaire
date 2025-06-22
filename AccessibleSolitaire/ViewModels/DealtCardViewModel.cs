@@ -41,9 +41,10 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty] private Color? suitColoursSpades;
 
-        [ObservableProperty] private bool showStateAnnouncementButton;
+        [ObservableProperty] private bool showScreenReaderAnnouncementButtons;
 
-        [ObservableProperty] private bool highlightSelectedCardSet;
+        // Trial removal of this setting.
+        //[ObservableProperty] private bool highlightSelectedCardSet;
 
         [ObservableProperty] private bool mergeFaceDownCards;
 

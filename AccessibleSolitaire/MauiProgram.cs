@@ -62,6 +62,24 @@ namespace Sa11ytaire4All
                     fonts.AddFont("OpenSansRegular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSansSemibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("fontawesome6freesolid900.otf", "FA");
+                })
+                .UseSentry(options =>
+                {
+                    // The DSN is the only required setting.
+
+                    // Barker: This Dsn is copied from the Sentry project Client Keys page.
+                    options.Dsn = <Insert Dsn here.>;
+
+                    // Use debug mode if you want to see what the SDK is doing.
+                    // Debug messages are written to stdout with Console.Writeline,
+                    // and are viewable in your IDE's debug console or with 'adb logcat', etc.
+                    // This option is not recommended when deploying your application.
+                    //options.Debug = true;
+
+                    // Adds request URL and headers, IP and name for users, etc.
+                    //options.SendDefaultPii = true;
+
+                    // Other Sentry options can be set here.
                 });
 
 #if DEBUG
@@ -90,6 +108,8 @@ namespace Sa11ytaire4All
 
             if (e.Key == Windows.System.VirtualKey.Z)
             {
+                SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: Z", SentryLevel.Info);
+
                 // Note: Context menus seem to appear in response to a right click, but not in response
                 // to a press of the Context Menu key (VirtualKey.Application). So add a shortcut to 
                 // show the zoom card popup.
@@ -110,7 +130,7 @@ namespace Sa11ytaire4All
                 }
             }
             else if ((e.Key == Windows.System.VirtualKey.Space) ||
-                (e.Key == Windows.System.VirtualKey.Enter))
+                     (e.Key == Windows.System.VirtualKey.Enter))
             {
                 e.Handled = false;
 

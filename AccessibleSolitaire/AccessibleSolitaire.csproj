@@ -59,6 +59,43 @@
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.26100.0</TargetFrameworks>
   </PropertyGroup>-->
 
+  <!-- 
+    Barker: The following Sentry-related PropertyGroup was copied as-is from 
+    https://docs.sentry.io/platforms/dotnet/configuration/msbuild/#setting-msbuild-properties
+  -->
+  
+  <!-- We recommend only using these features for release builds. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+
+    <!-- Configure Sentry org and project -->
+    <SentryOrg>guy-barker</SentryOrg>
+    <SentryProject>accessible-solitaire</SentryProject>
+
+    <!-- 
+      Each of the below features are opt-in.
+      Enable the features you wish to use.
+    -->
+
+    <!-- Automatically creates a release when building your application. -->
+    <SentryCreateRelease>true</SentryCreateRelease>
+
+    <!-- Automatically associates commits with the release. -->
+    <SentrySetCommits>true</SentrySetCommits>
+
+    <!-- Optionally provide explicit flags to the set-commits command -->
+    <SentrySetCommitOptions>--local</SentrySetCommitOptions>
+
+    <!-- Sends symbols to Sentry, enabling symbolication of stack traces. -->
+    <SentryUploadSymbols>true</SentryUploadSymbols>
+
+    <!-- Sends sources to Sentry, enabling display of source context. -->
+    <SentryUploadSources>true</SentryUploadSources>
+
+    <!-- If you are targeting Android, sends proguard mapping file to Sentry. -->
+    <SentryUploadAndroidProguardMapping>true</SentryUploadAndroidProguardMapping>
+
+  </PropertyGroup>
+
   <ItemGroup>
     <TrimmerRootAssembly Include="CommunityToolkit.Maui" RootMode="All" />
   </ItemGroup>
@@ -557,14 +594,16 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
-		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="6.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="6.0.1" />
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="6.0.2" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="InputSimulator" Version="1.0.4" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.70" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.70" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.80" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
 		<PackageReference Include="Plugin.Maui.KeyListener" Version="1.0.0-preview3" />
+		<PackageReference Include="Sentry.Maui" Version="5.11.1" />
+		<PackageReference Include="Sentry.Maui.CommunityToolkit.Mvvm" Version="5.11.1" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -148,7 +148,7 @@
     <value>9</value>
   </data>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.9</value>
+    <value>Accessible Solitaire V2.10</value>
   </data>
   <data name="AccessKeyClubsPileLabel.Text" xml:space="preserve">
     <value>Clubs pile:</value>
@@ -195,7 +195,7 @@
   <data name="AllUpturnedCardsTurnedBack" xml:space="preserve">
     <value>All upturned cards turned back</value>
   </data>
-  <data name="AnnouceState" xml:space="preserve">
+  <data name="AnnounceState" xml:space="preserve">
     <value>Screen reader announce game state</value>
   </data>
   <data name="CanBeMovedTo" xml:space="preserve">
@@ -470,14 +470,14 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="ShowNotificationWindowCheckBox.Content" xml:space="preserve">
     <value>Show most recent notification</value>
   </data>
-  <data name="ShowStateAnnouncementButton" xml:space="preserve">
-    <value>Game state announcement</value>
+  <data name="ShowScreenReaderAnnouncementButtons" xml:space="preserve">
+    <value>Screen Reader Announcements</value>
   </data>
-  <data name="ShowStateAnnouncementButtonCheckboxLabel" xml:space="preserve">
-    <value>Show game state announcement button:</value>
+  <data name="ShowScreenReaderAnnouncementButtonsCheckboxLabel" xml:space="preserve">
+    <value>Show screen reader buttons:</value>
   </data>
-  <data name="ShowStateAnnouncementButtonInstructions" xml:space="preserve">
-    <value>Show a button to have a screen reader announce the state of the entire game.</value>
+  <data name="ShowScreenReaderAnnouncementButtonsInstructions" xml:space="preserve">
+    <value>Show buttons to have a screen reader announce the state of the entire game, and the moves currently available.</value>
   </data>
   <data name="SingleKeyToMoveCardCheckBox.Content" xml:space="preserve">
     <value>Single key to move card</value>
@@ -760,5 +760,8 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="CelebrationExperienceAudioInstructions" xml:space="preserve">
     <value>Use this setting to have a celebratory sound played when the game is won.</value>
+  </data>
+  <data name="AnnounceAvailableMoves" xml:space="preserve">
+    <value>Screen reader announce available moves</value>
   </data>
 </root>

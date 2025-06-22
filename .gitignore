@@ -15,3 +15,4 @@ AccessibleSolitaire/Platforms/Windows/Package.appxmanifest
 /UITests (Appium Nunit)/UITests.Shared/obj
 /UITests (Appium Nunit)/UITests.Windows/bin
 /UITests (Appium Nunit)/UITests.Windows/obj
+sentry-cli.exe

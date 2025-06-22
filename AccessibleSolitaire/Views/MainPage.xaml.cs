@@ -87,7 +87,9 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
-                vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
+                // Trial removal of this setting.
+                //vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
+                
                 vm.MergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
             }
 
@@ -541,12 +543,13 @@ namespace Sa11ytaire4All
                     RefreshAllDealtCardPileCardIsInAccessibleTree();
                 }
 
-                vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
+                // Trial removal of this setting.
+                //vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
 
                 vm.FlipGameLayoutHorizontally = (bool)Preferences.Get("FlipGameLayoutHorizontally", false);
 
-                var showStateAnnouncementButton = (bool)Preferences.Get("ShowStateAnnouncementButton", false);
-                StateAnnouncementButton.IsVisible = showStateAnnouncementButton;
+                var showScreenReaderAnnouncementButtons = (bool)Preferences.Get("ShowScreenReaderAnnouncementButtons", false);
+                ScreenReaderAnnouncementButtons.IsVisible = showScreenReaderAnnouncementButtons;
 
                 vm.ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
 
@@ -1318,7 +1321,10 @@ namespace Sa11ytaire4All
                 TargetPileS.RotateTo(0, 0);
 
                 // Stop any running sounds.
-                mainMediaElement.Source = null;
+                if (mainMediaElement.Source != null)
+                {
+                    mainMediaElement.Source = null;
+                }
 
                 RestartGame(true /* screenReaderAnnouncement. */);
             }
@@ -1380,6 +1386,8 @@ namespace Sa11ytaire4All
 
         private void StateAnnouncementButton_Clicked(object sender, EventArgs e)
         {
+            SentrySdk.CaptureMessage("Accessible Solitaire: Button Clicked: StateAnnouncementButton", SentryLevel.Info);
+
             var announcementRemainingCards = AnnounceStateRemainingCards(false);
 
             var announceStateTargetPiles = AnnounceStateTargetPiles(false);
@@ -1397,6 +1405,13 @@ namespace Sa11ytaire4All
             MakeDelayedScreenReaderAnnouncement(fullAnnouncement);
 
             Debug.WriteLine("State announcement: " + fullAnnouncement);
+        }
+
+        private void AvailableMovesAnnouncementButton_Clicked(object sender, EventArgs e)
+        {
+            SentrySdk.CaptureMessage("Accessible Solitaire: Button Clicked: AvailableMovesAnnouncementButton", SentryLevel.Info);
+
+            AnnounceAvailableMoves();
         }
 
         private void MakeDelayedScreenReaderAnnouncement(string? announcement)
@@ -1790,11 +1805,17 @@ namespace Sa11ytaire4All
             switch (e.Keys)
             {
                 case KeyboardKeys.F1:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: F1", SentryLevel.Info);
+
                     ShowKeyboardShortcuts();
                     e.Handled = true;
                     break;
 
                 case KeyboardKeys.F6:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: F6", SentryLevel.Info);
+
                     // Check if Shift is pressed for backward navigation
                     // Since we can't easily detect modifiers, we'll handle both directions
 
@@ -1805,36 +1826,57 @@ namespace Sa11ytaire4All
                     break;
 
                 case KeyboardKeys.H:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: H", SentryLevel.Info);
+
                     LaunchHelp();
                     e.Handled = true;
                     break;
 
                 case KeyboardKeys.N:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: N", SentryLevel.Info);
+
                     PerformNextCardAction();
                     e.Handled = true;
                     break;
 
                 case KeyboardKeys.R:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: R", SentryLevel.Info);
+
                     QueryRestartGame();
                     e.Handled = true;
                     break;
 
                 case KeyboardKeys.M:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: M", SentryLevel.Info);
+
                     AnnounceAvailableMoves();
                     e.Handled = true;
                     break;
 
                 case KeyboardKeys.U:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: U", SentryLevel.Info);
+
                     AnnounceStateRemainingCards(true);
                     e.Handled = true;
                     break;
 
                 case KeyboardKeys.T:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: T", SentryLevel.Info);
+
                     AnnounceStateTargetPiles(true);
                     e.Handled = true;
                     break;
 
                 case KeyboardKeys.D:
+
+                    SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: D", SentryLevel.Info);
+
                     AnnounceStateDealtCardPiles(true);
                     e.Handled = true;
                     break;

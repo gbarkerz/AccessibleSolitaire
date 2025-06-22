@@ -50,8 +50,8 @@ public partial class SettingsPage : ContentPage
         var showRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
         ShowRankSuitLargeSwitch.IsToggled = showRankSuitLarge;
 
-        var showAnnouncementButton = (bool)Preferences.Get("ShowStateAnnouncementButton", false);
-        ShowStateAnnouncementButtonCheckbox.IsToggled = showAnnouncementButton;
+        var showScreenReaderAnnouncementButtons = (bool)Preferences.Get("ShowScreenReaderAnnouncementButtons", false);
+        ShowScreenReaderAnnouncementButtonsCheckbox.IsToggled = showScreenReaderAnnouncementButtons;
 
         var ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
         ExtendDealtCardHitTargetCheckbox.IsToggled = ExtendDealtCardHitTarget;
@@ -59,8 +59,9 @@ public partial class SettingsPage : ContentPage
         var allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);
         AllowSelectionByFaceDownCardCheckbox.IsToggled = allowSelectionByFaceDownCard;
 
-        var highlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
-        HighlightSelectedCardSetSwitch.IsToggled = highlightSelectedCardSet;
+        // Trial removal of this setting.
+        //var highlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
+        //HighlightSelectedCardSetSwitch.IsToggled = highlightSelectedCardSet;
 
         var mergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
         MergeFaceDownCardsSwitch.IsToggled = mergeFaceDownCards;
@@ -150,8 +151,8 @@ public partial class SettingsPage : ContentPage
         var showRankSuitLarge = ShowRankSuitLargeSwitch.IsToggled;
         Preferences.Set("ShowRankSuitLarge", showRankSuitLarge);
 
-        var showStateAnnouncementButton = ShowStateAnnouncementButtonCheckbox.IsToggled;
-        Preferences.Set("ShowStateAnnouncementButton", showStateAnnouncementButton);
+        var showScreenReaderAnnouncementButtons = ShowScreenReaderAnnouncementButtonsCheckbox.IsToggled;
+        Preferences.Set("ShowScreenReaderAnnouncementButtons", showScreenReaderAnnouncementButtons);
 
         var ExtendDealtCardHitTarget = ExtendDealtCardHitTargetCheckbox.IsToggled;
         Preferences.Set("ExtendDealtCardHitTarget", ExtendDealtCardHitTarget);
@@ -159,8 +160,9 @@ public partial class SettingsPage : ContentPage
         var allowSelectionByFaceDownCard = AllowSelectionByFaceDownCardCheckbox.IsToggled;
         Preferences.Set("AllowSelectionByFaceDownCard", allowSelectionByFaceDownCard);
 
-        var highlightSelectedCardSet = HighlightSelectedCardSetSwitch.IsToggled;
-        Preferences.Set("HighlightSelectedCardSet", highlightSelectedCardSet);
+        // Trial removal of this setting.
+        //var highlightSelectedCardSet = HighlightSelectedCardSetSwitch.IsToggled;
+        //Preferences.Set("HighlightSelectedCardSet", highlightSelectedCardSet);
 
         var mergeFaceDownCards = MergeFaceDownCardsSwitch.IsToggled;
         Preferences.Set("MergeFaceDownCards", mergeFaceDownCards);

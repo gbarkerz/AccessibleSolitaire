@@ -253,6 +253,7 @@
                             AutomationProperties.IsInAccessibleTree="False"
                             Margin="0"
                             Aspect="Fill" 
+                            BackgroundColor="{Binding InSelectedSet, Mode=OneWay, Converter={StaticResource InSelectedSetToBackgroundConverter}}"
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
                             Source="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}">
 
@@ -331,7 +332,8 @@
                                 </MultiBinding>
                             </Image.VerticalOptions>
 
-                            <Image.BackgroundColor>
+                            <!-- Trial removal of HighlightSelectedCardSet setting. -->
+                            <!--<Image.BackgroundColor>
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource InSelectedSetToBackgroundConverter}">
                                     <Binding Path="InSelectedSet" />
@@ -344,7 +346,7 @@
                                         x:DataType="vm:DealtCardViewModel"
                                         Path="HighlightSelectedCardSet" />
                                 </MultiBinding>
-                            </Image.BackgroundColor>
+                            </Image.BackgroundColor>-->
                         </Image>
 
                         <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="PictureCardImage"
@@ -470,7 +472,7 @@
                         Clicked="MenuButton_Click"
                         BackgroundColor="Transparent"
                         BorderColor="{AppThemeBinding Light=Black, Dark=White}"
-                        Margin="4" Padding="0" 
+                        Margin="0" Padding="0" 
                         CornerRadius="0">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>
@@ -490,44 +492,109 @@
                         </VisualStateManager.VisualStateGroups>
                     </ImageButton>
 
-                    <ImageButton x:Name="StateAnnouncementButton"
-                        SemanticProperties.Description="{x:Static resources:StringResources.AnnouceState}"
-                        WidthRequest="{Binding 
-                            Path=CardWidth,
-                                Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
-                        HeightRequest="{Binding 
-                            Path=CardWidth,
-                            Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
-                        Clicked="StateAnnouncementButton_Clicked"
-                        BackgroundColor="Transparent"
-                        BorderColor="{AppThemeBinding Light=Black, Dark=White}"
-                        Margin="0" Padding="0" 
-                        CornerRadius="0"
-                        HorizontalOptions="Center" VerticalOptions="Start">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="BorderWidth" Value="0" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Focused">
-                                        <VisualState.Setters>
-                                            <Setter Property="BorderWidth" Value="4" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
-    
-                        <ImageButton.Source>
-                            <FontImageSource  
-                                Glyph="&#xf27a;"
+                    <VerticalStackLayout x:Name="ScreenReaderAnnouncementButtons">
+                        
+                        <!-- Barker Todo: Style these buttons to avoid property and VisualState duplication. -->
+
+                        <Grid Margin="0,8,0,0">
+                            <ImageButton x:Name="StateAnnouncementButton"
+                                SemanticProperties.Description="{x:Static resources:StringResources.AnnounceState}"
+                                WidthRequest="{Binding 
+                                    Path=CardWidth,
+                                        Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                                HeightRequest="{Binding 
+                                    Path=CardWidth,
+                                    Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
+                                Clicked="StateAnnouncementButton_Clicked"
+                                BackgroundColor="Transparent"
+                                BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                Margin="0" Padding="0,0,4,0" 
+                                CornerRadius="0"
+                                HorizontalOptions="Start">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BorderWidth" Value="0" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Focused">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BorderWidth" Value="4" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <ImageButton.Source>
+                                    <FontImageSource  
+                                        Glyph="&#xf129;"
+                                        FontFamily="FA" 
+                                        Color="White" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <Label
+                                AutomationProperties.IsInAccessibleTree="False"
+                                Margin="0,4,4,0" Padding="0"
+                                HorizontalOptions="End"
+                                Text="&#xf075;"
                                 FontFamily="FA" 
-                                Color="White" />
-                        </ImageButton.Source>
-                    </ImageButton>
+                                TextColor="White" 
+                                BackgroundColor="Transparent" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <ImageButton x:Name="AvailableMovesAnnouncementButton"
+                                SemanticProperties.Description="{x:Static resources:StringResources.AnnounceAvailableMoves}"
+                                WidthRequest="{Binding 
+                                    Path=CardWidth,
+                                        Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                                HeightRequest="{Binding 
+                                    Path=CardWidth,
+                                    Converter={StaticResource CardWidthToHamburgerHeightConverter}}"
+                                Clicked="AvailableMovesAnnouncementButton_Clicked"
+                                BackgroundColor="Transparent"
+                                BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                Margin="0" Padding="0,0,4,0" 
+                                CornerRadius="0"
+                                HorizontalOptions="Start">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BorderWidth" Value="0" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Focused">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BorderWidth" Value="4" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <ImageButton.Source>
+                                    <FontImageSource  
+                                        Glyph="&#x003f;"
+                                        FontFamily="FA" 
+                                        Color="White" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <Label
+                                AutomationProperties.IsInAccessibleTree="False"
+                                Margin="0,0,4,4" Padding="0"
+                                HorizontalOptions="End" VerticalOptions="End"
+                                Text="&#xf075;"
+                                FontFamily="FA" 
+                                TextColor="White" 
+                                BackgroundColor="Transparent" />
+                        </Grid>
+                        
+                    </VerticalStackLayout>
 
                 </VerticalStackLayout>
                 
