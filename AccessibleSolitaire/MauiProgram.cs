@@ -44,7 +44,7 @@ namespace Sa11ytaire4All
                         {
                             window.SizeChanged += OnSizeChanged;
                         }
-                        ));
+                    ));
 
                     events.AddWindows(windows => windows.OnPlatformMessage((window, args) =>
                     {
@@ -92,6 +92,7 @@ namespace Sa11ytaire4All
 #if WINDOWS
         static void OnSizeChanged(object sender, Microsoft.UI.Xaml.WindowSizeChangedEventArgs args)
         {
+            // Always recalculate the size of cards when the window size has changed.
             var singleton = MainPage.MainPageSingleton;
             if (singleton != null)
             {
@@ -157,7 +158,6 @@ namespace Sa11ytaire4All
             }
         }
 
-#if WINDOWS
         static private DealtCard? MostRecentDealtCardKeyboardSpaceOrEnter = null;
 
         static private DealtCard? GetDealtCardFromListViewItem(Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
@@ -177,11 +177,6 @@ namespace Sa11ytaire4All
             return dealtCard;
         }
 #endif
-
-
-#endif
-
-
     }
 }
 

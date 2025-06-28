@@ -2,6 +2,7 @@
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Sa11ytaire4All
@@ -11,10 +12,7 @@ namespace Sa11ytaire4All
         private void DeselectCard(DealtCard dealtCard)
         {
             dealtCard.CardSelected = false;
-
-#if WINDOWS
             dealtCard.RefreshVisuals();
-#endif
 
             // All cards above this deselected card in a dealt card pile are no longer
             // is the set of cards that will move along with the selected card.
@@ -88,19 +86,14 @@ namespace Sa11ytaire4All
             if (selectedCard.CardState == CardState.KingPlaceHolder)
             {
                 // Attempt to move the upturned card over to the empty card pile.
-                if (timerDelayAttemptToMoveCard == null)
-                {
-                    timerDelayAttemptToMoveCard = new Timer(
-                        new TimerCallback((s) => TimedDelayAttemptToMoveCardToEmptyPile(listSelectionChanged)),
-                            null,
-                            TimeSpan.FromMilliseconds(500),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                Dispatcher.Dispatch(() => {
+                    DelayAttemptToMoveCardToEmptyPile(listSelectionChanged);
+                });
 
-                    // Never leave the empty slot selected.
-                    selectedCard.CardSelected = false;
+                // Never leave the empty slot selected.
+                selectedCard.CardSelected = false;
 
-                    DeselectAllCardsFromDealtCardPile(listSelectionChanged);
-                }
+                DeselectAllCardsFromDealtCardPile(listSelectionChanged);
             }
             else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
             {
@@ -126,11 +119,10 @@ namespace Sa11ytaire4All
 
                     // On Android, deselecting a card inside the tap handler seems not to work.
                     // So delay the deselection a little until we're out of the tap handler.
-                    timerDeselectDealtCard = new Timer(
-                        new TimerCallback((s) => DelayDeselectDealtCard(listSelectionChanged)),
-                            null,
-                            TimeSpan.FromMilliseconds(200),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+
+                    Dispatcher.Dispatch(() => {
+                        DelayDeselectDealtCard(listSelectionChanged); 
+                    });
 
                     // Move the upturned card to the CardPile list.
                     var itemsAdded = GetListSource(listSelectionChanged);
@@ -192,20 +184,13 @@ namespace Sa11ytaire4All
             return dealtPileCollectionViewIndex - 1;
         }
 
-        private void TimedDelayAttemptToMoveCardToEmptyPile(object list)
+        private void DelayAttemptToMoveCardToEmptyPile(object list)
         {
-            timerDelayAttemptToMoveCard?.Dispose();
-            timerDelayAttemptToMoveCard = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
+            var listSelectionChanged = list as CollectionView;
+            if (listSelectionChanged != null)
             {
-                var listSelectionChanged = list as CollectionView;
-                if (listSelectionChanged != null)
-                {
-                    DelayedAttemptToMoveCardToEmptyDealtCardPile(listSelectionChanged);
-                }
-            });
+                DelayedAttemptToMoveCardToEmptyDealtCardPile(listSelectionChanged);
+            }
         }
 
         private void DelayedAttemptToMoveCardToEmptyDealtCardPile(CollectionView? listSelected)
@@ -390,10 +375,7 @@ namespace Sa11ytaire4All
 
                 cardRevealedName = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
 
-#if WINDOWS
-                // On Windows, the actual width of the card doesn't update without a nudge.
                 cardRevealed.RefreshVisuals();
-#endif
             }
             else
             {
@@ -588,11 +570,7 @@ namespace Sa11ytaire4All
                 // selected. As such, announce this result. Note that the new selection state is already
                 // incorporated into the card name.
                 cardBelow.CardSelected = true;
-
-#if WINDOWS
-                // On Windows, the actual width of the card doesn't update without a nudge.
                 cardBelow.RefreshVisuals();
-#endif
 
                 // All cards above this selected card in the dealt card pile will move along with the 
                 // selected card, so update their visuals to make sure this is clear to the player.
@@ -625,11 +603,10 @@ namespace Sa11ytaire4All
 
                 // On Android, deselecting a card inside the tap handler seems not to work.
                 // So delay the deselection a little until we're out of the tap handler.
-                timerDeselectDealtCard = new Timer(
-                    new TimerCallback((s) => DelayDeselectDealtCard(listSelectionChanged)),
-                        null,
-                        TimeSpan.FromMilliseconds(200),
-                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+
+                Dispatcher.Dispatch(() => {
+                    DelayDeselectDealtCard(listSelectionChanged);
+                });
 
                 var movingCardData = new MovingCardData{
                     CardBelow = cardBelow,
@@ -638,14 +615,9 @@ namespace Sa11ytaire4All
                     ListAlreadySelectedIndex = listAlreadySelectedIndex, 
                     ListSelectionChanged = listSelectionChanged};
 
-                if (timerDelayAttemptToMoveCard == null)
-                {
-                    timerDelayAttemptToMoveCard = new Timer(
-                        new TimerCallback((s) => TimedDelayAttemptToMoveCardBetweenPiles(movingCardData)),
-                            null,
-                            TimeSpan.FromMilliseconds(500),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
-                }
+                Dispatcher.Dispatch(() => {
+                    DelayedAttemptToMoveCardBetweenPiles(movingCardData);
+                });
             }
             else
             {
@@ -688,8 +660,6 @@ namespace Sa11ytaire4All
         // dealt card might be removed from a dealt card pile, always delay this action 
         // a little in order to give the OS a chance to complete any selection state change.
 
-        private Timer? timerDelayAttemptToMoveCard;
-
         private class MovingCardData
         {
             public DealtCard? CardBelow;
@@ -699,30 +669,6 @@ namespace Sa11ytaire4All
             public CollectionView? ListSelectionChanged;
             public CardButton? TargetPileCardButton;
             public int TargetPileIndex;
-        }
-
-        private void TimedDelayAttemptToMoveCardBetweenPiles(MovingCardData movingCardData)
-        {
-            timerDelayAttemptToMoveCard?.Dispose();
-            timerDelayAttemptToMoveCard = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                DelayedAttemptToMoveCardBetweenPiles(movingCardData);
-            });
-        }
-
-        private void TimedDelayAttemptToMoveDealtCardToTargetPile(MovingCardData movingCardData)
-        {
-            timerDelayAttemptToMoveCard?.Dispose();
-            timerDelayAttemptToMoveCard = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                DelayedMoveDealtCardToTargetPileAsAppropriate(movingCardData);
-            });
         }
 
         private void DelayedAttemptToMoveCardBetweenPiles(MovingCardData movingCardData)
@@ -826,12 +772,7 @@ namespace Sa11ytaire4All
                     cardRevealed.IsLastCardInPile = true;
 
                     cardRevealedName = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
-
-#if WINDOWS
-                    // On Windows, the actual width of the card doesn't update without a nudge.
                     cardRevealed.RefreshVisuals();
-#endif
-
                 }
                 else
                 {
@@ -870,7 +811,7 @@ namespace Sa11ytaire4All
             PlaySound(movedCard);
         }
 
-        private void DelayedMoveDealtCardToTargetPileAsAppropriate(MovingCardData movingCardData)
+        private void DelayMoveDealtCardToTargetPileAsAppropriate(MovingCardData movingCardData)
         {
             var cardAbove = movingCardData.CardAbove;
             var listAlreadySelected = movingCardData.ListAlreadySelected;
@@ -960,11 +901,7 @@ namespace Sa11ytaire4All
 
                             listArray[updatedItemCount - 1].IsLastCardInPile = true;
                             listArray[updatedItemCount - 1].FaceDown = false;
-
-#if WINDOWS
-                            // On Windows, the actual width of the card doesn't update without a nudge.
                             listArray[updatedItemCount - 1].RefreshVisuals();
-#endif
                         }
 
                         if (cardRevealed != null)
@@ -981,10 +918,7 @@ namespace Sa11ytaire4All
                             cardRevealedAnnouncement = MainPage.MyGetString("EmptyCardPile");
                         }
 
-#if WINDOWS
-                        // On Windows, the actual width of the card doesn't update without a nudge.
                         listArray[listArray.Count - 1].RefreshVisuals();
-#endif
 
                         movedCard = true;
                     }
@@ -1036,11 +970,7 @@ namespace Sa11ytaire4All
 
                                 listArray[updatedItemCount - 1].FaceDown = false;
                                 listArray[updatedItemCount - 1].IsLastCardInPile = true;
-
-#if WINDOWS
-                                // On Windows, the actual width of the card doesn't update without a nudge.
                                 listArray[updatedItemCount - 1].RefreshVisuals();
-#endif
 
                                 if (!string.IsNullOrEmpty(cardRevealed.AccessibleName))
                                 {

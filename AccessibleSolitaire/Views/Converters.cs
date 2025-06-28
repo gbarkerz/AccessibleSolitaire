@@ -405,14 +405,21 @@ namespace Sa11ytaire4All.Views
             var CardSelected = (bool)values[1];
             var extendDealtCardHitTarget = (bool)values[2];
 
-            var option = IsLastCardInPile && extendDealtCardHitTarget ? LayoutOptions.Center : LayoutOptions.Start;
+            var isPortrait = MainPage.IsPortrait();
+
+            var isHorizontalOption = (string?)parameter == "0";
+
+            // By default, show the top left corner of the card.
+            var option = LayoutOptions.Start;
+
+            // If we're extending cards across the screen, then centre it horizontally.
+            if (isPortrait && isHorizontalOption && IsLastCardInPile && extendDealtCardHitTarget)
+            {
+                option =  LayoutOptions.Center;
+            }
 
             if (CardSelected)
             {
-                var isPortrait = MainPage.IsPortrait();
-
-                var isHorizontalOption = (string?)parameter == "0";
-
                 if ((isPortrait && !isHorizontalOption) ||
                     (!isPortrait && isHorizontalOption))
                 {
@@ -420,7 +427,10 @@ namespace Sa11ytaire4All.Views
                 }
 
 #if WINDOWS
-                option = LayoutOptions.Center;
+                if (IsLastCardInPile || isHorizontalOption)
+                {
+                    option = LayoutOptions.Center;
+                }
 #endif
             }
 
@@ -1148,7 +1158,7 @@ namespace Sa11ytaire4All.Views
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {   
+        {
             throw new NotImplementedException();
         }
     }
@@ -1173,6 +1183,9 @@ namespace Sa11ytaire4All.Views
         }
     }
 
+    // Barker Todo: CardToCardImageConverter() and PictureCardToCardImageConverter() in this file are only
+    // used by the CardPopup. They should be removed to avoid duplication with the code in DealtCard.cs,
+    // GetImageSourceFromDealtCard() and GetImageSourceFromPictureDealtCard().
     public class CardToCardImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -1350,33 +1363,33 @@ namespace Sa11ytaire4All.Views
 #if ANDROID
             if (values == null || values.Length < 4)
             {
-                return null;
+                return false;
             }
 
             if (values[0] == null)
             {
-                return null;
+                return false;
             }
 
             var isLastCardInPile = (bool)values[0];
 
             if (values[1] == null)
             {
-                return null;
+                return false;
             }
 
             var faceDown = (bool)values[1];
 
             if (values[2] == null)
             {
-                return null;
+                return false;
             }
 
             var currentCardIndexInDealtCardPile = (int)values[2];
 
             if (values[3] == null)
             {
-                return null;
+                return false;
             }
 
             var mergeFaceDownCards = (bool)values[3];

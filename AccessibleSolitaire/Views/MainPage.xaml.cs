@@ -95,11 +95,17 @@ namespace Sa11ytaire4All
 
             this.InitializeComponent();
 
-            mainMediaElement.ShouldShowPlaybackControls = false;
-            mainMediaElement.IsVisible = false;
+            if (mainMediaElement != null)
+            {
+                mainMediaElement.ShouldShowPlaybackControls = false;
+                mainMediaElement.IsVisible = false;
+            }
 
 #if WINDOWS || ANDROID
-            InnerMainGrid.Children.Add(mainMediaElement);
+            if (mainMediaElement != null)
+            {
+                InnerMainGrid.Children.Add(mainMediaElement);
+            }
 #endif
 
             SetOrientationLayout();
@@ -118,9 +124,12 @@ namespace Sa11ytaire4All
                 _targetPiles[i] = new List<Card>();
             }
 
-            DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
+            //DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
 
-            mainMediaElement.MediaEnded += MainMediaElement_MediaEnded;
+            if (mainMediaElement != null)
+            {
+                mainMediaElement.MediaEnded += MainMediaElement_MediaEnded;
+            }
 
             this.Unloaded += MainPage_Unloaded;
 
@@ -146,6 +155,11 @@ namespace Sa11ytaire4All
 
         private void MainMediaElement_MediaEnded(object? sender, EventArgs e)
         {
+            if (mainMediaElement == null)
+            {
+                return;
+            }
+
             // Barker Todo: On Android, the media element can be accessed outside of the app 
             // by swiping down from the top of the screen while the app's running. Figure out
             // how to prevent that. In the meantime, prevent that standalone media UI from 
@@ -162,6 +176,11 @@ namespace Sa11ytaire4All
 
         private void MainPage_Unloaded(object? sender, EventArgs e)
         {
+            if (mainMediaElement == null)
+            {
+                return;
+            }
+
             // Release the MediaElement to prevent the standalone media element being available
             // after the ap has been closed.
             mainMediaElement.Handler?.DisconnectHandler();
@@ -302,32 +321,24 @@ namespace Sa11ytaire4All
 
                     // On Android, deselecting a card inside the tap handler seems not to work.
                     // So delay the deselection a little until we're out of the tap handler.
-                    timerDeselectDealtCard = new Timer(
-                        new TimerCallback((s) => DelayDeselectDealtCard(list)),
-                            null,
-                            TimeSpan.FromMilliseconds(200),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    DelayDeselectDealtCard(list);
                 }
                 else
                 {
                     Debug.WriteLine("OnTapGestureRecognizerTapped: Selecting now: " + dealtCard.AccessibleName);
 
-                    list.SelectedItem = dealtCard;
+                    Dispatcher.Dispatch(() => {
+                        list.SelectedItem = dealtCard;
+                    });
                 }
             }
 
             tapGestureProcessingInProgress = false;
         }
 
-        private Timer? timerDeselectDealtCard;
-
         private void DelayDeselectDealtCard(CollectionView list)
         {
-            timerDeselectDealtCard?.Dispose();
-            timerDeselectDealtCard = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
+            Dispatcher.Dispatch(() =>
             {
                 DeselectAllCardsFromDealtCardPile(list);
             });
@@ -443,26 +454,6 @@ namespace Sa11ytaire4All
                 var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
                 vm.LongPressZoomDuration = longPressZoomDuration;
 
-                //if ((OriginalCardWidth == 0) && (OriginalCardHeight == 0))
-                //{
-                //    // Barker: On iOS, the app apparently can hang trying to relayout the app.
-                //    // As such, make all the game UI invisible while the CardWidth and CardHeight
-                //    // properties are adjusted, and make evreything visible again shortly afterwards.
-                //    SetCollectionViewsVisibility(false);
-
-                //    UpperGrid.IsVisible = false;
-                //    UpperGrid.IsVisible = false;
-
-                //    vm.CardWidth = OriginalCardWidth;
-                //    vm.CardHeight = OriginalCardHeight;
-
-                //    timerRelayoutApp = new Timer(
-                //        new TimerCallback((s) => DelayedRelayoutApp()),
-                //            null,
-                //            TimeSpan.FromMilliseconds(500),
-                //            TimeSpan.FromMilliseconds(Timeout.Infinite));
-                //}
-
                 var previousColoursClubs = vm.SuitColoursClubs;
                 var previousColoursDiamonds = vm.SuitColoursDiamonds;
                 var previousColoursHearts = vm.SuitColoursHearts;
@@ -527,11 +518,9 @@ namespace Sa11ytaire4All
                 {
                     InitialSetSuitColours = false;
 
-                    timerSetSuitColours = new Timer(
-                        new TimerCallback((s) => DelayedTimerSetSuitColours()),
-                            null,
-                            TimeSpan.FromMilliseconds(1000),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    Dispatcher.Dispatch(() => {
+                        DelayedSetSuitColours();
+                    });
                 }
 
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
@@ -576,7 +565,10 @@ namespace Sa11ytaire4All
                 if (playSoundSuccessfulMove || playSoundUnsuccessfulMove || playSoundOther ||
                     celebrationExperienceAudio || celebrationExperienceVisual)
                 {
-                    InnerMainGrid.Children.Add(mainMediaElement);
+                    if (mainMediaElement != null)
+                    {
+                        InnerMainGrid.Children.Add(mainMediaElement);
+                    }
                 }
 #endif
                 // First-run message.
@@ -593,8 +585,10 @@ namespace Sa11ytaire4All
                     // relating to there being no root element when trying to display the first run 
                     // message. So for now, add a hacky 5 second delay instead.
                     delay = 5000;
-#endif
 
+                    // Note: An attempt to replace the use of this timer with a Dispatcher.Dispatch() still
+                    // resulted in a crash on Windows. So stick with the timer until this is understood.
+#endif
                     timerFirstRunAnnouncement = new Timer(
                         new TimerCallback((s) => ShowFirstRunMessage()),
                             null,
@@ -613,11 +607,9 @@ namespace Sa11ytaire4All
 
                         if (playSoundOther)
                         {
-                            timerPlayFirstDealSounds = new Timer(
-                            new TimerCallback((s) => MakeFirstDealSounds()),
-                                null,
-                                TimeSpan.FromMilliseconds(500),
-                                TimeSpan.FromMilliseconds(Timeout.Infinite));
+                            Dispatcher.Dispatch(() => {
+                                MakeFirstDealSounds();
+                            });
                         }
                     }
                 }
@@ -674,57 +666,22 @@ namespace Sa11ytaire4All
             return suitColour;
         }
 
-        private Timer? timerSetSuitColours;
-
-        private void DelayedTimerSetSuitColours()
+        private void DelayedSetSuitColours()
         {
-            timerSetSuitColours?.Dispose();
-            timerSetSuitColours = null;
+            SetCardSuitColours(CardDeckUpturnedObscuredLower);
+            SetCardSuitColours(CardDeckUpturnedObscuredHigher);
+            SetCardSuitColours(CardDeckUpturned);
 
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                SetCardSuitColours(CardDeckUpturnedObscuredLower);
-                SetCardSuitColours(CardDeckUpturnedObscuredHigher);
-                SetCardSuitColours(CardDeckUpturned);
-
-                SetCardSuitColours(TargetPileC);
-                SetCardSuitColours(TargetPileD);
-                SetCardSuitColours(TargetPileH);
-                SetCardSuitColours(TargetPileS);
-            });
+            SetCardSuitColours(TargetPileC);
+            SetCardSuitColours(TargetPileD);
+            SetCardSuitColours(TargetPileH);
+            SetCardSuitColours(TargetPileS);
         }
 
         private void MakeFirstDealSounds()
         {
-            timerPlayFirstDealSounds?.Dispose();
-            timerPlayFirstDealSounds = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                PlaySoundFile("deal.mp4");
-            });
+            PlaySoundFile("deal.mp4");
         }
-
-        private Timer? timerPlayFirstDealSounds;
-
-        //private Timer? timerRelayoutApp;
-
-        //private void DelayedRelayoutApp()
-        //{
-        //    timerRelayoutApp?.Dispose();
-        //    timerRelayoutApp = null;
-
-        //    // Always run this on the UI thread.
-        //    MainThread.BeginInvokeOnMainThread(() =>
-        //    {
-        //        UpperGrid.IsVisible = true;
-        //        UpperGrid.IsVisible = true;
-
-        //        SetCollectionViewsVisibility(true);
-        //    });
-        //}
 
         private void ShowFirstRunMessage()
         {
@@ -755,7 +712,7 @@ namespace Sa11ytaire4All
 
         private bool cardButtonStateInProgress = false;
 
-        // Make sure all CardButtones showing a card are enabled.
+        // Make sure all CardButtons showing a card are enabled.
         private void CheckAllCardButtonState()
         {
             if (cardButtonStateInProgress)
@@ -807,20 +764,23 @@ namespace Sa11ytaire4All
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
 #if WINDOWS
-            // Barker Todo: I've yet to get the Dealt Card Piles to layout as required in portrait 
-            // on Windows. So for now, simply always show everything in landscape layout.
             isPortrait = false;
-            //if (MainPage.MainPageSingleton != null)
-            //{
-            //    var grid = MainPage.MainPageSingleton.InnerMainGrid;
-            //    if (grid != null)
-            //    {
-            //        if ((grid.Bounds.Width > 0) && (grid.Bounds.Height > 0))
-            //        {
-            //            isPortrait = (grid.Bounds.Height > grid.Bounds.Width);
-            //        }
-            //    }
-            //}
+
+            if (MainPage.MainPageSingleton != null)
+            {
+                var grid = MainPage.MainPageSingleton.InnerMainGrid;
+                if (grid != null)
+                {
+                    if ((grid.Bounds.Width > 0) && (grid.Bounds.Height > 0))
+                    {
+                        isPortrait = (grid.Bounds.Height > grid.Bounds.Width);
+                    }
+                }
+            }
+
+            // Barker Todo: The portrait layout of the CollectionViews isn't working yet,
+            // so for now, only present landscape orientation.
+            isPortrait = false;
 #endif
             return isPortrait;
         }
@@ -828,6 +788,9 @@ namespace Sa11ytaire4All
 #if WINDOWS
         private Rect previousGridBounds = new Rect();
 #endif
+
+        private bool gotPreviousOrientation = false;
+        private bool previousOrientationPortrait;
 
         private void CardPileGrid_SizeChanged(object? sender, EventArgs e)
         {
@@ -837,34 +800,26 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            var isPortrait = MainPage.IsPortrait();
-
             // On iOS the topmost Grid containing the app UI also contains the system's status and navigation
             // base, which we do not want to include here. So base the app's UI sizing on the inner main Grid
             // which does not contain those bars.
             var mainContentGrid = InnerMainGrid;
 
-#if WINDOWS
-            var changeLayoutOrientation = false;
+            // Determine if we need to change layout orientation.
+            var currentOrientationIsPortrait = IsPortrait();
 
-            if ((mainContentGrid.Bounds.Width > 0) && (mainContentGrid.Bounds.Height > 0))
+            if (!gotPreviousOrientation || (currentOrientationIsPortrait != previousOrientationPortrait))
             {
-                if ((previousGridBounds.Width > 0) && (previousGridBounds.Height > 0))
-                {
-                    var wasPortrait = (previousGridBounds.Height > previousGridBounds.Width);
+                SetOrientationLayout();
 
-                    changeLayoutOrientation = (wasPortrait != isPortrait);
-                    if (changeLayoutOrientation)
-                    {
-                        ChangeLayoutOrientation();
-                    }
-                }
-
-                previousGridBounds = mainContentGrid.Bounds;
+                OriginalCardWidth = 0;
+                OriginalCardHeight = 0;
             }
-#endif
 
-            if (isPortrait)
+            previousOrientationPortrait = currentOrientationIsPortrait;
+            gotPreviousOrientation = true;
+
+            if (currentOrientationIsPortrait)
             {
                 vm.CardHeight = mainContentGrid.Height / 9;
                 vm.CardWidth = mainContentGrid.Width / 5;
@@ -905,13 +860,6 @@ namespace Sa11ytaire4All
             {
                 RefreshAllCardVisuals();
             }
-
-#if WINDOWS
-            if (changeLayoutOrientation)
-            {
-                ChangeLayoutOrientation();
-            }
-#endif
         }
 
         private void ClearTargetPileButtons()
@@ -1003,9 +951,7 @@ namespace Sa11ytaire4All
             {
                 cardButton.IsToggled = isSelected;
 
-#if WINDOWS
                 cardButton.RefreshVisuals();
-#endif
             }
         }
 
@@ -1052,20 +998,9 @@ namespace Sa11ytaire4All
             _shuffler = new Shuffler();
             _shuffler.Shuffle(_deckRemaining);
 
-            // Barker: On my old iPod touch, the first dealing of the cards
-            // has the lowest first face-down on each pile a very small height. I've not 
-            // yet figured out why this is happening. The item height converter, 
-            // CardInAccessibleTreeToHeightRequestConverter(), doesn't seem to have a path
-            // where that can happen. Restarting the game always fixes the problem. So for
-            // now, add a delay to increase the likelihood of the relevant UI being
-            // initialised as required before the cards are dealt.
-
-            // Barker Important Todo: Figure out what's really happening and remove the timer.
-            timerDelayDealCards = new Timer(
-                new TimerCallback((s) => DelayDealCards()),
-                    null,
-                    TimeSpan.FromMilliseconds(200),
-                    TimeSpan.FromMilliseconds(Timeout.Infinite));
+            Dispatcher.Dispatch(() => {
+                DelayDealCards();
+            });
 
             NextCardDeck.IsEmpty = false;
 
@@ -1084,18 +1019,9 @@ namespace Sa11ytaire4All
             ClearDealtCardPileSelections();
         }
 
-        private Timer? timerDelayDealCards;
-
         private void DelayDealCards()
         {
-            timerDelayDealCards?.Dispose();
-            timerDelayDealCards = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                DealCards();
-            });
+            DealCards();
         }
 
         private void MenuButton_Click(object sender, EventArgs e)
@@ -1321,7 +1247,7 @@ namespace Sa11ytaire4All
                 TargetPileS.RotateTo(0, 0);
 
                 // Stop any running sounds.
-                if (mainMediaElement.Source != null)
+                if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                 {
                     mainMediaElement.Source = null;
                 }
@@ -1666,6 +1592,11 @@ namespace Sa11ytaire4All
 
         private void PlaySound(bool success)
         {
+            if (mainMediaElement == null)
+            {
+                return;
+            }
+
             // Only play a sound if the relevant setting is turned on.
             if ((success && playSoundSuccessfulMove) ||
                 (!success && playSoundUnsuccessfulMove))
@@ -1681,6 +1612,11 @@ namespace Sa11ytaire4All
 
         private void PlaySoundFile(string soundFilename)
         {
+            if (mainMediaElement == null)
+            {
+                return;
+            }
+
             if (string.IsNullOrEmpty(soundFilename))
             {
                 return;

@@ -44,8 +44,6 @@
         <local_views:CardWidthToHamburgerWidthConverter x:Key="CardWidthToHamburgerWidthConverter" />
         <local_views:CardWidthToHamburgerHeightConverter x:Key="CardWidthToHamburgerHeightConverter" />
         <local_views:IsObscuredCardToMargin x:Key="IsObscuredCardToMargin" />
-        <local_views:PictureCardToCardImageConverter x:Key="PictureCardToCardImageConverter" />
-        <local_views:CardToCardImageConverter x:Key="CardToCardImageConverter" />
         <local_views:NextCardIsEmptyToImageConverter x:Key="NextCardIsEmptyToImageConverter" />
         <local_views:NextCardIsEmptyToAccessibleName x:Key="NextCardIsEmptyToAccessibleName" />
         <local_views:CardWidthToTargetCardWidthConverter x:Key="CardWidthToTargetCardWidthConverter" />
@@ -56,7 +54,7 @@
         <local_views:MergedToHeightRequestConverter x:Key="MergedToHeightRequestConverter" />
         <local_views:MergedToWidthRequestConverter x:Key="MergedToWidthRequestConverter" />
         <local_views:MergedCardToIsVisibleConverter x:Key="MergedCardToIsVisibleConverter" />
-
+        
         <!-- Style the four target piles. -->
 
         <Style x:Key="CardButtonStyle" TargetType="local_views:CardButton">
@@ -255,7 +253,7 @@
                             Aspect="Fill" 
                             BackgroundColor="{Binding InSelectedSet, Mode=OneWay, Converter={StaticResource InSelectedSetToBackgroundConverter}}"
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
-                            Source="{Binding Card, Mode=OneWay, Converter={StaticResource CardToCardImageConverter}}">
+                            Source="{Binding FaceupDealtCardImageSource, Mode=OneWay}">
 
                             <Image.Behaviors>
 
@@ -355,7 +353,7 @@
                             BackgroundColor="Transparent"
                             Aspect="Fill" 
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
-                            Source="{Binding Card, Mode=OneWay, Converter={StaticResource PictureCardToCardImageConverter}}">
+                            Source="{Binding FaceupPictureDealtCardImageSource, Mode=OneWay}">
                             <Image.WidthRequest>
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
@@ -492,7 +490,11 @@
                         </VisualStateManager.VisualStateGroups>
                     </ImageButton>
 
-                    <VerticalStackLayout x:Name="ScreenReaderAnnouncementButtons">
+                    <!-- Set FlowDirection here to always have the speech bubble glyph appear
+                        to the right of the main glyph in the screen reader-related buttons. -->
+                    
+                    <VerticalStackLayout x:Name="ScreenReaderAnnouncementButtons"
+                        FlowDirection="LeftToRight">
                         
                         <!-- Barker Todo: Style these buttons to avoid property and VisualState duplication. -->
 

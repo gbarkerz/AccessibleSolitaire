@@ -12,4 +12,8 @@
     <Content Include="**\*.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Appium.WebDriver" Version="8.0.0" />
+  </ItemGroup>
+
 </Project>

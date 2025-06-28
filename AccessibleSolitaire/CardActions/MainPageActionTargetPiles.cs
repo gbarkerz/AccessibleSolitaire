@@ -63,10 +63,7 @@ namespace Sa11ytaire4All
             // Change the selection state of the target pile CardButton.
             SetCardButtonToggledSelectionState(cardButton, !cardButton.IsToggled);
 
-#if WINDOWS
-            // On Windows, the actual width of the card doesn't update without a nudge.
             cardButton.RefreshVisuals();
-#endif
 
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!cardButton.IsToggled)
@@ -113,8 +110,6 @@ namespace Sa11ytaire4All
             else
             {
                 // Attempt to move a card from from of the Dealt Card piles to the Target Card pile.
-                // We use a timer here to delay the moving of the card to the target card pile
-                // asynchronously.
                 cardWasMoved = MoveDealtCardToTargetPileAsAppropriate(cardButton);
             }
         }
@@ -305,14 +300,9 @@ namespace Sa11ytaire4All
                     TargetPileIndex = targetPileIndex
                 };
 
-                if (timerDelayAttemptToMoveCard == null)
-                {
-                    timerDelayAttemptToMoveCard = new Timer(
-                        new TimerCallback((s) => TimedDelayAttemptToMoveDealtCardToTargetPile(movingCardData)),
-                            null,
-                            TimeSpan.FromMilliseconds(500),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
-                }
+                Dispatcher.Dispatch(() => {
+                    DelayMoveDealtCardToTargetPileAsAppropriate(movingCardData);
+                });
 
                 DeselectCard(cardAbove);
             }

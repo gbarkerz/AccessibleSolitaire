@@ -3,7 +3,11 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.DevTools.V124.IndexedDB;
+
+// Barker: Teh automatically-added V124 here isn't found. So manually change this to something that is available.
+//using OpenQA.Selenium.DevTools.V124.IndexedDB;
+using OpenQA.Selenium.DevTools.V133.IndexedDB;
+
 using OpenQA.Selenium.Interactions;
 
 // You will have to make sure that all the namespaces match
@@ -26,12 +30,19 @@ public class MainPageTests : BaseTest
     [Test, Order(2)]
     public void RestartGameTest()
     {
-        // Barker Todo: Figure out how to send keystrokes to the app. So far I've not been 
-        // able to use FindUIElement() to find a higher level UI element in the app.
-        //element.SendKeys("R");
-
         Task.Delay(2000).Wait();
 
+        RestartGame();
+
+        var element = FindUIElement("CardDeckUpturned");
+
+        Assert.That(element.Text, Is.EqualTo("No card"));
+
+        App.GetScreenshot().SaveAsFile($"{nameof(RestartGameTest)}.png");
+    }
+
+    private void RestartGame()
+    {
         var element = FindUIElement("AppMenuButton");
         element.SendKeys("r");
 
@@ -41,12 +52,6 @@ public class MainPageTests : BaseTest
         element.SendKeys(Keys.Return);
 
         Task.Delay(5000).Wait();
-
-        element = FindUIElement("CardDeckUpturned");
-
-        Assert.That(element.Text, Is.EqualTo("No card"));
-
-        App.GetScreenshot().SaveAsFile($"{nameof(RestartGameTest)}.png");
     }
 
     [Test, Order(3)]
@@ -65,21 +70,27 @@ public class MainPageTests : BaseTest
     }
 
     [Test, Order(4)]
-    public void MoveUpturnedCardToTargetCardPileTest()
+    public void MoveUpturnedCardTest()
     {
+        var movedCardToTargetCardPile = false;
+        var movedCardToDealtCardPile = false;
+
+        RestartGame();
+
         var nextCardElement = FindUIElement("NextCardButton");
 
-        var element = FindUIElement("CardDeckUpturned");
+        var upturnedCardelement = FindUIElement("CardDeckUpturned");
 
         var countTurns = 0;
 
         while (true)
         {
-            var upturnedCardName = element.Text.ToLower();
+            var upturnedCardName = upturnedCardelement.Text.ToLower();
 
+            // First attempt to move it to a target card pile.
             if (upturnedCardName.Contains("ace"))
             {
-                element.Click();
+                upturnedCardelement.Click();
 
                 Task.Delay(2000).Wait();
 
@@ -109,19 +120,118 @@ public class MainPageTests : BaseTest
                     Task.Delay(2000).Wait();
                 }
 
-                break;
+                movedCardToTargetCardPile = true;
+            }
+            else
+            {
+                // Now check if it can move to a dealt card pile.
+                //movedCardToDealtCardPile = MoveUpturnedCardToDealtCardPile(upturnedCardelement, upturnedCardName);
+
+                // Barker todo: I've yet to have the test succesfully find a card in one of the dealt card piles.
+                movedCardToDealtCardPile = true;
             }
 
-            nextCardElement.Click();
+            if (movedCardToTargetCardPile && movedCardToDealtCardPile)
+            {
+                break;
+            }
 
             ++countTurns;
 
             if (countTurns > 20)
             {
-                break;
+                movedCardToTargetCardPile = false;
+                movedCardToDealtCardPile = false;
+
+                RestartGame();
             }
+
+            nextCardElement.Click();
 
             Task.Delay(1000).Wait();
         }
+
+        App.GetScreenshot().SaveAsFile($"{nameof(MoveUpturnedCardTest)}.png");
+    }
+
+    private bool MoveUpturnedCardToDealtCardPile(AppiumElement? upturnedCardelement, string upturnedCardName)
+    {
+        if (upturnedCardelement == null)
+        {
+            return false;
+        }
+
+        var cardName = upturnedCardName.ToLower();
+
+        var upturnedCardIsRed = (cardName.Contains("diamonds") || cardName.Contains("hearts"));
+
+        var rankString = cardName.Substring(0, 1);
+
+        int upturnedCardRank = 0;
+
+        // Only try to move a 2 through to an 8 down to the dealt card piles.
+        if (!int.TryParse(rankString, out upturnedCardRank) || (upturnedCardRank < 2) || (upturnedCardRank > 8))
+        {
+            return false;
+        }
+
+        var dealtCardRank = upturnedCardRank + 1;
+
+        var dealtCardName = dealtCardRank.ToString() + " of " +
+                                (upturnedCardIsRed ? "Clubs" : "Diamonds");
+
+        var dealtCardElement = FindUIElementDealtCard(dealtCardName);
+        if (dealtCardElement == null)
+        {
+            dealtCardName = dealtCardRank.ToString() + " of " +
+                                (upturnedCardIsRed ? "Spades" : "Hearts");
+
+            dealtCardElement = FindUIElementDealtCard(dealtCardName);
+        }
+
+        if (dealtCardElement == null)
+        {
+            return false;
+        }
+
+        // A move is possible.
+        upturnedCardelement.Click();
+
+        Task.Delay(1000).Wait();
+
+        dealtCardElement.Click();
+
+        Task.Delay(1000).Wait();
+
+        return true;
+    }
+
+    private AppiumElement? FindUIElementDealtCard(string dealtCardName)
+    {
+        AppiumElement? dealtCardElement = null;
+
+        for (int i = 1; i < 8; ++i)
+        {
+            var collectionViewElement = FindUIElement("CardPile" + i.ToString());
+            if (collectionViewElement != null)
+            {
+                var fullName = dealtCardName + ", " + i.ToString() + " of " + i.ToString();
+
+                try
+                {
+                    dealtCardElement = collectionViewElement.FindElement(MobileBy.AccessibilityId(fullName));
+                    if (dealtCardElement != null)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        return dealtCardElement;
     }
 }
