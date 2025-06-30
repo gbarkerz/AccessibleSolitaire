@@ -827,52 +827,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    // Trial removal of highlightSelectedCardSet setting.
-    //public class InSelectedSetToBackgroundConverter : IMultiValueConverter
-    //{
-    //    private static readonly Color inSelectedSetLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
-    //    private static readonly Color inSelectedSetDarkColor = Color.FromRgb(0x30, 0x30, 0x00);
-
-    //    public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if (values == null || (values.Length < 2))
-    //        {
-    //            return Colors.Transparent;
-    //        }
-
-    //        if ((values[0] == null) || (values[1] == null))
-    //        {
-    //            return Colors.Transparent;
-    //        }
-
-    //        var inSelectedSet = (bool)values[0];
-
-    //        var highlightSelectedCardSet = (bool)values[1];
-
-    //        Color? color = Colors.Transparent;
-            
-    //        if (Application.Current != null)
-    //        {
-    //            if (highlightSelectedCardSet && inSelectedSet)
-    //            {
-    //                color = (Application.Current.RequestedTheme != AppTheme.Dark ?
-    //                            inSelectedSetLightColor : inSelectedSetDarkColor);
-    //            }
-    //            else
-    //            {
-    //                color = (Application.Current.RequestedTheme != AppTheme.Dark ? Colors.White : Colors.Black);
-    //            }
-    //        }
-
-    //        return color;
-    //    }
-
-    //    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
-
     public class NextCardIsEmptyToImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -989,9 +943,9 @@ namespace Sa11ytaire4All.Views
                 return 0;
             }
 
-            var cardHeight = (double)value;
+            var cardWidth = (double)value;
 
-            return cardHeight / 3;
+            return cardWidth / 3;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -1020,21 +974,35 @@ namespace Sa11ytaire4All.Views
         }
     }
     
-    public class CardWidthToHamburgerHeightConverter : IValueConverter
+    public class CardDimensionsToHamburgerHeightConverter : IMultiValueConverter
     {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
+            if (values == null || values.Length < 3)
             {
                 return 0;
             }
 
-            var cardHeight = (double)value;
+            if ((values[0] == null) || (values[1] == null) || (values[2] == null))
+            {
+                return 0;
+            }
 
-            return cardHeight / 4;
+            var cardWidth = (double)values[0];
+            var cardHeight = (double)values[1];
+            var ShowScreenReaderAnnouncementButtons = (bool)values[2];
+
+            double buttonHeight = (cardWidth / 3);
+
+            if (ShowScreenReaderAnnouncementButtons)
+            {
+                buttonHeight = Math.Min(buttonHeight, cardHeight / 3);
+            }
+
+            return 30; // buttonHeight;
         }
 
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
@@ -1330,7 +1298,7 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || values.Length < 2)
+            if (values == null || values.Length < 3)
             {
                 return false;
             }

@@ -59,10 +59,6 @@ public partial class SettingsPage : ContentPage
         var allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);
         AllowSelectionByFaceDownCardCheckbox.IsToggled = allowSelectionByFaceDownCard;
 
-        // Trial removal of this setting.
-        //var highlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
-        //HighlightSelectedCardSetSwitch.IsToggled = highlightSelectedCardSet;
-
         var mergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
         MergeFaceDownCardsSwitch.IsToggled = mergeFaceDownCards;
 
@@ -159,10 +155,6 @@ public partial class SettingsPage : ContentPage
 
         var allowSelectionByFaceDownCard = AllowSelectionByFaceDownCardCheckbox.IsToggled;
         Preferences.Set("AllowSelectionByFaceDownCard", allowSelectionByFaceDownCard);
-
-        // Trial removal of this setting.
-        //var highlightSelectedCardSet = HighlightSelectedCardSetSwitch.IsToggled;
-        //Preferences.Set("HighlightSelectedCardSet", highlightSelectedCardSet);
 
         var mergeFaceDownCards = MergeFaceDownCardsSwitch.IsToggled;
         Preferences.Set("MergeFaceDownCards", mergeFaceDownCards);

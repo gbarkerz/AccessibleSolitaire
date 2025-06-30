@@ -117,77 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="1" xml:space="preserve">
-    <value>One</value>
-  </data>
-  <data name="10" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="2" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="3" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="4" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="5" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="6" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="7" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="8" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="9" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.11</value>
-  </data>
-  <data name="AccessKeyClubsPileLabel.Text" xml:space="preserve">
-    <value>Clubs pile:</value>
-  </data>
-  <data name="AccessKeyDealtCardPile1Label.Text" xml:space="preserve">
-    <value>Pile 1:</value>
-  </data>
-  <data name="AccessKeyDealtCardPile2Label.Text" xml:space="preserve">
-    <value>Pile 2:</value>
-  </data>
-  <data name="AccessKeyDealtCardPile3Label.Text" xml:space="preserve">
-    <value>Pile 3:</value>
-  </data>
-  <data name="AccessKeyDealtCardPile4Label.Text" xml:space="preserve">
-    <value>Pile 4:</value>
-  </data>
-  <data name="AccessKeyDealtCardPile5Label.Text" xml:space="preserve">
-    <value>Pile 5:</value>
-  </data>
-  <data name="AccessKeyDealtCardPile6Label.Text" xml:space="preserve">
-    <value>Pile 6:</value>
-  </data>
-  <data name="AccessKeyDealtCardPile7Label.Text" xml:space="preserve">
-    <value>Pile 7:</value>
-  </data>
-  <data name="AccessKeyDiamondsPileLabel.Text" xml:space="preserve">
-    <value>Diamonds pile:</value>
-  </data>
-  <data name="AccessKeyHeartsPileLabel.Text" xml:space="preserve">
-    <value>Hearts pile:</value>
-  </data>
-  <data name="AccessKeyNextCardLabel.Text" xml:space="preserve">
-    <value>Next card:</value>
-  </data>
-  <data name="AccessKeySpadesPileLabel.Text" xml:space="preserve">
-    <value>Spades pile:</value>
-  </data>
-  <data name="AccessKeyUpturnedCardLabel.Text" xml:space="preserve">
-    <value>Upturned card:</value>
+    <value>Accessible Solitaire V2.15</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -201,23 +132,8 @@
   <data name="CanBeMovedTo" xml:space="preserve">
     <value>can be moved to</value>
   </data>
-  <data name="CancelButton.Content" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
   <data name="Card" xml:space="preserve">
     <value>Card</value>
-  </data>
-  <data name="CardAppearence" xml:space="preserve">
-    <value>Card Appearence</value>
-  </data>
-  <data name="CardDeckUpturned.AutomationProperties.HelpText" xml:space="preserve">
-    <value>Top-most upturned card</value>
-  </data>
-  <data name="CardDeckUpturnedObscuredHigher.AutomationProperties.HelpText" xml:space="preserve">
-    <value>Second from top upturned card</value>
-  </data>
-  <data name="CardDeckUpturnedObscuredLower.AutomationProperties.HelpText" xml:space="preserve">
-    <value>Third from top upturned card</value>
   </data>
   <data name="CardPile1" xml:space="preserve">
     <value>Pile 1</value>
@@ -255,9 +171,6 @@
   <data name="Congratulations" xml:space="preserve">
     <value>Congratulations</value>
   </data>
-  <data name="Darker" xml:space="preserve">
-    <value>Darker</value>
-  </data>
   <data name="DealtCardPile" xml:space="preserve">
     <value>Dealt card pile</value>
   </data>
@@ -275,24 +188,6 @@
   </data>
   <data name="EmptyCardPile" xml:space="preserve">
     <value>Empty card pile</value>
-  </data>
-  <data name="EnableAutomaticHintsCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Enable automatic hints</value>
-  </data>
-  <data name="EnableAutomaticHintsCheckBox.Content" xml:space="preserve">
-    <value>Enable automatic hints</value>
-  </data>
-  <data name="endOfGameDialog.Content" xml:space="preserve">
-    <value>Congratulations, you've won! Would you like to start a new game?</value>
-  </data>
-  <data name="endOfGameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Restart game</value>
-  </data>
-  <data name="endOfGameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Exit game</value>
-  </data>
-  <data name="endOfGameDialog.Title" xml:space="preserve">
-    <value>Game Over</value>
   </data>
   <data name="FaceDown" xml:space="preserve">
     <value>Face-down</value>
@@ -317,12 +212,6 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="Help" xml:space="preserve">
     <value>Accessible Solitaire Help</value>
   </data>
-  <data name="HowAboutMoving" xml:space="preserve">
-    <value>Consider moving the</value>
-  </data>
-  <data name="HowAboutTurningOverCards" xml:space="preserve">
-    <value>How about turning over the next card?</value>
-  </data>
   <data name="InDealtCardPile" xml:space="preserve">
     <value>in dealt card pile</value>
   </data>
@@ -332,38 +221,14 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="King" xml:space="preserve">
     <value>King</value>
   </data>
-  <data name="LaunchHelpButton.Content" xml:space="preserve">
-    <value>Launch help</value>
-  </data>
-  <data name="Lighter" xml:space="preserve">
-    <value>Lighter</value>
-  </data>
-  <data name="MapAccessKeysPrimaryButtonText" xml:space="preserve">
-    <value>Set</value>
-  </data>
-  <data name="MapAccessKeysSecondaryButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="MapAccessKeysTitle" xml:space="preserve">
-    <value>Set access keys to use in Sa11ytaire</value>
-  </data>
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
-  </data>
-  <data name="MightBeOutOfLuck" xml:space="preserve">
-    <value>Hmm, there might not be any available moves now.</value>
   </data>
   <data name="MoreCardsAreAvailable" xml:space="preserve">
     <value>More cards are available to turn over</value>
   </data>
-  <data name="MostRecentNotificationTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Most recent notification</value>
-  </data>
   <data name="Moved" xml:space="preserve">
     <value>Moved</value>
-  </data>
-  <data name="NextCardPile.AutomationProperties.FullDescription" xml:space="preserve">
-    <value>Pile of remaining cards, face down.</value>
   </data>
   <data name="NextCardPile_NextCard" xml:space="preserve">
     <value>Next card</value>
@@ -404,26 +269,8 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="Pile" xml:space="preserve">
     <value>Pile</value>
   </data>
-  <data name="PlayerSignIn.Content" xml:space="preserve">
-    <value>Sign in</value>
-  </data>
-  <data name="PlaySoundEffectsCheckBox.Content" xml:space="preserve">
-    <value>Sound effects</value>
-  </data>
-  <data name="PlayTTSNotificationsCheckBox.Content" xml:space="preserve">
-    <value>Notification audio</value>
-  </data>
   <data name="Queen" xml:space="preserve">
     <value>Queen</value>
-  </data>
-  <data name="queryDialog.CloseButtonText" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="queryDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Yes</value>
-  </data>
-  <data name="queryDialog.Title" xml:space="preserve">
-    <value>Restart game</value>
   </data>
   <data name="QueryRestartGame" xml:space="preserve">
     <value>Are you sure you want to restart the game?</value>
@@ -431,44 +278,17 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="QueryRestartWonGame" xml:space="preserve">
     <value>Congratulations, you've won! Would you like to start a new game?</value>
   </data>
-  <data name="RecognizedStatusLabel" xml:space="preserve">
-    <value>Speech recognized:</value>
-  </data>
   <data name="RestartGame" xml:space="preserve">
     <value>Restart Game</value>
-  </data>
-  <data name="RestoreDefaultsButton.AccessKey" xml:space="preserve">
-    <value>R</value>
-  </data>
-  <data name="RestoreDefaultsButton.Content" xml:space="preserve">
-    <value>Restore defaults</value>
   </data>
   <data name="Revealed" xml:space="preserve">
     <value>revealed</value>
   </data>
-  <data name="Sa11ytaire" xml:space="preserve">
+  <data name="AccessibleSolitaire" xml:space="preserve">
     <value>Accessible Solitaire</value>
-  </data>
-  <data name="SelectCardWithoutAltKeyCheckBox.Content" xml:space="preserve">
-    <value>Select card without Alt key</value>
-  </data>
-  <data name="SelectWithoutAltKey.Text" xml:space="preserve">
-    <value>Select card without Alt key.</value>
-  </data>
-  <data name="SetAccessKeyMapping.Content" xml:space="preserve">
-    <value>Set access key mapping</value>
-  </data>
-  <data name="SetButton.Content" xml:space="preserve">
-    <value>Set</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Accessible Solitaire Settings</value>
-  </data>
-  <data name="ShowBotCheckBoxLabel.Text" xml:space="preserve">
-    <value>Chat with Sa11y</value>
-  </data>
-  <data name="ShowNotificationWindowCheckBox.Content" xml:space="preserve">
-    <value>Show most recent notification</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtons" xml:space="preserve">
     <value>Screen Reader Announcements</value>
@@ -479,32 +299,14 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="ShowScreenReaderAnnouncementButtonsInstructions" xml:space="preserve">
     <value>Show buttons to have a screen reader announce the state of the entire game, and the moves currently available.</value>
   </data>
-  <data name="SingleKeyToMoveCardCheckBox.Content" xml:space="preserve">
-    <value>Single key to move card</value>
-  </data>
-  <data name="SingleKeyToMoveTextBlock.Text" xml:space="preserve">
-    <value>Single key to move card.</value>
-  </data>
   <data name="Spades" xml:space="preserve">
     <value>Spades</value>
   </data>
   <data name="SpadesPile" xml:space="preserve">
     <value>Spades pile</value>
   </data>
-  <data name="SwitchControl" xml:space="preserve">
-    <value>Switch control is now</value>
-  </data>
-  <data name="SwitchControlOnTextBlock" xml:space="preserve">
-    <value>Switch control on.</value>
-  </data>
-  <data name="SwitchScanSpeedLabel.Text" xml:space="preserve">
-    <value>Switch control highlight speed:</value>
-  </data>
   <data name="TargetCardPiles" xml:space="preserve">
     <value>Target card piles</value>
-  </data>
-  <data name="TargetPiles" xml:space="preserve">
-    <value>Target piles</value>
   </data>
   <data name="Then" xml:space="preserve">
     <value>then</value>
@@ -515,38 +317,17 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="To" xml:space="preserve">
     <value>to</value>
   </data>
-  <data name="TopCornerPilesLandmark.AutomationProperties.LocalizedLandmarkType" xml:space="preserve">
-    <value>Cards</value>
-  </data>
-  <data name="TopCornerPilesLandmark.AutomationProperties.Name" xml:space="preserve">
-    <value>Remaining card piles</value>
-  </data>
   <data name="TopUpturnedCardIs" xml:space="preserve">
     <value>Top upturned card is</value>
   </data>
   <data name="Unselected" xml:space="preserve">
     <value>unselected</value>
   </data>
-  <data name="Upturned" xml:space="preserve">
-    <value>Upturned</value>
-  </data>
   <data name="UpturnedCards" xml:space="preserve">
     <value>Upturned Cards</value>
   </data>
-  <data name="WaitingForSpeech" xml:space="preserve">
-    <value>Listening...</value>
-  </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="ZoomInstructions" xml:space="preserve">
-    <value>Increase the size of the entire game. The top area of the game will always occupy the top third of the screen, and can be scrolled in both directions. The lower part of the game containing all the dealt card piles can be scrolled separately.</value>
-  </data>
-  <data name="ZoomLevel" xml:space="preserve">
-    <value>Zoom Level</value>
-  </data>
-  <data name="ZoomLevelPickerLevel" xml:space="preserve">
-    <value>Zoom:</value>
   </data>
   <data name="CardTurnCount" xml:space="preserve">
     <value>Number of cards turned up</value>
@@ -587,16 +368,7 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="AllowSelectionByFaceDownCardCheckboxLabel" xml:space="preserve">
     <value>Select via face-down card:</value>
   </data>
-  <data name="HighlightSelectedCardSet" xml:space="preserve">
-    <value>Selected cards highlight</value>
-  </data>
-  <data name="HighlightSelectedCardSetInstructions" xml:space="preserve">
-    <value>Check this option it you'd like to highlight all cards that will be moved from a dealt card pile when a card is selected in that pile.</value>
-  </data>
   <data name="AllowSelectionByFaceDownCardButtonLabel" xml:space="preserve">
-    <value>Highlight selected card set:</value>
-  </data>
-  <data name="HighlightSelectedCardSetSwitchLabel" xml:space="preserve">
     <value>Highlight selected card set:</value>
   </data>
   <data name="InSelectedSet" xml:space="preserve">
@@ -763,5 +535,35 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="AnnounceAvailableMoves" xml:space="preserve">
     <value>Screen reader announce available moves</value>
+  </data>
+  <data name="1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="3" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="4" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="5" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="6" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="7" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="8" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="9" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="10" xml:space="preserve">
+    <value>10</value>
   </data>
 </root>

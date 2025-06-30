@@ -4,8 +4,11 @@ using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
+
+#if WINDOWS
 using WindowsInput;
 using WindowsInput.Native;
+#endif 
 
 namespace Sa11ytaire4All
 {
@@ -19,6 +22,9 @@ namespace Sa11ytaire4All
             // and then have the user press Tab to move to a contained item. That defeats
             // the object to reacting to an arrow press, so instead simulate a tab (or
             // shift tab) in response to the arrow press.
+
+#if WINDOWS
+            // The underlying functionality is only available on Windows.
 
             var inputSimulator = new InputSimulator();
 
@@ -35,6 +41,7 @@ namespace Sa11ytaire4All
             {
                 inputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
             }
+#endif
         }
 
         public void AnnounceAvailableMoves()
@@ -353,6 +360,7 @@ namespace Sa11ytaire4All
 
             CardPileGrid.Focus();
 
+#if WINDOWS
             if (timerDelayTabPress == null)
             {
                 timerDelayTabPress = new Timer(
@@ -361,8 +369,10 @@ namespace Sa11ytaire4All
                         TimeSpan.FromMilliseconds(200),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
+#endif
         }
 
+#if WINDOWS
         private void DelayTabPress()
         {
             timerDelayTabPress?.Dispose();
@@ -376,6 +386,7 @@ namespace Sa11ytaire4All
                 inputSimulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
             });
         }
+#endif
 
         private bool IsCardButtonFocused(CardButton cardButton)
         {

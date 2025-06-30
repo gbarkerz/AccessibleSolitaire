@@ -260,35 +260,6 @@
 
                     </HorizontalStackLayout>
 
-                    <!-- Trial removal of this setting. -->
-
-                    <!-- Allow highlight of all cards in a selected set in a dealt card pile. -->
-
-                    <!--<Label Grid.Row="9" 
-                        FontAttributes="Bold" 
-                        Margin="8,8,0,0"
-                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                        Text="{x:Static resources:StringResources.HighlightSelectedCardSet}" />
-
-                    <Label Grid.Row="10" 
-                        Margin="8,0,8,0"
-                        LineBreakMode="WordWrap"
-                        Text="{x:Static resources:StringResources.HighlightSelectedCardSetInstructions}" />
-
-                    <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
-
-                        <Label
-                            VerticalOptions="Center"                
-                            Text="{x:Static resources:StringResources.HighlightSelectedCardSetSwitchLabel}" 
-                            Margin="0" Padding="0" />
-
-                        <Switch x:Name="HighlightSelectedCardSetSwitch"
-                            Margin="0" HorizontalOptions="Start"
-                            SemanticProperties.Description="{x:Static resources:StringResources.HighlightSelectedCardSetSwitchLabel}"
-                            SemanticProperties.Hint="{x:Static resources:StringResources.AllowSelectionByFaceDownCardInstructions}" />
-
-                    </HorizontalStackLayout>-->
-
                     <!-- Merge all face-down cards into one visual item in a dealt card pile. -->
 
                     <Label Grid.Row="12" x:Name="MergeFaceDownCardsHeading" 

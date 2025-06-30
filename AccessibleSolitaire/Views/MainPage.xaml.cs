@@ -87,9 +87,6 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
-                // Trial removal of this setting.
-                //vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
-                
                 vm.MergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
             }
 
@@ -532,13 +529,10 @@ namespace Sa11ytaire4All
                     RefreshAllDealtCardPileCardIsInAccessibleTree();
                 }
 
-                // Trial removal of this setting.
-                //vm.HighlightSelectedCardSet = (bool)Preferences.Get("HighlightSelectedCardSet", true);
-
                 vm.FlipGameLayoutHorizontally = (bool)Preferences.Get("FlipGameLayoutHorizontally", false);
 
-                var showScreenReaderAnnouncementButtons = (bool)Preferences.Get("ShowScreenReaderAnnouncementButtons", false);
-                ScreenReaderAnnouncementButtons.IsVisible = showScreenReaderAnnouncementButtons;
+                vm.ShowScreenReaderAnnouncementButtons = (bool)Preferences.Get("ShowScreenReaderAnnouncementButtons", false);
+                ScreenReaderAnnouncementButtons.IsVisible = vm.ShowScreenReaderAnnouncementButtons;
 
                 vm.ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
 
@@ -691,7 +685,7 @@ namespace Sa11ytaire4All
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                var title = MyGetString("Sa11ytaire");
+                var title = MyGetString("AccessibleSolitaire");
                 var message = MyGetString("FirstRunMessage");
 
 #if WINDOWS
@@ -784,10 +778,6 @@ namespace Sa11ytaire4All
 #endif
             return isPortrait;
         }
-
-#if WINDOWS
-        private Rect previousGridBounds = new Rect();
-#endif
 
         private bool gotPreviousOrientation = false;
         private bool previousOrientationPortrait;
@@ -1228,7 +1218,7 @@ namespace Sa11ytaire4All
             StartCelebrating();
 
             var answer = await DisplayAlert(
-                MainPage.MyGetString("Sa11ytaire"),
+                MainPage.MyGetString("AccessibleSolitaire"),
                 MainPage.MyGetString("QueryRestartWonGame"),
                 MainPage.MyGetString("Yes"),
                 MainPage.MyGetString("No"));
@@ -1427,7 +1417,7 @@ namespace Sa11ytaire4All
 
         public string AnnounceStateTargetPiles(bool makeAnnouncement)
         {
-            string stateMessage = MyGetString("TargetPiles") + ", ";
+            string stateMessage = MyGetString("TargetCardPiles") + ", ";
 
             string empty = MyGetString("Empty");
             string pile = MyGetString("Pile");
@@ -1685,7 +1675,7 @@ namespace Sa11ytaire4All
         public async void QueryRestartGame()
         {
             var answer = await DisplayAlert(
-                MainPage.MyGetString("Sa11ytaire"),
+                MainPage.MyGetString("AccessibleSolitaire"),
                 MainPage.MyGetString("QueryRestartGame"),
                 MainPage.MyGetString("Yes"),
                 MainPage.MyGetString("No"));

@@ -43,9 +43,6 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty] private bool showScreenReaderAnnouncementButtons;
 
-        // Trial removal of this setting.
-        //[ObservableProperty] private bool highlightSelectedCardSet;
-
         [ObservableProperty] private bool mergeFaceDownCards;
 
         [ObservableProperty] private bool flipGameLayoutHorizontally;

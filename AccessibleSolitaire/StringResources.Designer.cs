@@ -61,7 +61,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One.
+        ///   Looks up a localized string similar to 1.
         /// </summary>
         internal static string _1 {
             get {
@@ -151,128 +151,20 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.11.
+        ///   Looks up a localized string similar to Accessible Solitaire.
+        /// </summary>
+        internal static string AccessibleSolitaire {
+            get {
+                return ResourceManager.GetString("AccessibleSolitaire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessible Solitaire V2.15.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
                 return ResourceManager.GetString("AccessibleSolitaireVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clubs pile:.
-        /// </summary>
-        internal static string AccessKeyClubsPileLabel_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyClubsPileLabel.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile 1:.
-        /// </summary>
-        internal static string AccessKeyDealtCardPile1Label_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDealtCardPile1Label.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile 2:.
-        /// </summary>
-        internal static string AccessKeyDealtCardPile2Label_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDealtCardPile2Label.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile 3:.
-        /// </summary>
-        internal static string AccessKeyDealtCardPile3Label_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDealtCardPile3Label.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile 4:.
-        /// </summary>
-        internal static string AccessKeyDealtCardPile4Label_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDealtCardPile4Label.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile 5:.
-        /// </summary>
-        internal static string AccessKeyDealtCardPile5Label_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDealtCardPile5Label.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile 6:.
-        /// </summary>
-        internal static string AccessKeyDealtCardPile6Label_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDealtCardPile6Label.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile 7:.
-        /// </summary>
-        internal static string AccessKeyDealtCardPile7Label_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDealtCardPile7Label.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Diamonds pile:.
-        /// </summary>
-        internal static string AccessKeyDiamondsPileLabel_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyDiamondsPileLabel.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hearts pile:.
-        /// </summary>
-        internal static string AccessKeyHeartsPileLabel_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyHeartsPileLabel.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Next card:.
-        /// </summary>
-        internal static string AccessKeyNextCardLabel_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyNextCardLabel.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Spades pile:.
-        /// </summary>
-        internal static string AccessKeySpadesPileLabel_Text {
-            get {
-                return ResourceManager.GetString("AccessKeySpadesPileLabel.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Upturned card:.
-        /// </summary>
-        internal static string AccessKeyUpturnedCardLabel_Text {
-            get {
-                return ResourceManager.GetString("AccessKeyUpturnedCardLabel.Text", resourceCulture);
             }
         }
         
@@ -358,56 +250,11 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        internal static string CancelButton_Content {
-            get {
-                return ResourceManager.GetString("CancelButton.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Card.
         /// </summary>
         internal static string Card {
             get {
                 return ResourceManager.GetString("Card", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Card Appearence.
-        /// </summary>
-        internal static string CardAppearence {
-            get {
-                return ResourceManager.GetString("CardAppearence", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Top-most upturned card.
-        /// </summary>
-        internal static string CardDeckUpturned_AutomationProperties_HelpText {
-            get {
-                return ResourceManager.GetString("CardDeckUpturned.AutomationProperties.HelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Second from top upturned card.
-        /// </summary>
-        internal static string CardDeckUpturnedObscuredHigher_AutomationProperties_HelpText {
-            get {
-                return ResourceManager.GetString("CardDeckUpturnedObscuredHigher.AutomationProperties.HelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Third from top upturned card.
-        /// </summary>
-        internal static string CardDeckUpturnedObscuredLower_AutomationProperties_HelpText {
-            get {
-                return ResourceManager.GetString("CardDeckUpturnedObscuredLower.AutomationProperties.HelpText", resourceCulture);
             }
         }
         
@@ -610,15 +457,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Darker.
-        /// </summary>
-        internal static string Darker {
-            get {
-                return ResourceManager.GetString("Darker", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Dealt card pile.
         /// </summary>
         internal static string DealtCardPile {
@@ -669,60 +507,6 @@ namespace Sa11ytaire4All {
         internal static string EmptyCardPile {
             get {
                 return ResourceManager.GetString("EmptyCardPile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable automatic hints.
-        /// </summary>
-        internal static string EnableAutomaticHintsCheckBox_AutomationProperties_Name {
-            get {
-                return ResourceManager.GetString("EnableAutomaticHintsCheckBox.AutomationProperties.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable automatic hints.
-        /// </summary>
-        internal static string EnableAutomaticHintsCheckBox_Content {
-            get {
-                return ResourceManager.GetString("EnableAutomaticHintsCheckBox.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Congratulations, you&apos;ve won! Would you like to start a new game?.
-        /// </summary>
-        internal static string endOfGameDialog_Content {
-            get {
-                return ResourceManager.GetString("endOfGameDialog.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restart game.
-        /// </summary>
-        internal static string endOfGameDialog_PrimaryButtonText {
-            get {
-                return ResourceManager.GetString("endOfGameDialog.PrimaryButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Exit game.
-        /// </summary>
-        internal static string endOfGameDialog_SecondaryButtonText {
-            get {
-                return ResourceManager.GetString("endOfGameDialog.SecondaryButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game Over.
-        /// </summary>
-        internal static string endOfGameDialog_Title {
-            get {
-                return ResourceManager.GetString("endOfGameDialog.Title", resourceCulture);
             }
         }
         
@@ -873,51 +657,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected cards highlight.
-        /// </summary>
-        internal static string HighlightSelectedCardSet {
-            get {
-                return ResourceManager.GetString("HighlightSelectedCardSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Check this option it you&apos;d like to highlight all cards that will be moved from a dealt card pile when a card is selected in that pile..
-        /// </summary>
-        internal static string HighlightSelectedCardSetInstructions {
-            get {
-                return ResourceManager.GetString("HighlightSelectedCardSetInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Highlight selected card set:.
-        /// </summary>
-        internal static string HighlightSelectedCardSetSwitchLabel {
-            get {
-                return ResourceManager.GetString("HighlightSelectedCardSetSwitchLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Consider moving the.
-        /// </summary>
-        internal static string HowAboutMoving {
-            get {
-                return ResourceManager.GetString("HowAboutMoving", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to How about turning over the next card?.
-        /// </summary>
-        internal static string HowAboutTurningOverCards {
-            get {
-                return ResourceManager.GetString("HowAboutTurningOverCards", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to in.
         /// </summary>
         internal static string In {
@@ -1056,24 +795,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Launch help.
-        /// </summary>
-        internal static string LaunchHelpButton_Content {
-            get {
-                return ResourceManager.GetString("LaunchHelpButton.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lighter.
-        /// </summary>
-        internal static string Lighter {
-            get {
-                return ResourceManager.GetString("Lighter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Press and hold on card to zoom.
         /// </summary>
         internal static string LongPressOnCard {
@@ -1097,33 +818,6 @@ namespace Sa11ytaire4All {
         internal static string LongPressOnCardPickerName {
             get {
                 return ResourceManager.GetString("LongPressOnCardPickerName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Set.
-        /// </summary>
-        internal static string MapAccessKeysPrimaryButtonText {
-            get {
-                return ResourceManager.GetString("MapAccessKeysPrimaryButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        internal static string MapAccessKeysSecondaryButtonText {
-            get {
-                return ResourceManager.GetString("MapAccessKeysSecondaryButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Set access keys to use in Sa11ytaire.
-        /// </summary>
-        internal static string MapAccessKeysTitle {
-            get {
-                return ResourceManager.GetString("MapAccessKeysTitle", resourceCulture);
             }
         }
         
@@ -1164,15 +858,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hmm, there might not be any available moves now..
-        /// </summary>
-        internal static string MightBeOutOfLuck {
-            get {
-                return ResourceManager.GetString("MightBeOutOfLuck", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to More cards are available to turn over.
         /// </summary>
         internal static string MoreCardsAreAvailable {
@@ -1182,29 +867,11 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Most recent notification.
-        /// </summary>
-        internal static string MostRecentNotificationTextBox_AutomationProperties_Name {
-            get {
-                return ResourceManager.GetString("MostRecentNotificationTextBox.AutomationProperties.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Moved.
         /// </summary>
         internal static string Moved {
             get {
                 return ResourceManager.GetString("Moved", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pile of remaining cards, face down..
-        /// </summary>
-        internal static string NextCardPile_AutomationProperties_FullDescription {
-            get {
-                return ResourceManager.GetString("NextCardPile.AutomationProperties.FullDescription", resourceCulture);
             }
         }
         
@@ -1335,24 +1002,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sign in.
-        /// </summary>
-        internal static string PlayerSignIn_Content {
-            get {
-                return ResourceManager.GetString("PlayerSignIn.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sound effects.
-        /// </summary>
-        internal static string PlaySoundEffectsCheckBox_Content {
-            get {
-                return ResourceManager.GetString("PlaySoundEffectsCheckBox.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Play other sounds including when dealing cards or turning over the next cards..
         /// </summary>
         internal static string PlaySoundOther {
@@ -1407,15 +1056,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Notification audio.
-        /// </summary>
-        internal static string PlayTTSNotificationsCheckBox_Content {
-            get {
-                return ResourceManager.GetString("PlayTTSNotificationsCheckBox.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Popup.
         /// </summary>
         internal static string Popup {
@@ -1430,33 +1070,6 @@ namespace Sa11ytaire4All {
         internal static string Queen {
             get {
                 return ResourceManager.GetString("Queen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No.
-        /// </summary>
-        internal static string queryDialog_CloseButtonText {
-            get {
-                return ResourceManager.GetString("queryDialog.CloseButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Yes.
-        /// </summary>
-        internal static string queryDialog_PrimaryButtonText {
-            get {
-                return ResourceManager.GetString("queryDialog.PrimaryButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restart game.
-        /// </summary>
-        internal static string queryDialog_Title {
-            get {
-                return ResourceManager.GetString("queryDialog.Title", resourceCulture);
             }
         }
         
@@ -1479,38 +1092,11 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Speech recognized:.
-        /// </summary>
-        internal static string RecognizedStatusLabel {
-            get {
-                return ResourceManager.GetString("RecognizedStatusLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Restart Game.
         /// </summary>
         internal static string RestartGame {
             get {
                 return ResourceManager.GetString("RestartGame", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to R.
-        /// </summary>
-        internal static string RestoreDefaultsButton_AccessKey {
-            get {
-                return ResourceManager.GetString("RestoreDefaultsButton.AccessKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restore defaults.
-        /// </summary>
-        internal static string RestoreDefaultsButton_Content {
-            get {
-                return ResourceManager.GetString("RestoreDefaultsButton.Content", resourceCulture);
             }
         }
         
@@ -1524,29 +1110,11 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire.
-        /// </summary>
-        internal static string Sa11ytaire {
-            get {
-                return ResourceManager.GetString("Sa11ytaire", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Screen Reader Usage.
         /// </summary>
         internal static string ScreenReaderUsage {
             get {
                 return ResourceManager.GetString("ScreenReaderUsage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select card without Alt key.
-        /// </summary>
-        internal static string SelectCardWithoutAltKeyCheckBox_Content {
-            get {
-                return ResourceManager.GetString("SelectCardWithoutAltKeyCheckBox.Content", resourceCulture);
             }
         }
         
@@ -1560,56 +1128,11 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select card without Alt key..
-        /// </summary>
-        internal static string SelectWithoutAltKey_Text {
-            get {
-                return ResourceManager.GetString("SelectWithoutAltKey.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Set access key mapping.
-        /// </summary>
-        internal static string SetAccessKeyMapping_Content {
-            get {
-                return ResourceManager.GetString("SetAccessKeyMapping.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Set.
-        /// </summary>
-        internal static string SetButton_Content {
-            get {
-                return ResourceManager.GetString("SetButton.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Accessible Solitaire Settings.
         /// </summary>
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Chat with Sa11y.
-        /// </summary>
-        internal static string ShowBotCheckBoxLabel_Text {
-            get {
-                return ResourceManager.GetString("ShowBotCheckBoxLabel.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show most recent notification.
-        /// </summary>
-        internal static string ShowNotificationWindowCheckBox_Content {
-            get {
-                return ResourceManager.GetString("ShowNotificationWindowCheckBox.Content", resourceCulture);
             }
         }
         
@@ -1673,24 +1196,6 @@ namespace Sa11ytaire4All {
         internal static string ShowZoomPopup {
             get {
                 return ResourceManager.GetString("ShowZoomPopup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Single key to move card.
-        /// </summary>
-        internal static string SingleKeyToMoveCardCheckBox_Content {
-            get {
-                return ResourceManager.GetString("SingleKeyToMoveCardCheckBox.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Single key to move card..
-        /// </summary>
-        internal static string SingleKeyToMoveTextBlock_Text {
-            get {
-                return ResourceManager.GetString("SingleKeyToMoveTextBlock.Text", resourceCulture);
             }
         }
         
@@ -1776,33 +1281,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Switch control is now.
-        /// </summary>
-        internal static string SwitchControl {
-            get {
-                return ResourceManager.GetString("SwitchControl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Switch control on..
-        /// </summary>
-        internal static string SwitchControlOnTextBlock {
-            get {
-                return ResourceManager.GetString("SwitchControlOnTextBlock", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Switch control highlight speed:.
-        /// </summary>
-        internal static string SwitchScanSpeedLabel_Text {
-            get {
-                return ResourceManager.GetString("SwitchScanSpeedLabel.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Target card pile.
         /// </summary>
         internal static string TargetCardPile {
@@ -1817,15 +1295,6 @@ namespace Sa11ytaire4All {
         internal static string TargetCardPiles {
             get {
                 return ResourceManager.GetString("TargetCardPiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Target piles.
-        /// </summary>
-        internal static string TargetPiles {
-            get {
-                return ResourceManager.GetString("TargetPiles", resourceCulture);
             }
         }
         
@@ -1857,24 +1326,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cards.
-        /// </summary>
-        internal static string TopCornerPilesLandmark_AutomationProperties_LocalizedLandmarkType {
-            get {
-                return ResourceManager.GetString("TopCornerPilesLandmark.AutomationProperties.LocalizedLandmarkType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remaining card piles.
-        /// </summary>
-        internal static string TopCornerPilesLandmark_AutomationProperties_Name {
-            get {
-                return ResourceManager.GetString("TopCornerPilesLandmark.AutomationProperties.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Top upturned card is.
         /// </summary>
         internal static string TopUpturnedCardIs {
@@ -1902,15 +1353,6 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upturned.
-        /// </summary>
-        internal static string Upturned {
-            get {
-                return ResourceManager.GetString("Upturned", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Upturned card pile.
         /// </summary>
         internal static string UpturnedCardPile {
@@ -1929,47 +1371,11 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Listening....
-        /// </summary>
-        internal static string WaitingForSpeech {
-            get {
-                return ResourceManager.GetString("WaitingForSpeech", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
         internal static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Increase the size of the entire game. The top area of the game will always occupy the top third of the screen, and can be scrolled in both directions. The lower part of the game containing all the dealt card piles can be scrolled separately..
-        /// </summary>
-        internal static string ZoomInstructions {
-            get {
-                return ResourceManager.GetString("ZoomInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zoom Level.
-        /// </summary>
-        internal static string ZoomLevel {
-            get {
-                return ResourceManager.GetString("ZoomLevel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zoom:.
-        /// </summary>
-        internal static string ZoomLevelPickerLevel {
-            get {
-                return ResourceManager.GetString("ZoomLevelPickerLevel", resourceCulture);
             }
         }
     }
