@@ -1,12 +1,12 @@
 # Accessible Solitaire for iOS, Android, and Windows
 
-The Accessible Solitaire game is an exploration into building the most accessible solitaire game possible for iOS devices like iPhones and iPads, and Android phones. 
+The Accessible Solitaire game is an exploration into building the most accessible solitaire game possible for devices running any of iOS (like iPhones and iPads), Android, or Windows. 
 
 Today the game focuses on the experiences for players who use zoom features, screen readers, switch devices, or speech to play their games. The game can always be made more accessible, so please provide feedback to help me learn how I should prioritise its accessibility improvements.
 
 Your feedback can make a real difference, so please let me know by messaging me at LinkedIn (www.linkedin.com/in/guybarker), or e-mail gbarkerz@hotmail.com.
 
-Please note that the Windows version of the game focuses on playing the game using only the keyboard, both with and without the keyboard. The iOS and Android versions of the app explore the touch experience, and have not been tested with keyboard use.  
+Please note that the Windows version of the game focuses on playing the game using only the keyboard, both with and without a screen reader running. The iOS and Android versions of the app explore the touch experience, and have not been tested with keyboard use.  
 
 Some technical details relating to building the app are shared at [Barker's Articles](https://www.linkedin.com/in/guybarker/recent-activity/articles).
 
