@@ -1,14 +1,14 @@
-# Accessible Solitaire for iOS and Android
+# Accessible Solitaire for iOS, Android, and Windows
 
 The Accessible Solitaire game is an exploration into building the most accessible solitaire game possible for iOS devices like iPhones and iPads, and Android phones. 
 
-A Windows version of the Accessible Solitaire game is currently under development, and related notes on that Windows version are included towards the end of this ReadMe.
-
 Today the game focuses on the experiences for players who use zoom features, screen readers, switch devices, or speech to play their games. The game can always be made more accessible, so please provide feedback to help me learn how I should prioritise its accessibility improvements.
 
-Your feedback can make a real difference, so please let me know by messaging "Sa11ytaire Help" at Facebook, or e-mail gbarkerz@hotmail.com.
+Your feedback can make a real difference, so please let me know by messaging me at LinkedIn (www.linkedin.com/in/guybarker), or e-mail gbarkerz@hotmail.com.
 
-Some technical details relating to building the Android version of the app are available at [Case Study: Building a Multi-Platform Accessible Solitaire Game](https://www.linkedin.com/pulse/case-study-building-multi-platform-accessible-solitaire-guy-barker-zwlxe), [Accessible Solitaire for iOS and Android: Reaching the Starting Line](https://www.linkedin.com/pulse/accessible-solitaire-ios-android-reaching-starting-line-guy-barker-8ad9e), and [.NET MAUI Day 2025: Sharing Practical Learnings on App Accessibility](https://www.linkedin.com/pulse/net-maui-day-2025-sharing-practical-learnings-app-guy-barker-0hxde).
+Please note that the Windows version of the game focuses on playing the game using only the keyboard, both with and without the keyboard. The iOS and Android versions of the app explore the touch experience, and have not been tested with keyboard use.  
+
+Some technical details relating to building the app are shared at [Barker's Articles](https://www.linkedin.com/in/guybarker/recent-activity/articles).
 
 Short videos demonstrating some of the ways that Accessible Solitaire can be played are referenced below. Please note that currently these videos do not have captions or audio descriptions.
 
@@ -27,6 +27,10 @@ Short videos demonstrating some of the ways that Accessible Solitaire can be pla
 [Playing Accessible Solitaire on Android with the Android TalkBack screen reader](https://youtu.be/6I04Rj7vMZA)
 
 [Playing Accessible Solitaire on Android with Android Switch Access](https://youtu.be/Foa-Oz6LvCA)
+
+**Windows**
+
+[Accessible Solitaire for Windows being played with a single switch](https://youtu.be/-ugofeCbCQU)
 
 ## Playing the game
 
