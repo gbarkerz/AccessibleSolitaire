@@ -300,9 +300,14 @@ namespace Sa11ytaire4All
                     TargetPileIndex = targetPileIndex
                 };
 
-                Dispatcher.Dispatch(() => {
-                    DelayMoveDealtCardToTargetPileAsAppropriate(movingCardData);
-                });
+                if (timerDelayAttemptToMoveCard == null)
+                {
+                    timerDelayAttemptToMoveCard = new Timer(
+                        new TimerCallback((s) => TimedDelayMoveDealtCardToTargetPileAsAppropriate(movingCardData)),
+                            null,
+                            TimeSpan.FromMilliseconds(500),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                }
 
                 DeselectCard(cardAbove);
             }

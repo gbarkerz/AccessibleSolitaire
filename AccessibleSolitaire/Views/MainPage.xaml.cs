@@ -43,7 +43,16 @@ namespace Sa11ytaire4All
 
         private string[] localizedNumbers = new string[10];
 
+        // Barker Todo: Remove as much of the timer use as possible.
         private Timer? timerFirstRunAnnouncement;
+        private Timer? timerPlayFirstDealSounds;
+        private Timer? timerSetSuitColours;
+        private Timer? timerDelayDealCards;
+        private Timer? timerDelayCardSpin;
+        private Timer? timerDelayScreenReaderAnnouncement;
+        private Timer? timerDelayAttemptToMoveCard;
+        private Timer? timerDeselectDealtCard;
+        private Timer? timerSelectDealtCard;
 
         // These setting are not bound to any UI.
         private bool allowSelectionByFaceDownCard = false;
@@ -340,26 +349,49 @@ namespace Sa11ytaire4All
 
                     // On Android, deselecting a card inside the tap handler seems not to work.
                     // So delay the deselection a little until we're out of the tap handler.
-                    DelayDeselectDealtCard(list);
+                    timerDeselectDealtCard = new Timer(
+                        new TimerCallback((s) => TimedDelayDeselectDealtCard(list)),
+                            null,
+                            TimeSpan.FromMilliseconds(300),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
                 else
                 {
                     Debug.WriteLine("OnTapGestureRecognizerTapped: Selecting now: " + dealtCard.AccessibleName);
 
-                    Dispatcher.Dispatch(() => {
-                        list.SelectedItem = dealtCard;
-                    });
+                    timerSelectDealtCard = new Timer(
+                        new TimerCallback((s) => TimedDelaySelectDealtCard(list, dealtCard)),
+                            null,
+                            TimeSpan.FromMilliseconds(300),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
             }
 
             tapGestureProcessingInProgress = false;
         }
 
-        private void DelayDeselectDealtCard(CollectionView list)
+
+        private void TimedDelayDeselectDealtCard(CollectionView list)
         {
-            Dispatcher.Dispatch(() =>
+            timerDeselectDealtCard?.Dispose();
+            timerDeselectDealtCard = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
             {
                 DeselectAllCardsFromDealtCardPile(list);
+            });
+        }
+
+        private void TimedDelaySelectDealtCard(CollectionView list, DealtCard dealtCard)
+        {
+            timerSelectDealtCard?.Dispose();
+            timerSelectDealtCard = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                list.SelectedItem = dealtCard;
             });
         }
 
@@ -537,8 +569,12 @@ namespace Sa11ytaire4All
                 {
                     InitialSetSuitColours = false;
 
-                    Dispatcher.Dispatch(() => {
-                        DelayedSetSuitColours();
+                    timerSetSuitColours = new Timer(
+                        new TimerCallback((s) => TimedDelaySetSuitColours()),
+                            null,
+                            TimeSpan.FromMilliseconds(1000),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite)); Dispatcher.Dispatch(() => {
+                        ;
                     });
                 }
 
@@ -606,7 +642,7 @@ namespace Sa11ytaire4All
                     // resulted in a crash on Windows. So stick with the timer until this is understood.
 #endif
                     timerFirstRunAnnouncement = new Timer(
-                        new TimerCallback((s) => ShowFirstRunMessage()),
+                        new TimerCallback((s) => TimedDelayShowFirstRunMessage()),
                             null,
                             TimeSpan.FromMilliseconds(delay),
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
@@ -623,14 +659,17 @@ namespace Sa11ytaire4All
 
                         if (playSoundOther)
                         {
-                            Dispatcher.Dispatch(() => {
-                                MakeFirstDealSounds();
-                            });
+                            timerPlayFirstDealSounds = new Timer(
+                            new TimerCallback((s) => TimedDelayMakeFirstDealSounds()),
+                                null,
+                                TimeSpan.FromMilliseconds(500),
+                                TimeSpan.FromMilliseconds(Timeout.Infinite));
                         }
                     }
                 }
             }
         }
+
 
         private void RefreshAllCardVisuals()
         {
@@ -682,8 +721,11 @@ namespace Sa11ytaire4All
             return suitColour;
         }
 
-        private void DelayedSetSuitColours()
+        private void TimedDelaySetSuitColours()
         {
+            timerSetSuitColours?.Dispose();
+            timerSetSuitColours = null;
+
             SetCardSuitColours(CardDeckUpturnedObscuredLower);
             SetCardSuitColours(CardDeckUpturnedObscuredHigher);
             SetCardSuitColours(CardDeckUpturned);
@@ -694,12 +736,20 @@ namespace Sa11ytaire4All
             SetCardSuitColours(TargetPileS);
         }
 
-        private void MakeFirstDealSounds()
+        private void TimedDelayMakeFirstDealSounds()
         {
-            PlaySoundFile("deal.mp4");
+            timerPlayFirstDealSounds?.Dispose();
+            timerPlayFirstDealSounds = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                PlaySoundFile("deal.mp4");
+            });
         }
 
-        private void ShowFirstRunMessage()
+
+        private void TimedDelayShowFirstRunMessage()
         {
             timerFirstRunAnnouncement?.Dispose();
             timerFirstRunAnnouncement = null;
@@ -1010,9 +1060,11 @@ namespace Sa11ytaire4All
             _shuffler = new Shuffler();
             _shuffler.Shuffle(_deckRemaining);
 
-            Dispatcher.Dispatch(() => {
-                DelayDealCards();
-            });
+            timerDelayDealCards = new Timer(
+                new TimerCallback((s) => TimedDelayDealCards()),
+                    null,
+                    TimeSpan.FromMilliseconds(200),
+                    TimeSpan.FromMilliseconds(Timeout.Infinite));
 
             NextCardDeck.IsEmpty = false;
 
@@ -1031,9 +1083,17 @@ namespace Sa11ytaire4All
             ClearDealtCardPileSelections();
         }
 
-        private void DelayDealCards()
+
+        private void TimedDelayDealCards()
         {
-            DealCards();
+            timerDelayDealCards?.Dispose();
+            timerDelayDealCards = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                DealCards();
+            });
         }
 
         private void MenuButton_Click(object sender, EventArgs e)
@@ -1268,7 +1328,6 @@ namespace Sa11ytaire4All
             }
         }
 
-        private Timer? timerDelayCardSpin;
 
         private int countOfSpinningCards;
 
@@ -1284,11 +1343,11 @@ namespace Sa11ytaire4All
                 countOfSpinningCards = 0;
 
                 timerDelayCardSpin = new Timer(
-                    new TimerCallback((s) => DelayCardSpin()), null, 0, 200);
+                    new TimerCallback((s) => TimedDelayCardSpin()), null, 0, 200);
             }
         }
 
-        private void DelayCardSpin()
+        private void TimedDelayCardSpin()
         {
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
@@ -1369,7 +1428,6 @@ namespace Sa11ytaire4All
             }
         }
 
-        private Timer? timerDelayScreenReaderAnnouncement;
 
         public double OriginalCardWidth { get => originalCardWidth; set => originalCardWidth = value; }
         public double OriginalCardHeight { get => originalCardHeight; set => originalCardHeight = value; }

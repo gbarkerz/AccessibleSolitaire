@@ -46,133 +46,150 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            // Only take action when a card has been selected.
-            if ((e.CurrentSelection == null) || (e.CurrentSelection.Count == 0))
+            try
             {
-                Debug.WriteLine("CardPile_SelectionChanged: No selection in " + listSelectionChanged.AutomationId);
-
-                // A card is being deselected, so we must make sure no selection feedback is
-                // left showing on the cards. At most only one card can currently be selected.
-                DeselectFirstSelectedCardInCollectionView(listSelectionChanged);
-
-                return;
-            }
-
-            // If the selected card is face down, unselect it and do nothing more.
-            var selectedCard = e.CurrentSelection[0] as DealtCard;
-            if (selectedCard == null)
-            {
-                return;
-            }
-
-            if (selectedCard.FaceDown)
-            {
-                MakeDelayedScreenReaderAnnouncement(
-                    MainPage.MyGetString("FaceDownCardsCannotBeSelected"));
-
-                if (listSelectionChanged != null)
+                // Only take action when a card has been selected.
+                if ((e.CurrentSelection == null) || (e.CurrentSelection.Count == 0))
                 {
-                    DeselectAllCardsFromDealtCardPile(listSelectionChanged);
+                    Debug.WriteLine("CardPile_SelectionChanged: No selection in " + listSelectionChanged.AutomationId);
+
+                    // A card is being deselected, so we must make sure no selection feedback is
+                    // left showing on the cards. At most only one card can currently be selected.
+                    DeselectFirstSelectedCardInCollectionView(listSelectionChanged);
+
+                    return;
                 }
 
-                DeselectCard(selectedCard);
-
-                return;
-            }
-
-            Debug.WriteLine("CardPile_SelectionChanged: Selection of " + selectedCard.AccessibleNameWithoutSelectionAndMofN);
-
-            // Has an empty card pile been selected?
-            if (selectedCard.CardState == CardState.KingPlaceHolder)
-            {
-                // Attempt to move the upturned card over to the empty card pile.
-                Dispatcher.Dispatch(() => {
-                    DelayAttemptToMoveCardToEmptyPile(listSelectionChanged);
-                });
-
-                // Never leave the empty slot selected.
-                selectedCard.CardSelected = false;
-
-                DeselectAllCardsFromDealtCardPile(listSelectionChanged);
-            }
-            else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
-            {
-                // Attempt to move the upturned card to this list.
-                DealtCard? cardUpturned = new DealtCard();
-                cardUpturned.CardState = CardState.FaceUp;
-                cardUpturned.Card = _deckUpturned[_deckUpturned.Count - 1];
-
-                // cardDealtPile is the selected card in the CardPile list.
-                DealtCard? cardDealtPile = listSelectionChanged.SelectedItem as DealtCard;
-                if (cardDealtPile == null)
+                // If the selected card is face down, unselect it and do nothing more.
+                var selectedCard = e.CurrentSelection[0] as DealtCard;
+                if (selectedCard == null)
                 {
                     return;
                 }
 
-                bool movedCard = false;
-
-                if (CanMoveCardToDealtCardPile(cardDealtPile, cardUpturned))
+                if (selectedCard.FaceDown)
                 {
-                    // Always deselect the selected item prior to moving anything between lists.
-                    DeselectCard(cardDealtPile);
-                    DeselectCard(cardUpturned);
+                    MakeDelayedScreenReaderAnnouncement(
+                        MainPage.MyGetString("FaceDownCardsCannotBeSelected"));
 
-                    // On Android, deselecting a card inside the tap handler seems not to work.
-                    // So delay the deselection a little until we're out of the tap handler.
+                    if (listSelectionChanged != null)
+                    {
+                        DeselectAllCardsFromDealtCardPile(listSelectionChanged);
+                    }
 
-                    Dispatcher.Dispatch(() => {
-                        DelayDeselectDealtCard(listSelectionChanged); 
-                    });
+                    DeselectCard(selectedCard);
 
-                    // Move the upturned card to the CardPile list.
-                    var itemsAdded = GetListSource(listSelectionChanged);
-                    if (itemsAdded == null)
+                    return;
+                }
+
+                Debug.WriteLine("CardPile_SelectionChanged: Selection of " + selectedCard.AccessibleNameWithoutSelectionAndMofN);
+
+                // Has an empty card pile been selected?
+                if (selectedCard.CardState == CardState.KingPlaceHolder)
+                {
+                    // Attempt to move the upturned card over to the empty card pile.
+                    if (timerDelayAttemptToMoveCard == null)
+                    {
+                        timerDelayAttemptToMoveCard = new Timer(
+                            new TimerCallback((s) => TimedDelayAttemptToMoveCardToEmptyPile(listSelectionChanged)),
+                                null,
+                                TimeSpan.FromMilliseconds(500),
+                                TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    }
+
+                    // Never leave the empty slot selected.
+                    selectedCard.CardSelected = false;
+
+                    DeselectAllCardsFromDealtCardPile(listSelectionChanged);
+                }
+                else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
+                {
+                    // Attempt to move the upturned card to this list.
+                    DealtCard? cardUpturned = new DealtCard();
+                    cardUpturned.CardState = CardState.FaceUp;
+                    cardUpturned.Card = _deckUpturned[_deckUpturned.Count - 1];
+
+                    // cardDealtPile is the selected card in the CardPile list.
+                    DealtCard? cardDealtPile = listSelectionChanged.SelectedItem as DealtCard;
+                    if (cardDealtPile == null)
                     {
                         return;
                     }
 
-                    itemsAdded.Add(cardUpturned);
+                    bool movedCard = false;
 
-                    cardDealtPile.IsLastCardInPile = false;
-                    cardUpturned.IsLastCardInPile = true;
+                    if (CanMoveCardToDealtCardPile(cardDealtPile, cardUpturned))
+                    {
+                        // Always deselect the selected item prior to moving anything between lists.
+                        DeselectCard(cardDealtPile);
+                        DeselectCard(cardUpturned);
 
-                    var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
-                    cardUpturned.CurrentDealtCardPileIndex = listSelectedIndex;
-                    cardUpturned.CurrentCardIndexInDealtCardPile = itemsAdded.Count - 1;
+                        // On Android, deselecting a card inside the tap handler seems not to work.
+                        // So delay the deselection a little until we're out of the tap handler.
 
-                    _deckUpturned.Remove(cardUpturned.Card);
+                        timerDeselectDealtCard = new Timer(
+                            new TimerCallback((s) => TimedDelayDeselectDealtCard(listSelectionChanged)),
+                                null,
+                                TimeSpan.FromMilliseconds(200),
+                                TimeSpan.FromMilliseconds(Timeout.Infinite));
 
-                    SetUpturnedCardsVisuals();
+                        // Move the upturned card to the CardPile list.
+                        var itemsAdded = GetListSource(listSelectionChanged);
+                        if (itemsAdded == null)
+                        {
+                            return;
+                        }
 
-                    string announcement =
-                        MainPage.MyGetString("Moved") + " " +
-                        cardUpturned.Card.GetCardAccessibleName() + " " +
-                        MainPage.MyGetString("To") + " " +
-                        MainPage.MyGetString("DealtCardPile") + " " +
-                        localizedNumbers[listSelectedIndex] +
-                        ".";
+                        itemsAdded.Add(cardUpturned);
 
-                    MakeDelayedScreenReaderAnnouncement(announcement);
+                        cardDealtPile.IsLastCardInPile = false;
+                        cardUpturned.IsLastCardInPile = true;
 
-                    RefreshDealtCardPileAccessibleNames(listSelectionChanged);
+                        var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
+                        cardUpturned.CurrentDealtCardPileIndex = listSelectedIndex;
+                        cardUpturned.CurrentCardIndexInDealtCardPile = itemsAdded.Count - 1;
 
-                    movedCard = true;
+                        _deckUpturned.Remove(cardUpturned.Card);
+
+                        SetUpturnedCardsVisuals();
+
+                        string announcement =
+                            MainPage.MyGetString("Moved") + " " +
+                            cardUpturned.Card.GetCardAccessibleName() + " " +
+                            MainPage.MyGetString("To") + " " +
+                            MainPage.MyGetString("DealtCardPile") + " " +
+                            localizedNumbers[listSelectedIndex] +
+                            ".";
+
+                        MakeDelayedScreenReaderAnnouncement(announcement);
+
+                        RefreshDealtCardPileAccessibleNames(listSelectionChanged);
+
+                        // Make sure the card moved to the dealt card pile shows the correct suit colours.
+                        cardUpturned.RefreshVisuals();
+
+                        movedCard = true;
+                    }
+
+                    ClearAllSelections(true);
+
+                    PlaySound(movedCard);
                 }
-
-                ClearAllSelections(true);
-
-                PlaySound(movedCard);
-            }
-            else
-            {
-                // Attempt to move a card from a target pile to a dealt card pile.
-                if (!MoveTargetPileCardToDealtCardPileAsAppropriate(listSelectionChanged))
+                else
                 {
-                    // Attempt to move a card between dealt card piles.
-                    MoveCardBetweenDealtCardPiles(listSelectionChanged);
-                }
+                    // Attempt to move a card from a target pile to a dealt card pile.
+                    if (!MoveTargetPileCardToDealtCardPileAsAppropriate(listSelectionChanged))
+                    {
+                        // Attempt to move a card between dealt card piles.
+                        MoveCardBetweenDealtCardPiles(listSelectionChanged);
+                    }
 
-                ClearCardButtonSelections(true);
+                    ClearCardButtonSelections(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("CardPile_SelectionChanged: " + ex.Message);
             }
         }
 
@@ -184,16 +201,23 @@ namespace Sa11ytaire4All
             return dealtPileCollectionViewIndex - 1;
         }
 
-        private void DelayAttemptToMoveCardToEmptyPile(object list)
+        private void TimedDelayAttemptToMoveCardToEmptyPile(object list)
         {
-            var listSelectionChanged = list as CollectionView;
-            if (listSelectionChanged != null)
+            timerDelayAttemptToMoveCard?.Dispose();
+            timerDelayAttemptToMoveCard = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                DelayedAttemptToMoveCardToEmptyDealtCardPile(listSelectionChanged);
-            }
+                var listSelectionChanged = list as CollectionView;
+                if (listSelectionChanged != null)
+                {
+                    DelayAttemptToMoveCardToEmptyPile(listSelectionChanged);
+                }
+            });
         }
 
-        private void DelayedAttemptToMoveCardToEmptyDealtCardPile(CollectionView? listSelected)
+        private void DelayAttemptToMoveCardToEmptyPile(CollectionView? listSelected)
         {
             if (listSelected == null)
             { 
@@ -604,9 +628,11 @@ namespace Sa11ytaire4All
                 // On Android, deselecting a card inside the tap handler seems not to work.
                 // So delay the deselection a little until we're out of the tap handler.
 
-                Dispatcher.Dispatch(() => {
-                    DelayDeselectDealtCard(listSelectionChanged);
-                });
+                timerDeselectDealtCard = new Timer(
+                    new TimerCallback((s) => TimedDelayDeselectDealtCard(listSelectionChanged)),
+                        null,
+                        TimeSpan.FromMilliseconds(200),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
 
                 var movingCardData = new MovingCardData{
                     CardBelow = cardBelow,
@@ -615,9 +641,14 @@ namespace Sa11ytaire4All
                     ListAlreadySelectedIndex = listAlreadySelectedIndex, 
                     ListSelectionChanged = listSelectionChanged};
 
-                Dispatcher.Dispatch(() => {
-                    DelayedAttemptToMoveCardBetweenPiles(movingCardData);
-                });
+                if (timerDelayAttemptToMoveCard == null)
+                {
+                    timerDelayAttemptToMoveCard = new Timer(
+                        new TimerCallback((s) => TimedDelayAttemptToMoveCardBetweenPiles(movingCardData)),
+                            null,
+                            TimeSpan.FromMilliseconds(500),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                }
             }
             else
             {
@@ -651,6 +682,30 @@ namespace Sa11ytaire4All
             }
 
             return movedCard;
+        }
+
+        private void TimedDelayAttemptToMoveCardBetweenPiles(MovingCardData movingCardData)
+        {
+            timerDelayAttemptToMoveCard?.Dispose();
+            timerDelayAttemptToMoveCard = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                DelayedAttemptToMoveCardBetweenPiles(movingCardData);
+            });
+        }
+
+        private void TimedDelayMoveDealtCardToTargetPileAsAppropriate(MovingCardData movingCardData)
+        {
+            timerDelayAttemptToMoveCard?.Dispose();
+            timerDelayAttemptToMoveCard = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                DelayMoveDealtCardToTargetPileAsAppropriate(movingCardData);
+            });
         }
 
         // IMPORTANT:
