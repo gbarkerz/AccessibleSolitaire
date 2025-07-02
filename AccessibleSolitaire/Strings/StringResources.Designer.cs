@@ -621,15 +621,6 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GBTest.
-        /// </summary>
-        internal static string GBTest {
-            get {
-                return ResourceManager.GetString("GBTest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to General Game Play.
         /// </summary>
         internal static string GeneralGamePlay {

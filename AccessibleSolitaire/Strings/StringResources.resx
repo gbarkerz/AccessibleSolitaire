@@ -572,7 +572,4 @@ Z: Show card zoom popup.</value>
   <data name="NameCardOf" xml:space="preserve">
     <value>of </value>
   </data>
-  <data name="GBTest" xml:space="preserve">
-    <value>GBTest</value>
-  </data>
 </root>

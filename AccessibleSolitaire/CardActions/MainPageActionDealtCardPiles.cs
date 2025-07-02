@@ -130,7 +130,7 @@ namespace Sa11ytaire4All
                         timerDeselectDealtCard = new Timer(
                             new TimerCallback((s) => TimedDelayDeselectDealtCard(listSelectionChanged)),
                                 null,
-                                TimeSpan.FromMilliseconds(200),
+                                TimeSpan.FromMilliseconds(500),
                                 TimeSpan.FromMilliseconds(Timeout.Infinite));
 
                         // Move the upturned card to the CardPile list.
@@ -631,7 +631,7 @@ namespace Sa11ytaire4All
                 timerDeselectDealtCard = new Timer(
                     new TimerCallback((s) => TimedDelayDeselectDealtCard(listSelectionChanged)),
                         null,
-                        TimeSpan.FromMilliseconds(200),
+                        TimeSpan.FromMilliseconds(500),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
 
                 var movingCardData = new MovingCardData{
