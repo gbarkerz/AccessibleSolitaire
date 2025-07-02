@@ -130,12 +130,12 @@ namespace Sa11ytaire4All.Source
                     if (collectionView != null)
                     {
                         name += ", " + (this.CurrentCardIndexInDealtCardPile + 1).ToString() + " " +
-                                 MainPage.MyGetString("Of") + " " + 
+                                 MainPage.MyGetString("Of") + // Has a trailing space. 
                                  collectionView.ItemsSource.Cast<DealtCard>().Count();
                     }
                 }
 
-                Debug.WriteLine("DealtCard AccessibleName: " + name);
+                //Debug.WriteLine("DealtCard AccessibleName: " + name);
 
                 return name;
             }

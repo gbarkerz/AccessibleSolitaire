@@ -118,423 +118,423 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.15</value>
+    <value>Accessible Solitaire wersja V2.11</value>
   </data>
   <data name="Ace" xml:space="preserve">
-    <value>Ace</value>
+    <value>As</value>
   </data>
   <data name="AllUpturnedCardsTurnedBack" xml:space="preserve">
-    <value>All upturned cards turned back</value>
+    <value>Odwróć ponownie wszystkie odkryte karty</value>
   </data>
   <data name="AnnounceState" xml:space="preserve">
-    <value>Screen reader announce game state</value>
+    <value>Czytnik ekranu informuje o stanie gry</value>
   </data>
   <data name="CanBeMovedTo" xml:space="preserve">
-    <value>can be moved to</value>
+    <value>można przenieść do</value>
   </data>
   <data name="Card" xml:space="preserve">
-    <value>Card</value>
+    <value>Karta</value>
   </data>
   <data name="CardPile1" xml:space="preserve">
-    <value>Pile 1</value>
+    <value>Stos 1</value>
   </data>
   <data name="CardPile2" xml:space="preserve">
-    <value>Pile 2</value>
+    <value>Stos 2</value>
   </data>
   <data name="CardPile3" xml:space="preserve">
-    <value>Pile 3</value>
+    <value>Stos 3</value>
   </data>
   <data name="CardPile4" xml:space="preserve">
-    <value>Pile 4</value>
+    <value>Stos 4</value>
   </data>
   <data name="CardPile5" xml:space="preserve">
-    <value>Pile 5</value>
+    <value>Stos 5</value>
   </data>
   <data name="CardPile6" xml:space="preserve">
-    <value>Pile 6</value>
+    <value>Stos 6</value>
   </data>
   <data name="CardPile7" xml:space="preserve">
-    <value>Pile 7</value>
+    <value>Stos 7</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>Karty</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Zamknij</value>
   </data>
   <data name="Clubs" xml:space="preserve">
-    <value>Clubs</value>
+    <value>Trefl</value>
   </data>
   <data name="ClubsPile" xml:space="preserve">
-    <value>Clubs pile</value>
+    <value>Stos trefl</value>
   </data>
   <data name="Congratulations" xml:space="preserve">
-    <value>Congratulations</value>
+    <value>Gratulacje</value>
   </data>
   <data name="DealtCardPile" xml:space="preserve">
-    <value>Dealt card pile</value>
+    <value>Stos rozdanych kart</value>
   </data>
   <data name="DealtCardPiles" xml:space="preserve">
-    <value>Dealt card piles</value>
+    <value>Stosy rozdanych kart</value>
   </data>
   <data name="Diamonds" xml:space="preserve">
-    <value>Diamonds</value>
+    <value>Karo</value>
   </data>
   <data name="DiamondsPile" xml:space="preserve">
-    <value>Diamonds pile</value>
+    <value>Stos karo</value>
   </data>
   <data name="Empty" xml:space="preserve">
-    <value>Empty</value>
+    <value>Pusty</value>
   </data>
   <data name="EmptyCardPile" xml:space="preserve">
-    <value>Empty card pile</value>
+    <value>Pusty stos kart</value>
   </data>
   <data name="FaceDown" xml:space="preserve">
-    <value>Face-down</value>
+    <value>Zakryta</value>
   </data>
   <data name="FaceDownCardsCannotBeSelected" xml:space="preserve">
-    <value>Face-down cards cannot be selected.</value>
+    <value>Nie można zaznaczać odwróconych kart.</value>
   </data>
   <data name="FirstRunMessage" xml:space="preserve">
-    <value>Welcome to the Accessible Solitaire game!
+    <value>Witaj w Accessible Solitaire!
 
-Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you.</value>
+Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, jak najlepiej skonfigurować grę.</value>
   </data>
   <data name="GameRestarted" xml:space="preserve">
-    <value>The game has restarted.</value>
+    <value>Gra uruchomiona ponownie</value>
   </data>
   <data name="Hearts" xml:space="preserve">
-    <value>Hearts</value>
+    <value>Kier</value>
   </data>
   <data name="HeartsPile" xml:space="preserve">
-    <value>Hearts pile</value>
+    <value>Stos kier</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Accessible Solitaire Help</value>
+    <value>Pomoc Accessible Solitaire</value>
   </data>
   <data name="InDealtCardPile" xml:space="preserve">
-    <value>in dealt card pile</value>
+    <value>w rozdanym stosie kart</value>
   </data>
   <data name="Jack" xml:space="preserve">
-    <value>Jack</value>
+    <value>Walet</value>
   </data>
   <data name="King" xml:space="preserve">
-    <value>King</value>
+    <value>Król</value>
   </data>
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
   </data>
   <data name="MoreCardsAreAvailable" xml:space="preserve">
-    <value>More cards are available to turn over</value>
+    <value>Można odkryć więcej kart</value>
   </data>
   <data name="Moved" xml:space="preserve">
-    <value>Moved</value>
+    <value>Przesunięto</value>
   </data>
   <data name="NextCardPile_NextCard" xml:space="preserve">
-    <value>Next card</value>
+    <value>Następna karta</value>
   </data>
   <data name="NextCardPile_TurnOverCards" xml:space="preserve">
-    <value>Turn over cards</value>
+    <value>Odwróć karty</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Nie</value>
   </data>
   <data name="NoCard" xml:space="preserve">
-    <value>No card</value>
+    <value>Brak karty</value>
   </data>
   <data name="NoCardLeft" xml:space="preserve">
-    <value>No cards left in remaining cards pile</value>
+    <value>Brak kart w stosie pozostałych kart</value>
   </data>
   <data name="NoMoveIsAvailable" xml:space="preserve">
-    <value>No move is available.</value>
+    <value>Brak dostępnego ruchu</value>
   </data>
   <data name="ObscuredUpturnedCardCannotBeSelected" xml:space="preserve">
-    <value>This card is not at the top of the upturned card pile, and cannot be selected.</value>
+    <value>Ta karta nie jest na szczycie odkrytego stosu kart i nie może zostać wybrana.</value>
   </data>
   <data name="Of" xml:space="preserve">
-    <value>of</value>
+    <value>z </value>
   </data>
   <data name="Off" xml:space="preserve">
-    <value>off</value>
+    <value>z</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="On" xml:space="preserve">
-    <value>on</value>
+    <value>na</value>
   </data>
   <data name="OnTop" xml:space="preserve">
-    <value>on top</value>
+    <value>Na szczycie</value>
   </data>
   <data name="Pile" xml:space="preserve">
-    <value>Pile</value>
+    <value>Stos</value>
   </data>
   <data name="Queen" xml:space="preserve">
-    <value>Queen</value>
+    <value>Królowa</value>
   </data>
   <data name="QueryRestartGame" xml:space="preserve">
-    <value>Are you sure you want to restart the game?</value>
+    <value>Czy na pewno chcesz ponownie uruchomić grę?</value>
   </data>
   <data name="QueryRestartWonGame" xml:space="preserve">
-    <value>Congratulations, you've won! Would you like to start a new game?</value>
+    <value>Gratulacje, wygrywasz! Chcesz zacząć nową grę?</value>
   </data>
   <data name="RestartGame" xml:space="preserve">
-    <value>Restart Game</value>
+    <value>Uruchom ponownie grę</value>
   </data>
   <data name="Revealed" xml:space="preserve">
-    <value>revealed</value>
+    <value>Odkryta</value>
   </data>
   <data name="AccessibleSolitaire" xml:space="preserve">
     <value>Accessible Solitaire</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Accessible Solitaire Settings</value>
+    <value>Ustawienia</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtons" xml:space="preserve">
-    <value>Screen Reader Announcements</value>
+    <value>Powiadomienia czytnika ekranu</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtonsCheckboxLabel" xml:space="preserve">
-    <value>Show screen reader buttons:</value>
+    <value>Pokaż przyciski czytnika ekranu:</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtonsInstructions" xml:space="preserve">
-    <value>Show buttons to have a screen reader announce the state of the entire game, and the moves currently available.</value>
+    <value>Pokaż przyciski, które umożliwiają anonsowanie przez czytnik ekranu stanu gry oraz dostępnych ruchów.</value>
   </data>
   <data name="Spades" xml:space="preserve">
-    <value>Spades</value>
+    <value>Pik</value>
   </data>
   <data name="SpadesPile" xml:space="preserve">
-    <value>Spades pile</value>
+    <value>Stos pik</value>
   </data>
   <data name="TargetCardPiles" xml:space="preserve">
-    <value>Target card piles</value>
+    <value>Docelowe stosy kart</value>
   </data>
   <data name="Then" xml:space="preserve">
-    <value>then</value>
+    <value> </value>
   </data>
   <data name="ThereAreNoUpturnedCards" xml:space="preserve">
-    <value>There are no upturned cards shown</value>
+    <value>Nie pokazano żadnych odwróconych kart</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>to</value>
+    <value>do</value>
   </data>
   <data name="TopUpturnedCardIs" xml:space="preserve">
-    <value>Top upturned card is</value>
+    <value>Górną odwróconą kartą jest</value>
   </data>
   <data name="Unselected" xml:space="preserve">
-    <value>unselected</value>
+    <value>Niezaznaczone</value>
   </data>
   <data name="UpturnedCards" xml:space="preserve">
-    <value>Upturned Cards</value>
+    <value>Odwrócone karty</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Tak</value>
   </data>
   <data name="CardTurnCount" xml:space="preserve">
-    <value>Number of cards turned up</value>
+    <value>Liczba odkrytych kart</value>
   </data>
   <data name="CardTurnCountInstructions" xml:space="preserve">
-    <value>How many cards would you like to be turned up when the Next Card button is clicked?</value>
+    <value>Ile kart chcesz odkrywać po kliknięciu przycisku Następna Karta?</value>
   </data>
   <data name="CardTurnCountPicker" xml:space="preserve">
-    <value>Card turn up count:</value>
+    <value>Liczba odkrytych kart:</value>
   </data>
   <data name="KingsOnlyToEmptyPile" xml:space="preserve">
-    <value>Empty Dealt Card Pile</value>
+    <value>Pusty stos rozdanych kart</value>
   </data>
   <data name="KingsOnlyToEmptyPileInstructions" xml:space="preserve">
-    <value>Any card can be moved to an empty dealt card pile. If you'd prefer that only Kings can be moved to the empty card pile, select this option.</value>
+    <value>Dowolna karta może zostać przeniesiona na pusty stos rozdanych kart. Jeśli chcesz aby tylko Królowie mogli być przenoszeni na pusty stos kart, zaznacz tę opcję.</value>
   </data>
   <data name="KingsOnlyToEmptyPileSwitchName" xml:space="preserve">
-    <value>Only Kings to empty card piles:</value>
+    <value>Tylko Królowie na pusty stos kart:</value>
   </data>
   <data name="ShowRankSuitLarge" xml:space="preserve">
-    <value>Card rank and suit display</value>
+    <value>Wyświetlanie figur i kolorów</value>
   </data>
   <data name="ShowRankSuitLargeInstructions" xml:space="preserve">
-    <value>Check this option if you'd like each card to show a large suit symbol and a large letter representing the card's rank.</value>
+    <value>Zaznacz tę opcję, jeśli chcesz, aby każda karta zawierała duży symbol koloru oraz dużą literę reprezentującą figurę karty.</value>
   </data>
   <data name="ShowRankSuitLargeSwitchName" xml:space="preserve">
-    <value>Show large rank and suit:</value>
+    <value>Pokaż duże figury i kolory:</value>
   </data>
   <data name="Popup" xml:space="preserve">
-    <value>Popup</value>
+    <value>Wyskakujące okienko</value>
   </data>
   <data name="AllowSelectionByFaceDownCard" xml:space="preserve">
-    <value>Dealt card selection</value>
+    <value>Zaznaczenie rozdanych kart</value>
   </data>
   <data name="AllowSelectionByFaceDownCardInstructions" xml:space="preserve">
-    <value>Check this option if you'd like to tap any face-down card in a dealt card pile to select the nearest face-up card in the same pile.</value>
+    <value>Zaznacz tę opcję, jeśli chcesz stuknięciem w dowolną zakrytą kartę zaznaczyć najbliższą odkrytą kartę w stosie.</value>
   </data>
   <data name="AllowSelectionByFaceDownCardCheckboxLabel" xml:space="preserve">
-    <value>Select via face-down card:</value>
+    <value>Wybierz za pomocą odwróconej karty:</value>
   </data>
   <data name="AllowSelectionByFaceDownCardButtonLabel" xml:space="preserve">
-    <value>Highlight selected card set:</value>
+    <value>Zaznacz wybrany zestaw kart:</value>
   </data>
   <data name="InSelectedSet" xml:space="preserve">
-    <value>in selected set</value>
+    <value>w wybranym zestawie</value>
   </data>
   <data name="Selected" xml:space="preserve">
-    <value>selected</value>
+    <value>Zaznaczone</value>
   </data>
   <data name="MergeFaceDownCards" xml:space="preserve">
-    <value>Face-down cards</value>
+    <value>Karty zakryte</value>
   </data>
   <data name="MergeFaceDownCardsInstructions" xml:space="preserve">
-    <value>Check this option if you'd like all face-down cards in each dealt card pile to be merged into a single item that shows the count of face-down cards in the pile.</value>
+    <value>Zaznacz tę opcję, jeśli chcesz, aby wszystkie zakryte karty w każdym rozdanym stosie kart zostały połączone w jeden element pokazujący liczbę zakrytych kart w stosie.</value>
   </data>
   <data name="MergeFaceDownCardsSwitchLabel" xml:space="preserve">
-    <value>Merge face-down cards:</value>
+    <value>Połącz zakryte karty:</value>
   </data>
   <data name="PlaySoundSuccessfulMove" xml:space="preserve">
-    <value>Play a sound when a card move attempt is successful.</value>
+    <value>Odtwórz dźwięk, gdy próba przesunięcia karty się powiedzie.</value>
   </data>
   <data name="PlaySoundUnsuccessfulMove" xml:space="preserve">
-    <value>Play a sound when a card move attempt is unsuccessful.</value>
+    <value>Odtwórz dźwięk, gdy próba przesunięcia karty się niepowiedzie.</value>
   </data>
   <data name="PlaySoundSuccessfulMoveSwitchLabel" xml:space="preserve">
-    <value>Successful sound:</value>
+    <value>Dźwięk powodzenia:</value>
   </data>
   <data name="PlaySoundUnsuccessfulMoveSwitchLabel" xml:space="preserve">
-    <value>Unsuccessful sound:</value>
+    <value>Dźwięk niepowodzenia:</value>
   </data>
   <data name="Sounds" xml:space="preserve">
-    <value>Sounds</value>
+    <value>Dźwięki</value>
   </data>
   <data name="FlipGameLayoutHorizontally" xml:space="preserve">
-    <value>Flip layout horizontally</value>
+    <value>Orientacja pozioma</value>
   </data>
   <data name="FlipGameLayoutHorizontallyInstructions" xml:space="preserve">
-    <value>Check this option to flip the position of everything in the game horizontally. This means the Next Card button will be near the top right corner of the game rather than near the top left corner.</value>
+    <value>Zaznacz tę opcję, aby wszystkie elementy gry przełączyć na widok poziomy. Wtedy przycisk Następna Karta będzie znajdował się w prawym górnym rogu ekranu, a nie w pobliżu lewego górnego rogu.</value>
   </data>
   <data name="FlipGameLayoutHorizontallySwitchLabel" xml:space="preserve">
-    <value>Flip layout:</value>
+    <value>Zmień orientację:</value>
   </data>
   <data name="PlaySoundOther" xml:space="preserve">
-    <value>Play other sounds including when dealing cards or turning over the next cards.</value>
+    <value>Odtwarzaj inne dźwięki, także podczas rozdawania i odwracania kolejnych kart.</value>
   </data>
   <data name="PlaySoundOtherSwitchLabel" xml:space="preserve">
-    <value>Other sounds:</value>
+    <value>Inne dźwięki:</value>
   </data>
   <data name="ExtendDealtCardHitTarget" xml:space="preserve">
-    <value>Extend dealt card hit target</value>
+    <value>Pobrana karta została umieszczona w miejscu docelowym</value>
   </data>
   <data name="ExtendDealtCardHitTargetCheckboxLabel" xml:space="preserve">
-    <value>Extend hit target:</value>
+    <value>Rozszerz miejsca docelowe:</value>
   </data>
   <data name="ExtendDealtCardHitTargetInstructions" xml:space="preserve">
-    <value>This setting only applies using a portrait screen orientation. When checked, the hit target for each of the topmost dealt cards extends across the width of the screen. The hit target is represented by a solid colour, and the dealt card appears in the middle of the area. Extending the hit target area may make it quicker to find the topmost card in each pile when moving your finger over the screen while using a screen reader.</value>
+    <value>To ustawienie ma zastosowanie tylko przy pionowej orientacji ekranu. Kiedy jest włączone, docelowe miejsce dla każdej z najwyżej rozdanych kart rozciąga się na całą szerokość ekranu. Miejsce docelowe jest reprezentowany przez jednolity kolor, a rozdana karta pojawia się na środku obszaru. Rozszerzenie obszaru miejsca docelowego może przyspieszyć znalezienie najwyższej karty w każdym stosie podczas przesuwania palcem po ekranie przy korzystaniu z czytnika ekranu.</value>
   </data>
   <data name="SuitColours" xml:space="preserve">
-    <value>Suit Colours</value>
+    <value>Kolory kart</value>
   </data>
   <data name="SuitColoursInstructions" xml:space="preserve">
-    <value>If you'd prefer to have cards show colours other than the traditional black and red for the four suits, select your preferred colours here.</value>
+    <value>Jeśli preferujesz inne niż tradycyjne barwy - czerń i czerwień dla czterech kolorów, wybierz je tutaj.</value>
   </data>
   <data name="SuitColoursClubsPickerLabel" xml:space="preserve">
-    <value>Clubs:</value>
+    <value>Trefl:</value>
   </data>
   <data name="SuitColoursDiamondsPickerLabel" xml:space="preserve">
-    <value>Diamonds:</value>
+    <value>Karo:</value>
   </data>
   <data name="SuitColoursHeartsPickerLabel" xml:space="preserve">
-    <value>Hearts:</value>
+    <value>Kier:</value>
   </data>
   <data name="SuitColoursSpadesPickerLabel" xml:space="preserve">
-    <value>Spades:</value>
+    <value>Pik:</value>
   </data>
   <data name="LongPressOnCard" xml:space="preserve">
-    <value>Press and hold on card to zoom</value>
+    <value>Naciśnij i przytrzymaj kartę, aby ją powiększyć</value>
   </data>
   <data name="LongPressOnCardInstructions" xml:space="preserve">
-    <value>Press and hold on a card for the card to fill the screen. Select the number of seconds required to press and hold on the card, or select "Never" to turn off the press and hold.</value>
+    <value>Naciśnij i przytrzymaj kartę, aby wypełniła ekran. Wybierz liczbę sekund wymaganą do naciśnięcia i przytrzymania karty lub wybierz „Nigdy”, aby wyłączyć naciśnięcie i przytrzymanie.</value>
   </data>
   <data name="LongPressOnCardPickerName" xml:space="preserve">
-    <value>Seconds:</value>
+    <value>Sekund:</value>
   </data>
   <data name="GeneralGamePlay" xml:space="preserve">
-    <value>General Game Play</value>
+    <value>Właściwa rozgrywka</value>
   </data>
   <data name="GameAppearance" xml:space="preserve">
-    <value>GameAppearance</value>
+    <value>Wygląd gry</value>
   </data>
   <data name="ScreenReaderUsage" xml:space="preserve">
-    <value>Screen Reader Usage</value>
+    <value>Użycie czytnika ekranu</value>
   </data>
   <data name="TouchInteraction" xml:space="preserve">
-    <value>Touch Interaction</value>
+    <value>Interakcja dotykowa</value>
   </data>
   <data name="NoNextCardsLeft" xml:space="preserve">
-    <value>No next cards left</value>
+    <value>Brak następnych kart</value>
   </data>
   <data name="KeyboardShortcutsList" xml:space="preserve">
-    <value>F1: Show this list of keyboard shortcuts.
+    <value>F1: Pokaż listę skrótów klawiszowych.
 
-F6: Move keyboard focus between the main areas of the game.
+F6: Przenieś fokus klawiatury między głównymi obszarami gry.
 
-M: Screen reader announce available moves.
-U: Screen reader announce topmost upturned cards.
-T: Screen reader announce target card piles.
-D: Screen reader announce dealt card piles.
+M: Czytnik ekranu ogłasza dostępne ruchy.
+U: Czytnik ekranu ogłasza wierzchnie odkryte karty.
+T: Czytnik ekranu ogłasza docelowe stosy kart.
+D: Czytnik ekranu ogłasza rozdane stosy kart.
 
-H: Show full help content in Facebook.
-N: Click Next Card button.
-R: Restart game.
-Z: Show card zoom popup.</value>
+H: Pokaż pełną treść pomocy na Facebooku.
+N: Kliknij przycisk Następna karta.
+R: Uruchom ponownie grę.
+Z: Pokaż wyskakujące okienko powiększenia karty.</value>
   </data>
   <data name="KeyboardShortcutsTitle" xml:space="preserve">
-    <value>Keyboard Shortcuts</value>
+    <value>Skróty Klawiszowe</value>
   </data>
   <data name="KeyboardShortcutsSubtitle" xml:space="preserve">
-    <value>The following keyboard shortcuts are available in the Accessible Solitaire game.</value>
+    <value>W grze Accessible Solitaire dostępne są następujące skróty klawiszowe.</value>
   </data>
   <data name="TargetCardPile" xml:space="preserve">
-    <value>Target card pile</value>
+    <value>Docelowy stos kart</value>
   </data>
   <data name="UpturnedCardPile" xml:space="preserve">
-    <value>Upturned card pile</value>
+    <value>Odwrócony stos kart</value>
   </data>
   <data name="In" xml:space="preserve">
-    <value>in</value>
+    <value>w</value>
   </data>
   <data name="FirstRunMessageWindows" xml:space="preserve">
-    <value>Press the F1 key to learn about the keyboard shortcuts available in the game.</value>
+    <value>Naciśnij klawisz F1, aby zapoznać się ze skrótami klawiszowymi dostępnymi w grze.</value>
   </data>
   <data name="ShowZoomPopup" xml:space="preserve">
-    <value>Show zoom popup</value>
+    <value>Pokaż wyskakujące okienko powiększenia</value>
   </data>
   <data name="KeepGameAcrossSessions" xml:space="preserve">
-    <value>Game Sessions</value>
+    <value>Sesje gry</value>
   </data>
   <data name="KeepGameAcrossSessionsInstructions" xml:space="preserve">
-    <value>Save the state of the current game when the app is closed, so when the app is next reopened the earlier game can be continued.</value>
+    <value>Przy zamknięciu aplikacji zapisz stan bieżącej gry, aby przy jej ponownym uruchomieniu, kontynuować rozpoczętą rozgrywkę.</value>
   </data>
   <data name="KeepGameAcrossSessionsSwitchName" xml:space="preserve">
-    <value>Save game state:</value>
+    <value>Zapisz stan gry:</value>
   </data>
   <data name="CelebrationExperience" xml:space="preserve">
-    <value>Celebration Experience</value>
+    <value>Świętowanie wygranej</value>
   </data>
   <data name="CelebrationExperienceVisual" xml:space="preserve">
-    <value>Visual experience</value>
+    <value>Efekty wizualne</value>
   </data>
   <data name="CelebrationExperienceVisualInstructions" xml:space="preserve">
-    <value>Use this setting to have the target card piles spin round when a game is won.</value>
+    <value>Użyj tego ustawienia, aby stosy kart docelowych odwracały się po wygraniu gry.</value>
   </data>
   <data name="CelebrationExperienceVisualSwitchLabel" xml:space="preserve">
-    <value>Visual celebration:</value>
+    <value>Efekty wizualne:</value>
   </data>
   <data name="CelebrationExperienceAudio" xml:space="preserve">
-    <value>Audio Experience</value>
+    <value>Efekty dźwiękowe</value>
   </data>
   <data name="CelebrationExperienceAudioSwitchLabel" xml:space="preserve">
-    <value>Audio experience:</value>
+    <value>Efekty dźwiękowe:</value>
   </data>
   <data name="CelebrationExperienceAudioInstructions" xml:space="preserve">
-    <value>Use this setting to have a celebratory sound played when the game is won.</value>
+    <value>Użyj tego ustawienia, aby odtworzyć dźwięk informujący o wygranej w grze.</value>
   </data>
   <data name="AnnounceAvailableMoves" xml:space="preserve">
-    <value>Screen reader announce available moves</value>
+    <value>Czytnik ekranu informuje o dostępnych ruchach</value>
   </data>
   <data name="1" xml:space="preserve">
     <value>1</value>
@@ -565,5 +565,14 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="10" xml:space="preserve">
     <value>10</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Ustawienia Accessible Solitaire</value>
+  </data>
+  <data name="NameCardOf" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GBTest" xml:space="preserve">
+    <value />
   </data>
 </root>

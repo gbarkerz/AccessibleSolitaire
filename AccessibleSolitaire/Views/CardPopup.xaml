@@ -83,7 +83,7 @@
             windows:VisualElement.AccessKey="C"
             TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
             Margin="8,0,0,0" Padding="8"
-            Text="{x:Static resources:StringResources.Close}" 
+            Text="{x:Static resources:Strings.StringResources.Close}" 
             Clicked="CloseButton_Clicked" />
 
     </Grid>

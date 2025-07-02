@@ -345,7 +345,9 @@ namespace Sa11ytaire4All
             }
         }
 
+#if WINDOWS
         private Timer? timerDelayTabPress;
+#endif
 
         private void MoveFocusToDealtCardPiles()
         {

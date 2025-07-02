@@ -2,13 +2,10 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android35.0;net9.0-ios</TargetFrameworks>
-
-    <!-- This suggested workaround to enable Sentry build for iOS Debug did not work. -->
-    <!--<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-maccatalyst</TargetFrameworks>-->
     
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.22621.0</TargetFrameworks>
 
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">35.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 
@@ -30,6 +27,9 @@
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
+
+    <NeutralLanguage>en</NeutralLanguage>
+    
 	</PropertyGroup>
 
   <PropertyGroup>
@@ -606,7 +606,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="StringResources.Designer.cs">
+	  <Compile Update="Strings\StringResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>StringResources.resx</DependentUpon>
@@ -623,7 +623,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="StringResources.resx">
+	  <EmbeddedResource Update="Strings\StringResources.pl.resx">
+	    <SubType>Designer</SubType>
+	    <LastGenOutput>StringResources.pl.Designer.cs</LastGenOutput>
+	    <Generator>ResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Strings\StringResources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>

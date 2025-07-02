@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sa11ytaire4All {
+namespace Sa11ytaire4All.Strings {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Sa11ytaire4All {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sa11ytaire4All.StringResources", typeof(StringResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sa11ytaire4All.Strings.StringResources", typeof(StringResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -621,6 +621,15 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GBTest.
+        /// </summary>
+        internal static string GBTest {
+            get {
+                return ResourceManager.GetString("GBTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Game Play.
         /// </summary>
         internal static string GeneralGamePlay {
@@ -876,6 +885,15 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to of .
+        /// </summary>
+        internal static string NameCardOf {
+            get {
+                return ResourceManager.GetString("NameCardOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next card.
         /// </summary>
         internal static string NextCardPile_NextCard {
@@ -948,7 +966,7 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to of.
+        ///   Looks up a localized string similar to of .
         /// </summary>
         internal static string Of {
             get {
@@ -1128,11 +1146,20 @@ namespace Sa11ytaire4All {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire Settings.
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessible Solitaire Settings.
+        /// </summary>
+        internal static string SettingsTitle {
+            get {
+                return ResourceManager.GetString("SettingsTitle", resourceCulture);
             }
         }
         

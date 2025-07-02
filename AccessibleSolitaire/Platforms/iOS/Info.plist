@@ -28,5 +28,12 @@
 	<string>2.15</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>en</string>
+    <string>pl</string>
+  </array>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
 </dict>
 </plist>

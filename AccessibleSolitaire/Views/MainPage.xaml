@@ -111,7 +111,7 @@
                 <FlyoutBase.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem 
-                            Text="{x:Static resources:StringResources.ShowZoomPopup}" 
+                            Text="{x:Static resources:Strings.StringResources.ShowZoomPopup}" 
                             Clicked="MenuFlyoutItemShowZoomPopup_Clicked" />
                     </MenuFlyout>
                 </FlyoutBase.ContextFlyout>
@@ -443,7 +443,7 @@
 
                     <ImageButton
                         AutomationId="AppMenuButton"
-                        SemanticProperties.Description="{x:Static resources:StringResources.Menu}"
+                        SemanticProperties.Description="{x:Static resources:Strings.StringResources.Menu}"
                         Source="hamburger.png"
                         Aspect="Fill"
                         WidthRequest="{Binding 
@@ -487,7 +487,7 @@
                         <!-- Barker Todo: Style these buttons to avoid property and VisualState duplication. -->
 
                         <ImageButton x:Name="StateAnnouncementButton"
-                            SemanticProperties.Description="{x:Static resources:StringResources.AnnounceState}"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AnnounceState}"
                             Source="announcegamestateicon.png" 
                             Aspect="Fill"
                             WidthRequest="{Binding 
@@ -528,7 +528,7 @@
                         </ImageButton>
 
                         <ImageButton x:Name="AvailableMovesAnnouncementButton"
-                            SemanticProperties.Description="{x:Static resources:StringResources.AnnounceAvailableMoves}"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AnnounceAvailableMoves}"
                             Source="availablemovesicon.png" 
                             Aspect="Fill"
                             WidthRequest="{Binding 

@@ -9,14 +9,14 @@
     Shell.Title="Accessible Solitaire">
 
     <ShellContent
-        Title="{x:Static resources:StringResources.AccessibleSolitaireVersion}"
+        Title="{x:Static resources:Strings.StringResources.AccessibleSolitaireVersion}"
         Icon="cardback.png"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
     
     <MenuItem x:Name="HelpMenuItem" 
         Clicked="HelpMenuItem_Clicked"
-        Text="Help in Facebook">
+        Text="{x:Static resources:Strings.StringResources.Help}">
         <MenuItem.IconImageSource>
             <FontImageSource
                 Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
@@ -27,7 +27,7 @@
 
     <MenuItem x:Name="SettingsMenuItem" 
         Clicked="SettingsMenuItem_Clicked"
-        Text="Settings">
+        Text="{x:Static resources:Strings.StringResources.Settings}">
         <MenuItem.IconImageSource>
             <FontImageSource
                 Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
@@ -38,7 +38,7 @@
 
     <MenuItem x:Name="RestartGameMenuItem" 
         Clicked="RestartGameMenuItem_Clicked"
-        Text="Restart Game">
+        Text="{x:Static resources:Strings.StringResources.RestartGame}">
         <MenuItem.IconImageSource>
             <FontImageSource
                 Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"

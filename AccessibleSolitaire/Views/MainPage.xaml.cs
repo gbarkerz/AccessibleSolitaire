@@ -225,7 +225,7 @@ namespace Sa11ytaire4All
             // inside the groups, and saying the name of a dealt card has no effect.
 
 #if (ANDROID || WINDOWS)
-            var resmgr = StringResources.ResourceManager;
+            var resmgr = Strings.StringResources.ResourceManager;
 
             SemanticProperties.SetDescription(UpturnedCardsGrid, resmgr.GetString("UpturnedCards"));
             SemanticProperties.SetDescription(TargetPiles, resmgr.GetString("TargetCardPiles"));
@@ -275,11 +275,33 @@ namespace Sa11ytaire4All
             }
         }
 
+        // Sentry reported two different crashes: 
+        //   collectionView:viewForSupplementaryElementOfKind:atIndexPath: > Attempted to dereference null pointer.
+        //   System.NullReferenceException: void GroupableItemsViewController<ReorderableItemsView>.UpdateDefaultSupplementaryView()
+        // which it felt were related to rapid touch input on the dealt cards. It suggested preventing re-entrancy 
+        // in the Tapped handler, but the code was already doing that. Until this is better understood, attempt to 
+        // prevent the two crashes by ignoring a tap if it's less than 500ms since the previous tap. Hopefully that
+        // will give the app a chance to respond to the tap (including performing whatever selection, deselection,
+        // or change to CollectionView contents is appropriate) before handling the next tap. This will certainly
+        // be noticeable to users using touch input without a screen reader, but seems unlikely to input using 
+        // screen reader, voice input, or switch input. It's the users of AT who are the main priority for this app.
+        private DateTime timePreviousDealtCardTap = DateTime.Now;
+
         private bool tapGestureProcessingInProgress = false;
 
         private void OnTapGestureRecognizerTapped(object sender, TappedEventArgs args)
         {
             Debug.WriteLine("OnTapGestureRecognizerTapped: Enter OnTapGestureRecognizerTapped.");
+
+            var timeNow = DateTime.Now;
+            if (timeNow - timePreviousDealtCardTap < TimeSpan.FromMilliseconds(500))
+            {
+                Debug.WriteLine("OnTapGestureRecognizerTapped: Ignore rapid touch tap.");
+
+                return;
+            }
+
+            timePreviousDealtCardTap = timeNow;
 
             // BARKER TODO: If the Zoom Popup is visible now, it probably means that a tap has been released
             // after a long press. So do nothing here in that case. We don't want a card to be selected as
@@ -1442,7 +1464,7 @@ namespace Sa11ytaire4All
 
         public static string MyGetString(string stringId)
         {
-            var requiredString = StringResources.ResourceManager.GetString(stringId);
+            var requiredString = Strings.StringResources.ResourceManager.GetString(stringId);
             if (requiredString == null)
             {
                 return "";
@@ -1830,7 +1852,7 @@ namespace Sa11ytaire4All
 
         private void DeselectAllCardsFromDealtCardPile(CollectionView dealtCardPile)
         {
-            Debug.WriteLine("DeselectAllCardsFromDealtCardPile: " + dealtCardPile.AutomationId);
+            //Debug.WriteLine("DeselectAllCardsFromDealtCardPile: " + dealtCardPile.AutomationId);
 
             dealtCardPile.SelectedItem = null;
         }

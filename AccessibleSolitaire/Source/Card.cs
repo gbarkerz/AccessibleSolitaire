@@ -20,6 +20,8 @@ namespace Sa11ytaire4All.Source
             }
             else
             {
+                var stringOfResourceId = "NameCardOf";
+
                 switch (Rank)
                 {
                     case 1:
@@ -44,13 +46,19 @@ namespace Sa11ytaire4All.Source
                         }
                     default:
                         {
+                            stringOfResourceId = "Of";
+
                             rank = MainPage.MyGetString(Rank.ToString());
                             break;
                         }
                 }
 
-                string ofText = MainPage.MyGetString("Of");
-                string formattedString = "{0}" + " " + ofText + " " + "{1}";
+                string ofString = MainPage.MyGetString(stringOfResourceId);
+
+                string formattedString = "{0}" + // Rank.
+                                            " " + 
+                                            "{1}" + // Optional "of". (Has a trailing space if not empty string.)
+                                            "{2}";
 
                 string suitString;
 
@@ -70,7 +78,7 @@ namespace Sa11ytaire4All.Source
                         break;
                 }
 
-                return string.Format(formattedString, rank, suitString);
+                return string.Format(formattedString, rank, ofString, suitString);
             }
         }
     }
