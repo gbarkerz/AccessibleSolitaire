@@ -23,7 +23,7 @@ public partial class SettingsPage : ContentPage
         {
             foreach (var colourName in MainPage.suitColours.Keys)
             {
-                picker.Items.Add(colourName);
+                picker.Items.Add(MainPage.MyGetString(colourName));
             }
         }
 
@@ -36,16 +36,16 @@ public partial class SettingsPage : ContentPage
         LongPressOnCardPicker.SelectedIndex = longPressZoomDuration / 1000;
 
         var currentColour = (string)Preferences.Get("SuitColoursClubs", "Default");
-        SuitColoursClubsPicker.SelectedItem = currentColour;
+        SuitColoursClubsPicker.SelectedItem = MainPage.MyGetString(currentColour);
 
         currentColour = (string)Preferences.Get("SuitColoursDiamonds", "Default");
-        SuitColoursDiamondsPicker.SelectedItem = currentColour;
+        SuitColoursDiamondsPicker.SelectedItem = MainPage.MyGetString(currentColour);
 
         currentColour = (string)Preferences.Get("SuitColoursHearts", "Default");
-        SuitColoursHeartsPicker.SelectedItem = currentColour;
+        SuitColoursHeartsPicker.SelectedItem = MainPage.MyGetString(currentColour);
 
         currentColour = (string)Preferences.Get("SuitColoursSpades", "Default");
-        SuitColoursSpadesPicker.SelectedItem = currentColour;
+        SuitColoursSpadesPicker.SelectedItem = MainPage.MyGetString(currentColour);
 
         var showRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
         ShowRankSuitLargeSwitch.IsToggled = showRankSuitLarge;
@@ -120,28 +120,30 @@ public partial class SettingsPage : ContentPage
             }
         }
 
-        var selectedColourItem = SuitColoursClubsPicker.SelectedItem as string;
-        if (selectedColourItem != null)
+        var suitColoursArray = MainPage.suitColours.ToArray();
+
+        var selectedSuitIndex = SuitColoursClubsPicker.SelectedIndex;
+        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count)) 
         {
-            Preferences.Set("SuitColoursClubs", selectedColourItem);
+            Preferences.Set("SuitColoursClubs", suitColoursArray[selectedSuitIndex].Key);
         }
 
-        selectedColourItem = SuitColoursDiamondsPicker.SelectedItem as string;
-        if (selectedColourItem != null)
+        selectedSuitIndex = SuitColoursDiamondsPicker.SelectedIndex;
+        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count))
         {
-            Preferences.Set("SuitColoursDiamonds", selectedColourItem);
+            Preferences.Set("SuitColoursDiamonds", suitColoursArray[selectedSuitIndex].Key);
         }
 
-        selectedColourItem = SuitColoursHeartsPicker.SelectedItem as string;
-        if (selectedColourItem != null)
+        selectedSuitIndex = SuitColoursHeartsPicker.SelectedIndex;
+        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count))
         {
-            Preferences.Set("SuitColoursHearts", selectedColourItem);
+            Preferences.Set("SuitColoursHearts", suitColoursArray[selectedSuitIndex].Key);
         }
 
-        selectedColourItem = SuitColoursSpadesPicker.SelectedItem as string;
-        if (selectedColourItem != null)
+        selectedSuitIndex = SuitColoursSpadesPicker.SelectedIndex;
+        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count))
         {
-            Preferences.Set("SuitColoursSpades", selectedColourItem);
+            Preferences.Set("SuitColoursSpades", suitColoursArray[selectedSuitIndex].Key);
         }
 
         var showRankSuitLarge = ShowRankSuitLargeSwitch.IsToggled;

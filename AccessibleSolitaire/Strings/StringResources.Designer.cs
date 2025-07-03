@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.15.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.16.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -241,6 +241,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Black.
+        /// </summary>
+        internal static string Black {
+            get {
+                return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to can be moved to.
         /// </summary>
         internal static string CanBeMovedTo {
@@ -255,6 +264,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Card {
             get {
                 return ResourceManager.GetString("Card", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of .
+        /// </summary>
+        internal static string CardOf {
+            get {
+                return ResourceManager.GetString("CardOf", resourceCulture);
             }
         }
         
@@ -457,6 +475,78 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cyan.
+        /// </summary>
+        internal static string Cyan {
+            get {
+                return ResourceManager.GetString("Cyan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Blue.
+        /// </summary>
+        internal static string DarkBlue {
+            get {
+                return ResourceManager.GetString("DarkBlue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Gold.
+        /// </summary>
+        internal static string DarkGold {
+            get {
+                return ResourceManager.GetString("DarkGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Green.
+        /// </summary>
+        internal static string DarkGreen {
+            get {
+                return ResourceManager.GetString("DarkGreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Indigo.
+        /// </summary>
+        internal static string DarkIndigo {
+            get {
+                return ResourceManager.GetString("DarkIndigo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Orange.
+        /// </summary>
+        internal static string DarkOrange {
+            get {
+                return ResourceManager.GetString("DarkOrange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Red.
+        /// </summary>
+        internal static string DarkRed {
+            get {
+                return ResourceManager.GetString("DarkRed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Violet.
+        /// </summary>
+        internal static string DarkViolet {
+            get {
+                return ResourceManager.GetString("DarkViolet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dealt card pile.
         /// </summary>
         internal static string DealtCardPile {
@@ -471,6 +561,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string DealtCardPiles {
             get {
                 return ResourceManager.GetString("DealtCardPiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Default {
+            get {
+                return ResourceManager.GetString("Default", resourceCulture);
             }
         }
         
@@ -603,7 +702,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GameAppearance.
+        ///   Looks up a localized string similar to Game Appearance.
         /// </summary>
         internal static string GameAppearance {
             get {
@@ -795,6 +894,33 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Light Blue.
+        /// </summary>
+        internal static string LightBlue {
+            get {
+                return ResourceManager.GetString("LightBlue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Coral.
+        /// </summary>
+        internal static string LightCoral {
+            get {
+                return ResourceManager.GetString("LightCoral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Green.
+        /// </summary>
+        internal static string LightGreen {
+            get {
+                return ResourceManager.GetString("LightGreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Press and hold on card to zoom.
         /// </summary>
         internal static string LongPressOnCard {
@@ -872,15 +998,6 @@ namespace Sa11ytaire4All.Strings {
         internal static string Moved {
             get {
                 return ResourceManager.GetString("Moved", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to of .
-        /// </summary>
-        internal static string NameCardOf {
-            get {
-                return ResourceManager.GetString("NameCardOf", resourceCulture);
             }
         }
         
@@ -1007,6 +1124,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Pile {
             get {
                 return ResourceManager.GetString("Pile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pink.
+        /// </summary>
+        internal static string Pink {
+            get {
+                return ResourceManager.GetString("Pink", resourceCulture);
             }
         }
         
@@ -1385,6 +1511,24 @@ namespace Sa11ytaire4All.Strings {
         internal static string UpturnedCards {
             get {
                 return ResourceManager.GetString("UpturnedCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White.
+        /// </summary>
+        internal static string White {
+            get {
+                return ResourceManager.GetString("White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yellow.
+        /// </summary>
+        internal static string Yellow {
+            get {
+                return ResourceManager.GetString("Yellow", resourceCulture);
             }
         }
         

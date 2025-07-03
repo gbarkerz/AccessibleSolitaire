@@ -20,8 +20,6 @@ namespace Sa11ytaire4All.Source
             }
             else
             {
-                var stringOfResourceId = "NameCardOf";
-
                 switch (Rank)
                 {
                     case 1:
@@ -46,14 +44,12 @@ namespace Sa11ytaire4All.Source
                         }
                     default:
                         {
-                            stringOfResourceId = "Of";
-
                             rank = MainPage.MyGetString(Rank.ToString());
                             break;
                         }
                 }
 
-                string ofString = MainPage.MyGetString(stringOfResourceId);
+                string ofString = MainPage.MyGetString("CardOf");
 
                 string formattedString = "{0}" + // Rank.
                                             " " + 

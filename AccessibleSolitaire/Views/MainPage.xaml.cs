@@ -69,20 +69,20 @@ namespace Sa11ytaire4All
             {
                 { "Default", Colors.Transparent },
                 { "Black", Colors.Black },
-                { "Dark Red", Colors.DarkRed },
-                { "Dark Orange", Colors.DarkOrange },
-                { "Dark Gold", Colors.DarkGoldenrod },
-                { "Dark Green", Colors.DarkGreen },
-                { "Dark Blue", Colors.DarkBlue },
-                { "Dark Indigo", Color.FromArgb("#FF1F0954") },
-                { "Dark Violet", Colors.DarkViolet },
+                { "DarkRed", Colors.DarkRed },
+                { "DarkOrange", Colors.DarkOrange },
+                { "DarkGold", Colors.DarkGoldenrod },
+                { "DarkGreen", Colors.DarkGreen },
+                { "DarkBlue", Colors.DarkBlue },
+                { "DarkIndigo", Color.FromArgb("#FF1F0954") },
+                { "DarkViolet", Colors.DarkViolet },
                 { "White", Colors.White },
                 { "Yellow", Colors.Yellow },
                 { "Pink", Color.FromArgb("#FFFF74A0") }, // Colors.Pink is too light. 
                 { "Cyan", Colors.Cyan },
-                { "Light Blue", Colors.LightBlue },
-                { "Light Green", Colors.LightGreen },
-                { "Light Coral", Colors.LightCoral }
+                { "LightBlue", Colors.LightBlue },
+                { "LightGreen", Colors.LightGreen },
+                { "LightCoral", Colors.LightCoral }
             };
 
         private KeyboardBehavior? keyboardBehavior;
@@ -573,9 +573,7 @@ namespace Sa11ytaire4All
                         new TimerCallback((s) => TimedDelaySetSuitColours()),
                             null,
                             TimeSpan.FromMilliseconds(1000),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite)); Dispatcher.Dispatch(() => {
-                        ;
-                    });
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
@@ -676,7 +674,7 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
-                // Refresh all the face-up cards to show the required visuals.
+                // Refresh all the cards to show the required visuals.
                 for (int i = 0; i < cCardPiles; i++)
                 {
                     for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)

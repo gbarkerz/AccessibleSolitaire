@@ -132,7 +132,7 @@
 
                         <Switch x:Name="KeepGameAcrossSessionsSwitch"
                             Margin="0"
-                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.KeepGameAcrossSessions}"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.KeepGameAcrossSessionsSwitchName}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.KeepGameAcrossSessionsInstructions}" />
                     </HorizontalStackLayout>
 

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.15</value>
+    <value>Accessible Solitaire V2.16</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -456,7 +456,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>General Game Play</value>
   </data>
   <data name="GameAppearance" xml:space="preserve">
-    <value>GameAppearance</value>
+    <value>Game Appearance</value>
   </data>
   <data name="ScreenReaderUsage" xml:space="preserve">
     <value>Screen Reader Usage</value>
@@ -569,7 +569,55 @@ Z: Show card zoom popup.</value>
   <data name="SettingsTitle" xml:space="preserve">
     <value>Accessible Solitaire Settings</value>
   </data>
-  <data name="NameCardOf" xml:space="preserve">
+  <data name="CardOf" xml:space="preserve">
     <value>of </value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="DarkRed" xml:space="preserve">
+    <value>Dark Red</value>
+  </data>
+  <data name="DarkOrange" xml:space="preserve">
+    <value>Dark Orange</value>
+  </data>
+  <data name="DarkGold" xml:space="preserve">
+    <value>Dark Gold</value>
+  </data>
+  <data name="DarkGreen" xml:space="preserve">
+    <value>Dark Green</value>
+  </data>
+  <data name="DarkBlue" xml:space="preserve">
+    <value>Dark Blue</value>
+  </data>
+  <data name="DarkIndigo" xml:space="preserve">
+    <value>Dark Indigo</value>
+  </data>
+  <data name="DarkViolet" xml:space="preserve">
+    <value>Dark Violet</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="Yellow" xml:space="preserve">
+    <value>Yellow</value>
+  </data>
+  <data name="Pink" xml:space="preserve">
+    <value>Pink</value>
+  </data>
+  <data name="Cyan" xml:space="preserve">
+    <value>Cyan</value>
+  </data>
+  <data name="LightBlue" xml:space="preserve">
+    <value>Light Blue</value>
+  </data>
+  <data name="LightGreen" xml:space="preserve">
+    <value>Light Green</value>
+  </data>
+  <data name="LightCoral" xml:space="preserve">
+    <value>Light Coral</value>
   </data>
 </root>
