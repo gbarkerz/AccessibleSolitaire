@@ -49,6 +49,8 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty] private bool extendDealtCardHitTarget;
 
+        [ObservableProperty] private bool addHintToTopmostCard;
+
         [ObservableProperty] private int longPressZoomDuration;
     }
 }

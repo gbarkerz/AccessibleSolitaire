@@ -130,7 +130,7 @@
     <value>Czytnik ekranu informuje o stanie gry</value>
   </data>
   <data name="CanBeMovedTo" xml:space="preserve">
-    <value>można przenieść do</value>
+    <value>można przenieść na</value>
   </data>
   <data name="Card" xml:space="preserve">
     <value>Karta</value>
@@ -201,7 +201,7 @@
 Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, jak najlepiej skonfigurować grę.</value>
   </data>
   <data name="GameRestarted" xml:space="preserve">
-    <value>Gra uruchomiona ponownie</value>
+    <value>Karty rozdane</value>
   </data>
   <data name="Hearts" xml:space="preserve">
     <value>Kier</value>
@@ -261,7 +261,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>OK</value>
   </data>
   <data name="On" xml:space="preserve">
-    <value>na</value>
+    <value>ze</value>
   </data>
   <data name="OnTop" xml:space="preserve">
     <value>Na szczycie</value>
@@ -279,7 +279,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Gratulacje, wygrywasz! Chcesz zacząć nową grę?</value>
   </data>
   <data name="RestartGame" xml:space="preserve">
-    <value>Uruchom ponownie grę</value>
+    <value>Rozdaj karty ponownie</value>
   </data>
   <data name="Revealed" xml:space="preserve">
     <value>Odkryta</value>
@@ -293,7 +293,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
   <data name="ShowScreenReaderAnnouncementButtons" xml:space="preserve">
     <value>Powiadomienia czytnika ekranu</value>
   </data>
-  <data name="ShowScreenReaderAnnouncementButtonsCheckboxLabel" xml:space="preserve">
+  <data name="ShowScreenReaderAnnouncementButtonsSwitchLabel" xml:space="preserve">
     <value>Pokaż przyciski czytnika ekranu:</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtonsInstructions" xml:space="preserve">
@@ -315,7 +315,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Nie pokazano żadnych odwróconych kart</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>do</value>
+    <value>na</value>
   </data>
   <data name="TopUpturnedCardIs" xml:space="preserve">
     <value>Górną odwróconą kartą jest</value>
@@ -365,7 +365,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
   <data name="AllowSelectionByFaceDownCardInstructions" xml:space="preserve">
     <value>Zaznacz tę opcję, jeśli chcesz stuknięciem w dowolną zakrytą kartę zaznaczyć najbliższą odkrytą kartę w stosie.</value>
   </data>
-  <data name="AllowSelectionByFaceDownCardCheckboxLabel" xml:space="preserve">
+  <data name="AllowSelectionByFaceDownCardSwitchLabel" xml:space="preserve">
     <value>Wybierz za pomocą odwróconej karty:</value>
   </data>
   <data name="AllowSelectionByFaceDownCardButtonLabel" xml:space="preserve">
@@ -419,7 +419,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
   <data name="ExtendDealtCardHitTarget" xml:space="preserve">
     <value>Pobrana karta została umieszczona w miejscu docelowym</value>
   </data>
-  <data name="ExtendDealtCardHitTargetCheckboxLabel" xml:space="preserve">
+  <data name="ExtendDealtCardHitTargetSwitchLabel" xml:space="preserve">
     <value>Rozszerz miejsca docelowe:</value>
   </data>
   <data name="ExtendDealtCardHitTargetInstructions" xml:space="preserve">
@@ -619,5 +619,35 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
   </data>
   <data name="LightCoral" xml:space="preserve">
     <value>Jasnoczerwony</value>
+  </data>
+  <data name="HintBottommostFaceupCard" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AddHintToTopmostCardSwitchLabel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AddHintToTopmostCard" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AddHintToTopmostCardInstructions" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IncludeFacedownCardsInAnnouncement" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IncludeFacedownCardsInAnnouncementSwitchLabel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IncludeFacedownCardsInAnnouncementInstructions" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Deselected" xml:space="preserve">
+    <value>Niezaznaczone</value>
+  </data>
+  <data name="NextCardPile_FinishedCards" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NoMoreFaceupCards" xml:space="preserve">
+    <value />
   </data>
 </root>

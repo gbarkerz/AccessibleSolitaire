@@ -342,6 +342,12 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- Show State Announcement buttons. -->
@@ -362,39 +368,93 @@
                         <Label
                             LineBreakMode="WordWrap"
                             VerticalOptions="Center"                
-                            Text="{x:Static resources:Strings.StringResources.ShowScreenReaderAnnouncementButtonsCheckboxLabel}" 
+                            Text="{x:Static resources:Strings.StringResources.ShowScreenReaderAnnouncementButtonsSwitchLabel}" 
                             Margin="0" Padding="0" />
 
-                        <Switch x:Name="ShowScreenReaderAnnouncementButtonsCheckbox"
+                        <Switch x:Name="ShowScreenReaderAnnouncementButtonsSwitch"
                             Margin="0" HorizontalOptions="Start"
-                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.ShowScreenReaderAnnouncementButtonsCheckboxLabel}"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.ShowScreenReaderAnnouncementButtonsSwitchLabel}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.ShowScreenReaderAnnouncementButtonsInstructions}" />
 
                     </HorizontalStackLayout>
 
-                    <!-- Extend top-most dealt cards hit-target area. -->
+                    <!-- Add hint to topmost card in delat card pile. -->
 
                     <Label Grid.Row="3" 
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                        Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTarget}" />
+                        Text="{x:Static resources:Strings.StringResources.AddHintToTopmostCard}" />
 
                     <Label Grid.Row="4" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
-                        Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetInstructions}" />
+                        Text="{x:Static resources:Strings.StringResources.AddHintToTopmostCardInstructions}" />
 
                     <HorizontalStackLayout Grid.Row="5" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                
-                            Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetCheckboxLabel}" 
+                            Text="{x:Static resources:Strings.StringResources.AddHintToTopmostCardSwitchLabel}" 
                             Margin="0" Padding="0" />
 
-                        <Switch x:Name="ExtendDealtCardHitTargetCheckbox"
+                        <Switch x:Name="AddHintToTopmostCardSwitch"
                             Margin="0" HorizontalOptions="Start"
-                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetCheckboxLabel}"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AddHintToTopmostCardSwitchLabel}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.AddHintToTopmostCardInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <!-- Include details of face-down cards when announcing state of dealt card piles. -->
+
+                    <Label Grid.Row="6" 
+                        FontAttributes="Bold" 
+                        Margin="8,8,0,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:Strings.StringResources.IncludeFacedownCardsInAnnouncement}" />
+
+                    <Label Grid.Row="7" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.IncludeFacedownCardsInAnnouncementInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="8" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:Strings.StringResources.IncludeFacedownCardsInAnnouncementSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="IncludeFacedownCardsInAnnouncementSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.IncludeFacedownCardsInAnnouncementSwitchLabel}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.IncludeFacedownCardsInAnnouncementInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <!-- Extend top-most dealt cards hit-target area. -->
+
+                    <Label Grid.Row="9"
+                        FontAttributes="Bold" 
+                        Margin="8,8,0,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTarget}" />
+
+                    <Label Grid.Row="10"
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="ExtendDealtCardHitTargetSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetSwitchLabel}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetInstructions}" />
 
                     </HorizontalStackLayout>
@@ -462,12 +522,12 @@
 
                         <Label
                             VerticalOptions="Center"                
-                            Text="{x:Static resources:Strings.StringResources.AllowSelectionByFaceDownCardCheckboxLabel}" 
+                            Text="{x:Static resources:Strings.StringResources.AllowSelectionByFaceDownCardSwitchLabel}" 
                             Margin="0" Padding="0" />
 
-                        <Switch x:Name="AllowSelectionByFaceDownCardCheckbox"
+                        <Switch x:Name="AllowSelectionByFaceDownCardSwitch"
                             Margin="0" HorizontalOptions="Start"
-                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AllowSelectionByFaceDownCardCheckboxLabel}"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AllowSelectionByFaceDownCardSwitchLabel}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.AllowSelectionByFaceDownCardInstructions}" />
 
                     </HorizontalStackLayout>

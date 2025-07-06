@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.16.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.17.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -174,6 +174,33 @@ namespace Sa11ytaire4All.Strings {
         internal static string Ace {
             get {
                 return ResourceManager.GetString("Ace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealt card pile hint.
+        /// </summary>
+        internal static string AddHintToTopmostCard {
+            get {
+                return ResourceManager.GetString("AddHintToTopmostCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a hint on the topmost card in a dealt card pile saying which card is the bottommost face-up card in that pile..
+        /// </summary>
+        internal static string AddHintToTopmostCardInstructions {
+            get {
+                return ResourceManager.GetString("AddHintToTopmostCardInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add hint:.
+        /// </summary>
+        internal static string AddHintToTopmostCardSwitchLabel {
+            get {
+                return ResourceManager.GetString("AddHintToTopmostCardSwitchLabel", resourceCulture);
             }
         }
         
@@ -196,20 +223,20 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select via face-down card:.
-        /// </summary>
-        internal static string AllowSelectionByFaceDownCardCheckboxLabel {
-            get {
-                return ResourceManager.GetString("AllowSelectionByFaceDownCardCheckboxLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Check this option if you&apos;d like to tap any face-down card in a dealt card pile to select the nearest face-up card in the same pile..
         /// </summary>
         internal static string AllowSelectionByFaceDownCardInstructions {
             get {
                 return ResourceManager.GetString("AllowSelectionByFaceDownCardInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select via face-down card:.
+        /// </summary>
+        internal static string AllowSelectionByFaceDownCardSwitchLabel {
+            get {
+                return ResourceManager.GetString("AllowSelectionByFaceDownCardSwitchLabel", resourceCulture);
             }
         }
         
@@ -574,6 +601,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deselected.
+        /// </summary>
+        internal static string Deselected {
+            get {
+                return ResourceManager.GetString("Deselected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Diamonds.
         /// </summary>
         internal static string Diamonds {
@@ -619,20 +655,20 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extend hit target:.
-        /// </summary>
-        internal static string ExtendDealtCardHitTargetCheckboxLabel {
-            get {
-                return ResourceManager.GetString("ExtendDealtCardHitTargetCheckboxLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This setting only applies using a portrait screen orientation. When checked, the hit target for each of the topmost dealt cards extends across the width of the screen. The hit target is represented by a solid colour, and the dealt card appears in the middle of the area. Extending the hit target area may make it quicker to find the topmost card in each pile when moving your finger over the screen while using a screen reader..
         /// </summary>
         internal static string ExtendDealtCardHitTargetInstructions {
             get {
                 return ResourceManager.GetString("ExtendDealtCardHitTargetInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extend hit target:.
+        /// </summary>
+        internal static string ExtendDealtCardHitTargetSwitchLabel {
+            get {
+                return ResourceManager.GetString("ExtendDealtCardHitTargetSwitchLabel", resourceCulture);
             }
         }
         
@@ -756,11 +792,47 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bottommost face-up card is.
+        /// </summary>
+        internal static string HintBottommostFaceupCard {
+            get {
+                return ResourceManager.GetString("HintBottommostFaceupCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to in.
         /// </summary>
         internal static string In {
             get {
                 return ResourceManager.GetString("In", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Announce face-down card details.
+        /// </summary>
+        internal static string IncludeFacedownCardsInAnnouncement {
+            get {
+                return ResourceManager.GetString("IncludeFacedownCardsInAnnouncement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By default, when the state of the dealt card piles is announced by a screen reader, the names of the face-down cards in each pile are not included. Use this setting to include the names of face-down cards in the announcement..
+        /// </summary>
+        internal static string IncludeFacedownCardsInAnnouncementInstructions {
+            get {
+                return ResourceManager.GetString("IncludeFacedownCardsInAnnouncementInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Announce face-down cards:.
+        /// </summary>
+        internal static string IncludeFacedownCardsInAnnouncementSwitchLabel {
+            get {
+                return ResourceManager.GetString("IncludeFacedownCardsInAnnouncementSwitchLabel", resourceCulture);
             }
         }
         
@@ -1002,6 +1074,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All cards have been used.
+        /// </summary>
+        internal static string NextCardPile_FinishedCards {
+            get {
+                return ResourceManager.GetString("NextCardPile_FinishedCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next card.
         /// </summary>
         internal static string NextCardPile_NextCard {
@@ -1043,6 +1124,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string NoCardLeft {
             get {
                 return ResourceManager.GetString("NoCardLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No more face-up cards.
+        /// </summary>
+        internal static string NoMoreFaceupCards {
+            get {
+                return ResourceManager.GetString("NoMoreFaceupCards", resourceCulture);
             }
         }
         
@@ -1317,20 +1407,20 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show screen reader buttons:.
-        /// </summary>
-        internal static string ShowScreenReaderAnnouncementButtonsCheckboxLabel {
-            get {
-                return ResourceManager.GetString("ShowScreenReaderAnnouncementButtonsCheckboxLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show buttons to have a screen reader announce the state of the entire game, and the moves currently available..
         /// </summary>
         internal static string ShowScreenReaderAnnouncementButtonsInstructions {
             get {
                 return ResourceManager.GetString("ShowScreenReaderAnnouncementButtonsInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show screen reader buttons:.
+        /// </summary>
+        internal static string ShowScreenReaderAnnouncementButtonsSwitchLabel {
+            get {
+                return ResourceManager.GetString("ShowScreenReaderAnnouncementButtonsSwitchLabel", resourceCulture);
             }
         }
         

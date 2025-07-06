@@ -5,24 +5,34 @@ using System.ComponentModel;
 
 namespace Sa11ytaire4All.Source
 {
+    public enum NextCardPileState
+    {
+        Finished,
+        Empty,
+        Active
+    }
+
     public class NextCardPileButton : ImageButton, INotifyPropertyChanged
     {
         public NextCardPileButton()
         {
         }
 
-        private bool isEmpty = false;
-        public bool IsEmpty
+        private NextCardPileState state = NextCardPileState.Active;
+        public NextCardPileState State
         {
             get
             {
-                return this.isEmpty;
+                return this.state;
             }
             set
             {
-                this.isEmpty = value;
+                if (this.state != value)
+                {
+                    this.state = value;
 
-                this.OnPropertyChanged("IsEmpty");
+                    this.OnPropertyChanged("State");
+                }
             }
         }
     }

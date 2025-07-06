@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.16</value>
+    <value>Accessible Solitaire V2.17</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -293,7 +293,7 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="ShowScreenReaderAnnouncementButtons" xml:space="preserve">
     <value>Screen Reader Announcements</value>
   </data>
-  <data name="ShowScreenReaderAnnouncementButtonsCheckboxLabel" xml:space="preserve">
+  <data name="ShowScreenReaderAnnouncementButtonsSwitchLabel" xml:space="preserve">
     <value>Show screen reader buttons:</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtonsInstructions" xml:space="preserve">
@@ -365,7 +365,7 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="AllowSelectionByFaceDownCardInstructions" xml:space="preserve">
     <value>Check this option if you'd like to tap any face-down card in a dealt card pile to select the nearest face-up card in the same pile.</value>
   </data>
-  <data name="AllowSelectionByFaceDownCardCheckboxLabel" xml:space="preserve">
+  <data name="AllowSelectionByFaceDownCardSwitchLabel" xml:space="preserve">
     <value>Select via face-down card:</value>
   </data>
   <data name="AllowSelectionByFaceDownCardButtonLabel" xml:space="preserve">
@@ -419,7 +419,7 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="ExtendDealtCardHitTarget" xml:space="preserve">
     <value>Extend dealt card hit target</value>
   </data>
-  <data name="ExtendDealtCardHitTargetCheckboxLabel" xml:space="preserve">
+  <data name="ExtendDealtCardHitTargetSwitchLabel" xml:space="preserve">
     <value>Extend hit target:</value>
   </data>
   <data name="ExtendDealtCardHitTargetInstructions" xml:space="preserve">
@@ -619,5 +619,35 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="LightCoral" xml:space="preserve">
     <value>Light Coral</value>
+  </data>
+  <data name="HintBottommostFaceupCard" xml:space="preserve">
+    <value>bottommost face-up card is</value>
+  </data>
+  <data name="AddHintToTopmostCardSwitchLabel" xml:space="preserve">
+    <value>Add hint:</value>
+  </data>
+  <data name="AddHintToTopmostCard" xml:space="preserve">
+    <value>Dealt card pile hint</value>
+  </data>
+  <data name="AddHintToTopmostCardInstructions" xml:space="preserve">
+    <value>Add a hint on the topmost card in a dealt card pile saying which card is the bottommost face-up card in that pile.</value>
+  </data>
+  <data name="IncludeFacedownCardsInAnnouncement" xml:space="preserve">
+    <value>Announce face-down card details</value>
+  </data>
+  <data name="IncludeFacedownCardsInAnnouncementSwitchLabel" xml:space="preserve">
+    <value>Announce face-down cards:</value>
+  </data>
+  <data name="IncludeFacedownCardsInAnnouncementInstructions" xml:space="preserve">
+    <value>By default, when the state of the dealt card piles is announced by a screen reader, the names of the face-down cards in each pile are not included. Use this setting to include the names of face-down cards in the announcement.</value>
+  </data>
+  <data name="Deselected" xml:space="preserve">
+    <value>Deselected</value>
+  </data>
+  <data name="NextCardPile_FinishedCards" xml:space="preserve">
+    <value>All cards have been used</value>
+  </data>
+  <data name="NoMoreFaceupCards" xml:space="preserve">
+    <value>No more face-up cards</value>
   </data>
 </root>

@@ -44,8 +44,8 @@
         <local_views:CardWidthToHamburgerWidthConverter x:Key="CardWidthToHamburgerWidthConverter" />
         <local_views:CardDimensionsToHamburgerHeightConverter x:Key="CardDimensionsToHamburgerHeightConverter" />
         <local_views:IsObscuredCardToMargin x:Key="IsObscuredCardToMargin" />
-        <local_views:NextCardIsEmptyToImageConverter x:Key="NextCardIsEmptyToImageConverter" />
-        <local_views:NextCardIsEmptyToAccessibleName x:Key="NextCardIsEmptyToAccessibleName" />
+        <local_views:NextCardPileStateToImageConverter x:Key="NextCardPileStateToImageConverter" />
+        <local_views:NextCardPileStateToAccessibleName x:Key="NextCardPileStateToAccessibleName" />
         <local_views:CardWidthToTargetCardWidthConverter x:Key="CardWidthToTargetCardWidthConverter" />
 
         <!-- The following converters relate to the merging of face-down dealt cards.  -->
@@ -107,7 +107,9 @@
                 AutomationProperties.IsInAccessibleTree="{Binding CardIsInAccessibleTree}"
                 SemanticProperties.Description="{Binding BindingContext.AccessibleName, Mode=OneWay, 
                     Source={RelativeSource Self}}"
-                    Padding="0" Margin="0">
+                SemanticProperties.Hint="{Binding BindingContext.AccessibleHint, Mode=OneWay, 
+                    Source={RelativeSource Self}}"
+                Padding="0" Margin="0">
                 <FlyoutBase.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem 
@@ -588,10 +590,10 @@
                         AutomationId="NextCardButton"
                         Clicked="NextCard_Click"
                         BackgroundColor="{AppThemeBinding Light=#0ED145, Dark=#0BA938}"
-                        SemanticProperties.Description="{Binding IsEmpty, Mode=OneWay, 
+                        SemanticProperties.Description="{Binding State, Mode=OneWay, 
                             Source={RelativeSource Self}, 
                             x:DataType={x:Type local_source:NextCardPileButton},
-                            Converter={StaticResource NextCardIsEmptyToAccessibleName}}"
+                            Converter={StaticResource NextCardPileStateToAccessibleName}}"
                         CornerRadius="0"
                         Margin="0" Padding="0"
                         BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
@@ -600,10 +602,10 @@
                         WidthRequest="{Binding 
                             Path=CardWidth}"
                         Aspect="Fill"
-                        Source="{Binding IsEmpty, Mode=OneWay, 
+                        Source="{Binding State, Mode=OneWay, 
                             Source={RelativeSource Self}, 
                             x:DataType={x:Type local_source:NextCardPileButton},
-                            Converter={StaticResource NextCardIsEmptyToImageConverter}}">
+                            Converter={StaticResource NextCardPileStateToImageConverter}}">
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>

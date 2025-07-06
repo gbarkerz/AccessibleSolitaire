@@ -88,9 +88,23 @@ namespace Sa11ytaire4All
 
             SetUpturnedCardsVisuals();
 
-            NextCardDeck.IsEmpty = (_deckRemaining.Count == 0);
+            NextCardDeck.State = GetNextCardPileState();
 
             MakeDelayedScreenReaderAnnouncement(screenReaderAnnouncement);
+        }
+
+        private NextCardPileState GetNextCardPileState()
+        {
+            NextCardPileState state = NextCardPileState.Active;
+
+            if (_deckRemaining.Count == 0)
+            {
+                state = (CardDeckUpturned.Card == null ?
+                            NextCardPileState.Finished :
+                            NextCardPileState.Empty);
+            }
+
+            return state;
         }
 
         private DateTime timePreviousClickUpturnedButton = DateTime.Now;

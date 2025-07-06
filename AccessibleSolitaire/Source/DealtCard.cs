@@ -1,12 +1,9 @@
 ﻿// Copyright(c) Guy Barker. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
-
-#if (IOS || Android)
 using Sa11ytaire4All.ViewModels;
-#endif
+using System.Diagnostics;
 
 namespace Sa11ytaire4All.Source
 {
@@ -115,9 +112,9 @@ namespace Sa11ytaire4All.Source
                             MainPage.MyGetString("DealtCardPile");
                 }
 
-#if ANDROID
-                // (26th June 2025) TalkBack now automatically includes the m of n in its announcement despite 
-                // never doing so before. So do not manually add the m of n ourselves here on Android.
+#if ANDROID || WINDOWS
+                // (July 2025) TalkBack and NVDA now automatically includes the m of n in its announcement 
+                // despite never doing so before. So do not manually add the m of n ourselves here on Android.
                 addMofN = false;
 #endif
 
@@ -138,6 +135,62 @@ namespace Sa11ytaire4All.Source
                 //Debug.WriteLine("DealtCard AccessibleName: " + name);
 
                 return name;
+            }
+        }
+
+        public string? AccessibleHint
+        {
+            get
+            {
+                if (MainPage.MainPageSingleton != null)
+                {
+                    // Check that the setting for adding the hint is on.
+                    var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+                    if ((vm == null) || (!vm.AddHintToTopmostCard))
+                    {
+                        return null;
+                    }
+                }
+
+                string? hint = null;
+
+                // If we want the card to be removed from the accessibility tree, it must have
+                // no accessible hint.
+                if (this.CardIsInAccessibleTree)
+                {
+                    // Only add a hint to the topmost card as that must be face-up unless its an empty placeholder.
+                    if (!this.FaceDown && this.IsLastCardInPile && (this.CardState != CardState.KingPlaceHolder))
+                    {
+                        var collectionView = MainPage.FindCollectionView(this);
+                        if (collectionView != null)
+                        {
+                            var items = collectionView.ItemsSource;
+                            foreach (var item in items)
+                            {
+                                var dealtCard = item as DealtCard;
+                                if ((dealtCard != null) && (dealtCard.Card != null))
+                                {
+                                    if (!dealtCard.FaceDown)
+                                    {
+                                        if (dealtCard.IsLastCardInPile)
+                                        {
+                                            hint = MainPage.MyGetString("NoMoreFaceupCards");
+                                        }
+                                        else
+                                        {
+                                            hint = MainPage.MyGetString("HintBottommostFaceupCard") + " " +
+                                                        dealtCard.Card.GetCardAccessibleName();
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return hint;
             }
         }
 
@@ -452,6 +505,7 @@ namespace Sa11ytaire4All.Source
             if (this.Card != null)
             {
                 OnPropertyChanged("AccessibleName");
+                OnPropertyChanged("AccessibleHint");
             }
         }
 
@@ -461,6 +515,7 @@ namespace Sa11ytaire4All.Source
             {
                 OnPropertyChanged("CardIsInAccessibleTree");
                 OnPropertyChanged("AccessibleName");
+                OnPropertyChanged("AccessibleHint");
             }
         }
     }

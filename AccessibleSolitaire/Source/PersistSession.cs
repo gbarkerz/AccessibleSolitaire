@@ -85,7 +85,7 @@ namespace Sa11ytaire4All
                     }
                 }
 
-                NextCardDeck.IsEmpty = (_deckRemaining.Count == 0);
+                NextCardDeck.State = GetNextCardPileState();
 
                 var deckUpturnedJson = (string)Preferences.Get("DeckUpturnedSession", "");
                 if (!string.IsNullOrEmpty(deckUpturnedJson))

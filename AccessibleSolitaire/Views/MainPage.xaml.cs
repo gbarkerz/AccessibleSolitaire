@@ -56,6 +56,7 @@ namespace Sa11ytaire4All
 
         // These setting are not bound to any UI.
         private bool allowSelectionByFaceDownCard = false;
+        private bool includeFacedownCardsInAnnouncement = false;
         private bool playSoundSuccessfulMove = false;
         private bool playSoundUnsuccessfulMove = false;
         private bool playSoundOther = false;
@@ -344,7 +345,7 @@ namespace Sa11ytaire4All
                 {
                     Debug.WriteLine("OnTapGestureRecognizerTapped: Delay deselection of: " + dealtCard.AccessibleName);
 
-                    string announcement = "Deselected" + " " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                    string announcement = MyGetString("Deselected") + " " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
                     MakeDelayedScreenReaderAnnouncement(announcement);
 
                     // On Android, deselecting a card inside the tap handler seems not to work.
@@ -579,16 +580,24 @@ namespace Sa11ytaire4All
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
                 vm.MergeFaceDownCards = MainPage.GetMergeFaceDownCardsSetting();
 
-                // Refresh the accessibility of all cards if necessary.
-                if (vm.MergeFaceDownCards != previousMergeFaceDownCards)
-                {
-                    RefreshAllDealtCardPileCardIsInAccessibleTree();
-                }
-
                 vm.FlipGameLayoutHorizontally = (bool)Preferences.Get("FlipGameLayoutHorizontally", false);
+
+                // Screen reader-related settings.
 
                 vm.ShowScreenReaderAnnouncementButtons = (bool)Preferences.Get("ShowScreenReaderAnnouncementButtons", false);
                 ScreenReaderAnnouncementButtons.IsVisible = vm.ShowScreenReaderAnnouncementButtons;
+
+                var previousAddHintToTopmostCard = vm.AddHintToTopmostCard;
+                vm.AddHintToTopmostCard = (bool)Preferences.Get("AddHintToTopmostCard", false);
+
+                includeFacedownCardsInAnnouncement = (bool)Preferences.Get("IncludeFacedownCardsInAnnouncement", false);
+
+                // Refresh the accessibility of all cards if necessary.
+                if ((vm.AddHintToTopmostCard != previousAddHintToTopmostCard) ||
+                    (vm.MergeFaceDownCards != previousMergeFaceDownCards))
+                {
+                    RefreshAllDealtCardPileCardIsInAccessibleTree();
+                }
 
                 vm.ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
 
@@ -1064,7 +1073,7 @@ namespace Sa11ytaire4All
                     TimeSpan.FromMilliseconds(200),
                     TimeSpan.FromMilliseconds(Timeout.Infinite));
 
-            NextCardDeck.IsEmpty = false;
+            NextCardDeck.State = NextCardPileState.Active;
 
             if (screenReaderAnnouncement)
             {
@@ -1569,7 +1578,19 @@ namespace Sa11ytaire4All
                     {
                         if ((vm.DealtCards[i][j] as DealtCard).FaceDown)
                         {
-                            ++cFaceDown;
+                            if (includeFacedownCardsInAnnouncement)
+                            {
+                                var dealtCard = (vm.DealtCards[i][j] as DealtCard);
+                                if ((dealtCard != null) && (dealtCard.Card != null))
+                                {
+                                    stateMessage += ", " + MyGetString("FaceDown") + " " +
+                                                        dealtCard.Card.GetCardAccessibleName();
+                                }
+                            }
+                            else
+                            {
+                                ++cFaceDown;
+                            }
                         }
                         else
                         {

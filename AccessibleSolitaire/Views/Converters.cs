@@ -827,7 +827,7 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class NextCardIsEmptyToImageConverter : IValueConverter
+    public class NextCardPileStateToImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
@@ -841,11 +841,11 @@ namespace Sa11ytaire4All.Views
                 return null;
             }
 
-            bool isEmpty = (bool)value;
+            NextCardPileState state = (NextCardPileState)value;
 
             string cardAsset;
 
-            if (isEmpty)
+            if (state != NextCardPileState.Active)
             {
                 cardAsset = "EmptyDealtCardPile";
             }
@@ -868,19 +868,29 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class NextCardIsEmptyToAccessibleName : IValueConverter
+    public class NextCardPileStateToAccessibleName : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value == null)
             {
-                return false;
+                return NextCardPileState.Active;
             }
 
-            bool isEmpty = (bool)value;
+            NextCardPileState state = (NextCardPileState)value;
 
-            return MainPage.MyGetString(
-                isEmpty ? "NextCardPile_TurnOverCards" : "NextCardPile_NextCard");
+            var stateStringId = "NextCardPile_NextCard";
+
+            if (state == NextCardPileState.Empty)
+            {
+                stateStringId = "NextCardPile_TurnOverCards";
+            }
+            else if (state == NextCardPileState.Finished)
+            {
+                stateStringId = "NextCardPile_FinishedCards";
+            }
+
+            return MainPage.MyGetString(stateStringId);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
