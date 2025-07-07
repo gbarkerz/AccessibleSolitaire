@@ -621,7 +621,7 @@ Z: Show card zoom popup.</value>
     <value>Light Coral</value>
   </data>
   <data name="HintBottommostFaceupCard" xml:space="preserve">
-    <value>bottommost face-up card is</value>
+    <value>first face-up card is</value>
   </data>
   <data name="AddHintToTopmostCardSwitchLabel" xml:space="preserve">
     <value>Add hint:</value>

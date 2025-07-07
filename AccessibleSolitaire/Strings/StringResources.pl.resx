@@ -621,33 +621,33 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>Jasnoczerwony</value>
   </data>
   <data name="HintBottommostFaceupCard" xml:space="preserve">
-    <value />
+    <value>Pierwszą odkrytą kartą jest</value>
   </data>
   <data name="AddHintToTopmostCardSwitchLabel" xml:space="preserve">
-    <value />
+    <value>Dodaj wskazówkę:</value>
   </data>
   <data name="AddHintToTopmostCard" xml:space="preserve">
-    <value />
+    <value>Wskazówka dotycząca rozdanych stosów kart</value>
   </data>
   <data name="AddHintToTopmostCardInstructions" xml:space="preserve">
-    <value />
+    <value>Do informacji o górnej karcie w rozdanym stosie kart dodaj podpowiedź, jaka karta jest pierwszą odkrytą kartą w tym stosie.</value>
   </data>
   <data name="IncludeFacedownCardsInAnnouncement" xml:space="preserve">
-    <value />
+    <value>Ogłaszaj szczegóły zakrytej karty</value>
   </data>
   <data name="IncludeFacedownCardsInAnnouncementSwitchLabel" xml:space="preserve">
-    <value />
+    <value>Ogłoś zakryte karty:</value>
   </data>
   <data name="IncludeFacedownCardsInAnnouncementInstructions" xml:space="preserve">
-    <value />
+    <value>Domyślnie, gdy stan stosów kart rozdanych jest anonsowany przez czytnik ekranu, nazwy zakrytych kart w każdym stosie nie są uwzględniane. Użyj tego ustawienia, aby nazwy zakrytych kart były ogłaszane.</value>
   </data>
   <data name="Deselected" xml:space="preserve">
     <value>Niezaznaczone</value>
   </data>
   <data name="NextCardPile_FinishedCards" xml:space="preserve">
-    <value />
+    <value>Wszystkie karty zostały wykorzystane</value>
   </data>
   <data name="NoMoreFaceupCards" xml:space="preserve">
-    <value />
+    <value>Nie ma więcej odkrytych kart</value>
   </data>
 </root>

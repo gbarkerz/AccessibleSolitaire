@@ -1544,7 +1544,8 @@ namespace Sa11ytaire4All
 
             string empty = MyGetString("Empty");
             string pile = MyGetString("Pile");
-            string to = MyGetString("Card");
+            string to = MyGetString("To");
+            string card = MyGetString("Card");
             string cards = MyGetString("Cards");
             string facedown = MyGetString("FaceDown");
 
@@ -1607,8 +1608,9 @@ namespace Sa11ytaire4All
                 stateMessage += ", ";
 
                 if (cFaceDown > 0)
-                {                    stateMessage += cFaceDown + " " +
-                        (cFaceDown > 1 ? cards : to) + " " + facedown;
+                {                    
+                    stateMessage += cFaceDown + " " +
+                        (cFaceDown > 1 ? cards : card) + " " + facedown;
 
                     stateMessage += (i < cCardPiles - 1 ? ", " : ".");
                 }

@@ -792,7 +792,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to bottommost face-up card is.
+        ///   Looks up a localized string similar to first face-up card is.
         /// </summary>
         internal static string HintBottommostFaceupCard {
             get {
