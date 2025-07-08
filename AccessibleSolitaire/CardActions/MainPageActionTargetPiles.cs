@@ -217,7 +217,7 @@ namespace Sa11ytaire4All
 
                     cardButton.Card = cardAbove.Card;
 
-                    _deckUpturned.Remove(cardAbove.Card);
+                    RemoveDealtCardFromDealtCardList(_deckUpturned, cardAbove);
 
                     SetUpturnedCardsVisuals();
 
@@ -236,7 +236,7 @@ namespace Sa11ytaire4All
                         case 1:
                             suitPile = MainPage.MyGetString("DiamondsPile");
                             break;
-                            
+
                         case 2:
                             suitPile = MainPage.MyGetString("HeartsPile");
                             break;

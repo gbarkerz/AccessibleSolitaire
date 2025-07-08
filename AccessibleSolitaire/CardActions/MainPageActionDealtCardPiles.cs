@@ -149,7 +149,7 @@ namespace Sa11ytaire4All
                         cardUpturned.CurrentDealtCardPileIndex = listSelectedIndex;
                         cardUpturned.CurrentCardIndexInDealtCardPile = itemsAdded.Count - 1;
 
-                        _deckUpturned.Remove(cardUpturned.Card);
+                        RemoveDealtCardFromDealtCardList(_deckUpturned, cardUpturned);
 
                         SetUpturnedCardsVisuals();
 
@@ -263,7 +263,7 @@ namespace Sa11ytaire4All
                     cardAddedToPile.CurrentCardIndexInDealtCardPile = itemsAdded.Count - 1;
 
                     // Now remove the card from the upturned card pile.
-                    _deckUpturned.Remove(cardMoving.Card);
+                    RemoveDealtCardFromDealtCardList(_deckUpturned, cardMoving);
 
                     SetUpturnedCardsVisuals();
 
@@ -485,7 +485,7 @@ namespace Sa11ytaire4All
                         if (CanMoveCardToDealtCardPile(cardBelow, cardAbove))
                         {
                             // Move the card from the TargetPile to this CardPile list.
-                            listTargetPile.Remove(cardAbove.Card);
+                            RemoveDealtCardFromDealtCardList(listTargetPile, cardAbove);
 
                             if (listTargetPile.Count == 0)
                             {
@@ -934,7 +934,7 @@ namespace Sa11ytaire4All
                         var previousItemCount = listArray.Count;
 
                         var removedItem = listArray[previousItemCount - 1];
-                        items.Remove(removedItem);
+                        RemoveDealtCardFromDealtCardCollection(items, removedItem);
 
                         var updatedItemCount = previousItemCount - 1;
 
@@ -1003,7 +1003,7 @@ namespace Sa11ytaire4All
 
                             // Remove the last item in the list.
                             var removedItem = listArray[previousItemCount - 1];
-                            listArray.Remove(removedItem);
+                            RemoveDealtCardFromDealtCardCollection(listArray, removedItem);
 
                             var updatedItemCount = previousItemCount - 1;
 

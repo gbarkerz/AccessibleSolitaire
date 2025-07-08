@@ -1935,5 +1935,82 @@ namespace Sa11ytaire4All
 
             dealtCardPile.SelectedItem = null;
         }
+
+        private bool RemoveDealtCardFromDealtCardList(List<Card> collection, DealtCard? dealtCard)
+        {
+            bool removedOk = false;
+
+            if ((dealtCard == null) || (dealtCard.Card == null))
+            {
+                return false;
+            }
+
+            if ((collection == null) || (collection.Count == 0) || !collection.Contains(dealtCard.Card))
+            {
+                return false;
+            }
+
+            // Barker Todo: A NullReferenceException has been thrown when VoiceOver is running,
+            // and when rapidly selecting/deselecting dealt cards and moving an Ace from a dealt 
+            // card pile up to the target card pile. Until this is understood, catch any exceptions.
+            try
+            {
+                collection.Remove(dealtCard.Card);
+
+                removedOk = true;
+            }
+            catch (Exception ex)
+            {
+                // Based on a known exception during an attempt to remove a card, and a report
+                // of symptoms from a user, assume the card HAS been removed from the collection.
+
+                var debugString = "RemoveCardFromDealtCardList: " +
+                                    "Attempt to remove card from list: " +
+                                    ex;
+
+                Debug.WriteLine(debugString);
+
+                SentrySdk.CaptureMessage(debugString, SentryLevel.Debug);
+            }
+
+            return removedOk;
+        }
+
+        private bool RemoveDealtCardFromDealtCardCollection(ObservableCollection<DealtCard> collection, DealtCard? dealtCard)
+        {
+            bool removedOk = false;
+
+            if ((dealtCard == null) || (dealtCard.Card == null))
+            {
+                return false;
+            }
+
+            if ((collection == null) || (collection.Count == 0) || !collection.Contains(dealtCard))
+            {
+                return false;
+            }
+
+            try
+            {
+                collection.Remove(dealtCard);
+
+                removedOk = true;
+            }
+            catch (Exception ex)
+            {
+                // Based on a known exception during an attempt to remove a card, and a report
+                // of symptoms from a user, assume the card HAS been removed from the collection.
+
+                var debugString = "RemoveDealtCardFromDealtCardCollection: " +
+                                    "Attempt to remove dealt card from collection: " +
+                                    ex;
+
+                Debug.WriteLine(debugString);
+
+                SentrySdk.CaptureMessage(debugString, SentryLevel.Debug);
+            }
+
+            return removedOk;
+        }
     }
 }
