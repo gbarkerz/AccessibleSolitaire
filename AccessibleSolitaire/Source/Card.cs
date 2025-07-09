@@ -10,6 +10,13 @@ namespace Sa11ytaire4All.Source
         public Suit Suit { get; set; }
         public int Rank { get; set; }
 
+        public string GetSuitName()
+        {
+            var suitNameId = this.Suit.ToString();
+
+            return MainPage.MyGetString(suitNameId);
+        }
+
         public string GetCardAccessibleName()
         {
             string rank;

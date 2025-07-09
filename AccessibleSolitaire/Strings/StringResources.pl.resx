@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.18</value>
+    <value>Accessible Solitaire wersja V2.19</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
@@ -213,7 +213,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Pomoc Accessible Solitaire</value>
   </data>
   <data name="InDealtCardPile" xml:space="preserve">
-    <value>w rozdanym stosie kart</value>
+    <value>ze rozdanym stosie kart</value>
   </data>
   <data name="Jack" xml:space="preserve">
     <value>Walet</value>
@@ -649,5 +649,11 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
   </data>
   <data name="NoMoreFaceupCards" xml:space="preserve">
     <value>Nie ma więcej odkrytych kart</value>
+  </data>
+  <data name="VoiceOverScreenReaderWarning" xml:space="preserve">
+    <value>Uwaga! Dla prawidłowego działania powiadomień czytnika ekranu, funkcja Przełącz obszary dynamiczne i komunikaty, dostępna na Pokrętle VoiceOver, powinna być włączona.</value>
+  </data>
+  <data name="MoveAnnouncementInPile" xml:space="preserve">
+    <value>ze</value>
   </data>
 </root>

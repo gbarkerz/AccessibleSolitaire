@@ -71,7 +71,7 @@ namespace Sa11ytaire4All
             // Barker Note: If this ever does get translated, consider using formatted strings here, 
             // rather than concatenating all the various strings.
 
-            var inString = MyGetString("In");
+            var moveAnnouncementInPileString = MyGetString("MoveAnnouncementInPile");
             var onString = MyGetString("On");
             var upturnedCardPile = MyGetString("UpturnedCardPile");
             var targetCardPile = MyGetString("TargetCardPile");
@@ -158,7 +158,8 @@ namespace Sa11ytaire4All
                                         " " +
                                         onString + " " + dealtCardPile + " " + (d + 1).ToString() +
                                         " " + canBeMovedTo + " " +
-                                        suitTarget + " target card pile";
+                                        suitTarget + " " + 
+                                        MainPage.MyGetString("TargetCardPile");
                                 }
                             }
 
@@ -217,7 +218,7 @@ namespace Sa11ytaire4All
                                             }
 
                                             moveComment += sourceCard.AccessibleNameWithoutSelectionAndMofN +
-                                                " " + inString + " " + dealtCardPile + " " +
+                                                " " + moveAnnouncementInPileString + " " + dealtCardPile + " " +
                                                 localizedNumbers[s].ToString() +
                                                 " " + canBeMovedTo + " " + dealtCardPile + " " +
                                                 localizedNumbers[d].ToString();
@@ -277,25 +278,25 @@ namespace Sa11ytaire4All
 
             if (targetPile != null)
             {
-                var canMoveUpturnedCard = false;
+                var canMoveCard = false;
 
                 if (card.Card.Rank == 1)
                 {
                     // An Ace can always be moved to the target pile.
-                    canMoveUpturnedCard = true;
+                    canMoveCard = true;
                 }
                 else if (targetPile.Count > 0)
                 {
                     // We know the suits match, so check whether the ranks are consecutive.
                     if (card.Card.Rank == targetPile[targetPile.Count - 1].Rank + 1)
                     {
-                        canMoveUpturnedCard = true;
+                        canMoveCard = true;
                     }
                 }
 
-                if (canMoveUpturnedCard)
+                if (canMoveCard)
                 {
-                    suitTarget = card.Card.Suit.ToString();
+                    suitTarget = card.Card.GetSuitName();
                 }
             }
 

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.18</value>
+    <value>Accessible Solitaire V2.19</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -649,5 +649,11 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="NoMoreFaceupCards" xml:space="preserve">
     <value>No more face-up cards</value>
+  </data>
+  <data name="VoiceOverScreenReaderWarning" xml:space="preserve">
+    <value>Note: For screen reader's notifications to work properly, the Switch Dynamic Areas and Announcements feature, available on the VoiceOver rotor, must be turned on.</value>
+  </data>
+  <data name="MoveAnnouncementInPile" xml:space="preserve">
+    <value>in</value>
   </data>
 </root>

@@ -1,4 +1,3 @@
-
 namespace Sa11ytaire4All.Views;
 
 public partial class SettingsPage : ContentPage
@@ -11,6 +10,10 @@ public partial class SettingsPage : ContentPage
 #if IOS || ANDROID
         MergeFaceDownCardsHeading.IsVisible = true;
         MergeFaceDownCardsGrid.IsVisible = true;
+#endif
+
+#if IOS
+        VoiceOverScreenReaderWarning.IsVisible = true;
 #endif
 
         var pickers = new Picker[]{ 

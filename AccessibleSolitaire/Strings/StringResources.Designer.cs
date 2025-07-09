@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.18.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.19.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -1065,6 +1065,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to in.
+        /// </summary>
+        internal static string MoveAnnouncementInPile {
+            get {
+                return ResourceManager.GetString("MoveAnnouncementInPile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Moved.
         /// </summary>
         internal static string Moved {
@@ -1601,6 +1610,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string UpturnedCards {
             get {
                 return ResourceManager.GetString("UpturnedCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note: For screen reader&apos;s notifications to work properly, the Switch Dynamic Areas and Announcements feature, available on the VoiceOver rotor, must be turned on..
+        /// </summary>
+        internal static string VoiceOverScreenReaderWarning {
+            get {
+                return ResourceManager.GetString("VoiceOverScreenReaderWarning", resourceCulture);
             }
         }
         
