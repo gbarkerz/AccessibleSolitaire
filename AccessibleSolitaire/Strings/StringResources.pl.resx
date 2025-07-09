@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.11</value>
+    <value>Accessible Solitaire wersja V2.18</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
   </data>
   <data name="AllUpturnedCardsTurnedBack" xml:space="preserve">
-    <value>Przetasuj ponownie wszystkie odkryte karty</value>
+    <value>Karty przetasowano</value>
   </data>
   <data name="AnnounceState" xml:space="preserve">
-    <value>Czytnik ekranu informuje o stanie gry</value>
+    <value>Stan gry dla czytnika ekranu</value>
   </data>
   <data name="CanBeMovedTo" xml:space="preserve">
     <value>można przenieść na</value>
@@ -243,13 +243,13 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Brak karty</value>
   </data>
   <data name="NoCardLeft" xml:space="preserve">
-    <value>Brak kart w stosie pozostałych kart</value>
+    <value>Brak kolejnych kart w stosie</value>
   </data>
   <data name="NoMoveIsAvailable" xml:space="preserve">
     <value>Brak dostępnego ruchu</value>
   </data>
   <data name="ObscuredUpturnedCardCannotBeSelected" xml:space="preserve">
-    <value>Ta karta nie jest na szczycie odkrytego stosu kart i nie może zostać wybrana.</value>
+    <value>Ta karta nie jest na górze odkrytego stosu kart i nie może zostać wybrana.</value>
   </data>
   <data name="Of" xml:space="preserve">
     <value>z </value>
@@ -264,16 +264,16 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>ze</value>
   </data>
   <data name="OnTop" xml:space="preserve">
-    <value>Na szczycie</value>
+    <value>Na górze</value>
   </data>
   <data name="Pile" xml:space="preserve">
     <value>Stos</value>
   </data>
   <data name="Queen" xml:space="preserve">
-    <value>Królowa</value>
+    <value>Dama</value>
   </data>
   <data name="QueryRestartGame" xml:space="preserve">
-    <value>Czy na pewno chcesz ponownie uruchomić grę?</value>
+    <value>Czy na pewno chcesz ponownie rozdać karty?</value>
   </data>
   <data name="QueryRestartWonGame" xml:space="preserve">
     <value>Gratulacje, wygrywasz! Chcesz zacząć nową grę?</value>
@@ -282,7 +282,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Rozdaj karty ponownie</value>
   </data>
   <data name="Revealed" xml:space="preserve">
-    <value>Odkryta</value>
+    <value>Odkryto</value>
   </data>
   <data name="AccessibleSolitaire" xml:space="preserve">
     <value>Accessible Solitaire</value>
@@ -312,19 +312,19 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value> </value>
   </data>
   <data name="ThereAreNoUpturnedCards" xml:space="preserve">
-    <value>Nie pokazano żadnych odwróconych kart</value>
+    <value>Nie ma żadnych odkrytych kart</value>
   </data>
   <data name="To" xml:space="preserve">
     <value>na</value>
   </data>
   <data name="TopUpturnedCardIs" xml:space="preserve">
-    <value>Górną odwróconą kartą jest</value>
+    <value>Górną odkrytą kartą jest</value>
   </data>
   <data name="Unselected" xml:space="preserve">
     <value>Niezaznaczone</value>
   </data>
   <data name="UpturnedCards" xml:space="preserve">
-    <value>Odwrócone karty</value>
+    <value>Odkryte karty</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Tak</value>
@@ -339,7 +339,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Liczba odkrytych kart:</value>
   </data>
   <data name="KingsOnlyToEmptyPile" xml:space="preserve">
-    <value>Pusty stos rozdanych kart</value>
+    <value>Pusty stos</value>
   </data>
   <data name="KingsOnlyToEmptyPileInstructions" xml:space="preserve">
     <value>Dowolna karta może zostać przeniesiona na pusty stos rozdanych kart. Jeśli chcesz aby tylko Królowie mogli być przenoszeni na pusty stos kart, zaznacz tę opcję.</value>
@@ -366,7 +366,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Zaznacz tę opcję, jeśli chcesz stuknięciem w dowolną zakrytą kartę zaznaczyć najbliższą odkrytą kartę w stosie.</value>
   </data>
   <data name="AllowSelectionByFaceDownCardSwitchLabel" xml:space="preserve">
-    <value>Wybierz za pomocą odwróconej karty:</value>
+    <value>Wybierz za pomocą odkrytej karty:</value>
   </data>
   <data name="AllowSelectionByFaceDownCardButtonLabel" xml:space="preserve">
     <value>Zaznacz wybrany zestaw kart:</value>
@@ -492,7 +492,7 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>Docelowy stos kart</value>
   </data>
   <data name="UpturnedCardPile" xml:space="preserve">
-    <value>Odwrócony stos kart</value>
+    <value>Odkrytego stosu kart</value>
   </data>
   <data name="In" xml:space="preserve">
     <value>w</value>
@@ -513,7 +513,7 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>Zapisz stan gry:</value>
   </data>
   <data name="CelebrationExperience" xml:space="preserve">
-    <value>Świętowanie wygranej</value>
+    <value>Celebrowanie wygranej</value>
   </data>
   <data name="CelebrationExperienceVisual" xml:space="preserve">
     <value>Efekty wizualne</value>
@@ -534,7 +534,7 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>Użyj tego ustawienia, aby odtworzyć dźwięk informujący o wygranej w grze.</value>
   </data>
   <data name="AnnounceAvailableMoves" xml:space="preserve">
-    <value>Czytnik ekranu informuje o dostępnych ruchach</value>
+    <value>Dostępne ruchy dla czytnika ekranu</value>
   </data>
   <data name="1" xml:space="preserve">
     <value>1</value>

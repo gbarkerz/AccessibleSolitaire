@@ -1562,6 +1562,8 @@ namespace Sa11ytaire4All
                     break;
                 }
 
+                var faceDownMessage = "";
+
                 for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                 {
                     if (j == vm.DealtCards[i].Count - 1)
@@ -1584,8 +1586,8 @@ namespace Sa11ytaire4All
                                 var dealtCard = (vm.DealtCards[i][j] as DealtCard);
                                 if ((dealtCard != null) && (dealtCard.Card != null))
                                 {
-                                    stateMessage += ", " + MyGetString("FaceDown") + " " +
-                                                        dealtCard.Card.GetCardAccessibleName();
+                                    faceDownMessage += MyGetString("FaceDown") + " " +
+                                                        dealtCard.Card.GetCardAccessibleName() + ", ";
                                 }
                             }
                             else
@@ -1607,8 +1609,12 @@ namespace Sa11ytaire4All
 
                 stateMessage += ", ";
 
-                if (cFaceDown > 0)
-                {                    
+                if (!string.IsNullOrEmpty(faceDownMessage))
+                {
+                    stateMessage += faceDownMessage;
+                }
+                else  if (cFaceDown > 0)
+                {
                     stateMessage += cFaceDown + " " +
                         (cFaceDown > 1 ? cards : card) + " " + facedown;
 
