@@ -16,11 +16,10 @@ namespace Sa11ytaire4All.Source
     public partial class DealtCard : ObservableObject
     {
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
-        private int currentCardIndexInDealtCardPile;
+        public partial int CurrentCardIndexInDealtCardPile { get; set; }
 
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
-        private int currentDealtCardPileIndex;
-
+        public partial int CurrentDealtCardPileIndex { get; set; }
 
         public CardIndices CurrentCardIndices
         {
@@ -34,13 +33,15 @@ namespace Sa11ytaire4All.Source
             }
         }
 
-        [ObservableProperty] private Card? card;
+        [ObservableProperty] 
+        public partial Card? Card { get; set; }
 
-        [ObservableProperty] private CardState cardState;
+        [ObservableProperty] 
+        public partial CardState CardState { get; set; }
 
         // Barker Future: Remove FaceDown and replace with use of CardState only.
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CardIsInAccessibleTree))]
-        private bool faceDown;
+        public partial bool FaceDown { get; set; }
 
         public string AccessibleNameWithoutSelectionAndMofN
         {
@@ -225,10 +226,11 @@ namespace Sa11ytaire4All.Source
             }
         }
 
-        [ObservableProperty] private bool isLastCardInPile;
+        [ObservableProperty] 
+        public partial bool IsLastCardInPile { get; set; }
 
         [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
-        private bool cardSelected;
+        public partial bool CardSelected { get; set; }
 
         public ImageSource? FaceupDealtCardImageSource
         {
@@ -466,9 +468,10 @@ namespace Sa11ytaire4All.Source
         }
 
         [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
-        private bool inSelectedSet;
+        public partial bool InSelectedSet { get; set; }
 
-        [ObservableProperty] private int countFaceDownCardsInPile;
+        [ObservableProperty] 
+        public partial int CountFaceDownCardsInPile { get; set; }
 
         public void RefreshVisuals()
         {

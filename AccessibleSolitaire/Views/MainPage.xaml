@@ -105,10 +105,8 @@
 
             <VerticalStackLayout
                 AutomationProperties.IsInAccessibleTree="{Binding CardIsInAccessibleTree}"
-                SemanticProperties.Description="{Binding BindingContext.AccessibleName, Mode=OneWay, 
-                    Source={RelativeSource Self}}"
-                SemanticProperties.Hint="{Binding BindingContext.AccessibleHint, Mode=OneWay, 
-                    Source={RelativeSource Self}}"
+                SemanticProperties.Description="{Binding AccessibleName}"
+                SemanticProperties.Hint="{Binding AccessibleHint}"
                 Padding="0" Margin="0">
                 <FlyoutBase.ContextFlyout>
                     <MenuFlyout>
@@ -147,23 +145,22 @@
                             <Binding Path="IsLastCardInPile" />
                             <Binding Path="FaceDown" />
                             <Binding Path="CurrentCardIndexInDealtCardPile" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.MergeFaceDownCards" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="MergeFaceDownCards" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Width" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext" />
                             <Binding Path="CurrentDealtCardPileIndex" />
                             <Binding Source="{x:Reference MainPageInstance}" 
                                 x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.ExtendDealtCardHitTarget" />
+                                Path="BindingContext" />
                         </MultiBinding>
                     </Border.WidthRequest>
                     
@@ -173,12 +170,14 @@
                             <Binding Path="IsLastCardInPile" />
                             <Binding Path="FaceDown" />
                             <Binding Path="CurrentCardIndexInDealtCardPile" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.MergeFaceDownCards" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="MergeFaceDownCards" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </Border.HeightRequest>
 
@@ -191,9 +190,10 @@
                             <Binding Path="IsLastCardInPile" />
                             <Binding Path="FaceDown" />
                             <Binding Path="CurrentCardIndexInDealtCardPile" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.MergeFaceDownCards" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="MergeFaceDownCards" />
                         </MultiBinding>
                     </Border.IsVisible>
 
@@ -224,8 +224,10 @@
                             VerticalOptions="{Binding FaceDown, Mode=OneWay, ConverterParameter=1,
                                 Converter={StaticResource ConverterForDealtCardLabelHorizontalOptions}}"
                             Margin="2,0,0,0"
-                            Padding="{Binding Path=BindingContext.CardHeight, 
-                                Source={x:Reference MainPageInstance}, x:DataType=local:MainPage,
+                            Padding="{Binding 
+                                Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                x:DataType={x:Type vm:DealtCardViewModel},
+                                Path=CardHeight,
                                 Converter={StaticResource MergedToLabelPaddingConverter}}"
                             FontAutoScalingEnabled="False"
                             FontAttributes="Bold"
@@ -242,9 +244,10 @@
                                     Converter="{StaticResource FaceDownCountLabelToIsVisibleConverter}">
                                     <Binding Path="FaceDown" />
                                     <Binding Path="CurrentCardIndexInDealtCardPile" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.MergeFaceDownCards" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="MergeFaceDownCards" />
                                 </MultiBinding>
                             </Label.IsVisible>
                         </Label>
@@ -296,18 +299,20 @@
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.CardWidth" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="CardWidth" />
                                 </MultiBinding>
                             </Image.WidthRequest>
                             <Image.HeightRequest>
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardHeightSelectedToCardImageHeight}">
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.CardHeight" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="CardHeight" />
                                 </MultiBinding>
                             </Image.HeightRequest>
 
@@ -316,9 +321,10 @@
                                     Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
                                     <Binding Path="IsLastCardInPile" />
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="ExtendDealtCardHitTarget" />
                                 </MultiBinding>
                             </Image.HorizontalOptions>
                             <Image.VerticalOptions>
@@ -326,9 +332,10 @@
                                     Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
                                     <Binding Path="IsLastCardInPile" />
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="ExtendDealtCardHitTarget" />
                                 </MultiBinding>
                             </Image.VerticalOptions>
                         </Image>
@@ -344,18 +351,20 @@
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.CardWidth" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="CardWidth" />
                                 </MultiBinding>
                             </Image.WidthRequest>
                             <Image.HeightRequest>
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardHeightSelectedToCardImageHeight}">
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.CardHeight" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="CardHeight" />
                                 </MultiBinding>
                             </Image.HeightRequest>
                             <Image.HorizontalOptions>
@@ -363,9 +372,10 @@
                                     Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
                                     <Binding Path="IsLastCardInPile" />
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="ExtendDealtCardHitTarget" />
                                 </MultiBinding>
                             </Image.HorizontalOptions>
                             <Image.VerticalOptions>
@@ -373,9 +383,10 @@
                                     Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
                                     <Binding Path="IsLastCardInPile" />
                                     <Binding Path="CardSelected" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ExtendDealtCardHitTarget" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="ExtendDealtCardHitTarget" />
                                 </MultiBinding>
                             </Image.VerticalOptions>
                         </Image>
@@ -461,9 +472,10 @@
                                     Converter="{StaticResource CardDimensionsToHamburgerHeightConverter}">
                                 <Binding Path="CardWidth" />
                                 <Binding Path="CardHeight" />
-                                <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ShowScreenReaderAnnouncementButtons" />
+                                <Binding 
+                                    Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                    x:DataType="{x:Type vm:DealtCardViewModel}"
+                                    Path="ShowScreenReaderAnnouncementButtons" />
                             </MultiBinding>
                         </ImageButton.HeightRequest>
                         <VisualStateManager.VisualStateGroups>
@@ -506,9 +518,10 @@
                                     Converter="{StaticResource CardDimensionsToHamburgerHeightConverter}">
                                     <Binding Path="CardWidth" />
                                     <Binding Path="CardHeight" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ShowScreenReaderAnnouncementButtons" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="ShowScreenReaderAnnouncementButtons" />
                                 </MultiBinding>
                             </ImageButton.HeightRequest>
                             <VisualStateManager.VisualStateGroups>
@@ -547,9 +560,10 @@
                                     Converter="{StaticResource CardDimensionsToHamburgerHeightConverter}">
                                     <Binding Path="CardWidth" />
                                     <Binding Path="CardHeight" />
-                                    <Binding Source="{x:Reference MainPageInstance}" 
-                                        x:DataType="{x:Type local:MainPage}"
-                                        Path="BindingContext.ShowScreenReaderAnnouncementButtons" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                        x:DataType="{x:Type vm:DealtCardViewModel}"
+                                        Path="ShowScreenReaderAnnouncementButtons" />
                                 </MultiBinding>
                             </ImageButton.HeightRequest>
                             <VisualStateManager.VisualStateGroups>
@@ -654,13 +668,15 @@
                                     Converter={StaticResource IsCardButtonCardToIsEnabled}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                 Padding="0"
-                                LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                    Source={x:Reference MainPageInstance},
-                                    x:DataType={x:Type local:MainPage},
+                                LongPressZoomDuration="{Binding Mode=OneWay, 
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                    x:DataType={x:Type vm:DealtCardViewModel},
+                                    Path=LongPressZoomDuration,
                                     Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                                Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
-                                    Source={x:Reference MainPageInstance},
-                                    x:DataType={x:Type local:MainPage},
+                                Margin="{Binding 
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                    x:DataType={x:Type vm:DealtCardViewModel},
+                                    Path=CardWidth,
                                     Converter={StaticResource IsObscuredCardToMargin}}" />
 
                             <local_views:CardButton Grid.Column="1" Style="{StaticResource CardButtonStyle}"
@@ -671,21 +687,24 @@
                                     Converter={StaticResource IsCardButtonCardToIsEnabled}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                 Padding="0"
-                                LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                    Source={x:Reference MainPageInstance},
-                                    x:DataType={x:Type local:MainPage},
+                                LongPressZoomDuration="{Binding Mode=OneWay, 
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                    x:DataType={x:Type vm:DealtCardViewModel},
+                                    Path=LongPressZoomDuration,
                                     Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                                Margin="{Binding Path=BindingContext.CardWidth, Mode=OneWay,
-                                    Source={x:Reference MainPageInstance},
-                                    x:DataType={x:Type local:MainPage},
+                                Margin="{Binding 
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                    x:DataType={x:Type vm:DealtCardViewModel},
+                                    Path=CardWidth,
                                     Converter={StaticResource IsObscuredCardToMargin}}" />
 
                             <local_views:CardButton Grid.Column="2" Style="{StaticResource CardButtonStyle}"
                                 Margin="0" Padding="0"
                                 x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
-                                LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                                    Source={x:Reference MainPageInstance},
-                                    x:DataType={x:Type local:MainPage},
+                                LongPressZoomDuration="{Binding Mode=OneWay, 
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                    x:DataType={x:Type vm:DealtCardViewModel},
+                                    Path=LongPressZoomDuration,
                                     Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
 
@@ -715,9 +734,10 @@
                         IsEnabled="True"
                         BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="8,0,2,0" Padding="0"
-                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                            Source={x:Reference MainPageInstance},
-                            x:DataType={x:Type local:MainPage},
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileC" AutomationId="TargetPileC" />
 
@@ -725,9 +745,10 @@
                         IsEnabled="True"
                         BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="0,0,2,0" Padding="0"
-                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                            Source={x:Reference MainPageInstance},
-                            x:DataType={x:Type local:MainPage},
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileD" AutomationId="TargetPileD" />
 
@@ -735,9 +756,10 @@
                         IsEnabled="True"
                         BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="0,0,2,0" Padding="0"
-                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                            Source={x:Reference MainPageInstance},
-                            x:DataType={x:Type local:MainPage},
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileH" AutomationId="TargetPileH" />
 
@@ -745,9 +767,10 @@
                         IsEnabled="True"
                         BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                         Margin="0,0,8,0" Padding="0"
-                        LongPressZoomDuration="{Binding Path=BindingContext.LongPressZoomDuration, Mode=OneWay,
-                            Source={x:Reference MainPageInstance},
-                            x:DataType={x:Type local:MainPage},
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileS" AutomationId="TargetPileS" />
 
@@ -802,19 +825,20 @@
                     
                 <!-- Barker: Replace all the duplicated WidthRequest and HeightRequest MultiBinding below 
                     and add it to the CollectionView styling. -->
-                    
+
                 <CollectionView x:Name="CardPile1" AutomationId="CardPile1"
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards1}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
                     SelectionChanged="CardPile_SelectionChanged">
-                        
+
                     <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
@@ -829,9 +853,10 @@
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Height" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </CollectionView.HeightRequest>
                 </CollectionView>
@@ -845,9 +870,10 @@
                     <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
@@ -862,9 +888,10 @@
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Height" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </CollectionView.HeightRequest>
                 </CollectionView>
@@ -878,9 +905,10 @@
                     <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
@@ -895,9 +923,10 @@
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Height" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </CollectionView.HeightRequest>
                 </CollectionView>
@@ -911,9 +940,10 @@
                     <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
@@ -928,9 +958,10 @@
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Height" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </CollectionView.HeightRequest>
                 </CollectionView>
@@ -940,13 +971,14 @@
                     ItemsSource="{Binding DealtCards5}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
                     SelectionChanged="CardPile_SelectionChanged">
-                        
+
                     <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
@@ -961,9 +993,10 @@
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Height" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </CollectionView.HeightRequest>
                 </CollectionView>
@@ -977,9 +1010,10 @@
                     <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
@@ -994,9 +1028,10 @@
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Height" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </CollectionView.HeightRequest>
                 </CollectionView>
@@ -1010,9 +1045,10 @@
                     <CollectionView.WidthRequest>
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardWidth" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardWidth" />
                             <Binding 
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
@@ -1027,9 +1063,10 @@
                                 Source="{x:Reference CardPileGrid}"
                                 x:DataType="Grid"
                                 Path="Height" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext.CardHeight" />
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                x:DataType="{x:Type vm:DealtCardViewModel}"
+                                Path="CardHeight" />
                         </MultiBinding>
                     </CollectionView.HeightRequest>
                 </CollectionView>

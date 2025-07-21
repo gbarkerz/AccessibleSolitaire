@@ -68,7 +68,7 @@ namespace Sa11ytaire4All
                     // The DSN is the only required setting.
 
                     // Barker: This Dsn is copied from the Sentry project Client Keys page.
-                    options.Dsn = <Insert Dsn here.>;
+                    options.Dsn = < Insert Dsn here.>;
 
                     // Use debug mode if you want to see what the SDK is doing.
                     // Debug messages are written to stdout with Console.Writeline,
@@ -109,7 +109,7 @@ namespace Sa11ytaire4All
 
             if (e.Key == Windows.System.VirtualKey.Z)
             {
-                SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: Z", SentryLevel.Info);
+                //SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: Z", SentryLevel.Info);
 
                 // Note: Context menus seem to appear in response to a right click, but not in response
                 // to a press of the Context Menu key (VirtualKey.Application). So add a shortcut to 

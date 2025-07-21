@@ -475,6 +475,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close menu.
+        /// </summary>
+        internal static string CloseMenu {
+            get {
+                return ResourceManager.GetString("CloseMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clubs.
         /// </summary>
         internal static string Clubs {
@@ -900,7 +909,7 @@ namespace Sa11ytaire4All.Strings {
         ///T: Screen reader announce target card piles.
         ///D: Screen reader announce dealt card piles.
         ///
-        ///H: Show full help content in Facebook.
+        ///H: Show full help content.
         ///N: Click Next Card button.
         ///R: Restart game.
         ///Z: Show card zoom popup..

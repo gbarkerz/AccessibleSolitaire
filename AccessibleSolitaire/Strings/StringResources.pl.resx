@@ -477,7 +477,7 @@ U: Czytnik ekranu ogłasza wierzchnie odkryte karty.
 T: Czytnik ekranu ogłasza docelowe stosy kart.
 D: Czytnik ekranu ogłasza rozdane stosy kart.
 
-H: Pokaż pełną treść pomocy na Facebooku.
+H: Pokaż pełną treść pomocy.
 N: Kliknij przycisk Następna karta.
 R: Uruchom ponownie grę.
 Z: Pokaż wyskakujące okienko powiększenia karty.</value>
@@ -655,5 +655,8 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
   </data>
   <data name="MoveAnnouncementInPile" xml:space="preserve">
     <value>ze</value>
+  </data>
+  <data name="CloseMenu" xml:space="preserve">
+    <value />
   </data>
 </root>

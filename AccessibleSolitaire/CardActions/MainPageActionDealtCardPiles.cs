@@ -38,7 +38,7 @@ namespace Sa11ytaire4All
         }
 
         // The selection state of one of the card in the Dealt Card piles has changed.
-        private void CardPile_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void CardPile_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var listSelectionChanged = sender as CollectionView;
             if (listSelectionChanged == null)
@@ -51,7 +51,7 @@ namespace Sa11ytaire4All
                 // Only take action when a card has been selected.
                 if ((e.CurrentSelection == null) || (e.CurrentSelection.Count == 0))
                 {
-                    Debug.WriteLine("CardPile_SelectionChanged: No selection in " + listSelectionChanged.AutomationId);
+                    //Debug.WriteLine("CardPile_SelectionChanged: No selection in " + listSelectionChanged.AutomationId);
 
                     // A card is being deselected, so we must make sure no selection feedback is
                     // left showing on the cards. At most only one card can currently be selected.
@@ -82,7 +82,36 @@ namespace Sa11ytaire4All
                     return;
                 }
 
-                Debug.WriteLine("CardPile_SelectionChanged: Selection of " + selectedCard.AccessibleNameWithoutSelectionAndMofN);
+                // TESTING: Check that the card being selected is the one most recently tapped
+                if (DateTime.Now - timePreviousDealtCardTap < TimeSpan.FromMilliseconds(2000))
+                {
+                    DealtCard? selectedDealtCard = listSelectionChanged.SelectedItem as DealtCard;
+                    if ((selectedDealtCard != null) && ((selectedDealtCard.Card != null)))
+                    {
+                        if ((mostRecentlyTappedCard.Rank != selectedDealtCard.Card.Rank) ||
+                            (mostRecentlyTappedCard.Suit != selectedDealtCard.Card.Suit))
+                        {
+                            var message = "I'm sorry, but there's a problem with the app. The " +
+                                            mostRecentlyTappedCard.Rank.ToString() + " of " +
+                                            mostRecentlyTappedCard.Suit.ToString() + 
+                                            " was tapped, but the selection then changed for the " +
+                                            selectedDealtCard.Card.Rank.ToString() + " of " +
+                                            selectedDealtCard.Card.Suit.ToString() + ".";
+
+                            Debug.WriteLine(message);
+
+                            await DisplayAlert(
+                                MainPage.MyGetString("AccessibleSolitaire"),
+                                message,
+                                MainPage.MyGetString("OK"));
+
+                            //SentrySdk.CaptureMessage(message, SentryLevel.Debug);
+                        }
+                    }
+                }
+
+
+                //Debug.WriteLine("CardPile_SelectionChanged: Selection of " + selectedCard.AccessibleNameWithoutSelectionAndMofN);
 
                 // Has an empty card pile been selected?
                 if (selectedCard.CardState == CardState.KingPlaceHolder)

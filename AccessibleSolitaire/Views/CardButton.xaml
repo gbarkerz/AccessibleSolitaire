@@ -58,11 +58,11 @@
                             <Binding Source="{x:Reference InnerButton}" 
                                 x:DataType="{x:Type Button}"
                                 Path="IsFocused" />
-                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                    x:DataType="{x:Type local_views:CardButton}"
-                                    Path="BindingContext.Card" />
-                            
-                        </MultiBinding>
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local_views:CardButton}}" 
+                                x:DataType="{x:Type local_views:CardButton}"
+                                Path="Card" />
+                    </MultiBinding>
                     </Border.BackgroundColor>
 
                     <Border Margin="0" 
@@ -80,9 +80,10 @@
                             <Binding Source="{x:Reference InnerButton}" 
                                 x:DataType="{x:Type Button}"
                                 Path="IsFocused" />
-                            <Binding Source="{x:Reference CardButtonInstance}" 
+                            <Binding 
+                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local_views:CardButton}}" 
                                 x:DataType="{x:Type local_views:CardButton}"
-                                Path="BindingContext.Card" />
+                                Path="Card" />
 
                         </MultiBinding>
                     </Border.BackgroundColor>

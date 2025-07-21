@@ -31,5 +31,10 @@ namespace Sa11ytaire4All
 
             MainPage.MainPageSingleton?.QueryRestartGame();
         }
+
+        private void CloseMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+        }
     }
 }

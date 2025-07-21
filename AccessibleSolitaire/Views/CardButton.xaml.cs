@@ -454,7 +454,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     private void HandleCardButtonClick(Button button)
     {
-        Debug.WriteLine("CardButton Clicked: " + button.AutomationId);
+        //Debug.WriteLine("CardButton Clicked: " + button.AutomationId);
 
         if (CardPopup.IsZoomPopupOpen())
         {

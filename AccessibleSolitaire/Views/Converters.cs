@@ -232,7 +232,7 @@ namespace Sa11ytaire4All.Views
 
                 var automationId = values[1] as string;
 
-                Debug.WriteLine("SuitSuitColoursToColor: automationId " + automationId);
+                //Debug.WriteLine("SuitSuitColoursToColor: automationId " + automationId);
 
                 switch (automationId)
                 {
@@ -375,6 +375,11 @@ namespace Sa11ytaire4All.Views
             var cardWidth = (double)values[0];
 
             var scrollViewWidth = (double)values[1];
+
+            if ((cardWidth <= 0) || (scrollViewWidth <= 0))
+            {
+                return 0;
+            }
 
             var isPortrait = MainPage.IsPortrait();
 
@@ -1500,9 +1505,8 @@ namespace Sa11ytaire4All.Views
             var mergeFaceDownCards = (bool)values[3];
             var cardWidth = (double)values[4];
             var scrollViewWidth = (double)values[5];
-            var mainPageBindingContext = values[6];
-            var currentDealtCardPileIndex = (int)values[7];
-            var extendDealtCardHitTarget = (bool)values[8];
+            var currentDealtCardPileIndex = (int)values[6];
+            var mainPageBindingContext = values[7];
 
             if ((cardWidth <= 0) || (scrollViewWidth <= 0) ||
                 (mainPageBindingContext == null) ||
@@ -1516,6 +1520,8 @@ namespace Sa11ytaire4All.Views
             {
                 return 0;
             }
+
+            var extendDealtCardHitTarget = vm.ExtendDealtCardHitTarget;
 
             var itemsSource = vm.DealtCards[currentDealtCardPileIndex];
 

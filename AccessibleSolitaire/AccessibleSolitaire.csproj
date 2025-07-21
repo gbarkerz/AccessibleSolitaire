@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-android35.0;net9.0-ios</TargetFrameworks>
+
+    <LangVersion>preview</LangVersion>
+
+    <TargetFrameworks>net9.0-android35.0;net9.0-ios</TargetFrameworks>
     
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.22621.0</TargetFrameworks>
 
@@ -596,7 +599,6 @@
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="6.0.1" />
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="6.0.2" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="InputSimulator" Version="1.0.4" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.80" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
@@ -605,6 +607,11 @@
 		<PackageReference Include="Sentry.Maui.CommunityToolkit.Mvvm" Version="5.11.1" />
 	</ItemGroup>
 
+  <!-- The InputSimulator package is only available for Windows. -->
+	<ItemGroup Condition="$([MSBuild]::IsOSPlatform('windows'))">
+    <PackageReference Include="InputSimulator" Version="1.0.4" />
+  </ItemGroup>  
+  
 	<ItemGroup>
 	  <Compile Update="Strings\StringResources.Designer.cs">
 	    <DesignTime>True</DesignTime>

@@ -47,4 +47,15 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
+    <MenuItem x:Name="CloseMenuItem" 
+        Clicked="CloseMenuItem_Clicked"
+        Text="{x:Static resources:Strings.StringResources.CloseMenu}">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#xf410;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
 </Shell>

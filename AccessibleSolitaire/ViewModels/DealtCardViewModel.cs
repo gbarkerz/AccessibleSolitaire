@@ -19,8 +19,6 @@ namespace Sa11ytaire4All.ViewModels
             }
         }
 
-        [ObservableProperty] private ObservableCollection<DealtCard>[]? dealtCards;
-
         public ObservableCollection<DealtCard>? DealtCards1 { get => DealtCards?[0]; }
         public ObservableCollection<DealtCard>? DealtCards2 { get => DealtCards?[1]; }
         public ObservableCollection<DealtCard>? DealtCards3 { get => DealtCards?[2]; }
@@ -29,28 +27,43 @@ namespace Sa11ytaire4All.ViewModels
         public ObservableCollection<DealtCard>? DealtCards6 { get => DealtCards?[5]; }
         public ObservableCollection<DealtCard>? DealtCards7 { get => DealtCards?[6]; }
 
-        [ObservableProperty] private double cardHeight;
+        [ObservableProperty] 
+        public partial ObservableCollection<DealtCard>[]? DealtCards { get; set; }
 
-        [ObservableProperty] private double cardWidth;
+        [ObservableProperty]
+        public partial double CardHeight { get; set; }
 
-        [ObservableProperty] private Color? suitColoursClubs;
+        [ObservableProperty]
+        public partial double CardWidth { get; set; }
 
-        [ObservableProperty] private Color? suitColoursDiamonds;
+        [ObservableProperty]
+        public partial Color? SuitColoursClubs { get; set; }
 
-        [ObservableProperty] private Color? suitColoursHearts;
+        [ObservableProperty]
+        public partial Color? SuitColoursDiamonds { get; set; }
 
-        [ObservableProperty] private Color? suitColoursSpades;
+        [ObservableProperty]
+        public partial Color? SuitColoursHearts { get; set; }
 
-        [ObservableProperty] private bool showScreenReaderAnnouncementButtons;
+        [ObservableProperty]
+        public partial Color? SuitColoursSpades { get; set; }
 
-        [ObservableProperty] private bool mergeFaceDownCards;
+        [ObservableProperty]
+        public partial bool ShowScreenReaderAnnouncementButtons { get; set; }
 
-        [ObservableProperty] private bool flipGameLayoutHorizontally;
+        [ObservableProperty]
+        public partial bool MergeFaceDownCards { get; set; }
 
-        [ObservableProperty] private bool extendDealtCardHitTarget;
+        [ObservableProperty]
+        public partial bool FlipGameLayoutHorizontally { get; set; }
 
-        [ObservableProperty] private bool addHintToTopmostCard;
+        [ObservableProperty]
+        public partial bool ExtendDealtCardHitTarget { get; set; }
 
-        [ObservableProperty] private int longPressZoomDuration;
+        [ObservableProperty]
+        public partial bool AddHintToTopmostCard { get; set; }
+
+        [ObservableProperty]
+        public partial int LongPressZoomDuration { get; set; }
     }
 }
