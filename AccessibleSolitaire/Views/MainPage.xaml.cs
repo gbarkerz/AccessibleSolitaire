@@ -580,11 +580,14 @@ namespace Sa11ytaire4All
                 {
                     InitialSetSuitColours = false;
 
-                    timerSetSuitColours = new Timer(
-                        new TimerCallback((s) => TimedDelaySetSuitColours(InitialSetSuitColours)),
-                            null,
-                            TimeSpan.FromMilliseconds(1000),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    // It seems the timer approach is no longer required.
+                    TimedDelaySetSuitColours();
+
+                    //timerSetSuitColours = new Timer(
+                    //    new TimerCallback((s) => TimedDelaySetSuitColours()),
+                    //        null,
+                    //        TimeSpan.FromMilliseconds(1000),
+                    //        TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
@@ -737,7 +740,7 @@ namespace Sa11ytaire4All
             return suitColour;
         }
 
-        private void TimedDelaySetSuitColours(bool initialSetSuitColours)
+        private void TimedDelaySetSuitColours()
         {
             timerSetSuitColours?.Dispose();
             timerSetSuitColours = null;
@@ -1165,7 +1168,6 @@ namespace Sa11ytaire4All
             {
                 SetUpturnedCards();
             }
-
 
             // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
             SetCardSuitColours(CardDeckUpturned);

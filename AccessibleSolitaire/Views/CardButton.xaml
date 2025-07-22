@@ -142,9 +142,9 @@
 
                             <Image.Behaviors>
 
-                                <toolkit:IconTintColorBehavior
-                                    BindingContext="{Binding Path=BindingContext, 
-                                        Source={x:Reference TintedCardImage}}"
+                                <toolkit:IconTintColorBehavior 
+                                    BindingContext="{Binding BindingContext, 
+                                        Source={x:Reference TintedCardImage}, x:DataType=Image}"
                                     TintColor="{Binding CardButtonTintColour}" />
 
                             </Image.Behaviors>

@@ -40,6 +40,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
                 this.OnPropertyChanged("Card");
                 this.OnPropertyChanged("CardPileAccessibleName");
+                this.OnPropertyChanged("CardButtonTintColour");
 
                 // Whenever the card changes, we must update the bound contained pictures.
                 this.OnPropertyChanged("CardPileImage");
@@ -398,16 +399,10 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
     public Color? CardButtonTintColour
     {
         get => GetCardButtonColourTint();
-        set
-        {
-            SetValue(CardButtonTintColourProperty, value);
-
-            this.OnPropertyChanged("CardButtonTintColour");
-        }
     }
 
     private Color? GetCardButtonColourTint()
-    { 
+    {
         Color? suitColor = null;
 
         if (this.Card == null)
@@ -502,14 +497,26 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
                 this.OnPropertyChanged("IsToggled");
                 this.OnPropertyChanged("CardPileAccessibleName");
+                this.OnPropertyChanged("CardButtonTintColour");
             }
         }
     }
 
     public void RefreshVisuals()
     {
+        //if (this.card != null)
+        //{
+        //    Debug.WriteLine("CardButton: RefreshVisuals " + this.card.GetCardAccessibleName());
+        //}
+        //else
+        //{
+        //    Debug.WriteLine("CardButton: RefreshVisuals NULL card");
+        //}
+
         this.OnPropertyChanged("Card");
+        this.OnPropertyChanged("CardPileAccessibleName");
         this.OnPropertyChanged("CardButtonTintColour");
+
         this.OnPropertyChanged("BackgroundColor");
         this.OnPropertyChanged("CardPileImage");
         this.OnPropertyChanged("PictureCardPileImage");

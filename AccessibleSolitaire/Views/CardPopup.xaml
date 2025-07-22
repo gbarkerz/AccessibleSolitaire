@@ -53,8 +53,8 @@
                 <Image.Behaviors>
 
                     <toolkit:IconTintColorBehavior
-                        BindingContext="{Binding Path=BindingContext,
-                            Source={x:Reference TintedCardImage}}"
+                        BindingContext="{Binding BindingContext,
+                            Source={x:Reference TintedCardImage}, x:DataType=Image}"
                         TintColor="{Binding CardPopupTintColour, x:DataType=local_views:CardPopup}" />
 
                 </Image.Behaviors>
