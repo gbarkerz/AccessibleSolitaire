@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using Plugin.Maui.KeyListener;
 using Sa11ytaire4All.Source;
@@ -251,7 +252,7 @@ namespace Sa11ytaire4All
 #endif
         }
 
-        public void ShowZoomedCardPopup(Card? card, bool checkFaceUp)
+        public async void ShowZoomedCardPopup(Card? card, bool checkFaceUp)
         {
             if (card == null)
             {
@@ -280,7 +281,7 @@ namespace Sa11ytaire4All
                 {
                     var popup = new CardPopup(card, vm);
 
-                    this.ShowPopup(popup);
+                    await this.ShowPopupAsync(popup);
                 }
             }
         }
@@ -362,18 +363,18 @@ namespace Sa11ytaire4All
                 {
                     //Debug.WriteLine("OnTapGestureRecognizerTapped: Selecting now: " + dealtCard.AccessibleName);
 
-                    // TESTING: Note which dealt card was tapped on.
                     if ((dealtCard != null) && (dealtCard.Card != null))
                     {
+                        // TESTING: Note which dealt card was tapped on.
                         mostRecentlyTappedCard.Rank = dealtCard.Card.Rank;
                         mostRecentlyTappedCard.Suit = dealtCard.Card.Suit;
-                    }
 
-                    timerSelectDealtCard = new Timer(
-                        new TimerCallback((s) => TimedDelaySelectDealtCard(list, dealtCard)),
-                            null,
-                            TimeSpan.FromMilliseconds(300),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                        timerSelectDealtCard = new Timer(
+                            new TimerCallback((s) => TimedDelaySelectDealtCard(list, dealtCard)),
+                                null,
+                                TimeSpan.FromMilliseconds(300),
+                                TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    }
                 }
             }
 
@@ -580,7 +581,7 @@ namespace Sa11ytaire4All
                     InitialSetSuitColours = false;
 
                     timerSetSuitColours = new Timer(
-                        new TimerCallback((s) => TimedDelaySetSuitColours()),
+                        new TimerCallback((s) => TimedDelaySetSuitColours(InitialSetSuitColours)),
                             null,
                             TimeSpan.FromMilliseconds(1000),
                             TimeSpan.FromMilliseconds(Timeout.Infinite));
@@ -686,7 +687,6 @@ namespace Sa11ytaire4All
             }
         }
 
-
         private void RefreshAllCardVisuals()
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -737,7 +737,7 @@ namespace Sa11ytaire4All
             return suitColour;
         }
 
-        private void TimedDelaySetSuitColours()
+        private void TimedDelaySetSuitColours(bool initialSetSuitColours)
         {
             timerSetSuitColours?.Dispose();
             timerSetSuitColours = null;
@@ -750,6 +750,18 @@ namespace Sa11ytaire4All
             SetCardSuitColours(TargetPileD);
             SetCardSuitColours(TargetPileH);
             SetCardSuitColours(TargetPileS);
+
+            Dispatcher.Dispatch(() =>
+            {
+                CardDeckUpturnedObscuredLower.RefreshVisuals();
+                CardDeckUpturnedObscuredHigher.RefreshVisuals();
+                CardDeckUpturned.RefreshVisuals();
+
+                TargetPileC.RefreshVisuals();
+                TargetPileD.RefreshVisuals();
+                TargetPileH.RefreshVisuals();
+                TargetPileS.RefreshVisuals();
+            });
         }
 
         private void TimedDelayMakeFirstDealSounds()
@@ -1153,6 +1165,16 @@ namespace Sa11ytaire4All
             {
                 SetUpturnedCards();
             }
+
+
+            // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
+            SetCardSuitColours(CardDeckUpturned);
+            SetCardSuitColours(CardDeckUpturnedObscuredHigher);
+            SetCardSuitColours(CardDeckUpturnedObscuredLower);
+
+            CardDeckUpturned.RefreshVisuals();
+            CardDeckUpturnedObscuredHigher.RefreshVisuals();
+            CardDeckUpturnedObscuredLower.RefreshVisuals();
         }
 
         private void SetUpturnedCards()
@@ -1165,11 +1187,6 @@ namespace Sa11ytaire4All
 
             CardDeckUpturnedObscuredLower.Card = (_deckUpturned.Count > 2 ?
                                                     _deckUpturned[_deckUpturned.Count - 3] : null);
-
-            // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-            SetCardSuitColours(CardDeckUpturned);
-            SetCardSuitColours(CardDeckUpturnedObscuredHigher);
-            SetCardSuitColours(CardDeckUpturnedObscuredLower);
         }
 
         private void SetCardSuitColours(CardButton cardButton)
@@ -1746,7 +1763,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
+        private async void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
         {
             var border = sender as Border;
             if (border != null)
@@ -1764,7 +1781,7 @@ namespace Sa11ytaire4All
                             {
                                 var popup = new CardPopup(dealtCard.Card, vm);
 
-                                this.ShowPopup(popup);
+                                await this.ShowPopupAsync(popup);
                             }
                         }
                     }

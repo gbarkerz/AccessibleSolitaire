@@ -264,30 +264,9 @@
 
                                 <toolkit:IconTintColorBehavior
                                     BindingContext="{Binding Path=BindingContext, 
-                                        Source={x:Reference TintedCardImage}}">
-                                    
-                                    <toolkit:IconTintColorBehavior.TintColor>
-                                        <MultiBinding Mode="OneWay" 
-                                            Converter="{StaticResource DealtCardSuitSuitColoursToColor}">
+                                        Source={x:Reference TintedCardImage}}"
+                                    TintColor="{Binding DealtCardTintColour}" />
 
-                                            <Binding Path="Card" />
-
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursClubs" />
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursDiamonds" />
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursHearts" />
-                                            <Binding Source="{x:Reference MainPageInstance}" 
-                                                x:DataType="{x:Type local:MainPage}"
-                                                Path="BindingContext.SuitColoursSpades" />
-                                        </MultiBinding>
-                                    </toolkit:IconTintColorBehavior.TintColor>
-                                    
-                                </toolkit:IconTintColorBehavior>
                             </Image.Behaviors>
 
                             <!-- Layout note: All dealt cards need to have explicit sizes set to ensure that the 

@@ -9,8 +9,8 @@ public partial class ShortcutsPopup : Popup
         InitializeComponent();
     }
 
-    private void CloseButton_Clicked(object sender, EventArgs e)
+    private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        this.Close();
+        await this.CloseAsync();
     }
 }

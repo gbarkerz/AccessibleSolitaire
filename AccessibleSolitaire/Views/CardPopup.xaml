@@ -4,7 +4,8 @@
                xmlns:resources="clr-namespace:Sa11ytaire4All"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
-               Color="Transparent"
+               Margin="0" Padding="20"
+               BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
                x:Name="CardPopupInstance"
                x:Class="Sa11ytaire4All.Views.CardPopup">
 
@@ -40,7 +41,7 @@
         </Grid.RowDefinitions>
 
         <Border
-            StrokeThickness="1"
+            StrokeThickness="2"
             Stroke="{AppThemeBinding Light=Black, Dark=White}">
 
             <Image Grid.ColumnSpan="2" x:Name="TintedCardImage"
@@ -52,22 +53,10 @@
                 <Image.Behaviors>
 
                     <toolkit:IconTintColorBehavior
-                        BindingContext="{Binding Path=BindingContext, 
-                            Source={x:Reference TintedCardImage}}">
+                        BindingContext="{Binding Path=BindingContext,
+                            Source={x:Reference TintedCardImage}}"
+                        TintColor="{Binding CardPopupTintColour, x:DataType=local_views:CardPopup}" />
 
-                        <toolkit:IconTintColorBehavior.TintColor>
-                            <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource SuitSuitColoursToColor}">
-                                <Binding Path="Card" />
-                                <Binding Path="AutomationId" />
-                                <Binding Path="SuitColoursClubs" />
-                                <Binding Path="SuitColoursDiamonds" />
-                                <Binding Path="SuitColoursHearts" />
-                                <Binding Path="SuitColoursSpades" />
-                            </MultiBinding>
-                        </toolkit:IconTintColorBehavior.TintColor>
-
-                    </toolkit:IconTintColorBehavior>
                 </Image.Behaviors>
             </Image>
 
@@ -85,7 +74,7 @@
                 Converter={StaticResource PictureCardToCardImageConverter}}">
         </Image>
 
-        <Button Grid.Column="1" Grid.Row="1"
+        <Button Grid.Column="1" Grid.Row="1" x:Name="CloseButton"
             windows:VisualElement.AccessKey="C"
             TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
             Margin="8,0,0,0" Padding="8"

@@ -26,6 +26,13 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
         zoomPopupIsVisible = true;
 
         this.Closed += CardPopup_Closed;
+
+        this.Loaded += CardPopup_Loaded;
+    }
+
+    private void CardPopup_Loaded(object? sender, EventArgs e)
+    {
+        CloseButton.Focus();
     }
 
     static public bool IsZoomPopupOpen()
@@ -33,7 +40,7 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
         return zoomPopupIsVisible;
     }
 
-    private void CardPopup_Closed(object? sender, CommunityToolkit.Maui.Core.PopupClosedEventArgs e)
+    private void CardPopup_Closed(object? sender, EventArgs e)
     {
         zoomPopupIsVisible = false;
     }
@@ -112,8 +119,84 @@ public partial class CardPopup : Popup, INotifyPropertyChanged
         }
     }
 
-    private void CloseButton_Clicked(object sender, EventArgs e)
+    public static readonly BindableProperty CardPopupTintColourProperty =
+        BindableProperty.Create(nameof(CardPopupTintColour), typeof(Color), typeof(CardPopup));
+
+    public Color? CardPopupTintColour
     {
-        this.Close();
+        get => GetCardPopupColourTint();
+    }
+
+    private Color? GetCardPopupColourTint()
+    {
+        Color? suitColor = null;
+
+        if (this.Card == null)
+        {
+            // No Card supplied, so perhaps this is an empty target card pile.
+            if (this.AutomationId == null)
+            {
+                return null;
+            }
+
+            switch (this.AutomationId)
+            {
+                case "TargetPileC":
+                    suitColor = this.SuitColoursClubs;
+                    break;
+
+                case "TargetPileD":
+                    suitColor = this.SuitColoursDiamonds;
+                    break;
+
+                case "TargetPileH":
+                    suitColor = this.SuitColoursHearts;
+                    break;
+
+                case "TargetPileS":
+                    suitColor = this.SuitColoursSpades;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch (this.Card.Suit)
+            {
+                case Suit.Clubs:
+                    suitColor = this.SuitColoursClubs;
+                    break;
+
+                case Suit.Diamonds:
+                    suitColor = this.SuitColoursDiamonds;
+                    break;
+
+                case Suit.Hearts:
+                    suitColor = this.SuitColoursHearts;
+                    break;
+
+                case Suit.Spades:
+                    suitColor = this.SuitColoursSpades;
+                    break;
+
+                default:
+                    if (Application.Current != null)
+                    {
+                        suitColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                            Colors.LightGrey : Colors.Grey);
+                    }
+
+                    break;
+            }
+        }
+
+        return suitColor;
+    }
+
+    private async void CloseButton_Clicked(object sender, EventArgs e)
+    {
+        await this.CloseAsync();
     }
 }

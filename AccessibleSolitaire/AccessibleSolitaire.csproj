@@ -595,16 +595,16 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="12.1.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="6.0.1" />
-		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="6.0.2" />
+		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="6.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.80" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.90" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.90" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.7" />
 		<PackageReference Include="Plugin.Maui.KeyListener" Version="1.0.0-preview3" />
-		<PackageReference Include="Sentry.Maui" Version="5.11.1" />
-		<PackageReference Include="Sentry.Maui.CommunityToolkit.Mvvm" Version="5.11.1" />
+		<PackageReference Include="Sentry.Maui" Version="5.12.0" />
+		<PackageReference Include="Sentry.Maui.CommunityToolkit.Mvvm" Version="5.12.0" />
 	</ItemGroup>
 
   <!-- The InputSimulator package is only available for Windows. -->

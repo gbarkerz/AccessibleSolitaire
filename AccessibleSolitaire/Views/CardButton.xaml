@@ -43,7 +43,7 @@
 
                 <!-- Barker Todo: Consider setting the Stroke and StrokeThickness for the Borders below
                     rather than their BackgroundColors. -->
-        
+
                 <Border Margin="0" 
                     Padding="{Binding IsToggled, Mode=OneWay,
                         Converter={StaticResource IsToggledToBorderPaddingConverter}}"
@@ -62,7 +62,7 @@
                                 Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local_views:CardButton}}" 
                                 x:DataType="{x:Type local_views:CardButton}"
                                 Path="Card" />
-                    </MultiBinding>
+                        </MultiBinding>
                     </Border.BackgroundColor>
 
                     <Border Margin="0" 
@@ -92,7 +92,7 @@
                         Margin="0" Padding="0"
                         BackgroundColor="{Binding IsToggled, Mode=OneWay,
                                 Converter={StaticResource IsToggledToBackgroundColorConverter}}">
-
+                        
                         <!-- Barker Todo: Now that this contains a Button rather than a Switch, consider whether 
                             it would be practical to use an ImageButton here and remove the separate Image below.
                             This might not be practical given the use of Margins to show visually whether the 
@@ -106,7 +106,7 @@
                             Margin="{Binding IsToggled, Mode=OneWay,
                                 Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton,
                                 Converter={StaticResource IsToggledToMarginConverter},
-                                ConverterParameter=0}"
+                                ConverterParameter=0}"                                
                             IsVisible="{Binding IsEnabled, Mode=OneWay, 
                                 Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}"
                             SemanticProperties.Description="{Binding CardPileAccessibleName, Mode=OneWay, 
@@ -117,12 +117,11 @@
                             CornerRadius="0"
                             Clicked="CardButton_Clicked">
 
-                            <!-- This works. -->
                             <Button.Behaviors>
                                 <toolkit:TouchBehavior
                                     BindingContext="{Binding Path=BindingContext, 
                                         Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton}"
-                                    LongPressDuration="{Binding BindingContext.LongPressZoomDuration}"
+                                    LongPressDuration="{Binding LongPressZoomDuration}"
                                     LongPressCompleted="TouchBehavior_LongPressCompleted" />
                             </Button.Behaviors>
 
@@ -143,37 +142,11 @@
 
                             <Image.Behaviors>
 
-                                <!-- This works. -->
                                 <toolkit:IconTintColorBehavior
                                     BindingContext="{Binding Path=BindingContext, 
-                                        Source={x:Reference TintedCardImage}}">
+                                        Source={x:Reference TintedCardImage}}"
+                                    TintColor="{Binding CardButtonTintColour}" />
 
-                                    <toolkit:IconTintColorBehavior.TintColor>
-                                        <MultiBinding Mode="OneWay" 
-                                            Converter="{StaticResource SuitSuitColoursToColor}">
-
-                                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.Card" />
-                                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.AutomationId" />
-                                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursClubsSwitch" />
-                                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursDiamondsSwitch" />
-                                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursHeartsSwitch" />
-                                            <Binding Source="{x:Reference CardButtonInstance}" 
-                                                x:DataType="{x:Type local_views:CardButton}"
-                                                Path="BindingContext.SuitColoursSpadesSwitch" />
-                                        </MultiBinding>
-                                    </toolkit:IconTintColorBehavior.TintColor>
-
-                                </toolkit:IconTintColorBehavior>
                             </Image.Behaviors>
                 
                         </Image>

@@ -404,11 +404,11 @@ namespace Sa11ytaire4All
             return isFocused;
         }
 
-        public void ShowKeyboardShortcuts()
+        public async void ShowKeyboardShortcuts()
         {
             var popup = new ShortcutsPopup();
 
-            this.ShowPopup(popup);
+            await this.ShowPopupAsync(popup);
         }
 
         public void ToggleDealtCardSelectionFollowingKeyPress(DealtCard dealtCard)

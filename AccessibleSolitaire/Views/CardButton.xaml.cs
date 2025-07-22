@@ -392,6 +392,88 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
+    public static readonly BindableProperty CardButtonTintColourProperty =
+        BindableProperty.Create(nameof(CardButtonTintColour), typeof(Color), typeof(CardButton));
+
+    public Color? CardButtonTintColour
+    {
+        get => GetCardButtonColourTint();
+        set
+        {
+            SetValue(CardButtonTintColourProperty, value);
+
+            this.OnPropertyChanged("CardButtonTintColour");
+        }
+    }
+
+    private Color? GetCardButtonColourTint()
+    { 
+        Color? suitColor = null;
+
+        if (this.Card == null)
+        {
+            // No Card supplied, so perhaps this is an empty target card pile.
+            if (this.AutomationId == null)
+            {
+                return null;
+            }
+
+            switch (this.AutomationId)
+            {
+                case "TargetPileC":
+                    suitColor = this.SuitColoursClubsSwitch;
+                    break;
+
+                case "TargetPileD":
+                    suitColor = this.SuitColoursDiamondsSwitch;
+                    break;
+
+                case "TargetPileH":
+                    suitColor = this.SuitColoursHeartsSwitch;
+                    break;
+
+                case "TargetPileS":
+                    suitColor = this.SuitColoursSpadesSwitch;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch (this.Card.Suit)
+            {
+                case Suit.Clubs:
+                    suitColor = this.SuitColoursClubsSwitch;
+                    break;
+
+                case Suit.Diamonds:
+                    suitColor = this.SuitColoursDiamondsSwitch;
+                    break;
+
+                case Suit.Hearts:
+                    suitColor = this.SuitColoursHeartsSwitch;
+                    break;
+
+                case Suit.Spades:
+                    suitColor = this.SuitColoursSpadesSwitch;
+                    break;
+
+                default:
+                    if (Application.Current != null)
+                    {
+                        suitColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                            Colors.LightGrey : Colors.Grey);
+                    }
+
+                    break;
+            }
+        }
+
+        return suitColor;
+    }
+
     public static readonly BindableProperty LongPressZoomDurationProperty =
         BindableProperty.Create(nameof(LongPressZoomDuration), typeof(int), typeof(CardButton));
 
@@ -414,16 +496,20 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         get => (bool)GetValue(IsToggledProperty);
         set
         {
-            SetValue(IsToggledProperty, value);
+            if ((bool)GetValue(IsToggledProperty) != value)
+            {
+                SetValue(IsToggledProperty, value);
 
-            this.OnPropertyChanged("IsToggled");
-            this.OnPropertyChanged("CardPileAccessibleName");
+                this.OnPropertyChanged("IsToggled");
+                this.OnPropertyChanged("CardPileAccessibleName");
+            }
         }
     }
 
     public void RefreshVisuals()
     {
         this.OnPropertyChanged("Card");
+        this.OnPropertyChanged("CardButtonTintColour");
         this.OnPropertyChanged("BackgroundColor");
         this.OnPropertyChanged("CardPileImage");
         this.OnPropertyChanged("PictureCardPileImage");
