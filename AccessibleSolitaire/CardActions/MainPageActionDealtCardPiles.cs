@@ -110,7 +110,6 @@ namespace Sa11ytaire4All
                     }
                 }
 
-
                 //Debug.WriteLine("CardPile_SelectionChanged: Selection of " + selectedCard.AccessibleNameWithoutSelectionAndMofN);
 
                 // Has an empty card pile been selected?
@@ -198,6 +197,14 @@ namespace Sa11ytaire4All
                         cardUpturned.RefreshVisuals();
 
                         movedCard = true;
+                    }
+                    else
+                    {
+                        // The upturned card cannot be moved to the newly-selected dealt card.
+                        if (cardUpturned.Card != null)
+                        {
+                            AnnounceNoMove(cardUpturned.Card);
+                        }
                     }
 
                     ClearAllSelections(true);
@@ -575,6 +582,14 @@ namespace Sa11ytaire4All
 
                             RefreshDealtCardPileAccessibleNames(listDealtCardPile);
                         }
+                        else
+                        {
+                            // The card from the target card pile cannot be moved to the already-selected dealt card.
+                            if (cardAbove.Card != null)
+                            {
+                                AnnounceNoMove(cardAbove.Card);
+                            }
+                        }
 
                         DeselectCard(cardBelow);
                         DeselectCard(cardAbove);
@@ -887,12 +902,33 @@ namespace Sa11ytaire4All
 
                 movedCard = true;
             }
+            else
+            {
+                // The newly-selected dealt card cannot be moved to the already-selected dealt card.
+                if (cardAbove.Card != null)
+                {
+                    AnnounceNoMove(cardAbove.Card);
+                }
+            }
 
             RefreshDealtCardPileAccessibleNames(listAlreadySelected);
             RefreshDealtCardPileAccessibleNames(listSelectionChanged);
 
             // Another card was already selected. Play a sound to refect whether a move occurred.
             PlaySound(movedCard);
+        }
+
+        private void AnnounceNoMove(Card card)
+        {
+            if (card != null)
+            {
+                string announcement =
+                    MainPage.MyGetString("NoMove") + ". " +
+                    MainPage.MyGetString("Deselected") + " " +
+                    card.GetCardAccessibleName() + ".";
+
+                MakeDelayedScreenReaderAnnouncement(announcement);
+            }
         }
 
         private void DelayMoveDealtCardToTargetPileAsAppropriate(MovingCardData movingCardData)
@@ -929,6 +965,12 @@ namespace Sa11ytaire4All
                     ((targetPileIndex == 3) && (cardAbove.Card.Suit != Suit.Spades)))
                 {
                     ClearAllSelections(true);
+
+                    // The already-selected dealt card cannot be moved to the newly-selected target card pile.
+                    if (cardAbove.Card != null)
+                    {
+                        AnnounceNoMove(cardAbove.Card);
+                    }
 
                     return;
                 }
@@ -1090,6 +1132,14 @@ namespace Sa11ytaire4All
                     MakeDelayedScreenReaderAnnouncement(announcement);
 
                     RefreshDealtCardPileAccessibleNames(listAlreadySelected);
+                }
+                else
+                {
+                    // The already-selected dealt card cannot be moved to the newly-selected target card pile.
+                    if (cardAbove.Card != null)
+                    {
+                        AnnounceNoMove(cardAbove.Card);
+                    }
                 }
 
                 PlaySound(movedCard);

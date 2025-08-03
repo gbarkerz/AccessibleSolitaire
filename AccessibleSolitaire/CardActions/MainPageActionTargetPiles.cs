@@ -176,6 +176,12 @@ namespace Sa11ytaire4All
                 {
                     PlaySound(false);
 
+                    // The already-selected upturned card cannot be moved to the newly-selected target card pile.
+                    if (cardAbove.Card != null)
+                    {
+                        AnnounceNoMove(cardAbove.Card);
+                    }
+
                     return false;
                 }
 
@@ -255,6 +261,14 @@ namespace Sa11ytaire4All
                         MainPage.MyGetString("To") + " " + suitPile;
 
                     MakeDelayedScreenReaderAnnouncement(announcement);
+                }
+                else
+                {
+                    // The already-selected upturned card cannot be moved to the newly-selected target card pile.
+                    if (cardAbove.Card != null)
+                    {
+                        AnnounceNoMove(cardAbove.Card);
+                    }
                 }
             }
 

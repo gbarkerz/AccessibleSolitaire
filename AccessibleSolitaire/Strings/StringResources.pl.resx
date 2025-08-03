@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.19</value>
+    <value>Accessible Solitaire wersja V2.21</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
@@ -657,6 +657,9 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>ze</value>
   </data>
   <data name="CloseMenu" xml:space="preserve">
-    <value />
+    <value>Zamknij menu</value>
+  </data>
+  <data name="NoMove" xml:space="preserve">
+    <value>Brak ruchu</value>
   </data>
 </root>

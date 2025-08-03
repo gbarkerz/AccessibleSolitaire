@@ -1467,13 +1467,12 @@ namespace Sa11ytaire4All
             }
         }
 
-
         public double OriginalCardWidth { get => originalCardWidth; set => originalCardWidth = value; }
         public double OriginalCardHeight { get => originalCardHeight; set => originalCardHeight = value; }
 
         private void MakeScreenReaderAnnouncement(object announcement)
         {
-            //Debug.WriteLine("MakeScreenReaderAnnouncement: " + announcement);
+            Debug.WriteLine("MakeScreenReaderAnnouncement: " + announcement);
 
             timerDelayScreenReaderAnnouncement?.Dispose();
             timerDelayScreenReaderAnnouncement = null;

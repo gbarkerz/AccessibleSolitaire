@@ -130,13 +130,15 @@
                     </Border.GestureRecognizers>
 
                     <Border.Behaviors>
+                        
                         <toolkit:TouchBehavior
                             BindingContext="{Binding Path=BindingContext, 
                                 Source={x:Reference MainPageInstance}, x:DataType=local:MainPage}"
-                            LongPressDuration="{Binding Path=BindingContext.LongPressZoomDuration, 
-                                Source={x:Reference MainPageInstance}, x:DataType=local:MainPage,
+                            LongPressDuration="{Binding LongPressZoomDuration, 
+                                x:DataType=vm:DealtCardViewModel,
                                 Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                             LongPressCompleted="TouchBehavior_LongPressCompleted" />
+
                     </Border.Behaviors>
                 
                     <Border.WidthRequest>
