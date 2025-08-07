@@ -580,14 +580,11 @@ namespace Sa11ytaire4All
                 {
                     InitialSetSuitColours = false;
 
-                    // It seems the timer approach is no longer required.
-                    TimedDelaySetSuitColours();
-
-                    //timerSetSuitColours = new Timer(
-                    //    new TimerCallback((s) => TimedDelaySetSuitColours()),
-                    //        null,
-                    //        TimeSpan.FromMilliseconds(1000),
-                    //        TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    timerSetSuitColours = new Timer(
+                        new TimerCallback((s) => TimedDelaySetSuitColours()),
+                            null,
+                            TimeSpan.FromMilliseconds(1000),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
@@ -756,14 +753,7 @@ namespace Sa11ytaire4All
 
             Dispatcher.Dispatch(() =>
             {
-                CardDeckUpturnedObscuredLower.RefreshVisuals();
-                CardDeckUpturnedObscuredHigher.RefreshVisuals();
-                CardDeckUpturned.RefreshVisuals();
-
-                TargetPileC.RefreshVisuals();
-                TargetPileD.RefreshVisuals();
-                TargetPileH.RefreshVisuals();
-                TargetPileS.RefreshVisuals();
+                RefreshAllCardVisuals();
             });
         }
 
