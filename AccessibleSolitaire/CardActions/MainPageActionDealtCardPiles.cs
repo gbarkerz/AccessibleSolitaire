@@ -38,7 +38,7 @@ namespace Sa11ytaire4All
         }
 
         // The selection state of one of the card in the Dealt Card piles has changed.
-        private async void CardPile_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CardPile_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var listSelectionChanged = sender as CollectionView;
             if (listSelectionChanged == null)
@@ -83,32 +83,32 @@ namespace Sa11ytaire4All
                 }
 
                 // TESTING: Check that the card being selected is the one most recently tapped
-                if (DateTime.Now - timePreviousDealtCardTap < TimeSpan.FromMilliseconds(2000))
-                {
-                    DealtCard? selectedDealtCard = listSelectionChanged.SelectedItem as DealtCard;
-                    if ((selectedDealtCard != null) && ((selectedDealtCard.Card != null)))
-                    {
-                        if ((mostRecentlyTappedCard.Rank != selectedDealtCard.Card.Rank) ||
-                            (mostRecentlyTappedCard.Suit != selectedDealtCard.Card.Suit))
-                        {
-                            var message = "I'm sorry, but there's a problem with the app. The " +
-                                            mostRecentlyTappedCard.Rank.ToString() + " of " +
-                                            mostRecentlyTappedCard.Suit.ToString() + 
-                                            " was tapped, but the selection then changed for the " +
-                                            selectedDealtCard.Card.Rank.ToString() + " of " +
-                                            selectedDealtCard.Card.Suit.ToString() + ".";
+                //if (DateTime.Now - timePreviousDealtCardTap < TimeSpan.FromMilliseconds(2000))
+                //{
+                //    DealtCard? selectedDealtCard = listSelectionChanged.SelectedItem as DealtCard;
+                //    if ((selectedDealtCard != null) && ((selectedDealtCard.Card != null)))
+                //    {
+                //        if ((mostRecentlyTappedCard.Rank != selectedDealtCard.Card.Rank) ||
+                //            (mostRecentlyTappedCard.Suit != selectedDealtCard.Card.Suit))
+                //        {
+                //            var message = "I'm sorry, but there's a problem with the app. The " +
+                //                            mostRecentlyTappedCard.Rank.ToString() + " of " +
+                //                            mostRecentlyTappedCard.Suit.ToString() + 
+                //                            " was tapped, but the selection then changed for the " +
+                //                            selectedDealtCard.Card.Rank.ToString() + " of " +
+                //                            selectedDealtCard.Card.Suit.ToString() + ".";
 
-                            Debug.WriteLine(message);
+                //            Debug.WriteLine(message);
 
-                            await DisplayAlert(
-                                MainPage.MyGetString("AccessibleSolitaire"),
-                                message,
-                                MainPage.MyGetString("OK"));
+                //            await DisplayAlert(
+                //                MainPage.MyGetString("AccessibleSolitaire"),
+                //                message,
+                //                MainPage.MyGetString("OK"));
 
-                            //SentrySdk.CaptureMessage(message, SentryLevel.Debug);
-                        }
-                    }
-                }
+                //            //SentrySdk.CaptureMessage(message, SentryLevel.Debug);
+                //        }
+                //    }
+                //}
 
                 //Debug.WriteLine("CardPile_SelectionChanged: Selection of " + selectedCard.AccessibleNameWithoutSelectionAndMofN);
 

@@ -288,7 +288,245 @@ namespace Sa11ytaire4All.Source
             }
         }
 
-        [ObservableProperty] 
+        public double DealtCardWidth
+        {
+            get => GetDealtCardWidth();
+        }
+
+        private double GetDealtCardWidth()
+        {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return 0;
+            }
+
+            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return 0;
+            }
+
+            var isLastCardInPile = this.IsLastCardInPile;
+            var faceDown = this.FaceDown;
+            var currentCardIndexInDealtCardPile = this.CurrentCardIndexInDealtCardPile;
+            var currentDealtCardPileIndex = this.CurrentDealtCardPileIndex;
+
+            var mergeFaceDownCards = vm.MergeFaceDownCards;
+            var cardWidth = vm.CardWidth;
+
+            var scrollViewWidth = MainPage.MainPageSingleton.GetCardPileGridWidth();
+
+            if ((cardWidth <= 0) || (scrollViewWidth <= 0) ||
+                (currentDealtCardPileIndex < 0) || (currentDealtCardPileIndex > 6))
+            {
+                return 0;
+            }
+
+            var extendDealtCardHitTarget = vm.ExtendDealtCardHitTarget;
+
+            var itemsSource = vm.DealtCards[currentDealtCardPileIndex];
+
+            var width = cardWidth;
+
+            var isPortrait = MainPage.IsPortrait();
+
+            // In landscape orientation, all dealt cards have the same width.
+            if (!isPortrait)
+            {
+                return width;
+            }
+
+            var partiallyShownWidth = (width / 4) - 1;
+
+            // The last card in the pile is always full width.
+            if (!isLastCardInPile)
+            {
+                // Any other face-up cards are always partially shown.
+                if (!faceDown)
+                {
+                    width = partiallyShownWidth;
+                }
+                else
+                {
+                    // The card is face-down. If it's the first card in the pile,
+                    // it's always partially shown.
+                    if (currentCardIndexInDealtCardPile == 0)
+                    {
+                        width = partiallyShownWidth;
+                    }
+                    else
+                    {
+                        // Are we merging all other face-down cards?
+                        if (mergeFaceDownCards)
+                        {
+                            // .NET 9 assumes that if a cell is zero-height, that's unintentional 
+                            // and takes action which means nothing gets rendered. So give a merged
+                            // card a height of 1. This might actually be useful to users, as it 
+                            // means at a glance a pile with many merged cards seems to give the
+                            // merged card a shadow.
+
+                            // Note: On Android we can remove the shadow by setting the height to be 
+                            // (say) 0.1. But on iOS this leads to the height of the bound UI element
+                            // sometimes ending up being set to -1, and the whole CollectionView gets
+                            // a height of zero and vanishes. So stick with a height of 1 here.
+                            width = 1;
+                        }
+                        else
+                        {
+                            // We're not merging, so partially shown the card.
+                            width = partiallyShownWidth;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // This is the topmost card in the dealt card pile. Should we extend the hit target 
+                // for the dealt card? (This setting only applies at 100% zoom level.)
+                if (extendDealtCardHitTarget)
+                {
+                    // Start with the card almost reaching the far side of the screen.
+                    width = scrollViewWidth - 20;
+
+                    // If there are no other cards in the pile, there's nothing more to be done.
+                    if (currentCardIndexInDealtCardPile > 0)
+                    {
+                        double totalWidthOfOtherCards = 0;
+
+                        var lowerCardInPile = true;
+
+                        var cardIndexInPile = 0;
+
+                        // Reduce the width to account for all other cards in the pile.
+                        var items = itemsSource;
+                        foreach (var item in items)
+                        {
+                            var dealtCard = item as DealtCard;
+                            if (dealtCard != null)
+                            {
+                                // If we've reached the topmost card, there's no more to be done.
+                                if (cardIndexInPile == currentCardIndexInDealtCardPile)
+                                {
+                                    break;
+                                }
+
+                                // The lowest card in the pile never has a 1-pixel width.
+                                if (lowerCardInPile)
+                                {
+                                    lowerCardInPile = false;
+
+                                    totalWidthOfOtherCards = partiallyShownWidth;
+                                }
+                                else
+                                {
+                                    totalWidthOfOtherCards += mergeFaceDownCards ?
+                                                                (dealtCard.FaceDown ? 1 : partiallyShownWidth) :
+                                                                partiallyShownWidth;
+                                }
+
+                                ++cardIndexInPile;
+                            }
+                        }
+
+                        // The topmost card must never be narrower than the regular card width.
+                        width = Math.Max(cardWidth, width - totalWidthOfOtherCards);
+                    }
+                }
+            }
+
+            return width;
+
+        }
+
+        public double DealtCardHeight
+        {
+            get => GetDealtCardHeight();
+        }
+
+        private double GetDealtCardHeight()
+        {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return 0;
+            }
+
+            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return 0;
+            }
+
+            var isLastCardInPile = this.IsLastCardInPile;
+            var faceDown = this.FaceDown;
+            var currentCardIndexInDealtCardPile = this.CurrentCardIndexInDealtCardPile;
+            var mergeFaceDownCards = vm.MergeFaceDownCards;
+            var cardHeight = vm.CardHeight;
+
+            if (cardHeight <= 0)
+            {
+                return 0;
+            }
+
+            var height = (double)cardHeight;
+
+            var isPortrait = MainPage.IsPortrait();
+
+            // In portrait orientation, all dealt cards have the same height.
+            if (isPortrait)
+            {
+                return height;
+            }
+
+            var partiallyShownHeight = (height / 6) - 1;
+
+            // The last card in the pile is always full height.
+            if (!isLastCardInPile)
+            {
+                // Any other face-up cards are always partially shown.
+                if (!faceDown)
+                {
+                    height = partiallyShownHeight;
+                }
+                else
+                {
+                    // The card is face-down. If it's the first card in the pile,
+                    // it's always partially shown.
+                    if (currentCardIndexInDealtCardPile == 0)
+                    {
+                        height = partiallyShownHeight;
+                    }
+                    else
+                    {
+                        // Are we merging all other face-down cards?
+                        if (mergeFaceDownCards)
+                        {
+                            // .NET 9 assumes that if a cell is zero-height, that's unintentional 
+                            // and takes action which means nothing gets rendered. So give a merged
+                            // card a height of 1. This might actually be useful to users, as it 
+                            // means at a glance a pile with many merged cards seems to give the
+                            // merged card a shadow.
+
+                            // Note: On Android we can remove the shadow by setting the height to be 
+                            // (say) 0.1. But on iOS this leads to the height of the bound UI element
+                            // sometimes ending up being set to -1, and the whole CollectionView gets
+                            // a height of zero and vanishes. So stick with a height of 1 here.
+                            height = 1;
+                        }
+                        else
+                        {
+                            // We're not merging, so partially shown the card.
+                            height = partiallyShownHeight;
+                        }
+                    }
+                }
+            }
+
+            return height;
+        }
+
+        [ObservableProperty,
+            NotifyPropertyChangedFor(nameof(DealtCardWidth)),
+            NotifyPropertyChangedFor(nameof(DealtCardHeight))] 
         public partial bool IsLastCardInPile { get; set; }
 
         [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
@@ -564,6 +802,9 @@ namespace Sa11ytaire4All.Source
 
                 OnPropertyChanged("FaceupDealtCardImageSource");
                 OnPropertyChanged("FaceupPictureDealtCardImageSource");
+
+                OnPropertyChanged("DealtCardWidth");
+                OnPropertyChanged("DealtCardHeight");
             }
         }
 

@@ -602,14 +602,22 @@ namespace Sa11ytaire4All
 
                 includeFacedownCardsInAnnouncement = (bool)Preferences.Get("IncludeFacedownCardsInAnnouncement", false);
 
+                var previousExtendDealtCardHitTarget = vm.ExtendDealtCardHitTarget;
+                vm.ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
+
+                // Refresh the dealt card dimensions is necessary.
+                if ((vm.MergeFaceDownCards != previousMergeFaceDownCards) ||
+                    (vm.ExtendDealtCardHitTarget != previousExtendDealtCardHitTarget))
+                {
+                    RefreshAllCardVisuals();
+                }
+
                 // Refresh the accessibility of all cards if necessary.
                 if ((vm.AddHintToTopmostCard != previousAddHintToTopmostCard) ||
                     (vm.MergeFaceDownCards != previousMergeFaceDownCards))
                 {
                     RefreshAllDealtCardPileCardIsInAccessibleTree();
                 }
-
-                vm.ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
 
                 // General game-playing options.
 
@@ -2038,6 +2046,11 @@ namespace Sa11ytaire4All
             }
 
             return removedOk;
+        }
+
+        public double GetCardPileGridWidth()
+        {
+            return CardPileGrid.Width;
         }
     }
 }

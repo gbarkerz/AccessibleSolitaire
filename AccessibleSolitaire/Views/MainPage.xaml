@@ -51,8 +51,6 @@
         <!-- The following converters relate to the merging of face-down dealt cards.  -->
         <local_views:FaceDownCountLabelToIsVisibleConverter x:Key="FaceDownCountLabelToIsVisibleConverter" />
         <local_views:MergedToLabelPaddingConverter x:Key="MergedToLabelPaddingConverter" />
-        <local_views:MergedToHeightRequestConverter x:Key="MergedToHeightRequestConverter" />
-        <local_views:MergedToWidthRequestConverter x:Key="MergedToWidthRequestConverter" />
         <local_views:MergedCardToIsVisibleConverter x:Key="MergedCardToIsVisibleConverter" />
         
         <!-- Style the four target piles. -->
@@ -122,6 +120,8 @@
                 <Border x:Name="CardBorder" 
                     Margin="0" Padding="0"
                     AutomationProperties.IsInAccessibleTree="False"
+                    WidthRequest="{Binding DealtCardWidth}"
+                    HeightRequest="{Binding DealtCardHeight}"
                     Stroke="{AppThemeBinding Light=Black, Dark=White}"
                     StrokeThickness="0.5">
                     <Border.GestureRecognizers>
@@ -141,48 +141,6 @@
 
                     </Border.Behaviors>
                 
-                    <Border.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource MergedToWidthRequestConverter}">
-                            <Binding Path="IsLastCardInPile" />
-                            <Binding Path="FaceDown" />
-                            <Binding Path="CurrentCardIndexInDealtCardPile" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="MergeFaceDownCards" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                            <Binding Path="CurrentDealtCardPileIndex" />
-                            <Binding Source="{x:Reference MainPageInstance}" 
-                                x:DataType="{x:Type local:MainPage}"
-                                Path="BindingContext" />
-                        </MultiBinding>
-                    </Border.WidthRequest>
-                    
-                    <Border.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                                Converter="{StaticResource MergedToHeightRequestConverter}">
-                            <Binding Path="IsLastCardInPile" />
-                            <Binding Path="FaceDown" />
-                            <Binding Path="CurrentCardIndexInDealtCardPile" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="MergeFaceDownCards" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </Border.HeightRequest>
-
                     <!-- IsVisible is required on Android when face-down cards are merged. However, if the same 
                         binding is tried on iOS, the Border sometimes ends up incorrectly being invisible. 
                         So on iOS, the converter always returns true. -->

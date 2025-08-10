@@ -6,7 +6,7 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-  <Identity Name="GuyBarker.AccessibleSolitaireforWindows" Publisher="CN=C39A3576-FC52-4590-95F5-E746BE4FA578" Version="2.21.0.0" />
+  <Identity Name="GuyBarker.AccessibleSolitaireforWindows" Publisher="CN=C39A3576-FC52-4590-95F5-E746BE4FA578" Version="2.22.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="ef2d9722-cf28-4a0d-85df-57b2429d8dab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
