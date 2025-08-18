@@ -1,16 +1,101 @@
 ﻿
+using Sa11ytaire4All.ViewModels;
+using System;
+using System.Diagnostics;
+
 namespace Sa11ytaire4All
 {
     // This file contains code relating to changing the layout of the app as sceen orientation changes.
     public partial class MainPage : ContentPage
     {
-        private void SetOrientationLayout()
+        static private bool? initialScreenOrientationPortrait = null;
+
+        private bool processingScreenOrientationChange = false;
+
+        public void SetOrientationLayout()
         {
+            if (processingScreenOrientationChange)
+            {
+                return;
+            }
+
+            processingScreenOrientationChange = true;
+
             var isPortrait = MainPage.IsPortrait();
+
+            Debug.WriteLine("SetOrientationLayout: initialScreenOrientationPortrait " + initialScreenOrientationPortrait);
 
             SetUpperGridViewOrientationLayout(isPortrait);
 
+            var changedLayout = true;
+#if IOS
+            // Have we already set the UI layout to account for the screen orientation?
+            if (initialScreenOrientationPortrait != null)
+            {
+                // Unfortunately, at the time of writing this, CollectionViews on iOS don't support
+                // having their ItemsLayout changed. As such we cannot support a change in screen
+                // orientation while the app's running.
+                if ((bool)initialScreenOrientationPortrait != isPortrait)
+                {
+                    InnerMainGrid.IsVisible = false;
+                    CardPileGrid.IsVisible = false;
+
+                    Debug.WriteLine("SetOrientationLayout: NoScreenOrientationChangeLabel.IsVisible " + NoScreenOrientationChangeLabel.IsVisible);
+
+                    if (!NoScreenOrientationChangeLabel.IsVisible)
+                    {
+                        var portraitString = MainPage.MyGetString("Portrait");
+                        var landcapeString = MainPage.MyGetString("Landscape");
+                        var noScreenOrientationChangeString = MainPage.MyGetString("NoScreenOrientationChange");
+
+                        var message = string.Format(noScreenOrientationChangeString,
+                                                        (bool)initialScreenOrientationPortrait ?
+                                                            portraitString : landcapeString);
+
+                        var vm = this.BindingContext as DealtCardViewModel;
+                        if (vm != null)
+                        {
+                            vm.NoScreenOrientationChangeWarning = message;
+                        }
+
+                        NoScreenOrientationChangeLabel.IsVisible = true;
+
+                        // Set semantic focus to the newly shown label in order to have it announced by a screen reader.
+                        //NoScreenOrientationChangeLabel.SetSemanticFocus();
+
+                        // Note: The above attempt to have the label announced doesn't seem to work because focus
+                        // gets pulled back to the Menu button. So instead, just manually announce the label text.
+                        if (timerDelayScreenReaderAnnouncement == null)
+                        {
+                            timerDelayScreenReaderAnnouncement = new Timer(
+                                new TimerCallback((s) => MakeScreenReaderAnnouncement(message)),
+                                                            message,
+                                                            TimeSpan.FromMilliseconds(2000),
+                                                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                        }
+                    }
+
+                    changedLayout = false;
+                }
+            }
+            else
+            {
+                // Only set this once.
+                initialScreenOrientationPortrait = isPortrait;
+            }
+#endif
+
             SetLowerScrollViewOrientationLayout(isPortrait);
+
+            if (changedLayout)
+            {
+                InnerMainGrid.IsVisible = true;
+                CardPileGrid.IsVisible = true;
+
+                NoScreenOrientationChangeLabel.IsVisible = false;
+            }
+
+            processingScreenOrientationChange = false;
         }
 
         private void SetUpperGridViewOrientationLayout(bool isPortrait)
@@ -39,16 +124,22 @@ namespace Sa11ytaire4All
 
         private void SetLowerScrollViewOrientationLayout(bool isPortrait)
         {
+            int cardPileGridRow;
+            int cardPileGridRowSpan;
+
             if (isPortrait)
             {
-                Grid.SetRow(CardPileGrid, 2);
-                Grid.SetRowSpan(CardPileGrid, 7);
+                cardPileGridRow = 2;
+                cardPileGridRowSpan = 7;
             }
             else
             {
-                Grid.SetRow(CardPileGrid, 3);
-                Grid.SetRowSpan(CardPileGrid, 6);
+                cardPileGridRow = 3;
+                cardPileGridRowSpan = 6;
             }
+
+            Grid.SetRow(CardPileGrid, cardPileGridRow);
+            Grid.SetRowSpan(CardPileGrid, cardPileGridRowSpan);
 
             SetCollectionViewsOrientationLayout(isPortrait);
         }

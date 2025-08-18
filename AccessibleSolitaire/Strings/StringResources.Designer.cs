@@ -975,6 +975,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to landscape.
+        /// </summary>
+        internal static string Landscape {
+            get {
+                return ResourceManager.GetString("Landscape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Light Blue.
         /// </summary>
         internal static string LightBlue {
@@ -1182,6 +1191,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, at the moment Accessible Solitaire doesn&apos;t support changing the screen orientation while the app is running. So please either rotate the screen back to {0}, or restart the app with the screen in the desired orientation..
+        /// </summary>
+        internal static string NoScreenOrientationChange {
+            get {
+                return ResourceManager.GetString("NoScreenOrientationChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This card is not at the top of the upturned card pile, and cannot be selected..
         /// </summary>
         internal static string ObscuredUpturnedCardCannotBeSelected {
@@ -1313,6 +1331,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Popup {
             get {
                 return ResourceManager.GetString("Popup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to portrait.
+        /// </summary>
+        internal static string Portrait {
+            get {
+                return ResourceManager.GetString("Portrait", resourceCulture);
             }
         }
         

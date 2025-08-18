@@ -132,7 +132,7 @@ namespace Sa11ytaire4All
                 _targetPiles[i] = new List<Card>();
             }
 
-            //DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
+            DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged; ;
 
             if (mainMediaElement != null)
             {
@@ -159,6 +159,14 @@ namespace Sa11ytaire4All
             CardPile6.SelectionMode = SelectionMode.None;
             CardPile7.SelectionMode = SelectionMode.None;
 #endif
+        }
+
+        private void Current_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+        {
+            Debug.WriteLine("Current_MainDisplayInfoChanged: e.DisplayInfo.Orientation " + 
+                e.DisplayInfo.Orientation.ToString());
+
+            MainPage.MainPageSingleton?.SetOrientationLayout();
         }
 
         private void MainMediaElement_MediaEnded(object? sender, EventArgs e)
@@ -883,6 +891,8 @@ namespace Sa11ytaire4All
         private bool gotPreviousOrientation = false;
         private bool previousOrientationPortrait;
 
+        private bool processingSizeChanged = false;
+
         private void CardPileGrid_SizeChanged(object? sender, EventArgs e)
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -890,6 +900,13 @@ namespace Sa11ytaire4All
             {
                 return;
             }
+
+            if (processingSizeChanged)
+            {
+                return;
+            }
+
+            processingSizeChanged = true;
 
             // On iOS the topmost Grid containing the app UI also contains the system's status and navigation
             // base, which we do not want to include here. So base the app's UI sizing on the inner main Grid
@@ -901,6 +918,7 @@ namespace Sa11ytaire4All
 
             if (!gotPreviousOrientation || (currentOrientationIsPortrait != previousOrientationPortrait))
             {
+                // Do not change orientation layout on iOS.
                 SetOrientationLayout();
 
                 OriginalCardWidth = 0;
@@ -951,6 +969,8 @@ namespace Sa11ytaire4All
             {
                 RefreshAllCardVisuals();
             }
+
+            processingSizeChanged = false;
         }
 
         private void ClearTargetPileButtons()
@@ -2005,7 +2025,7 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine(debugString);
 
-                SentrySdk.CaptureMessage(debugString, SentryLevel.Debug);
+                //SentrySdk.CaptureMessage(debugString, SentryLevel.Debug);
             }
 
             return removedOk;
@@ -2042,7 +2062,7 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine(debugString);
 
-                SentrySdk.CaptureMessage(debugString, SentryLevel.Debug);
+                //SentrySdk.CaptureMessage(debugString, SentryLevel.Debug);
             }
 
             return removedOk;
@@ -2050,7 +2070,22 @@ namespace Sa11ytaire4All
 
         public double GetCardPileGridWidth()
         {
+            if (CardPileGrid == null)
+            {
+                return 0;
+            }
+
             return CardPileGrid.Width;
+        }
+
+        public double GetCardPileGridHeight()
+        {
+            if (CardPileGrid == null)
+            {
+                return 0;
+            }
+
+            return CardPileGrid.Height;
         }
     }
 }

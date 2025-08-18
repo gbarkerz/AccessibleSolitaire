@@ -33,10 +33,10 @@ namespace Sa11ytaire4All.Source
             }
         }
 
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial Card? Card { get; set; }
 
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial CardState CardState { get; set; }
 
         public static readonly BindableProperty DealtCardTintColourProperty =
@@ -435,7 +435,213 @@ namespace Sa11ytaire4All.Source
             }
 
             return width;
+        }
 
+        public double FaceDownCountLabelSize
+        {
+            get => GetFaceDownCountLabelSize();
+        }
+
+        private double GetFaceDownCountLabelSize()
+        {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return 0;
+            }
+
+            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return 0;
+            }
+
+            // The label's font size must never be more than the card height.
+            var cardHeight = vm.CardHeight;
+
+            if (cardHeight <= 0)
+            {
+                return 0;
+            }
+
+#if WINDOWS
+            cardHeight = (2 * cardHeight) / 3;
+#endif
+            return (cardHeight / 6) - 1;
+        }
+
+        public bool FaceDownCountLabelIsVisible
+        {
+            get => GetFaceDownCountLabelIsVisible();
+        }
+
+        private bool GetFaceDownCountLabelIsVisible()
+        {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return false;
+            }
+
+            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return false;
+            }
+
+            var faceDown = this.FaceDown;
+            var currentCardIndexInDealtCardPile = this.CurrentCardIndexInDealtCardPile;
+            var mergeFaceDownCards = vm.MergeFaceDownCards;
+
+            return (mergeFaceDownCards && faceDown && (currentCardIndexInDealtCardPile == 0));
+        }
+
+        public LayoutOptions DealtCardImageHorizontalOptions
+        {
+            get => GetDealtCardImageHorizontalVerticalOptions(true);
+        }
+
+        public LayoutOptions DealtCardImageVerticalOptions
+        {
+            get => GetDealtCardImageHorizontalVerticalOptions(false);
+        }
+
+        private LayoutOptions GetDealtCardImageHorizontalVerticalOptions(bool isHorizontalOption)
+        {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return LayoutOptions.Start;
+            }
+
+            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return LayoutOptions.Start;
+            }
+
+            var IsLastCardInPile = this.IsLastCardInPile;
+            var CardSelected = this.CardSelected;
+            var extendDealtCardHitTarget = vm.ExtendDealtCardHitTarget;
+
+            var isPortrait = MainPage.IsPortrait();
+
+            // By default, show the top left corner of the card.
+            var option = LayoutOptions.Start;
+
+            // If we're extending cards across the screen, then centre it horizontally.
+            if (isPortrait && isHorizontalOption && IsLastCardInPile && extendDealtCardHitTarget)
+            {
+                option = LayoutOptions.Center;
+            }
+
+            if (CardSelected)
+            {
+                if ((isPortrait && !isHorizontalOption) ||
+                    (!isPortrait && isHorizontalOption))
+                {
+                    option = LayoutOptions.Center;
+                }
+
+#if WINDOWS
+                if (IsLastCardInPile || isHorizontalOption)
+                {
+                    option = LayoutOptions.Center;
+                }
+#endif
+            }
+
+            return option;
+        }
+
+        public double DealtCardImageWidth
+        {
+            get => GetDealtCardImageWidth();
+        }
+
+        private double GetDealtCardImageWidth()
+        {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return 0;
+            }
+
+            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return 0;
+            }
+
+            var cardSelected = this.CardSelected;
+
+            var cardWidth = vm.CardWidth;
+
+            if (cardWidth <= 0)
+            {
+                return 0;
+            }
+
+            var isPortrait = MainPage.IsPortrait();
+
+            cardWidth -= 2; // '2' here to account for the margins between CollectionViews.
+
+#if WINDOWS
+            if (cardSelected)
+            {
+                cardWidth -= 20;
+            }
+#else
+            if (cardSelected && !isPortrait)
+            {
+                cardWidth -= 12;
+            }
+#endif
+
+            return cardWidth;
+        }
+
+        public double DealtCardImageHeight
+        {
+            get => GetDealtCardImageHeight();
+        }
+
+        private double GetDealtCardImageHeight()
+        {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return 0;
+            }
+
+            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return 0;
+            }
+
+            var cardSelected = this.CardSelected;
+
+            var cardHeight = vm.CardHeight;
+
+            if (cardHeight <= 0)
+            {
+                return 0;
+            }
+
+            if (cardSelected)
+            {
+#if WINDOWS
+                cardHeight -= 20;
+#else
+                // When a dealt card is selected in Portrait, wide horizontal lines appear at the top and bottom
+                // of the card. This is achieved by reducing the height of the card, and centring the image in its
+                // container. By doing this, the BackgroundColor of a containing element is revealed above and 
+                // below the card.
+                var isPortrait = MainPage.IsPortrait();
+                if (isPortrait)
+                {
+                    cardHeight -= 16;
+                }
+#endif
+            }
+
+            return cardHeight;
         }
 
         public double DealtCardHeight
@@ -526,10 +732,19 @@ namespace Sa11ytaire4All.Source
 
         [ObservableProperty,
             NotifyPropertyChangedFor(nameof(DealtCardWidth)),
-            NotifyPropertyChangedFor(nameof(DealtCardHeight))] 
+            NotifyPropertyChangedFor(nameof(DealtCardHeight)),
+            NotifyPropertyChangedFor(nameof(DealtCardImageWidth)),
+            NotifyPropertyChangedFor(nameof(DealtCardImageHeight))]
         public partial bool IsLastCardInPile { get; set; }
 
-        [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
+        [ObservableProperty,
+            NotifyPropertyChangedFor(nameof(DealtCardWidth)),
+            NotifyPropertyChangedFor(nameof(DealtCardHeight)),
+            NotifyPropertyChangedFor(nameof(DealtCardImageWidth)),
+            NotifyPropertyChangedFor(nameof(DealtCardImageHeight)),
+            NotifyPropertyChangedFor(nameof(DealtCardImageHorizontalOptions)),
+            NotifyPropertyChangedFor(nameof(DealtCardImageVerticalOptions)),
+            NotifyPropertyChangedFor(nameof(AccessibleName))]
         public partial bool CardSelected { get; set; }
 
         public ImageSource? FaceupDealtCardImageSource
@@ -805,6 +1020,15 @@ namespace Sa11ytaire4All.Source
 
                 OnPropertyChanged("DealtCardWidth");
                 OnPropertyChanged("DealtCardHeight");
+
+                OnPropertyChanged("DealtCardImageWidth");
+                OnPropertyChanged("DealtCardImageHeight");
+
+                OnPropertyChanged("DealtCardImageHorizontalOptions");
+                OnPropertyChanged("DealtCardImageVerticalOptions");
+
+                OnPropertyChanged("FaceDownCountLabelIsVisible");
+                OnPropertyChanged("FaceDownCountLabelSize");
             }
         }
 

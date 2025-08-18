@@ -30,11 +30,43 @@ namespace Sa11ytaire4All.ViewModels
         [ObservableProperty] 
         public partial ObservableCollection<DealtCard>[]? DealtCards { get; set; }
 
-        [ObservableProperty]
-        public partial double CardHeight { get; set; }
+        private double cardWidth;
+        public double CardWidth
+        {
+            get
+            {
+                return cardWidth;
+            }
+            set
+            {
+                if (cardWidth != value)
+                {
+                    cardWidth = value;
 
-        [ObservableProperty]
-        public partial double CardWidth { get; set; }
+                    OnPropertyChanged("CardWidth");
+                    OnPropertyChanged("DealtCardPileWidth");
+                }
+            }
+        }
+
+        private double cardHeight;
+        public double CardHeight
+        {
+            get
+            {
+                return cardHeight;
+            }
+            set
+            {
+                if (cardHeight != value)
+                {
+                    cardHeight = value;
+
+                    OnPropertyChanged("CardHeight");
+                    OnPropertyChanged("DealtCardPileHeight");
+                }
+            }
+        }
 
         [ObservableProperty]
         public partial Color? SuitColoursClubs { get; set; }
@@ -65,5 +97,56 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty]
         public partial int LongPressZoomDuration { get; set; }
+
+        private IItemsLayout dealtCardPileItemsLayout;
+        public IItemsLayout DealtCardPileItemsLayout
+        {
+            get
+            {
+                return LinearItemsLayout.Horizontal; // dealtCardPileItemsLayout;
+            }
+            set
+            {
+                if (dealtCardPileItemsLayout != value)
+                {
+                    dealtCardPileItemsLayout = value;
+
+                    //OnPropertyChanged("DealtCardPileItemsLayout");
+                }
+            }
+        }
+
+        public double DealtCardPileWidth 
+        { 
+            get
+            {
+                var dealtCardPileWidth = this.CardWidth;
+
+                if (MainPage.IsPortrait() && (MainPage.MainPageSingleton != null))
+                {
+                    dealtCardPileWidth = MainPage.MainPageSingleton.GetCardPileGridWidth();
+                }
+
+                return dealtCardPileWidth;
+            }
+        }
+
+        public double DealtCardPileHeight 
+        { 
+            get
+            {
+                var dealtCardPileHeight = this.CardHeight;
+
+                if (!MainPage.IsPortrait() && (MainPage.MainPageSingleton != null))
+                {
+                    dealtCardPileHeight = MainPage.MainPageSingleton.GetCardPileGridHeight();
+                }
+
+                return dealtCardPileHeight;
+            }
+        }
+
+        [ObservableProperty]
+        public partial string NoScreenOrientationChangeWarning { get; set; }
     }
 }

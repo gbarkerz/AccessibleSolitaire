@@ -30,14 +30,8 @@
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
         <local_views:DealtCardSuitSuitColoursToColor x:Key="DealtCardSuitSuitColoursToColor" />
         <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
-        <local_views:ConverterForCardImageHorizontalVerticalOptions x:Key="ConverterForCardImageHorizontalVerticalOptions" />
-        <local_views:CardWidthToDealtCardPileCollectionViewWidthConverter x:Key="CardWidthToDealtCardPileCollectionViewWidthConverter" />
         <local_views:ConverterForDealtCardLabelHorizontalOptions x:Key="ConverterForDealtCardLabelHorizontalOptions" />
-        <local_views:CardWidthSelectedToCardImageWidth x:Key="CardWidthSelectedToCardImageWidth" />
-        <local_views:CardHeightSelectedToCardImageHeight x:Key="CardHeightSelectedToCardImageHeight" />
         <local_views:IsFaceDownToVisibilityConverter x:Key="IsFaceDownToVisibilityConverter" />
-        <local_views:CardHeightToLabelFontSizeConverter x:Key="CardHeightToLabelFontSizeConverter" />
-        <local_views:ScrollViewHeightToDealtCardPileCollectionViewConverter x:Key="ScrollViewHeightToDealtCardPileCollectionViewConverter" />
         <local_views:IsCardButtonCardToIsEnabled x:Key="IsCardButtonCardToIsEnabled" />
         <local_views:IsFaceDownToBackgroundColorConverter x:Key="IsFaceDownToBackgroundColorConverter" />
         <local_views:InSelectedSetToBackgroundConverter x:Key="InSelectedSetToBackgroundConverter" />
@@ -49,7 +43,6 @@
         <local_views:CardWidthToTargetCardWidthConverter x:Key="CardWidthToTargetCardWidthConverter" />
 
         <!-- The following converters relate to the merging of face-down dealt cards.  -->
-        <local_views:FaceDownCountLabelToIsVisibleConverter x:Key="FaceDownCountLabelToIsVisibleConverter" />
         <local_views:MergedToLabelPaddingConverter x:Key="MergedToLabelPaddingConverter" />
         <local_views:MergedCardToIsVisibleConverter x:Key="MergedCardToIsVisibleConverter" />
         
@@ -78,18 +71,23 @@
             did not consistently match that of the rest of the UI. So set it explicitly on each of the 
             CollectionViews and on high-level Grid inside the upper ScrollView. -->
 
+        <!--<Setter Property="ItemsLayout" Value="LinearItemsLayout.Horizontal" />-->
+
         <Style x:Key="CollectionViewStyle" TargetType="CollectionView">
+            <Setter Property="WidthRequest" Value="{Binding DealtCardPileWidth}" />
+            <Setter Property="HeightRequest" Value="{Binding DealtCardPileHeight}" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="SelectionMode" Value="Single" />
             <Setter Property="ItemSizingStrategy" Value="MeasureAllItems" />
-            <Setter Property="FlowDirection" 
+        </Style>
+
+        <!--<Setter Property="FlowDirection" 
                 Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
                 AncestorType={x:Type vm:DealtCardViewModel}},
                 x:DataType=vm:DealtCardViewModel,
                 Path=FlipGameLayoutHorizontally,
-                Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}" />
-        </Style>
-        
+                Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}" />-->
+
         <!-- Define the UI for the cards in the dealt card piles. -->
 
         <!-- Barker Todo: Remove the use of CardIsInAccessibleTree below once I know how to use multi-binding in XAML 
@@ -178,6 +176,7 @@
                         <!-- Note: MAUI automatically converts the integer CountFaceDownCardsInPile value below to a string. -->
                         <Label Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="FaceDownCountLabel"
                             AutomationProperties.IsInAccessibleTree="False"
+                            IsVisible="{Binding FaceDownCountLabelIsVisible}"
                             BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
                             HorizontalOptions="{Binding FaceDown, Mode=OneWay, ConverterParameter=0,
                                 Converter={StaticResource ConverterForDealtCardLabelHorizontalOptions}}"
@@ -191,144 +190,45 @@
                                 Converter={StaticResource MergedToLabelPaddingConverter}}"
                             FontAutoScalingEnabled="False"
                             FontAttributes="Bold"
-                            FontSize="{Binding 
-                                Source={RelativeSource Mode=FindAncestorBindingContext, 
-                                    AncestorType={x:Type vm:DealtCardViewModel}},
-                                x:DataType=vm:DealtCardViewModel,
-                                Path=CardHeight, 
-                                Converter={StaticResource CardHeightToLabelFontSizeConverter}}"
-                            Text="{Binding CountFaceDownCardsInPile, Mode=OneWay}">
+                            FontSize="{Binding FaceDownCountLabelSize}"
+                            Text="{Binding CountFaceDownCardsInPile, Mode=OneWay}" />
 
-                            <Label.IsVisible>
-                                <MultiBinding Mode="OneWay"
-                                    Converter="{StaticResource FaceDownCountLabelToIsVisibleConverter}">
-                                    <Binding Path="FaceDown" />
-                                    <Binding Path="CurrentCardIndexInDealtCardPile" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="MergeFaceDownCards" />
-                                </MultiBinding>
-                            </Label.IsVisible>
-                        </Label>
+                        <!-- Layout note: All dealt cards need to have explicit sizes set to ensure that the 
+                            appropriate portion and aspect ratio of the card image is shown regardless of 
+                            whether the card is fully shown or partially obscurred. Also here the width 
+                            and height is adjusted as required depending on whether the card is selected. -->
 
                         <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="TintedCardImage"
                             AutomationProperties.IsInAccessibleTree="False"
                             Margin="0"
+                            WidthRequest="{Binding DealtCardImageWidth}"
+                            HeightRequest="{Binding DealtCardImageHeight}"
+                            HorizontalOptions="{Binding DealtCardImageHorizontalOptions}"
+                            VerticalOptions="{Binding DealtCardImageVerticalOptions}"
                             Aspect="Fill" 
                             BackgroundColor="{Binding InSelectedSet, Mode=OneWay, Converter={StaticResource InSelectedSetToBackgroundConverter}}"
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
                             Source="{Binding FaceupDealtCardImageSource, Mode=OneWay}">
 
                             <Image.Behaviors>
-
                                 <toolkit:IconTintColorBehavior
                                     BindingContext="{Binding BindingContext, 
                                         Source={x:Reference TintedCardImage}, x:DataType=Image}"
                                     TintColor="{Binding DealtCardTintColour}" />
-
                             </Image.Behaviors>
-
-                            <!-- Layout note: All dealt cards need to have explicit sizes set to ensure that the 
-                                appropriate portion and aspect ratio of the card image is shown regardless of 
-                                whether the card is fully shown or partially obscurred. Also here the width 
-                                and height is adjusted as required depending on whether the card is selected. -->
-                            
-                            <Image.WidthRequest>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="CardWidth" />
-                                </MultiBinding>
-                            </Image.WidthRequest>
-                            <Image.HeightRequest>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource CardHeightSelectedToCardImageHeight}">
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="CardHeight" />
-                                </MultiBinding>
-                            </Image.HeightRequest>
-
-                            <Image.HorizontalOptions>
-                                <MultiBinding Mode="OneWay" ConverterParameter="0"
-                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
-                                    <Binding Path="IsLastCardInPile" />
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="ExtendDealtCardHitTarget" />
-                                </MultiBinding>
-                            </Image.HorizontalOptions>
-                            <Image.VerticalOptions>
-                                <MultiBinding Mode="OneWay" ConverterParameter="1"
-                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
-                                    <Binding Path="IsLastCardInPile" />
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="ExtendDealtCardHitTarget" />
-                                </MultiBinding>
-                            </Image.VerticalOptions>
                         </Image>
 
                         <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="PictureCardImage"
                             AutomationProperties.IsInAccessibleTree="False"
                             Margin="0"
+                            WidthRequest="{Binding DealtCardImageWidth}"
+                            HeightRequest="{Binding DealtCardImageHeight}"
+                            HorizontalOptions="{Binding DealtCardImageHorizontalOptions}"
+                            VerticalOptions="{Binding DealtCardImageVerticalOptions}"
                             BackgroundColor="Transparent"
                             Aspect="Fill" 
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
-                            Source="{Binding FaceupPictureDealtCardImageSource, Mode=OneWay}">
-                            <Image.WidthRequest>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource CardWidthSelectedToCardImageWidth}">
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="CardWidth" />
-                                </MultiBinding>
-                            </Image.WidthRequest>
-                            <Image.HeightRequest>
-                                <MultiBinding Mode="OneWay" 
-                                    Converter="{StaticResource CardHeightSelectedToCardImageHeight}">
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="CardHeight" />
-                                </MultiBinding>
-                            </Image.HeightRequest>
-                            <Image.HorizontalOptions>
-                                <MultiBinding Mode="OneWay" ConverterParameter="0"
-                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
-                                    <Binding Path="IsLastCardInPile" />
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="ExtendDealtCardHitTarget" />
-                                </MultiBinding>
-                            </Image.HorizontalOptions>
-                            <Image.VerticalOptions>
-                                <MultiBinding Mode="OneWay" ConverterParameter="1"
-                                    Converter="{StaticResource ConverterForCardImageHorizontalVerticalOptions}">
-                                    <Binding Path="IsLastCardInPile" />
-                                    <Binding Path="CardSelected" />
-                                    <Binding 
-                                        Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                        x:DataType="{x:Type vm:DealtCardViewModel}"
-                                        Path="ExtendDealtCardHitTarget" />
-                                </MultiBinding>
-                            </Image.VerticalOptions>
-                        </Image>
+                            Source="{Binding FaceupPictureDealtCardImageSource, Mode=OneWay}" />
 
                     </Grid>
 
@@ -723,11 +623,7 @@
                     Path=FlipGameLayoutHorizontally,
                     Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"
                 Padding="0" Margin="0">
-                   
-                <!-- Layout note: The Grid has 7 rows and 7 columns. The contained CollectionViews have their
-                    width and height set explicitly, and so all the Grid's ColumnDefintions and RowDefinitions
-                    are "Auto" here rather than "*". -->
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -747,7 +643,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-
+                
                 <!-- Layout note: The CollectionView's ItemsLayout is set to Horizontal or Vertical
                     depending on screen orientation. -->
 
@@ -761,258 +657,60 @@
                         Landscape: Set to the height of the ScrollView containing the Grid containing the CollectionsView.    
                         Portrait: Set to the height of a dealt card.
                 -->
-                    
-                <!-- Barker: Replace all the duplicated WidthRequest and HeightRequest MultiBinding below 
-                    and add it to the CollectionView styling. -->
 
                 <CollectionView x:Name="CardPile1" AutomationId="CardPile1"
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards1}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                    SelectionChanged="CardPile_SelectionChanged">
-
-                    <CollectionView.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                        </MultiBinding>
-                    </CollectionView.WidthRequest>
-
-                    <CollectionView.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Height" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </CollectionView.HeightRequest>
-                </CollectionView>
+                    SelectionChanged="CardPile_SelectionChanged" />
 
                 <CollectionView x:Name="CardPile2" AutomationId="CardPile2" 
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards2}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                    SelectionChanged="CardPile_SelectionChanged">
-
-                    <CollectionView.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                        </MultiBinding>
-                    </CollectionView.WidthRequest>
-
-                    <CollectionView.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Height" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </CollectionView.HeightRequest>
-                </CollectionView>
+                    SelectionChanged="CardPile_SelectionChanged" />
 
                 <CollectionView x:Name="CardPile3" AutomationId="CardPile3" 
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards3}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                    SelectionChanged="CardPile_SelectionChanged">
-
-                    <CollectionView.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                        </MultiBinding>
-                    </CollectionView.WidthRequest>
-
-                    <CollectionView.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Height" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </CollectionView.HeightRequest>
-                </CollectionView>
+                    SelectionChanged="CardPile_SelectionChanged" />
 
                 <CollectionView x:Name="CardPile4" AutomationId="CardPile4" 
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards4}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                    SelectionChanged="CardPile_SelectionChanged">
-
-                    <CollectionView.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                        </MultiBinding>
-                    </CollectionView.WidthRequest>
-
-                    <CollectionView.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Height" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </CollectionView.HeightRequest>
-                </CollectionView>
+                    SelectionChanged="CardPile_SelectionChanged" />
 
                 <CollectionView x:Name="CardPile5" AutomationId="CardPile5" 
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards5}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                    SelectionChanged="CardPile_SelectionChanged">
-
-                    <CollectionView.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                        </MultiBinding>
-                    </CollectionView.WidthRequest>
-
-                    <CollectionView.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Height" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </CollectionView.HeightRequest>
-                </CollectionView>
+                    SelectionChanged="CardPile_SelectionChanged" />
 
                 <CollectionView x:Name="CardPile6" AutomationId="CardPile6" 
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards6}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                    SelectionChanged="CardPile_SelectionChanged">
-
-                    <CollectionView.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                        </MultiBinding>
-                    </CollectionView.WidthRequest>
-
-                    <CollectionView.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Height" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </CollectionView.HeightRequest>
-                </CollectionView>
+                    SelectionChanged="CardPile_SelectionChanged" />
 
                 <CollectionView x:Name="CardPile7" AutomationId="CardPile7" 
                     Style="{StaticResource CollectionViewStyle}"
                     ItemsSource="{Binding DealtCards7}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
-                    SelectionChanged="CardPile_SelectionChanged">
-
-                    <CollectionView.WidthRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource CardWidthToDealtCardPileCollectionViewWidthConverter}">
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardWidth" />
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Width" />
-                        </MultiBinding>
-                    </CollectionView.WidthRequest>
-
-                    <CollectionView.HeightRequest>
-                        <MultiBinding Mode="OneWay" 
-                            Converter="{StaticResource ScrollViewHeightToDealtCardPileCollectionViewConverter}">
-                            <Binding 
-                                Source="{x:Reference CardPileGrid}"
-                                x:DataType="Grid"
-                                Path="Height" />
-                            <Binding 
-                                Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
-                                x:DataType="{x:Type vm:DealtCardViewModel}"
-                                Path="CardHeight" />
-                        </MultiBinding>
-                    </CollectionView.HeightRequest>
-                </CollectionView>
+                    SelectionChanged="CardPile_SelectionChanged" />
 
             </Grid>
 
         </Grid>
+
+        <Label x:Name="NoScreenOrientationChangeLabel"
+            IsVisible="False"
+            Padding="20"
+            TextColor="{AppThemeBinding Light=White, Dark=White}"
+            BackgroundColor="{AppThemeBinding Light=Black, Dark=Black}"
+            FontSize="Large"
+            Text="{Binding NoScreenOrientationChangeWarning}" />
 
     </Grid>
 

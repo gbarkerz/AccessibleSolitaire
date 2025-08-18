@@ -662,4 +662,13 @@ Z: Show card zoom popup.</value>
   <data name="NoMove" xml:space="preserve">
     <value>No move</value>
   </data>
+  <data name="Portrait" xml:space="preserve">
+    <value>portrait</value>
+  </data>
+  <data name="Landscape" xml:space="preserve">
+    <value>landscape</value>
+  </data>
+  <data name="NoScreenOrientationChange" xml:space="preserve">
+    <value>Sorry, at the moment Accessible Solitaire doesn't support changing the screen orientation while the app is running. So please either rotate the screen back to {0}, or restart the app with the screen in the desired orientation.</value>
+  </data>
 </root>

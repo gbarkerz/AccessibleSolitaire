@@ -26,8 +26,10 @@ namespace Sa11ytaire4All
                 .UseMauiCommunityToolkitMediaElement()
                 .ConfigureMauiHandlers(handlers =>
                 {
-                    // Barker Todo: Investigate the advantages of CollectionViewHandler2.
-                    // handlers.AddHandler<Microsoft.Maui.Controls.CollectionView, Microsoft.Maui.Controls.Handlers.Items2.CollectionViewHandler2>();
+#if IOS
+                    // The CollectionView card layout breaks down on iPhone 16 without use of Items2.CollectionViewHandler2.
+                    handlers.AddHandler<Microsoft.Maui.Controls.CollectionView, Microsoft.Maui.Controls.Handlers.Items2.CollectionViewHandler2>();
+#endif 
 
 #if WINDOWS
                     Microsoft.Maui.Controls.Handlers.Items.CollectionViewHandler.Mapper.AppendToMapping("KeyboardAccessibleCollectionView", (handler, view) =>
@@ -62,25 +64,25 @@ namespace Sa11ytaire4All
                     fonts.AddFont("OpenSansRegular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSansSemibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("fontawesome6freesolid900.otf", "FA");
-                })
-                .UseSentry(options =>
-                {
-                    // The DSN is the only required setting.
-
-                    // Barker: This Dsn is copied from the Sentry project Client Keys page.
-                    options.Dsn = < Insert Dsn here.>;
-
-                    // Use debug mode if you want to see what the SDK is doing.
-                    // Debug messages are written to stdout with Console.Writeline,
-                    // and are viewable in your IDE's debug console or with 'adb logcat', etc.
-                    // This option is not recommended when deploying your application.
-                    //options.Debug = true;
-
-                    // Adds request URL and headers, IP and name for users, etc.
-                    //options.SendDefaultPii = true;
-
-                    // Other Sentry options can be set here.
                 });
+                //.UseSentry(options =>
+                //{
+                //    // The DSN is the only required setting.
+
+                //    // Barker: This Dsn is copied from the Sentry project Client Keys page.
+                //    options.Dsn = "<Insert Dsn here.>";
+
+                //    // Use debug mode if you want to see what the SDK is doing.
+                //    // Debug messages are written to stdout with Console.Writeline,
+                //    // and are viewable in your IDE's debug console or with 'adb logcat', etc.
+                //    // This option is not recommended when deploying your application.
+                //    //options.Debug = true;
+
+                //    // Adds request URL and headers, IP and name for users, etc.
+                //    //options.SendDefaultPii = true;
+
+                //    // Other Sentry options can be set here.
+                //});
 
 #if DEBUG
             builder.Logging.AddDebug();

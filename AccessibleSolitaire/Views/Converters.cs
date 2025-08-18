@@ -358,103 +358,13 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class CardWidthToDealtCardPileCollectionViewWidthConverter : IMultiValueConverter
-    {
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return 0;
-            }
-
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return 0;
-            }
-
-            var cardWidth = (double)values[0];
-
-            var scrollViewWidth = (double)values[1];
-
-            if ((cardWidth <= 0) || (scrollViewWidth <= 0))
-            {
-                return 0;
-            }
-
-            var isPortrait = MainPage.IsPortrait();
-
-            return isPortrait ? scrollViewWidth : cardWidth;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ConverterForCardImageHorizontalVerticalOptions : IMultiValueConverter
-    {
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 3))
-            {
-                return LayoutOptions.Start;
-            }
-
-            if ((values[0] == null) || (values[1] == null) || (values[2] == null))
-            {
-                return LayoutOptions.Start;
-            }
-
-            var IsLastCardInPile = (bool)values[0];
-            var CardSelected = (bool)values[1];
-            var extendDealtCardHitTarget = (bool)values[2];
-
-            var isPortrait = MainPage.IsPortrait();
-
-            var isHorizontalOption = (string?)parameter == "0";
-
-            // By default, show the top left corner of the card.
-            var option = LayoutOptions.Start;
-
-            // If we're extending cards across the screen, then centre it horizontally.
-            if (isPortrait && isHorizontalOption && IsLastCardInPile && extendDealtCardHitTarget)
-            {
-                option =  LayoutOptions.Center;
-            }
-
-            if (CardSelected)
-            {
-                if ((isPortrait && !isHorizontalOption) ||
-                    (!isPortrait && isHorizontalOption))
-                {
-                    option = LayoutOptions.Center;
-                }
-
-#if WINDOWS
-                if (IsLastCardInPile || isHorizontalOption)
-                {
-                    option = LayoutOptions.Center;
-                }
-#endif
-            }
-
-            return option;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class FlipGameLayoutHorizontallyToFlowDirection : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value == null)
             {
-                return false;
+                return FlowDirection.LeftToRight;
             }
 
             var flipGameLayoutHorizontally = (bool)value;
@@ -555,130 +465,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class CardWidthSelectedToCardImageWidth : IMultiValueConverter
-    {
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return 0;
-            }
-
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return 0;
-            }
-
-            var cardSelected = (bool)values[0];
-            var cardWidth = (double)values[1];
-
-            var isPortrait = MainPage.IsPortrait();
-
-            cardWidth -= 2; // '2' here to account for the margins between CollectionViews.
-
-#if WINDOWS
-            if (cardSelected)
-            {
-                cardWidth -= 20;
-            }
-#else
-            if (cardSelected && !isPortrait)
-            {
-                cardWidth -= 12;
-            }
-#endif
-
-            return cardWidth;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CardHeightSelectedToCardImageHeight : IMultiValueConverter
-    {
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return 0;
-            }
-
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return 0;
-            }
-
-            var cardSelected = (bool)values[0];
-            var cardHeight = (double)values[1];
-
-            if (cardSelected)
-            {
-#if WINDOWS
-                cardHeight -= 20;
-#else
-                // When a dealt card is selected in Portrait, wide horizontal lines appear at the top and bottom
-                // of the card. This is achieved by reducing the height of the card, and centring the image in its
-                // container. By doing this, the BackgroundColor of a containing element is revealed above and 
-                // below the card.
-                var isPortrait = MainPage.IsPortrait();
-                if (isPortrait)
-                {
-                    cardHeight -= 16;
-                }
-#endif
-            }
-
-            return cardHeight;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
-
-    public class ScrollViewHeightToDealtCardPileCollectionViewConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || (values.Length < 2))
-            {
-                return 0;
-            }
-
-            if ((values[0] == null) || (values[1] == null))
-            {
-                return 0;
-            }
-
-            var scrollViewHeight = (double)values[0];
-            if (scrollViewHeight <= 0)
-            {
-                return 0;
-            }
-
-            var cardHeight = (double)values[1];
-            if (cardHeight <= 0)
-            {
-                return 0;
-            }
-
-            var isPortrait = MainPage.IsPortrait();
-
-            return isPortrait ? cardHeight : scrollViewHeight;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class IsObscuredCardToMargin : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -691,35 +477,6 @@ namespace Sa11ytaire4All.Views
             var cardWidth = (double)value;
 
             return new Thickness(0, 0, -4 * cardWidth / 5, 0);
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CardHeightToLabelFontSizeConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            if (value == null)
-            {
-                return 0;
-            }
-
-            // The label's font size must never be more than the card height.
-            var cardHeight = (double)value;
-
-            if (cardHeight <= 0)
-            {
-                return 0;
-            }
-
-#if WINDOWS
-            cardHeight = (2 * cardHeight) / 3;
-#endif
-            return (cardHeight / 6) - 1;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -1308,35 +1065,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    // This sets the visibility of the dealt card pile Label showing the count of face-down cards in the pile.
-    public class FaceDownCountLabelToIsVisibleConverter : IMultiValueConverter
-    {
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values == null || values.Length < 3)
-            {
-                return false;
-            }
-
-            if ((values[0] == null) || (values[1] == null) || (values[2] == null))
-            {
-                return false;
-            }
-
-            var faceDown = (bool)values[0];
-            var currentCardIndexInDealtCardPile = (int)values[1];
-            var mergeFaceDownCards = (bool)values[2];
-
-            return (mergeFaceDownCards && faceDown && (currentCardIndexInDealtCardPile == 0));
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    
     public class MergedCardToIsVisibleConverter : IMultiValueConverter
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
