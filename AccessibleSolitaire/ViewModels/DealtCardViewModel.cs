@@ -17,6 +17,8 @@ namespace Sa11ytaire4All.ViewModels
             {
                 DealtCards[i] = new ObservableCollection<DealtCard>();
             }
+
+            NoScreenOrientationChangeWarning = "";
         }
 
         public ObservableCollection<DealtCard>? DealtCards1 { get => DealtCards?[0]; }
@@ -97,24 +99,6 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty]
         public partial int LongPressZoomDuration { get; set; }
-
-        private IItemsLayout dealtCardPileItemsLayout;
-        public IItemsLayout DealtCardPileItemsLayout
-        {
-            get
-            {
-                return LinearItemsLayout.Horizontal; // dealtCardPileItemsLayout;
-            }
-            set
-            {
-                if (dealtCardPileItemsLayout != value)
-                {
-                    dealtCardPileItemsLayout = value;
-
-                    //OnPropertyChanged("DealtCardPileItemsLayout");
-                }
-            }
-        }
 
         public double DealtCardPileWidth 
         { 

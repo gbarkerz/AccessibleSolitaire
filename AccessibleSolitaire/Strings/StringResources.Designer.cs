@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.22.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.24.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -417,6 +417,33 @@ namespace Sa11ytaire4All.Strings {
         internal static string CelebrationExperienceAudio {
             get {
                 return ResourceManager.GetString("CelebrationExperienceAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Celebration Sound.
+        /// </summary>
+        internal static string CelebrationExperienceAudioFile {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceAudioFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the sound that you&apos;d like to be played when a game is won. The Brass Fanfare sound is used with the following license: intro brass 01.wav by klankbeeld. https://freesound.org/s/254644/ -- License: Attribution 4.0.
+        /// </summary>
+        internal static string CelebrationExperienceAudioFileInstructions {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceAudioFileInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound:.
+        /// </summary>
+        internal static string CelebrationExperienceAudioFilePickerLabel {
+            get {
+                return ResourceManager.GetString("CelebrationExperienceAudioFilePickerLabel", resourceCulture);
             }
         }
         

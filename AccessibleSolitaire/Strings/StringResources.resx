@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.22</value>
+    <value>Accessible Solitaire V2.24</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -670,5 +670,14 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="NoScreenOrientationChange" xml:space="preserve">
     <value>Sorry, at the moment Accessible Solitaire doesn't support changing the screen orientation while the app is running. So please either rotate the screen back to {0}, or restart the app with the screen in the desired orientation.</value>
+  </data>
+  <data name="CelebrationExperienceAudioFile" xml:space="preserve">
+    <value>Celebration Sound</value>
+  </data>
+  <data name="CelebrationExperienceAudioFileInstructions" xml:space="preserve">
+    <value>Select the sound that you'd like to be played when a game is won. The Brass Fanfare sound is used with the following license: intro brass 01.wav by klankbeeld. https://freesound.org/s/254644/ -- License: Attribution 4.0</value>
+  </data>
+  <data name="CelebrationExperienceAudioFilePickerLabel" xml:space="preserve">
+    <value>Sound:</value>
   </data>
 </root>

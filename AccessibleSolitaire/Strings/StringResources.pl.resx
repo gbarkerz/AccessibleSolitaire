@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.22</value>
+    <value>Accessible Solitaire wersja V2.24</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
@@ -660,15 +660,24 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>Zamknij menu</value>
   </data>
   <data name="NoMove" xml:space="preserve">
-    <value>Brak ruchu</value>
+    <value>Niedozwolony ruch</value>
   </data>
   <data name="Portrait" xml:space="preserve">
-    <value>portrait</value>
+    <value>pionowej</value>
   </data>
   <data name="Landscape" xml:space="preserve">
-    <value>landscape</value>
+    <value>poziomej</value>
   </data>
   <data name="NoScreenOrientationChange" xml:space="preserve">
-    <value>Sorry, at the moment Accessible Solitaire doesn't support changing the screen orientation while the app is running. So please either rotate the screen back to {0}, or restart the app with the screen in the desired orientation.</value>
+    <value>Przepraszamy, w tej chwili Accessible Solitaire nie obsługuje zmiany orientacji ekranu w trakcie działania aplikacji. Dlatego prosimy o obrócenie ekranu z powrotem do pozycji {0} lub ponowne uruchomienie programu z ekranem ustawionym w docelowej orientacji.</value>
+  </data>
+  <data name="CelebrationExperienceAudioFile" xml:space="preserve">
+    <value>Dźwięk uroczystości</value>
+  </data>
+  <data name="CelebrationExperienceAudioFileInstructions" xml:space="preserve">
+    <value>Wybierz dźwięk, który chcesz odtworzyć po wygranej grze. Dźwięk Brass Fanfare jest używany z następującą licencją: intro brass 01.wav by klankbeeld. https://freesound.org/s/254644/ -- License: Attribution 4.0</value>
+  </data>
+  <data name="CelebrationExperienceAudioFilePickerLabel" xml:space="preserve">
+    <value>Dźwięk:</value>
   </data>
 </root>

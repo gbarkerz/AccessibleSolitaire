@@ -634,16 +634,19 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" 
                         Margin="8,8,8,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.CelebrationExperienceVisual}" />
 
                     <Label Grid.Row="1" 
                         Margin="8,0,8,0"
-                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.CelebrationExperienceVisualInstructions}" />
 
@@ -663,12 +666,12 @@
 
                     <Label Grid.Row="3" 
                         Margin="8,8,8,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.CelebrationExperienceAudio}" />
 
                     <Label Grid.Row="4" 
                         Margin="8,0,8,0"
-                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioInstructions}" />
 
@@ -683,6 +686,31 @@
                             Margin="0" HorizontalOptions="Start"
                             SemanticProperties.Description="{x:Static resources:Strings.StringResources.CelebrationExperienceAudio}" 
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <Label Grid.Row="6" 
+                        Margin="8,8,8,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioFile}" />
+
+                    <Label Grid.Row="7" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioFileInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="8" Padding="0" Margin="8,0,8,0">
+
+                        <Label 
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioFilePickerLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Picker x:Name="CelebrationExperienceAudioFilePicker"
+                            Margin="0" WidthRequest="200"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioFilePickerLabel}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioFileInstructions}" />
 
                     </HorizontalStackLayout>
 

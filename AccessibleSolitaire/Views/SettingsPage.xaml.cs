@@ -89,6 +89,16 @@ public partial class SettingsPage : ContentPage
         var celebrationExperienceAudio = (bool)Preferences.Get("CelebrationExperienceAudio", false);
         CelebrationExperienceAudioSwitch.IsToggled = celebrationExperienceAudio;
 
+        var soundFiles = new string[] { "Brass Fanfare", "Crompton Spinning Mule" };
+
+        for (var i = 0; i < soundFiles.Length; i++)
+        {
+            CelebrationExperienceAudioFilePicker.Items.Add(soundFiles[i]);
+        }
+
+        var celebrationExperienceAudioFile = (string)Preferences.Get("CelebrationExperienceAudioFile", "brasscelebration");
+        CelebrationExperienceAudioFilePicker.SelectedIndex = (celebrationExperienceAudioFile == "cromptonspinningmule" ? 1 : 0);
+
         // Game playing options.
 
         for (int i = 1; i <= 3; ++i)
@@ -193,6 +203,11 @@ public partial class SettingsPage : ContentPage
 
         var celebrationExperienceAudio = CelebrationExperienceAudioSwitch.IsToggled;
         Preferences.Set("CelebrationExperienceAudio", celebrationExperienceAudio);
+
+        // Today, we only have two sounds, Brass Fanfare (the default) and the Crompton Spinning Mule.
+        var selectedSoundsIndex = CelebrationExperienceAudioFilePicker.SelectedIndex;
+        Preferences.Set("CelebrationExperienceAudioFile", selectedSoundsIndex == 1 ?
+                            "cromptonspinningmule" : "brasscelebration");
 
         // Game playing options.
 

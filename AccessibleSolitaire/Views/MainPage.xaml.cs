@@ -63,6 +63,7 @@ namespace Sa11ytaire4All
         private bool playSoundOther = false;
         private bool celebrationExperienceVisual = false;
         private bool celebrationExperienceAudio = false;
+        private string celebrationExperienceAudioFile = "";
 
         private MediaElement mainMediaElement = new MediaElement();
 
@@ -641,6 +642,7 @@ namespace Sa11ytaire4All
 
                 celebrationExperienceVisual = (bool)Preferences.Get("CelebrationExperienceVisual", false);
                 celebrationExperienceAudio = (bool)Preferences.Get("CelebrationExperienceAudio", false);
+                celebrationExperienceAudioFile = (string)Preferences.Get("CelebrationExperienceAudioFile", "brasscelebration");
 
                 // Barker Todo: It seems when the page reappears after dismissing the Settings page,
                 // the MediaElement behaves as though it's not longer attached beneath the Main page.
@@ -1392,7 +1394,13 @@ namespace Sa11ytaire4All
         {
             if (celebrationExperienceAudio)
             {
-                PlaySoundFile("cromptonspinningmule.mp4");
+                var celebrationSound = celebrationExperienceAudioFile;
+                if (string.IsNullOrEmpty(celebrationSound))
+                {
+                    celebrationSound = "brasscelebration";
+                }
+
+                PlaySoundFile(celebrationSound + ".mp4");
             }
 
             if (celebrationExperienceVisual)
