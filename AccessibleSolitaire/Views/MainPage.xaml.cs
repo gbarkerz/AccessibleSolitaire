@@ -1764,7 +1764,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void PlaySoundFile(string soundFilename)
+        public void PlaySoundFile(string soundFilename)
         {
             if (mainMediaElement == null)
             {

@@ -7,7 +7,8 @@
              x:Class="Sa11ytaire4All.Views.SettingsPage"
              Title="Settings Page">
 
-    <Grid Margin="10" Padding="0">
+    <Grid x:Name="SettingsGrid" 
+        Margin="10" Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -637,6 +638,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" 
@@ -713,6 +715,13 @@
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.CelebrationExperienceAudioFileInstructions}" />
 
                     </HorizontalStackLayout>
+
+                    <Button Grid.Row="9" x:Name="PreviewSoundButton" 
+                        windows:VisualElement.AccessKey="P"
+                        TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
+                        HorizontalOptions="Start" Margin="8" Padding="8"
+                        Text="{x:Static resources:Strings.StringResources.PreviewSound}" 
+                        Clicked="PreviewSoundButton_Clicked" />
 
                 </Grid>
                 

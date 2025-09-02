@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.24.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.25.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -1367,6 +1367,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Portrait {
             get {
                 return ResourceManager.GetString("Portrait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview sound.
+        /// </summary>
+        internal static string PreviewSound {
+            get {
+                return ResourceManager.GetString("PreviewSound", resourceCulture);
             }
         }
         

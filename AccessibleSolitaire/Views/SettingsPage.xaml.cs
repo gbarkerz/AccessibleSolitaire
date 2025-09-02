@@ -1,11 +1,25 @@
+using CommunityToolkit.Maui.Core.Views;
+using CommunityToolkit.Maui.Views;
+using System.Diagnostics;
+
 namespace Sa11ytaire4All.Views;
 
 public partial class SettingsPage : ContentPage
 {
+    private MediaElement settingsMediaElement = new MediaElement();
 
     public SettingsPage()
 	{
 		InitializeComponent();
+
+        settingsMediaElement.ShouldShowPlaybackControls = false;
+        settingsMediaElement.IsVisible = false;
+
+        settingsMediaElement.MediaEnded += SettingsMediaElement_MediaEnded;
+
+        SettingsGrid.Children.Add(settingsMediaElement);
+
+        this.Unloaded += SettingsPage_Unloaded;
 
 #if IOS || ANDROID
         MergeFaceDownCardsHeading.IsVisible = true;
@@ -126,6 +140,61 @@ public partial class SettingsPage : ContentPage
         // focus can be left in the MainPage UI, and tabbing moves focus through the various areas
         // of the game before moving to the Settings page UI.
         CardTurnCountPicker.Focus();
+    }
+
+    private void SettingsMediaElement_MediaEnded(object? sender, EventArgs e)
+    {
+        if (settingsMediaElement == null)
+        {
+            return;
+        }
+
+        Debug.WriteLine("SettingsMediaElement_MediaEnded called.");
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            settingsMediaElement.Source = null;
+        });
+    }
+
+    private void SettingsPage_Unloaded(object? sender, EventArgs e)
+    {
+        if (settingsMediaElement == null)
+        {
+            return;
+        }
+
+        // Release the MediaElement to prevent the standalone media element being available
+        // after the page has been closed.
+        settingsMediaElement.Handler?.DisconnectHandler();
+    }
+
+    private void PreviewSoundButton_Clicked(object sender, EventArgs e)
+    {
+        if (settingsMediaElement == null)
+        {
+            return;
+        }
+
+        var selectedSoundsIndex = CelebrationExperienceAudioFilePicker.SelectedIndex;
+
+        // Today there are only two sounds.
+        var audioFilename = selectedSoundsIndex == 1 ? "cromptonspinningmule" : "brasscelebration";
+
+        var fullAudioFilename = audioFilename + ".mp4";
+
+        Debug.WriteLine("Preview sound: " + fullAudioFilename);
+
+        try
+        {
+            settingsMediaElement.Source = MediaSource.FromResource(fullAudioFilename);
+
+            settingsMediaElement.Play();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("PreviewSoundButton_Clicked: " + ex.Message);
+        }
     }
 
     private void CloseButton_Clicked(object sender, EventArgs e)

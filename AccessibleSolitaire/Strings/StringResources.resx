@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.24</value>
+    <value>Accessible Solitaire V2.25</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -679,5 +679,8 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="CelebrationExperienceAudioFilePickerLabel" xml:space="preserve">
     <value>Sound:</value>
+  </data>
+  <data name="PreviewSound" xml:space="preserve">
+    <value>Preview sound</value>
   </data>
 </root>
