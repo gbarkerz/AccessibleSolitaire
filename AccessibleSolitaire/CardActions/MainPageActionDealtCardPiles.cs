@@ -70,7 +70,7 @@ namespace Sa11ytaire4All
                 if (selectedCard.FaceDown)
                 {
                     MakeDelayedScreenReaderAnnouncement(
-                        MainPage.MyGetString("FaceDownCardsCannotBeSelected"));
+                        MainPage.MyGetString("FaceDownCardsCannotBeSelected"), false);
 
                     if (listSelectionChanged != null)
                     {
@@ -189,7 +189,7 @@ namespace Sa11ytaire4All
                             localizedNumbers[listSelectedIndex] +
                             ".";
 
-                        MakeDelayedScreenReaderAnnouncement(announcement);
+                        MakeDelayedScreenReaderAnnouncement(announcement, true);
 
                         RefreshDealtCardPileAccessibleNames(listSelectionChanged);
 
@@ -311,7 +311,7 @@ namespace Sa11ytaire4All
                         localizedNumbers[listSelectedIndex] +
                         ".";
 
-                    MakeDelayedScreenReaderAnnouncement(announcement);
+                    MakeDelayedScreenReaderAnnouncement(announcement, true);
 
                     ClearCardButtonSelections(true);
 
@@ -466,7 +466,7 @@ namespace Sa11ytaire4All
                 localizedNumbers[listKingIndex] +
                 ".";
 
-            MakeDelayedScreenReaderAnnouncement(announcement);
+            MakeDelayedScreenReaderAnnouncement(announcement, true);
 
             RefreshDealtCardPileAccessibleNames(listEmpty);
             RefreshDealtCardPileAccessibleNames(listKing);
@@ -578,7 +578,7 @@ namespace Sa11ytaire4All
                                 localizedNumbers[announcedDealtCardIndex] +
                                 ".";
 
-                            MakeDelayedScreenReaderAnnouncement(announcement);
+                            MakeDelayedScreenReaderAnnouncement(announcement, true);
 
                             RefreshDealtCardPileAccessibleNames(listDealtCardPile);
                         }
@@ -646,7 +646,7 @@ namespace Sa11ytaire4All
 
                 string? announcement = cardBelow.AccessibleName;
 
-                MakeDelayedScreenReaderAnnouncement(announcement);
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
 
                 return false; 
             }
@@ -717,7 +717,7 @@ namespace Sa11ytaire4All
                     cardBelow.AccessibleName + " " + inDealtCardPile + " " +
                     localizedNumbers[announcedSelectedIndex] + ".";
 
-                MakeDelayedScreenReaderAnnouncement(announcement);
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
 
                 // Be sure to leave the selected DealtCard selected.
                 cardBelow.CardSelected = true;
@@ -895,7 +895,7 @@ namespace Sa11ytaire4All
                         localizedNumbers[listAlreadySelectedIndex] +
                         ".";
 
-                    MakeDelayedScreenReaderAnnouncement(announcement);
+                    MakeDelayedScreenReaderAnnouncement(announcement, true);
                 }
 
                 cardBelow.IsLastCardInPile = false;
@@ -927,7 +927,7 @@ namespace Sa11ytaire4All
                     MainPage.MyGetString("Deselected") + " " +
                     card.GetCardAccessibleName() + ".";
 
-                MakeDelayedScreenReaderAnnouncement(announcement);
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
             }
         }
 
@@ -1129,7 +1129,7 @@ namespace Sa11ytaire4All
                         " " + inDealtCardPile + " " +
                         localizedNumbers[listAlreadySelectedIndex] + ".";
 
-                    MakeDelayedScreenReaderAnnouncement(announcement);
+                    MakeDelayedScreenReaderAnnouncement(announcement, true);
 
                     RefreshDealtCardPileAccessibleNames(listAlreadySelected);
                 }

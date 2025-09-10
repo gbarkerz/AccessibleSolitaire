@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.25</value>
+    <value>Accessible Solitaire V2.26</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
   </data>
   <data name="AllUpturnedCardsTurnedBack" xml:space="preserve">
-    <value>All upturned cards turned back</value>
+    <value>All upturned cards turned back.</value>
   </data>
   <data name="AnnounceState" xml:space="preserve">
     <value>Screen reader announce game state</value>
@@ -243,7 +243,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>No card</value>
   </data>
   <data name="NoCardLeft" xml:space="preserve">
-    <value>No cards left in remaining cards pile</value>
+    <value>No cards left in remaining cards pile.</value>
   </data>
   <data name="NoMoveIsAvailable" xml:space="preserve">
     <value>No move is available.</value>
@@ -682,5 +682,14 @@ Z: Show card zoom popup.</value>
   </data>
   <data name="PreviewSound" xml:space="preserve">
     <value>Preview sound</value>
+  </data>
+  <data name="AutomaticallyAnnounceMovesSwitch" xml:space="preserve">
+    <value>Automatic announcements</value>
+  </data>
+  <data name="AutomaticallyAnnounceMovesSwitchInstructions" xml:space="preserve">
+    <value>Use this setting to have the screen reader automatically announce available moves in the game following the move of a card. Please note that the announcement does not include moves of cards to empty dealt card piles, or moves of cards from the target card piles down to the dealt card piles.</value>
+  </data>
+  <data name="AutomaticallyAnnounceMovesSwitchLabel" xml:space="preserve">
+    <value>Automatic move announcement:</value>
   </data>
 </root>

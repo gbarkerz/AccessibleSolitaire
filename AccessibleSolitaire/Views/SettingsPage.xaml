@@ -350,6 +350,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- VoiceOver Warning. -->
@@ -387,20 +390,48 @@
 
                     </HorizontalStackLayout>
 
-                    <!-- Add hint to topmost card in delat card pile. -->
+                    <!-- Automatically announce available moves. -->
 
                     <Label Grid.Row="4" 
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                        Text="{x:Static resources:Strings.StringResources.AddHintToTopmostCard}" />
+                        Text="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitch}" />
 
                     <Label Grid.Row="5" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
-                        Text="{x:Static resources:Strings.StringResources.AddHintToTopmostCardInstructions}" />
+                        Text="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchInstructions}" />
 
                     <HorizontalStackLayout Grid.Row="6" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            LineBreakMode="WordWrap"
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="AutomaticallyAnnounceMovesSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchLabel}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <!-- Add hint to topmost card in dealt card pile. -->
+
+                    <Label Grid.Row="7" 
+                        FontAttributes="Bold" 
+                        Margin="8,8,0,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:Strings.StringResources.AddHintToTopmostCard}" />
+
+                    <Label Grid.Row="8" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.AddHintToTopmostCardInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="9" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                
@@ -416,18 +447,18 @@
 
                     <!-- Include details of face-down cards when announcing state of dealt card piles. -->
 
-                    <Label Grid.Row="7" 
+                    <Label Grid.Row="10" 
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:Strings.StringResources.IncludeFacedownCardsInAnnouncement}" />
 
-                    <Label Grid.Row="8" 
+                    <Label Grid.Row="11" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.IncludeFacedownCardsInAnnouncementInstructions}" />
 
-                    <HorizontalStackLayout Grid.Row="9" Padding="0" Margin="8,0,8,0">
+                    <HorizontalStackLayout Grid.Row="12" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                
@@ -443,18 +474,18 @@
 
                     <!-- Extend top-most dealt cards hit-target area. -->
 
-                    <Label Grid.Row="10"
+                    <Label Grid.Row="13"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTarget}" />
 
-                    <Label Grid.Row="11"
+                    <Label Grid.Row="14"
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetInstructions}" />
 
-                    <HorizontalStackLayout Grid.Row="12" Padding="0" Margin="8,0,8,0">
+                    <HorizontalStackLayout Grid.Row="15" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                

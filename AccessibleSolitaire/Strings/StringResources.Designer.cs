@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.25.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.26.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -241,7 +241,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All upturned cards turned back.
+        ///   Looks up a localized string similar to All upturned cards turned back..
         /// </summary>
         internal static string AllUpturnedCardsTurnedBack {
             get {
@@ -264,6 +264,33 @@ namespace Sa11ytaire4All.Strings {
         internal static string AnnounceState {
             get {
                 return ResourceManager.GetString("AnnounceState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic announcements.
+        /// </summary>
+        internal static string AutomaticallyAnnounceMovesSwitch {
+            get {
+                return ResourceManager.GetString("AutomaticallyAnnounceMovesSwitch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this setting to have the screen reader automatically announce available moves in the game following the move of a card. Please note that the announcement does not include moves of cards to empty dealt card piles, or moves of cards from the target card piles down to the dealt card piles..
+        /// </summary>
+        internal static string AutomaticallyAnnounceMovesSwitchInstructions {
+            get {
+                return ResourceManager.GetString("AutomaticallyAnnounceMovesSwitchInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic move announcement:.
+        /// </summary>
+        internal static string AutomaticallyAnnounceMovesSwitchLabel {
+            get {
+                return ResourceManager.GetString("AutomaticallyAnnounceMovesSwitchLabel", resourceCulture);
             }
         }
         
@@ -1173,7 +1200,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No cards left in remaining cards pile.
+        ///   Looks up a localized string similar to No cards left in remaining cards pile..
         /// </summary>
         internal static string NoCardLeft {
             get {

@@ -64,6 +64,7 @@ namespace Sa11ytaire4All
         private bool celebrationExperienceVisual = false;
         private bool celebrationExperienceAudio = false;
         private string celebrationExperienceAudioFile = "";
+        private bool automaticallyAnnounceMoves = false;
 
         private MediaElement mainMediaElement = new MediaElement();
 
@@ -358,7 +359,7 @@ namespace Sa11ytaire4All
                     //Debug.WriteLine("OnTapGestureRecognizerTapped: Delay deselection of: " + dealtCard.AccessibleName);
 
                     string announcement = MyGetString("Deselected") + " " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
-                    MakeDelayedScreenReaderAnnouncement(announcement);
+                    MakeDelayedScreenReaderAnnouncement(announcement, false);
 
                     // On Android, deselecting a card inside the tap handler seems not to work.
                     // So delay the deselection a little until we're out of the tap handler.
@@ -605,6 +606,8 @@ namespace Sa11ytaire4All
 
                 vm.ShowScreenReaderAnnouncementButtons = (bool)Preferences.Get("ShowScreenReaderAnnouncementButtons", false);
                 ScreenReaderAnnouncementButtons.IsVisible = vm.ShowScreenReaderAnnouncementButtons;
+
+                automaticallyAnnounceMoves = (bool)Preferences.Get("AutomaticallyAnnounceMoves", false);
 
                 var previousAddHintToTopmostCard = vm.AddHintToTopmostCard;
                 vm.AddHintToTopmostCard = (bool)Preferences.Get("AddHintToTopmostCard", false);
@@ -1128,7 +1131,7 @@ namespace Sa11ytaire4All
                 }
 
                 var announcement = MainPage.MyGetString("GameRestarted");
-                MakeDelayedScreenReaderAnnouncement(announcement);
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
             }
 
             ClearDealtCardPileSelections();
@@ -1464,7 +1467,7 @@ namespace Sa11ytaire4All
             // and that interupts the game state announcement. So for now, delay the start of the 
             // announcement to avoid that interuption. Barker Todo: Investigate this unexpected 
             // announcement of the button name.
-            MakeDelayedScreenReaderAnnouncement(fullAnnouncement);
+            MakeDelayedScreenReaderAnnouncement(fullAnnouncement, false);
 
             Debug.WriteLine("State announcement: " + fullAnnouncement);
         }
@@ -1473,12 +1476,12 @@ namespace Sa11ytaire4All
         {
             //SentrySdk.CaptureMessage("Accessible Solitaire: Button Clicked: AvailableMovesAnnouncementButton", SentryLevel.Info);
 
-            AnnounceAvailableMoves();
+            AnnounceAvailableMoves(true);
         }
 
-        private void MakeDelayedScreenReaderAnnouncement(string? announcement)
+        private void MakeDelayedScreenReaderAnnouncement(string? announcement, bool appendAvailableMoves)
         {
-            if (announcement == null)
+            if (string.IsNullOrEmpty(announcement))
             {
                 return;
             }
@@ -1486,7 +1489,7 @@ namespace Sa11ytaire4All
             if (timerDelayScreenReaderAnnouncement == null)
             {
                 timerDelayScreenReaderAnnouncement = new Timer(
-                    new TimerCallback((s) => MakeScreenReaderAnnouncement(announcement)),
+                    new TimerCallback((s) => MakeScreenReaderAnnouncement(announcement, appendAvailableMoves)),
                         announcement,
                         TimeSpan.FromMilliseconds(200),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
@@ -1496,16 +1499,25 @@ namespace Sa11ytaire4All
         public double OriginalCardWidth { get => originalCardWidth; set => originalCardWidth = value; }
         public double OriginalCardHeight { get => originalCardHeight; set => originalCardHeight = value; }
 
-        private void MakeScreenReaderAnnouncement(object announcement)
+        private void MakeScreenReaderAnnouncement(object announcement, bool appendAvailableMoves)
         {
-            Debug.WriteLine("MakeScreenReaderAnnouncement: " + announcement);
-
             timerDelayScreenReaderAnnouncement?.Dispose();
             timerDelayScreenReaderAnnouncement = null;
 
             var fullAnnouncement = (string?)announcement;
             if (!String.IsNullOrEmpty(fullAnnouncement))
             {
+                if (automaticallyAnnounceMoves && appendAvailableMoves)
+                {
+                    var availableMoveAnnouncement = AnnounceAvailableMoves(false);
+                    if (!string.IsNullOrEmpty(availableMoveAnnouncement))
+                    {
+                        fullAnnouncement += " " + availableMoveAnnouncement;
+                    }
+                }
+
+                Debug.WriteLine("MakeScreenReaderAnnouncement: " + fullAnnouncement);
+
                 // Always run this on the UI thread.
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
@@ -1553,7 +1565,7 @@ namespace Sa11ytaire4All
 
             if (makeAnnouncement)
             {
-                MakeDelayedScreenReaderAnnouncement(stateMessage);
+                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
             }
 
             return stateMessage;
@@ -1578,7 +1590,7 @@ namespace Sa11ytaire4All
 
             if (makeAnnouncement)
             {
-                MakeDelayedScreenReaderAnnouncement(stateMessage);
+                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
             }
 
             return stateMessage;
@@ -1681,7 +1693,7 @@ namespace Sa11ytaire4All
 
             if (makeAnnouncement)
             {
-                MakeDelayedScreenReaderAnnouncement(stateMessage);
+                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
             }
 
             return stateMessage;
@@ -1943,7 +1955,7 @@ namespace Sa11ytaire4All
 
                     //SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: M", SentryLevel.Info);
 
-                    AnnounceAvailableMoves();
+                    AnnounceAvailableMoves(true);
                     e.Handled = true;
                     break;
 

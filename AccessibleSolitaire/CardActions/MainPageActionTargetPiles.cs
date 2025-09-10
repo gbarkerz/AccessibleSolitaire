@@ -50,7 +50,7 @@ namespace Sa11ytaire4All
                 SetCardButtonToggledSelectionState(obscuredCardButton, false);
 
                 MakeDelayedScreenReaderAnnouncement(
-                    MainPage.MyGetString("ObscuredUpturnedCardCannotBeSelected"));
+                    MainPage.MyGetString("ObscuredUpturnedCardCannotBeSelected"), false);
 
                 return;
             }
@@ -70,7 +70,7 @@ namespace Sa11ytaire4All
             {
                 string announcement = cardButton.CardPileAccessibleName + " " +  MainPage.MyGetString("Unselected");
 
-                MakeDelayedScreenReaderAnnouncement(announcement);
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
 
                 return;
             }
@@ -130,7 +130,7 @@ namespace Sa11ytaire4All
                 string announcement =
                     cardButton.Card.GetCardAccessibleName() + " " + MainPage.MyGetString("Selected");
 
-                MakeDelayedScreenReaderAnnouncement(announcement);
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
             }
             else
             {
@@ -258,9 +258,9 @@ namespace Sa11ytaire4All
                     string announcement =
                         MainPage.MyGetString("Moved") + " " +
                         cardAbove.Card.GetCardAccessibleName() + " " +
-                        MainPage.MyGetString("To") + " " + suitPile;
+                        MainPage.MyGetString("To") + " " + suitPile + ".";
 
-                    MakeDelayedScreenReaderAnnouncement(announcement);
+                    MakeDelayedScreenReaderAnnouncement(announcement, true);
                 }
                 else
                 {

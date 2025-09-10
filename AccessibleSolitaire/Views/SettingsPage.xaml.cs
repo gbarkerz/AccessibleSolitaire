@@ -70,6 +70,9 @@ public partial class SettingsPage : ContentPage
         var showScreenReaderAnnouncementButtons = (bool)Preferences.Get("ShowScreenReaderAnnouncementButtons", false);
         ShowScreenReaderAnnouncementButtonsSwitch.IsToggled = showScreenReaderAnnouncementButtons;
 
+        var automaticallyAnnounceMoves = (bool)Preferences.Get("AutomaticallyAnnounceMoves", false);
+        AutomaticallyAnnounceMovesSwitch.IsToggled = automaticallyAnnounceMoves;
+
         var addHintToTopmostCard = (bool)Preferences.Get("AddHintToTopmostCard", false);
         AddHintToTopmostCardSwitch.IsToggled = addHintToTopmostCard;
 
@@ -239,6 +242,9 @@ public partial class SettingsPage : ContentPage
 
         var showScreenReaderAnnouncementButtons = ShowScreenReaderAnnouncementButtonsSwitch.IsToggled;
         Preferences.Set("ShowScreenReaderAnnouncementButtons", showScreenReaderAnnouncementButtons);
+
+        var automaticallyAnnounceMoves = AutomaticallyAnnounceMovesSwitch.IsToggled;
+        Preferences.Set("AutomaticallyAnnounceMoves", automaticallyAnnounceMoves);
 
         var addHintToTopmostCard = AddHintToTopmostCardSwitch.IsToggled;
         Preferences.Set("AddHintToTopmostCard", addHintToTopmostCard);

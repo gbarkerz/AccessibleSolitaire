@@ -44,12 +44,12 @@ namespace Sa11ytaire4All
 #endif
         }
 
-        public void AnnounceAvailableMoves()
+        public string? AnnounceAvailableMoves(bool makeAnnouncement)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
-                return;
+                return null;
             }
 
             // Barker Note: We do not check whether a move from a target card pile is available down to 
@@ -233,14 +233,19 @@ namespace Sa11ytaire4All
                 }
             }
 
-            if (string.IsNullOrEmpty(moveComment))
+            if (makeAnnouncement)
             {
-                moveComment = noMoveIsAvailable;
+                if (string.IsNullOrEmpty(moveComment))
+                {
+                    moveComment = noMoveIsAvailable;
+                }
+
+                Debug.WriteLine("Screen reader announce: " + moveComment);
+
+                MakeDelayedScreenReaderAnnouncement(moveComment, false);
             }
 
-            Debug.WriteLine("Screen reader announce: " + moveComment);
-
-            MakeDelayedScreenReaderAnnouncement(moveComment);
+            return moveComment;
         }
 
         private string CanCardBeMovedToTargetPile(DealtCard? card)

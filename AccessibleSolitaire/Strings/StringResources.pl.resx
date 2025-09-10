@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.25</value>
+    <value>Accessible Solitaire wersja V2.26</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
   </data>
   <data name="AllUpturnedCardsTurnedBack" xml:space="preserve">
-    <value>Karty przetasowano</value>
+    <value>Karty przetasowano.</value>
   </data>
   <data name="AnnounceState" xml:space="preserve">
     <value>Stan gry dla czytnika ekranu</value>
@@ -243,7 +243,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Brak karty</value>
   </data>
   <data name="NoCardLeft" xml:space="preserve">
-    <value>Brak kolejnych kart w stosie</value>
+    <value>Brak kolejnych kart w stosie.</value>
   </data>
   <data name="NoMoveIsAvailable" xml:space="preserve">
     <value>Brak dostępnego ruchu</value>
@@ -672,15 +672,24 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>Przepraszamy, w tej chwili Accessible Solitaire nie obsługuje zmiany orientacji ekranu w trakcie działania aplikacji. Dlatego prosimy o obrócenie ekranu z powrotem do pozycji {0} lub ponowne uruchomienie programu z ekranem ustawionym w docelowej orientacji.</value>
   </data>
   <data name="CelebrationExperienceAudioFile" xml:space="preserve">
-    <value>Dźwięk uroczystości</value>
+    <value>Dźwięki zwycięztwa</value>
   </data>
   <data name="CelebrationExperienceAudioFileInstructions" xml:space="preserve">
-    <value>Wybierz dźwięk, który chcesz odtworzyć po wygranej grze. Dźwięk Brass Fanfare jest używany z następującą licencją: intro brass 01.wav by klankbeeld. https://freesound.org/s/254644/ -- License: Attribution 4.0</value>
+    <value>Wybierz dźwięk, który chcesz usłyszeć po wygraniu. Dźwięk Brass Fanfare używany jest na licencji: intro brass 01.wav by klankbeeld. https://freesound.org/s/254644/ -- License: Attribution 4.0</value>
   </data>
   <data name="CelebrationExperienceAudioFilePickerLabel" xml:space="preserve">
     <value>Dźwięk:</value>
   </data>
   <data name="PreviewSound" xml:space="preserve">
     <value>Podgląd dźwięku</value>
+  </data>
+  <data name="AutomaticallyAnnounceMovesSwitch" xml:space="preserve">
+    <value>Automatyczne ogłoszenia</value>
+  </data>
+  <data name="AutomaticallyAnnounceMovesSwitchInstructions" xml:space="preserve">
+    <value>Użyj tego ustawienia, aby czytnik ekranu automatycznie ogłaszał dostępne ruchy w grze po ruchu karty. Należy pamiętać, że ogłoszenie nie obejmuje ruchów kart w celu opróżnienia stosów kart rozdanych ani ruchów kart ze stosów kart docelowych na stosy kart rozdanych.</value>
+  </data>
+  <data name="AutomaticallyAnnounceMovesSwitchLabel" xml:space="preserve">
+    <value>Automatyczne ogłaszanie ruchu:</value>
   </data>
 </root>

@@ -68,7 +68,7 @@ namespace Sa11ytaire4All
                         if (timerDelayScreenReaderAnnouncement == null)
                         {
                             timerDelayScreenReaderAnnouncement = new Timer(
-                                new TimerCallback((s) => MakeScreenReaderAnnouncement(message)),
+                                new TimerCallback((s) => MakeScreenReaderAnnouncement(message, true)),
                                                             message,
                                                             TimeSpan.FromMilliseconds(2000),
                                                             TimeSpan.FromMilliseconds(Timeout.Infinite));

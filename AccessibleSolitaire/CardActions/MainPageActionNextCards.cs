@@ -54,7 +54,7 @@ namespace Sa11ytaire4All
                 }
 
                 screenReaderAnnouncement += MainPage.MyGetString("OnTop") + ". " +
-                         (_deckRemaining.Count == 0 ? MainPage.MyGetString("NoCardLeft") + ". " : "");
+                         (_deckRemaining.Count == 0 ? MainPage.MyGetString("NoCardLeft") + " " : "");
             }
             else
             {
@@ -90,7 +90,7 @@ namespace Sa11ytaire4All
 
             NextCardDeck.State = GetNextCardPileState();
 
-            MakeDelayedScreenReaderAnnouncement(screenReaderAnnouncement);
+            MakeDelayedScreenReaderAnnouncement(screenReaderAnnouncement, true);
         }
 
         private NextCardPileState GetNextCardPileState()
@@ -147,7 +147,7 @@ namespace Sa11ytaire4All
                     cardDeckUpturned.Card.GetCardAccessibleName() + " " +
                         MainPage.MyGetString(CardDeckUpturned.IsToggled ? "Selected" : "Unselected");
 
-                MakeDelayedScreenReaderAnnouncement(selectionAnnouncement);
+                MakeDelayedScreenReaderAnnouncement(selectionAnnouncement, false);
             }
         }
     }
