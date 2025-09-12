@@ -12,6 +12,10 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
         InitializeComponent();
 
+#if IOS
+        this.Loaded += CardButton_Loaded;
+#endif
+
 #if WINDOWS
         // Barker todo: Figure out why the Button Click handler doesn't get called on Windows.
         TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
@@ -22,6 +26,23 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         
         this.GestureRecognizers.Add(tapGestureRecognizer);
 #endif
+    }
+
+    private void CardButton_Loaded(object? sender, EventArgs e)
+    {
+        //Debug.WriteLine("CardButton AutomationID: " + this.AutomationId);
+
+        // On iOS, Make the top upturned card and all target crd piles headings to 
+        // allow fast VoiceOver navigation to them.
+        if ((this.AutomationId != "CardDeckUpturnedObscuredHigher") &&
+            (this.AutomationId != "CardDeckUpturnedObscuredLower"))
+        {
+            var innerButton = (Button)this.FindByName("InnerButton");
+            if (innerButton != null)
+            {
+                SemanticProperties.SetHeadingLevel(innerButton, SemanticHeadingLevel.Level2);
+            }
+        }
     }
 
     private Card? card = null;
