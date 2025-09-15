@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.27</value>
+    <value>Accessible Solitaire wersja V2.28</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
@@ -417,13 +417,13 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Inne dźwięki:</value>
   </data>
   <data name="ExtendDealtCardHitTarget" xml:space="preserve">
-    <value>Pobrana karta została umieszczona w miejscu docelowym</value>
+    <value>Wyrównanie odkrytych kart</value>
   </data>
   <data name="ExtendDealtCardHitTargetSwitchLabel" xml:space="preserve">
-    <value>Rozszerz miejsca docelowe:</value>
+    <value>Wyrównaj odkryte karty:</value>
   </data>
   <data name="ExtendDealtCardHitTargetInstructions" xml:space="preserve">
-    <value>To ustawienie ma zastosowanie tylko przy pionowej orientacji ekranu. Kiedy jest włączone, docelowe miejsce dla każdej z najwyżej rozdanych kart rozciąga się na całą szerokość ekranu. Miejsce docelowe jest reprezentowany przez jednolity kolor, a rozdana karta pojawia się na środku obszaru. Rozszerzenie obszaru miejsca docelowego może przyspieszyć znalezienie najwyższej karty w każdym stosie podczas przesuwania palcem po ekranie przy korzystaniu z czytnika ekranu.</value>
+    <value>To ustawienie ma zastosowanie tylko przy pionowej orientacji ekranu. Kiedy jest włączone, docelowe miejsce dla każdej z najwyżej rozdanych kart rozciąga się na całą szerokość ekranu. Miejsce docelowe jest reprezentowany przez jednolity kolor, a górna karta pojawia się na środku obszaru. Wyrównanie odkrytych kart ułatwia użytkownikom czytnika ekranu zlokalizowanie najwyższej karty w stosie podczas przesuwania palcem po prawej krawędzi ekranu.</value>
   </data>
   <data name="SuitColours" xml:space="preserve">
     <value>Kolory kart</value>
