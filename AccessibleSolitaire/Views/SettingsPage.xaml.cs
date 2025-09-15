@@ -12,6 +12,10 @@ public partial class SettingsPage : ContentPage
 	{
 		InitializeComponent();
 
+#if IOS
+        CardButtonsHeadingStateGrid.IsVisible = true;
+#endif
+
         settingsMediaElement.ShouldShowPlaybackControls = false;
         settingsMediaElement.IsVisible = false;
 
@@ -81,6 +85,9 @@ public partial class SettingsPage : ContentPage
 
         var ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
         ExtendDealtCardHitTargetSwitch.IsToggled = ExtendDealtCardHitTarget;
+
+        var cardButtonsHeadingState = (bool)Preferences.Get("CardButtonsHeadingState", true);
+        CardButtonsHeadingStateSwitch.IsToggled = cardButtonsHeadingState;
 
         var allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);
         AllowSelectionByFaceDownCardSwitch.IsToggled = allowSelectionByFaceDownCard;
@@ -252,8 +259,11 @@ public partial class SettingsPage : ContentPage
         var includeFacedownCardsInAnnouncement = IncludeFacedownCardsInAnnouncementSwitch.IsToggled;
         Preferences.Set("IncludeFacedownCardsInAnnouncement", includeFacedownCardsInAnnouncement);
 
-        var ExtendDealtCardHitTarget = ExtendDealtCardHitTargetSwitch.IsToggled;
-        Preferences.Set("ExtendDealtCardHitTarget", ExtendDealtCardHitTarget);
+        var extendDealtCardHitTarget = ExtendDealtCardHitTargetSwitch.IsToggled;
+        Preferences.Set("ExtendDealtCardHitTarget", extendDealtCardHitTarget);
+
+        var cardButtonsHeadingState = CardButtonsHeadingStateSwitch.IsToggled;
+        Preferences.Set("CardButtonsHeadingState", cardButtonsHeadingState);
 
         var allowSelectionByFaceDownCard = AllowSelectionByFaceDownCardSwitch.IsToggled;
         Preferences.Set("AllowSelectionByFaceDownCard", allowSelectionByFaceDownCard);

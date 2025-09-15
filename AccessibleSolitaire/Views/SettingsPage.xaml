@@ -353,6 +353,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- VoiceOver Warning. -->
@@ -403,20 +404,25 @@
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchInstructions}" />
 
-                    <HorizontalStackLayout Grid.Row="6" Padding="0" Margin="8,0,8,0">
+                    <Grid Grid.Row="6" Padding="0" Margin="8,0,8,0">
 
-                        <Label
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Column="0"
                             LineBreakMode="WordWrap"
                             VerticalOptions="Center"                
                             Text="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchLabel}" 
                             Margin="0" Padding="0" />
 
-                        <Switch x:Name="AutomaticallyAnnounceMovesSwitch"
+                        <Switch Grid.Column="1" x:Name="AutomaticallyAnnounceMovesSwitch"
                             Margin="0" HorizontalOptions="Start"
                             SemanticProperties.Description="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchLabel}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchInstructions}" />
 
-                    </HorizontalStackLayout>
+                    </Grid>
 
                     <!-- Add hint to topmost card in dealt card pile. -->
 
@@ -498,6 +504,44 @@
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.ExtendDealtCardHitTargetInstructions}" />
 
                     </HorizontalStackLayout>
+
+                    <!-- Make top-most upturned card and all target card piles headings. -->
+
+                    <Grid Grid.Row="16" x:Name="CardButtonsHeadingStateGrid"
+                          IsVisible="False">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0"
+                            FontAttributes="Bold" 
+                            Margin="8,8,0,0"
+                            FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                            Text="{x:Static resources:Strings.StringResources.CardButtonsHeadingState}" />
+
+                        <Label Grid.Row="1"
+                            Margin="8,0,8,0"
+                            LineBreakMode="WordWrap"
+                            Text="{x:Static resources:Strings.StringResources.CardButtonsHeadingStateInstructions}" />
+
+                        <HorizontalStackLayout Grid.Row="2" Padding="0" Margin="8,0,8,0">
+
+                            <Label
+                                VerticalOptions="Center"                
+                                Text="{x:Static resources:Strings.StringResources.CardButtonsHeadingStateSwitchLabel}" 
+                                Margin="0" Padding="0" />
+
+                            <Switch x:Name="CardButtonsHeadingStateSwitch"
+                                Margin="0" HorizontalOptions="Start"
+                                SemanticProperties.Description="{x:Static resources:Strings.StringResources.CardButtonsHeadingStateSwitchLabel}"
+                                SemanticProperties.Hint="{x:Static resources:Strings.StringResources.CardButtonsHeadingStateInstructions}" />
+
+                        </HorizontalStackLayout>
+
+                    </Grid>
 
                 </Grid>
 

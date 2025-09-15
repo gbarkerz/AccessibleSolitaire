@@ -12,10 +12,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
         InitializeComponent();
 
-#if IOS
-        this.Loaded += CardButton_Loaded;
-#endif
-
 #if WINDOWS
         // Barker todo: Figure out why the Button Click handler doesn't get called on Windows.
         TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
@@ -28,8 +24,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 #endif
     }
 
-    private void CardButton_Loaded(object? sender, EventArgs e)
+#if IOS
+    public void SetHeadingState(bool isHeading)
     {
+        var headingLevel = (isHeading ? SemanticHeadingLevel.Level2 : SemanticHeadingLevel.None);
+
         //Debug.WriteLine("CardButton AutomationID: " + this.AutomationId);
 
         // On iOS, Make the top upturned card and all target crd piles headings to 
@@ -40,10 +39,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
             var innerButton = (Button)this.FindByName("InnerButton");
             if (innerButton != null)
             {
-                SemanticProperties.SetHeadingLevel(innerButton, SemanticHeadingLevel.Level2);
+                SemanticProperties.SetHeadingLevel(innerButton, headingLevel);
             }
         }
     }
+#endif 
 
     private Card? card = null;
     public Card? Card

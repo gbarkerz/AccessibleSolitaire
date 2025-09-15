@@ -692,4 +692,13 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
   <data name="AutomaticallyAnnounceMovesSwitchLabel" xml:space="preserve">
     <value>Automatyczne ogłaszanie ruchu:</value>
   </data>
+  <data name="CardButtonsHeadingState" xml:space="preserve">
+    <value>Nagłówki</value>
+  </data>
+  <data name="CardButtonsHeadingStateInstructions" xml:space="preserve">
+    <value>Ustaw nagłówki dla wierzchniej odwróconej karty i wszystkich stosów kart docelowych, aby przyspieszyć nawigację VoiceOver. Pamiętaj, że po włączeniu tych nagłówków, Accessible Solitaire może nie działać z funkcją sterowania głosowego w systemie iOS. Wyłącz to ustawienie, jeśli planujesz grać z użyciem sterowania głosowego.</value>
+  </data>
+  <data name="CardButtonsHeadingStateSwitchLabel" xml:space="preserve">
+    <value>Ustaw jako nagłówki:</value>
+  </data>
 </root>

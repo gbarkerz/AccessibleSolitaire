@@ -692,4 +692,13 @@ Z: Show card zoom popup.</value>
   <data name="AutomaticallyAnnounceMovesSwitchLabel" xml:space="preserve">
     <value>Automatic move announcement:</value>
   </data>
+  <data name="CardButtonsHeadingState" xml:space="preserve">
+    <value>Headings</value>
+  </data>
+  <data name="CardButtonsHeadingStateInstructions" xml:space="preserve">
+    <value>Make the top-most upturned card and all target card piles headings for faster VoiceOver navigation. Please note that if these headings are enabled, Accessible Solitaire may not be usable with iOS Voice Control. So turn this setting off if you plan to play the game using Voice Control.</value>
+  </data>
+  <data name="CardButtonsHeadingStateSwitchLabel" xml:space="preserve">
+    <value>Set as headings:</value>
+  </data>
 </root>

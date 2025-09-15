@@ -322,6 +322,33 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Headings.
+        /// </summary>
+        internal static string CardButtonsHeadingState {
+            get {
+                return ResourceManager.GetString("CardButtonsHeadingState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make the top-most upturned card and all target card piles headings for faster VoiceOver navigation. Please note that if these headings are enabled, Accessible Solitaire may not be usable with iOS Voice Control. So turn this setting off if you plan to play the game using Voice Control..
+        /// </summary>
+        internal static string CardButtonsHeadingStateInstructions {
+            get {
+                return ResourceManager.GetString("CardButtonsHeadingStateInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set as headings:.
+        /// </summary>
+        internal static string CardButtonsHeadingStateSwitchLabel {
+            get {
+                return ResourceManager.GetString("CardButtonsHeadingStateSwitchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to of .
         /// </summary>
         internal static string CardOf {
