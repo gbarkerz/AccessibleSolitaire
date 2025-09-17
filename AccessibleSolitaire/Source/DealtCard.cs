@@ -109,7 +109,7 @@ namespace Sa11ytaire4All.Source
         {
             get
             {
-                string name = "";
+                var name = "";
 
                 if (this.FaceDown)
                 {
@@ -122,7 +122,7 @@ namespace Sa11ytaire4All.Source
                 else
                 {
                     name = MainPage.MyGetString("Empty") + " " +
-                            MainPage.MyGetString("DealtCardPile");
+                        MainPage.MyGetString("DealtCardPile");
                 }
 
                 return name;
@@ -140,7 +140,7 @@ namespace Sa11ytaire4All.Source
                     return null;
                 }
 
-                string name;
+                var name = "";
 
                 bool addMofN = true;
 

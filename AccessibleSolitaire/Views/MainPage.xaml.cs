@@ -42,7 +42,7 @@ namespace Sa11ytaire4All
         private int cTargetPiles = 4;
         private List<Card>[] _targetPiles = new List<Card>[4];
 
-        private string[] localizedNumbers = new string[10];
+        public string[] localizedNumbers = new string[10];
 
         // Barker Todo: Remove as much of the timer use as possible.
         private Timer? timerFirstRunAnnouncement;
@@ -634,7 +634,7 @@ namespace Sa11ytaire4All
 #if IOS
                 // Change the heading state of the target card piles if necessary.
                 var previousCardButtonsHeadingLevel = vm.CardButtonsHeadingState;
-                vm.CardButtonsHeadingState = (bool)Preferences.Get("CardButtonsHeadingState", true);
+                vm.CardButtonsHeadingState = (bool)Preferences.Get("CardButtonsHeadingState", false);
 
                 if (firstAppAppearanceSinceStarting || (previousCardButtonsHeadingLevel != vm.CardButtonsHeadingState))
                 {

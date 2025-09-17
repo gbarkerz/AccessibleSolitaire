@@ -355,7 +355,7 @@ namespace Sa11ytaire4All
 
         private bool CanCardBeMovedToEmptyDealtCardPile(Card card)
         {
-            // If only Kings can be moved to an empoty card pile, make sure this is a King.
+            // If only Kings can be moved to an empty card pile, make sure this is a King.
             return (!OptionKingsOnlyToEmptyPile || (card.Rank == 13));
         }
 

@@ -86,7 +86,7 @@ public partial class SettingsPage : ContentPage
         var ExtendDealtCardHitTarget = (bool)Preferences.Get("ExtendDealtCardHitTarget", false);
         ExtendDealtCardHitTargetSwitch.IsToggled = ExtendDealtCardHitTarget;
 
-        var cardButtonsHeadingState = (bool)Preferences.Get("CardButtonsHeadingState", true);
+        var cardButtonsHeadingState = (bool)Preferences.Get("CardButtonsHeadingState", false);
         CardButtonsHeadingStateSwitch.IsToggled = cardButtonsHeadingState;
 
         var allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);

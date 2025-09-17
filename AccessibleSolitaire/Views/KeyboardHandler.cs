@@ -132,8 +132,13 @@ namespace Sa11ytaire4All
                                         moveComment += ", \r\n";
                                     }
 
-                                    moveComment += upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " + 
-                                        onString + " " + upturnedCardPile + " " + canBeMovedTo + " " + 
+                                    moveComment += 
+                                        upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " + 
+                                        onString + " " + 
+                                        upturnedCardPile + " " + 
+                                        canBeMovedTo + " " +
+                                        destinationCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                        moveAnnouncementInPileString + " " +
                                         dealtCardPile + " " + (d + 1).ToString();
 
                                     numberOfMoves++;
@@ -217,11 +222,14 @@ namespace Sa11ytaire4All
                                                 moveComment += ", \r\n";
                                             }
 
-                                            moveComment += sourceCard.AccessibleNameWithoutSelectionAndMofN +
-                                                " " + moveAnnouncementInPileString + " " + dealtCardPile + " " +
-                                                localizedNumbers[s].ToString() +
-                                                " " + canBeMovedTo + " " + dealtCardPile + " " +
-                                                localizedNumbers[d].ToString();
+                                            moveComment += 
+                                                sourceCard.AccessibleNameWithoutSelectionAndMofN + " " + 
+                                                moveAnnouncementInPileString + " " + 
+                                                dealtCardPile + " " + localizedNumbers[s].ToString() + " " + 
+                                                canBeMovedTo + " " +
+                                                destinationCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                                moveAnnouncementInPileString + " " +
+                                                dealtCardPile + " " + localizedNumbers[d].ToString();
 
                                             numberOfMoves++;
                                         }

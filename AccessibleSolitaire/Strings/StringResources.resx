@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V2.28</value>
+    <value>Accessible Solitaire V2.29</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -127,7 +127,7 @@
     <value>All upturned cards turned back.</value>
   </data>
   <data name="AnnounceState" xml:space="preserve">
-    <value>Screen reader announce game state</value>
+    <value>Game state</value>
   </data>
   <data name="CanBeMovedTo" xml:space="preserve">
     <value>can be moved to</value>
@@ -534,7 +534,7 @@ Z: Show card zoom popup.</value>
     <value>Use this setting to have a celebratory sound played when the game is won.</value>
   </data>
   <data name="AnnounceAvailableMoves" xml:space="preserve">
-    <value>Screen reader announce available moves</value>
+    <value>Available moves</value>
   </data>
   <data name="1" xml:space="preserve">
     <value>1</value>

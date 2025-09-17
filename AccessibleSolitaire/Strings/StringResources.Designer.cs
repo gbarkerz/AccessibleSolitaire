@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V2.28.
+        ///   Looks up a localized string similar to Accessible Solitaire V2.29.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -250,7 +250,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Screen reader announce available moves.
+        ///   Looks up a localized string similar to Available moves.
         /// </summary>
         internal static string AnnounceAvailableMoves {
             get {
@@ -259,7 +259,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Screen reader announce game state.
+        ///   Looks up a localized string similar to Game state.
         /// </summary>
         internal static string AnnounceState {
             get {

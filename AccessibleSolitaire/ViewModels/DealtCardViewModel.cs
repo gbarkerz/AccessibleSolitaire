@@ -21,7 +21,7 @@ namespace Sa11ytaire4All.ViewModels
             NoScreenOrientationChangeWarning = "";
 
 #if IOS
-            CardButtonsHeadingState = true;
+            CardButtonsHeadingState = false;
 #endif
         }
 

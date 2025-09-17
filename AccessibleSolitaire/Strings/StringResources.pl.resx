@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.28</value>
+    <value>Accessible Solitaire wersja V2.29</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
@@ -127,7 +127,7 @@
     <value>Karty przetasowano.</value>
   </data>
   <data name="AnnounceState" xml:space="preserve">
-    <value>Stan gry dla czytnika ekranu</value>
+    <value>Stan gry</value>
   </data>
   <data name="CanBeMovedTo" xml:space="preserve">
     <value>można przenieść na</value>
@@ -534,7 +534,7 @@ Z: Pokaż wyskakujące okienko powiększenia karty.</value>
     <value>Użyj tego ustawienia, aby odtworzyć dźwięk informujący o wygranej w grze.</value>
   </data>
   <data name="AnnounceAvailableMoves" xml:space="preserve">
-    <value>Dostępne ruchy dla czytnika ekranu</value>
+    <value>Dostępne ruchy</value>
   </data>
   <data name="1" xml:space="preserve">
     <value>1</value>
