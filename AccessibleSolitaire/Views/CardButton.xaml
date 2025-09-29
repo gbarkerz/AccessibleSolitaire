@@ -129,9 +129,6 @@
 
                         <Image x:Name="TintedCardImage"
                             AutomationProperties.IsInAccessibleTree="False"
-                            BackgroundColor="{Binding Card, Mode=OneWay, 
-                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}},
-                                    Converter={StaticResource CardToBackgroundConverter}}"
                             InputTransparent="True"
                             Margin="{Binding IsToggled, Mode=OneWay,
                                 Converter={StaticResource IsToggledToMarginConverter},
@@ -148,7 +145,19 @@
                                     TintColor="{Binding CardButtonTintColour}" />
 
                             </Image.Behaviors>
-                
+
+                            <Image.BackgroundColor>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource CardToBackgroundConverter}">
+                                    <Binding Path="IsToggled" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="Card" />
+                                </MultiBinding>
+                            </Image.BackgroundColor>
+                            
                         </Image>
 
                         <Image

@@ -206,7 +206,6 @@
                             HorizontalOptions="{Binding DealtCardImageHorizontalOptions}"
                             VerticalOptions="{Binding DealtCardImageVerticalOptions}"
                             Aspect="Fill" 
-                            BackgroundColor="{Binding InSelectedSet, Mode=OneWay, Converter={StaticResource InSelectedSetToBackgroundConverter}}"
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
                             Source="{Binding FaceupDealtCardImageSource, Mode=OneWay}">
 
@@ -216,6 +215,15 @@
                                         Source={x:Reference TintedCardImage}, x:DataType=Image}"
                                     TintColor="{Binding DealtCardTintColour}" />
                             </Image.Behaviors>
+
+                            <Image.BackgroundColor>
+                                <MultiBinding Mode="OneWay" 
+                                        Converter="{StaticResource InSelectedSetToBackgroundConverter}">
+                                    <Binding Path="InSelectedSet" />
+                                    <Binding Path="CardSelected" />
+                                </MultiBinding>
+                            </Image.BackgroundColor>
+                            
                         </Image>
 
                         <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="PictureCardImage"

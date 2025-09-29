@@ -433,37 +433,57 @@ namespace Sa11ytaire4All.Views
     }
 
     // This convert is for the background for the CardButton, not a dealt card.
-    public class CardToBackgroundConverter : IValueConverter
+    public class CardToBackgroundConverter : IMultiValueConverter
     {
-        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        private static readonly Color isToggledLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
+        private static readonly Color isToggledDarkColor = Color.FromRgb(0x30, 0x30, 0x00);
+
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (Application.Current == null)
             {
-                return Colors.White;
+                return Colors.Transparent;
             }
 
+            if (values == null || values.Length < 2)
+            {
+                return Colors.Transparent;
+            }
+
+            if (values[0] == null)
+            {
+                return Colors.Transparent;
+            }
+
+            var isToggled = (bool)values[0];
+
             // Note that the card can be null here, for example, for an empty target card pile.
-            var card = (Card?)value;
+            var card = (Card?)values[1];
 
             Color backgroundColor;
 
             if (Application.Current.RequestedTheme != AppTheme.Dark)
             {
-                backgroundColor = (card == null ? Color.FromRgb(0xC0, 0xFF, 0xC0) : Colors.White);
+                var cardBackground = (isToggled ? isToggledLightColor : Colors.White);
+
+                backgroundColor = (card == null ? Color.FromRgb(0xC0, 0xFF, 0xC0) : cardBackground);
             }
             else
             {
-                backgroundColor = (card == null ? Colors.Black : Color.FromRgb(0x20, 0x20, 0x20));
+                var cardBackground = (isToggled ? isToggledDarkColor : Color.FromRgb(0x20, 0x20, 0x20));
+
+                backgroundColor = (card == null ? Colors.Black : cardBackground);
             }
 
             return backgroundColor;
         }
 
-        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
     }
+
 
     public class IsObscuredCardToMargin : IValueConverter
     {
@@ -546,30 +566,36 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class InSelectedSetToBackgroundConverter : IValueConverter
+    public class InSelectedSetToBackgroundConverter : IMultiValueConverter
     {
         private static readonly Color inSelectedSetLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
         private static readonly Color inSelectedSetDarkColor = Color.FromRgb(0x30, 0x30, 0x00);
 
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (Application.Current == null)
             {
                 return Colors.Transparent;
             }
 
-            if (value == null)
+            if (values == null || values.Length < 2)
             {
                 return Colors.Transparent;
             }
 
-            var inSelectedSet = (bool)value;
+            if ((values[0] == null) || (values[1] == null))
+            {
+                return Colors.Transparent;
+            }
+
+            var inSelectedSet = (bool)values[0];
+            var cardSelected = (bool)values[1];
 
             Color? color = Colors.Transparent;
 
             if (Application.Current != null)
             {
-                if (inSelectedSet)
+                if (cardSelected || inSelectedSet)
                 {
                     color = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                 inSelectedSetLightColor : inSelectedSetDarkColor);
@@ -583,7 +609,7 @@ namespace Sa11ytaire4All.Views
             return color;
         }
 
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
