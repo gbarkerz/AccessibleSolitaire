@@ -95,7 +95,7 @@ namespace Sa11ytaire4All
                 ++numberOfMoves;
 
                 // This is always the first string in the announcement.
-                moveComment = upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " + 
+                moveComment = upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " +
                     onString + " " + upturnedCardPile + " " + canBeMovedTo + " " + suitTarget + " " + targetCardPile;
             }
 
@@ -132,10 +132,10 @@ namespace Sa11ytaire4All
                                         moveComment += ", \r\n";
                                     }
 
-                                    moveComment += 
-                                        upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " + 
-                                        onString + " " + 
-                                        upturnedCardPile + " " + 
+                                    moveComment +=
+                                        upturnedPseudoCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                        onString + " " +
+                                        upturnedCardPile + " " +
                                         canBeMovedTo + " " +
                                         destinationCard.AccessibleNameWithoutSelectionAndMofN + " " +
                                         moveAnnouncementInPileString + " " +
@@ -163,7 +163,7 @@ namespace Sa11ytaire4All
                                         " " +
                                         onString + " " + dealtCardPile + " " + (d + 1).ToString() +
                                         " " + canBeMovedTo + " " +
-                                        suitTarget + " " + 
+                                        suitTarget + " " +
                                         MainPage.MyGetString("TargetCardPile");
                                 }
                             }
@@ -222,10 +222,10 @@ namespace Sa11ytaire4All
                                                 moveComment += ", \r\n";
                                             }
 
-                                            moveComment += 
-                                                sourceCard.AccessibleNameWithoutSelectionAndMofN + " " + 
-                                                moveAnnouncementInPileString + " " + 
-                                                dealtCardPile + " " + localizedNumbers[s].ToString() + " " + 
+                                            moveComment +=
+                                                sourceCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                                moveAnnouncementInPileString + " " +
+                                                dealtCardPile + " " + localizedNumbers[s].ToString() + " " +
                                                 canBeMovedTo + " " +
                                                 destinationCard.AccessibleNameWithoutSelectionAndMofN + " " +
                                                 moveAnnouncementInPileString + " " +
@@ -438,6 +438,122 @@ namespace Sa11ytaire4All
                     else
                     {
                         collectionView.SelectedItem = dealtCard;
+                    }
+                }
+            }
+        }
+
+        public void SelectDealtCardByPileNumber(int pileIndex)
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm != null) && (vm.DealtCards != null))
+            {
+                var list = vm.DealtCards[pileIndex];
+                if ((list != null) && (list.Count > 0))
+                {
+                    var dealtCard = vm.DealtCards[pileIndex][list.Count - 1];
+
+                    var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + (pileIndex + 1));
+
+                    if (dealtCard.CardSelected)
+                    {
+                        TimedDelayDeselectDealtCard(collectionView);
+                    }
+                    else
+                    {
+                        TimedDelaySelectDealtCard(collectionView, dealtCard);
+                    }
+                }
+            }
+        }
+
+        public void SelectUpturnedCard()
+        {
+            if (CardDeckUpturned.Card != null)
+            {
+                ClearAllSelections(false);
+
+                CardDeckUpturned.IsToggled = !CardDeckUpturned.IsToggled;
+            }
+        }
+
+        public void MoveSelectedCardToSuitPile()
+        {
+            var dealtCardSelected = false;
+            var upturnedCardSelected = false;
+
+            Suit selectedCardSuit = Suit.NoSuit;
+
+            // Is a single dealt card selected?
+            CollectionView? listAlreadySelected;
+            int listAlreadySelectedIndex;
+            var cardSelected = GetSelectedDealtCard(null, // List to be ignored.
+                                             out listAlreadySelected,
+                                             out listAlreadySelectedIndex);
+            if (cardSelected != null)
+            {
+                if (cardSelected.Card != null)
+                {
+                    dealtCardSelected = true;
+
+                    selectedCardSuit = cardSelected.Card.Suit;
+                }
+            }
+            else
+            {
+                // Is the topmost upturned card selected?
+                if (CardDeckUpturned.IsToggled)
+                {
+                    if (CardDeckUpturned.Card != null)
+                    {
+                        upturnedCardSelected = true;
+
+                        selectedCardSuit = CardDeckUpturned.Card.Suit;
+                    }
+                }
+            }
+
+            if (dealtCardSelected || upturnedCardSelected)
+            {
+                CardButton? targetCardButton = null;
+
+                switch (selectedCardSuit)
+                {
+                    case Suit.Clubs:
+                        targetCardButton = TargetPileC;
+                        break;
+
+                    case Suit.Diamonds:
+                        targetCardButton = TargetPileD;
+                        break;
+
+                    case Suit.Hearts:
+                        targetCardButton = TargetPileH;
+                        break;
+
+                    case Suit.Spades:
+                        targetCardButton = TargetPileS;
+                        break;
+                }
+
+                if (targetCardButton != null)
+                {
+                    if (dealtCardSelected)
+                    {
+                        // A check for the game being complete is made beneath this call.
+                        MoveDealtCardToTargetPileAsAppropriate(targetCardButton);
+                    }
+                    else
+                    {
+                        var cardWasMoved = MoveUpturnedCardToTargetPileAsAppropriate(targetCardButton);
+                        if (cardWasMoved)
+                        {
+                            // A card was moved from the Upturned Card Pile to a Target Card Pile.
+                            if (GameOver())
+                            {
+                                ShowEndOfGameDialog();
+                            }
+                        }
                     }
                 }
             }

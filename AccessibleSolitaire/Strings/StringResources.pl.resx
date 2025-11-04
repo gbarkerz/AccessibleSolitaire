@@ -472,15 +472,21 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
 
 F6: Przenieś fokus klawiatury między głównymi obszarami gry.
 
+H: Pokaż pełną treść pomocy.
+N: Kliknij przycisk Następna karta.
+R: Uruchom ponownie grę.
+Z: Pokaż wyskakujące okienko powiększenia karty.
+
 M: Czytnik ekranu ogłasza dostępne ruchy.
 U: Czytnik ekranu ogłasza wierzchnie odkryte karty.
 T: Czytnik ekranu ogłasza docelowe stosy kart.
 D: Czytnik ekranu ogłasza rozdane stosy kart.
 
-H: Pokaż pełną treść pomocy.
-N: Kliknij przycisk Następna karta.
-R: Uruchom ponownie grę.
-Z: Pokaż wyskakujące okienko powiększenia karty.</value>
+Podziękowania: Poniższe skróty są oparte na skrótach używanych w BBC Micro Patience gra.
+
+1-7: Wybierz najwyższą kartę ze rozdane stosy kart od 1 do 7.
+P: Wybierz kartę leżącą najwyżej w wierzchnie odkryte karty.
+S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value>
   </data>
   <data name="KeyboardShortcutsTitle" xml:space="preserve">
     <value>Skróty Klawiszowe</value>

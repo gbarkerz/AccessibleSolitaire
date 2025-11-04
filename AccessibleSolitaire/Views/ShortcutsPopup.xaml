@@ -1,6 +1,7 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:resources="clr-namespace:Sa11ytaire4All"
+               xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
                Margin="0" Padding="20"
                BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -46,10 +47,12 @@
             </ScrollView>
 
             <Button Grid.Column="1" Grid.Row="3"
-                    TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
-                    Padding="8"
-                    Text="{x:Static resources:Strings.StringResources.Close}" 
-                    Clicked="CloseButton_Clicked" />
+                x:Name="CloseButton"
+                windows:VisualElement.AccessKey="C"
+                TextColor="{StaticResource White}" BackgroundColor="{StaticResource Primary}"
+                Padding="8"
+                Text="{x:Static resources:Strings.StringResources.Close}" 
+                Clicked="CloseButton_Clicked" />
 
         </Grid>
     </Border>

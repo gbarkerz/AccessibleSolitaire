@@ -154,6 +154,57 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine("Process Space or Enter press: Handled " + e.Handled);
             }
+            else if ((e.Key == VirtualKey.Number1) ||
+                     (e.Key == VirtualKey.Number2) ||
+                     (e.Key == VirtualKey.Number3) ||
+                     (e.Key == VirtualKey.Number4) ||
+                     (e.Key == VirtualKey.Number5) ||
+                     (e.Key == VirtualKey.Number6) ||
+                     (e.Key == VirtualKey.Number7))
+            {
+                int pileIndex;
+
+                switch (e.Key)
+                {
+                    case VirtualKey.Number1:
+                        pileIndex = 0;
+                        break;
+
+                    case VirtualKey.Number2:
+                        pileIndex = 1;
+                        break;
+
+                    case VirtualKey.Number3:
+                        pileIndex = 2;
+                        break;
+
+                    case VirtualKey.Number4:
+                        pileIndex = 3;
+                        break;
+
+                    case VirtualKey.Number5:
+                        pileIndex = 4;
+                        break;
+
+                    case VirtualKey.Number6:
+                        pileIndex = 5;
+                        break;
+
+                    default:
+                        pileIndex = 6;
+                        break;
+                }
+
+                MainPage.MainPageSingleton?.SelectDealtCardByPileNumber(pileIndex);
+            }
+            else if (e.Key == VirtualKey.P)
+            {
+                MainPage.MainPageSingleton?.SelectUpturnedCard();
+            }
+            else if (e.Key == VirtualKey.S)
+            {
+                MainPage.MainPageSingleton?.MoveSelectedCardToSuitPile();
+            }
             else
             {
                 e.Handled = false;

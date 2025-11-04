@@ -472,15 +472,21 @@ Please click the Menu button and review the Help content to learn how to get the
 
 F6: Move keyboard focus between the main areas of the game.
 
+N: Click Next Card button.
+H: Show full help content.
+R: Restart game.
+Z: Show card zoom popup.
+
 M: Screen reader announce available moves.
 U: Screen reader announce topmost upturned cards.
 T: Screen reader announce target card piles.
 D: Screen reader announce dealt card piles.
 
-H: Show full help content.
-N: Click Next Card button.
-R: Restart game.
-Z: Show card zoom popup.</value>
+Acknowledgement: The following shortcuts are based on those used in the BBC Micro Patience game.
+
+1-7: Select the topmost card in dealt card piles 1 to 7.
+P: Select the topmost card in the pile of upturned cards.
+S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="KeyboardShortcutsTitle" xml:space="preserve">
     <value>Keyboard Shortcuts</value>

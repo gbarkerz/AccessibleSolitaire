@@ -985,15 +985,19 @@ namespace Sa11ytaire4All.Strings {
         ///
         ///F6: Move keyboard focus between the main areas of the game.
         ///
+        ///N: Click Next Card button.
+        ///H: Show full help content.
+        ///R: Restart game.
+        ///Z: Show card zoom popup.
+        ///
         ///M: Screen reader announce available moves.
         ///U: Screen reader announce topmost upturned cards.
         ///T: Screen reader announce target card piles.
         ///D: Screen reader announce dealt card piles.
         ///
-        ///H: Show full help content.
-        ///N: Click Next Card button.
-        ///R: Restart game.
-        ///Z: Show card zoom popup..
+        ///Acknowledgement: The following shortcuts are based on those used in the BBC Micro Patience game.
+        ///
+        ///1-7: Select th [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string KeyboardShortcutsList {
             get {
