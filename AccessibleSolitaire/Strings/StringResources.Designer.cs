@@ -178,7 +178,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dealt card pile hint.
+        ///   Looks up a localized string similar to Dealt card pile hint (Klondike only).
         /// </summary>
         internal static string AddHintToTopmostCard {
             get {
@@ -205,7 +205,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dealt card selection.
+        ///   Looks up a localized string similar to Dealt card selection (Klondike only).
         /// </summary>
         internal static string AllowSelectionByFaceDownCard {
             get {
@@ -309,6 +309,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Black {
             get {
                 return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to can be discarded.
+        /// </summary>
+        internal static string CanBeDiscarded {
+            get {
+                return ResourceManager.GetString("CanBeDiscarded", resourceCulture);
             }
         }
         
@@ -439,7 +448,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of cards turned up.
+        ///   Looks up a localized string similar to Number of cards turned up (Klondike only).
         /// </summary>
         internal static string CardTurnCount {
             get {
@@ -763,7 +772,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extend dealt card hit target.
+        ///   Looks up a localized string similar to Extend dealt card hit target (Klondike only).
         /// </summary>
         internal static string ExtendDealtCardHitTarget {
             get {
@@ -927,7 +936,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Announce face-down card details.
+        ///   Looks up a localized string similar to Announce face-down card details (Klondike only).
         /// </summary>
         internal static string IncludeFacedownCardsInAnnouncement {
             get {
@@ -1060,7 +1069,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Empty Dealt Card Pile.
+        ///   Looks up a localized string similar to Empty Dealt Card Pile (Klondike only).
         /// </summary>
         internal static string KingsOnlyToEmptyPile {
             get {
@@ -1785,6 +1794,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string To {
             get {
                 return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to together.
+        /// </summary>
+        internal static string Together {
+            get {
+                return ResourceManager.GetString("Together", resourceCulture);
             }
         }
         

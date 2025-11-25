@@ -656,7 +656,9 @@ namespace Sa11ytaire4All
 
                 OptionCardTurnCount = (int)Preferences.Get("CardTurnCount", 1);
                 OptionKingsOnlyToEmptyPile = (bool)Preferences.Get("KingsOnlyToEmptyPile", false);
-                OptionKeepGameAcrossSessions = (bool)Preferences.Get("KeepGameAcrossSessions", true);
+
+                // We always persist the game across sessions now.
+                OptionKeepGameAcrossSessions = true; // (bool)Preferences.Get("KeepGameAcrossSessions", true);
 
                 allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);
 
@@ -747,24 +749,41 @@ namespace Sa11ytaire4All
             if ((vm != null) && (vm.DealtCards != null))
             {
                 // Refresh all the cards to show the required visuals.
-                for (int i = 0; i < cCardPiles; i++)
+                if (currentGameType == SolitaireGameType.Klondike)
                 {
-                    for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                    for (int i = 0; i < cCardPiles; i++)
                     {
-                        var pileCard = vm.DealtCards[i][j];
+                        for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                        {
+                            var pileCard = vm.DealtCards[i][j];
 
-                        pileCard.RefreshVisuals();
+                            pileCard.RefreshVisuals();
+                        }
+                    }
+
+                    TargetPileC.RefreshVisuals();
+                    TargetPileD.RefreshVisuals();
+                    TargetPileH.RefreshVisuals();
+                    TargetPileS.RefreshVisuals();
+
+                    CardDeckUpturnedObscuredLower.RefreshVisuals();
+                }
+                else if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    var pyramidCards = CardPileGridPyramid.Children;
+
+                    foreach (var pyramidCard in pyramidCards)
+                    {
+                        var card = pyramidCard as CardButton;
+                        if ((card != null) && (card.Card != null))
+                        {
+                            card.RefreshVisuals();
+                        }
                     }
                 }
 
-                CardDeckUpturnedObscuredLower.RefreshVisuals();
                 CardDeckUpturnedObscuredHigher.RefreshVisuals();
                 CardDeckUpturned.RefreshVisuals();
-
-                TargetPileC.RefreshVisuals();
-                TargetPileD.RefreshVisuals();
-                TargetPileH.RefreshVisuals();
-                TargetPileS.RefreshVisuals();
             }
         }
 

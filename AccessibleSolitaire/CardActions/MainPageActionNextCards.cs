@@ -40,6 +40,12 @@ namespace Sa11ytaire4All
                 // Respect the player's selection in the Settings.
                 var countCardsToTurn = Math.Min(OptionCardTurnCount, maxCountCardsToTurn);
 
+                // We only ever turn over one card in Pyramid solitaire.
+                if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    countCardsToTurn = 1;
+                }
+
                 soundFilename = (countCardsToTurn > 1 ? "movecards.mp4" : "movecard.mp4");
 
                 // Turn over each card in turn.

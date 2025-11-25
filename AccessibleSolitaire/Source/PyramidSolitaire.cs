@@ -53,6 +53,26 @@ namespace Sa11ytaire4All
             {
                 RestartGame(true /* screenReaderAnnouncement. */);
             }
+
+            timerRefreshDealtCards = new Timer(
+                new TimerCallback((s) => RefreshDealtCards()),
+                    null,
+                    TimeSpan.FromMilliseconds(200),
+                    TimeSpan.FromMilliseconds(Timeout.Infinite));
+        }
+
+        private Timer? timerRefreshDealtCards;
+
+        private void RefreshDealtCards()
+        {
+            timerRefreshDealtCards?.Dispose();
+            timerRefreshDealtCards = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                RefreshAllCardVisuals();
+            });
         }
 
         private void AddPyramidButtons()

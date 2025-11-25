@@ -127,7 +127,160 @@ namespace Sa11ytaire4All
             }
         }
 
-        public string? AnnounceAvailableMoves(bool makeAnnouncement)
+        private string? AnnounceAvailableMovesPyramid()
+        {
+            int numberOfMoves = 0;
+            string moveComment = "";
+            DealtCard? destinationCard = null;
+            DealtCard? sourceCard = null;
+
+            var moveAnnouncementInPileString = MyGetString("MoveAnnouncementInPile");
+            var onString = MyGetString("On");
+            var upturnedCardPile = MyGetString("UpturnedCardPile");
+            var dealtCardPile = MyGetString("DealtCardPile");
+            var canBeMovedTo = MyGetString("CanBeMovedTo");
+
+            DealtCard? upturnedPseudoCard = null;
+            if (_deckUpturned.Count > 0)
+            {
+                upturnedPseudoCard = new DealtCard();
+                upturnedPseudoCard.FaceDown = false;
+                upturnedPseudoCard.CardState = CardState.FaceUp;
+                upturnedPseudoCard.Card = _deckUpturned[_deckUpturned.Count - 1];
+            }
+
+            // First move through all the pyramid card piles to determine if a card can be discarded 
+            // with another card in the pyramid card pile, or with one of the upturned cards.
+            var pyramidCards = CardPileGridPyramid.Children;
+            if (pyramidCards.Count > 0)
+            {
+                for (int i = 0; i < pyramidCards.Count; i++)
+                {
+                    var pyramidCard = pyramidCards[i] as CardButton;
+                    if ((pyramidCard != null) && (pyramidCard.Card != null) && pyramidCard.IsVisible)
+                    {
+                        CollectionView? list;
+                        var dealtCard = FindDealtCardFromCard(pyramidCard.Card, false, out list);
+                        if ((dealtCard != null) && dealtCard.Open)
+                        {
+                            if (pyramidCard.Card.Rank == 13)
+                            {
+                                // A king can always be discarded. 
+                                if (!string.IsNullOrEmpty(moveComment))
+                                {
+                                    moveComment += ", ";
+                                }
+
+                                moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("CanBeDiscarded");
+                            }
+                            else
+                            {
+                                for (int j = i; j < pyramidCards.Count; j++)
+                                {
+                                    var pyramidCardLater = pyramidCards[j] as CardButton;
+                                    if ((pyramidCardLater != null) && (pyramidCardLater.Card != null) && pyramidCardLater.IsVisible)
+                                    {
+                                        CollectionView? listLater;
+                                        var dealtCardLater = FindDealtCardFromCard(pyramidCardLater.Card, false, out listLater);
+                                        if ((dealtCardLater != null) && dealtCardLater.Open)
+                                        {
+                                            if (pyramidCard.Card.Rank + pyramidCardLater.Card.Rank == 13)
+                                            {
+                                                // The two cards can be discarded. 
+                                                if (!string.IsNullOrEmpty(moveComment))
+                                                {
+                                                    moveComment += ", ";
+                                                }
+
+                                                moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                                MyGetString("And") + " " +
+                                                                pyramidCardLater.Card.GetCardAccessibleName() + " " +
+                                                                MyGetString("CanBeDiscarded") + " " +
+                                                                MyGetString("Together");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Also check whether the pyramid card can be discarded with an upturned card.
+                            if ((CardDeckUpturned.Card != null) && 
+                                (CardDeckUpturned.Card.Rank + pyramidCard.Card.Rank == 13))
+                            {
+                                if (!string.IsNullOrEmpty(moveComment))
+                                {
+                                    moveComment += ", ";
+                                }
+
+                                moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("And") + " " +
+                                                CardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("CanBeDiscarded") + " " +
+                                                MyGetString("Together");
+                            }
+
+                            if ((CardDeckUpturnedObscuredHigher.Card != null) &&
+                                (CardDeckUpturnedObscuredHigher.Card.Rank + pyramidCard.Card.Rank == 13))
+                            {
+                                if (!string.IsNullOrEmpty(moveComment))
+                                {
+                                    moveComment += ", ";
+                                }
+
+                                moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("And") + " " +
+                                                CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("CanBeDiscarded") + " " +
+                                                MyGetString("Together");
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Next check if the two upturned card can be discarded together.
+            if ((CardDeckUpturned.Card != null) && (CardDeckUpturnedObscuredHigher.Card != null) &&
+                (CardDeckUpturned.Card.Rank + CardDeckUpturnedObscuredHigher.Card.Rank == 13))
+            {
+                if (!string.IsNullOrEmpty(moveComment))
+                {
+                    moveComment += ", ";
+                }
+
+                moveComment += CardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                                MyGetString("And") + " " +
+                                CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName() + " " +
+                                MyGetString("CanBeDiscarded") + " " +
+                                MyGetString("Together");
+            }
+
+            if ((CardDeckUpturned.Card != null) && (CardDeckUpturned.Card.Rank == 13))
+            {
+                if (!string.IsNullOrEmpty(moveComment))
+                {
+                    moveComment += ", ";
+                }
+
+                moveComment += CardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                                MyGetString("CanBeDiscarded");
+            }
+
+            if ((CardDeckUpturnedObscuredHigher.Card != null) && (CardDeckUpturnedObscuredHigher.Card.Rank == 13))
+            {
+                if (!string.IsNullOrEmpty(moveComment))
+                {
+                    moveComment += ", ";
+                }
+
+                moveComment += CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName() + " " +
+                                MyGetString("CanBeDiscarded");
+            }
+
+            return moveComment;
+        }
+
+        private string? AnnounceAvailableMovesKlondike()
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -160,7 +313,6 @@ namespace Sa11ytaire4All
             var targetCardPile = MyGetString("TargetCardPile");
             var dealtCardPile = MyGetString("DealtCardPile");
             var canBeMovedTo = MyGetString("CanBeMovedTo");
-            var noMoveIsAvailable = MyGetString("NoMoveIsAvailable");
 
             DealtCard? upturnedPseudoCard = null;
             if (_deckUpturned.Count > 0)
@@ -322,6 +474,24 @@ namespace Sa11ytaire4All
                         }
                     }
                 }
+            }
+
+            return moveComment;
+        }
+
+        public string? AnnounceAvailableMoves(bool makeAnnouncement)
+        {
+            var noMoveIsAvailable = MyGetString("NoMoveIsAvailable");
+
+            var moveComment = "";
+
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                moveComment = AnnounceAvailableMovesKlondike();
+            }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                moveComment = AnnounceAvailableMovesPyramid();
             }
 
             if (makeAnnouncement)

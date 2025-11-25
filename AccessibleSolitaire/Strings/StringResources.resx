@@ -330,7 +330,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>Yes</value>
   </data>
   <data name="CardTurnCount" xml:space="preserve">
-    <value>Number of cards turned up</value>
+    <value>Number of cards turned up (Klondike only)</value>
   </data>
   <data name="CardTurnCountInstructions" xml:space="preserve">
     <value>How many cards would you like to be turned up when the Next Card button is clicked?</value>
@@ -339,7 +339,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>Card turn up count:</value>
   </data>
   <data name="KingsOnlyToEmptyPile" xml:space="preserve">
-    <value>Empty Dealt Card Pile</value>
+    <value>Empty Dealt Card Pile (Klondike only)</value>
   </data>
   <data name="KingsOnlyToEmptyPileInstructions" xml:space="preserve">
     <value>Any card can be moved to an empty dealt card pile. If you'd prefer that only Kings can be moved to the empty card pile, select this option.</value>
@@ -360,7 +360,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>Popup</value>
   </data>
   <data name="AllowSelectionByFaceDownCard" xml:space="preserve">
-    <value>Dealt card selection</value>
+    <value>Dealt card selection (Klondike only)</value>
   </data>
   <data name="AllowSelectionByFaceDownCardInstructions" xml:space="preserve">
     <value>Check this option if you'd like to tap any face-down card in a dealt card pile to select the nearest face-up card in the same pile.</value>
@@ -417,7 +417,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>Other sounds:</value>
   </data>
   <data name="ExtendDealtCardHitTarget" xml:space="preserve">
-    <value>Extend dealt card hit target</value>
+    <value>Extend dealt card hit target (Klondike only)</value>
   </data>
   <data name="ExtendDealtCardHitTargetSwitchLabel" xml:space="preserve">
     <value>Extend hit target:</value>
@@ -633,13 +633,13 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Add hint:</value>
   </data>
   <data name="AddHintToTopmostCard" xml:space="preserve">
-    <value>Dealt card pile hint</value>
+    <value>Dealt card pile hint (Klondike only)</value>
   </data>
   <data name="AddHintToTopmostCardInstructions" xml:space="preserve">
     <value>Add a hint on the topmost card in a dealt card pile saying which card is the bottommost face-up card in that pile.</value>
   </data>
   <data name="IncludeFacedownCardsInAnnouncement" xml:space="preserve">
-    <value>Announce face-down card details</value>
+    <value>Announce face-down card details (Klondike only)</value>
   </data>
   <data name="IncludeFacedownCardsInAnnouncementSwitchLabel" xml:space="preserve">
     <value>Announce face-down cards:</value>
@@ -736,5 +736,11 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="And" xml:space="preserve">
     <value>and</value>
+  </data>
+  <data name="CanBeDiscarded" xml:space="preserve">
+    <value>can be discarded</value>
+  </data>
+  <data name="Together" xml:space="preserve">
+    <value>together</value>
   </data>
 </root>

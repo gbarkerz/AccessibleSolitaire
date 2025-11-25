@@ -16,6 +16,10 @@ public partial class SettingsPage : ContentPage
         CardButtonsHeadingStateGrid.IsVisible = true;
 #endif
 
+#if WINDOWS
+        SuitColoursContainer.IsVisible = false;
+#endif
+
         settingsMediaElement.ShouldShowPlaybackControls = false;
         settingsMediaElement.IsVisible = false;
 
