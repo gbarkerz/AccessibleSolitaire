@@ -1573,6 +1573,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Row.
+        /// </summary>
+        internal static string Row {
+            get {
+                return ResourceManager.GetString("Row", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Screen Reader Usage.
         /// </summary>
         internal static string ScreenReaderUsage {
@@ -1807,6 +1816,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Top of waste pile is.
+        /// </summary>
+        internal static string TopOfWastePileIs {
+            get {
+                return ResourceManager.GetString("TopOfWastePileIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Top upturned card is.
         /// </summary>
         internal static string TopUpturnedCardIs {
@@ -1839,6 +1857,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Upturned {
             get {
                 return ResourceManager.GetString("Upturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upturned card is.
+        /// </summary>
+        internal static string UpturnedCardIs {
+            get {
+                return ResourceManager.GetString("UpturnedCardIs", resourceCulture);
             }
         }
         

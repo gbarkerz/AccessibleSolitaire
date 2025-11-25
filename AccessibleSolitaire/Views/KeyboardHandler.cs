@@ -172,6 +172,7 @@ namespace Sa11ytaire4All
                                 }
 
                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
                                                 MyGetString("CanBeDiscarded");
                             }
                             else
@@ -194,8 +195,10 @@ namespace Sa11ytaire4All
                                                 }
 
                                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
                                                                 MyGetString("And") + " " +
                                                                 pyramidCardLater.Card.GetCardAccessibleName() + " " +
+                                                                MyGetString("Row") + " " + dealtCardLater.PyramidRow + " " +
                                                                 MyGetString("CanBeDiscarded") + " " +
                                                                 MyGetString("Together");
                                             }
@@ -214,8 +217,9 @@ namespace Sa11ytaire4All
                                 }
 
                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
                                                 MyGetString("And") + " " +
-                                                CardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                                                CardDeckUpturned.CardPileAccessibleName + " " +
                                                 MyGetString("CanBeDiscarded") + " " +
                                                 MyGetString("Together");
                             }
@@ -229,8 +233,9 @@ namespace Sa11ytaire4All
                                 }
 
                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
                                                 MyGetString("And") + " " +
-                                                CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName() + " " +
+                                                CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
                                                 MyGetString("CanBeDiscarded") + " " +
                                                 MyGetString("Together");
                             }
@@ -248,9 +253,9 @@ namespace Sa11ytaire4All
                     moveComment += ", ";
                 }
 
-                moveComment += CardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                moveComment += CardDeckUpturned.CardPileAccessibleName + " " +
                                 MyGetString("And") + " " +
-                                CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName() + " " +
+                                CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
                                 MyGetString("CanBeDiscarded") + " " +
                                 MyGetString("Together");
             }
@@ -262,7 +267,7 @@ namespace Sa11ytaire4All
                     moveComment += ", ";
                 }
 
-                moveComment += CardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                moveComment += CardDeckUpturned.CardPileAccessibleName + " " +
                                 MyGetString("CanBeDiscarded");
             }
 
@@ -273,7 +278,7 @@ namespace Sa11ytaire4All
                     moveComment += ", ";
                 }
 
-                moveComment += CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName() + " " +
+                moveComment += CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
                                 MyGetString("CanBeDiscarded");
             }
 

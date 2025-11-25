@@ -743,4 +743,13 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="Together" xml:space="preserve">
     <value>together</value>
   </data>
+  <data name="UpturnedCardIs" xml:space="preserve">
+    <value>Upturned card is</value>
+  </data>
+  <data name="TopOfWastePileIs" xml:space="preserve">
+    <value>Top of waste pile is</value>
+  </data>
+  <data name="Row" xml:space="preserve">
+    <value>Row</value>
+  </data>
 </root>

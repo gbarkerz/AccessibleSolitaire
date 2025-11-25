@@ -1641,6 +1641,27 @@ namespace Sa11ytaire4All
         {
             string stateMessage = "";
 
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                stateMessage = AnnounceStateRemainingCardsKlondike();
+            }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                stateMessage = AnnounceStateRemainingCardsPyramid();
+            }
+
+            if (makeAnnouncement)
+            {
+                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
+            }
+
+            return stateMessage;
+        }
+
+        public string AnnounceStateRemainingCardsKlondike()
+        {
+            string stateMessage = "";
+
             if (_deckUpturned.Count > 0)
             {
                 stateMessage += MyGetString("TopUpturnedCardIs") + " " +
@@ -1674,9 +1695,38 @@ namespace Sa11ytaire4All
                 stateMessage += " " + MyGetString("MoreCardsAreAvailable") + ".";
             }
 
-            if (makeAnnouncement)
+            return stateMessage;
+        }
+
+        public string AnnounceStateRemainingCardsPyramid()
+        {
+            string stateMessage = "";
+
+            if (_deckUpturned.Count > 0)
             {
-                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
+                stateMessage += MyGetString("UpturnedCardIs") + " " +
+                    _deckUpturned[_deckUpturned.Count - 1].GetCardAccessibleName();
+            }
+
+            if (_deckUpturned.Count > 1)
+            {
+                stateMessage += ", " + MyGetString("TopOfWastePileIs") + " " +
+                    _deckUpturned[_deckUpturned.Count - 2].GetCardAccessibleName();
+            }
+
+            if (_deckUpturned.Count > 0)
+            {
+                stateMessage += ". ";
+            }
+
+            if (_deckUpturned.Count == 0)
+            {
+                stateMessage = MyGetString("ThereAreNoUpturnedCards") + ".";
+            }
+
+            if (_deckRemaining.Count > 0)
+            {
+                stateMessage += " " + MyGetString("MoreCardsAreAvailable") + ".";
             }
 
             return stateMessage;
@@ -1684,6 +1734,11 @@ namespace Sa11ytaire4All
 
         public string AnnounceStateTargetPiles(bool makeAnnouncement)
         {
+            if (currentGameType != SolitaireGameType.Klondike)
+            {
+                return "";
+            }
+
             string stateMessage = MyGetString("TargetCardPiles") + ", ";
 
             string empty = MyGetString("Empty");
@@ -1719,6 +1774,27 @@ namespace Sa11ytaire4All
         }
 
         public string AnnounceStateDealtCardPiles(bool makeAnnouncement)
+        {
+            string stateMessage = "";
+
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                stateMessage = AnnounceStateDealtCardPilesKlondike();
+            }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                stateMessage = AnnounceStateDealtCardPilesPyramid();
+            }
+
+            if (makeAnnouncement)
+            {
+                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
+            }
+
+            return stateMessage;
+        }
+
+        public string AnnounceStateDealtCardPilesKlondike()
         {
             string stateMessage = "";
 
@@ -1793,7 +1869,7 @@ namespace Sa11ytaire4All
                 {
                     stateMessage += faceDownMessage;
                 }
-                else  if (cFaceDown > 0)
+                else if (cFaceDown > 0)
                 {
                     stateMessage += cFaceDown + " " +
                         (cFaceDown > 1 ? cards : card) + " " + facedown;
@@ -1802,9 +1878,32 @@ namespace Sa11ytaire4All
                 }
             }
 
-            if (makeAnnouncement)
+            return stateMessage;
+        }
+
+        public string AnnounceStateDealtCardPilesPyramid()
+        {
+            string stateMessage = "";
+
+            // Work up from the last row in the pyramid.
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
             {
-                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
+                return "";
+            }
+
+            for (int i = 6; i >= 0; i--)
+            {
+                stateMessage += MyGetString("Row") + " " + (i + 1) + ", ";
+
+                for (int j = 0; j < vm.DealtCards[i].Count; j++)
+                {
+                    var dealtCard = vm.DealtCards[i][j];
+                    if ((dealtCard != null) && (dealtCard.Card != null))
+                    {
+                        stateMessage += dealtCard.Card.GetCardAccessibleName() + ", ";
+                    }
+                }
             }
 
             return stateMessage;
