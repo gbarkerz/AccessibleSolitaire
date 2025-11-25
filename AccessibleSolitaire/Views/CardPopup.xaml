@@ -51,12 +51,12 @@
                     Converter={StaticResource CardToCardImageConverter}}">
 
                 <Image.Behaviors>
-
                     <toolkit:IconTintColorBehavior
                         BindingContext="{Binding BindingContext,
                             Source={x:Reference TintedCardImage}, x:DataType=Image}"
-                        TintColor="{Binding CardPopupTintColour, x:DataType=local_views:CardPopup}" />
-
+                            TintColor="{OnPlatform 
+                                iOS={Binding CardPopupTintColour, x:DataType=local_views:CardPopup}, 
+                                Android={Binding CardPopupTintColour, x:DataType=local_views:CardPopup}}" />
                 </Image.Behaviors>
             </Image>
 

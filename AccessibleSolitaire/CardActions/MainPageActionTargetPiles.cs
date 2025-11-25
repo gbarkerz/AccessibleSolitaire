@@ -1,4 +1,5 @@
 ﻿using Sa11ytaire4All.Source;
+using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 
@@ -30,6 +31,13 @@ namespace Sa11ytaire4All
 
                 // Barker Todo: Move reacting to the upturned card click to somewhere unrelated to the target card piles.
                 case "CardDeckUpturned":
+
+                    // For pyramid, check if both the Upturned card and HigherObscured card should be removed.
+                    if ((currentGameType == SolitaireGameType.Pyramid) && !MoveBothUpturnedCards(CardDeckUpturned))
+                    {
+                        return;
+                    }
+
                     CardDeckUpturned_Clicked(CardDeckUpturned);
                     return;
 
@@ -38,10 +46,53 @@ namespace Sa11ytaire4All
                     break;
 
                 case "CardDeckUpturnedObscuredHigher":
-                    obscuredCardButton = CardDeckUpturnedObscuredHigher;
+
+                    // For pyramid, check if both the Upturned card and HigherObscured card should be removed.
+                    if (currentGameType == SolitaireGameType.Pyramid)
+                    {
+                        if (!MoveBothUpturnedCards(CardDeckUpturnedObscuredHigher))
+                        {
+                            return;
+                        }
+
+                        CardDeckUpturned_Clicked(CardDeckUpturnedObscuredHigher);
+                    }
+                    else
+                    {
+                        obscuredCardButton = CardDeckUpturnedObscuredHigher;
+                    }
+
                     break;
 
                 default:
+
+                    // If Pyramid, check for a click on a not-open pyramid card.
+                    if (currentGameType == SolitaireGameType.Pyramid)
+                    {
+                        var element = clickedCardButton.Parent;
+                        while (element is not CardButton)
+                        {
+                            element = element.Parent;
+                        }
+
+                        cardButton = element as CardButton;
+                        if ((cardButton != null) && (cardButton.Card != null))
+                        {
+                            var vm = this.BindingContext as DealtCardViewModel;
+                            if ((vm == null) || (vm.DealtCards == null))
+                            {
+                                return;
+                            }
+
+                            CollectionView? list;
+                            var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
+                            if ((dealtCard != null) && !dealtCard.Open)
+                            {
+                                obscuredCardButton = cardButton;
+                            }
+                        }
+                    }
+
                     break;
             }
 
@@ -90,6 +141,14 @@ namespace Sa11ytaire4All
             }
 
             var cardWasMoved = false;
+
+            // Barker Todo: Check if action can be taken here.
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                HandlePyramidCardClick(cardButton);
+
+                return;
+            }
 
             // Is the top card in the Upturned Card pile checked?
             if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))

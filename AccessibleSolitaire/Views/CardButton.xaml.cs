@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using Sa11ytaire4All.Source;
+using Sa11ytaire4All.ViewModels;
 
 namespace Sa11ytaire4All.Views;
 
@@ -24,14 +25,13 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 #endif
     }
 
-#if IOS
     public void SetHeadingState(bool isHeading)
     {
         var headingLevel = (isHeading ? SemanticHeadingLevel.Level2 : SemanticHeadingLevel.None);
 
         //Debug.WriteLine("CardButton AutomationID: " + this.AutomationId);
 
-        // On iOS, Make the top upturned card and all target crd piles headings to 
+        // On iOS, Make the top upturned card and all target card piles headings to 
         // allow fast VoiceOver navigation to them.
         if ((this.AutomationId != "CardDeckUpturnedObscuredHigher") &&
             (this.AutomationId != "CardDeckUpturnedObscuredLower"))
@@ -43,7 +43,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
             }
         }
     }
-#endif 
 
     private Card? card = null;
     public Card? Card
@@ -70,10 +69,62 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
+    public void RefreshCardButtonMofN()
+    {
+        if (this.Card != null)
+        {
+            OnPropertyChanged("CardPileAccessibleName");
+        }
+    }
+
     public string CardPileAccessibleName
     {
         get
         {
+            if ((MainPage.currentGameType == SolitaireGameType.Pyramid) && string.IsNullOrEmpty(this.AutomationId))
+            {
+                var accessibleName = "";
+
+                if ((this != null) && this.IsVisible && (this.Card != null) && (MainPage.MainPageSingleton != null))
+                {
+                    var dealtCardViewModel = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+                    if ((dealtCardViewModel != null) && (dealtCardViewModel.DealtCards != null))
+                    {
+                        CollectionView? list;
+                        var dealtCard = MainPage.MainPageSingleton.FindDealtCardFromCard(this.Card, false, out list);
+                        if (dealtCard != null)
+                        {
+                            var rowCards = dealtCardViewModel.DealtCards[dealtCard.PyramidRow];
+                            if (rowCards != null)
+                            {
+                                var countCardsOnRow = 0;
+                                foreach (var rowCard in rowCards)
+                                {
+                                    if (rowCard.Card != null)
+                                    {
+                                        ++countCardsOnRow;
+                                    }
+                                }
+
+                                accessibleName = this.Card.GetCardAccessibleName() +
+                                                    (dealtCard.Open ? ", Open" : "") + 
+                                                    ", row " + (dealtCard.PyramidRow + 1) +
+                                                    ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) + 
+                                                    " of " + dealtCard.PyramidCardCurrentCountOfCardsOnRow;
+
+                                Debug.WriteLine("AccessibleName: " + accessibleName);
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("GB Unexpected empty accessible name.");
+                        }
+                    }
+                }
+
+                return accessibleName;
+            }
+
             string cardPileAccessibleName;
 
             // Is this card pile empty?

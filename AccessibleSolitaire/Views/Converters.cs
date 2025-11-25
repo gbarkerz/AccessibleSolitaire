@@ -174,7 +174,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-
     public class LongPressZoomDurationToActualDuration : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -188,6 +187,86 @@ namespace Sa11ytaire4All.Views
 
             // Assume ten minutes is sufficient for the "Never" timeout.
             return (timeout > 0 ? timeout : 600000);
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class PyramidCardDiscardedToDiscardPileImageSource : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var cardHasBeenDiscarded = (bool)value;
+
+            return cardHasBeenDiscarded ? "darkcardback.png" : "darkemptydealtcardpile.png";
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class GameTypeToDiscardPileMargin : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var gameType = (SolitaireGameType)value;
+
+            return gameType == SolitaireGameType.Klondike ? new Thickness() : new Thickness(120, 0, 0, 0);
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CurrentGameTypeToKlondikeUIVisibility : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var gameType = (SolitaireGameType)value;
+
+            return (gameType == SolitaireGameType.Klondike);
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CurrentGameTypeToPyramidUIVisibility : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var gameType = (SolitaireGameType)value;
+
+            return (gameType == SolitaireGameType.Pyramid);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -489,7 +568,7 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value == null)
+            if ((value == null) || (MainPage.currentGameType == SolitaireGameType.Pyramid))
             {
                 return new Thickness();
             }

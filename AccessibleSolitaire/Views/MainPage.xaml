@@ -27,6 +27,10 @@
     
     <ContentPage.Resources>
 
+        <local_views:PyramidCardDiscardedToDiscardPileImageSource x:Key="PyramidCardDiscardedToDiscardPileImageSource" />
+        <local_views:GameTypeToDiscardPileMargin x:Key="GameTypeToDiscardPileMargin" />
+        <local_views:CurrentGameTypeToKlondikeUIVisibility x:Key="CurrentGameTypeToKlondikeUIVisibility" />
+        <local_views:CurrentGameTypeToPyramidUIVisibility x:Key="CurrentGameTypeToPyramidUIVisibility" />
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
         <local_views:DealtCardSuitSuitColoursToColor x:Key="DealtCardSuitSuitColoursToColor" />
         <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
@@ -213,7 +217,7 @@
                                 <toolkit:IconTintColorBehavior
                                     BindingContext="{Binding BindingContext, 
                                         Source={x:Reference TintedCardImage}, x:DataType=Image}"
-                                    TintColor="{Binding DealtCardTintColour}" />
+                                    TintColor="{OnPlatform iOS={Binding DealtCardTintColour}, Android={Binding DealtCardTintColour}}" />
                             </Image.Behaviors>
 
                             <Image.BackgroundColor>
@@ -281,7 +285,7 @@
 
             <Grid x:Name="UpperGrid"
                 Grid.Row="0"
-                BackgroundColor="{AppThemeBinding Light=Green, Dark=#004000}"
+                BackgroundColor="Transparent"
                 Margin="0" Padding="0"
                 FlowDirection="{Binding Path=FlipGameLayoutHorizontally,
                     Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}">
@@ -509,6 +513,11 @@
 
                             <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                                 x:Name="CardDeckUpturnedObscuredLower" AutomationId="CardDeckUpturnedObscuredLower" 
+                                IsVisible="{Binding Mode=OneWay,
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                    x:DataType={x:Type vm:DealtCardViewModel},
+                                    Path=CurrentGameType,
+                                    Converter={StaticResource CurrentGameTypeToKlondikeUIVisibility}}"
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
                                     x:DataType={x:Type local_views:CardButton},
@@ -546,7 +555,7 @@
                                     Converter={StaticResource IsObscuredCardToMargin}}" />
 
                             <local_views:CardButton Grid.Column="2" Style="{StaticResource CardButtonStyle}"
-                                Margin="0" Padding="0"
+                                Margin="0" Padding="0" 
                                 x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
                                 LongPressZoomDuration="{Binding Mode=OneWay, 
                                     Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
@@ -554,7 +563,7 @@
                                     Path=LongPressZoomDuration,
                                     Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
-
+                            
                         </Grid>
                     </Grid>
                 </Grid>
@@ -567,8 +576,39 @@
 
                 <!-- Layout note: TargetPiles Grid contains for four target card piles. 
                     (Landscape: In row 0 following the upturned cards, Portrait: In row 1 beneath the upturned cards.) -->
-                
+
+                <Image Grid.Row="0" Grid.Column="2"
+                    x:Name="PyramidDiscardPile" AutomationId="PyramidDiscardPile" 
+                    SemanticProperties.Description="Discard Pile"
+                    WidthRequest="{Binding 
+                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                        x:DataType=vm:DealtCardViewModel,
+                        Path=CardWidth}"
+                    HeightRequest="{Binding 
+                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                        x:DataType=vm:DealtCardViewModel,
+                        Path=CardHeight}"
+                    Margin="{Binding 
+                        Source={RelativeSource Mode=FindAncestorBindingContext,
+                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                        x:DataType={x:Type vm:DealtCardViewModel},
+                        Path=CurrentGameType,
+                        Converter={StaticResource GameTypeToDiscardPileMargin}}"
+                    Source="{Binding
+                        Source={RelativeSource Mode=FindAncestorBindingContext,
+                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                        x:DataType={x:Type vm:DealtCardViewModel},
+                        Path=PyramidCardDiscarded,
+                        Converter={StaticResource PyramidCardDiscardedToDiscardPileImageSource}}" />
+
                 <Grid x:Name="TargetPiles"
+                    IsVisible="{Binding Mode=OneWay,
+                        Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                        x:DataType={x:Type vm:DealtCardViewModel},
+                        Path=CurrentGameType,
+                        Converter={StaticResource CurrentGameTypeToKlondikeUIVisibility}}"
                     Margin="0" Padding="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -576,7 +616,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-
+                    
                     <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
                         BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
@@ -627,6 +667,11 @@
             <!-- Add the seven dealt card piles.  -->
 
             <Grid x:Name="CardPileGrid"
+                IsVisible="{Binding Mode=OneWay,
+                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                    x:DataType={x:Type vm:DealtCardViewModel},
+                    Path=CurrentGameType,
+                    Converter={StaticResource CurrentGameTypeToKlondikeUIVisibility}}"
                 FlowDirection="{Binding 
                     Path=FlipGameLayoutHorizontally,
                     Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"
@@ -707,6 +752,51 @@
                     ItemsSource="{Binding DealtCards7}"
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
                     SelectionChanged="CardPile_SelectionChanged" />
+
+            </Grid>
+
+            <!-- Add all the cards for pyramid solitaire.  -->
+            <Grid x:Name="CardPileGridPyramid"
+                Grid.Row="3" Grid.RowSpan="6"
+                InputTransparent="True" CascadeInputTransparent="False"
+                IsVisible="{Binding Mode=OneWay,
+                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                    x:DataType={x:Type vm:DealtCardViewModel},
+                    Path=CurrentGameType,
+                    Converter={StaticResource CurrentGameTypeToPyramidUIVisibility}}"
+                FlowDirection="{Binding 
+                    Path=FlipGameLayoutHorizontally,
+                    Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"
+                Padding="0" Margin="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
             </Grid>
 

@@ -127,17 +127,29 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            // Always deselect all dealt cards and the target card piles 
-            // when the upturned card is selected.
-            ClearAllSelections(false);
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                HandleClickOnUpturnedOrHigherObscuredCard(cardDeckUpturned);
 
-            ToggleUpturnedCardSelection(cardDeckUpturned);
+                if (GameOver())
+                {
+                    ShowEndOfGameDialog();
+                }
+            }
+            else
+            {
+                // Always deselect all dealt cards and the target card piles 
+                // when the upturned card is selected.
+                ClearAllSelections(false);
+
+                ToggleUpturnedCardSelection(cardDeckUpturned);
+            }
         }
 
         private void ToggleUpturnedCardSelection(CardButton cardDeckUpturned)
         {
             // Change the selection state of the upturned card.
-            SetCardButtonToggledSelectionState(CardDeckUpturned, !cardDeckUpturned.IsToggled);
+            SetCardButtonToggledSelectionState(cardDeckUpturned, !cardDeckUpturned.IsToggled);
 
             cardDeckUpturned.RefreshVisuals();
 
@@ -145,7 +157,7 @@ namespace Sa11ytaire4All
             {
                 string selectionAnnouncement =
                     cardDeckUpturned.Card.GetCardAccessibleName() + " " +
-                        MainPage.MyGetString(CardDeckUpturned.IsToggled ? "Selected" : "Unselected");
+                        MainPage.MyGetString(cardDeckUpturned.IsToggled ? "Selected" : "Unselected");
 
                 MakeDelayedScreenReaderAnnouncement(selectionAnnouncement, false);
             }

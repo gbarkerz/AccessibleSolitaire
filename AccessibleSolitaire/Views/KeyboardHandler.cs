@@ -44,6 +44,89 @@ namespace Sa11ytaire4All
 #endif
         }
 
+        public void MoveBetweenPyramidRow(bool moveUp)
+        {
+            // Barker Todo: Surely there's a better way of doing this...
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm != null) && (vm.DealtCards != null))
+            {
+                var cards = CardPileGridPyramid.Children;
+
+                // Barker Todo: Understand why CardDeckUpturnedObscuredHigher and CardDeckUpturned
+                // aren't found to be focused here.
+                if (NextCardDeck.IsFocused)
+                {
+                    if (!moveUp && (cards.Count > 0))
+                    {
+                        var rowCard = cards[0] as CardButton;
+                        if ((rowCard != null) && (rowCard.Card != null))
+                        {
+                            rowCard.Focus();
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var card in cards)
+                    {
+                        var rowCard = card as CardButton;
+                        if ((rowCard != null) && (rowCard.Card != null))
+                        {
+                            if (IsCardButtonFocused(rowCard))
+                            {
+                                var targetRow = -1;
+
+                                CollectionView? list;
+                                var dealtCard = FindDealtCardFromCard(rowCard.Card, false, out list);
+                                if (dealtCard != null)
+                                {
+                                    if (moveUp)
+                                    {
+                                        targetRow = dealtCard.PyramidRow - 1;
+                                    }
+                                    else
+                                    {
+                                        targetRow = dealtCard.PyramidRow + 1;
+                                    }
+
+                                    if ((targetRow >= 0) && (targetRow < 7))
+                                    {
+                                        CardButton? cardToFocus = null;
+
+                                        foreach (var cardInPyramid in cards)
+                                        {
+                                            var rowCardInPyramid = cardInPyramid as CardButton;
+                                            if ((rowCardInPyramid != null) && (rowCardInPyramid.Card != null))
+                                            {
+                                                var dealtCardToFocus = FindDealtCardFromCard(rowCardInPyramid.Card, false, out list);
+                                                if ((dealtCardToFocus != null) && (dealtCardToFocus.PyramidRow == targetRow))
+                                                {
+                                                    cardToFocus = rowCardInPyramid;
+
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if (cardToFocus != null)
+                                        {
+                                            cardToFocus.Focus();
+                                        }
+
+                                        break;
+                                    }
+                                    else if (targetRow < 0)
+                                    {
+                                        NextCardDeck.Focus();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public string? AnnounceAvailableMoves(bool makeAnnouncement)
         {
             var vm = this.BindingContext as DealtCardViewModel;

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Maui.Controls;
 using Sa11ytaire4All.ViewModels;
 using System;
 using System.Diagnostics;
@@ -90,7 +91,9 @@ namespace Sa11ytaire4All
             if (changedLayout)
             {
                 InnerMainGrid.IsVisible = true;
-                CardPileGrid.IsVisible = true;
+
+                // Barker Todo: This is needed if we still have the screen orientation change problem.
+                //CardPileGrid.IsVisible = true;
 
                 NoScreenOrientationChangeLabel.IsVisible = false;
             }
@@ -140,6 +143,9 @@ namespace Sa11ytaire4All
 
             Grid.SetRow(CardPileGrid, cardPileGridRow);
             Grid.SetRowSpan(CardPileGrid, cardPileGridRowSpan);
+
+            Grid.SetRow(CardPileGridPyramid, cardPileGridRow);
+            Grid.SetRowSpan(CardPileGridPyramid, cardPileGridRowSpan);
 
             SetCollectionViewsOrientationLayout(isPortrait);
         }

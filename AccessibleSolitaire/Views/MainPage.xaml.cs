@@ -105,6 +105,9 @@ namespace Sa11ytaire4All
 
             this.InitializeComponent();
 
+            // Add all the buttons for a game of Pyramid Solitaire.
+            AddPyramidButtons();
+    
             if (mainMediaElement != null)
             {
                 mainMediaElement.ShouldShowPlaybackControls = false;
@@ -123,6 +126,7 @@ namespace Sa11ytaire4All
             SetContainerAccessibleNames();
 
             CardPileGrid.SizeChanged += CardPileGrid_SizeChanged;
+            CardPileGridPyramid.SizeChanged += CardPileGrid_SizeChanged;
 
             for (int i = 0; i < 10; i++)
             {
@@ -134,7 +138,7 @@ namespace Sa11ytaire4All
                 _targetPiles[i] = new List<Card>();
             }
 
-            DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged; ;
+            DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
 
             if (mainMediaElement != null)
             {
@@ -275,8 +279,7 @@ namespace Sa11ytaire4All
             if (checkFaceUp)
             {
                 // Find the face-up card on which the gesture occurred.
-                CollectionView? list;
-                var dealtCard = FindDealtCardFromCard(card, false, out list);
+                var dealtCard = this.BindingContext as DealtCard;
                 if (dealtCard == null)
                 {
                     // The card to be zoomed is face-down, so don't show it.
@@ -451,7 +454,7 @@ namespace Sa11ytaire4All
             return collectionView;
         }
 
-        private DealtCard? FindDealtCardFromCard(Card card, bool findNearestFaceUpCard, out CollectionView? list)
+        public DealtCard? FindDealtCardFromCard(Card card, bool findNearestFaceUpCard, out CollectionView? list)
         {
             DealtCard? dealtCard = null;
             DealtCard? nearestFaceUpDealtCard = null;
@@ -523,6 +526,11 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
+                currentGameType = (SolitaireGameType)Preferences.Get("CurrentGameType", 
+                                                        Convert.ToInt32(SolitaireGameType.Klondike));
+
+                vm.CurrentGameType = currentGameType;
+
                 var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
                 vm.LongPressZoomDuration = longPressZoomDuration;
 
@@ -580,6 +588,8 @@ namespace Sa11ytaire4All
                 {
                     RefreshAllCardVisuals();
                 }
+
+                PyramidDiscardPile.IsVisible = (currentGameType == SolitaireGameType.Pyramid);
 
                 // If we don't set the colours here, the default colours show initially.
                 if (InitialSetSuitColours ||
@@ -1047,14 +1057,25 @@ namespace Sa11ytaire4All
 
                         card.Card = _deckRemaining[cardIndex];
 
+                        var cardEnabled = (j == i) || (vm.CurrentGameType == SolitaireGameType.Pyramid);
+
                         // EnableCard() sets FaceDown and CardState.
-                        EnableCard(card, (j == i));
+                        EnableCard(card, cardEnabled);
 
                         // These indices are always zero-based.
                         card.CurrentCardIndexInDealtCardPile = j;
                         card.CurrentDealtCardPileIndex = i;
 
-                        card.IsLastCardInPile = (j == i);
+                        card.IsLastCardInPile = cardEnabled;
+
+                        if (currentGameType == SolitaireGameType.Pyramid)
+                        {
+                            // All of these are zero-based.
+                            card.PyramidRow = i;
+                            card.PyramidCardOriginalIndexInRow = j;
+                            card.PyramidCardCurrentIndexInRow = j;
+                            card.PyramidCardCurrentCountOfCardsOnRow = i + 1;
+                        }
 
                         ++cardIndex;
 
@@ -1077,6 +1098,11 @@ namespace Sa11ytaire4All
 
             ClearTargetPileButtons();
             ClearUpturnedPileButton();
+
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                DealPyramidCardsPostprocess(true);
+            }
         }
 
         private void ClearUpturnedPileButton()
@@ -1233,8 +1259,11 @@ namespace Sa11ytaire4All
             CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 1 ?
                                                     _deckUpturned[_deckUpturned.Count - 2] : null);
 
-            CardDeckUpturnedObscuredLower.Card = (_deckUpturned.Count > 2 ?
-                                                    _deckUpturned[_deckUpturned.Count - 3] : null);
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                CardDeckUpturnedObscuredLower.Card = (_deckUpturned.Count > 2 ?
+                                                        _deckUpturned[_deckUpturned.Count - 3] : null);
+            }
         }
 
         private void SetCardSuitColours(CardButton cardButton)
@@ -1396,10 +1425,20 @@ namespace Sa11ytaire4All
 #pragma warning disable CS4014
 
                 // Stop any target card piles from rotating.
-                TargetPileC.RotateTo(0, 0);
-                TargetPileD.RotateTo(0, 0);
-                TargetPileH.RotateTo(0, 0);
-                TargetPileS.RotateTo(0, 0);
+                if (currentGameType == SolitaireGameType.Klondike)
+                {
+                    TargetPileC.RotateTo(0, 0);
+                    TargetPileD.RotateTo(0, 0);
+                    TargetPileH.RotateTo(0, 0);
+                    TargetPileS.RotateTo(0, 0);
+                }
+                else if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    NextCardDeck.RotateTo(0, 0);
+                    CardDeckUpturnedObscuredHigher.RotateTo(0, 0);
+                    CardDeckUpturned.RotateTo(0, 0);
+                    PyramidDiscardPile.RotateTo(0, 0);
+                }
 
 #pragma warning restore CS4014
 
@@ -1443,29 +1482,59 @@ namespace Sa11ytaire4All
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                switch (countOfSpinningCards)
+                if (currentGameType == SolitaireGameType.Klondike)
                 {
-                    case 0:
-                        TargetPileC.RelRotateTo(3600, 10000);
-                        break;
+                    switch (countOfSpinningCards)
+                    {
+                        case 0:
+                            TargetPileC.RelRotateTo(3600, 10000);
+                            break;
 
-                    case 1:
-                        TargetPileD.RelRotateTo(3600, 10000);
-                        break;
+                        case 1:
+                            TargetPileD.RelRotateTo(3600, 10000);
+                            break;
 
-                    case 2:
-                        TargetPileH.RelRotateTo(3600, 10000);
-                        break;
+                        case 2:
+                            TargetPileH.RelRotateTo(3600, 10000);
+                            break;
 
-                    case 3:
-                        TargetPileS.RelRotateTo(3600, 10000);
-                        break;
+                        case 3:
+                            TargetPileS.RelRotateTo(3600, 10000);
+                            break;
 
-                    default:
-                        timerDelayCardSpin?.Dispose();
-                        timerDelayCardSpin = null;
+                        default:
+                            timerDelayCardSpin?.Dispose();
+                            timerDelayCardSpin = null;
 
-                        break;
+                            break;
+                    }
+                }
+                else if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    switch (countOfSpinningCards)
+                    {
+                        case 0:
+                            NextCardDeck.RelRotateTo(3600, 10000);
+                            break;
+
+                        case 1:
+                            CardDeckUpturnedObscuredHigher.RelRotateTo(3600, 10000);
+                            break;
+
+                        case 2:
+                            CardDeckUpturned.RelRotateTo(3600, 10000);
+                            break;
+
+                        case 3:
+                            PyramidDiscardPile.RelRotateTo(3600, 10000);
+                            break;
+
+                        default:
+                            timerDelayCardSpin?.Dispose();
+                            timerDelayCardSpin = null;
+
+                            break;
+                    }
                 }
 
                 ++countOfSpinningCards;
@@ -2014,6 +2083,20 @@ namespace Sa11ytaire4All
                     if (MainPage.MainPageSingleton != null)
                     {
                         MainPage.MainPageSingleton.MoveToNearbyDealtCardPile(e.Keys == KeyboardKeys.RightArrow);
+
+                        e.Handled = true;
+                    }
+
+                    break;
+
+                case KeyboardKeys.UpArrow:
+                case KeyboardKeys.DownArrow:
+
+                    e.Handled = false;
+
+                    if ((MainPage.MainPageSingleton != null) && (MainPage.currentGameType == SolitaireGameType.Pyramid))
+                    {
+                        MainPage.MainPageSingleton.MoveBetweenPyramidRow(e.Keys == KeyboardKeys.UpArrow);
 
                         e.Handled = true;
                     }

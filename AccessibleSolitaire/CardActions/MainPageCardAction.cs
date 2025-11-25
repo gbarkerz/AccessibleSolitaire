@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Sa11ytaire4All.Source;
+using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 
 namespace Sa11ytaire4All
@@ -17,11 +18,18 @@ namespace Sa11ytaire4All
 
         private void ClearDealtCardPileSelections()
         {
-            for (int i = 0; i < cCardPiles; i++)
+            if (currentGameType == SolitaireGameType.Klondike)
             {
-                var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
+                for (int i = 0; i < cCardPiles; i++)
+                {
+                    var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
 
-                DeselectAllCardsFromDealtCardPile(list);
+                    DeselectAllCardsFromDealtCardPile(list);
+                }
+            }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                ClearPyramidCardsSelection();
             }
         }
 
@@ -87,16 +95,26 @@ namespace Sa11ytaire4All
 
         private bool GameOver()
         {
-            // We've moved a card to the TargetPile. Now let's see if the game is over.
-            for (int i = 0; i < cTargetPiles; i++)
+            var gameIsOver = true;
+
+            if (currentGameType == SolitaireGameType.Klondike)
             {
-                if (_targetPiles[i].Count != 13)
+                // We've moved a card to the TargetPile. Now let's see if the game is over.
+                for (int i = 0; i < cTargetPiles; i++)
                 {
-                    return false;
+                    if (_targetPiles[i].Count != 13)
+                    {
+                        gameIsOver = false;
+                    }
                 }
             }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                var gridCards = CardPileGridPyramid.Children;
+                gameIsOver = (gridCards[0].Visibility != Visibility.Visible);
+            }
 
-            return true;
+            return true; // gameIsOver;
         }
     }
 }

@@ -117,13 +117,13 @@
                             CornerRadius="0"
                             Clicked="CardButton_Clicked">
 
-                            <Button.Behaviors>
+                            <!--<Button.Behaviors>
                                 <toolkit:TouchBehavior
                                     BindingContext="{Binding Path=BindingContext, 
                                         Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton}"
                                     LongPressDuration="{Binding LongPressZoomDuration}"
                                     LongPressCompleted="TouchBehavior_LongPressCompleted" />
-                            </Button.Behaviors>
+                            </Button.Behaviors>-->
 
                         </Button>
 
@@ -138,12 +138,10 @@
                                 Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}">
 
                             <Image.Behaviors>
-
                                 <toolkit:IconTintColorBehavior 
                                     BindingContext="{Binding BindingContext, 
                                         Source={x:Reference TintedCardImage}, x:DataType=Image}"
-                                    TintColor="{Binding CardButtonTintColour}" />
-
+                                    TintColor="{OnPlatform iOS={Binding CardButtonTintColour}, Android={Binding CardButtonTintColour}}" />
                             </Image.Behaviors>
 
                             <Image.BackgroundColor>

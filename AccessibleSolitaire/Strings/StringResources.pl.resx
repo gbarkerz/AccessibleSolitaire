@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire wersja V2.30</value>
+    <value>Accessible Solitaire wersja V3.0</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>As</value>
@@ -706,5 +706,12 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   </data>
   <data name="CardButtonsHeadingStateSwitchLabel" xml:space="preserve">
     <value>Ustaw jako nagłówki:</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="KlondikeSolitaire" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PyramidSolitaire" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
 </root>

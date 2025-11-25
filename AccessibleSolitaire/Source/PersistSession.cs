@@ -1,8 +1,10 @@
 ﻿
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
+using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json;
 
 namespace Sa11ytaire4All
@@ -21,24 +23,26 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
+                var preferenceSuffix = (currentGameType == SolitaireGameType.Pyramid ? "Pyramid" : "");
+
                 try
                 {
                     var deckRemainingJson = JsonSerializer.Serialize(_deckRemaining);
-                    Preferences.Set("DeckRemainingSession", deckRemainingJson);
+                    Preferences.Set("DeckRemainingSession" + preferenceSuffix, deckRemainingJson);
 
                     var deckUpturnedJson = JsonSerializer.Serialize(_deckUpturned);
-                    Preferences.Set("DeckUpturnedSession", deckUpturnedJson);
+                    Preferences.Set("DeckUpturnedSession" + preferenceSuffix, deckUpturnedJson);
 
                     for (var i = 0; i < _targetPiles.Length; ++i)
                     {
                         var targetCardPileJson = JsonSerializer.Serialize(_targetPiles[i]);
-                        Preferences.Set("TargetCardPileSession" + i.ToString(), targetCardPileJson);
+                        Preferences.Set("TargetCardPileSession" + i.ToString() + preferenceSuffix, targetCardPileJson);
                     }
 
                     for (var i = 0; i < vm.DealtCards.Length; ++i)
                     {
                         var dealtCardPileJson = JsonSerializer.Serialize(vm.DealtCards[i]);
-                        Preferences.Set("DealtCardsSession" + i.ToString(), dealtCardPileJson);
+                        Preferences.Set("DealtCardsSession" + i.ToString() + preferenceSuffix, dealtCardPileJson);
                     }
 
                     savedSession = true;
@@ -70,9 +74,12 @@ namespace Sa11ytaire4All
                 return loadedSession;
             }
 
+            var preferenceSuffix = (currentGameType == SolitaireGameType.Pyramid ? "Pyramid" : "");
+
             try
             {
-                var deckRemainingJson = (string)Preferences.Get("DeckRemainingSession", "");
+                var deckRemainingJson = (string)Preferences.Get(
+                                            "DeckRemainingSession" + preferenceSuffix, "");
                 if (!string.IsNullOrEmpty(deckRemainingJson))
                 {
                     var deckRemaining = JsonSerializer.Deserialize<List<Card>>(deckRemainingJson);
@@ -87,7 +94,8 @@ namespace Sa11ytaire4All
 
                 NextCardDeck.State = GetNextCardPileState();
 
-                var deckUpturnedJson = (string)Preferences.Get("DeckUpturnedSession", "");
+                var deckUpturnedJson = (string)Preferences.Get(
+                                            "DeckUpturnedSession" + preferenceSuffix, "");
                 if (!string.IsNullOrEmpty(deckUpturnedJson))
                 {
                     var deckUpturned = JsonSerializer.Deserialize<List<Card>>(deckUpturnedJson);
@@ -102,7 +110,8 @@ namespace Sa11ytaire4All
 
                 for (var i = 0; i < _targetPiles.Length; ++i)
                 {
-                    var targetCardPileJson = (string)Preferences.Get("TargetCardPileSession" + i.ToString(), "");
+                    var targetCardPileJson = (string)Preferences.Get(
+                                                "TargetCardPileSession" + i.ToString() + preferenceSuffix, "");
                     if (!string.IsNullOrEmpty(targetCardPileJson))
                     {
                         var targetCardPile = JsonSerializer.Deserialize<ObservableCollection<Card>>(targetCardPileJson);
@@ -118,7 +127,8 @@ namespace Sa11ytaire4All
 
                 for (var i = 0; i < cCardPiles; ++i)
                 {
-                    var dealtCardPileJson = (string)Preferences.Get("DealtCardsSession" + i.ToString(), "");
+                    var dealtCardPileJson = (string)Preferences.Get(
+                                                "DealtCardsSession" + i.ToString() + preferenceSuffix, "");
                     if (!string.IsNullOrEmpty(dealtCardPileJson))
                     {
                         var dealtCardPile = JsonSerializer.Deserialize<ObservableCollection<DealtCard>>(dealtCardPileJson);
@@ -143,20 +153,35 @@ namespace Sa11ytaire4All
                 foreach (var dealtCardPile in vm.DealtCards)
                 {
                     // Don't include empty dealt card pile placeholders in the card count.
-                    foreach (var dealtCard in dealtCardPile)
+                    for (int cardIndex = 0; cardIndex < dealtCardPile.Count; ++cardIndex)
                     {
-                        dealtCard.CardSelected = false;
-                        dealtCard.InSelectedSet = false;
+                        var dealtCard = dealtCardPile[cardIndex];
 
-                        if (dealtCard.CardState != CardState.KingPlaceHolder)
+                        if ((dealtCard != null) && (dealtCard.Card != null))
                         {
+                            if (cardIndex == dealtCardPile.Count - 1)
+                            {
+                                dealtCard.IsLastCardInPile = true;
+                            }
+
+                            if (dealtCard.CardState == CardState.FaceDown)
+                            {
+                                dealtCard.FaceDown = true;
+                            }
+
                             ++cardCount;
                         }
                     }
                 }
 
-                if (cardCount == 52)
+                // Barker Todo: Don't assume all cards in the Pyramid game are present and correct.
+                if ((cardCount == 52) || (currentGameType == SolitaireGameType.Pyramid))
                 {
+                    if (currentGameType == SolitaireGameType.Pyramid)
+                    {
+                        DealPyramidCardsPostprocess(false);
+                    }
+
                     loadedSession = true;
 
                     RefreshUpperCards();
@@ -171,21 +196,51 @@ namespace Sa11ytaire4All
 
             if (!loadedSession)
             {
-                _deckRemaining.Clear();
-                _deckUpturned.Clear();
-
-                foreach (var targetPile in _targetPiles)
-                {
-                    targetPile.Clear();
-                }
-
-                foreach (var dealtCardPile in vm.DealtCards)
-                {
-                    dealtCardPile.Clear();
-                }
+                ClearAllPiles();
             }
 
             return loadedSession;
+        }
+
+        private void ClearAllPiles()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            _deckRemaining.Clear();
+            _deckUpturned.Clear();
+
+            foreach (var targetPile in _targetPiles)
+            {
+                targetPile.Clear();
+            }
+
+            foreach (var dealtCardPile in vm.DealtCards)
+            {
+                dealtCardPile.Clear();
+            }
+
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                ClearPyramidCardsSelection();
+            }
+        }
+
+        private void ClearPyramidCardsSelection()
+        {
+            var pyramidCards = CardPileGridPyramid.Children;
+
+            foreach (var pyramidCard in pyramidCards)
+            {
+                var card = pyramidCards as CardButton;
+                if (card != null)
+                {
+                    card.IsToggled = false;
+                }
+            }
         }
 
         private void RefreshUpperCards()

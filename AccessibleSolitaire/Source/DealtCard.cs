@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Sa11ytaire4All.ViewModels;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Sa11ytaire4All.Source
 {
@@ -15,12 +16,27 @@ namespace Sa11ytaire4All.Source
 
     public partial class DealtCard : ObservableObject
     {
+        [JsonIgnore]
+        public int PyramidRow { get; set; }
+        [JsonIgnore]
+        public int PyramidCardOriginalIndexInRow { get; set; }
+        [JsonIgnore]
+        public int PyramidCardCurrentIndexInRow { get; set; }
+        [JsonIgnore]
+        public int PyramidCardCurrentCountOfCardsOnRow { get; set; }
+
+        // We do presist Open.
+        public bool Open{ get; set; }
+
+        [JsonIgnore]
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
         public partial int CurrentCardIndexInDealtCardPile { get; set; }
 
+        [JsonIgnore]
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
         public partial int CurrentDealtCardPileIndex { get; set; }
 
+        [JsonIgnore]
         public CardIndices CurrentCardIndices
         {
             get
@@ -33,15 +49,22 @@ namespace Sa11ytaire4All.Source
             }
         }
 
+        // *** Persist these... ***
         [ObservableProperty]
         public partial Card? Card { get; set; }
 
         [ObservableProperty]
         public partial CardState CardState { get; set; }
 
+
+        // Barker Future: Remove FaceDown and replace with use of CardState only.
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(CardIsInAccessibleTree))]
+        public partial bool FaceDown { get; set; }
+
         public static readonly BindableProperty DealtCardTintColourProperty =
             BindableProperty.Create(nameof(DealtCardTintColour), typeof(Color), typeof(DealtCard));
 
+        [JsonIgnore]
         public Color? DealtCardTintColour
         {
             get => GetDealtCardColourTint();
@@ -101,10 +124,6 @@ namespace Sa11ytaire4All.Source
             return suitColor;
         }
 
-        // Barker Future: Remove FaceDown and replace with use of CardState only.
-        [ObservableProperty, NotifyPropertyChangedFor(nameof(CardIsInAccessibleTree))]
-        public partial bool FaceDown { get; set; }
-
         public string AccessibleNameWithoutSelectionAndMofN
         {
             get
@@ -129,6 +148,7 @@ namespace Sa11ytaire4All.Source
             }
         }
 
+        [JsonIgnore]
         public string? AccessibleName
         {
             get
@@ -201,10 +221,16 @@ namespace Sa11ytaire4All.Source
             }
         }
 
+        [JsonIgnore]
         public string? AccessibleHint
         {
             get
             {
+                if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+                {
+                    return "";
+                }
+
                 if (MainPage.MainPageSingleton != null)
                 {
                     // Check that the setting for adding the hint is on.
@@ -258,6 +284,7 @@ namespace Sa11ytaire4All.Source
         }
 
         // Barker Todo: Remove this once I know how to use multi-binding in XAML with an attached property.
+        [JsonIgnore]
         public bool CardIsInAccessibleTree
         {
             get
@@ -288,6 +315,7 @@ namespace Sa11ytaire4All.Source
             }
         }
 
+        [JsonIgnore]
         public double DealtCardWidth
         {
             get => GetDealtCardWidth();
@@ -437,6 +465,7 @@ namespace Sa11ytaire4All.Source
             return width;
         }
 
+        [JsonIgnore]
         public double FaceDownCountLabelSize
         {
             get => GetFaceDownCountLabelSize();
@@ -469,6 +498,7 @@ namespace Sa11ytaire4All.Source
             return (cardHeight / 6) - 1;
         }
 
+        [JsonIgnore]
         public bool FaceDownCountLabelIsVisible
         {
             get => GetFaceDownCountLabelIsVisible();
@@ -494,11 +524,13 @@ namespace Sa11ytaire4All.Source
             return (mergeFaceDownCards && faceDown && (currentCardIndexInDealtCardPile == 0));
         }
 
+        [JsonIgnore]
         public LayoutOptions DealtCardImageHorizontalOptions
         {
             get => GetDealtCardImageHorizontalVerticalOptions(true);
         }
 
+        [JsonIgnore]
         public LayoutOptions DealtCardImageVerticalOptions
         {
             get => GetDealtCardImageHorizontalVerticalOptions(false);
@@ -551,6 +583,7 @@ namespace Sa11ytaire4All.Source
             return option;
         }
 
+        [JsonIgnore]
         public double DealtCardImageWidth
         {
             get => GetDealtCardImageWidth();
@@ -597,6 +630,7 @@ namespace Sa11ytaire4All.Source
             return cardWidth;
         }
 
+        [JsonIgnore]
         public double DealtCardImageHeight
         {
             get => GetDealtCardImageHeight();
@@ -644,6 +678,7 @@ namespace Sa11ytaire4All.Source
             return cardHeight;
         }
 
+        [JsonIgnore]
         public double DealtCardHeight
         {
             get => GetDealtCardHeight();
@@ -730,6 +765,7 @@ namespace Sa11ytaire4All.Source
             return height;
         }
 
+        [JsonIgnore]
         [ObservableProperty,
             NotifyPropertyChangedFor(nameof(DealtCardWidth)),
             NotifyPropertyChangedFor(nameof(DealtCardHeight)),
@@ -737,6 +773,7 @@ namespace Sa11ytaire4All.Source
             NotifyPropertyChangedFor(nameof(DealtCardImageHeight))]
         public partial bool IsLastCardInPile { get; set; }
 
+        [JsonIgnore]
         [ObservableProperty,
             NotifyPropertyChangedFor(nameof(DealtCardWidth)),
             NotifyPropertyChangedFor(nameof(DealtCardHeight)),
@@ -747,6 +784,7 @@ namespace Sa11ytaire4All.Source
             NotifyPropertyChangedFor(nameof(AccessibleName))]
         public partial bool CardSelected { get; set; }
 
+        [JsonIgnore]
         public ImageSource? FaceupDealtCardImageSource
         {
             get
@@ -891,6 +929,7 @@ namespace Sa11ytaire4All.Source
             return imageSource;
         }
 
+        [JsonIgnore]
         public ImageSource? FaceupPictureDealtCardImageSource
         {
             get
@@ -982,9 +1021,11 @@ namespace Sa11ytaire4All.Source
             return imageSource;
         }
 
+        [JsonIgnore]
         [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
         public partial bool InSelectedSet { get; set; }
 
+        [JsonIgnore]
         [ObservableProperty] 
         public partial int CountFaceDownCardsInPile { get; set; }
 

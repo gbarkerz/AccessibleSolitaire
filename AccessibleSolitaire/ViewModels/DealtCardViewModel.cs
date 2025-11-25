@@ -141,5 +141,27 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty]
         public partial string NoScreenOrientationChangeWarning { get; set; }
+
+        private SolitaireGameType currentGameType;
+        public SolitaireGameType CurrentGameType
+        {
+            get
+            {
+                return currentGameType;
+            }
+            set
+            {
+                if (currentGameType != value)
+                {
+                    currentGameType = value;
+
+                    OnPropertyChanged("CurrentGameType");
+                    OnPropertyChanged("CardWidth");
+                }
+            }
+        }
+
+        [ObservableProperty]
+        public partial bool PyramidCardDiscarded { get; set; }
     }
 }

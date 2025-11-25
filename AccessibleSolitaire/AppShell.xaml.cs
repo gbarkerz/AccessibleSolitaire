@@ -10,6 +10,26 @@ namespace Sa11ytaire4All
             InitializeComponent();
         }
 
+        private void KlondikeSolitaireMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            if (MainPage.currentGameType != SolitaireGameType.Klondike)
+            {
+                MainPage.MainPageSingleton?.LoadKlondikeGame();
+            }
+        }
+
+        private void PyramidSolitaireMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            if (MainPage.currentGameType != SolitaireGameType.Pyramid)
+            {
+                MainPage.MainPageSingleton?.LoadPyramidGame();
+            }
+        }
+
         private void HelpMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;
