@@ -13,6 +13,8 @@ namespace Sa11ytaire4All
             CardButton? cardButton = null;
             CardButton? obscuredCardButton = null;
 
+            var isPyramidCard = false;
+
             switch (clickedCardButton.AutomationId)
             {
                 case "TargetPileC":
@@ -69,6 +71,8 @@ namespace Sa11ytaire4All
                     // If Pyramid, check for a click on a not-open pyramid card.
                     if (currentGameType == SolitaireGameType.Pyramid)
                     {
+                        isPyramidCard = true;
+
                         var element = clickedCardButton.Parent;
                         while (element is not CardButton)
                         {
@@ -100,8 +104,21 @@ namespace Sa11ytaire4All
             {
                 SetCardButtonToggledSelectionState(obscuredCardButton, false);
 
-                MakeDelayedScreenReaderAnnouncement(
-                    MainPage.MyGetString("ObscuredUpturnedCardCannotBeSelected"), false);
+                string messageId = string.Empty;
+
+                if (currentGameType == SolitaireGameType.Klondike)
+                {
+                    messageId = "ObscuredUpturnedCardCannotBeSelected";
+                }
+                else if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    messageId = "ObscuredPryamidCardCannotBeSelected";
+                }
+
+                if (!string.IsNullOrEmpty(messageId))
+                {
+                    MakeDelayedScreenReaderAnnouncement(MainPage.MyGetString(messageId), false);
+                }
 
                 return;
             }
@@ -119,7 +136,10 @@ namespace Sa11ytaire4All
             // If we've just untoggled a target card pile, there's nothing more to do here.
             if (!cardButton.IsToggled)
             {
-                string announcement = cardButton.CardPileAccessibleName + " " +  MainPage.MyGetString("Unselected");
+                string announcement = (isPyramidCard ? 
+                                        cardButton.CardPileAccessibleNameWithoutMofN : 
+                                        cardButton.CardPileAccessibleName) + " " +  
+                                      MainPage.MyGetString("Unselected");
 
                 MakeDelayedScreenReaderAnnouncement(announcement, false);
 

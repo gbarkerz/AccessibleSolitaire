@@ -77,14 +77,14 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
-    public string CardPileAccessibleName
+    public string CardPileAccessibleNameWithoutMofN
     {
         get
         {
+            string cardPileAccessibleName = "";
+
             if ((MainPage.currentGameType == SolitaireGameType.Pyramid) && string.IsNullOrEmpty(this.AutomationId))
             {
-                var accessibleName = "";
-
                 if ((this != null) && this.IsVisible && (this.Card != null) && (MainPage.MainPageSingleton != null))
                 {
                     var dealtCardViewModel = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
@@ -97,73 +97,138 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                             var rowCards = dealtCardViewModel.DealtCards[dealtCard.PyramidRow];
                             if (rowCards != null)
                             {
-                                var countCardsOnRow = 0;
-                                foreach (var rowCard in rowCards)
+                                cardPileAccessibleName = this.Card.GetCardAccessibleName();
+
+                                if (this.IsToggled)
                                 {
-                                    if (rowCard.Card != null)
-                                    {
-                                        ++countCardsOnRow;
-                                    }
+                                    cardPileAccessibleName += " " + MainPage.MyGetString("Selected");
                                 }
-
-                                accessibleName = this.Card.GetCardAccessibleName() +
-                                                    (dealtCard.Open ? ", Open" : "") + 
-                                                    ", row " + (dealtCard.PyramidRow + 1) +
-                                                    ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) + 
-                                                    " of " + dealtCard.PyramidCardCurrentCountOfCardsOnRow;
-
-                                Debug.WriteLine("AccessibleName: " + accessibleName);
                             }
                         }
                         else
                         {
-                            Debug.WriteLine("GB Unexpected empty accessible name.");
+                            Debug.WriteLine("*** Unexpected empty accessible name. ***");
                         }
                     }
                 }
-
-                return accessibleName;
             }
 
-            string cardPileAccessibleName;
+            return cardPileAccessibleName;
+        }
+    }
 
-            // Is this card pile empty?
-            if (this.Card == null)
+    public string CardPileAccessibleName
+    {
+        get
+        {
+            string cardPileAccessibleName = "";
+
+            if ((MainPage.currentGameType == SolitaireGameType.Pyramid) && string.IsNullOrEmpty(this.AutomationId))
             {
-                // We'll load up a suit-specific localized string which indicates
-                // that no card is in this pile.
-                string suitResourceKey;
-
-                switch (this.AutomationId)
+                if ((this != null) && this.IsVisible && (this.Card != null) && (MainPage.MainPageSingleton != null))
                 {
-                    case "TargetPileC":
-                        suitResourceKey = "ClubsPile";
-                        break;
-
-                    case "TargetPileD":
-                        suitResourceKey = "DiamondsPile";
-                        break;
-
-                    case "TargetPileH":
-                        suitResourceKey = "HeartsPile";
-                        break;
-
-                    case "TargetPileS":
-                        suitResourceKey = "SpadesPile";
-                        break;
-
-                    default:
-                        // This must be one of the upturned cards.
-                        suitResourceKey = "NoCard";
-                        break;
+                    var dealtCardViewModel = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
+                    if ((dealtCardViewModel != null) && (dealtCardViewModel.DealtCards != null))
+                    {
+                        CollectionView? list;
+                        var dealtCard = MainPage.MainPageSingleton.FindDealtCardFromCard(this.Card, false, out list);
+                        if (dealtCard != null)
+                        {
+                            var rowCards = dealtCardViewModel.DealtCards[dealtCard.PyramidRow];
+                            if (rowCards != null)
+                            {
+                                cardPileAccessibleName = this.Card.GetCardAccessibleName() +
+                                                    (dealtCard.Open ? ", Open" : "") +
+                                                    ", row " + (dealtCard.PyramidRow + 1) +
+                                                    ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) +
+                                                    " of " + dealtCard.PyramidCardCurrentCountOfCardsOnRow;
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("*** Unexpected empty accessible name. ***");
+                        }
+                    }
                 }
-
-                cardPileAccessibleName = MainPage.MyGetString(suitResourceKey);
             }
             else
             {
-                // There is a card in this pile, so simply get the card's friendly name.
-                cardPileAccessibleName = this.Card.GetCardAccessibleName();
+                // Is this card pile empty?
+                if (this.Card == null)
+                {
+                    // We'll load up a suit-specific localized string which indicates%
+                    // that no card is in this pile.
+                    string suitResourceKey;
+
+                    switch (this.AutomationId)
+                    {
+                        case "TargetPileC":
+                            suitResourceKey = "ClubsPile";
+                            break;
+
+                        case "TargetPileD":
+                            suitResourceKey = "DiamondsPile";
+                            break;
+
+                        case "TargetPileH":
+                            suitResourceKey = "HeartsPile";
+                            break;
+
+                        case "TargetPileS":
+                            suitResourceKey = "SpadesPile";
+                            break;
+
+                        case "CardDeckUpturned":
+
+                            if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+                            {
+                                suitResourceKey = "NoCardUpturnedCard";
+                            }
+                            else
+                            {
+                                suitResourceKey = "NoCard";
+                            }
+
+                            break;
+
+                        case "CardDeckUpturnedObscuredHigher":
+
+                            if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+                            {
+                                suitResourceKey = "NoCardWastePile";
+                            }
+                            else
+                            {
+                                suitResourceKey = "NoCard";
+                            }
+
+                            break;
+
+                        default:
+                            // This must be one of the upturned cards.
+                            suitResourceKey = "NoCard";
+                            break;
+                    }
+
+                    cardPileAccessibleName = MainPage.MyGetString(suitResourceKey);
+                }
+                else
+                {
+                    // There is a card in this pile, so simply get the card's friendly name.
+                    cardPileAccessibleName = this.Card.GetCardAccessibleName();
+
+                    if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+                    {
+                        if (this.AutomationId == "CardDeckUpturned")
+                        {
+                            cardPileAccessibleName += " " + MainPage.MyGetString("Upturned");
+                        }
+                        else if (this.AutomationId == "CardDeckUpturnedObscuredHigher")
+                        {
+                            cardPileAccessibleName += " " + MainPage.MyGetString("OnWastePile");
+                        }
+                    }
+                }
             }
 
             if (this.IsToggled)

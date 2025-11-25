@@ -195,6 +195,35 @@ namespace Sa11ytaire4All.Views
         }
     }
 
+    public class PyramidCardDiscardedToDiscardPileName : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var cardHasBeenDiscarded = (bool)value;
+
+            var pileName = "";
+
+            if (!cardHasBeenDiscarded)
+            {
+                pileName = MainPage.MyGetString("Empty") + " ";
+            }
+
+            pileName += MainPage.MyGetString("DiscardPile");
+
+            return pileName;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class PyramidCardDiscardedToDiscardPileImageSource : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -584,18 +613,21 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class IsCardButtonCardToIsEnabled : IValueConverter
+    public class IsObscuredCardButtonCardToIsEnabled : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+            if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+            {
+                return true;
+            }
+
             if (value == null)
             {
                 return false;
             }
 
-            var card = (Card)value;
-
-            return (card != null);
+            return (Card)value != null;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

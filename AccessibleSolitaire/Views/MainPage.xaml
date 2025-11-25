@@ -27,6 +27,7 @@
     
     <ContentPage.Resources>
 
+        <local_views:PyramidCardDiscardedToDiscardPileName x:Key="PyramidCardDiscardedToDiscardPileName" />
         <local_views:PyramidCardDiscardedToDiscardPileImageSource x:Key="PyramidCardDiscardedToDiscardPileImageSource" />
         <local_views:GameTypeToDiscardPileMargin x:Key="GameTypeToDiscardPileMargin" />
         <local_views:CurrentGameTypeToKlondikeUIVisibility x:Key="CurrentGameTypeToKlondikeUIVisibility" />
@@ -36,7 +37,7 @@
         <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
         <local_views:ConverterForDealtCardLabelHorizontalOptions x:Key="ConverterForDealtCardLabelHorizontalOptions" />
         <local_views:IsFaceDownToVisibilityConverter x:Key="IsFaceDownToVisibilityConverter" />
-        <local_views:IsCardButtonCardToIsEnabled x:Key="IsCardButtonCardToIsEnabled" />
+        <local_views:IsObscuredCardButtonCardToIsEnabled x:Key="IsObscuredCardButtonCardToIsEnabled" />
         <local_views:IsFaceDownToBackgroundColorConverter x:Key="IsFaceDownToBackgroundColorConverter" />
         <local_views:InSelectedSetToBackgroundConverter x:Key="InSelectedSetToBackgroundConverter" />
         <local_views:CardWidthToHamburgerWidthConverter x:Key="CardWidthToHamburgerWidthConverter" />
@@ -521,7 +522,7 @@
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
                                     x:DataType={x:Type local_views:CardButton},
-                                    Converter={StaticResource IsCardButtonCardToIsEnabled}}"
+                                    Converter={StaticResource IsObscuredCardButtonCardToIsEnabled}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                 Padding="0"
                                 LongPressZoomDuration="{Binding Mode=OneWay, 
@@ -540,7 +541,7 @@
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
                                     x:DataType={x:Type local_views:CardButton},
-                                    Converter={StaticResource IsCardButtonCardToIsEnabled}}"
+                                    Converter={StaticResource IsObscuredCardButtonCardToIsEnabled}}"
                                 BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}"
                                 Padding="0"
                                 LongPressZoomDuration="{Binding Mode=OneWay, 
@@ -579,7 +580,12 @@
 
                 <Image Grid.Row="0" Grid.Column="2"
                     x:Name="PyramidDiscardPile" AutomationId="PyramidDiscardPile" 
-                    SemanticProperties.Description="Discard Pile"
+                    SemanticProperties.Description="{Binding
+                        Source={RelativeSource Mode=FindAncestorBindingContext, 
+                            AncestorType={x:Type vm:DealtCardViewModel}}, 
+                        x:DataType=vm:DealtCardViewModel,
+                        Path=PyramidCardDiscarded,
+                        Converter={StaticResource PyramidCardDiscardedToDiscardPileName}}"
                     WidthRequest="{Binding 
                         Source={RelativeSource Mode=FindAncestorBindingContext, 
                             AncestorType={x:Type vm:DealtCardViewModel}}, 

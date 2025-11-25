@@ -713,4 +713,28 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="PyramidSolitaire" xml:space="preserve">
     <value>Pyramid Solitaire</value>
   </data>
+  <data name="NoCardWastePile" xml:space="preserve">
+    <value>Waste pile, no card</value>
+  </data>
+  <data name="NoCardUpturnedCard" xml:space="preserve">
+    <value>No upturned card</value>
+  </data>
+  <data name="Upturned" xml:space="preserve">
+    <value>upturned</value>
+  </data>
+  <data name="OnWastePile" xml:space="preserve">
+    <value>on waste pile</value>
+  </data>
+  <data name="ObscuredPryamidCardCannotBeSelected" xml:space="preserve">
+    <value>This pyramid card is not open and cannot be selected.</value>
+  </data>
+  <data name="Discarded" xml:space="preserve">
+    <value>Discarded</value>
+  </data>
+  <data name="DiscardPile" xml:space="preserve">
+    <value>Discard pile</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>and</value>
+  </data>
 </root>

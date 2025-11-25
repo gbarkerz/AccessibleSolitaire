@@ -204,6 +204,8 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            var discardMessage = "";
+
             // Track whether we'll be removing the card from the pyramid.
             var removeCard = false;
 
@@ -211,9 +213,15 @@ namespace Sa11ytaire4All
             if (CardDeckUpturned.IsToggled && (CardDeckUpturned.Card != null))
             {
                 // Remove the selected Upturned card if appropriate.
-                removeCard = CanRemoveUpturnedCardAndPyramidCard(CardDeckUpturned, cardButtonClicked);
+                string upturnedCardAccessibleName;
+                removeCard = CanRemoveUpturnedCardAndPyramidCard(CardDeckUpturned, cardButtonClicked, out upturnedCardAccessibleName);
                 if (removeCard)
                 {
+                    cardButtonClicked.IsToggled = false;
+
+                    discardMessage = MainPage.MyGetString("Discarded");
+                    discardMessage += " " + upturnedCardAccessibleName;
+
                     // There is now currently no Upturned card.
                     CardDeckUpturned.Card = null;
 
@@ -222,12 +230,24 @@ namespace Sa11ytaire4All
                 }
             }
 
-            // If we didn't remove the Upturned card, check the top ofthe Waste pile (ie the higher obscured card).
+            // If we didn't remove the Upturned card, check the top of the Waste pile (ie the higher obscured card).
             if (!removeCard)
             {
                 if (CardDeckUpturnedObscuredHigher.IsToggled && (CardDeckUpturnedObscuredHigher.Card != null))
                 {
-                    removeCard = CanRemoveUpturnedCardAndPyramidCard(CardDeckUpturnedObscuredHigher, cardButtonClicked);
+                    string obscuredHigherCardAccessibleName;
+                    removeCard = CanRemoveUpturnedCardAndPyramidCard(CardDeckUpturnedObscuredHigher, cardButtonClicked,
+                                                                        out obscuredHigherCardAccessibleName);
+                    if (removeCard)
+                    {
+                        CardDeckUpturnedObscuredHigher.IsToggled = false;
+
+                        discardMessage = MainPage.MyGetString("Discarded");
+                        discardMessage += " " + obscuredHigherCardAccessibleName;
+
+                        CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 1 ?
+                                            _deckUpturned[_deckUpturned.Count - 2] : null);
+                    }
                 }
             }
 
@@ -262,6 +282,9 @@ namespace Sa11ytaire4All
                         var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
                         if (dealtCardAlreadySelected != null)
                         {
+                            discardMessage = MainPage.MyGetString("Discarded");
+                            discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
+
                             // Has a card now been revealed? 
                             SetOnTopStateFollowingMove(dealtCardAlreadySelected);
 
@@ -283,6 +306,17 @@ namespace Sa11ytaire4All
                     // If the clicked card is simply a King, remove it.
                     removeCard = true;
                 }
+                else
+                {
+                    // Change the selection state of the target pile CardButton.
+                    //SetCardButtonToggledSelectionState(cardButtonClicked, false);
+
+                    cardButtonClicked.RefreshCardButtonMofN();
+
+                    // No other card was selected, so we'll simply select the pyramid card.
+                    string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
+                    MakeDelayedScreenReaderAnnouncement(announcement, false);
+                }
             }
 
             // Should we remove the clicked pyramid card?
@@ -292,6 +326,17 @@ namespace Sa11ytaire4All
                 var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
                 if (dealtCard != null)
                 {
+                    if (string.IsNullOrEmpty(discardMessage))
+                    {
+                        discardMessage = MainPage.MyGetString("Discarded");
+                    }
+                    else
+                    {
+                        discardMessage += " " + MainPage.MyGetString("And") + " ";
+                    }
+
+                    discardMessage += " " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+
                     // Has a card now been revealed? 
                     SetOnTopStateFollowingMove(dealtCard);
 
@@ -316,6 +361,11 @@ namespace Sa11ytaire4All
                 }
             }
 
+            if (!string.IsNullOrEmpty(discardMessage))
+            {
+                MakeDelayedScreenReaderAnnouncement(discardMessage, false);
+            }
+
             if (GameOver())
             {
                 ShowEndOfGameDialog();
@@ -327,6 +377,8 @@ namespace Sa11ytaire4All
             // Is the most recently upturned card a King?
             if (cardDeckUpturned.Card != null)
             {
+                var discardMessage = "";
+
                 if (cardDeckUpturned.Card.Rank == 13)
                 {
                     // Move the King to the discard pile.
@@ -370,13 +422,22 @@ namespace Sa11ytaire4All
 
                         if ((cardAlreadySelected != null) && ((cardAlreadySelected.Card != null)))
                         {
-                            var removeCard = CanRemoveUpturnedCardAndPyramidCard(cardDeckUpturned, cardAlreadySelected);
+                            string upturnedCardAccessibleName;
+                            var removeCard = CanRemoveUpturnedCardAndPyramidCard(cardDeckUpturned, cardAlreadySelected,
+                                                                                    out upturnedCardAccessibleName);
                             if (removeCard)
                             {
                                 CollectionView? list;
                                 var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
                                 if (dealtCardAlreadySelected != null)
                                 {
+                                    cardAlreadySelected.IsToggled = false;
+
+                                    discardMessage = MainPage.MyGetString("Discarded") + " " +
+                                                        upturnedCardAccessibleName + " " +
+                                                        MainPage.MyGetString("And") + " " +
+                                                        cardAlreadySelected.CardPileAccessibleNameWithoutMofN;
+
                                     // Has a card now been revealed? 
                                     SetOnTopStateFollowingMove(dealtCardAlreadySelected);
 
@@ -386,7 +447,6 @@ namespace Sa11ytaire4All
                                         [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card = null;
 
                                     cardAlreadySelected.IsVisible = false;
-                                    cardAlreadySelected.IsToggled = false;
 
                                     // Make sure the Upturned card appears as not selected.
                                     cardDeckUpturned.RefreshVisuals();
@@ -424,12 +484,20 @@ namespace Sa11ytaire4All
                         }
                     }
                 }
+
+                if (!string.IsNullOrEmpty(discardMessage))
+                {
+                    MakeDelayedScreenReaderAnnouncement(discardMessage, false);
+                }
             }
         }
 
         // A pyramid card has been clicked. Remove the Upturned card if appropriate.
-        private bool CanRemoveUpturnedCardAndPyramidCard(CardButton upturnedCard, CardButton cardButton)
+        private bool CanRemoveUpturnedCardAndPyramidCard(CardButton upturnedCard, CardButton cardButton, 
+                                                            out string upturnedCardAccessibleName)
         {
+            upturnedCardAccessibleName = "";
+
             if ((upturnedCard.Card == null) || (cardButton.Card == null))
             {
                 return false;
@@ -439,11 +507,11 @@ namespace Sa11ytaire4All
 
             if (upturnedCard.Card.Rank + cardButton.Card.Rank == 13)
             {
-                RemoveCardButtonCard(_deckUpturned, upturnedCard.Card);
-
-                SetUpturnedCardsVisuals();
-
                 upturnedCard.IsToggled = false;
+
+                upturnedCardAccessibleName = upturnedCard.CardPileAccessibleName;
+
+                RemoveCardButtonCard(_deckUpturned, upturnedCard.Card);
 
                 canRemoveUpturnedCardAndPyramidCard = true;
             }
@@ -470,19 +538,22 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
-                vm.PyramidCardDiscarded = true;
+                if (!vm.PyramidCardDiscarded)
+                {
+                    vm.PyramidCardDiscarded = true;
+                }
             }
         }
 
         // Check if both the Upturned card and HigherObscured card should be removed.
         private bool MoveBothUpturnedCards(CardButton cardButtonClicked)
         {
+            var continueCheckForMove = true;
+
             if ((CardDeckUpturned.Card == null) || (CardDeckUpturnedObscuredHigher.Card == null))
             {
-                return false;
+                return continueCheckForMove;
             }
-
-            var continueCheckForMove = true;
 
             var checkForMove = ((cardButtonClicked == CardDeckUpturned) && CardDeckUpturnedObscuredHigher.IsToggled) ||
                                ((cardButtonClicked == CardDeckUpturnedObscuredHigher) && CardDeckUpturned.IsToggled);
@@ -624,6 +695,33 @@ namespace Sa11ytaire4All
             if ((vm == null) || (vm.DealtCards == null))
             {
                 return;
+            }
+
+            if (dealtCard.PyramidRow > 0)
+            {
+                var cardButtonsUI = CardPileGridPyramid.Children;
+                if (cardButtonsUI.Count > 0)
+                {
+                    CardButton? previousPyramidCard = null;
+                    for (int i = 0; i < cardButtonsUI.Count; ++i)
+                    {
+                        var pyramidCard = (cardButtonsUI[i] as CardButton);
+                        if ((pyramidCard != null) && pyramidCard.IsVisible)
+                        {
+                            if ((pyramidCard.Card != null) && (pyramidCard.Card == dealtCard.Card))
+                            {
+                                break;
+                            }
+
+                            previousPyramidCard = pyramidCard;
+                        }
+                    }
+
+                    if (previousPyramidCard != null)
+                    {
+                        previousPyramidCard.Focus();
+                    }
+                }
             }
 
             var rowRevealed = dealtCard.PyramidRow - 1;

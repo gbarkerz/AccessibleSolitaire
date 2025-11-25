@@ -250,6 +250,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to and.
+        /// </summary>
+        internal static string And {
+            get {
+                return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available moves.
         /// </summary>
         internal static string AnnounceAvailableMoves {
@@ -714,6 +723,24 @@ namespace Sa11ytaire4All.Strings {
         internal static string DiamondsPile {
             get {
                 return ResourceManager.GetString("DiamondsPile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discarded.
+        /// </summary>
+        internal static string Discarded {
+            get {
+                return ResourceManager.GetString("Discarded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard pile.
+        /// </summary>
+        internal static string DiscardPile {
+            get {
+                return ResourceManager.GetString("DiscardPile", resourceCulture);
             }
         }
         
@@ -1249,6 +1276,24 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No upturned card.
+        /// </summary>
+        internal static string NoCardUpturnedCard {
+            get {
+                return ResourceManager.GetString("NoCardUpturnedCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waste pile, no card.
+        /// </summary>
+        internal static string NoCardWastePile {
+            get {
+                return ResourceManager.GetString("NoCardWastePile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No more face-up cards.
         /// </summary>
         internal static string NoMoreFaceupCards {
@@ -1290,6 +1335,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string NoScreenOrientationChange {
             get {
                 return ResourceManager.GetString("NoScreenOrientationChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This pyramid card is not open and cannot be selected..
+        /// </summary>
+        internal static string ObscuredPryamidCardCannotBeSelected {
+            get {
+                return ResourceManager.GetString("ObscuredPryamidCardCannotBeSelected", resourceCulture);
             }
         }
         
@@ -1344,6 +1398,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string OnTop {
             get {
                 return ResourceManager.GetString("OnTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to on waste pile.
+        /// </summary>
+        internal static string OnWastePile {
+            get {
+                return ResourceManager.GetString("OnWastePile", resourceCulture);
             }
         }
         
@@ -1749,6 +1812,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Unselected {
             get {
                 return ResourceManager.GetString("Unselected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to upturned.
+        /// </summary>
+        internal static string Upturned {
+            get {
+                return ResourceManager.GetString("Upturned", resourceCulture);
             }
         }
         

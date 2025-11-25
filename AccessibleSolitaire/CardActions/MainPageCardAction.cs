@@ -114,7 +114,7 @@ namespace Sa11ytaire4All
                 gameIsOver = (gridCards[0].Visibility != Visibility.Visible);
             }
 
-            return true; // gameIsOver;
+            return gameIsOver;
         }
     }
 }
