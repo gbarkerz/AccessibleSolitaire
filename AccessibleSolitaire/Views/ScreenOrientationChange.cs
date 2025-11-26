@@ -30,6 +30,7 @@ namespace Sa11ytaire4All
 
             var changedLayout = true;
 #if IOS
+
             // Have we already set the UI layout to account for the screen orientation?
             if (initialScreenOrientationPortrait != null)
             {
@@ -88,12 +89,14 @@ namespace Sa11ytaire4All
 
             SetLowerScrollViewOrientationLayout(isPortrait);
 
+            var isKlondike = (currentGameType != SolitaireGameType.Pyramid);
+            //Debug.WriteLine("SetOrientationLayout: isKlondike " + isKlondike);
+
             if (changedLayout)
             {
                 InnerMainGrid.IsVisible = true;
 
-                // Barker Todo: This is needed if we still have the screen orientation change problem.
-                //CardPileGrid.IsVisible = true;
+                CardPileGrid.IsVisible = isKlondike;
 
                 NoScreenOrientationChangeLabel.IsVisible = false;
             }

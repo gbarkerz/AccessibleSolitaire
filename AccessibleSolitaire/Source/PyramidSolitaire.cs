@@ -47,6 +47,8 @@ namespace Sa11ytaire4All
 
             TargetPiles.IsVisible = isKlondike;
 
+            CardPileGrid.IsVisible = isKlondike;
+
             ClearAllPiles();
 
             if (!LoadSession())
@@ -93,8 +95,7 @@ namespace Sa11ytaire4All
             {
                 button = new CardButton();
 
-                button.Margin = new Thickness(20, 0, 20, 0);
-                button.Padding = new Thickness(0);
+                button.Margin = new Thickness(2, 0, 2, 0);
 
                 button.IsToggled = false;
 
@@ -142,7 +143,7 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            vm.PyramidCardDiscarded = false;
+            //vm.PyramidCardDiscarded = false;
 
             var cardButtonsUI = CardPileGridPyramid.Children;
 
@@ -207,7 +208,7 @@ namespace Sa11ytaire4All
                 ++countCardsPerRow;
             }
 
-            vm.PyramidCardDiscarded = (totalCountOfVisibleCardsInPyramid < 28);
+            //vm.PyramidCardDiscarded = (totalCountOfVisibleCardsInPyramid < 28);
         }
 
         // Handle a click on one of the CardButtons in the pyramd.
@@ -367,7 +368,7 @@ namespace Sa11ytaire4All
                     cardButtonClicked.IsVisible = false;
                     cardButtonClicked.IsToggled = false;
 
-                    SetDiscardedPileUIState();
+                    //SetDiscardedPileUIState();
                 }
             }
             else
@@ -550,20 +551,20 @@ namespace Sa11ytaire4All
         {
             cardList.Remove(cardToRemove);
 
-            SetDiscardedPileUIState();
+            //SetDiscardedPileUIState();
         }
 
-        private void SetDiscardedPileUIState()
-        {
-            var vm = this.BindingContext as DealtCardViewModel;
-            if ((vm != null) && (vm.DealtCards != null))
-            {
-                if (!vm.PyramidCardDiscarded)
-                {
-                    vm.PyramidCardDiscarded = true;
-                }
-            }
-        }
+        //private void SetDiscardedPileUIState()
+        //{
+        //    var vm = this.BindingContext as DealtCardViewModel;
+        //    if ((vm != null) && (vm.DealtCards != null))
+        //    {
+        //        if (!vm.PyramidCardDiscarded)
+        //        {
+        //            vm.PyramidCardDiscarded = true;
+        //        }
+        //    }
+        //}
 
         // Check if both the Upturned card and HigherObscured card should be removed.
         private bool MoveBothUpturnedCards(CardButton cardButtonClicked)

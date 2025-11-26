@@ -25,14 +25,12 @@ namespace Sa11ytaire4All.Source
         [JsonIgnore]
         public int PyramidCardCurrentCountOfCardsOnRow { get; set; }
 
-        // We do presist Open.
+        // We do persist the next few...
         public bool Open{ get; set; }
 
-        [JsonIgnore]
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
         public partial int CurrentCardIndexInDealtCardPile { get; set; }
 
-        [JsonIgnore]
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CurrentCardIndices))]
         public partial int CurrentDealtCardPileIndex { get; set; }
 
@@ -1025,7 +1023,6 @@ namespace Sa11ytaire4All.Source
         [ObservableProperty, NotifyPropertyChangedFor(nameof(AccessibleName))]
         public partial bool InSelectedSet { get; set; }
 
-        [JsonIgnore]
         [ObservableProperty] 
         public partial int CountFaceDownCardsInPile { get; set; }
 

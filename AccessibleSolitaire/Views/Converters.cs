@@ -244,26 +244,6 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    public class GameTypeToDiscardPileMargin : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            if (value == null)
-            {
-                return null;
-            }
-
-            var gameType = (SolitaireGameType)value;
-
-            return gameType == SolitaireGameType.Klondike ? new Thickness() : new Thickness(120, 0, 0, 0);
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class CurrentGameTypeToKlondikeUIVisibility : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -908,7 +888,7 @@ namespace Sa11ytaire4All.Views
                 buttonHeight = Math.Min(buttonHeight, cardHeight / 3);
             }
 
-            return 30; // buttonHeight;
+            return buttonHeight;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

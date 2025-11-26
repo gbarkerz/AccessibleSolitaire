@@ -161,7 +161,7 @@ namespace Sa11ytaire4All.ViewModels
             }
         }
 
-        [ObservableProperty]
-        public partial bool PyramidCardDiscarded { get; set; }
+        //[ObservableProperty]
+        //public partial bool PyramidCardDiscarded { get; set; }
     }
 }

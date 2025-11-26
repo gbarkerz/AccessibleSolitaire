@@ -589,7 +589,7 @@ namespace Sa11ytaire4All
                     RefreshAllCardVisuals();
                 }
 
-                PyramidDiscardPile.IsVisible = (currentGameType == SolitaireGameType.Pyramid);
+                //PyramidDiscardPile.IsVisible = (currentGameType == SolitaireGameType.Pyramid);
 
                 // If we don't set the colours here, the default colours show initially.
                 if (InitialSetSuitColours ||
@@ -1456,7 +1456,7 @@ namespace Sa11ytaire4All
                     NextCardDeck.RotateTo(0, 0);
                     CardDeckUpturnedObscuredHigher.RotateTo(0, 0);
                     CardDeckUpturned.RotateTo(0, 0);
-                    PyramidDiscardPile.RotateTo(0, 0);
+                    //PyramidDiscardPile.RotateTo(0, 0);
                 }
 
 #pragma warning restore CS4014
@@ -1544,9 +1544,9 @@ namespace Sa11ytaire4All
                             CardDeckUpturned.RelRotateTo(3600, 10000);
                             break;
 
-                        case 3:
-                            PyramidDiscardPile.RelRotateTo(3600, 10000);
-                            break;
+                        //case 3:
+                        //    PyramidDiscardPile.RelRotateTo(3600, 10000);
+                        //    break;
 
                         default:
                             timerDelayCardSpin?.Dispose();
