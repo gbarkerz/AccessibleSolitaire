@@ -235,7 +235,7 @@ namespace Sa11ytaire4All
 
             foreach (var pyramidCard in pyramidCards)
             {
-                var card = pyramidCards as CardButton;
+                var card = pyramidCard as CardButton;
                 if (card != null)
                 {
                     card.IsToggled = false;

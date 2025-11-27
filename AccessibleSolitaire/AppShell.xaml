@@ -16,24 +16,14 @@
 
     <MenuItem x:Name="KlondikeSolitaireMenuItem" 
         Clicked="KlondikeSolitaireMenuItem_Clicked"
+        IconImageSource="cardbackklondike.png"
         Text="{x:Static resources:Strings.StringResources.KlondikeSolitaire}">
-        <MenuItem.IconImageSource>
-            <FontImageSource
-                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                Glyph="&#xf05a;"
-                FontFamily="FA" />
-        </MenuItem.IconImageSource>
     </MenuItem>
 
     <MenuItem x:Name="PyramidSolitaireMenuItem" 
         Clicked="PyramidSolitaireMenuItem_Clicked"
+        IconImageSource="cardbackpyramid.png"
         Text="{x:Static resources:Strings.StringResources.PyramidSolitaire}">
-        <MenuItem.IconImageSource>
-            <FontImageSource
-                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                Glyph="&#xf05a;"
-                FontFamily="FA" />
-        </MenuItem.IconImageSource>
     </MenuItem>
 
     <MenuItem x:Name="HelpMenuItem" 

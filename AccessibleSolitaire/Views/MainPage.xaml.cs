@@ -1144,6 +1144,11 @@ namespace Sa11ytaire4All
             if (includeUpturnedCard)
             {
                 SetCardButtonToggledSelectionState(CardDeckUpturned, false);
+
+                if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    SetCardButtonToggledSelectionState(CardDeckUpturnedObscuredHigher, false);
+                }
             }
 
             SetCardButtonToggledSelectionState(TargetPileC, false);
