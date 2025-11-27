@@ -100,7 +100,11 @@ namespace Sa11ytaire4All
 
                 button.IsToggled = false;
 
-                button.BackgroundColor = Colors.White;
+                if (Application.Current != null)
+                {
+                    button.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                                Colors.White : Colors.Black);
+                }
 
                 CardPileGridPyramid.Children.Add(button);
 
