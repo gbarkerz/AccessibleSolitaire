@@ -304,7 +304,7 @@ namespace Sa11ytaire4All
                             discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
 
                             // Has a card now been revealed? 
-                            SetOnTopStateFollowingMove(dealtCardAlreadySelected);
+                            SetOnTopStateFollowingMove(dealtCardAlreadySelected, false);
 
                             RefreshCardButtonMofNInRow(cardAlreadySelected);
 
@@ -353,10 +353,10 @@ namespace Sa11ytaire4All
                         discardMessage += " " + MainPage.MyGetString("And") + " ";
                     }
 
-                    discardMessage += " " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                    discardMessage += " " + dealtCard.AccessibleNameWithoutSelectionAndMofN + ". ";
 
                     // Has a card now been revealed? 
-                    SetOnTopStateFollowingMove(dealtCard);
+                    SetOnTopStateFollowingMove(dealtCard, true);
 
                     RefreshCardButtonMofNInRow(cardButtonClicked);
 
@@ -379,7 +379,7 @@ namespace Sa11ytaire4All
 
             if (!string.IsNullOrEmpty(discardMessage))
             {
-                MakeDelayedScreenReaderAnnouncement(discardMessage, false);
+                MakeDelayedScreenReaderAnnouncementWithDelayTime(discardMessage, true, 2000);
             }
 
             if (GameOver())
@@ -455,7 +455,7 @@ namespace Sa11ytaire4All
                                                         cardAlreadySelected.CardPileAccessibleNameWithoutMofN;
 
                                     // Has a card now been revealed? 
-                                    SetOnTopStateFollowingMove(dealtCardAlreadySelected);
+                                    SetOnTopStateFollowingMove(dealtCardAlreadySelected, false);
 
                                     RefreshCardButtonMofNInRow(cardAlreadySelected);
 
@@ -503,7 +503,7 @@ namespace Sa11ytaire4All
 
                 if (!string.IsNullOrEmpty(discardMessage))
                 {
-                    MakeDelayedScreenReaderAnnouncement(discardMessage, false);
+                    MakeDelayedScreenReaderAnnouncement(discardMessage, true);
                 }
             }
         }
@@ -720,7 +720,32 @@ namespace Sa11ytaire4All
             return cardButtonFound;
         }
 
-        private void SetOnTopStateFollowingMove(DealtCard dealtCard)
+        // **************************************************************************************************
+        //
+        // VERY IMPORTANT!
+        //
+        // SetOnTopStateFollowingMove() is being called because a card in the pyramid has been discarded.
+        // If the card has focus, then focus will move away from the card, and by default, move to wherever
+        // MAUI wants to put it. Sometimes the target seems unintuitive, so we should explicitly move focus
+        // to somewhere more predictable. Note that in test on my iPad, keyboard focus is not helpful here,
+        // and attempting to set keyboard focus and have it drag VoiceOver focus with it, doesn't work.
+        // (ie Calls to Focus() fail, and VoiceOver seems unaffected by the attempt.) As such, explicitly
+        // call SemanticSetFocus() to make sure VoiceOver ends up somewhere predictable and helpful.
+
+        // HOWEVER: There is some undeterminable delay between the call to SemanticSetFocus() and VoiceOver
+        // moving to the target element and making the related announcement. This means that if a custom
+        // announcement related to the cards being discarded is still in progress, that announcement gets
+        // stopped. No good away to avoid this problem has yet been found. There are no known events 
+        // relating to VoiceOver moving to the target element, or relating to screen reader audio finishing.
+        // As such, simply at a longer-than-usual delay before beginning the custom announcement relating
+        // to cards being discarded. This is very unfortunate, as at best it results in a long delay before
+        // learning about the results of discard action (and even then, the announcement relating to the
+        // target element will have started and truncated), and at worst the delay in starting the 
+        // discard-related announcement is insufficient and that announcement still gets truncated.
+        //
+        // **************************************************************************************************
+
+        private void SetOnTopStateFollowingMove(DealtCard dealtCard, bool moveFocus)
         {
             //Debug.WriteLine("SetOnTopStateFollowingMove: " + dealtCard.AccessibleNameWithoutSelectionAndMofN);
 
@@ -752,9 +777,10 @@ namespace Sa11ytaire4All
 
                     if (previousPyramidCard != null)
                     {
-                        Debug.WriteLine("SetOnTopStateFollowingMove: Set focus to " + previousPyramidCard.CardPileAccessibleName);
+                        Debug.WriteLine("SetOnTopStateFollowingMove: Set semantic focus to " + 
+                            previousPyramidCard.CardPileAccessibleName);
 
-                        previousPyramidCard.Focus();
+                        previousPyramidCard.SetSemanticFocus();
                     }
                 }
             }

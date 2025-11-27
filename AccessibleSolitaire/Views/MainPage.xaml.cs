@@ -1596,13 +1596,30 @@ namespace Sa11ytaire4All
             {
                 return;
             }
-            
+
             if (timerDelayScreenReaderAnnouncement == null)
             {
                 timerDelayScreenReaderAnnouncement = new Timer(
                     new TimerCallback((s) => MakeScreenReaderAnnouncement(announcement, appendAvailableMoves)),
                         announcement,
                         TimeSpan.FromMilliseconds(200),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+            }
+        }
+
+        private void MakeDelayedScreenReaderAnnouncementWithDelayTime(string? announcement, bool appendAvailableMoves, int delay)
+        {
+            if (string.IsNullOrEmpty(announcement))
+            {
+                return;
+            }
+
+            if (timerDelayScreenReaderAnnouncement == null)
+            {
+                timerDelayScreenReaderAnnouncement = new Timer(
+                    new TimerCallback((s) => MakeScreenReaderAnnouncement(announcement, appendAvailableMoves)),
+                        announcement,
+                        TimeSpan.FromMilliseconds(delay),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
         }

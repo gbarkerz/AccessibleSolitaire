@@ -145,7 +145,7 @@ namespace Sa11ytaire4All
             var pyramidCards = CardPileGridPyramid.Children;
             if (pyramidCards.Count > 0)
             {
-                for (int i = 0; i < pyramidCards.Count; i++)
+                for (int i = pyramidCards.Count - 1; i >= 0; i--)
                 {
                     var pyramidCard = pyramidCards[i] as CardButton;
                     if ((pyramidCard != null) && (pyramidCard.Card != null) && pyramidCard.IsVisible)
@@ -163,7 +163,7 @@ namespace Sa11ytaire4All
                                 }
 
                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
-                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
+                                                MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) + " " +
                                                 MyGetString("CanBeDiscarded");
                             }
                             else
@@ -186,10 +186,10 @@ namespace Sa11ytaire4All
                                                 }
 
                                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
-                                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
+                                                                MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) + " " +
                                                                 MyGetString("And") + " " +
                                                                 pyramidCardLater.Card.GetCardAccessibleName() + " " +
-                                                                MyGetString("Row") + " " + dealtCardLater.PyramidRow + " " +
+                                                                MyGetString("Row") + " " + (dealtCardLater.PyramidRow + 1) + " " +
                                                                 MyGetString("CanBeDiscarded") + " " +
                                                                 MyGetString("Together");
                                             }
@@ -208,7 +208,7 @@ namespace Sa11ytaire4All
                                 }
 
                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
-                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
+                                                MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) + " " +
                                                 MyGetString("And") + " " +
                                                 CardDeckUpturned.CardPileAccessibleName + " " +
                                                 MyGetString("CanBeDiscarded") + " " +
@@ -224,7 +224,7 @@ namespace Sa11ytaire4All
                                 }
 
                                 moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
-                                                MyGetString("Row") + " " + dealtCard.PyramidRow + " " +
+                                                MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) + " " +
                                                 MyGetString("And") + " " +
                                                 CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
                                                 MyGetString("CanBeDiscarded") + " " +
@@ -236,42 +236,46 @@ namespace Sa11ytaire4All
             }
 
             // Next check if the two upturned card can be discarded together.
-            if ((CardDeckUpturned.Card != null) && (CardDeckUpturnedObscuredHigher.Card != null) &&
-                (CardDeckUpturned.Card.Rank + CardDeckUpturnedObscuredHigher.Card.Rank == 13))
-            {
-                if (!string.IsNullOrEmpty(moveComment))
-                {
-                    moveComment += ", ";
-                }
 
-                moveComment += CardDeckUpturned.CardPileAccessibleName + " " +
-                                MyGetString("And") + " " +
-                                CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
-                                MyGetString("CanBeDiscarded") + " " +
-                                MyGetString("Together");
-            }
+            // No: Today only announce moves which involve a pyramid card.
 
-            if ((CardDeckUpturned.Card != null) && (CardDeckUpturned.Card.Rank == 13))
-            {
-                if (!string.IsNullOrEmpty(moveComment))
-                {
-                    moveComment += ", ";
-                }
+            //if ((CardDeckUpturned.Card != null) && (CardDeckUpturnedObscuredHigher.Card != null) &&
+            //    (CardDeckUpturned.Card.Rank + CardDeckUpturnedObscuredHigher.Card.Rank == 13))
+            //{
+            //    if (!string.IsNullOrEmpty(moveComment))
+            //    {
+            //        moveComment += ", ";
+            //    }
 
-                moveComment += CardDeckUpturned.CardPileAccessibleName + " " +
-                                MyGetString("CanBeDiscarded");
-            }
+            //    moveComment += CardDeckUpturned.CardPileAccessibleName + " " +
+            //                    MyGetString("And") + " " +
+            //                    CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
+            //                    MyGetString("CanBeDiscarded") + " " +
+            //                    MyGetString("Together");
+            //}
 
-            if ((CardDeckUpturnedObscuredHigher.Card != null) && (CardDeckUpturnedObscuredHigher.Card.Rank == 13))
-            {
-                if (!string.IsNullOrEmpty(moveComment))
-                {
-                    moveComment += ", ";
-                }
+            //// Next check if either the upturned card or top of the waste pile are a King and can be discarded.
+            //if ((CardDeckUpturned.Card != null) && (CardDeckUpturned.Card.Rank == 13))
+            //{
+            //    if (!string.IsNullOrEmpty(moveComment))
+            //    {
+            //        moveComment += ", ";
+            //    }
 
-                moveComment += CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
-                                MyGetString("CanBeDiscarded");
-            }
+            //    moveComment += CardDeckUpturned.CardPileAccessibleName + " " +
+            //                    MyGetString("CanBeDiscarded");
+            //}
+
+            //if ((CardDeckUpturnedObscuredHigher.Card != null) && (CardDeckUpturnedObscuredHigher.Card.Rank == 13))
+            //{
+            //    if (!string.IsNullOrEmpty(moveComment))
+            //    {
+            //        moveComment += ", ";
+            //    }
+
+            //    moveComment += CardDeckUpturnedObscuredHigher.CardPileAccessibleName + " " +
+            //                    MyGetString("CanBeDiscarded");
+            //}
 
             return moveComment;
         }
