@@ -1,4 +1,5 @@
-﻿using Sa11ytaire4All.Source;
+﻿using CommunityToolkit.Maui.Markup;
+using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
@@ -143,8 +144,6 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            //vm.PyramidCardDiscarded = false;
-
             var cardButtonsUI = CardPileGridPyramid.Children;
 
             var countCardsPerRow = 1;
@@ -207,8 +206,6 @@ namespace Sa11ytaire4All
 
                 ++countCardsPerRow;
             }
-
-            //vm.PyramidCardDiscarded = (totalCountOfVisibleCardsInPyramid < 28);
         }
 
         // Handle a click on one of the CardButtons in the pyramd.
@@ -367,8 +364,6 @@ namespace Sa11ytaire4All
 
                     cardButtonClicked.IsVisible = false;
                     cardButtonClicked.IsToggled = false;
-
-                    //SetDiscardedPileUIState();
                 }
             }
             else
@@ -550,21 +545,7 @@ namespace Sa11ytaire4All
         private void RemoveCardButtonCard(List<Card> cardList, Card cardToRemove)
         {
             cardList.Remove(cardToRemove);
-
-            //SetDiscardedPileUIState();
         }
-
-        //private void SetDiscardedPileUIState()
-        //{
-        //    var vm = this.BindingContext as DealtCardViewModel;
-        //    if ((vm != null) && (vm.DealtCards != null))
-        //    {
-        //        if (!vm.PyramidCardDiscarded)
-        //        {
-        //            vm.PyramidCardDiscarded = true;
-        //        }
-        //    }
-        //}
 
         // Check if both the Upturned card and HigherObscured card should be removed.
         private bool MoveBothUpturnedCards(CardButton cardButtonClicked)
@@ -710,8 +691,39 @@ namespace Sa11ytaire4All
             return startIndex;
         }
 
+        private CardButton? GetCardButtonFromPyramidDealtCard(DealtCard dealtCard, out int cardButtonPyramidIndex)
+        {
+            cardButtonPyramidIndex = 0;
+
+            CardButton? cardButtonFound = null;
+
+            if ((dealtCard != null) && (dealtCard.Card != null))
+            {
+                var cardButtons = CardPileGridPyramid.Children;
+                if ((cardButtons != null) && (cardButtons.Count > 0))
+                { 
+                    for (int i = 0; i < cardButtons.Count; ++i)
+                    {
+                        var cardButton = (cardButtons[i] as CardButton);
+                        if ((cardButton != null) && (cardButton.Card == dealtCard.Card))
+                        {
+                            cardButtonFound = cardButton;
+
+                            cardButtonPyramidIndex = i;
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return cardButtonFound;
+        }
+
         private void SetOnTopStateFollowingMove(DealtCard dealtCard)
         {
+            //Debug.WriteLine("SetOnTopStateFollowingMove: " + dealtCard.AccessibleNameWithoutSelectionAndMofN);
+
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
@@ -740,6 +752,8 @@ namespace Sa11ytaire4All
 
                     if (previousPyramidCard != null)
                     {
+                        Debug.WriteLine("SetOnTopStateFollowingMove: Set focus to " + previousPyramidCard.CardPileAccessibleName);
+
                         previousPyramidCard.Focus();
                     }
                 }
@@ -778,6 +792,43 @@ namespace Sa11ytaire4All
                         if (cardButtonUI != null)
                         {
                             cardButtonUI.RefreshCardButtonMofN();
+                        }
+                    }
+                }
+            }
+
+            // While we're here, check if the card being removed is a heading.
+            int cardButtonPyramidIndex;
+            var cardButton = GetCardButtonFromPyramidDealtCard(dealtCard, out cardButtonPyramidIndex);
+            if (cardButton != null)
+            {
+                var innerButton = (Button)cardButton.FindByName("InnerButton");
+                if (innerButton != null)
+                {
+                    var headingLevel = SemanticProperties.GetHeadingLevel(innerButton);
+                    if (headingLevel != SemanticHeadingLevel.None)
+                    {
+                        Debug.WriteLine("Found existing heading: " + cardButton.CardPileAccessibleName);
+
+                        var cardButtons = CardPileGridPyramid.Children;
+                        if (cardButtons != null)
+                        {
+                            if ((cardButtonPyramidIndex >= 0) &&
+                                (cardButtonPyramidIndex < cardButtons.Count - 1))
+                            {
+                                for (int i = cardButtonPyramidIndex + 1; i < cardButtons.Count; ++i)
+                                {
+                                    var nextCardButton = cardButtons[i] as CardButton;
+                                    if ((nextCardButton != null) && nextCardButton.IsVisible)
+                                    {
+                                        Debug.WriteLine("Set as Heading: " + nextCardButton.CardPileAccessibleName);
+
+                                        nextCardButton.SetHeadingState(true);
+
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }

@@ -1894,14 +1894,17 @@ namespace Sa11ytaire4All
 
             for (int i = 6; i >= 0; i--)
             {
-                stateMessage += MyGetString("Row") + " " + (i + 1) + ", ";
-
-                for (int j = 0; j < vm.DealtCards[i].Count; j++)
+                if (vm.DealtCards[i].Count > 0)
                 {
-                    var dealtCard = vm.DealtCards[i][j];
-                    if ((dealtCard != null) && (dealtCard.Card != null))
+                    stateMessage += MyGetString("Row") + " " + (i + 1) + ", ";
+
+                    for (int j = 0; j < vm.DealtCards[i].Count; j++)
                     {
-                        stateMessage += dealtCard.Card.GetCardAccessibleName() + ", ";
+                        var dealtCard = vm.DealtCards[i][j];
+                        if ((dealtCard != null) && (dealtCard.Card != null))
+                        {
+                            stateMessage += dealtCard.Card.GetCardAccessibleName() + ", ";
+                        }
                     }
                 }
             }

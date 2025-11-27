@@ -27,20 +27,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void SetHeadingState(bool isHeading)
     {
-        var headingLevel = (isHeading ? SemanticHeadingLevel.Level2 : SemanticHeadingLevel.None);
-
-        //Debug.WriteLine("CardButton AutomationID: " + this.AutomationId);
-
-        // On iOS, Make the top upturned card and all target card piles headings to 
-        // allow fast VoiceOver navigation to them.
-        if ((this.AutomationId != "CardDeckUpturnedObscuredHigher") &&
-            (this.AutomationId != "CardDeckUpturnedObscuredLower"))
+        // Note: The heading level must be set on the InnerButton, not directly on the CardButton.
+        var innerButton = (Button)this.FindByName("InnerButton");
+        if (innerButton != null)
         {
-            var innerButton = (Button)this.FindByName("InnerButton");
-            if (innerButton != null)
-            {
-                SemanticProperties.SetHeadingLevel(innerButton, headingLevel);
-            }
+            var headingLevel = (isHeading ? SemanticHeadingLevel.Level2 : SemanticHeadingLevel.None);
+            SemanticProperties.SetHeadingLevel(innerButton, headingLevel);
         }
     }
 
@@ -706,9 +698,9 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         if (button != null)
         {
             var cardButton = button.BindingContext as CardButton;
-            if (cardButton != null)
+            if ((cardButton != null) && ((cardButton.Card != null)))
             {
-                Debug.WriteLine("Focused CardButton: " + cardButton.Card);
+                //Debug.WriteLine("Fococused CardButton: " + cardButton.Card.GetCardAccessibleName());
 
                 CardButton.FocusedCardButtonCard = card;
             }
@@ -721,9 +713,9 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         if (button != null)
         {
             var cardButton = button.BindingContext as CardButton;
-            if (cardButton != null)
+            if ((cardButton != null) && ((cardButton.Card != null)))
             {
-                Debug.WriteLine("Unfocused CardButton: " + cardButton.Card);
+                //Debug.WriteLine("Unfocused CardButton: " + cardButton.Card.GetCardAccessibleName());
 
                 CardButton.FocusedCardButtonCard = null;
             }

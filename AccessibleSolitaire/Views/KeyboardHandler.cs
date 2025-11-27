@@ -129,16 +129,7 @@ namespace Sa11ytaire4All
 
         private string? AnnounceAvailableMovesPyramid()
         {
-            int numberOfMoves = 0;
             string moveComment = "";
-            DealtCard? destinationCard = null;
-            DealtCard? sourceCard = null;
-
-            var moveAnnouncementInPileString = MyGetString("MoveAnnouncementInPile");
-            var onString = MyGetString("On");
-            var upturnedCardPile = MyGetString("UpturnedCardPile");
-            var dealtCardPile = MyGetString("DealtCardPile");
-            var canBeMovedTo = MyGetString("CanBeMovedTo");
 
             DealtCard? upturnedPseudoCard = null;
             if (_deckUpturned.Count > 0)
