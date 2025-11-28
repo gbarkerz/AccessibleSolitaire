@@ -117,13 +117,13 @@
                             CornerRadius="0"
                             Clicked="CardButton_Clicked">
 
-                            <!--<Button.Behaviors>
+                            <Button.Behaviors>
                                 <toolkit:TouchBehavior
                                     BindingContext="{Binding Path=BindingContext, 
                                         Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton}"
                                     LongPressDuration="{Binding LongPressZoomDuration}"
                                     LongPressCompleted="TouchBehavior_LongPressCompleted" />
-                            </Button.Behaviors>-->
+                            </Button.Behaviors>
 
                         </Button>
 

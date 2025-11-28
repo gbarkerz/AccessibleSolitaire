@@ -653,6 +653,13 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)
     {
+        // Barker Todo: Get longpress working on the CardButtons in the Pyramid game.
+        // Currently this longpress handler gets called as the finger hits the card.
+        if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+        {
+            return;
+        }
+
         if ((MainPage.MainPageSingleton != null) && (this.Card != null))
         {
             // If the popup is already up, do nothing here.
