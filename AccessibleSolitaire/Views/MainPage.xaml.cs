@@ -736,10 +736,42 @@ namespace Sa11ytaire4All
         {
             CardDeckUpturned.SetHeadingState(isHeading);
 
-            TargetPileC.SetHeadingState(isHeading);
-            TargetPileD.SetHeadingState(isHeading);
-            TargetPileH.SetHeadingState(isHeading);
-            TargetPileS.SetHeadingState(isHeading);
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                TargetPileC.SetHeadingState(isHeading);
+                TargetPileD.SetHeadingState(isHeading);
+                TargetPileH.SetHeadingState(isHeading);
+                TargetPileS.SetHeadingState(isHeading);
+            }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                var vm = this.BindingContext as DealtCardViewModel;
+                if ((vm != null) && (vm.DealtCards != null))
+                {
+                    for (int i = 0; i < cCardPiles; i++)
+                    {
+                        for (int j = 0; j < vm.DealtCards[i].Count; ++j)
+                        {
+                            var dealtCard = vm.DealtCards[i][j];
+                            if ((dealtCard != null) && (dealtCard.Card != null))
+                            {
+                                // We've found the first dealt card on this row, so find the associated CardButton.
+                                int cardButtonPyramidIndex;
+                                var cardButton = GetCardButtonFromPyramidDealtCard(dealtCard, out cardButtonPyramidIndex);
+                                if (cardButton != null)
+                                {
+                                    // Now set the first card in the row to have the required Heading state.
+                                    cardButton.SetHeadingState(isHeading);
+                                }
+
+                                // We don't need to consider other cards on this row, as they can never have been headings yet.
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
         }
 #endif 
 

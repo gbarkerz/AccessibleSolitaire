@@ -89,6 +89,10 @@ namespace Sa11ytaire4All
             var currentColumn = 6;
 
             var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return;
+            }
 
             var setSemanticHeading = true;
 
@@ -116,7 +120,9 @@ namespace Sa11ytaire4All
 
                 if (setSemanticHeading)
                 {
-                    button.SetHeadingState(true);
+                    var firstCardInRowIsHeading = vm.CardButtonsHeadingState;
+
+                    button.SetHeadingState(firstCardInRowIsHeading);
 
                     setSemanticHeading = false;
                 }
@@ -828,34 +834,38 @@ namespace Sa11ytaire4All
             }
 
             // While we're here, check if the card being removed is a heading.
-            int cardButtonPyramidIndex;
-            var cardButton = GetCardButtonFromPyramidDealtCard(dealtCard, out cardButtonPyramidIndex);
-            if (cardButton != null)
-            {
-                var innerButton = (Button)cardButton.FindByName("InnerButton");
-                if (innerButton != null)
+#if IOS
+            if (vm.CardButtonsHeadingState)
+            { 
+                int cardButtonPyramidIndex;
+                var cardButton = GetCardButtonFromPyramidDealtCard(dealtCard, out cardButtonPyramidIndex);
+                if (cardButton != null)
                 {
-                    var headingLevel = SemanticProperties.GetHeadingLevel(innerButton);
-                    if (headingLevel != SemanticHeadingLevel.None)
+                    var innerButton = (Button)cardButton.FindByName("InnerButton");
+                    if (innerButton != null)
                     {
-                        Debug.WriteLine("Found existing heading: " + cardButton.CardPileAccessibleName);
-
-                        var cardButtons = CardPileGridPyramid.Children;
-                        if (cardButtons != null)
+                        var headingLevel = SemanticProperties.GetHeadingLevel(innerButton);
+                        if (headingLevel != SemanticHeadingLevel.None)
                         {
-                            if ((cardButtonPyramidIndex >= 0) &&
-                                (cardButtonPyramidIndex < cardButtons.Count - 1))
+                            Debug.WriteLine("Found existing heading: " + cardButton.CardPileAccessibleName);
+
+                            var cardButtons = CardPileGridPyramid.Children;
+                            if (cardButtons != null)
                             {
-                                for (int i = cardButtonPyramidIndex + 1; i < cardButtons.Count; ++i)
+                                if ((cardButtonPyramidIndex >= 0) &&
+                                    (cardButtonPyramidIndex < cardButtons.Count - 1))
                                 {
-                                    var nextCardButton = cardButtons[i] as CardButton;
-                                    if ((nextCardButton != null) && nextCardButton.IsVisible)
+                                    for (int i = cardButtonPyramidIndex + 1; i < cardButtons.Count; ++i)
                                     {
-                                        Debug.WriteLine("Set as Heading: " + nextCardButton.CardPileAccessibleName);
+                                        var nextCardButton = cardButtons[i] as CardButton;
+                                        if ((nextCardButton != null) && nextCardButton.IsVisible)
+                                        {
+                                            Debug.WriteLine("Set as Heading: " + nextCardButton.CardPileAccessibleName);
 
-                                        nextCardButton.SetHeadingState(true);
+                                            nextCardButton.SetHeadingState(true);
 
-                                        break;
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -863,6 +873,7 @@ namespace Sa11ytaire4All
                     }
                 }
             }
+#endif
         }
 
         private CardButton? FindPyramidCardButtonFromDealtCard(DealtCard dealtCard)

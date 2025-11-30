@@ -707,11 +707,49 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="CardButtonsHeadingStateSwitchLabel" xml:space="preserve">
     <value>Ustaw jako nagłówki:</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="KlondikeSolitaire" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="KlondikeSolitaire" xml:space="preserve">
+    <value>Klondike Solitaire</value>
   </data>
-  <data name="PyramidSolitaire" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="PyramidSolitaire" xml:space="preserve">
+    <value>Pyramid Solitaire</value>
+  </data>
+  <data name="NoCardWastePile" xml:space="preserve">
+    <value>Stos odpadów, brak karty</value>
+  </data>
+  <data name="NoCardUpturnedCard" xml:space="preserve">
+    <value>Brak odkryte karty</value>
+  </data>
+  <data name="Upturned" xml:space="preserve">
+    <value>odkryte</value>
+  </data>
+  <data name="OnWastePile" xml:space="preserve">
+    <value>na stercie śmieci</value>
+  </data>
+  <data name="ObscuredPryamidCardCannotBeSelected" xml:space="preserve">
+    <value>Ta karta piramidy nie jest otwarta i nie można jej wybrać.</value>
+  </data>
+  <data name="Discarded" xml:space="preserve">
+    <value>Wyrzucony</value>
+  </data>
+  <data name="DiscardPile" xml:space="preserve">
+    <value>Stos odrzutów</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>i</value>
+  </data>
+  <data name="CanBeDiscarded" xml:space="preserve">
+    <value>można wyrzucić</value>
+  </data>
+  <data name="Together" xml:space="preserve">
+    <value>razem</value>
+  </data>
+  <data name="UpturnedCardIs" xml:space="preserve">
+    <value>Odkryte karta to</value>
+  </data>
+  <data name="TopOfWastePileIs" xml:space="preserve">
+    <value>Na szczycie stosu odpadów znajduje się</value>
+  </data>
+  <data name="Row" xml:space="preserve">
+    <value>Wiersz</value>
   </data>
 </root>

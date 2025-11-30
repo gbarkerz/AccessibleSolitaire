@@ -409,25 +409,19 @@
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchInstructions}" />
 
-                    <Grid Grid.Row="6" Padding="0" Margin="8,0,8,0">
+                    <HorizontalStackLayout Grid.Row="6" Padding="0" Margin="8,0,8,0">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        
-                        <Label Grid.Column="0"
-                            LineBreakMode="WordWrap"
+                        <Label LineBreakMode="WordWrap"
                             VerticalOptions="Center"                
                             Text="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchLabel}" 
                             Margin="0" Padding="0" />
 
-                        <Switch Grid.Column="1" x:Name="AutomaticallyAnnounceMovesSwitch"
+                        <Switch x:Name="AutomaticallyAnnounceMovesSwitch"
                             Margin="0" HorizontalOptions="Start"
                             SemanticProperties.Description="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchLabel}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.AutomaticallyAnnounceMovesSwitchInstructions}" />
 
-                    </Grid>
+                    </HorizontalStackLayout>
 
                     <!-- Add hint to topmost card in dealt card pile. -->
 
