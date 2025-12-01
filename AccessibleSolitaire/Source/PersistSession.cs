@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Maui.Controls;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
@@ -177,7 +178,21 @@ namespace Sa11ytaire4All
                 // Barker Todo: Don't assume all cards in the Pyramid game are present and correct.
                 if ((cardCount == 52) || (currentGameType == SolitaireGameType.Pyramid))
                 {
-                    if (currentGameType == SolitaireGameType.Pyramid)
+                    if (currentGameType == SolitaireGameType.Klondike)
+                    {
+                        // Without this refreshing of the cards' accessible name, the N in MofN is stuck
+                        // as it was when the card was added to the pile, and doesn't account for the 
+                        // total number of cards added. 
+                        for (int i = 0; i < cCardPiles; i++)
+                        {
+                            var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
+                            if (dealtCardPile != null)
+                            {
+                                RefreshDealtCardPileAccessibleNames(dealtCardPile);
+                            }
+                        }
+                    }
+                    else if (currentGameType == SolitaireGameType.Pyramid)
                     {
                         DealPyramidCardsPostprocess(false);
                     }

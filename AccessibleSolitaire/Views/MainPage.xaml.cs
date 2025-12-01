@@ -736,14 +736,12 @@ namespace Sa11ytaire4All
         {
             CardDeckUpturned.SetHeadingState(isHeading);
 
-            if (currentGameType == SolitaireGameType.Klondike)
-            {
-                TargetPileC.SetHeadingState(isHeading);
-                TargetPileD.SetHeadingState(isHeading);
-                TargetPileH.SetHeadingState(isHeading);
-                TargetPileS.SetHeadingState(isHeading);
-            }
-            else if (currentGameType == SolitaireGameType.Pyramid)
+            TargetPileC.SetHeadingState(isHeading);
+            TargetPileD.SetHeadingState(isHeading);
+            TargetPileH.SetHeadingState(isHeading);
+            TargetPileS.SetHeadingState(isHeading);
+
+            if (currentGameType == SolitaireGameType.Pyramid)
             {
                 var vm = this.BindingContext as DealtCardViewModel;
                 if ((vm != null) && (vm.DealtCards != null))

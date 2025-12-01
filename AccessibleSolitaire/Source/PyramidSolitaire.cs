@@ -118,6 +118,7 @@ namespace Sa11ytaire4All
                 CardPileGridPyramid.SetColumn(button, currentColumn);
                 CardPileGridPyramid.SetColumnSpan(button, 2);
 
+#if IOS
                 if (setSemanticHeading)
                 {
                     var firstCardInRowIsHeading = vm.CardButtonsHeadingState;
@@ -126,6 +127,7 @@ namespace Sa11ytaire4All
 
                     setSemanticHeading = false;
                 }
+#endif
 
                 ++countOfCardsOnCurrentRow;
 
