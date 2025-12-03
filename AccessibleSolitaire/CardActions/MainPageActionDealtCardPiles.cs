@@ -100,7 +100,7 @@ namespace Sa11ytaire4All
 
                 //            Debug.WriteLine(message);
 
-                //            await DisplayAlert(
+                //            await DisplayAlertAsync(
                 //                MainPage.MyGetString("AccessibleSolitaire"),
                 //                message,
                 //                MainPage.MyGetString("OK"));

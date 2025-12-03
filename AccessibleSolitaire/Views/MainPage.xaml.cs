@@ -891,7 +891,7 @@ namespace Sa11ytaire4All
 
                 try
                 {
-                    DisplayAlert(title, message, btnText);
+                    DisplayAlertAsync(title, message, btnText);
                 }
                 catch (Exception ex)
                 {
@@ -1463,7 +1463,7 @@ namespace Sa11ytaire4All
 
             StartCelebrating();
 
-            var answer = await DisplayAlert(
+            var answer = await DisplayAlertAsync(
                 MainPage.MyGetString("AccessibleSolitaire"),
                 MainPage.MyGetString("QueryRestartWonGame"),
                 MainPage.MyGetString("Yes"),
@@ -1481,17 +1481,17 @@ namespace Sa11ytaire4All
                 // Stop any target card piles from rotating.
                 if (currentGameType == SolitaireGameType.Klondike)
                 {
-                    TargetPileC.RotateTo(0, 0);
-                    TargetPileD.RotateTo(0, 0);
-                    TargetPileH.RotateTo(0, 0);
-                    TargetPileS.RotateTo(0, 0);
+                    TargetPileC.RotateToAsync(0, 0);
+                    TargetPileD.RotateToAsync(0, 0);
+                    TargetPileH.RotateToAsync(0, 0);
+                    TargetPileS.RotateToAsync(0, 0);
                 }
                 else if (currentGameType == SolitaireGameType.Pyramid)
                 {
-                    NextCardDeck.RotateTo(0, 0);
-                    CardDeckUpturnedObscuredHigher.RotateTo(0, 0);
-                    CardDeckUpturned.RotateTo(0, 0);
-                    //PyramidDiscardPile.RotateTo(0, 0);
+                    NextCardDeck.RotateToAsync(0, 0);
+                    CardDeckUpturnedObscuredHigher.RotateToAsync(0, 0);
+                    CardDeckUpturned.RotateToAsync(0, 0);
+                    //PyramidDiscardPile.RotateToAsync(0, 0);
                 }
 
 #pragma warning restore CS4014
@@ -1541,19 +1541,19 @@ namespace Sa11ytaire4All
                     switch (countOfSpinningCards)
                     {
                         case 0:
-                            TargetPileC.RelRotateTo(3600, 10000);
+                            TargetPileC.RelRotateToAsync(3600, 10000);
                             break;
 
                         case 1:
-                            TargetPileD.RelRotateTo(3600, 10000);
+                            TargetPileD.RelRotateToAsync(3600, 10000);
                             break;
 
                         case 2:
-                            TargetPileH.RelRotateTo(3600, 10000);
+                            TargetPileH.RelRotateToAsync(3600, 10000);
                             break;
 
                         case 3:
-                            TargetPileS.RelRotateTo(3600, 10000);
+                            TargetPileS.RelRotateToAsync(3600, 10000);
                             break;
 
                         default:
@@ -1568,19 +1568,19 @@ namespace Sa11ytaire4All
                     switch (countOfSpinningCards)
                     {
                         case 0:
-                            NextCardDeck.RelRotateTo(3600, 10000);
+                            NextCardDeck.RelRotateToAsync(3600, 10000);
                             break;
 
                         case 1:
-                            CardDeckUpturnedObscuredHigher.RelRotateTo(3600, 10000);
+                            CardDeckUpturnedObscuredHigher.RelRotateToAsync(3600, 10000);
                             break;
 
                         case 2:
-                            CardDeckUpturned.RelRotateTo(3600, 10000);
+                            CardDeckUpturned.RelRotateToAsync(3600, 10000);
                             break;
 
                         //case 3:
-                        //    PyramidDiscardPile.RelRotateTo(3600, 10000);
+                        //    PyramidDiscardPile.RelRotateToAsync(3600, 10000);
                         //    break;
 
                         default:
@@ -2115,7 +2115,7 @@ namespace Sa11ytaire4All
 
         public async void QueryRestartGame()
         {
-            var answer = await DisplayAlert(
+            var answer = await DisplayAlertAsync(
                 MainPage.MyGetString("AccessibleSolitaire"),
                 MainPage.MyGetString("QueryRestartGame"),
                 MainPage.MyGetString("Yes"),

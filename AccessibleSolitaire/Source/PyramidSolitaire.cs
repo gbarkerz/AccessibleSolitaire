@@ -94,7 +94,9 @@ namespace Sa11ytaire4All
                 return;
             }
 
+#if IOS
             var setSemanticHeading = true;
+#endif
 
             for (int i = 0; i < 28; i++)
             {
@@ -143,7 +145,9 @@ namespace Sa11ytaire4All
 
                     currentColumn = startColumn;
 
+#if IOS
                     setSemanticHeading = true;
+#endif
                 }
             }
         }
@@ -792,7 +796,11 @@ namespace Sa11ytaire4All
                         Debug.WriteLine("SetOnTopStateFollowingMove: Set semantic focus to " + 
                             previousPyramidCard.CardPileAccessibleName);
 
+#if WINDOWS
+                        previousPyramidCard.Focus();
+#else
                         previousPyramidCard.SetSemanticFocus();
+#endif
                     }
                 }
             }
