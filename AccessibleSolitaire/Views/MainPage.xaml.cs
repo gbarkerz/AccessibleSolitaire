@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Extensions;
+﻿using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using Plugin.Maui.KeyListener;
@@ -872,7 +873,6 @@ namespace Sa11ytaire4All
             });
         }
 
-
         private void TimedDelayShowFirstRunMessage()
         {
             timerFirstRunAnnouncement?.Dispose();
@@ -1328,8 +1328,12 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if (cardButton.Card == null)
+            var setSuitColour = true;
+
+            if ((cardButton.Card == null) && !string.IsNullOrEmpty(cardButton.AutomationId))
             {
+                setSuitColour = false;
+
                 string pileId = cardButton.AutomationId.Replace("TargetPile", "");
                 switch (pileId)
                 {
@@ -1350,7 +1354,8 @@ namespace Sa11ytaire4All
                         break;
                 }
             }
-            else
+
+            if (setSuitColour && (cardButton.Card != null))
             {
                 switch (cardButton.Card.Suit)
                 {
@@ -1471,41 +1476,44 @@ namespace Sa11ytaire4All
 
             if (answer)
             {
-                // ***BUILD WARNINGS***
-                //    warning CS4014: Because this call is not awaited, execution of the current method
-                //      continues before the call is completed.
-                //        Consider applying the 'await' operator to the result of the call.
-
-#pragma warning disable CS4014
-
-                // Stop any target card piles from rotating.
-                if (currentGameType == SolitaireGameType.Klondike)
-                {
-                    TargetPileC.RotateToAsync(0, 0);
-                    TargetPileD.RotateToAsync(0, 0);
-                    TargetPileH.RotateToAsync(0, 0);
-                    TargetPileS.RotateToAsync(0, 0);
-                }
-                else if (currentGameType == SolitaireGameType.Pyramid)
-                {
-                    NextCardDeck.RotateToAsync(0, 0);
-                    CardDeckUpturnedObscuredHigher.RotateToAsync(0, 0);
-                    CardDeckUpturned.RotateToAsync(0, 0);
-                    //PyramidDiscardPile.RotateToAsync(0, 0);
-                }
-
-#pragma warning restore CS4014
-
-                // Stop any running sounds.
-                if ((mainMediaElement != null) && (mainMediaElement.Source != null))
-                {
-                    mainMediaElement.Source = null;
-                }
+                StopCelebratoryActions();
 
                 RestartGame(true /* screenReaderAnnouncement. */);
             }
         }
 
+        private void StopCelebratoryActions()
+        {
+            // ***BUILD WARNINGS***
+            //    warning CS4014: Because this call is not awaited, execution of the current method
+            //      continues before the call is completed.
+            //        Consider applying the 'await' operator to the result of the call.
+
+#pragma warning disable CS4014
+
+            // Stop any target card piles from rotating.
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                TargetPileC.RotateToAsync(0, 0);
+                TargetPileD.RotateToAsync(0, 0);
+                TargetPileH.RotateToAsync(0, 0);
+                TargetPileS.RotateToAsync(0, 0);
+            }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                NextCardDeck.RotateToAsync(0, 0);
+                CardDeckUpturnedObscuredHigher.RotateToAsync(0, 0);
+                CardDeckUpturned.RotateToAsync(0, 0);
+            }
+
+#pragma warning restore CS4014
+
+            // Stop any running sounds.
+            if ((mainMediaElement != null) && (mainMediaElement.Source != null))
+            {
+                mainMediaElement.Source = null;
+            }
+        }
 
         private int countOfSpinningCards;
 
