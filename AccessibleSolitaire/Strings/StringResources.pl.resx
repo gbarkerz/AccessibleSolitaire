@@ -717,19 +717,20 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Stos odpadów, brak karty</value>
   </data>
   <data name="NoCardUpturnedCard" xml:space="preserve">
-    <value>Brak odkryte karty</value>
+    <value>Brak odkrytych kart</value>
   </data>
-  <data name="Upturned" xml:space="preserve">
-    <value>odkryte</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Upturned" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="OnWastePile" xml:space="preserve">
-    <value>na stercie śmieci</value>
+    <value>na stosie odpadów</value>
   </data>
   <data name="ObscuredPryamidCardCannotBeSelected" xml:space="preserve">
     <value>Ta karta piramidy nie jest otwarta i nie można jej wybrać.</value>
   </data>
   <data name="Discarded" xml:space="preserve">
-    <value>Wyrzucony</value>
+    <value>Odrzucono</value>
   </data>
   <data name="DiscardPile" xml:space="preserve">
     <value>Stos odrzutów</value>
@@ -750,6 +751,9 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Na szczycie stosu odpadów znajduje się</value>
   </data>
   <data name="Row" xml:space="preserve">
-    <value>Wiersz</value>
+    <value>Rząd</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Dostępna</value>
   </data>
 </root>

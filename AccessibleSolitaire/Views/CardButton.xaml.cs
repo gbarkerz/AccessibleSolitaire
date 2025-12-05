@@ -130,10 +130,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                             if (rowCards != null)
                             {
                                 cardPileAccessibleName = this.Card.GetCardAccessibleName() +
-                                                    (dealtCard.Open ? ", Open" : "") +
-                                                    ", row " + (dealtCard.PyramidRow + 1) +
+                                                    (dealtCard.Open ? ", " +
+                                                        MainPage.MyGetString("Open") : "") +
+                                                    ", " + MainPage.MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) +
                                                     ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) +
-                                                    " of " + dealtCard.PyramidCardCurrentCountOfCardsOnRow;
+                                                    " " + MainPage.MyGetString("Of") + " " + dealtCard.PyramidCardCurrentCountOfCardsOnRow;
                             }
                         }
                         else

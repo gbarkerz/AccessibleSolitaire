@@ -721,6 +721,7 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="Upturned" xml:space="preserve">
     <value>upturned</value>
+    <comment>Feedback: Leave this blank for Polish.</comment>
   </data>
   <data name="OnWastePile" xml:space="preserve">
     <value>on waste pile</value>
@@ -751,5 +752,8 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="Row" xml:space="preserve">
     <value>Row</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
   </data>
 </root>
