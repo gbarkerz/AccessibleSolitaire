@@ -506,8 +506,7 @@
 
                     <!-- Make top-most upturned card and all target card piles headings. -->
 
-                    <Grid Grid.Row="16" x:Name="CardButtonsHeadingStateGrid"
-                          IsVisible="False">
+                    <Grid Grid.Row="16" x:Name="CardButtonsHeadingStateGrid">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

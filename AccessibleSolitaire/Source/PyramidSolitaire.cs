@@ -97,9 +97,7 @@ namespace Sa11ytaire4All
                 return;
             }
 
-#if IOS
             var setSemanticHeading = true;
-#endif
 
             for (int i = 0; i < 28; i++)
             {
@@ -123,7 +121,6 @@ namespace Sa11ytaire4All
                 CardPileGridPyramid.SetColumn(button, currentColumn);
                 CardPileGridPyramid.SetColumnSpan(button, 2);
 
-#if IOS
                 if (setSemanticHeading)
                 {
                     var firstCardInRowIsHeading = vm.CardButtonsHeadingState;
@@ -132,7 +129,6 @@ namespace Sa11ytaire4All
 
                     setSemanticHeading = false;
                 }
-#endif
 
                 ++countOfCardsOnCurrentRow;
 
@@ -148,9 +144,7 @@ namespace Sa11ytaire4All
 
                     currentColumn = startColumn;
 
-#if IOS
                     setSemanticHeading = true;
-#endif
                 }
             }
         }
@@ -903,7 +897,6 @@ namespace Sa11ytaire4All
             }
 
             // While we're here, check if the card being removed is a heading.
-#if IOS
             if (vm.CardButtonsHeadingState)
             { 
                 int cardButtonPyramidIndex;
@@ -942,7 +935,6 @@ namespace Sa11ytaire4All
                     }
                 }
             }
-#endif
         }
 
         private CardButton? FindPyramidCardButtonFromDealtCard(DealtCard dealtCard)

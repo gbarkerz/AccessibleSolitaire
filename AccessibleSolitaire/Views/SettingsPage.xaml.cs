@@ -12,10 +12,6 @@ public partial class SettingsPage : ContentPage
 	{
 		InitializeComponent();
 
-#if IOS
-        CardButtonsHeadingStateGrid.IsVisible = true;
-#endif
-
 #if WINDOWS
         SuitColoursContainer.IsVisible = false;
 #endif

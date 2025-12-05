@@ -642,7 +642,6 @@ namespace Sa11ytaire4All
                     RefreshAllDealtCardPileCardIsInAccessibleTree();
                 }
 
-#if IOS
                 // Change the heading state of the target card piles if necessary.
                 var previousCardButtonsHeadingLevel = vm.CardButtonsHeadingState;
                 vm.CardButtonsHeadingState = (bool)Preferences.Get("CardButtonsHeadingState", false);
@@ -651,7 +650,6 @@ namespace Sa11ytaire4All
                 {
                     SetCardButtonsHeadingState(vm.CardButtonsHeadingState);
                 }
-#endif 
 
                 // General game-playing options.
 
@@ -732,7 +730,6 @@ namespace Sa11ytaire4All
             }
         }
 
-#if IOS
         private void SetCardButtonsHeadingState(bool isHeading)
         {
             CardDeckUpturned.SetHeadingState(isHeading);
@@ -772,7 +769,6 @@ namespace Sa11ytaire4All
 
             }
         }
-#endif 
 
         private void RefreshAllCardVisuals()
         {

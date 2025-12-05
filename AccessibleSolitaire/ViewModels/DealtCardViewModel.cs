@@ -20,9 +20,7 @@ namespace Sa11ytaire4All.ViewModels
 
             NoScreenOrientationChangeWarning = "";
 
-#if IOS
             CardButtonsHeadingState = false;
-#endif
         }
 
         public ObservableCollection<DealtCard>? DealtCards1 { get => DealtCards?[0]; }
@@ -98,10 +96,8 @@ namespace Sa11ytaire4All.ViewModels
         [ObservableProperty]
         public partial bool ExtendDealtCardHitTarget { get; set; }
 
-#if IOS
         [ObservableProperty]
         public partial bool CardButtonsHeadingState { get; set; }
-#endif 
 
         [ObservableProperty]
         public partial bool AddHintToTopmostCard { get; set; }
