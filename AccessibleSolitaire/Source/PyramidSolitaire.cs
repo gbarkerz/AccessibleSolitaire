@@ -318,11 +318,8 @@ namespace Sa11ytaire4All
                     discardMessage = MainPage.MyGetString("Discarded");
                     discardMessage += " " + upturnedCardAccessibleName;
 
-                    // There is now currently no Upturned card.
+                    // There is now currently no Upturned card. Leave the state of the waste pile unchanged.
                     CardDeckUpturned.Card = null;
-
-                    CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 1 ?
-                                        _deckUpturned[_deckUpturned.Count - 1] : null);
                 }
             }
 
