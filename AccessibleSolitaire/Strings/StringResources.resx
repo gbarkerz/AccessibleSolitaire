@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V3.1</value>
+    <value>Accessible Solitaire V3.2</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -272,11 +272,9 @@ Please click the Menu button and review the Help content to learn how to get the
   <data name="Queen" xml:space="preserve">
     <value>Queen</value>
   </data>
-  <data name="QueryRestartGame" xml:space="preserve">
-    <value>Are you sure you want to restart the game?</value>
-  </data>
   <data name="QueryRestartWonGame" xml:space="preserve">
-    <value>Congratulations, you've won! Would you like to start a new game?</value>
+    <value>Congratulations, you've won! 
+</value>
   </data>
   <data name="RestartGame" xml:space="preserve">
     <value>Restart Game</value>
@@ -721,7 +719,6 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="Upturned" xml:space="preserve">
     <value>upturned</value>
-    <comment>Feedback: Leave this blank for Polish.</comment>
   </data>
   <data name="OnWastePile" xml:space="preserve">
     <value>on waste pile</value>
@@ -755,5 +752,15 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
+  </data>
+  <data name="QueryRestartGame" xml:space="preserve">
+    <value>Are you sure you want to restart the game?</value>
+  </data>
+  <data name="QueryRestartWonGame1" xml:space="preserve">
+    <value>Would you like to start a new game?</value>
+  </data>
+  <data name="QueryRestartWonGameTime" xml:space="preserve">
+    <value>Your game lasted {0} minutes and {1} seconds.
+</value>
   </data>
 </root>

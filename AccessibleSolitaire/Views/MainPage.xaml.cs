@@ -1234,6 +1234,16 @@ namespace Sa11ytaire4All
             }
 
             ClearDealtCardPileSelections();
+
+            // Whenever a pyramid game is restarted, reset the data relating to the time spent playing.
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                timeStartOfThisPyramidSession = DateTime.Now;
+
+                Debug.WriteLine("Pyramid Solitaire: Zero time spent playing this game.");
+
+                Preferences.Set("PyramidSessionDuration", 0);
+            }
         }
 
 
@@ -1448,6 +1458,8 @@ namespace Sa11ytaire4All
             }
         }
 
+        private DateTime timeStartOfThisPyramidSession;
+
         private async void ShowEndOfGameDialog()
         {
             // It's possible that a screen reader announcement for the QueryRestartWonGame window
@@ -1464,9 +1476,37 @@ namespace Sa11ytaire4All
 
             StartCelebrating();
 
+            var message1 = MainPage.MyGetString("QueryRestartWonGame");
+            var message2 = MainPage.MyGetString("QueryRestartWonGame1");
+
+            var messageTime = "";
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                var messageTimeString = MainPage.MyGetString("QueryRestartWonGameTime");
+
+                var timeSpentPlayingPyramidCurrent = DateTime.Now - timeStartOfThisPyramidSession;
+                
+                var spentMinutes = timeSpentPlayingPyramidCurrent.Minutes;
+                var spentSeconds = timeSpentPlayingPyramidCurrent.Seconds;
+
+                var timeSpentPlayingPyramidPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
+                if (timeSpentPlayingPyramidPrevious > 0)
+                {
+                    spentMinutes += (timeSpentPlayingPyramidPrevious / 60);
+                    spentSeconds += (timeSpentPlayingPyramidPrevious % 60);
+                }
+
+                Debug.WriteLine("Pyramid Solitaire: Access time spent playing this game. Previous " +
+                    timeSpentPlayingPyramidPrevious + ", Current " + timeSpentPlayingPyramidCurrent.TotalSeconds);
+
+                messageTime = string.Format(messageTimeString, spentMinutes.ToString(), spentSeconds.ToString());
+            }
+
+            var fullMessage = message1 + messageTime + message2;
+
             var answer = await DisplayAlertAsync(
                 MainPage.MyGetString("AccessibleSolitaire"),
-                MainPage.MyGetString("QueryRestartWonGame"),
+                fullMessage,
                 MainPage.MyGetString("Yes"),
                 MainPage.MyGetString("No"));
 

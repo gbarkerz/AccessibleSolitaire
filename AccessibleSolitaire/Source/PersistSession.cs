@@ -62,6 +62,19 @@ namespace Sa11ytaire4All
                 Preferences.Set("DealtCardsSession", "");
             }
 
+            // Persist the current time spent playing this pyramid game.
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                var timeSpentPlayingPyramidPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
+
+                var timePyramidSession = (int)(DateTime.Now - timeStartOfThisPyramidSession).TotalSeconds;
+
+                Debug.WriteLine("Pyramid Solitaire: Persist time spent playing this game. Previous " +
+                    timeSpentPlayingPyramidPrevious + ", Current " + timePyramidSession);
+
+                Preferences.Set("PyramidSessionDuration", timeSpentPlayingPyramidPrevious + timePyramidSession);                
+            }
+
             return savedSession;
         }
 
@@ -212,6 +225,13 @@ namespace Sa11ytaire4All
             if (!loadedSession)
             {
                 ClearAllPiles();
+            }
+
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                Debug.WriteLine("Pyramid Solitaire: Note time of start of this game session.");
+
+                timeStartOfThisPyramidSession = DateTime.Now;
             }
 
             return loadedSession;

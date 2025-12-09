@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V3.1.
+        ///   Looks up a localized string similar to Accessible Solitaire V3.2.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -1555,11 +1555,31 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Congratulations, you&apos;ve won! Would you like to start a new game?.
+        ///   Looks up a localized string similar to Congratulations, you&apos;ve won! 
+        ///.
         /// </summary>
         internal static string QueryRestartWonGame {
             get {
                 return ResourceManager.GetString("QueryRestartWonGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to start a new game?.
+        /// </summary>
+        internal static string QueryRestartWonGame1 {
+            get {
+                return ResourceManager.GetString("QueryRestartWonGame1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your game lasted {0} minutes and {1} seconds.
+        ///.
+        /// </summary>
+        internal static string QueryRestartWonGameTime {
+            get {
+                return ResourceManager.GetString("QueryRestartWonGameTime", resourceCulture);
             }
         }
         
