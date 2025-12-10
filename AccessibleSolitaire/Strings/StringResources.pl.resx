@@ -760,7 +760,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Chcesz zacząć nową grę?</value>
   </data>
   <data name="QueryRestartWonGameTime" xml:space="preserve">
-    <value>Twoja rozgrywka trwała {0}min. i{1}s.
+    <value>Twoja rozgrywka trwała {0}min. i {1}s.
 </value>
   </data>
 </root>
