@@ -448,7 +448,20 @@ namespace Sa11ytaire4All
 
             if (!string.IsNullOrEmpty(discardMessage))
             {
-                MakeDelayedScreenReaderAnnouncementWithDelayTime(discardMessage, true, 2000);
+                // Barker Todo: Figure out how to announce the results of the operation without
+                // the announcement conflicting with the default VoiceOver announcement relating
+                // to focus moving.
+                //MakeDelayedScreenReaderAnnouncementWithDelayTime(discardMessage, true, 2000);
+
+                // Barker Todo: Still announce the available moves if necessary.
+                if (automaticallyAnnounceMoves)
+                {
+                    var availableMoveAnnouncement = AnnounceAvailableMoves(false);
+                    if (!string.IsNullOrEmpty(availableMoveAnnouncement))
+                    {
+                        MakeDelayedScreenReaderAnnouncementWithDelayTime(availableMoveAnnouncement, false, 3000);
+                    }
+                }
             }
 
             if (GameOver())
@@ -572,7 +585,20 @@ namespace Sa11ytaire4All
 
                 if (!string.IsNullOrEmpty(discardMessage))
                 {
-                    MakeDelayedScreenReaderAnnouncement(discardMessage, true);
+                    // Barker Todo: Figure out how to announce the results of the operation without
+                    // the announcement conflicting with the default VoiceOver announcement relating
+                    // to focus moving.
+                    //MakeDelayedScreenReaderAnnouncement(discardMessage, true);
+
+                    // Barker Todo: Still announce the available moves if necessary.
+                    if (automaticallyAnnounceMoves)
+                    {
+                        var availableMoveAnnouncement = AnnounceAvailableMoves(false);
+                        if (!string.IsNullOrEmpty(availableMoveAnnouncement))
+                        {
+                            MakeDelayedScreenReaderAnnouncementWithDelayTime(availableMoveAnnouncement, false, 3000);
+                        }
+                    }
                 }
             }
         }
@@ -824,7 +850,8 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if (dealtCard.PyramidRow > 0)
+            // Consider moving focus for the screen reader to follow if necessary.
+            if (moveFocus && (dealtCard.PyramidRow > 0))
             {
                 var cardButtonsUI = CardPileGridPyramid.Children;
                 if (cardButtonsUI.Count > 0)
