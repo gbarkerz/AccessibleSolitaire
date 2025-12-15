@@ -315,6 +315,11 @@ namespace Sa11ytaire4All
                     // There is now currently no Upturned card. Leave the state of the waste pile unchanged.
                     CardDeckUpturned.Card = null;
                 }
+                else
+                {
+                    // The clicked pryamid card does not total 13 with the already selected Upturned card.
+                    PlaySound(false);
+                }
             }
 
             // If we didn't remove the Upturned card, check the top of the Waste pile (ie the higher obscured card).
@@ -334,6 +339,11 @@ namespace Sa11ytaire4All
 
                         CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 1 ?
                                             _deckUpturned[_deckUpturned.Count - 2] : null);
+                    }
+                    else
+                    {
+                        // The clicked pryamid card does not total 13 with the already selected card on the Waste pile.
+                        PlaySound(false);
                     }
                 }
             }
@@ -433,6 +443,8 @@ namespace Sa11ytaire4All
 
                     cardButtonClicked.IsVisible = false;
                     cardButtonClicked.IsToggled = false;
+
+                    PlaySound(true);
                 }
             }
             else
@@ -443,6 +455,8 @@ namespace Sa11ytaire4All
                     cardButtonClicked.IsToggled = false;
 
                     cardAlreadySelected.IsToggled = false;
+
+                    PlaySound(false);
                 }
             }
 
@@ -479,6 +493,9 @@ namespace Sa11ytaire4All
 
                 if (cardDeckUpturned.Card.Rank == 13)
                 {
+                    discardMessage = MainPage.MyGetString("Discarded") + " " +
+                                        cardDeckUpturned.Card.GetCardAccessibleName();
+
                     // Move the King to the discard pile.
                     RemoveCardButtonCard(_deckUpturned, cardDeckUpturned.Card);
 
@@ -567,7 +584,8 @@ namespace Sa11ytaire4All
                             }
                             else
                             {
-                                toggleSelectionStateOfUpturnedCard = true;
+                                // The clicked upturned card does not total 13 with the already selected pyramid card.
+                                PlaySound(false);
                             }
                         }
                         else
@@ -599,6 +617,8 @@ namespace Sa11ytaire4All
                             MakeDelayedScreenReaderAnnouncementWithDelayTime(availableMoveAnnouncement, false, 3000);
                         }
                     }
+
+                    PlaySound(true);
                 }
             }
         }
@@ -657,6 +677,8 @@ namespace Sa11ytaire4All
 
             if (checkForMove)
             {
+                continueCheckForMove = false;
+
                 if (CardDeckUpturned.Card.Rank + CardDeckUpturnedObscuredHigher.Card.Rank == 13)
                 {
                     RemoveCardButtonCard(_deckUpturned, CardDeckUpturned.Card);
@@ -666,8 +688,6 @@ namespace Sa11ytaire4All
 
                     CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 0 ?
                                         _deckUpturned[_deckUpturned.Count - 1] : null);
-
-                    continueCheckForMove = false;
 
                     // Make sure the cards appear as not selected.
                     if (cardButtonClicked != CardDeckUpturned)
@@ -681,6 +701,15 @@ namespace Sa11ytaire4All
                         CardDeckUpturnedObscuredHigher.IsToggled = false;
                         CardDeckUpturnedObscuredHigher.RefreshVisuals();
                     }
+
+                    PlaySound(true);
+                }
+                else
+                {
+                    CardDeckUpturnedObscuredHigher.IsToggled = false;
+                    CardDeckUpturned.IsToggled = false;
+
+                    PlaySound(false);
                 }
             }
 
