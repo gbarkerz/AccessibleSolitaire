@@ -664,8 +664,21 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
+    private DateTime datetimePreviousClickOnCardButton = DateTime.Now;
+
     private void CardButton_Clicked(object sender, EventArgs e)
     {
+        // Barker: I've had an unexpected repeated click on a card following a click with VoiceOver.
+        // So ignore a fast quick repeat click.
+        var msSincePreviousClick = (DateTime.Now - datetimePreviousClickOnCardButton).TotalMilliseconds;
+        Debug.WriteLine("CardButton_Clicked: MS since previous click " + msSincePreviousClick);
+        if (msSincePreviousClick < 200)
+        {
+            return;
+        }
+
+        datetimePreviousClickOnCardButton = DateTime.Now;
+
         var button = sender as Button;
         if (button == null)
         {
