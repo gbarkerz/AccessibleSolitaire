@@ -520,6 +520,8 @@ namespace Sa11ytaire4All
 
         protected override void OnAppearing()
         {
+            Debug.WriteLine("OnAppearing: START");
+
             base.OnAppearing();
 
             // Accessibility-related options.
@@ -728,6 +730,8 @@ namespace Sa11ytaire4All
                     }
                 }
             }
+
+            Debug.WriteLine("OnAppearing: DONE");
         }
 
         private void SetCardButtonsHeadingState(bool isHeading)
@@ -839,8 +843,12 @@ namespace Sa11ytaire4All
 
         private void TimedDelaySetSuitColours()
         {
+            Debug.WriteLine("TimedDelaySetSuitColours: START");
+
             timerSetSuitColours?.Dispose();
             timerSetSuitColours = null;
+
+            Debug.WriteLine("TimedDelaySetSuitColours: SetCardSuitColours for upturned cards.");
 
             SetCardSuitColours(CardDeckUpturnedObscuredLower);
             SetCardSuitColours(CardDeckUpturnedObscuredHigher);
@@ -851,10 +859,18 @@ namespace Sa11ytaire4All
             SetCardSuitColours(TargetPileH);
             SetCardSuitColours(TargetPileS);
 
+            Debug.WriteLine("TimedDelaySetSuitColours: About to dispatch.");
+
             Dispatcher.Dispatch(() =>
             {
+                Debug.WriteLine("TimedDelaySetSuitColours: About to call RefreshAllCardVisuals.");
+
                 RefreshAllCardVisuals();
+
+                Debug.WriteLine("TimedDelaySetSuitColours: DONE on dispatched thread.");
             });
+
+            Debug.WriteLine("TimedDelaySetSuitColours: DONE on calling thread.");
         }
 
         private void TimedDelayMakeFirstDealSounds()
@@ -978,6 +994,8 @@ namespace Sa11ytaire4All
 
         private void CardPileGrid_SizeChanged(object? sender, EventArgs e)
         {
+            Debug.WriteLine("CardPileGrid_SizeChanged: START");
+
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm == null)
             {
@@ -1054,6 +1072,8 @@ namespace Sa11ytaire4All
             }
 
             processingSizeChanged = false;
+
+            Debug.WriteLine("CardPileGrid_SizeChanged: DONE");
         }
 
         private void ClearTargetPileButtons()
@@ -1485,19 +1505,26 @@ namespace Sa11ytaire4All
                 var messageTimeString = MainPage.MyGetString("QueryRestartWonGameTime");
 
                 var timeSpentPlayingPyramidCurrent = DateTime.Now - timeStartOfThisPyramidSession;
-                
-                var spentMinutes = timeSpentPlayingPyramidCurrent.Minutes;
-                var spentSeconds = timeSpentPlayingPyramidCurrent.Seconds;
 
-                var timeSpentPlayingPyramidPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
-                if (timeSpentPlayingPyramidPrevious > 0)
+                Debug.WriteLine("Pyramid Solitaire: Time spent currently playing this game " +
+                    timeSpentPlayingPyramidCurrent.TotalSeconds);
+
+                var secondsSpentPlayingPyramidPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
+                if (secondsSpentPlayingPyramidPrevious > 0)
                 {
-                    spentMinutes += (timeSpentPlayingPyramidPrevious / 60);
-                    spentSeconds += (timeSpentPlayingPyramidPrevious % 60);
+                    var timeSpentPlayingPyramidPrevious = TimeSpan.FromSeconds(secondsSpentPlayingPyramidPrevious);
+
+                    Debug.WriteLine("Pyramid Solitaire: Time spent previously playing this game " +
+                        timeSpentPlayingPyramidPrevious.TotalSeconds);
+
+                    timeSpentPlayingPyramidCurrent += timeSpentPlayingPyramidPrevious;
                 }
 
-                Debug.WriteLine("Pyramid Solitaire: Access time spent playing this game. Previous " +
-                    timeSpentPlayingPyramidPrevious + ", Current " + timeSpentPlayingPyramidCurrent.TotalSeconds);
+                Debug.WriteLine("Pyramid Solitaire: TOTAL Time spent currently playing this game " +
+                    timeSpentPlayingPyramidCurrent.TotalSeconds);
+
+                var spentMinutes = timeSpentPlayingPyramidCurrent.Minutes;
+                var spentSeconds = timeSpentPlayingPyramidCurrent.Seconds;
 
                 messageTime = string.Format(messageTimeString, spentMinutes.ToString(), spentSeconds.ToString());
             }

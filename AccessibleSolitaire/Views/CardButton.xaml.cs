@@ -63,6 +63,15 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void RefreshCardButtonMofN()
     {
+        if (this.card != null)
+        {
+            Debug.WriteLine("CardButton: RefreshCardButtonMofN " + this.card.GetCardAccessibleName());
+        }
+        else
+        {
+            Debug.WriteLine("CardButton: RefreshCardButtonMofN NULL card");
+        }
+
         if (this.Card != null)
         {
             OnPropertyChanged("CardPileAccessibleName");
@@ -475,9 +484,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         get => (Color)GetValue(SuitColoursClubsSwitchProperty);
         set
         {
-            SetValue(SuitColoursClubsSwitchProperty, value);
+            if ((Color)GetValue(SuitColoursClubsSwitchProperty) != value)
+            {
+                SetValue(SuitColoursClubsSwitchProperty, value);
 
-            this.OnPropertyChanged("SuitColoursClubsSwitch");
+                this.OnPropertyChanged("SuitColoursClubsSwitch");
+            }
         }
     }
 
@@ -489,9 +501,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         get => (Color)GetValue(SuitColoursDiamondsSwitchProperty);
         set
         {
-            SetValue(SuitColoursDiamondsSwitchProperty, value);
+            if ((Color)GetValue(SuitColoursDiamondsSwitchProperty) != value)
+            {
+                SetValue(SuitColoursDiamondsSwitchProperty, value);
 
-            this.OnPropertyChanged("SuitColoursDiamondsSwitch");
+                this.OnPropertyChanged("SuitColoursDiamondsSwitch");
+            }
         }
     }
 
@@ -503,9 +518,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         get => (Color)GetValue(SuitColoursHeartsSwitchProperty);
         set
         {
-            SetValue(SuitColoursHeartsSwitchProperty, value);
+            if ((Color)GetValue(SuitColoursHeartsSwitchProperty) != value)
+            {
+                SetValue(SuitColoursHeartsSwitchProperty, value);
 
-            this.OnPropertyChanged("SuitColoursHeartsSwitch");
+                this.OnPropertyChanged("SuitColoursHeartsSwitch");
+            }
         }
     }
 
@@ -517,9 +535,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         get => (Color)GetValue(SuitColoursSpadesSwitchProperty);
         set
         {
-            SetValue(SuitColoursSpadesSwitchProperty, value);
+            if ((Color)GetValue(SuitColoursSpadesSwitchProperty) != value)
+            {
+                SetValue(SuitColoursSpadesSwitchProperty, value);
 
-            this.OnPropertyChanged("SuitColoursSpadesSwitch");
+                this.OnPropertyChanged("SuitColoursSpadesSwitch");
+            }
         }
     }
 
@@ -607,9 +628,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         get => (int)GetValue(LongPressZoomDurationProperty);
         set
         {
-            SetValue(LongPressZoomDurationProperty, value);
+            if ((int)GetValue(LongPressZoomDurationProperty) != value)
+            {
+                SetValue(LongPressZoomDurationProperty, value);
 
-            this.OnPropertyChanged("LongPressZoomDuration");
+                this.OnPropertyChanged("LongPressZoomDuration");
+            }
         }
     }
 
@@ -634,14 +658,14 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void RefreshVisuals()
     {
-        //if (this.card != null)
-        //{
-        //    Debug.WriteLine("CardButton: RefreshVisuals " + this.card.GetCardAccessibleName());
-        //}
-        //else
-        //{
-        //    Debug.WriteLine("CardButton: RefreshVisuals NULL card");
-        //}
+        if (this.card != null)
+        {
+            Debug.WriteLine("CardButton: RefreshVisuals " + this.card.GetCardAccessibleName());
+        }
+        else
+        {
+            Debug.WriteLine("CardButton: RefreshVisuals NULL card");
+        }
 
         this.OnPropertyChanged("Card");
         this.OnPropertyChanged("CardPileAccessibleName");
