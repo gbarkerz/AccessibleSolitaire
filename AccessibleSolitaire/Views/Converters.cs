@@ -863,6 +863,7 @@ namespace Sa11ytaire4All.Views
         }
     }
     
+    // Barker Todo: Figure out why the returned height value here seems to have no effect at all.
     public class CardDimensionsToHamburgerHeightConverter : IMultiValueConverter
     {
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

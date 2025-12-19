@@ -21,11 +21,16 @@ namespace Sa11ytaire4All
         public void LoadKlondikeGame()
         {
             ChangeGameType(SolitaireGameType.Klondike);
+
+            PyramidOpenCardsAnnouncementButton.IsVisible = false;
         }
 
         public void LoadPyramidGame()
         {
             ChangeGameType(SolitaireGameType.Pyramid);
+
+            // This button is only visible if the Show Screen Reader Buttons setting is on.
+            PyramidOpenCardsAnnouncementButton.IsVisible = true;
         }
 
         private void ChangeGameType(SolitaireGameType targetGameType)

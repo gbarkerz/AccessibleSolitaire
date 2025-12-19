@@ -113,7 +113,7 @@ namespace Sa11ytaire4All
                 Grid.SetColumnSpan(TopCornerPiles, 2);
 
                 Grid.SetRow(TargetPiles, 1);
-                Grid.SetColumn(TargetPiles, 1);
+                Grid.SetColumn(TargetPiles, 2);
                 Grid.SetColumnSpan(TargetPiles, 2);
             }
             else
@@ -123,7 +123,7 @@ namespace Sa11ytaire4All
                 Grid.SetColumnSpan(TopCornerPiles, 1);
 
                 Grid.SetRow(TargetPiles, 0);
-                Grid.SetColumn(TargetPiles, 2);
+                Grid.SetColumn(TargetPiles, 3);
                 Grid.SetColumnSpan(TargetPiles, 1);
             }
         }

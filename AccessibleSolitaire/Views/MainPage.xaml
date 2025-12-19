@@ -284,11 +284,12 @@
             <!-- Layout note: This Grid contains all the UI elements above the dealt card piles. -->
 
             <Grid x:Name="UpperGrid"
-                Grid.Row="0"
+                Grid.Row="0" Grid.Column="0"
                 Margin="0" Padding="0"
                 FlowDirection="{Binding Path=FlipGameLayoutHorizontally,
                     Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -346,8 +347,14 @@
                         </VisualStateManager.VisualStateGroups>
                     </ImageButton>
 
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                    HorizontalOptions="Start"
+                    Margin="0" Padding="0,0,4,0">
+
                     <VerticalStackLayout x:Name="ScreenReaderAnnouncementButtons">
-                        
+
                         <!-- Barker Todo: Style these buttons to avoid property and VisualState duplication. -->
 
                         <ImageButton x:Name="StateAnnouncementButton"
@@ -437,7 +444,7 @@
 
                         <ImageButton x:Name="PyramidOpenCardsAnnouncementButton"
                             SemanticProperties.Description="{x:Static resources:Strings.StringResources.AnnouncePyramidOpenCards}"
-                            Source="availablemovesicon.png" 
+                            Source="pyramidopencardsicon.png" 
                             Aspect="Fill"
                             WidthRequest="{Binding 
                                 Path=CardWidth,
@@ -481,11 +488,11 @@
                     </VerticalStackLayout>
 
                 </VerticalStackLayout>
-                
+
                 <!-- Add the Next Card button and the upturned cards. -->
 
                 <Grid x:Name="TopCornerPiles" 
-                    Grid.Row="0" Grid.Column="1"
+                    Grid.Row="0" Grid.Column="2"
                     Padding="0" Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
