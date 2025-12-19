@@ -199,7 +199,7 @@ namespace Sa11ytaire4All
                             }
 
                             // Also check whether the pyramid card can be discarded with an upturned card.
-                            if ((CardDeckUpturned.Card != null) && 
+                            if ((CardDeckUpturned.Card != null) &&
                                 (CardDeckUpturned.Card.Rank + pyramidCard.Card.Rank == 13))
                             {
                                 if (!string.IsNullOrEmpty(moveComment))
@@ -278,6 +278,54 @@ namespace Sa11ytaire4All
             //}
 
             return moveComment;
+        }
+
+        private string? AnnouncePyramidOpenCards()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return null;
+            }
+
+            string openCardsComment = "";
+
+            // Work from the seventh to the first row, even though all cards on the seventh row are always open.
+            for (int i = 6; i >= 0; --i)
+            {
+                var countOfCardsOnRow = vm.DealtCards[i].Count;
+
+                var openCardsOnThisRow = "";
+
+                for (int j = 0; j < countOfCardsOnRow; ++j)
+                {
+                    var dealtCard = vm.DealtCards[i][j];
+                    if (dealtCard.Card != null)
+                    {
+                        if (dealtCard.Open)
+                        {
+                            if (string.IsNullOrEmpty(openCardsOnThisRow))
+                            {
+                                openCardsOnThisRow = ", " + MyGetString("Row") + " " + (i + 1).ToString();
+                            }
+
+                            openCardsOnThisRow += ", " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(openCardsOnThisRow))
+                {
+                    if (string.IsNullOrEmpty(openCardsComment))
+                    {
+                        openCardsComment = MyGetString("OpenCards");
+                    }
+
+                    openCardsComment += openCardsOnThisRow;
+                }
+            }
+
+            return openCardsComment;
         }
 
         private string? AnnounceAvailableMovesKlondike()
@@ -477,6 +525,32 @@ namespace Sa11ytaire4All
             }
 
             return moveComment;
+        }
+
+        public string? AnnouncePyramidOpenCards(bool makeAnnouncement)
+        {
+            var noMoveIsAvailable = MyGetString("NoOpenCardsAreAvailable");
+
+            var openCardsComment = "";
+
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                openCardsComment = AnnouncePyramidOpenCards();
+
+                if (makeAnnouncement)
+                {
+                    if (string.IsNullOrEmpty(openCardsComment))
+                    {
+                        openCardsComment = noMoveIsAvailable;
+                    }
+
+                    Debug.WriteLine("Screen reader announce: " + openCardsComment);
+
+                    MakeDelayedScreenReaderAnnouncement(openCardsComment, false);
+                }
+            }
+
+            return openCardsComment;
         }
 
         public string? AnnounceAvailableMoves(bool makeAnnouncement)

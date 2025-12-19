@@ -1688,12 +1688,17 @@ namespace Sa11ytaire4All
 
             Debug.WriteLine("State announcement: " + fullAnnouncement);
         }
-
+        
         private void AvailableMovesAnnouncementButton_Clicked(object sender, EventArgs e)
         {
             //SentrySdk.CaptureMessage("Accessible Solitaire: Button Clicked: AvailableMovesAnnouncementButton", SentryLevel.Info);
 
             AnnounceAvailableMoves(true);
+        }
+
+        private void PyramidOpenCardsAnnouncementButton_Clicked(object sender, EventArgs e)
+        {
+            AnnouncePyramidOpenCards(true);
         }
 
         private void MakeDelayedScreenReaderAnnouncement(string? announcement, bool appendAvailableMoves)

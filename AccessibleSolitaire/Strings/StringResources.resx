@@ -763,4 +763,13 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Your game lasted {0} minutes and {1} seconds.
 </value>
   </data>
+  <data name="AnnouncePyramidOpenCards" xml:space="preserve">
+    <value>Open cards</value>
+  </data>
+  <data name="NoOpenCardsAreAvailable" xml:space="preserve">
+    <value>No open cards are available.</value>
+  </data>
+  <data name="OpenCards" xml:space="preserve">
+    <value>Open cards</value>
+  </data>
 </root>

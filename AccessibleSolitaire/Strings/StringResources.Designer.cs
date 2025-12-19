@@ -268,6 +268,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open cards.
+        /// </summary>
+        internal static string AnnouncePyramidOpenCards {
+            get {
+                return ResourceManager.GetString("AnnouncePyramidOpenCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Game state.
         /// </summary>
         internal static string AnnounceState {
@@ -1339,6 +1348,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No open cards are available..
+        /// </summary>
+        internal static string NoOpenCardsAreAvailable {
+            get {
+                return ResourceManager.GetString("NoOpenCardsAreAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sorry, at the moment Accessible Solitaire doesn&apos;t support changing the screen orientation while the app is running. So please either rotate the screen back to {0}, or restart the app with the screen in the desired orientation..
         /// </summary>
         internal static string NoScreenOrientationChange {
@@ -1425,6 +1443,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Open {
             get {
                 return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open cards.
+        /// </summary>
+        internal static string OpenCards {
+            get {
+                return ResourceManager.GetString("OpenCards", resourceCulture);
             }
         }
         
