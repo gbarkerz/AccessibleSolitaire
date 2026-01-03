@@ -62,18 +62,29 @@ namespace Sa11ytaire4All
                 Preferences.Set("DealtCardsSession", "");
             }
 
-            // Persist the current time spent playing this pyramid game.
-            if (currentGameType == SolitaireGameType.Pyramid)
+            // Persist the current time spent playing this game.
+            int timeSpentPlayingPrevious;
+            int timeSession;
+
+            if (currentGameType == SolitaireGameType.Klondike)
             {
-                var timeSpentPlayingPyramidPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
+                timeSpentPlayingPrevious = (int)Preferences.Get("KlondikeSessionDuration", 0);
 
-                var timePyramidSession = (int)(DateTime.Now - timeStartOfThisPyramidSession).TotalSeconds;
+                timeSession = (int)(DateTime.Now - timeStartOfThisKlondikeSession).TotalSeconds;
 
-                Debug.WriteLine("Pyramid Solitaire: Persist time spent playing this game. Previous " +
-                    timeSpentPlayingPyramidPrevious + ", Current " + timePyramidSession);
-
-                Preferences.Set("PyramidSessionDuration", timeSpentPlayingPyramidPrevious + timePyramidSession);                
+                Preferences.Set("KlondikeSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
+            else
+            {
+                timeSpentPlayingPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
+
+                timeSession = (int)(DateTime.Now - timeStartOfThisPyramidSession).TotalSeconds;
+
+                Preferences.Set("PyramidSessionDuration", timeSpentPlayingPrevious + timeSession);
+            }
+
+            Debug.WriteLine("Accessible Solitaire: Persist time spent playing this game. Previous " +
+                timeSpentPlayingPrevious + ", Current " + timeSession);
 
             return savedSession;
         }
@@ -227,12 +238,16 @@ namespace Sa11ytaire4All
                 ClearAllPiles();
             }
 
-            if (currentGameType == SolitaireGameType.Pyramid)
+            if (currentGameType == SolitaireGameType.Klondike)
             {
-                Debug.WriteLine("Pyramid Solitaire: Note time of start of this game session.");
-
+                timeStartOfThisKlondikeSession = DateTime.Now;
+            }
+            else
+            {
                 timeStartOfThisPyramidSession = DateTime.Now;
             }
+
+            Debug.WriteLine("Accessible Solitaire: Note time of start of this game session.");
 
             return loadedSession;
         }

@@ -1255,17 +1255,22 @@ namespace Sa11ytaire4All
 
             ClearDealtCardPileSelections();
 
-            // Whenever a pyramid game is restarted, reset the data relating to the time spent playing.
-            if (currentGameType == SolitaireGameType.Pyramid)
+            // Whenever a game is restarted, reset the data relating to the time spent playing.
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                timeStartOfThisKlondikeSession = DateTime.Now;
+
+                Preferences.Set("KlondikeSessionDuration", 0);
+            }
+            else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 timeStartOfThisPyramidSession = DateTime.Now;
 
-                Debug.WriteLine("Pyramid Solitaire: Zero time spent playing this game.");
-
                 Preferences.Set("PyramidSessionDuration", 0);
             }
-        }
 
+            Debug.WriteLine("Accessible Solitaire: Zero time spent playing this game.");
+        }
 
         private void TimedDelayDealCards()
         {
@@ -1479,6 +1484,7 @@ namespace Sa11ytaire4All
         }
 
         private DateTime timeStartOfThisPyramidSession;
+        private DateTime timeStartOfThisKlondikeSession;
 
         private async void ShowEndOfGameDialog()
         {
@@ -1499,35 +1505,52 @@ namespace Sa11ytaire4All
             var message1 = MainPage.MyGetString("QueryRestartWonGame");
             var message2 = MainPage.MyGetString("QueryRestartWonGame1");
 
+            var messageTimeString = MainPage.MyGetString("QueryRestartWonGameTime");
+
+            TimeSpan timeSpentPlayingCurrent;
+
             var messageTime = "";
-            if (currentGameType == SolitaireGameType.Pyramid)
+
+            if (currentGameType == SolitaireGameType.Klondike)
             {
-                var messageTimeString = MainPage.MyGetString("QueryRestartWonGameTime");
-
-                var timeSpentPlayingPyramidCurrent = DateTime.Now - timeStartOfThisPyramidSession;
-
-                Debug.WriteLine("Pyramid Solitaire: Time spent currently playing this game " +
-                    timeSpentPlayingPyramidCurrent.TotalSeconds);
-
-                var secondsSpentPlayingPyramidPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
-                if (secondsSpentPlayingPyramidPrevious > 0)
-                {
-                    var timeSpentPlayingPyramidPrevious = TimeSpan.FromSeconds(secondsSpentPlayingPyramidPrevious);
-
-                    Debug.WriteLine("Pyramid Solitaire: Time spent previously playing this game " +
-                        timeSpentPlayingPyramidPrevious.TotalSeconds);
-
-                    timeSpentPlayingPyramidCurrent += timeSpentPlayingPyramidPrevious;
-                }
-
-                Debug.WriteLine("Pyramid Solitaire: TOTAL Time spent currently playing this game " +
-                    timeSpentPlayingPyramidCurrent.TotalSeconds);
-
-                var spentMinutes = timeSpentPlayingPyramidCurrent.Minutes;
-                var spentSeconds = timeSpentPlayingPyramidCurrent.Seconds;
-
-                messageTime = string.Format(messageTimeString, spentMinutes.ToString(), spentSeconds.ToString());
+                timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisKlondikeSession;
             }
+            else
+            {
+                timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisPyramidSession;
+            }
+
+            Debug.WriteLine("Accessible Solitaire: Time spent currently playing this game " +
+                timeSpentPlayingCurrent.TotalSeconds);
+
+            int secondsSpentPlayingPrevious;
+
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                secondsSpentPlayingPrevious = (int)Preferences.Get("KlondikeSessionDuration", 0);
+            }
+            else
+            {
+                secondsSpentPlayingPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
+            }
+
+            if (secondsSpentPlayingPrevious > 0)
+            {
+                var timeSpentPlayingPrevious = TimeSpan.FromSeconds(secondsSpentPlayingPrevious);
+
+                Debug.WriteLine("Accessible Solitaire: Time spent previously playing this game " +
+                    timeSpentPlayingPrevious.TotalSeconds);
+
+                timeSpentPlayingCurrent += timeSpentPlayingPrevious;
+            }
+
+            Debug.WriteLine("Accessible Solitaire: TOTAL Time spent currently playing this game " +
+                timeSpentPlayingCurrent.TotalSeconds);
+
+            var spentMinutes = timeSpentPlayingCurrent.Minutes;
+            var spentSeconds = timeSpentPlayingCurrent.Seconds;
+
+            messageTime = string.Format(messageTimeString, spentMinutes.ToString(), spentSeconds.ToString());
 
             var fullMessage = message1 + messageTime + message2;
 
