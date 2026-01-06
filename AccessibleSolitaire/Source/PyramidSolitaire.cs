@@ -211,12 +211,17 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void DealPyramidCardsPostprocess(bool setDealtCardProperties)
+        private bool DealPyramidCardsPostprocess(bool setDealtCardProperties)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
-                return;
+                return false;
+            }
+
+            if (vm.DealtCards[0].Count == 0)
+            {
+                return false;
             }
 
             var cardButtonsUI = CardPileGridPyramid.Children;
@@ -234,13 +239,22 @@ namespace Sa11ytaire4All
                 // How many cards are currently shows on this row?
                 var countOfVisibleCardsOnRow = 0;
 
-                for (int j = 0; j < countCardsPerRow; ++j)
+                try
                 {
-                    var dealtCard = vm.DealtCards[i][j];
-                    if (dealtCard.Card != null)
+                    for (int j = 0; j < countCardsPerRow; ++j)
                     {
-                        ++countOfVisibleCardsOnRow;
+                        var dealtCard = vm.DealtCards[i][j];
+                        if (dealtCard.Card != null)
+                        {
+                            ++countOfVisibleCardsOnRow;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("LoadSession: ex " + ex.Message);
+
+                    return false;
                 }
 
                 totalCountOfVisibleCardsInPyramid += countOfVisibleCardsOnRow;
@@ -283,6 +297,8 @@ namespace Sa11ytaire4All
 
                 ++countCardsPerRow;
             }
+
+            return true;
         }
 
         // Handle a click on one of the CardButtons in the pyramd.
@@ -723,6 +739,8 @@ namespace Sa11ytaire4All
 
         private void RefreshAccessibleCardCountInRow(CardButton cardButton, int pyramidRow)
         {
+            Debug.WriteLine("RefreshAccessibleCardCountInRow: Refresh cards in row " + pyramidRow);
+
             if (cardButton.Card == null)
             {
                 return;
@@ -735,18 +753,16 @@ namespace Sa11ytaire4All
             }
 
             var cardButtonsUI = CardPileGridPyramid.Children;
-            for (int i = 0; i < cardButtonsUI.Count; ++i)
-            {
-                // Refresh all the CardButton UI on the affected row.
-                var cardButtonUIRowStartIndex = GetCardButtonUIStartIndexForRow(pyramidRow);
 
-                for (int rowIndex = 0; rowIndex < pyramidRow + 1; ++rowIndex)
+            // Refresh all the CardButton UI on the affected row.
+            var cardButtonUIRowStartIndex = GetCardButtonUIStartIndexForRow(pyramidRow);
+
+            for (int rowIndex = 0; rowIndex < pyramidRow + 1; ++rowIndex)
+            {
+                var nextCardButton = cardButtonsUI[cardButtonUIRowStartIndex + rowIndex] as CardButton;
+                if ((nextCardButton != null) && nextCardButton.IsVisible)
                 {
-                    var nextCardButton = cardButtonsUI[cardButtonUIRowStartIndex + rowIndex] as CardButton;
-                    if ((nextCardButton != null) && nextCardButton.IsVisible)
-                    {
-                        nextCardButton.RefreshCardButtonMofN();
-                    }
+                    nextCardButton.RefreshCardButtonMofN();
                 }
             }
         }

@@ -992,18 +992,77 @@ namespace Sa11ytaire4All
 
         private bool processingSizeChanged = false;
 
+        private Timer? timerDelayProcessSizeChangedEvent;
+        private DateTime timeOfMostRecentSizeChangedEvent;
+
         private void CardPileGrid_SizeChanged(object? sender, EventArgs e)
         {
             Debug.WriteLine("CardPileGrid_SizeChanged: START");
 
+            timeOfMostRecentSizeChangedEvent = DateTime.Now;
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm != null)
+            {
+                // If the timer's still running from an earlier SizeChanged event, 
+                // ignore this event.
+                if (timerDelayProcessSizeChangedEvent == null)
+                {
+                    Debug.WriteLine("CardPileGrid_SizeChanged: Starting timer to process SizeChanged event.");
+
+                    timerDelayProcessSizeChangedEvent = new Timer(
+                        new TimerCallback((s) => TimedDelayProcessSizeChangedEvent()),
+                            null,
+                            TimeSpan.FromMilliseconds(500),
+                            TimeSpan.FromMilliseconds(500));
+                }
+            }
+
+            Debug.WriteLine("CardPileGrid_SizeChanged: DONE");
+        }
+
+        private void TimedDelayProcessSizeChangedEvent()
+        {
+            Debug.WriteLine("TimedDelayProcessSizeChangedEvent: START");
+
+            var timeSinceMostRecentSizeChangedEvent = DateTime.Now - timeOfMostRecentSizeChangedEvent;
+
+            Debug.WriteLine("Time since most recent SizeChanged event: " + timeSinceMostRecentSizeChangedEvent.TotalMilliseconds);
+
+            if (timeSinceMostRecentSizeChangedEvent.TotalMilliseconds < 600)
+            {
+                Debug.WriteLine("TimedDelayProcessSizeChangedEvent: STOP due to insufficient time passing.");
+
+                return;
+            }
+
+            // Ok, enough time has passed to process the most recent SizeChanged event.
+            timerDelayProcessSizeChangedEvent?.Dispose();
+            timerDelayProcessSizeChangedEvent = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                ProcessSizeChangedEvent();
+            });
+
+            Debug.WriteLine("TimedDelayProcessSizeChangedEvent: STOP.");
+        }
+
+        private void ProcessSizeChangedEvent()
+        {
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm == null)
             {
                 return;
             }
 
+            Debug.WriteLine("ProcessSizeChangedEvent: START");
+
             if (processingSizeChanged)
             {
+                Debug.WriteLine("ProcessSizeChangedEvent: STOP due to processingSizeChanged");
+
                 return;
             }
 
@@ -1073,7 +1132,7 @@ namespace Sa11ytaire4All
 
             processingSizeChanged = false;
 
-            Debug.WriteLine("CardPileGrid_SizeChanged: DONE");
+            Debug.WriteLine("ProcessSizeChangedEvent: STOP");
         }
 
         private void ClearTargetPileButtons()
@@ -1166,7 +1225,11 @@ namespace Sa11ytaire4All
 
             if (currentGameType == SolitaireGameType.Pyramid)
             {
-                DealPyramidCardsPostprocess(true);
+                var postprocessSuccess = DealPyramidCardsPostprocess(true);
+                if (!postprocessSuccess)
+                {
+                    Debug.WriteLine("DealCards: DealPyramidCardsPostprocess failed.");
+                }
             }
         }
 

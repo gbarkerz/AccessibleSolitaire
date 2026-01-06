@@ -14,6 +14,8 @@ namespace Sa11ytaire4All
     {
         public bool SaveSession()
         {
+            return false;
+
             var savedSession = false;
 
             if (!OptionKeepGameAcrossSessions)
@@ -215,17 +217,20 @@ namespace Sa11ytaire4All
                                 RefreshDealtCardPileAccessibleNames(dealtCardPile);
                             }
                         }
+
+                        loadedSession = true;
                     }
                     else if (currentGameType == SolitaireGameType.Pyramid)
                     {
-                        DealPyramidCardsPostprocess(false);
+                        loadedSession = DealPyramidCardsPostprocess(false);
                     }
 
-                    loadedSession = true;
+                    if (loadedSession)
+                    {
+                        RefreshUpperCards();
 
-                    RefreshUpperCards();
-
-                    ClearAllSelections(true);
+                        ClearAllSelections(true);
+                    }
                 }
             }
             catch (Exception ex)
