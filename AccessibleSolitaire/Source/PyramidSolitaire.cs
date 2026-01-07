@@ -62,6 +62,8 @@ namespace Sa11ytaire4All
 
             if (!LoadSession())
             {
+                Debug.WriteLine("ChangeGameType: Failed to LoadSession, so restart game.");
+
                 RestartGame(true /* screenReaderAnnouncement. */);
             }
 
@@ -252,7 +254,7 @@ namespace Sa11ytaire4All
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("LoadSession: ex " + ex.Message);
+                    Debug.WriteLine("DealPyramidCardsPostprocess: ex " + ex.Message);
 
                     return false;
                 }

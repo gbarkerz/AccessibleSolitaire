@@ -14,8 +14,6 @@ namespace Sa11ytaire4All
     {
         public bool SaveSession()
         {
-            return false;
-
             var savedSession = false;
 
             if (!OptionKeepGameAcrossSessions)
@@ -103,6 +101,8 @@ namespace Sa11ytaire4All
 
             var preferenceSuffix = (currentGameType == SolitaireGameType.Pyramid ? "Pyramid" : "");
 
+            Debug.WriteLine("LoadSession: currentGameType " + currentGameType);
+
             try
             {
                 var deckRemainingJson = (string)Preferences.Get(
@@ -171,7 +171,9 @@ namespace Sa11ytaire4All
 
                 // Verify the sum of all the piles is a full pack.
                 var cardCount = _deckRemaining.Count + _deckUpturned.Count;
-                
+
+                Debug.WriteLine("LoadSession: cardCount " + cardCount);
+
                 foreach(var targetPile in _targetPiles)
                 {
                     cardCount += targetPile.Count;
@@ -184,7 +186,9 @@ namespace Sa11ytaire4All
                     {
                         var dealtCard = dealtCardPile[cardIndex];
 
-                        if ((dealtCard != null) && (dealtCard.Card != null))
+                        // Don't include empty card piles in the card count.
+                        if ((dealtCard != null) && (dealtCard.Card != null) && 
+                            (dealtCard.CardState != CardState.KingPlaceHolder))
                         {
                             if (cardIndex == dealtCardPile.Count - 1)
                             {
@@ -200,6 +204,8 @@ namespace Sa11ytaire4All
                         }
                     }
                 }
+
+                Debug.WriteLine("LoadSession: FULL cardCount " + cardCount);
 
                 // Barker Todo: Don't assume all cards in the Pyramid game are present and correct.
                 if ((cardCount == 52) || (currentGameType == SolitaireGameType.Pyramid))
