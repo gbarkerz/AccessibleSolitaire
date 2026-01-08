@@ -168,49 +168,55 @@ namespace Sa11ytaire4All
             // So until I figure that out, set the values explicitly here, and require the game to 
             // be restarted if the related settings are changed.
 
-            var image = (Image)cardButton.FindByName("TintedCardImage");
-            if (image != null)
-            {
-                //button.BindingContext = vm;
+            // BARKER IMPORTANT: On Android Release and Debug builds, the app would periodically crash (with no details)
+            // after restarting the game. The crashes weren't repro if I took out the suit color work done here. So remove
+            // this until I figure out what's going on.
 
-                //button.SetBinding(CardButton.LongPressZoomDurationProperty, 
-                //                    static (DealtCardViewModel vm) => vm.LongPressZoomDuration);
+            cardButton.LongPressZoomDuration = vm.LongPressZoomDuration;
 
-                //button.SetBinding(CardButton.SuitColoursClubsSwitchProperty,
-                //                    static (DealtCardViewModel vm) => vm.SuitColoursClubs);
+            //var image = (Image)cardButton.FindByName("TintedCardImage");
+            //if (image != null)
+            //{
+            //    //button.BindingContext = vm;
 
-                cardButton.LongPressZoomDuration = vm.LongPressZoomDuration;
+            //    //button.SetBinding(CardButton.LongPressZoomDurationProperty, 
+            //    //                    static (DealtCardViewModel vm) => vm.LongPressZoomDuration);
 
-                var iconTintColorBehavior = new IconTintColorBehavior();
-                iconTintColorBehavior.TintColor = Colors.Transparent;
+            //    //button.SetBinding(CardButton.SuitColoursClubsSwitchProperty,
+            //    //                    static (DealtCardViewModel vm) => vm.SuitColoursClubs);
 
-                if (cardButton.Card != null)
-                {
-                    switch (cardButton.Card.Suit)
-                    {
-                        case Suit.Clubs:
-                            iconTintColorBehavior.TintColor = vm.SuitColoursClubs;
-                            break;
-                        case Suit.Diamonds:
-                            iconTintColorBehavior.TintColor = vm.SuitColoursDiamonds;
-                            break;
-                        case Suit.Hearts:
-                            iconTintColorBehavior.TintColor = vm.SuitColoursHearts;
-                            break;
-                        case Suit.Spades:
-                            iconTintColorBehavior.TintColor = vm.SuitColoursSpades;
-                            break;
-                        default:
-                            iconTintColorBehavior.TintColor = vm.SuitColoursSpades;
-                            break;
-                    }
-                }
+            //    cardButton.LongPressZoomDuration = vm.LongPressZoomDuration;
 
-                if (iconTintColorBehavior.TintColor != Colors.Transparent)
-                {
-                    image.Behaviors.Add(iconTintColorBehavior);
-                }
-            }
+            //    var iconTintColorBehavior = new IconTintColorBehavior();
+            //    iconTintColorBehavior.TintColor = Colors.Transparent;
+
+            //    if (cardButton.Card != null)
+            //    {
+            //        switch (cardButton.Card.Suit)
+            //        {
+            //            case Suit.Clubs:
+            //                iconTintColorBehavior.TintColor = vm.SuitColoursClubs;
+            //                break;
+            //            case Suit.Diamonds:
+            //                iconTintColorBehavior.TintColor = vm.SuitColoursDiamonds;
+            //                break;
+            //            case Suit.Hearts:
+            //                iconTintColorBehavior.TintColor = vm.SuitColoursHearts;
+            //                break;
+            //            case Suit.Spades:
+            //                iconTintColorBehavior.TintColor = vm.SuitColoursSpades;
+            //                break;
+            //            default:
+            //                iconTintColorBehavior.TintColor = vm.SuitColoursSpades;
+            //                break;
+            //        }
+            //    }
+
+            //    if (iconTintColorBehavior.TintColor != Colors.Transparent)
+            //    {
+            //        image.Behaviors.Add(iconTintColorBehavior);
+            //    }
+            //}
         }
 
         private bool DealPyramidCardsPostprocess(bool setDealtCardProperties)
