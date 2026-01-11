@@ -362,6 +362,12 @@ namespace Sa11ytaire4All.Source
                 return width;
             }
 
+            // The empty card pile is always full width.
+            if (this.CardState == CardState.KingPlaceHolder)
+            {
+                return width;
+            }
+
             var partiallyShownWidth = (width / 4) - 1;
 
             // The last card in the pile is always full width.
@@ -712,6 +718,12 @@ namespace Sa11ytaire4All.Source
 
             // In portrait orientation, all dealt cards have the same height.
             if (isPortrait)
+            {
+                return height;
+            }
+
+            // The empty card pile is always full height.
+            if (this.CardState == CardState.KingPlaceHolder)
             {
                 return height;
             }
