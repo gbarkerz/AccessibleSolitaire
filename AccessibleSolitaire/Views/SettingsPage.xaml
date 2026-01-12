@@ -61,8 +61,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- Number of cards turned over. -->
@@ -113,30 +111,28 @@
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.KingsOnlyToEmptyPileInstructions}" />
                     </HorizontalStackLayout>
 
-                    <!-- Preserve in-progress games across sessions. -->
-
-                    <!-- NOTE: This setting will be removed in a later version. -->
+                    <!-- Auto-complete klondike game. -->
                     
-                    <Label IsVisible="False" Grid.Row="6"
+                    <Label Grid.Row="6"
                         FontAttributes="Bold" 
                         Margin="8,8,8,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                        Text="{x:Static resources:Strings.StringResources.KeepGameAcrossSessions}" />
+                        Text="{x:Static resources:Strings.StringResources.AutoCompleteGame}" />
 
-                    <Label IsVisible="False" Grid.Row="7"
+                    <Label Grid.Row="7"
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
-                        Text="{x:Static resources:Strings.StringResources.KeepGameAcrossSessionsInstructions}" />
+                        Text="{x:Static resources:Strings.StringResources.AutoCompleteGameInstructions}" />
 
-                    <HorizontalStackLayout IsVisible="False" Grid.Row="8" Padding="0" Margin="8,0,8,0">
+                    <HorizontalStackLayout Grid.Row="8" Padding="0" Margin="8,0,8,0">
                         <Label 
                             Margin="0" VerticalOptions="Center" Padding="0"
-                            Text="{x:Static resources:Strings.StringResources.KeepGameAcrossSessionsSwitchName}" />
+                            Text="{x:Static resources:Strings.StringResources.AutoCompleteGameSwitchName}" />
 
-                        <Switch x:Name="KeepGameAcrossSessionsSwitch"
+                        <Switch x:Name="AutoCompleteGameSwitch"
                             Margin="0"
-                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.KeepGameAcrossSessionsSwitchName}"
-                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.KeepGameAcrossSessionsInstructions}" />
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AutoCompleteGameSwitchName}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.AutoCompleteGameInstructions}" />
                     </HorizontalStackLayout>
 
                 </Grid>

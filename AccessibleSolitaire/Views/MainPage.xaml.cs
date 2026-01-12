@@ -511,7 +511,7 @@ namespace Sa11ytaire4All
         // General game-playing options.
         private int OptionCardTurnCount = 1;
         private bool OptionKingsOnlyToEmptyPile = false;
-        private bool OptionKeepGameAcrossSessions = true;
+        private bool OptionAutoCompleteGame = false;
 
         private bool firstAppAppearanceSinceStarting = true;
 
@@ -658,8 +658,7 @@ namespace Sa11ytaire4All
                 OptionCardTurnCount = (int)Preferences.Get("CardTurnCount", 1);
                 OptionKingsOnlyToEmptyPile = (bool)Preferences.Get("KingsOnlyToEmptyPile", false);
 
-                // We always persist the game across sessions now.
-                OptionKeepGameAcrossSessions = true; // (bool)Preferences.Get("KeepGameAcrossSessions", true);
+                OptionAutoCompleteGame = (bool)Preferences.Get("AutoCompleteGame", false);
 
                 allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);
 
@@ -715,7 +714,7 @@ namespace Sa11ytaire4All
                 {
                     firstAppAppearanceSinceStarting = false;
 
-                    if (!OptionKeepGameAcrossSessions || !LoadSession())
+                    if (!LoadSession())
                     {
                         RestartGame(false /* screenReaderAnnouncement. */);
 
@@ -1549,7 +1548,7 @@ namespace Sa11ytaire4All
         private DateTime timeStartOfThisPyramidSession;
         private DateTime timeStartOfThisKlondikeSession;
 
-        private async void ShowEndOfGameDialog()
+        private async void ShowEndOfGameDialog(bool gameWasAutoCompleted)
         {
             // It's possible that a screen reader announcement for the QueryRestartWonGame window
             // will get stomped on by a delayed announcement relating to the last move in the game.
@@ -1566,6 +1565,12 @@ namespace Sa11ytaire4All
             StartCelebrating();
 
             var message1 = MainPage.MyGetString("QueryRestartWonGame");
+
+            if (gameWasAutoCompleted)
+            {
+                message1 += MainPage.MyGetString("GameWasAutomCompleted") + " ";
+            }
+
             var message2 = MainPage.MyGetString("QueryRestartWonGame1");
 
             var messageTimeString = MainPage.MyGetString("QueryRestartWonGameTime");

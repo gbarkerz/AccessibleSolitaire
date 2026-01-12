@@ -5,7 +5,6 @@ using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 using System.Text.Json;
 
 namespace Sa11ytaire4All
@@ -15,11 +14,6 @@ namespace Sa11ytaire4All
         public bool SaveSession()
         {
             var savedSession = false;
-
-            if (!OptionKeepGameAcrossSessions)
-            {
-                return savedSession;
-            }
 
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))

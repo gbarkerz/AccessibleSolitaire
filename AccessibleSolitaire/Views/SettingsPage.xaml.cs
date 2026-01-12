@@ -136,8 +136,8 @@ public partial class SettingsPage : ContentPage
         var kingsOnlyToEmptyPile = (bool)Preferences.Get("KingsOnlyToEmptyPile", false);
         KingsOnlyToEmptyPileSwitch.IsToggled = kingsOnlyToEmptyPile;
 
-        var keepGameAcrossSessions = (bool)Preferences.Get("KeepGameAcrossSessions", true);
-        KeepGameAcrossSessionsSwitch.IsToggled = keepGameAcrossSessions;
+        var autoCompleteGame = (bool)Preferences.Get("AutoCompleteGame", false);
+        AutoCompleteGameSwitch.IsToggled = autoCompleteGame;
 
 #if WINDOWS
         this.Loaded += SettingsPage_Loaded;
@@ -302,8 +302,8 @@ public partial class SettingsPage : ContentPage
         var kingsOnlyToEmptyPile = KingsOnlyToEmptyPileSwitch.IsToggled;
         Preferences.Set("KingsOnlyToEmptyPile", kingsOnlyToEmptyPile);
 
-        var keepGameAcrossSessions = KeepGameAcrossSessionsSwitch.IsToggled;
-        Preferences.Set("KeepGameAcrossSessions", keepGameAcrossSessions);
+        var autoCompleteGame = AutoCompleteGameSwitch.IsToggled;
+        Preferences.Set("AutoCompleteGame", autoCompleteGame);
 
         Navigation.PopModalAsync();
     }

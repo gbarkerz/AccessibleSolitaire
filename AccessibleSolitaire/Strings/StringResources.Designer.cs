@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V3.9.
+        ///   Looks up a localized string similar to Accessible Solitaire V3.10.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -282,6 +282,33 @@ namespace Sa11ytaire4All.Strings {
         internal static string AnnounceState {
             get {
                 return ResourceManager.GetString("AnnounceState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto-Complete Game (Klondike Only).
+        /// </summary>
+        internal static string AutoCompleteGame {
+            get {
+                return ResourceManager.GetString("AutoCompleteGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When all dealt cards have been turned face-up, and the remaining cards are set to be turned up one at a time, automatically complete the game..
+        /// </summary>
+        internal static string AutoCompleteGameInstructions {
+            get {
+                return ResourceManager.GetString("AutoCompleteGameInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto-Complete Game:.
+        /// </summary>
+        internal static string AutoCompleteGameSwitchName {
+            get {
+                return ResourceManager.GetString("AutoCompleteGameSwitchName", resourceCulture);
             }
         }
         
@@ -891,6 +918,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You turned up all the dealt cards, and the game was auto-completed..
+        /// </summary>
+        internal static string GameWasAutomCompleted {
+            get {
+                return ResourceManager.GetString("GameWasAutomCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Game Play.
         /// </summary>
         internal static string GeneralGamePlay {
@@ -995,33 +1031,6 @@ namespace Sa11ytaire4All.Strings {
         internal static string Jack {
             get {
                 return ResourceManager.GetString("Jack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game Sessions.
-        /// </summary>
-        internal static string KeepGameAcrossSessions {
-            get {
-                return ResourceManager.GetString("KeepGameAcrossSessions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save the state of the current game when the app is closed, so when the app is next reopened the earlier game can be continued..
-        /// </summary>
-        internal static string KeepGameAcrossSessionsInstructions {
-            get {
-                return ResourceManager.GetString("KeepGameAcrossSessionsInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save game state:.
-        /// </summary>
-        internal static string KeepGameAcrossSessionsSwitchName {
-            get {
-                return ResourceManager.GetString("KeepGameAcrossSessionsSwitchName", resourceCulture);
             }
         }
         

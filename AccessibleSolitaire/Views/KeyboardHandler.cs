@@ -878,7 +878,7 @@ namespace Sa11ytaire4All
                             // A card was moved from the Upturned Card Pile to a Target Card Pile.
                             if (GameOver())
                             {
-                                ShowEndOfGameDialog();
+                                ShowEndOfGameDialog(false);
                             }
                         }
                     }

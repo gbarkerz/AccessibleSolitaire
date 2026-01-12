@@ -1,8 +1,6 @@
-﻿using Microsoft.Maui.Controls;
-using Sa11ytaire4All.Source;
+﻿using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Sa11ytaire4All
@@ -367,6 +365,8 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            var checkForAutoComplete = false;
+
             // Always deselect the selected items prior to moving anything between lists.
             DeselectAllCardsFromDealtCardPile(listEmpty);
             DeselectAllCardsFromDealtCardPile(listKing);
@@ -435,6 +435,8 @@ namespace Sa11ytaire4All
 
                 cardRevealedName = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
 
+                checkForAutoComplete = true;
+
                 cardRevealed.RefreshVisuals();
             }
             else
@@ -470,6 +472,11 @@ namespace Sa11ytaire4All
 
             RefreshDealtCardPileAccessibleNames(listEmpty);
             RefreshDealtCardPileAccessibleNames(listKing);
+
+            if (checkForAutoComplete && CheckForAutoComplete())
+            {
+                AutoCompleteGameNow();
+            }
         }
 
         private bool MoveTargetPileCardToDealtCardPileAsAppropriate(CollectionView listDealtCardPile)
@@ -772,6 +779,8 @@ namespace Sa11ytaire4All
 
         private void DelayedAttemptToMoveCardBetweenPiles(MovingCardData movingCardData)
         {
+            var checkForAutoComplete = false;
+
             DealtCard? cardBelow = movingCardData.CardBelow;
             DealtCard? cardAbove = movingCardData.CardAbove;
 
@@ -871,6 +880,9 @@ namespace Sa11ytaire4All
                     cardRevealed.IsLastCardInPile = true;
 
                     cardRevealedName = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
+
+                    checkForAutoComplete = true;
+
                     cardRevealed.RefreshVisuals();
                 }
                 else
@@ -916,6 +928,11 @@ namespace Sa11ytaire4All
 
             // Another card was already selected. Play a sound to refect whether a move occurred.
             PlaySound(movedCard);
+
+            if (checkForAutoComplete && CheckForAutoComplete())
+            {
+                AutoCompleteGameNow();
+            }
         }
 
         private void AnnounceNoMove(Card card)
@@ -1148,7 +1165,11 @@ namespace Sa11ytaire4All
 
                 if (GameOver())
                 {
-                    ShowEndOfGameDialog();
+                    ShowEndOfGameDialog(false);
+                }
+                else if (CheckForAutoComplete())
+                {
+                    AutoCompleteGameNow();
                 }
 
                 return;
@@ -1161,6 +1182,94 @@ namespace Sa11ytaire4All
 
                 PlaySound(false);
             }
+        }
+
+        private bool CheckForAutoComplete()
+        {
+            // Auto-complete is only available in specific circumstances in the Klondike game.
+            if ((currentGameType != SolitaireGameType.Klondike) || 
+                !OptionAutoCompleteGame || (OptionCardTurnCount != 1))
+            {
+                return false;
+            }
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return false;
+            }
+
+            var autoComplete = true;
+
+            // Are all cards in the dealt card piles face up now?
+            for (int i = 0; i < cCardPiles; i++)
+            {
+                if (vm.DealtCards[i].Count > 0)
+                {
+                    // If the bottom card is a face-up card, don't auto-complete.
+                    if ((vm.DealtCards[i][0].CardState != CardState.KingPlaceHolder) &&
+                        vm.DealtCards[i][0].FaceDown)
+                    {
+                        // This card is not face up, so don't autocomplete.
+                        autoComplete = false;
+
+                        break;
+                    }
+                }
+            }
+
+            Debug.WriteLine("CheckForAutoComplete: Auto-complete state " + autoComplete);
+
+            return autoComplete;
+        }
+
+        private void AutoCompleteGameNow()
+        {
+            // Barker Todo: Move all the dealt cards and remaining cards 
+            // up to the target card. For now, simply end the game.
+
+            if (currentGameType != SolitaireGameType.Klondike)
+            {
+                return;
+            }
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            // Firt clear the remaining card piles.
+            _deckRemaining.Clear();
+            _deckUpturned.Clear();
+
+            // Next clear all the dealt card piles.
+            foreach (var dealtCardPile in vm.DealtCards)
+            {
+                dealtCardPile.Clear();
+            }
+
+            // Now set all the Target Card Pile to show Aces.
+
+            // Barker Todo: Given that _targetPiles[] does not need updating here,
+            // consider the role of those lists.
+
+            Card newCard = new Card();
+            newCard.Rank = 1;
+
+            newCard.Suit = Suit.Clubs;
+            TargetPileC.Card = newCard;
+
+            newCard.Suit = Suit.Diamonds;
+            TargetPileD.Card = newCard;
+
+            newCard.Suit = Suit.Hearts;
+            TargetPileH.Card = newCard;
+
+            newCard.Suit = Suit.Spades;
+            TargetPileS.Card = newCard;
+
+            ShowEndOfGameDialog(true);
         }
 
         private void RefreshDealtCardPileAccessibleNames(CollectionView collectionView)

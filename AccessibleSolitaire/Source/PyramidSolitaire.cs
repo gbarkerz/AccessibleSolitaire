@@ -509,7 +509,7 @@ namespace Sa11ytaire4All
 
             if (GameOver())
             {
-                ShowEndOfGameDialog();
+                ShowEndOfGameDialog(false);
             }
         }
 

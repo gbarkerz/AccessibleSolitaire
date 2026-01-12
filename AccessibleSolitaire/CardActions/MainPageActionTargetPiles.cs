@@ -183,7 +183,7 @@ namespace Sa11ytaire4All
                 }
                 else if (GameOver()) // A card was moved from the Upturned Card Pile to a Target Card Pile.
                 {
-                    ShowEndOfGameDialog();
+                    ShowEndOfGameDialog(false);
                 }
             }
             else
@@ -219,7 +219,7 @@ namespace Sa11ytaire4All
 
             if (GameOver())
             {
-                ShowEndOfGameDialog();
+                ShowEndOfGameDialog(false);
             }
         }
 

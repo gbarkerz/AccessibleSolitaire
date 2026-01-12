@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V3.9</value>
+    <value>Accessible Solitaire V3.10</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -507,15 +507,6 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="ShowZoomPopup" xml:space="preserve">
     <value>Show zoom popup</value>
   </data>
-  <data name="KeepGameAcrossSessions" xml:space="preserve">
-    <value>Game Sessions</value>
-  </data>
-  <data name="KeepGameAcrossSessionsInstructions" xml:space="preserve">
-    <value>Save the state of the current game when the app is closed, so when the app is next reopened the earlier game can be continued.</value>
-  </data>
-  <data name="KeepGameAcrossSessionsSwitchName" xml:space="preserve">
-    <value>Save game state:</value>
-  </data>
   <data name="CelebrationExperience" xml:space="preserve">
     <value>Celebration Experience</value>
   </data>
@@ -771,5 +762,17 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="OpenCards" xml:space="preserve">
     <value>Open cards</value>
+  </data>
+  <data name="AutoCompleteGame" xml:space="preserve">
+    <value>Auto-Complete Game (Klondike Only)</value>
+  </data>
+  <data name="AutoCompleteGameSwitchName" xml:space="preserve">
+    <value>Auto-Complete Game:</value>
+  </data>
+  <data name="AutoCompleteGameInstructions" xml:space="preserve">
+    <value>When all dealt cards have been turned face-up, and the remaining cards are set to be turned up one at a time, automatically complete the game.</value>
+  </data>
+  <data name="GameWasAutomCompleted" xml:space="preserve">
+    <value>You turned up all the dealt cards, and the game was auto-completed.</value>
   </data>
 </root>
