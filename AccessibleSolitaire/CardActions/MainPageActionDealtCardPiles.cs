@@ -1239,9 +1239,12 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            // Firt clear the remaining card piles.
-            _deckRemaining.Clear();
-            _deckUpturned.Clear();
+            // First clear the remaining card piles.
+            NextCardDeck.State = NextCardPileState.Empty;
+
+            CardDeckUpturnedObscuredLower.Card = null;
+            CardDeckUpturnedObscuredHigher.Card = null;
+            CardDeckUpturned.Card = null;
 
             // Next clear all the dealt card piles.
             foreach (var dealtCardPile in vm.DealtCards)
