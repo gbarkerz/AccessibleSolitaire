@@ -11,6 +11,7 @@
              x:DataType="{x:Type local_views:CardButton}">
 
     <ContentView.Resources>
+        <local_views:IsFaceUpToImageSourceConverter x:Key="IsFaceUpToImageSourceConverter" />
         <local_views:IsToggledToBorderPaddingConverter x:Key="IsToggledToBorderPaddingConverter" />
         <local_views:IsButtonFocusedToOuterBorderBackgroundColor x:Key="IsButtonFocusedToOuterBorderBackgroundColor" />
         <local_views:IsButtonFocusedToInnerBorderBackgroundColor x:Key="IsButtonFocusedToInnerBorderBackgroundColor" />
@@ -133,9 +134,28 @@
                             Margin="{Binding IsToggled, Mode=OneWay,
                                 Converter={StaticResource IsToggledToMarginConverter},
                                     ConverterParameter=1}"
-                            Aspect="Fill"
-                            Source="{Binding CardPileImage, Mode=OneWay, 
-                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}">
+                            Aspect="Fill">
+
+                            <Image.Source>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource IsFaceUpToImageSourceConverter}">
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="CardPileImage" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="IsFaceUp" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="AutomationId" />
+                                </MultiBinding>
+                            </Image.Source>
 
                             <Image.Behaviors>
                                 <toolkit:IconTintColorBehavior 
@@ -165,9 +185,30 @@
                             Margin="{Binding IsToggled, Mode=OneWay,
                                 Converter={StaticResource IsToggledToMarginConverter},
                                     ConverterParameter=1}"
-                            Aspect="Fill"
-                            Source="{Binding PictureCardPileImage, Mode=OneWay,
-                                Source={RelativeSource AncestorType={x:Type local_views:CardButton}}}" />
+                            Aspect="Fill">
+
+                            <Image.Source>
+                                <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource IsFaceUpToImageSourceConverter}">
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="PictureCardPileImage" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="IsFaceUp" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="AutomationId" />
+                                </MultiBinding>
+                            </Image.Source>
+
+                        </Image>
 
                     </Grid>
                 </Border>

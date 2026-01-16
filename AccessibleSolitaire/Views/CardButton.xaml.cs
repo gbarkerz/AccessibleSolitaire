@@ -656,6 +656,24 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
+
+    public static readonly BindableProperty IsFaceUpProperty =
+        BindableProperty.Create(nameof(IsFaceUp), typeof(bool), typeof(CardButton));
+
+    public bool IsFaceUp
+    {
+        get => (bool)GetValue(IsFaceUpProperty);
+        set
+        {
+            if ((bool)GetValue(IsFaceUpProperty) != value)
+            {
+                SetValue(IsFaceUpProperty, value);
+
+                this.OnPropertyChanged("IsFaceUp");
+            }
+        }
+    }
+
     public void RefreshVisuals()
     {
         if (this.card != null)

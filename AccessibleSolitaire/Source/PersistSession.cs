@@ -18,7 +18,16 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
-                var preferenceSuffix = (currentGameType == SolitaireGameType.Pyramid ? "Pyramid" : "");
+                var preferenceSuffix = "";
+
+                if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    preferenceSuffix = "Pyramid";
+                }
+                else if (currentGameType == SolitaireGameType.Tripeaks)
+                {
+                    preferenceSuffix = "Tripeaks";
+                }
 
                 try
                 {
@@ -93,7 +102,16 @@ namespace Sa11ytaire4All
                 return loadedSession;
             }
 
-            var preferenceSuffix = (currentGameType == SolitaireGameType.Pyramid ? "Pyramid" : "");
+            var preferenceSuffix = "";
+
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                preferenceSuffix = "Pyramid";
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                preferenceSuffix = "Tripeaks";
+            }
 
             Debug.WriteLine("LoadSession: currentGameType " + currentGameType);
 
@@ -202,7 +220,7 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("LoadSession: FULL cardCount " + cardCount);
 
                 // Barker Todo: Don't assume all cards in the Pyramid game are present and correct.
-                if ((cardCount == 52) || (currentGameType == SolitaireGameType.Pyramid))
+                if ((cardCount == 52) || (currentGameType != SolitaireGameType.Klondike))
                 {
                     if (currentGameType == SolitaireGameType.Klondike)
                     {
@@ -220,7 +238,7 @@ namespace Sa11ytaire4All
 
                         loadedSession = true;
                     }
-                    else if (currentGameType == SolitaireGameType.Pyramid)
+                    else
                     {
                         loadedSession = DealPyramidCardsPostprocess(false);
                     }
@@ -278,7 +296,7 @@ namespace Sa11ytaire4All
                 dealtCardPile.Clear();
             }
 
-            if (currentGameType == SolitaireGameType.Pyramid)
+            if (currentGameType != SolitaireGameType.Klondike)
             {
                 ClearPyramidCardsSelection();
             }

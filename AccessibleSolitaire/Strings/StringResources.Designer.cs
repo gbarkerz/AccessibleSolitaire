@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V3.10.
+        ///   Looks up a localized string similar to Accessible Solitaire V3.11.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -1904,6 +1904,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string TouchInteraction {
             get {
                 return ResourceManager.GetString("TouchInteraction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tri Peaks Solitaire.
+        /// </summary>
+        internal static string TripeaksSolitaire {
+            get {
+                return ResourceManager.GetString("TripeaksSolitaire", resourceCulture);
             }
         }
         

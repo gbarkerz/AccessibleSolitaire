@@ -30,6 +30,16 @@ namespace Sa11ytaire4All
             }
         }
 
+        private void TripeaksSolitaireMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            if (MainPage.currentGameType != SolitaireGameType.Tripeaks)
+            {
+                MainPage.MainPageSingleton?.LoadTripeaksGame();
+            }
+        }
+
         private void HelpMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;

@@ -11,7 +11,8 @@ namespace Sa11ytaire4All
     {
         NoGame = 0,
         Klondike = 1,
-        Pyramid = 2
+        Pyramid = 2,
+        Tripeaks = 3
     }
 
     public partial class MainPage : ContentPage
@@ -31,6 +32,18 @@ namespace Sa11ytaire4All
 
             // This button is only visible if the Show Screen Reader Buttons setting is on.
             PyramidOpenCardsAnnouncementButton.IsVisible = true;
+
+            ArrangePyramidButtons();
+        }
+
+        public void LoadTripeaksGame()
+        {
+            ChangeGameType(SolitaireGameType.Tripeaks);
+
+            // This button is only visible if the Show Screen Reader Buttons setting is on.
+            PyramidOpenCardsAnnouncementButton.IsVisible = true;
+
+            ArrangePyramidButtons();
         }
 
         private void ChangeGameType(SolitaireGameType targetGameType)
@@ -92,11 +105,49 @@ namespace Sa11ytaire4All
         {
             CardButton button;
 
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+
+            // First add all the CardButtons for the pyramid.
+            for (int i = 0; i < 28; i++)
+            {
+                button = new CardButton();
+
+                button.Margin = new Thickness(2, 0, 2, 0);
+
+                button.IsToggled = false;
+
+                CardPileGridPyramid.Children.Add(button);
+            }
+
+            // Now arrange the buttons for the 
+            ArrangePyramidButtons();
+        }
+
+        // Barker Todo: No action required here if the cards are alread arranged as required.
+        private void ArrangePyramidButtons()
+        {
+            if (Application.Current == null)
+            {
+                return;
+            }
+
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                return;
+            }
+
             var countOfCardsPerRow = 1;
             var countOfCardsOnCurrentRow = 0;
 
-            var startColumn = 6;
-            var currentColumn = 6;
+            var isPyramid = (currentGameType == SolitaireGameType.Pyramid);
+
+            var startColumn = isPyramid ? 6 : 3;
+            
+            var currentColumn = startColumn;
 
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm == null)
@@ -106,24 +157,119 @@ namespace Sa11ytaire4All
 
             var setSemanticHeading = true;
 
+            if (CardPileGridPyramid.Children.Count != 28)
+            {
+                Debug.WriteLine("ArrangePyramidButtons: Unexpected CardButton pyramid count " + 
+                    CardPileGridPyramid.Children.Count);
+
+                return;
+            }
+
+            CardButton button;
+
+            var columnDefinitions = CardPileGridPyramid.ColumnDefinitions;
+            if (columnDefinitions.Count != 20)
+            {
+                Debug.WriteLine("ArrangePyramidButtons: Unexpected CardButton pyramid column count " +
+                    columnDefinitions.Count);
+
+                return;
+            }
+
+            var columnCount = columnDefinitions.Count;
+
+            for (var i = 0; i < columnCount; i++)
+            {
+                if (isPyramid && (i > 13))
+                {
+                    columnDefinitions[i].Width = GridLength.Auto;
+                }
+                else
+                {
+                    columnDefinitions[i].Width = GridLength.Star;
+                }
+            }
+
             for (int i = 0; i < 28; i++)
             {
-                button = new CardButton();
+                button = (CardButton)CardPileGridPyramid.Children[i];
 
-                button.Margin = new Thickness(2, 0, 2, 0);
-
-                button.IsToggled = false;
-
-                if (Application.Current != null)
+                if (isPyramid)
                 {
+                    button.IsFaceUp = true;
+                }
+                else // Tripeaks.
+                {
+                    button.IsFaceUp = false;
+
+                    if (i < 3)
+                    {
+                        countOfCardsPerRow = 3;
+                    }
+                    else if (i < 9)
+                    {
+                        countOfCardsPerRow = 6;
+                    }
+                    else if (i < 18)
+                    {
+                        countOfCardsPerRow = 9;
+                    }
+                    else
+                    {
+                        countOfCardsPerRow = 10;
+
+                        button.IsFaceUp = true;
+                    }
+                }
+
+                if (!isPyramid && !button.IsFaceUp)
+                {
+                    button.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                    Color.FromRgb(0x0E, 0xD1, 0x45) : Color.FromRgb(0x0B, 0xA9, 0x38));
+                }
+                else
+                { 
                     button.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                                 Colors.White : Colors.Black);
                 }
 
-                CardPileGridPyramid.Children.Add(button);
+                var tripeaksRowIndex = 3;
 
-                CardPileGridPyramid.SetRow(button, countOfCardsPerRow - 1);
+                if (isPyramid)
+                {
+                    CardPileGridPyramid.SetRow(button, countOfCardsPerRow - 1);
+                }
+                else // Tripeaks.
+                {
+                    if (i < 18)
+                    {
+                        tripeaksRowIndex = (countOfCardsPerRow / 3) - 1;
+                    }
+
+                    CardPileGridPyramid.SetRow(button, tripeaksRowIndex);
+                }
+
                 CardPileGridPyramid.SetRowSpan(button, 3);
+
+                if (!isPyramid) // Tripeaks.
+                {
+                    if (i == 1)
+                    {
+                        currentColumn = 9;
+                    }
+                    else if (i == 2)
+                    {
+                        currentColumn = 15;
+                    }
+                    else if (i == 5)
+                    {
+                        currentColumn = 8;
+                    }
+                    else if (i == 7)
+                    {
+                        currentColumn = 14;
+                    }
+                }
 
                 CardPileGridPyramid.SetColumn(button, currentColumn);
                 CardPileGridPyramid.SetColumnSpan(button, 2);
@@ -147,7 +293,14 @@ namespace Sa11ytaire4All
 
                     countOfCardsOnCurrentRow = 0;
 
-                    --startColumn;
+                    if (isPyramid)
+                    {
+                        --startColumn;
+                    }
+                    else // Tripeaks.
+                    {
+                        startColumn = 2 - tripeaksRowIndex;
+                    }
 
                     currentColumn = startColumn;
 
@@ -221,6 +374,11 @@ namespace Sa11ytaire4All
 
         private bool DealPyramidCardsPostprocess(bool setDealtCardProperties)
         {
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                return false;
+            }
+
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
@@ -240,12 +398,28 @@ namespace Sa11ytaire4All
 
             var totalCountOfVisibleCardsInPyramid = 0;
 
-            for (int i = 0; i < 7; ++i)
+            // Pyramid has 7 rows, TriPeaks has 4 rows.
+            var countOfRows = (currentGameType == SolitaireGameType.Pyramid ? 7 : 4);
+
+            for (int i = 0; i < countOfRows; ++i)
             {
                 var currentVisibleIndexOfCardOnRow = 0;
 
                 // How many cards are currently shows on this row?
                 var countOfVisibleCardsOnRow = 0;
+
+                // For TriPeaks, the count of card on each row is not simply the same as the row index.
+                if (currentGameType == SolitaireGameType.Tripeaks)
+                {
+                    if (i == countOfRows - 1)
+                    {
+                        countCardsPerRow = 10;
+                    }
+                    else
+                    {
+                        countCardsPerRow = 3 * (i + 1);
+                    }
+                }
 
                 try
                 {
@@ -285,7 +459,23 @@ namespace Sa11ytaire4All
 
                     if (setDealtCardProperties)
                     {
-                        dealtCard.Open = (dealtCard.PyramidRow == 6);
+                        var isBottomRow = false;
+
+                        // The index of the bottom row depends on the heights of the pyramids.
+
+                        // Barker Todo: Given the TriPeaks game only has 4 rows, consider whether
+                        // the cards could be taller in that game.
+
+                        if (currentGameType == SolitaireGameType.Pyramid)
+                        {
+                            isBottomRow = (dealtCard.PyramidRow == 6);
+                        }
+                        else if (currentGameType == SolitaireGameType.Tripeaks)
+                        {
+                            isBottomRow = (dealtCard.PyramidRow == 3);
+                        }
+
+                        dealtCard.Open = isBottomRow;
                     }
 
                     var cardUI = cardButtonsUI[cardUIIndex] as CardButton;

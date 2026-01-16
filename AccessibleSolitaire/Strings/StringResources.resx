@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V3.10</value>
+    <value>Accessible Solitaire V3.11</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -774,5 +774,8 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="GameWasAutomCompleted" xml:space="preserve">
     <value>You turned up all the dealt cards, and the game was auto-completed.</value>
+  </data>
+  <data name="TripeaksSolitaire" xml:space="preserve">
+    <value>Tri Peaks Solitaire</value>
   </data>
 </root>

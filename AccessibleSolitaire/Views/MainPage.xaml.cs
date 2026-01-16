@@ -96,6 +96,10 @@ namespace Sa11ytaire4All
         {
             MainPage.MainPageSingleton = this;
 
+            // We must set this early, as it gets used before it gets set later in OnAppearing().
+            currentGameType = (SolitaireGameType)Preferences.Get("CurrentGameType",
+                                    Convert.ToInt32(SolitaireGameType.Klondike));
+
             this.BindingContext = new DealtCardViewModel();
 
             var vm = this.BindingContext as DealtCardViewModel;
@@ -592,8 +596,6 @@ namespace Sa11ytaire4All
                     RefreshAllCardVisuals();
                 }
 
-                //PyramidDiscardPile.IsVisible = (currentGameType == SolitaireGameType.Pyramid);
-
                 // If we don't set the colours here, the default colours show initially.
                 if (InitialSetSuitColours ||
                     (previousColoursClubs != vm.SuitColoursClubs) ||
@@ -742,7 +744,7 @@ namespace Sa11ytaire4All
             TargetPileH.SetHeadingState(isHeading);
             TargetPileS.SetHeadingState(isHeading);
 
-            if (currentGameType == SolitaireGameType.Pyramid)
+            if (currentGameType != SolitaireGameType.Klondike)
             {
                 var vm = this.BindingContext as DealtCardViewModel;
                 if ((vm != null) && (vm.DealtCards != null))
@@ -798,7 +800,7 @@ namespace Sa11ytaire4All
 
                     CardDeckUpturnedObscuredLower.RefreshVisuals();
                 }
-                else if (currentGameType == SolitaireGameType.Pyramid)
+                else
                 {
                     var pyramidCards = CardPileGridPyramid.Children;
 
@@ -1087,6 +1089,9 @@ namespace Sa11ytaire4All
             previousOrientationPortrait = currentOrientationIsPortrait;
             gotPreviousOrientation = true;
 
+            // Barker Todo: Consider why the width calculation below doesn't need 
+            // to account for the number of columns used in the pyramid.
+
             if (currentOrientationIsPortrait)
             {
                 vm.CardHeight = mainContentGrid.Height / 9;
@@ -1148,10 +1153,12 @@ namespace Sa11ytaire4All
 
             Debug.WriteLine("Deal, start with " + _deckRemaining.Count + " cards.");
 
+            var countPiles = (currentGameType == SolitaireGameType.Tripeaks ? 4 : cCardPiles);
+
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
-                for (int i = 0; i < cCardPiles; i++)
+                for (int i = 0; i < countPiles; i++)
                 {
                     // Barker Todo: On Windows simply calling vm.DealtCards[i].Clear() here and then adding 
                     // the new cards can leave the suit colours in the new cards wrong. So it seems that
@@ -1169,7 +1176,25 @@ namespace Sa11ytaire4All
                     vm.DealtCards[i].Clear();
 #endif
 
-                    for (int j = 0; j < (i + 1); j++)
+                    var rowCardCount = 0;
+
+                    if (currentGameType == SolitaireGameType.Tripeaks)
+                    {
+                        if (i == countPiles - 1)
+                        {
+                            rowCardCount = 10;
+                        }
+                        else
+                        {
+                            rowCardCount = 3 * (i + 1);
+                        }
+                    }
+                    else // Klondike or Pyramid.
+                    {
+                        rowCardCount = (i + 1);
+                    }
+
+                    for (int j = 0; j < rowCardCount; j++)
                     {
                         var card = new DealtCard();
 
@@ -1180,7 +1205,7 @@ namespace Sa11ytaire4All
 
                         card.Card = _deckRemaining[cardIndex];
 
-                        var cardEnabled = (j == i) || (vm.CurrentGameType == SolitaireGameType.Pyramid);
+                        var cardEnabled = (j == i) || (vm.CurrentGameType != SolitaireGameType.Klondike);
 
                         // EnableCard() sets FaceDown and CardState.
                         EnableCard(card, cardEnabled);
@@ -1191,13 +1216,14 @@ namespace Sa11ytaire4All
 
                         card.IsLastCardInPile = cardEnabled;
 
-                        if (currentGameType == SolitaireGameType.Pyramid)
+                        if (currentGameType != SolitaireGameType.Klondike)
                         {
                             // All of these are zero-based.
                             card.PyramidRow = i;
                             card.PyramidCardOriginalIndexInRow = j;
                             card.PyramidCardCurrentIndexInRow = j;
-                            card.PyramidCardCurrentCountOfCardsOnRow = i + 1;
+
+                            card.PyramidCardCurrentCountOfCardsOnRow = rowCardCount;
                         }
 
                         ++cardIndex;
@@ -1222,7 +1248,7 @@ namespace Sa11ytaire4All
             ClearTargetPileButtons();
             ClearUpturnedPileButton();
 
-            if (currentGameType == SolitaireGameType.Pyramid)
+            if (currentGameType != SolitaireGameType.Klondike)
             {
                 var postprocessSuccess = DealPyramidCardsPostprocess(true);
                 if (!postprocessSuccess)
@@ -1253,7 +1279,7 @@ namespace Sa11ytaire4All
             {
                 SetCardButtonToggledSelectionState(CardDeckUpturned, false);
 
-                if (currentGameType == SolitaireGameType.Pyramid)
+                if (currentGameType != SolitaireGameType.Klondike)
                 {
                     SetCardButtonToggledSelectionState(CardDeckUpturnedObscuredHigher, false);
                 }

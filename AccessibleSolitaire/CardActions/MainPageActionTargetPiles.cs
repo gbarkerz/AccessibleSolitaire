@@ -50,7 +50,7 @@ namespace Sa11ytaire4All
                 case "CardDeckUpturnedObscuredHigher":
 
                     // For pyramid, check if both the Upturned card and HigherObscured card should be removed.
-                    if (currentGameType == SolitaireGameType.Pyramid)
+                    if (currentGameType != SolitaireGameType.Klondike)
                     {
                         if (!MoveBothUpturnedCards(CardDeckUpturnedObscuredHigher))
                         {
@@ -69,7 +69,7 @@ namespace Sa11ytaire4All
                 default:
 
                     // If Pyramid, check for a click on a not-open pyramid card.
-                    if (currentGameType == SolitaireGameType.Pyramid)
+                    if (currentGameType != SolitaireGameType.Klondike)
                     {
                         isPyramidCard = true;
 
@@ -163,7 +163,7 @@ namespace Sa11ytaire4All
             var cardWasMoved = false;
 
             // Barker Todo: Check if action can be taken here.
-            if (currentGameType == SolitaireGameType.Pyramid)
+            if (currentGameType != SolitaireGameType.Klondike)
             {
                 HandlePyramidCardClick(cardButton);
 

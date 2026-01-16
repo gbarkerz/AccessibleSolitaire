@@ -224,7 +224,7 @@ namespace Sa11ytaire4All.Source
         {
             get
             {
-                if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+                if (MainPage.currentGameType != SolitaireGameType.Klondike)
                 {
                     return "";
                 }

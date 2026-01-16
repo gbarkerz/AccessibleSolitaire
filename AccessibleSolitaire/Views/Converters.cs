@@ -275,7 +275,7 @@ namespace Sa11ytaire4All.Views
 
             var gameType = (SolitaireGameType)value;
 
-            return (gameType == SolitaireGameType.Pyramid);
+            return (gameType != SolitaireGameType.Klondike);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -520,7 +520,7 @@ namespace Sa11ytaire4All.Views
         }
     }
 
-    // This convert is for the background for the CardButton, not a dealt card.
+    // This converter is for the background for the CardButton, not a dealt card.
     public class CardToBackgroundConverter : IMultiValueConverter
     {
         private static readonly Color isToggledLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
@@ -572,12 +572,58 @@ namespace Sa11ytaire4All.Views
         }
     }
 
+    public class IsFaceUpToImageSourceConverter : IMultiValueConverter
+    {
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (Application.Current == null)
+            {
+                return null;
+            }
+
+            if (values == null || values.Length < 3)
+            {
+                return null;
+            }
+
+            if ((values[0] == null) || (values[1] == null))
+            {
+                return null;
+            }
+
+            var imageSource = (ImageSource)values[0];
+            var isFaceUp = (bool)values[1];
+
+            var automationId = (string)values[2];
+            if (!string.IsNullOrEmpty(automationId))
+            {
+                return imageSource;
+            }
+
+            if (!isFaceUp)
+            {
+                var cardAsset = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                "cardback" : "darkcardback");
+
+                var imageFileName = cardAsset.ToLower() + ".png";
+
+                imageSource = ImageSource.FromFile(imageFileName);
+            }
+
+            return imageSource;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     public class IsObscuredCardToMargin : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if ((value == null) || (MainPage.currentGameType == SolitaireGameType.Pyramid))
+            if ((value == null) || (MainPage.currentGameType != SolitaireGameType.Klondike))
             {
                 return new Thickness();
             }
@@ -597,7 +643,7 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (MainPage.currentGameType == SolitaireGameType.Pyramid)
+            if (MainPage.currentGameType != SolitaireGameType.Klondike)
             {
                 return true;
             }
@@ -638,7 +684,6 @@ namespace Sa11ytaire4All.Views
             {
                 backgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                     Color.FromRgb(0x0E, 0xD1, 0x45) : Color.FromRgb(0x0B, 0xA9, 0x38));
-
             }
             else
             {

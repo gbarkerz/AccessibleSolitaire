@@ -89,8 +89,7 @@ namespace Sa11ytaire4All
 
             SetLowerScrollViewOrientationLayout(isPortrait);
 
-            var isKlondike = (currentGameType != SolitaireGameType.Pyramid);
-            //Debug.WriteLine("SetOrientationLayout: isKlondike " + isKlondike);
+            var isKlondike = (currentGameType == SolitaireGameType.Klondike);
 
             if (changedLayout)
             {
