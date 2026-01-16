@@ -1356,6 +1356,12 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("PyramidSessionDuration", 0);
             }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                timeStartOfThisTripeaksSession = DateTime.Now;
+
+                Preferences.Set("TripeaksSessionDuration", 0);
+            }
 
             Debug.WriteLine("Accessible Solitaire: Zero time spent playing this game.");
         }
@@ -1571,8 +1577,9 @@ namespace Sa11ytaire4All
             }
         }
 
-        private DateTime timeStartOfThisPyramidSession;
         private DateTime timeStartOfThisKlondikeSession;
+        private DateTime timeStartOfThisPyramidSession;
+        private DateTime timeStartOfThisTripeaksSession;
 
         private async void ShowEndOfGameDialog(bool gameWasAutoCompleted)
         {
@@ -1601,7 +1608,7 @@ namespace Sa11ytaire4All
 
             var messageTimeString = MainPage.MyGetString("QueryRestartWonGameTime");
 
-            TimeSpan timeSpentPlayingCurrent;
+            TimeSpan timeSpentPlayingCurrent = TimeSpan.Zero;
 
             var messageTime = "";
 
@@ -1609,23 +1616,31 @@ namespace Sa11ytaire4All
             {
                 timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisKlondikeSession;
             }
-            else
+            else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisPyramidSession;
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisTripeaksSession;
             }
 
             Debug.WriteLine("Accessible Solitaire: Time spent currently playing this game " +
                 timeSpentPlayingCurrent.TotalSeconds);
 
-            int secondsSpentPlayingPrevious;
+            int secondsSpentPlayingPrevious = 0;
 
             if (currentGameType == SolitaireGameType.Klondike)
             {
                 secondsSpentPlayingPrevious = (int)Preferences.Get("KlondikeSessionDuration", 0);
             }
-            else
+            else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 secondsSpentPlayingPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                secondsSpentPlayingPrevious = (int)Preferences.Get("TripeaksSessionDuration", 0);
             }
 
             if (secondsSpentPlayingPrevious > 0)

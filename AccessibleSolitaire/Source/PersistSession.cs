@@ -66,8 +66,8 @@ namespace Sa11ytaire4All
             }
 
             // Persist the current time spent playing this game.
-            int timeSpentPlayingPrevious;
-            int timeSession;
+            int timeSpentPlayingPrevious = 0;
+            int timeSession = 0;
 
             if (currentGameType == SolitaireGameType.Klondike)
             {
@@ -77,13 +77,21 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("KlondikeSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
-            else
+            else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 timeSpentPlayingPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
 
                 timeSession = (int)(DateTime.Now - timeStartOfThisPyramidSession).TotalSeconds;
 
                 Preferences.Set("PyramidSessionDuration", timeSpentPlayingPrevious + timeSession);
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                timeSpentPlayingPrevious = (int)Preferences.Get("TripeaksSessionDuration", 0);
+
+                timeSession = (int)(DateTime.Now - timeStartOfThisTripeaksSession).TotalSeconds;
+
+                Preferences.Set("TripeaksSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
 
             Debug.WriteLine("Accessible Solitaire: Persist time spent playing this game. Previous " +
@@ -265,9 +273,13 @@ namespace Sa11ytaire4All
             {
                 timeStartOfThisKlondikeSession = DateTime.Now;
             }
-            else
+            else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 timeStartOfThisPyramidSession = DateTime.Now;
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                timeStartOfThisTripeaksSession = DateTime.Now;
             }
 
             Debug.WriteLine("Accessible Solitaire: Note time of start of this game session.");

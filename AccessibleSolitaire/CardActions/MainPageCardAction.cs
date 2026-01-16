@@ -115,7 +115,17 @@ namespace Sa11ytaire4All
             }
             else if (currentGameType == SolitaireGameType.Tripeaks)
             {
-                gameIsOver = false;
+                var gridCards = CardPileGridPyramid.Children;
+
+                for (var i = 0; i < 3; ++i)
+                {
+                    if (gridCards[i].Visibility == Visibility.Visible)
+                    {
+                        gameIsOver = false;
+
+                        break;
+                    }
+                }
             }
 
             return gameIsOver;
