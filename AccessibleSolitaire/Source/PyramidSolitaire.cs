@@ -462,27 +462,28 @@ namespace Sa11ytaire4All
                         ++currentVisibleIndexOfCardOnRow;
                     }
 
+                    var isBottomRow = false;
+
+                    // The index of the bottom row depends on the heights of the pyramids.
+
+                    // Barker Todo: Given the TriPeaks game only has 4 rows, consider whether
+                    // the cards could be taller in that game.
+
+                    if (currentGameType == SolitaireGameType.Pyramid)
+                    {
+                        isBottomRow = (dealtCard.PyramidRow == 6);
+                    }
+                    else if (currentGameType == SolitaireGameType.Tripeaks)
+                    {
+                        isBottomRow = (dealtCard.PyramidRow == 3);
+                    }
+
                     if (setDealtCardProperties)
                     {
-                        var isBottomRow = false;
-
-                        // The index of the bottom row depends on the heights of the pyramids.
-
-                        // Barker Todo: Given the TriPeaks game only has 4 rows, consider whether
-                        // the cards could be taller in that game.
-
-                        if (currentGameType == SolitaireGameType.Pyramid)
-                        {
-                            isBottomRow = (dealtCard.PyramidRow == 6);
-                        }
-                        else if (currentGameType == SolitaireGameType.Tripeaks)
-                        {
-                            isBottomRow = (dealtCard.PyramidRow == 3);
-                        }
-
                         dealtCard.Open = isBottomRow;
-                        dealtCard.FaceDown = !isBottomRow;
                     }
+
+                    dealtCard.FaceDown = !isBottomRow;
 
                     var cardUI = cardButtonsUI[cardUIIndex] as CardButton;
                     if (cardUI != null)
@@ -493,12 +494,9 @@ namespace Sa11ytaire4All
 
                         cardUI.Card = dealtCard.Card;
 
-                        if (setDealtCardProperties)
-                        {
-                            cardUI.IsFaceUp = dealtCard.Open;
+                        cardUI.IsFaceUp = dealtCard.Open;
 
-                            cardUI.RefreshAccessibleName();
-                        }
+                        cardUI.RefreshAccessibleName();
 
                         if (currentGameType == SolitaireGameType.Tripeaks)
                         {
@@ -785,6 +783,16 @@ namespace Sa11ytaire4All
                         _deckUpturned.Add(cardButtonClicked.Card);
 
                         RefreshUpperCards();
+
+                        // Barker Todo: Figure out how to announce the results of the operation without
+                        if (automaticallyAnnounceMoves)
+                        {
+                            var availableMoveAnnouncement = AnnounceAvailableMoves(false);
+                            if (!string.IsNullOrEmpty(availableMoveAnnouncement))
+                            {
+                                MakeDelayedScreenReaderAnnouncementWithDelayTime(availableMoveAnnouncement, false, 3000);
+                            }
+                        }
 
                         PlaySound(true);
 

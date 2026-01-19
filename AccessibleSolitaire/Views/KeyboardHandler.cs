@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Extensions;
-using CommunityToolkit.Maui.Views;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
@@ -284,6 +283,12 @@ namespace Sa11ytaire4All
         {
             string moveComment = "";
 
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return moveComment;
+            }
+
             // Move through all the pyramid card piles to determine if a card can be moved to the discard pile.
             var pyramidCards = CardPileGridPyramid.Children;
             if (pyramidCards.Count > 0)
@@ -293,8 +298,27 @@ namespace Sa11ytaire4All
                     var pyramidCard = pyramidCards[i] as CardButton;
                     if ((pyramidCard != null) && (pyramidCard.Card != null) && pyramidCard.IsVisible)
                     {
-                        CollectionView? list;
-                        var dealtCard = FindDealtCardFromCard(pyramidCard.Card, false, out list);
+                        DealtCard? dealtCard = null;
+
+                        for (int dealtCardRowIndex = 0; dealtCardRowIndex < 4; dealtCardRowIndex++)
+                        {
+                            for (int dealtCardIndex = vm.DealtCards[dealtCardRowIndex].Count - 1; dealtCardIndex >= 0; dealtCardIndex--)
+                            {
+                                var pileCard = vm.DealtCards[dealtCardRowIndex][dealtCardIndex];
+                                if (pileCard.Card == pyramidCard.Card)
+                                {
+                                    dealtCard = pileCard;
+
+                                    break;
+                                }
+                            }
+
+                            if (dealtCard != null)
+                            {
+                                break;
+                            }
+                        }
+
                         if ((dealtCard != null) && dealtCard.Open)
                         {
                             // Is the difference between the cards a value of 1 or 12? (A difference of 12 means
