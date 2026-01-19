@@ -778,4 +778,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="TripeaksSolitaire" xml:space="preserve">
     <value>Tri Peaks Solitaire</value>
   </data>
+  <data name="MoMoreCardsRemaining" xml:space="preserve">
+    <value>No more cards remaining.</value>
+  </data>
 </root>

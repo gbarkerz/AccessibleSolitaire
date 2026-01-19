@@ -374,6 +374,11 @@ namespace Sa11ytaire4All
 
         private bool DealPyramidCardsPostprocess(bool setDealtCardProperties)
         {
+            if (Application.Current == null)
+            {
+                return false;
+            }
+
             if (currentGameType == SolitaireGameType.Klondike)
             {
                 return false;
@@ -476,6 +481,7 @@ namespace Sa11ytaire4All
                         }
 
                         dealtCard.Open = isBottomRow;
+                        dealtCard.FaceDown = !isBottomRow;
                     }
 
                     var cardUI = cardButtonsUI[cardUIIndex] as CardButton;
@@ -487,6 +493,29 @@ namespace Sa11ytaire4All
 
                         cardUI.Card = dealtCard.Card;
 
+                        if (setDealtCardProperties)
+                        {
+                            cardUI.IsFaceUp = dealtCard.Open;
+
+                            cardUI.RefreshAccessibleName();
+                        }
+
+                        if (currentGameType == SolitaireGameType.Tripeaks)
+                        {
+                            // Barker Todo: Replace everywhere there's explicitly setting of the background colour
+                            // with appropriate binding.
+                            if (!cardUI.IsFaceUp)
+                            {
+                                cardUI.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                                Color.FromRgb(0x0E, 0xD1, 0x45) : Color.FromRgb(0x0B, 0xA9, 0x38));
+                            }
+                            else
+                            {
+                                cardUI.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                                            Colors.White : Colors.Black);
+                            }
+                        }
+
                         SetPyramidCardButtonBindingProperties(cardUI);
                     }
 
@@ -494,6 +523,12 @@ namespace Sa11ytaire4All
                 }
 
                 ++countCardsPerRow;
+            }
+
+            // For Tripeaks, automatically turn over the top remaining card.
+            if (setDealtCardProperties && (currentGameType == SolitaireGameType.Tripeaks))
+            {
+                PerformNextCardAction();
             }
 
             return true;
@@ -510,6 +545,13 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
+                return;
+            }
+
+            if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                HandleTripeaksPyramidCardClick(cardButtonClicked);
+
                 return;
             }
 
@@ -700,6 +742,68 @@ namespace Sa11ytaire4All
             if (GameOver())
             {
                 ShowEndOfGameDialog(false);
+            }
+        }
+
+        private void HandleTripeaksPyramidCardClick(CardButton cardButtonClicked)
+        {
+            if (cardButtonClicked.Card == null)
+            {
+                return;
+            }
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            var cardMoved = false;
+
+            if (CardDeckUpturned.Card != null)
+            {
+                CollectionView? list;
+                var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
+                if (dealtCard != null)
+                {
+                    // Is the difference between the cards a value of 1 or 12? (A difference of 12 means
+                    // that one of the cards is an Ace and one is a King.)
+                    var difference = Math.Abs(CardDeckUpturned.Card.Rank - cardButtonClicked.Card.Rank);
+                    if ((difference == 1) || (difference == 12))
+                    {
+                        // Has a card now been revealed? 
+                        SetOnTopStateFollowingMove(dealtCard, true);
+
+                        RefreshCardButtonMofNInRow(cardButtonClicked);
+
+                        vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow].Card = null;
+
+                        cardButtonClicked.IsVisible = false;
+                        cardButtonClicked.IsToggled = false;
+
+                        // Move the clicked card to the upturned pile.
+                        _deckUpturned.Add(cardButtonClicked.Card);
+
+                        RefreshUpperCards();
+
+                        PlaySound(true);
+
+                        if (GameOver())
+                        {
+                            ShowEndOfGameDialog(false);
+                        }
+
+                        cardMoved = true;
+                    }
+                }
+            }
+
+            if (!cardMoved)
+            {
+                // The clicked pryamid card is not adjacent to the Upturned card.
+                cardButtonClicked.IsToggled = false;
+
+                PlaySound(false);
             }
         }
 
@@ -1090,6 +1194,16 @@ namespace Sa11ytaire4All
 
         private void SetOnTopStateFollowingMove(DealtCard dealtCard, bool moveFocus)
         {
+            if (Application.Current == null)
+            {
+                return;
+            }
+
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                return;
+            }
+
             //Debug.WriteLine("SetOnTopStateFollowingMove: " + dealtCard.AccessibleNameWithoutSelectionAndMofN);
 
             var vm = this.BindingContext as DealtCardViewModel;
@@ -1137,13 +1251,99 @@ namespace Sa11ytaire4All
             if (rowRevealed >= 0)
             {
                 // First check whether the card above left is now revealed.
-                if (dealtCard.PyramidCardOriginalIndexInRow > 0)
+                var checkAboveLeft = (dealtCard.PyramidCardOriginalIndexInRow > 0);
+                if (checkAboveLeft && (currentGameType == SolitaireGameType.Tripeaks))
+                {
+                    switch (dealtCard.PyramidRow)
+                    {
+                        case 0:
+                            checkAboveLeft = false;
+                            break;
+
+                        case 1:
+
+                            if ((dealtCard.PyramidCardOriginalIndexInRow == 2) ||
+                                (dealtCard.PyramidCardOriginalIndexInRow == 4))
+                            {
+                                checkAboveLeft = false;
+                            }
+
+                            break;
+
+                        case 2:
+
+                            if ((dealtCard.PyramidCardOriginalIndexInRow == 3) ||
+                                (dealtCard.PyramidCardOriginalIndexInRow == 6))
+                            {
+                                checkAboveLeft = false;
+                            }
+
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                if (checkAboveLeft)
                 {
                     var cardToLeft = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow - 1];
                     if (cardToLeft.Card == null)
                     {
-                        var cardAboveToLeft = vm.DealtCards[rowRevealed][dealtCard.PyramidCardOriginalIndexInRow - 1] as DealtCard;
+                        var indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 1;
+
+                        switch (dealtCard.PyramidRow)
+                        {
+                            case 1:
+
+                                if (dealtCard.PyramidCardOriginalIndexInRow > 2)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 2;
+                                }
+
+                                if (dealtCard.PyramidCardOriginalIndexInRow > 4)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 3;
+                                }
+
+                                break;
+
+                            case 2:
+
+                                if (dealtCard.PyramidCardOriginalIndexInRow > 3)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 2;
+                                }
+
+                                if (dealtCard.PyramidCardOriginalIndexInRow > 6)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 3;
+                                }
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        var cardAboveToLeft = vm.DealtCards[rowRevealed][indexOfCardInRowAbove] as DealtCard;
                         cardAboveToLeft.Open = true;
+
+                        if (currentGameType == SolitaireGameType.Tripeaks)
+                        {
+                            int cardButtonPyramidIndex;
+                            var cardButtonAboveToLeft = GetCardButtonFromPyramidDealtCard(cardAboveToLeft, out cardButtonPyramidIndex);
+                            if (cardButtonAboveToLeft != null)
+                            {
+                                cardButtonAboveToLeft.IsFaceUp = true;
+
+                                cardButtonAboveToLeft.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                                            Colors.White : Colors.Black);
+
+                                // Barker Todo: Is FaceDown used in the pyramid games?
+                                cardAboveToLeft.FaceDown = false;
+                            }
+                        }
 
                         var cardButtonUI = FindPyramidCardButtonFromDealtCard(cardAboveToLeft);
                         if (cardButtonUI != null)
@@ -1154,13 +1354,116 @@ namespace Sa11ytaire4All
                 }
 
                 // Next check whether the card above right is now revealed.
-                if (dealtCard.PyramidCardOriginalIndexInRow < dealtCard.PyramidRow)
+                var checkAboveRight = false;
+                if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    checkAboveRight = (dealtCard.PyramidCardOriginalIndexInRow < dealtCard.PyramidRow);
+                }
+                else if (currentGameType == SolitaireGameType.Tripeaks)
+                {
+                    checkAboveRight = true;
+
+                    var maxIndexInRow = 0;
+                    switch (dealtCard.PyramidRow)
+                    {
+                        case 0:
+                            maxIndexInRow = 2;
+
+                            checkAboveRight = false;
+                            break;
+
+                        case 1:
+                            maxIndexInRow = 5;
+
+                            if ((dealtCard.PyramidCardOriginalIndexInRow == 1) ||
+                                (dealtCard.PyramidCardOriginalIndexInRow == 3))
+                            {
+                                checkAboveRight = false;
+                            }
+
+                            break;
+
+                        case 2:
+                            maxIndexInRow = 8;
+
+                            if ((dealtCard.PyramidCardOriginalIndexInRow == 2) ||
+                                (dealtCard.PyramidCardOriginalIndexInRow == 5))
+                            {
+                                checkAboveRight = false;
+                            }
+
+                            break;
+
+                        default:
+                            maxIndexInRow = 9;
+                            break;
+                    }
+
+                    if (checkAboveRight)
+                    {
+                        checkAboveRight = (dealtCard.PyramidCardOriginalIndexInRow < maxIndexInRow);
+                    }
+                }
+
+                if (checkAboveRight)
                 {
                     var cardToRight = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow + 1];
                     if (cardToRight.Card == null)
                     {
-                        var cardAboveToRight = vm.DealtCards[rowRevealed][dealtCard.PyramidCardOriginalIndexInRow] as DealtCard;
+                        var indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow;
+
+                        switch (dealtCard.PyramidRow)
+                        {
+                            case 1:
+
+                                if (dealtCard.PyramidCardOriginalIndexInRow > 3)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 2;
+                                }
+                                else if (dealtCard.PyramidCardOriginalIndexInRow > 1)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 1;
+                                }
+
+
+                                break;
+
+                            case 2:
+
+                                if (dealtCard.PyramidCardOriginalIndexInRow > 2)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 1;
+                                }
+
+                                if (dealtCard.PyramidCardOriginalIndexInRow > 5)
+                                {
+                                    indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 2;
+                                }
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        var cardAboveToRight = vm.DealtCards[rowRevealed][indexOfCardInRowAbove] as DealtCard;
                         cardAboveToRight.Open = true;
+
+                        if (currentGameType == SolitaireGameType.Tripeaks)
+                        {
+                            int cardButtonPyramidIndex;
+                            var cardButtonAboveToRight = GetCardButtonFromPyramidDealtCard(cardAboveToRight, out cardButtonPyramidIndex);
+                            if (cardButtonAboveToRight != null)
+                            {
+                                cardButtonAboveToRight.IsFaceUp = true;
+
+                                cardButtonAboveToRight.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                                            Colors.White : Colors.Black);
+
+                                // Barker Todo: Is FaceDown used in the pyramid games?
+                                cardAboveToRight.FaceDown = false;
+                            }
+                        }
 
                         var cardButtonUI = FindPyramidCardButtonFromDealtCard(cardAboveToRight);
                         if (cardButtonUI != null)

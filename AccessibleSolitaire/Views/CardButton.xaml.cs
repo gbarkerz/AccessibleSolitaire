@@ -124,23 +124,43 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         {
             string cardPileAccessibleName = "";
 
-            if ((MainPage.currentGameType == SolitaireGameType.Pyramid) && string.IsNullOrEmpty(this.AutomationId))
+            if (string.IsNullOrEmpty(this.AutomationId))
             {
                 if ((this != null) && this.IsVisible && (this.Card != null) && (MainPage.MainPageSingleton != null))
                 {
                     var dealtCardViewModel = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
                     if ((dealtCardViewModel != null) && (dealtCardViewModel.DealtCards != null))
                     {
-                        CollectionView? list;
-                        var dealtCard = MainPage.MainPageSingleton.FindDealtCardFromCard(this.Card, false, out list);
+                        DealtCard? dealtCard = null;
+
+                        if (MainPage.currentGameType == SolitaireGameType.Tripeaks)
+                        {
+                            dealtCard = MainPage.MainPageSingleton.FindAnyDealtCardFromCard(this.Card);
+                        }
+                        else
+                        {
+                            CollectionView? list;
+                            dealtCard = MainPage.MainPageSingleton.FindDealtCardFromCard(this.Card, false, out list);
+                        }
+
                         if (dealtCard != null)
                         {
                             var rowCards = dealtCardViewModel.DealtCards[dealtCard.PyramidRow];
                             if (rowCards != null)
                             {
-                                cardPileAccessibleName = this.Card.GetCardAccessibleName() +
-                                                    (dealtCard.Open ? ", " +
-                                                        MainPage.MyGetString("Open") : "") +
+                                var name = "";
+
+                                if (this.IsFaceUp)
+                                {
+                                    name = this.Card.GetCardAccessibleName() + (dealtCard.Open ? ", " +
+                                                        MainPage.MyGetString("Open") : "");
+                                }
+                                else
+                                {
+                                    name = MainPage.MyGetString("FaceDown");
+                                }
+
+                                cardPileAccessibleName = name +
                                                     ", " + MainPage.MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) +
                                                     ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) +
                                                     " " + MainPage.MyGetString("Of") + " " + dealtCard.PyramidCardCurrentCountOfCardsOnRow;
@@ -158,7 +178,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                 // Is this card pile empty?
                 if (this.Card == null)
                 {
-                    // We'll load up a suit-specific localized string which indicates%
+                    // We'll load up a suit-specific localized string which indicates
                     // that no card is in this pile.
                     string suitResourceKey;
 
@@ -674,6 +694,14 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
+    public void RefreshAccessibleName()
+    {
+        if (this.Card != null)
+        {
+            OnPropertyChanged("CardPileAccessibleName");
+        }
+    }
+
     public void RefreshVisuals()
     {
         if (this.card != null)
@@ -692,6 +720,8 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         this.OnPropertyChanged("BackgroundColor");
         this.OnPropertyChanged("CardPileImage");
         this.OnPropertyChanged("PictureCardPileImage");
+
+        this.OnPropertyChanged("IsFaceUp"); 
     }
 
     private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)

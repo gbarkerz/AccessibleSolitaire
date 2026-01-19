@@ -29,6 +29,7 @@
 
         <local_views:PyramidCardDiscardedToDiscardPileName x:Key="PyramidCardDiscardedToDiscardPileName" />
         <local_views:PyramidCardDiscardedToDiscardPileImageSource x:Key="PyramidCardDiscardedToDiscardPileImageSource" />
+        <local_views:CurrentGameTypeToUpperObscuredVisibility x:Key="CurrentGameTypeToUpperObscuredVisibility" />
         <local_views:CurrentGameTypeToKlondikeUIVisibility x:Key="CurrentGameTypeToKlondikeUIVisibility" />
         <local_views:CurrentGameTypeToPyramidUIVisibility x:Key="CurrentGameTypeToPyramidUIVisibility" />
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
@@ -587,6 +588,11 @@
 
                             <local_views:CardButton Grid.Column="1" Style="{StaticResource CardButtonStyle}"
                                 x:Name="CardDeckUpturnedObscuredHigher" AutomationId="CardDeckUpturnedObscuredHigher"
+                                IsVisible="{Binding Mode=OneWay,
+                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                    x:DataType={x:Type vm:DealtCardViewModel},
+                                    Path=CurrentGameType,
+                                    Converter={StaticResource CurrentGameTypeToUpperObscuredVisibility}}"
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
                                     x:DataType={x:Type local_views:CardButton},

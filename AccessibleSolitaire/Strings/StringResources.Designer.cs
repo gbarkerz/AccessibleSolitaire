@@ -1222,6 +1222,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No more cards remaining..
+        /// </summary>
+        internal static string MoMoreCardsRemaining {
+            get {
+                return ResourceManager.GetString("MoMoreCardsRemaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to More cards are available to turn over.
         /// </summary>
         internal static string MoreCardsAreAvailable {

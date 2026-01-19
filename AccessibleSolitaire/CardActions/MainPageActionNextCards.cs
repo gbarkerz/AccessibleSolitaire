@@ -64,6 +64,14 @@ namespace Sa11ytaire4All
             }
             else
             {
+                // The Tripeaks remaining cards cannot be turned back over.
+                if (currentGameType == SolitaireGameType.Tripeaks)
+                {
+                    PlaySound(false);
+
+                    return;
+                }
+
                 var someCardsLeft = _deckUpturned.Count > 0;
 
                 if (someCardsLeft)

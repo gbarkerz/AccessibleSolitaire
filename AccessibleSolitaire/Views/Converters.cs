@@ -244,6 +244,28 @@ namespace Sa11ytaire4All.Views
         }
     }
 
+    // Barker Todo: In Tripeaks, cards are still moved to the upper obscured pile
+    // even through the pile's not visible. Consider not taking that action.
+    public class CurrentGameTypeToUpperObscuredVisibility : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var gameType = (SolitaireGameType)value;
+
+            return (gameType != SolitaireGameType.Tripeaks);
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class CurrentGameTypeToKlondikeUIVisibility : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -807,7 +829,8 @@ namespace Sa11ytaire4All.Views
 
             if (state == NextCardPileState.Empty)
             {
-                stateStringId = "NextCardPile_TurnOverCards";
+                stateStringId = (MainPage.currentGameType == SolitaireGameType.Tripeaks ?
+                                    "NextCardPile_NoMoreCardsRemaining" : "NextCardPile_TurnOverCards");
             }
             else if (state == NextCardPileState.Finished)
             {

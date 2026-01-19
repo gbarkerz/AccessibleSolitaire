@@ -34,6 +34,12 @@ namespace Sa11ytaire4All
                 // Barker Todo: Move reacting to the upturned card click to somewhere unrelated to the target card piles.
                 case "CardDeckUpturned":
 
+                    // For Tripeaks, clicking on the Upturned card has no effect.
+                    if (currentGameType == SolitaireGameType.Tripeaks)
+                    {
+                        return;
+                    }
+
                     // For pyramid, check if both the Upturned card and HigherObscured card should be removed.
                     if ((currentGameType == SolitaireGameType.Pyramid) && !MoveBothUpturnedCards(CardDeckUpturned))
                     {

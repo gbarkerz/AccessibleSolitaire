@@ -258,6 +258,7 @@ namespace Sa11ytaire4All
             var resmgr = Strings.StringResources.ResourceManager;
 
             SemanticProperties.SetDescription(UpturnedCardsGrid, resmgr.GetString("UpturnedCards"));
+            
             SemanticProperties.SetDescription(TargetPiles, resmgr.GetString("TargetCardPiles"));
             SemanticProperties.SetDescription(CardPileGrid, resmgr.GetString("DealtCardPiles"));
 
@@ -459,6 +460,35 @@ namespace Sa11ytaire4All
             return collectionView;
         }
 
+        public DealtCard? FindAnyDealtCardFromCard(Card card)
+        {
+            DealtCard? dealtCard = null;
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm != null) && (vm.DealtCards != null))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                    {
+                        var pileCard = (DealtCard?)vm.DealtCards[i][j];
+                        if ((pileCard != null) && (pileCard.Card == card))
+                        {
+                            dealtCard = pileCard;
+                            break;
+                        }
+                    }
+
+                    if (dealtCard != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return dealtCard;
+        }
+
         public DealtCard? FindDealtCardFromCard(Card card, bool findNearestFaceUpCard, out CollectionView? list)
         {
             DealtCard? dealtCard = null;
@@ -479,7 +509,7 @@ namespace Sa11ytaire4All
                         if (pileCard.FaceDown)
                         {
                             // If we're not interested in face-down cards, move onto the next pile.
-                            if (!findNearestFaceUpCard)
+                            if (!findNearestFaceUpCard && (currentGameType == SolitaireGameType.Klondike))
                             {
                                 break;
                             }
@@ -1700,6 +1730,11 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredHigher.RotateToAsync(0, 0);
                 CardDeckUpturned.RotateToAsync(0, 0);
             }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                NextCardDeck.RotateToAsync(0, 0);
+                CardDeckUpturned.RotateToAsync(0, 0);
+            }
 
 #pragma warning restore CS4014
 
@@ -1782,9 +1817,24 @@ namespace Sa11ytaire4All
                             CardDeckUpturned.RelRotateToAsync(3600, 10000);
                             break;
 
-                        //case 3:
-                        //    PyramidDiscardPile.RelRotateToAsync(3600, 10000);
-                        //    break;
+                        default:
+                            timerDelayCardSpin?.Dispose();
+                            timerDelayCardSpin = null;
+
+                            break;
+                    }
+                }
+                else if (currentGameType == SolitaireGameType.Tripeaks)
+                {
+                    switch (countOfSpinningCards)
+                    {
+                        case 0:
+                            NextCardDeck.RelRotateToAsync(3600, 10000);
+                            break;
+
+                        case 1:
+                            CardDeckUpturned.RelRotateToAsync(3600, 10000);
+                            break;
 
                         default:
                             timerDelayCardSpin?.Dispose();
