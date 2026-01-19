@@ -298,27 +298,7 @@ namespace Sa11ytaire4All
                     var pyramidCard = pyramidCards[i] as CardButton;
                     if ((pyramidCard != null) && (pyramidCard.Card != null) && pyramidCard.IsVisible)
                     {
-                        DealtCard? dealtCard = null;
-
-                        for (int dealtCardRowIndex = 0; dealtCardRowIndex < 4; dealtCardRowIndex++)
-                        {
-                            for (int dealtCardIndex = vm.DealtCards[dealtCardRowIndex].Count - 1; dealtCardIndex >= 0; dealtCardIndex--)
-                            {
-                                var pileCard = vm.DealtCards[dealtCardRowIndex][dealtCardIndex];
-                                if (pileCard.Card == pyramidCard.Card)
-                                {
-                                    dealtCard = pileCard;
-
-                                    break;
-                                }
-                            }
-
-                            if (dealtCard != null)
-                            {
-                                break;
-                            }
-                        }
-
+                        var dealtCard = FindAnyDealtCardFromCard(pyramidCard.Card);
                         if ((dealtCard != null) && dealtCard.Open)
                         {
                             // Is the difference between the cards a value of 1 or 12? (A difference of 12 means

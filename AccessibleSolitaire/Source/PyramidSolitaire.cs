@@ -1067,7 +1067,30 @@ namespace Sa11ytaire4All
             // Refresh all the CardButton UI on the affected row.
             var cardButtonUIRowStartIndex = GetCardButtonUIStartIndexForRow(pyramidRow);
 
-            for (int rowIndex = 0; rowIndex < pyramidRow + 1; ++rowIndex)
+            var maxCardCountOnRow = pyramidRow + 1;
+            if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                switch (pyramidRow)
+                {
+                    case 0:
+                        maxCardCountOnRow = 3;
+                        break;
+
+                    case 1:
+                        maxCardCountOnRow = 6;
+                        break;
+
+                    case 2:
+                        maxCardCountOnRow = 9;
+                        break;
+
+                    default:
+                        maxCardCountOnRow = 10;
+                        break;
+                }
+            }
+
+            for (int rowIndex = 0; rowIndex < maxCardCountOnRow; ++rowIndex)
             {
                 var nextCardButton = cardButtonsUI[cardButtonUIRowStartIndex + rowIndex] as CardButton;
                 if ((nextCardButton != null) && nextCardButton.IsVisible)
@@ -1091,8 +1114,18 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            CollectionView? list;
-            var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
+            DealtCard? dealtCard = null;
+
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                CollectionView? list;
+                dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                dealtCard = FindAnyDealtCardFromCard(cardButton.Card);
+            }
+
             if ((dealtCard != null) && ((dealtCard.Card != null)))
             {
                 var cardButtonsUI = CardPileGridPyramid.Children;
@@ -1134,13 +1167,37 @@ namespace Sa11ytaire4All
         {
             var startIndex = 0;
 
-            var rowCount = 1;
-
-            for (int i = 0; i < pyramidRow; ++i)
+            if (currentGameType == SolitaireGameType.Pyramid)
             {
-                startIndex += rowCount;
+                var rowCount = 1;
 
-                ++rowCount;
+                for (int i = 0; i < pyramidRow; ++i)
+                {
+                    startIndex += rowCount;
+
+                    ++rowCount;
+                }
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                switch (pyramidRow)
+                {
+                    case 0:
+                        startIndex = 0;
+                        break;
+
+                    case 1:
+                        startIndex = 3;
+                        break;
+
+                    case 2:
+                        startIndex = 9;
+                        break;
+
+                    default:
+                        startIndex = 18;
+                        break;
+                }
             }
 
             return startIndex;
