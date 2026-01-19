@@ -280,6 +280,48 @@ namespace Sa11ytaire4All
             return moveComment;
         }
 
+        private string? AnnounceAvailableMovesTripeaks()
+        {
+            string moveComment = "";
+
+            // Move through all the pyramid card piles to determine if a card can be moved to the discard pile.
+            var pyramidCards = CardPileGridPyramid.Children;
+            if (pyramidCards.Count > 0)
+            {
+                for (int i = pyramidCards.Count - 1; i >= 0; i--)
+                {
+                    var pyramidCard = pyramidCards[i] as CardButton;
+                    if ((pyramidCard != null) && (pyramidCard.Card != null) && pyramidCard.IsVisible)
+                    {
+                        CollectionView? list;
+                        var dealtCard = FindDealtCardFromCard(pyramidCard.Card, false, out list);
+                        if ((dealtCard != null) && dealtCard.Open)
+                        {
+                            // Is the difference between the cards a value of 1 or 12? (A difference of 12 means
+                            // that one of the cards is an Ace and one is a King.)
+                            if (CardDeckUpturned.Card != null)
+                            {
+                                var difference = Math.Abs(CardDeckUpturned.Card.Rank - pyramidCard.Card.Rank);
+                                if ((difference == 1) || (difference == 12))
+                                {
+                                    if (!string.IsNullOrEmpty(moveComment))
+                                    {
+                                        moveComment += ", ";
+                                    }
+
+                                    moveComment += pyramidCard.Card.GetCardAccessibleName() + " " +
+                                                    MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) + " " +
+                                                    MyGetString("CanBeDiscarded");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return moveComment;
+        }
+
         private string? AnnouncePyramidOpenCards()
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -290,8 +332,10 @@ namespace Sa11ytaire4All
 
             string openCardsComment = "";
 
+            var maxRowIndex = (currentGameType == SolitaireGameType.Pyramid ? 6 : 3);
+
             // Work from the seventh to the first row, even though all cards on the seventh row are always open.
-            for (int i = 6; i >= 0; --i)
+            for (int i = maxRowIndex; i >= 0; --i)
             {
                 var countOfCardsOnRow = vm.DealtCards[i].Count;
 
@@ -533,7 +577,7 @@ namespace Sa11ytaire4All
 
             var openCardsComment = "";
 
-            if (currentGameType == SolitaireGameType.Pyramid)
+            if (currentGameType != SolitaireGameType.Klondike)
             {
                 openCardsComment = AnnouncePyramidOpenCards();
 
@@ -566,6 +610,10 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 moveComment = AnnounceAvailableMovesPyramid();
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                moveComment = AnnounceAvailableMovesTripeaks();
             }
 
             if (makeAnnouncement)

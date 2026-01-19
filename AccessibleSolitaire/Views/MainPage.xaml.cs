@@ -1955,7 +1955,8 @@ namespace Sa11ytaire4All
             {
                 stateMessage = AnnounceStateRemainingCardsKlondike();
             }
-            else if (currentGameType == SolitaireGameType.Pyramid)
+            else if ((currentGameType == SolitaireGameType.Pyramid) ||
+                     (currentGameType == SolitaireGameType.Tripeaks))
             {
                 stateMessage = AnnounceStateRemainingCardsPyramid();
             }
@@ -2012,16 +2013,27 @@ namespace Sa11ytaire4All
         {
             string stateMessage = "";
 
-            if (_deckUpturned.Count > 0)
+            if (currentGameType == SolitaireGameType.Pyramid)
             {
-                stateMessage += MyGetString("UpturnedCardIs") + " " +
-                    _deckUpturned[_deckUpturned.Count - 1].GetCardAccessibleName();
-            }
+                if (_deckUpturned.Count > 0)
+                {
+                    stateMessage += MyGetString("UpturnedCardIs") + " " +
+                        _deckUpturned[_deckUpturned.Count - 1].GetCardAccessibleName();
+                }
 
-            if (_deckUpturned.Count > 1)
+                if (_deckUpturned.Count > 1)
+                {
+                    stateMessage += ", " + MyGetString("TopOfWastePileIs") + " " +
+                        _deckUpturned[_deckUpturned.Count - 2].GetCardAccessibleName();
+                }
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
             {
-                stateMessage += ", " + MyGetString("TopOfWastePileIs") + " " +
-                    _deckUpturned[_deckUpturned.Count - 2].GetCardAccessibleName();
+                if (_deckUpturned.Count > 0)
+                {
+                    stateMessage += MyGetString("TopOfWastePileIs") + " " +
+                        _deckUpturned[_deckUpturned.Count - 1].GetCardAccessibleName();
+                }
             }
 
             if (_deckUpturned.Count > 0)
@@ -2091,7 +2103,8 @@ namespace Sa11ytaire4All
             {
                 stateMessage = AnnounceStateDealtCardPilesKlondike();
             }
-            else if (currentGameType == SolitaireGameType.Pyramid)
+            else if ((currentGameType == SolitaireGameType.Pyramid) ||
+                     (currentGameType == SolitaireGameType.Tripeaks))
             {
                 stateMessage = AnnounceStateDealtCardPilesPyramid();
             }
@@ -2202,7 +2215,9 @@ namespace Sa11ytaire4All
                 return "";
             }
 
-            for (int i = 6; i >= 0; i--)
+            var maxRowIndex = (currentGameType == SolitaireGameType.Pyramid ? 6 : 4);
+
+            for (int i = maxRowIndex; i >= 0; i--)
             {
                 if (vm.DealtCards[i].Count > 0)
                 {
