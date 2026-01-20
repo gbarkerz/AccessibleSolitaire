@@ -764,16 +764,16 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Dostępna karty</value>
   </data>
   <data name="AutoCompleteGame" xml:space="preserve">
-    <value>Automatyczne uzupełnianie gry</value>
+    <value>Automatyczne dokańczanie gry</value>
   </data>
   <data name="AutoCompleteGameSwitchName" xml:space="preserve">
-    <value>Automatyczne uzupełnianie gry:</value>
+    <value>Automatyczne dokańczanie gry:</value>
   </data>
   <data name="AutoCompleteGameInstructions" xml:space="preserve">
-    <value>Gdy wszystkie rozdane karty zostaną odkryte, a pozostałe karty będą odkrywane pojedynczo, gra automatycznie się kończy.</value>
+    <value>Gdy w pasjansie Solitaire wszystkie rozdane karty zostaną odkryte, gra automatycznie jest dokańczana.</value>
   </data>
   <data name="GameWasAutomCompleted" xml:space="preserve">
-    <value>Odkryłeś wszystkie rozdane karty, a gra została automatycznie dokończona.</value>
+    <value>Wszystkie rozdane karty odkryto, a gra została automatycznie dokończona.</value>
   </data>
   <data name="TripeaksSolitaire" xml:space="preserve">
     <value>Tri Peaks Solitaire</value>
