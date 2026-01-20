@@ -772,7 +772,13 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="AutoCompleteGameInstructions" xml:space="preserve">
     <value>Gdy wszystkie rozdane karty zostaną odkryte, a pozostałe karty będą odkrywane pojedynczo, gra automatycznie się kończy.</value>
   </data>
+  <data name="GameWasAutomCompleted" xml:space="preserve">
+    <value>Odkryłeś wszystkie rozdane karty, a gra została automatycznie dokończona.</value>
+  </data>
   <data name="TripeaksSolitaire" xml:space="preserve">
     <value>Tri Peaks Solitaire</value>
+  </data>
+  <data name="MoMoreCardsRemaining" xml:space="preserve">
+    <value>Nie ma już żadnych kart.</value>
   </data>
 </root>
