@@ -446,6 +446,8 @@ namespace Sa11ytaire4All
 
                 totalCountOfVisibleCardsInPyramid += countOfVisibleCardsOnRow;
 
+                var setSemanticHeading = true;
+
                 for (int j = 0; j < countCardsPerRow; ++j)
                 {
                     var dealtCard = vm.DealtCards[i][j];
@@ -472,18 +474,20 @@ namespace Sa11ytaire4All
                     if (currentGameType == SolitaireGameType.Pyramid)
                     {
                         isBottomRow = (dealtCard.PyramidRow == 6);
+
+                        dealtCard.FaceDown = false;
                     }
                     else if (currentGameType == SolitaireGameType.Tripeaks)
                     {
                         isBottomRow = (dealtCard.PyramidRow == 3);
+
+                        dealtCard.FaceDown = !isBottomRow;
                     }
 
                     if (setDealtCardProperties)
                     {
                         dealtCard.Open = isBottomRow;
                     }
-
-                    dealtCard.FaceDown = !isBottomRow;
 
                     var cardUI = cardButtonsUI[cardUIIndex] as CardButton;
                     if (cardUI != null)
@@ -494,12 +498,10 @@ namespace Sa11ytaire4All
 
                         cardUI.Card = dealtCard.Card;
 
-                        cardUI.IsFaceUp = dealtCard.Open;
-
-                        cardUI.RefreshAccessibleName();
-
                         if (currentGameType == SolitaireGameType.Tripeaks)
                         {
+                            cardUI.IsFaceUp = dealtCard.Open;
+
                             // Barker Todo: Replace everywhere there's explicitly setting of the background colour
                             // with appropriate binding.
                             if (!cardUI.IsFaceUp)
@@ -512,7 +514,22 @@ namespace Sa11ytaire4All
                                 cardUI.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                                             Colors.White : Colors.Black);
                             }
+
+                            if (setSemanticHeading)
+                            {
+                                var firstCardInRowIsHeading = vm.CardButtonsHeadingState;
+
+                                cardUI.SetHeadingState(firstCardInRowIsHeading);
+
+                                setSemanticHeading = false;
+                            }
                         }
+                        else
+                        {
+                            cardUI.IsFaceUp = true;
+                        }
+
+                        cardUI.RefreshAccessibleName();
 
                         SetPyramidCardButtonBindingProperties(cardUI);
                     }
@@ -1116,12 +1133,13 @@ namespace Sa11ytaire4All
 
             DealtCard? dealtCard = null;
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Pyramid))
             {
                 CollectionView? list;
                 dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
             }
-            else if (currentGameType == SolitaireGameType.Tripeaks)
+            else // Tripeaks.
             {
                 dealtCard = FindAnyDealtCardFromCard(cardButton.Card);
             }
