@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V3.11.
+        ///   Looks up a localized string similar to Accessible Solitaire V3.12.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -1222,15 +1222,6 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No more cards remaining..
-        /// </summary>
-        internal static string MoMoreCardsRemaining {
-            get {
-                return ResourceManager.GetString("MoMoreCardsRemaining", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to More cards are available to turn over.
         /// </summary>
         internal static string MoreCardsAreAvailable {
@@ -1272,6 +1263,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string NextCardPile_NextCard {
             get {
                 return ResourceManager.GetString("NextCardPile_NextCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No more cards remaining.
+        /// </summary>
+        internal static string NextCardPile_NoMoreCardsRemaining {
+            get {
+                return ResourceManager.GetString("NextCardPile_NoMoreCardsRemaining", resourceCulture);
             }
         }
         

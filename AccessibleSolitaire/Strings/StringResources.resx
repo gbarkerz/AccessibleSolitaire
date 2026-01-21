@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V3.11</value>
+    <value>Accessible Solitaire V3.12</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -778,7 +778,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="TripeaksSolitaire" xml:space="preserve">
     <value>Tri Peaks Solitaire</value>
   </data>
-  <data name="MoMoreCardsRemaining" xml:space="preserve">
-    <value>No more cards remaining.</value>
+  <data name="NextCardPile_NoMoreCardsRemaining" xml:space="preserve">
+    <value>No more cards remaining</value>
   </data>
 </root>
