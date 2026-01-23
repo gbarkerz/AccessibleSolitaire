@@ -194,14 +194,8 @@ namespace Sa11ytaire4All
             {
                 button = (CardButton)CardPileGridPyramid.Children[i];
 
-                if (isPyramid)
+                if (!isPyramid) // Tripeaks.
                 {
-                    button.IsFaceUp = true;
-                }
-                else // Tripeaks.
-                {
-                    button.IsFaceUp = false;
-
                     if (i < 3)
                     {
                         countOfCardsPerRow = 3;
@@ -481,7 +475,10 @@ namespace Sa11ytaire4All
                     {
                         isBottomRow = (dealtCard.PyramidRow == 3);
 
-                        dealtCard.FaceDown = !isBottomRow;
+                        if (setDealtCardProperties)
+                        {
+                            dealtCard.FaceDown = !isBottomRow;
+                        }
                     }
 
                     if (setDealtCardProperties)
