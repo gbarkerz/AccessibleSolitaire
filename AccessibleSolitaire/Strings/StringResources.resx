@@ -790,4 +790,13 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="GameIsPaused" xml:space="preserve">
     <value>The game is currently paused. Please click the Resume button to continue playing the game.</value>
   </data>
+  <data name="ShowPauseResumeButton" xml:space="preserve">
+    <value>Show the Pause/Resume button</value>
+  </data>
+  <data name="ShowPauseResumeButtonInstructions" xml:space="preserve">
+    <value>Check this option if you'd like a Pause button to shown below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button.</value>
+  </data>
+  <data name="ShowPauseResumeButtonSwitchLabel" xml:space="preserve">
+    <value>Show Pause/Resume button</value>
+  </data>
 </root>

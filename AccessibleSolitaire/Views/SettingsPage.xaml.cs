@@ -98,6 +98,9 @@ public partial class SettingsPage : ContentPage
         var flipGameLayoutHorizontally = (bool)Preferences.Get("FlipGameLayoutHorizontally", false);
         FlipGameLayoutHorizontallySwitch.IsToggled = flipGameLayoutHorizontally;
 
+        var showPauseResumeButton = (bool)Preferences.Get("ShowPauseResumeButton", false);
+        ShowPauseResumeButtonSwitch.IsToggled = showPauseResumeButton;
+
         var playSoundSuccessfulMove = (bool)Preferences.Get("PlaySoundSuccessfulMove", false);
         PlaySoundSuccessfulMoveSwitch.IsToggled = playSoundSuccessfulMove;
 
@@ -273,6 +276,9 @@ public partial class SettingsPage : ContentPage
 
         var flipGameLayoutHorizontally = FlipGameLayoutHorizontallySwitch.IsToggled;
         Preferences.Set("FlipGameLayoutHorizontally", flipGameLayoutHorizontally);
+
+        var showPauseResumeButton = ShowPauseResumeButtonSwitch.IsToggled;
+        Preferences.Set("ShowPauseResumeButton", showPauseResumeButton);
 
         var playSoundSuccessfulMove = PlaySoundSuccessfulMoveSwitch.IsToggled;
         Preferences.Set("PlaySoundSuccessfulMove", playSoundSuccessfulMove);

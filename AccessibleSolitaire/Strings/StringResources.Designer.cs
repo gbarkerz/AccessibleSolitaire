@@ -1719,6 +1719,33 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show the Pause/Resume button.
+        /// </summary>
+        internal static string ShowPauseResumeButton {
+            get {
+                return ResourceManager.GetString("ShowPauseResumeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check this option if you&apos;d like a Pause button to shown below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button..
+        /// </summary>
+        internal static string ShowPauseResumeButtonInstructions {
+            get {
+                return ResourceManager.GetString("ShowPauseResumeButtonInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Pause/Resume button.
+        /// </summary>
+        internal static string ShowPauseResumeButtonSwitchLabel {
+            get {
+                return ResourceManager.GetString("ShowPauseResumeButtonSwitchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Card rank and suit display.
         /// </summary>
         internal static string ShowRankSuitLarge {

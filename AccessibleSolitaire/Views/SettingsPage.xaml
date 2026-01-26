@@ -155,6 +155,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- Show rank and suit large in cards. -->
@@ -324,6 +327,33 @@
                             Margin="0" HorizontalOptions="Start"
                             SemanticProperties.Description="{x:Static resources:Strings.StringResources.FlipGameLayoutHorizontallySwitchLabel}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.FlipGameLayoutHorizontallyInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <!-- Show Pause/Resume button. -->
+
+                    <Label Grid.Row="9"
+                        FontAttributes="Bold" 
+                        Margin="8,8,0,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButton}" />
+
+                    <Label Grid.Row="10" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="ShowPauseResumeButtonSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonSwitchLabel}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonInstructions}" />
 
                     </HorizontalStackLayout>
 

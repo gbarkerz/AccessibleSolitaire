@@ -568,6 +568,22 @@ namespace Sa11ytaire4All
 
                 vm.CurrentGameType = currentGameType;
 
+                PauseResumeButton.IsVisible = (bool)Preferences.Get("ShowPauseResumeButton", false);
+
+                // If the Pause/Resume button is not visible, make sure no game is currently paused.
+                if (!PauseResumeButton.IsVisible)
+                {
+                    vm.GamePausedKlondike = false;
+                    vm.GamePausedPyramid = false;
+                    vm.GamePausedTripeaks = false;
+
+                    Preferences.Set("GamePausedKlondike", false);
+                    Preferences.Set("GamePausedPyramid", false);
+                    Preferences.Set("GamePausedTripeaks", false);
+
+                    SetPauseResumeButtonState();
+                }
+
                 var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
                 vm.LongPressZoomDuration = longPressZoomDuration;
 
