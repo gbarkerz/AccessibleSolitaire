@@ -762,6 +762,13 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     private void HandleCardButtonClick(Button button)
     {
+        if (MainPage.IsCurrentGamePaused())
+        {
+            MainPage.ShowGameIsPausedMessage();
+
+            return;
+        }
+
         //Debug.WriteLine("CardButton Clicked: " + button.AutomationId);
 
         if (CardPopup.IsZoomPopupOpen())

@@ -160,7 +160,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V3.12.
+        ///   Looks up a localized string similar to Accessible Solitaire V3.13.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -909,6 +909,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The game is currently paused. Please click the Resume button to continue playing the game..
+        /// </summary>
+        internal static string GameIsPaused {
+            get {
+                return ResourceManager.GetString("GameIsPaused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The game has restarted..
         /// </summary>
         internal static string GameRestarted {
@@ -1474,6 +1483,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pause game.
+        /// </summary>
+        internal static string PauseGame {
+            get {
+                return ResourceManager.GetString("PauseGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pile.
         /// </summary>
         internal static string Pile {
@@ -1634,6 +1652,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string RestartGame {
             get {
                 return ResourceManager.GetString("RestartGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resume game.
+        /// </summary>
+        internal static string ResumeGame {
+            get {
+                return ResourceManager.GetString("ResumeGame", resourceCulture);
             }
         }
         

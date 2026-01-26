@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="a11y.gbarker.accessiblesolitaire" android:versionCode="68" android:versionName="3.12">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="a11y.gbarker.accessiblesolitaire" android:versionCode="69" android:versionName="3.13">
 	<application android:allowBackup="true" android:supportsRtl="true" android:icon="@mipmap/appicon">
 		<service android:name="CommunityToolkit.Maui.Media.Services" android:exported="false" android:enabled="true" android:foregroundServiceType="mediaPlayback">
 			<intent-filter>

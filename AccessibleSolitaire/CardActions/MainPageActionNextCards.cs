@@ -10,6 +10,13 @@ namespace Sa11ytaire4All
         // Turn over the next card in the Remaining Card pile.
         private void NextCard_Click(object sender, EventArgs e)
         {
+            if (IsCurrentGamePaused())
+            {
+                ShowGameIsPausedMessage();
+
+                return;
+            }
+
             PerformNextCardAction();
         }
 
@@ -125,6 +132,13 @@ namespace Sa11ytaire4All
 
         private void CardDeckUpturned_Clicked(CardButton cardDeckUpturned)
         {
+            if (IsCurrentGamePaused())
+            {
+                ShowGameIsPausedMessage();
+
+                return;
+            }
+
             if ((DateTime.Now - timePreviousClickUpturnedButton).TotalMilliseconds < 500)
             {
                 return;

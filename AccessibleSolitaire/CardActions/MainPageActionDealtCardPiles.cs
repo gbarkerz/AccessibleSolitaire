@@ -38,6 +38,13 @@ namespace Sa11ytaire4All
         // The selection state of one of the card in the Dealt Card piles has changed.
         private void CardPile_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (IsCurrentGamePaused())
+            {
+                ShowGameIsPausedMessage();
+
+                return;
+            }
+
             var listSelectionChanged = sender as CollectionView;
             if (listSelectionChanged == null)
             {

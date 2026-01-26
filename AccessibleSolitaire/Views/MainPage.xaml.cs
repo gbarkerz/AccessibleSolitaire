@@ -1413,6 +1413,182 @@ namespace Sa11ytaire4All
             Shell.Current.FlyoutIsPresented = true;
         }
 
+        // Toggle the pasued state of the current game.
+        private void PauseResumeButton_Click(object sender, EventArgs e)
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+
+            var currentGameIsPaused = IsCurrentGamePaused();
+            Debug.WriteLine("PauseResumeButton_Click: Current paused state " + currentGameIsPaused);
+
+            if (currentGameIsPaused)
+            {
+                Debug.WriteLine("PauseResumeButton_Click: Set now as current start time for game session.");
+
+                // Note that we must toggle the game state before calling SaveCurrentTimeSpentPlayingStateIfAppropriate();
+                ToggleCurrentGamePausedState();
+
+                // The current game is paused, and is being resumed. So set the start time 
+                // for the  in-progress session to now, as we resume the session.
+                SetNowAsStartOfCurrentGameSessionIfAppropriate();
+            }
+            else
+            {
+                Debug.WriteLine("PauseResumeButton_Click: Persist game session time.");
+
+                // The current game is not paused, so we'll be pausing it here. So persist 
+                // the current time spent playing the current session of the game.
+                SaveCurrentTimeSpentPlayingStateIfAppropriate();
+
+                ToggleCurrentGamePausedState();
+            }
+
+            // Now change the current paused state of the game.
+
+            SetPauseResumeButtonState();
+        }
+
+        private void ToggleCurrentGamePausedState()
+        {
+            Debug.WriteLine("ToggleCurrentGamePausedState: Toggle game state.");
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+
+            switch (currentGameType)
+            {
+                case SolitaireGameType.Klondike:
+                    vm.GamePausedKlondike = !vm.GamePausedKlondike;
+                    Preferences.Set("GamePausedKlondike", vm.GamePausedKlondike);
+
+                    Debug.WriteLine("PauseResumeButton_Click: Klondike paused game state " + vm.GamePausedKlondike);
+                    break;
+
+                case SolitaireGameType.Pyramid:
+                    vm.GamePausedPyramid = !vm.GamePausedPyramid;
+                    Preferences.Set("GamePausedPyramid", vm.GamePausedPyramid);
+
+                    Debug.WriteLine("PauseResumeButton_Click: Pyramid paused game state " + vm.GamePausedPyramid);
+                    break;
+
+                case SolitaireGameType.Tripeaks:
+                    vm.GamePausedTripeaks = !vm.GamePausedTripeaks;
+                    Preferences.Set("GamePausedTripeaks", vm.GamePausedTripeaks);
+
+                    Debug.WriteLine("PauseResumeButton_Click: Tripeaks paused game state " + vm.GamePausedTripeaks);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // Barker Todo: Replace this explicit button state setting with binding at some point.
+        private void SetPauseResumeButtonState()
+        {
+            if (Application.Current == null)
+            {
+                return;
+            }
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+
+            var resmgr = Strings.StringResources.ResourceManager;
+
+            if (IsCurrentGamePaused())
+            {
+                SemanticProperties.SetDescription(PauseResumeButton, resmgr.GetString("ResumeGame"));
+
+                PauseResumeButton.Source = "resumegame.png";
+
+                MainPageGrid.BackgroundColor = Colors.DarkGray;
+            }
+            else
+            {
+                SemanticProperties.SetDescription(PauseResumeButton, resmgr.GetString("PauseGame"));
+
+                PauseResumeButton.Source = "pausegame.png";
+
+                MainPageGrid.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                                        Colors.Green : Color.FromRgb(0x00, 0x40, 0x00));
+            }
+        }
+
+        public static bool IsCurrentGamePaused()
+        {
+            if (Application.Current == null)
+            {
+                return false;
+            }
+
+            if (MainPageSingleton == null)
+            {
+                return false;
+            }
+
+            var vm = MainPageSingleton.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return false;
+            }
+
+            var currentGameIsPaused = false;
+
+            switch (currentGameType)
+            {
+                case SolitaireGameType.Klondike:
+
+                    Debug.WriteLine("IsCurrentGamePaused: Current Klondike paused state " + currentGameIsPaused);
+
+                    currentGameIsPaused = vm.GamePausedKlondike;
+                    break;
+
+                case SolitaireGameType.Pyramid:
+
+                    Debug.WriteLine("IsCurrentGamePaused: Current Pyramid paused state " + currentGameIsPaused);
+
+                    currentGameIsPaused = vm.GamePausedPyramid;
+                    break;
+
+                case SolitaireGameType.Tripeaks:
+
+                    Debug.WriteLine("IsCurrentGamePaused: Current Tripeaks paused state " + currentGameIsPaused);
+
+                    currentGameIsPaused = vm.GamePausedTripeaks;
+                    break;
+
+                default:
+                    break;
+            }
+
+            return currentGameIsPaused;
+        }
+
+        public static async void ShowGameIsPausedMessage()
+        {
+            if (MainPageSingleton == null)
+            {
+                return;
+            }
+
+            var title = MyGetString("AccessibleSolitaire");
+            var message = MyGetString("GameIsPaused");
+            var btnText = MyGetString("OK");
+
+            await MainPageSingleton.DisplayAlertAsync(title, message, btnText);
+        }
+
         private int GetTargetPileIndex(CardButton CardButton)
         {
             int index = -1;
@@ -1658,7 +1834,7 @@ namespace Sa11ytaire4All
             Debug.WriteLine("Accessible Solitaire: Time spent currently playing this game " +
                 timeSpentPlayingCurrent.TotalSeconds);
 
-            int secondsSpentPlayingPrevious = 0;
+           int secondsSpentPlayingPrevious = 0;
 
             if (currentGameType == SolitaireGameType.Klondike)
             {

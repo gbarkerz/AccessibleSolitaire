@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V3.12</value>
+    <value>Accessible Solitaire V3.13</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -780,5 +780,14 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="NextCardPile_NoMoreCardsRemaining" xml:space="preserve">
     <value>No more cards remaining</value>
+  </data>
+  <data name="PauseGame" xml:space="preserve">
+    <value>Pause game</value>
+  </data>
+  <data name="ResumeGame" xml:space="preserve">
+    <value>Resume game</value>
+  </data>
+  <data name="GameIsPaused" xml:space="preserve">
+    <value>The game is currently paused. Please click the Resume button to continue playing the game.</value>
   </data>
 </root>

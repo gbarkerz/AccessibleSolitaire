@@ -348,6 +348,49 @@
                         </VisualStateManager.VisualStateGroups>
                     </ImageButton>
 
+                    <ImageButton
+                        x:Name="PauseResumeButton"
+                        AutomationId="PauseResumeButton"
+                        SemanticProperties.Description="{x:Static resources:Strings.StringResources.PauseGame}"
+                        Source="pausegame.png"
+                        Aspect="Fill"
+                        WidthRequest="{Binding 
+                            Path=CardWidth,
+                            Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
+                        Clicked="PauseResumeButton_Click"
+                        BackgroundColor="Transparent"
+                        BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                        Margin="0" Padding="0" 
+                        CornerRadius="0">
+                        <ImageButton.HeightRequest>
+                            <MultiBinding Mode="OneWay" 
+                                    Converter="{StaticResource CardDimensionsToHamburgerHeightConverter}">
+                                <Binding Path="CardWidth" />
+                                <Binding Path="CardHeight" />
+                                <Binding 
+                                    Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}}" 
+                                    x:DataType="{x:Type vm:DealtCardViewModel}"
+                                    Path="ShowScreenReaderAnnouncementButtons" />
+                            </MultiBinding>
+                        </ImageButton.HeightRequest>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="4" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </ImageButton>
+
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"

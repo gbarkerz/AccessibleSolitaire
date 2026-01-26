@@ -16,45 +16,47 @@ namespace Sa11ytaire4All
             var savedSession = false;
 
             var vm = this.BindingContext as DealtCardViewModel;
-            if ((vm != null) && (vm.DealtCards != null))
+            if ((vm == null) || (vm.DealtCards == null))
             {
-                var preferenceSuffix = "";
+                return false;
+            }
 
-                if (currentGameType == SolitaireGameType.Pyramid)
+            var preferenceSuffix = "";
+
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                preferenceSuffix = "Pyramid";
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                preferenceSuffix = "Tripeaks";
+            }
+
+            try
+            {
+                var deckRemainingJson = JsonSerializer.Serialize(_deckRemaining);
+                Preferences.Set("DeckRemainingSession" + preferenceSuffix, deckRemainingJson);
+
+                var deckUpturnedJson = JsonSerializer.Serialize(_deckUpturned);
+                Preferences.Set("DeckUpturnedSession" + preferenceSuffix, deckUpturnedJson);
+
+                for (var i = 0; i < _targetPiles.Length; ++i)
                 {
-                    preferenceSuffix = "Pyramid";
+                    var targetCardPileJson = JsonSerializer.Serialize(_targetPiles[i]);
+                    Preferences.Set("TargetCardPileSession" + i.ToString() + preferenceSuffix, targetCardPileJson);
                 }
-                else if (currentGameType == SolitaireGameType.Tripeaks)
+
+                for (var i = 0; i < vm.DealtCards.Length; ++i)
                 {
-                    preferenceSuffix = "Tripeaks";
+                    var dealtCardPileJson = JsonSerializer.Serialize(vm.DealtCards[i]);
+                    Preferences.Set("DealtCardsSession" + i.ToString() + preferenceSuffix, dealtCardPileJson);
                 }
 
-                try
-                {
-                    var deckRemainingJson = JsonSerializer.Serialize(_deckRemaining);
-                    Preferences.Set("DeckRemainingSession" + preferenceSuffix, deckRemainingJson);
-
-                    var deckUpturnedJson = JsonSerializer.Serialize(_deckUpturned);
-                    Preferences.Set("DeckUpturnedSession" + preferenceSuffix, deckUpturnedJson);
-
-                    for (var i = 0; i < _targetPiles.Length; ++i)
-                    {
-                        var targetCardPileJson = JsonSerializer.Serialize(_targetPiles[i]);
-                        Preferences.Set("TargetCardPileSession" + i.ToString() + preferenceSuffix, targetCardPileJson);
-                    }
-
-                    for (var i = 0; i < vm.DealtCards.Length; ++i)
-                    {
-                        var dealtCardPileJson = JsonSerializer.Serialize(vm.DealtCards[i]);
-                        Preferences.Set("DealtCardsSession" + i.ToString() + preferenceSuffix, dealtCardPileJson);
-                    }
-
-                    savedSession = true;
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("SaveSession: " + ex);
-                }
+                savedSession = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("SaveSession: " + ex);
             }
 
             if (!savedSession)
@@ -66,27 +68,52 @@ namespace Sa11ytaire4All
             }
 
             // Persist the current time spent playing this game.
+            SaveCurrentTimeSpentPlayingStateIfAppropriate();
+
+            return savedSession;
+        }
+
+        // If the current game is not paused, persist the total time spent playing the current session.
+        // We do this when saving a game when the app is closed, or when switching away from an in-progess
+        // game to another type of solitaire game, or when pausing the current game.
+        private void SaveCurrentTimeSpentPlayingStateIfAppropriate()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: " +
+                "Check whether to persist the time spent playing this game's session.");
+
             int timeSpentPlayingPrevious = 0;
             int timeSession = 0;
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) && !vm.GamePausedKlondike)
             {
+                Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Klondike session time.");
+
                 timeSpentPlayingPrevious = (int)Preferences.Get("KlondikeSessionDuration", 0);
 
                 timeSession = (int)(DateTime.Now - timeStartOfThisKlondikeSession).TotalSeconds;
 
                 Preferences.Set("KlondikeSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
-            else if (currentGameType == SolitaireGameType.Pyramid)
+            else if ((currentGameType == SolitaireGameType.Pyramid) && !vm.GamePausedPyramid)
             {
+                Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Pyramid session time.");
+
                 timeSpentPlayingPrevious = (int)Preferences.Get("PyramidSessionDuration", 0);
 
                 timeSession = (int)(DateTime.Now - timeStartOfThisPyramidSession).TotalSeconds;
 
                 Preferences.Set("PyramidSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
-            else if (currentGameType == SolitaireGameType.Tripeaks)
+            else if ((currentGameType == SolitaireGameType.Tripeaks) && !vm.GamePausedTripeaks)
             {
+                Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Tripeaks session time.");
+
                 timeSpentPlayingPrevious = (int)Preferences.Get("TripeaksSessionDuration", 0);
 
                 timeSession = (int)(DateTime.Now - timeStartOfThisTripeaksSession).TotalSeconds;
@@ -94,10 +121,8 @@ namespace Sa11ytaire4All
                 Preferences.Set("TripeaksSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
 
-            Debug.WriteLine("Accessible Solitaire: Persist time spent playing this game. Previous " +
+            Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Time persisted spent playing this game. Previous " +
                 timeSpentPlayingPrevious + ", Current " + timeSession);
-
-            return savedSession;
         }
 
         public bool LoadSession()
@@ -269,22 +294,66 @@ namespace Sa11ytaire4All
                 ClearAllPiles();
             }
 
-            if (currentGameType == SolitaireGameType.Klondike)
-            {
-                timeStartOfThisKlondikeSession = DateTime.Now;
-            }
-            else if (currentGameType == SolitaireGameType.Pyramid)
-            {
-                timeStartOfThisPyramidSession = DateTime.Now;
-            }
-            else if (currentGameType == SolitaireGameType.Tripeaks)
-            {
-                timeStartOfThisTripeaksSession = DateTime.Now;
-            }
+            LoadAllGamesPausedState();
+
+            SetNowAsStartOfCurrentGameSessionIfAppropriate();
 
             Debug.WriteLine("Accessible Solitaire: Note time of start of this game session.");
 
             return loadedSession;
+        }
+
+        // Load up the current paused state of the Klondike, Pyramid, and Tri Peaks games.
+        private void LoadAllGamesPausedState()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+
+            vm.GamePausedKlondike = (bool)Preferences.Get("GamePausedKlondike", false);
+            vm.GamePausedPyramid = (bool)Preferences.Get("GamePausedPyramid", false);
+            vm.GamePausedTripeaks = (bool)Preferences.Get("GamePausedTripeaks", false);
+
+            Debug.WriteLine("LoadAllGamesPausedState: Loaded current games' paused state. " + 
+                "Klondike " + vm.GamePausedKlondike + ", Pyramid " + vm.GamePausedPyramid +
+                ", Tripeaks " + vm.GamePausedTripeaks);
+
+            SetPauseResumeButtonState();
+        }
+
+        // If the current game is not paused, set the time of the current session for the game to be now.
+        // We do this when loading up a game when the app is started, or when switching back to an 
+        // in-progess game from another type of solitaire game, or when resuming the current game.
+        private void SetNowAsStartOfCurrentGameSessionIfAppropriate()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+
+            Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Check current puased states.");
+
+            if ((currentGameType == SolitaireGameType.Klondike) && !vm.GamePausedKlondike)
+            {
+                Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Klondike set start of this session to now.");
+
+                timeStartOfThisKlondikeSession = DateTime.Now;
+            }
+            else if ((currentGameType == SolitaireGameType.Pyramid) && !vm.GamePausedPyramid)
+            {
+                Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Pyramid set start of this session to now.");
+
+                timeStartOfThisPyramidSession = DateTime.Now;
+            }
+            else if ((currentGameType == SolitaireGameType.Tripeaks) && !vm.GamePausedTripeaks)
+            {
+                Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Tripeaks set start of this session to now.");
+
+                timeStartOfThisTripeaksSession = DateTime.Now;
+            }
         }
 
         private void ClearAllPiles()

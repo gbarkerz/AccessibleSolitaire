@@ -105,6 +105,15 @@ namespace Sa11ytaire4All.ViewModels
         [ObservableProperty]
         public partial int LongPressZoomDuration { get; set; }
 
+        [ObservableProperty]
+        public partial bool GamePausedKlondike { get; set; }
+
+        [ObservableProperty]
+        public partial bool GamePausedPyramid { get; set; }
+
+        [ObservableProperty]
+        public partial bool GamePausedTripeaks { get; set; }
+
         public double DealtCardPileWidth 
         { 
             get
