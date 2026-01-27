@@ -790,4 +790,19 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="GameIsPaused" xml:space="preserve">
     <value>Gra jest obecnie wstrzymana. Kliknij przycisk Wznów, aby kontynuować grę.</value>
   </data>
+  <data name="ShowPauseResumeButton" xml:space="preserve">
+    <value>Pokaż przycisk Pauza/Wznów</value>
+  </data>
+  <data name="ShowPauseResumeButtonInstructions" xml:space="preserve">
+    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk Pauza był wyświetlany pod przyciskiem Menu. Po kliknięciu przycisku bieżąca gra zostanie wstrzymana, a przycisk zmieni się w przycisk Wznów.</value>
+  </data>
+  <data name="ShowPauseResumeButtonSwitchLabel" xml:space="preserve">
+    <value>Pokaż przycisk Pauza/Wznów:</value>
+  </data>
+  <data name="GameIsNowPaused" xml:space="preserve">
+    <value>Gra została wstrzymana.</value>
+  </data>
+  <data name="GameHasResumed" xml:space="preserve">
+    <value>Gra została wznowiona.</value>
+  </data>
 </root>

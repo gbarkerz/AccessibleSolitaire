@@ -909,6 +909,24 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The game has resumed..
+        /// </summary>
+        internal static string GameHasResumed {
+            get {
+                return ResourceManager.GetString("GameHasResumed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The game is now paused..
+        /// </summary>
+        internal static string GameIsNowPaused {
+            get {
+                return ResourceManager.GetString("GameIsNowPaused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The game is currently paused. Please click the Resume button to continue playing the game..
         /// </summary>
         internal static string GameIsPaused {
@@ -1737,7 +1755,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Pause/Resume button.
+        ///   Looks up a localized string similar to Show Pause/Resume button:.
         /// </summary>
         internal static string ShowPauseResumeButtonSwitchLabel {
             get {

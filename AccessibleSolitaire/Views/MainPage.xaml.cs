@@ -1441,6 +1441,8 @@ namespace Sa11ytaire4All
             var currentGameIsPaused = IsCurrentGamePaused();
             Debug.WriteLine("PauseResumeButton_Click: Current paused state " + currentGameIsPaused);
 
+            string announcement = "";
+
             if (currentGameIsPaused)
             {
                 Debug.WriteLine("PauseResumeButton_Click: Set now as current start time for game session.");
@@ -1451,6 +1453,8 @@ namespace Sa11ytaire4All
                 // The current game is paused, and is being resumed. So set the start time 
                 // for the  in-progress session to now, as we resume the session.
                 SetNowAsStartOfCurrentGameSessionIfAppropriate();
+
+                announcement = MyGetString("GameHasResumed");
             }
             else
             {
@@ -1461,10 +1465,13 @@ namespace Sa11ytaire4All
                 SaveCurrentTimeSpentPlayingStateIfAppropriate();
 
                 ToggleCurrentGamePausedState();
+
+                announcement = MyGetString("GameIsNowPaused");
             }
 
-            // Now change the current paused state of the game.
+            MakeDelayedScreenReaderAnnouncement(announcement, false);
 
+            // Now change the visuals relating to the current paused state of the game.
             SetPauseResumeButtonState();
         }
 
