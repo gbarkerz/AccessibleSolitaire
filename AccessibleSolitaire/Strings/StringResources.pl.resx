@@ -805,4 +805,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="GameHasResumed" xml:space="preserve">
     <value>Gra została wznowiona.</value>
   </data>
+  <data name="BakersdozenSolitaire" xml:space="preserve">
+    <value>Baker's Dozen Solitaire</value>
+  </data>
 </root>

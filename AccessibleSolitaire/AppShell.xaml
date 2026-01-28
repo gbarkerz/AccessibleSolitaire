@@ -14,11 +14,28 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+    <MenuItem x:Name="RestartGameMenuItem" 
+        Clicked="RestartGameMenuItem_Clicked"
+        Text="{x:Static resources:Strings.StringResources.RestartGame}">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#x1F3C1;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
     <MenuItem x:Name="KlondikeSolitaireMenuItem" 
         Clicked="KlondikeSolitaireMenuItem_Clicked"
         IconImageSource="cardbackklondike.png"
         Text="{x:Static resources:Strings.StringResources.KlondikeSolitaire}">
     </MenuItem>
+
+    <!--<MenuItem x:Name="BakersdozenSolitaireMenuItem" 
+        Clicked="BakersdozenSolitaireMenuItem_Clicked"
+        IconImageSource="cardbackbakersdozen.png"
+        Text="{x:Static resources:Strings.StringResources.BakersdozenSolitaire}">
+    </MenuItem>-->
 
     <MenuItem x:Name="PyramidSolitaireMenuItem" 
         Clicked="PyramidSolitaireMenuItem_Clicked"
@@ -50,17 +67,6 @@
             <FontImageSource
                 Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                 Glyph="&#xf013;"
-                FontFamily="FA" />
-        </MenuItem.IconImageSource>
-    </MenuItem>
-
-    <MenuItem x:Name="RestartGameMenuItem" 
-        Clicked="RestartGameMenuItem_Clicked"
-        Text="{x:Static resources:Strings.StringResources.RestartGame}">
-        <MenuItem.IconImageSource>
-            <FontImageSource
-                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                Glyph="&#x1F3C1;"
                 FontFamily="FA" />
         </MenuItem.IconImageSource>
     </MenuItem>

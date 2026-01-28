@@ -805,4 +805,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="GameHasResumed" xml:space="preserve">
     <value>The game has resumed.</value>
   </data>
+  <data name="BakersdozenSolitaire" xml:space="preserve">
+    <value>Baker's Dozen Solitaire</value>
+  </data>
 </root>

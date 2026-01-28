@@ -340,6 +340,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Baker&apos;s Dozen Solitaire.
+        /// </summary>
+        internal static string BakersdozenSolitaire {
+            get {
+                return ResourceManager.GetString("BakersdozenSolitaire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Black.
         /// </summary>
         internal static string Black {

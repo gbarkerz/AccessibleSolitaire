@@ -20,6 +20,16 @@ namespace Sa11ytaire4All
             }
         }
 
+        private void BakersdozenSolitaireMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            //if (MainPage.currentGameType != SolitaireGameType.Klondike)
+            //{
+            //    MainPage.MainPageSingleton?.LoadKlondikeGame();
+            //}
+        }
+
         private void PyramidSolitaireMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;
