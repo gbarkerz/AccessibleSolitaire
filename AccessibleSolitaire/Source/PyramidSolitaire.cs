@@ -75,9 +75,22 @@ namespace Sa11ytaire4All
 
             if (!LoadSession())
             {
-                Debug.WriteLine("ChangeGameType: Failed to LoadSession, so restart game.");
+                // Barker: For Klondike games, we can no longer only check for a target pile being complete
+                // simply by the count of cards in the pile, as auto-complete games simply puts a King as
+                // the displayed card on top of whatever else is there in the pile. So check for an
+                // auto-completed game here. The check for the current game being a Klondike game is
+                // made beneath CheckForAutoComplete().
+                if (CheckForAutoComplete())
+                {
+                    // Set up the layout for an autom-completed game, but don';'t show any message.
+                    AutoCompleteGameNow(false);
+                }
+                else
+                {
+                    Debug.WriteLine("ChangeGameType: Failed to LoadSession, so restart game.");
 
-                RestartGame(true /* screenReaderAnnouncement. */);
+                    RestartGame(true /* screenReaderAnnouncement. */);
+                }
             }
 
             timerRefreshDealtCards = new Timer(

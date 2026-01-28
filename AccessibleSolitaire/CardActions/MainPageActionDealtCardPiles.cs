@@ -482,7 +482,7 @@ namespace Sa11ytaire4All
 
             if (checkForAutoComplete && CheckForAutoComplete())
             {
-                AutoCompleteGameNow();
+                AutoCompleteGameNow(true);
             }
         }
 
@@ -938,7 +938,7 @@ namespace Sa11ytaire4All
 
             if (checkForAutoComplete && CheckForAutoComplete())
             {
-                AutoCompleteGameNow();
+                AutoCompleteGameNow(true);
             }
         }
 
@@ -1176,7 +1176,7 @@ namespace Sa11ytaire4All
                 }
                 else if (CheckForAutoComplete())
                 {
-                    AutoCompleteGameNow();
+                    AutoCompleteGameNow(true);
                 }
 
                 return;
@@ -1230,7 +1230,7 @@ namespace Sa11ytaire4All
             return autoComplete;
         }
 
-        private void AutoCompleteGameNow()
+        private void AutoCompleteGameNow(bool showAutoCompleteMessage)
         {
             // Barker Todo: Move all the dealt cards and remaining cards 
             // up to the target card. For now, simply end the game.
@@ -1259,27 +1259,35 @@ namespace Sa11ytaire4All
                 dealtCardPile.Clear();
             }
 
-            // Now set all the Target Card Pile to show Aces.
+            // Now set all the Target Card Pile to show Kings.
 
             // Barker Todo: Given that _targetPiles[] does not need updating here,
             // consider the role of those lists.
 
-            Card newCard = new Card();
-            newCard.Rank = 1;
+            Card newCardClubs = new Card();
+            newCardClubs.Rank = 13;
+            newCardClubs.Suit = Suit.Clubs;
+            TargetPileC.Card = newCardClubs;
 
-            newCard.Suit = Suit.Clubs;
-            TargetPileC.Card = newCard;
+            Card newCardDiamonds = new Card();
+            newCardDiamonds.Rank = 13;
+            newCardDiamonds.Suit = Suit.Diamonds;
+            TargetPileD.Card = newCardDiamonds;
 
-            newCard.Suit = Suit.Diamonds;
-            TargetPileD.Card = newCard;
+            Card newCardHearts = new Card();
+            newCardHearts.Rank = 13;
+            newCardHearts.Suit = Suit.Hearts;
+            TargetPileH.Card = newCardHearts;
 
-            newCard.Suit = Suit.Hearts;
-            TargetPileH.Card = newCard;
+            Card newCardSpades = new Card();
+            newCardSpades.Rank = 13;
+            newCardSpades.Suit = Suit.Spades;
+            TargetPileS.Card = newCardSpades;
 
-            newCard.Suit = Suit.Spades;
-            TargetPileS.Card = newCard;
-
-            ShowEndOfGameDialog(true);
+            if (showAutoCompleteMessage)
+            {
+                ShowEndOfGameDialog(true);
+            }
         }
 
         private void RefreshDealtCardPileAccessibleNames(CollectionView collectionView)
