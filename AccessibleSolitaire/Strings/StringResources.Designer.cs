@@ -430,6 +430,42 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pile 10.
+        /// </summary>
+        internal static string CardPile10 {
+            get {
+                return ResourceManager.GetString("CardPile10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pile 11.
+        /// </summary>
+        internal static string CardPile11 {
+            get {
+                return ResourceManager.GetString("CardPile11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pile 12.
+        /// </summary>
+        internal static string CardPile12 {
+            get {
+                return ResourceManager.GetString("CardPile12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pile 13.
+        /// </summary>
+        internal static string CardPile13 {
+            get {
+                return ResourceManager.GetString("CardPile13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pile 2.
         /// </summary>
         internal static string CardPile2 {
@@ -480,6 +516,24 @@ namespace Sa11ytaire4All.Strings {
         internal static string CardPile7 {
             get {
                 return ResourceManager.GetString("CardPile7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pile 8.
+        /// </summary>
+        internal static string CardPile8 {
+            get {
+                return ResourceManager.GetString("CardPile8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pile 9.
+        /// </summary>
+        internal static string CardPile9 {
+            get {
+                return ResourceManager.GetString("CardPile9", resourceCulture);
             }
         }
         
@@ -956,9 +1010,9 @@ namespace Sa11ytaire4All.Strings {
         /// <summary>
         ///   Looks up a localized string similar to You turned up all the dealt cards, and the game was auto-completed..
         /// </summary>
-        internal static string GameWasAutomCompleted {
+        internal static string GameWasAutoCompleted {
             get {
-                return ResourceManager.GetString("GameWasAutomCompleted", resourceCulture);
+                return ResourceManager.GetString("GameWasAutoCompleted", resourceCulture);
             }
         }
         
@@ -1393,6 +1447,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cards cannot be moved to empty dealt card piles..
+        /// </summary>
+        internal static string NoMoveToEmptyPile {
+            get {
+                return ResourceManager.GetString("NoMoveToEmptyPile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No next cards left.
         /// </summary>
         internal static string NoNextCardsLeft {
@@ -1416,6 +1479,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string NoScreenOrientationChange {
             get {
                 return ResourceManager.GetString("NoScreenOrientationChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cards in the target card piles can&apos;t be selected in the Baker&apos;s Dozen game..
+        /// </summary>
+        internal static string NoSelectTargetCards {
+            get {
+                return ResourceManager.GetString("NoSelectTargetCards", resourceCulture);
             }
         }
         
@@ -1645,8 +1717,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Congratulations, you&apos;ve won! 
-        ///.
+        ///   Looks up a localized string similar to Congratulations, you&apos;ve won the {0} game! .
         /// </summary>
         internal static string QueryRestartWonGame {
             get {

@@ -273,8 +273,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>Queen</value>
   </data>
   <data name="QueryRestartWonGame" xml:space="preserve">
-    <value>Congratulations, you've won! 
-</value>
+    <value>Congratulations, you've won the {0} game! </value>
   </data>
   <data name="RestartGame" xml:space="preserve">
     <value>Restart Game</value>
@@ -772,7 +771,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="AutoCompleteGameInstructions" xml:space="preserve">
     <value>When all dealt cards have been turned face-up, and the remaining cards are set to be turned up one at a time, automatically complete the game.</value>
   </data>
-  <data name="GameWasAutomCompleted" xml:space="preserve">
+  <data name="GameWasAutoCompleted" xml:space="preserve">
     <value>You turned up all the dealt cards, and the game was auto-completed.</value>
   </data>
   <data name="TripeaksSolitaire" xml:space="preserve">
@@ -807,5 +806,29 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="BakersdozenSolitaire" xml:space="preserve">
     <value>Baker's Dozen Solitaire</value>
+  </data>
+  <data name="CardPile8" xml:space="preserve">
+    <value>Pile 8</value>
+  </data>
+  <data name="CardPile9" xml:space="preserve">
+    <value>Pile 9</value>
+  </data>
+  <data name="CardPile10" xml:space="preserve">
+    <value>Pile 10</value>
+  </data>
+  <data name="CardPile11" xml:space="preserve">
+    <value>Pile 11</value>
+  </data>
+  <data name="CardPile12" xml:space="preserve">
+    <value>Pile 12</value>
+  </data>
+  <data name="CardPile13" xml:space="preserve">
+    <value>Pile 13</value>
+  </data>
+  <data name="NoSelectTargetCards" xml:space="preserve">
+    <value>Cards in the target card piles can't be selected in the Baker's Dozen game.</value>
+  </data>
+  <data name="NoMoveToEmptyPile" xml:space="preserve">
+    <value>Cards cannot be moved to empty dealt card piles.</value>
   </data>
 </root>
