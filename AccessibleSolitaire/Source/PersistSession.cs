@@ -236,16 +236,6 @@ namespace Sa11ytaire4All
                     await Task.Delay(100);
                 }
 
-                // Verify the sum of all the piles is a full pack.
-                var cardCount = _deckRemaining.Count + _deckUpturned.Count;
-
-                Debug.WriteLine("LoadSession: cardCount " + cardCount);
-
-                foreach(var targetPile in _targetPiles)
-                {
-                    cardCount += targetPile.Count;
-                }
-
                 foreach (var dealtCardPile in vm.DealtCards)
                 {
                     // Don't include empty dealt card pile placeholders in the card count.
@@ -266,13 +256,9 @@ namespace Sa11ytaire4All
                             {
                                 dealtCard.FaceDown = true;
                             }
-
-                            ++cardCount;
                         }
                     }
                 }
-
-                Debug.WriteLine("LoadSession: FULL cardCount " + cardCount);
 
                 loadedSession = true;
             }

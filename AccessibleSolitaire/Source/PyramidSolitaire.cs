@@ -35,7 +35,7 @@ namespace Sa11ytaire4All
             ComleteVisualsUpdateFollowingGameChange();
         }
 
-        public void ResizeDealtCardWidth()
+        public void ResizeDealtCardWidth(bool forceResize)
         {
             if ((CardPileGrid.Width > 0) && !MainPage.IsPortrait())
             {
@@ -46,7 +46,7 @@ namespace Sa11ytaire4All
                 }
 
                 var currentCardWidth = MainPageGrid.Width / GetCardPileCount();
-                if (currentCardWidth != vm.CardWidth)
+                if (forceResize || (currentCardWidth != vm.CardWidth))
                 {
                     vm.CardWidth = currentCardWidth;
 
@@ -73,7 +73,7 @@ namespace Sa11ytaire4All
         {
             SetRemainingCardUIVisibility();
 
-            ResizeDealtCardWidth();
+            ResizeDealtCardWidth(false);
 
             RefreshAllCardVisuals();
         }
@@ -202,6 +202,26 @@ namespace Sa11ytaire4All
             LoadSessionPostprocessOnUIThread(loadSucceeded);
         }
 
+        private bool LoadedCardCountUnexpected()
+        {
+            var countUnexpected = false;
+
+            var countCardsLoaded = CountCards();
+
+            if (countCardsLoaded == 0)
+            {
+                countUnexpected = true;
+            }
+            else if (((currentGameType == SolitaireGameType.Klondike) ||
+                      (currentGameType == SolitaireGameType.Bakersdozen)) &&
+                     (countCardsLoaded != 52))
+            {
+                countUnexpected = true;
+            }
+
+            return countUnexpected;
+        }
+
         private void LoadSessionPostprocessOnUIThread(bool loadSucceeded)
         {
             MainThread.BeginInvokeOnMainThread(() =>
@@ -212,12 +232,18 @@ namespace Sa11ytaire4All
                 // auto-completed game here. The check for the current game being a Klondike game is
                 // made beneath CheckForAutoComplete().
 
-                if (loadSucceeded)
+                if (loadSucceeded && LoadedCardCountUnexpected())
                 {
+                    loadSucceeded = false;
+                }
+
+                if (loadSucceeded)
+                { 
                     if ((currentGameType != SolitaireGameType.Klondike) &&
                         (currentGameType != SolitaireGameType.Bakersdozen))
                     {
                         var pyramidPostprocessSucceeded = DealPyramidCardsPostprocess(false);
+
                         Debug.WriteLine("LoadSession: pyramidPostprocessSucceeded " + pyramidPostprocessSucceeded);
                     }
                     else

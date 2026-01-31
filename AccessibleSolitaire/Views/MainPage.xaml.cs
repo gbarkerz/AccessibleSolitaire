@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using Plugin.Maui.KeyListener;
+using Sa11ytaire4All;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
@@ -797,9 +798,48 @@ namespace Sa11ytaire4All
             Debug.WriteLine("OnAppearing: DONE");
         }
 
+        private int CountCards()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return 0;
+            }
+
+            var cardCount = _deckRemaining.Count + _deckUpturned.Count;
+
+            Debug.WriteLine("CountCards: cardCount remaining " + cardCount);
+
+            foreach (var targetPile in _targetPiles)
+            {
+                cardCount += targetPile.Count;
+            }
+
+            Debug.WriteLine("CountCards: cardCount including target piles " + cardCount);
+
+            foreach (var dealtCardPile in vm.DealtCards)
+            {
+                cardCount += dealtCardPile.Count;
+            }
+
+            Debug.WriteLine("LoadSession: FULL cardCount " + cardCount);
+
+            return cardCount;
+        }
+
         private async void LoadPreviousSession()
         {
             var loadSucceeded = await LoadSession();
+            if (loadSucceeded)
+            {
+                if (loadSucceeded && LoadedCardCountUnexpected())
+                {
+                    loadSucceeded = false;
+                }
+            }
+
+            ResizeDealtCardWidth(true);
+
             if (loadSucceeded)
             {
                 LoadAllGamesPausedState();
@@ -807,7 +847,7 @@ namespace Sa11ytaire4All
                 if ((currentGameType != SolitaireGameType.Klondike) &&
                     (currentGameType != SolitaireGameType.Bakersdozen))
                 {
-                    DealPyramidCardsPostprocess(true);
+                    DealPyramidCardsPostprocess(false);
                 }
 
                 SetNowAsStartOfCurrentGameSessionIfAppropriate();
