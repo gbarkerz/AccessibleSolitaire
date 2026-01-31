@@ -72,6 +72,11 @@ namespace Sa11ytaire4All
                     return;
                 }
 
+                if ((currentGameType == SolitaireGameType.Bakersdozen) && !selectedCard.IsLastCardInPile)
+                {
+                    return;
+                }
+
                 if (selectedCard.FaceDown)
                 {
                     MakeDelayedScreenReaderAnnouncement(
@@ -120,20 +125,31 @@ namespace Sa11ytaire4All
                 // Has an empty card pile been selected?
                 if (selectedCard.CardState == CardState.KingPlaceHolder)
                 {
-                    // Attempt to move the upturned card over to the empty card pile.
-                    if (timerDelayAttemptToMoveCard == null)
+                    // In Baker's Dozen, a card cannot be moved to an empty pile.
+                    if (currentGameType != SolitaireGameType.Bakersdozen)
                     {
-                        timerDelayAttemptToMoveCard = new Timer(
-                            new TimerCallback((s) => TimedDelayAttemptToMoveCardToEmptyPile(listSelectionChanged)),
-                                null,
-                                TimeSpan.FromMilliseconds(500),
-                                TimeSpan.FromMilliseconds(Timeout.Infinite));
+                        // Attempt to move the upturned card over to the empty card pile.
+                        if (timerDelayAttemptToMoveCard == null)
+                        {
+                            timerDelayAttemptToMoveCard = new Timer(
+                                new TimerCallback((s) => TimedDelayAttemptToMoveCardToEmptyPile(listSelectionChanged)),
+                                    null,
+                                    TimeSpan.FromMilliseconds(500),
+                                    TimeSpan.FromMilliseconds(Timeout.Infinite));
+                        }
+
+                        DeselectAllCardsFromDealtCardPile(listSelectionChanged);
+                    }
+                    else
+                    {
+                        PlaySound(false);
+
+                        var announcement = MainPage.MyGetString("NoMoveToEmptyPile");
+                        MakeDelayedScreenReaderAnnouncement(announcement, false);
                     }
 
                     // Never leave the empty slot selected.
                     selectedCard.CardSelected = false;
-
-                    DeselectAllCardsFromDealtCardPile(listSelectionChanged);
                 }
                 else if (CardDeckUpturned.IsToggled && (_deckUpturned.Count > 0))
                 {
@@ -573,7 +589,7 @@ namespace Sa11ytaire4All
                             var announcedDealtCardIndex = 0;
 
                             // Get the index of the list containing the selected cards.
-                            for (int i = 0; i < cCardPiles; i++)
+                            for (int i = 0; i < GetCardPileCount(); i++)
                             {
                                 var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
                                 if (list == listDealtCardPile)
@@ -714,7 +730,7 @@ namespace Sa11ytaire4All
                 var announcedSelectedIndex = 0;
 
                 // Get the index of the list containing the selected cards.
-                for (int i = 0; i < cCardPiles; i++)
+                for (int i = 0; i < GetCardPileCount(); i++)
                 {
                     var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
                     if (list == listSelectionChanged)
@@ -1209,7 +1225,7 @@ namespace Sa11ytaire4All
             var autoComplete = true;
 
             // Are all cards in the dealt card piles face up now?
-            for (int i = 0; i < cCardPiles; i++)
+            for (int i = 0; i < GetCardPileCount(); i++)
             {
                 if (vm.DealtCards[i].Count > 0)
                 {
@@ -1305,7 +1321,7 @@ namespace Sa11ytaire4All
 
         private void RefreshAllDealtCardPileCardIsInAccessibleTree()
         {
-            for (int i = 0; i < cCardPiles; i++)
+            for (int i = 0; i < GetCardPileCount(); i++)
             {
                 var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
                 if (collectionView != null)

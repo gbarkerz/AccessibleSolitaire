@@ -4,6 +4,7 @@
 using Sa11ytaire4All.Source;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Diagnostics;
 
 namespace Sa11ytaire4All.ViewModels
 {
@@ -11,7 +12,7 @@ namespace Sa11ytaire4All.ViewModels
     {
         public DealtCardViewModel()
         {
-            DealtCards = new ObservableCollection<DealtCard>[7];
+            DealtCards = new ObservableCollection<DealtCard>[13];
 
             for (int i = 0; i < DealtCards.Count(); ++i)
             {
@@ -30,6 +31,12 @@ namespace Sa11ytaire4All.ViewModels
         public ObservableCollection<DealtCard>? DealtCards5 { get => DealtCards?[4]; }
         public ObservableCollection<DealtCard>? DealtCards6 { get => DealtCards?[5]; }
         public ObservableCollection<DealtCard>? DealtCards7 { get => DealtCards?[6]; }
+        public ObservableCollection<DealtCard>? DealtCards8 { get => DealtCards?[7]; }
+        public ObservableCollection<DealtCard>? DealtCards9 { get => DealtCards?[8]; }
+        public ObservableCollection<DealtCard>? DealtCards10 { get => DealtCards?[9]; }
+        public ObservableCollection<DealtCard>? DealtCards11 { get => DealtCards?[10]; }
+        public ObservableCollection<DealtCard>? DealtCards12 { get => DealtCards?[11]; }
+        public ObservableCollection<DealtCard>? DealtCards13 { get => DealtCards?[12]; }
 
         [ObservableProperty] 
         public partial ObservableCollection<DealtCard>[]? DealtCards { get; set; }
@@ -107,6 +114,9 @@ namespace Sa11ytaire4All.ViewModels
 
         [ObservableProperty]
         public partial bool GamePausedKlondike { get; set; }
+
+        [ObservableProperty]
+        public partial bool GamePausedBakersdozen { get; set; }
 
         [ObservableProperty]
         public partial bool GamePausedPyramid { get; set; }

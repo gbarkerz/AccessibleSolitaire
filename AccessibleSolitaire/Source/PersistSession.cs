@@ -31,6 +31,10 @@ namespace Sa11ytaire4All
             {
                 preferenceSuffix = "Tripeaks";
             }
+            else if (currentGameType == SolitaireGameType.Bakersdozen)
+            {
+                preferenceSuffix = "Bakersdozen";
+            }
 
             try
             {
@@ -120,12 +124,23 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("TripeaksSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
+            else if ((currentGameType == SolitaireGameType.Bakersdozen) && !vm.GamePausedBakersdozen)
+            {
+                Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Bakersdozen session time.");
+
+                timeSpentPlayingPrevious = (int)Preferences.Get("BakersdozenSessionDuration", 0);
+
+                timeSession = (int)(DateTime.Now - timeStartOfThisBakersdozenSession).TotalSeconds;
+
+                Preferences.Set("BakersdozenSessionDuration", timeSpentPlayingPrevious + timeSession);
+            }
 
             Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Time persisted spent playing this game. Previous " +
                 timeSpentPlayingPrevious + ", Current " + timeSession);
         }
 
-        public bool LoadSession()
+        // Important: This is run on a background thread, and periodicaly pauses to allow the UI thread to catch up.
+        public async Task<bool> LoadSession()
         {
             bool loadedSession = false;
 
@@ -144,6 +159,10 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Tripeaks)
             {
                 preferenceSuffix = "Tripeaks";
+            }
+            else if (currentGameType == SolitaireGameType.Bakersdozen)
+            {
+                preferenceSuffix = "Bakersdozen";
             }
 
             Debug.WriteLine("LoadSession: currentGameType " + currentGameType);
@@ -197,7 +216,7 @@ namespace Sa11ytaire4All
                     }
                 }
 
-                for (var i = 0; i < cCardPiles; ++i)
+                for (var i = 0; i < GetCardPileCount(); ++i)
                 {
                     var dealtCardPileJson = (string)Preferences.Get(
                                                 "DealtCardsSession" + i.ToString() + preferenceSuffix, "");
@@ -212,6 +231,9 @@ namespace Sa11ytaire4All
                             }
                         }
                     }
+
+                    // Give the UI a chance to catch up.
+                    await Task.Delay(100);
                 }
 
                 // Verify the sum of all the piles is a full pack.
@@ -232,7 +254,7 @@ namespace Sa11ytaire4All
                         var dealtCard = dealtCardPile[cardIndex];
 
                         // Don't include empty card piles in the card count.
-                        if ((dealtCard != null) && (dealtCard.Card != null) && 
+                        if ((dealtCard != null) && (dealtCard.Card != null) &&
                             (dealtCard.CardState != CardState.KingPlaceHolder))
                         {
                             if (cardIndex == dealtCardPile.Count - 1)
@@ -252,58 +274,20 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine("LoadSession: FULL cardCount " + cardCount);
 
-                // Barker Todo: Don't assume all cards in the Pyramid game are present and correct.
-                if ((cardCount == 52) || (currentGameType != SolitaireGameType.Klondike))
-                {
-                    if (currentGameType == SolitaireGameType.Klondike)
-                    {
-                        // Without this refreshing of the cards' accessible name, the N in MofN is stuck
-                        // as it was when the card was added to the pile, and doesn't account for the 
-                        // total number of cards added. 
-                        for (int i = 0; i < cCardPiles; i++)
-                        {
-                            var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
-                            if (dealtCardPile != null)
-                            {
-                                RefreshDealtCardPileAccessibleNames(dealtCardPile);
-                            }
-                        }
-
-                        loadedSession = true;
-                    }
-                    else
-                    {
-                        loadedSession = DealPyramidCardsPostprocess(false);
-                    }
-
-                    if (loadedSession)
-                    {
-                        RefreshUpperCards();
-
-                        ClearAllSelections(true);
-                    }
-                }
+                loadedSession = true;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("LoadSession: " + ex);
             }
 
-            if (!loadedSession)
-            {
-                ClearAllPiles();
-            }
-
-            LoadAllGamesPausedState();
-
-            SetNowAsStartOfCurrentGameSessionIfAppropriate();
-
-            Debug.WriteLine("Accessible Solitaire: Note time of start of this game session.");
+            // Always run this on the UI thread.
+            Debug.WriteLine("LoadSession: loadedSession " + loadedSession);
 
             return loadedSession;
         }
 
-        // Load up the current paused state of the Klondike, Pyramid, and Tri Peaks games.
+        // Load up the current paused state of the Klondike, Pyramid, Tri Peaks, and Baker's Dozen games.
         private void LoadAllGamesPausedState()
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -315,10 +299,11 @@ namespace Sa11ytaire4All
             vm.GamePausedKlondike = (bool)Preferences.Get("GamePausedKlondike", false);
             vm.GamePausedPyramid = (bool)Preferences.Get("GamePausedPyramid", false);
             vm.GamePausedTripeaks = (bool)Preferences.Get("GamePausedTripeaks", false);
+            vm.GamePausedBakersdozen = (bool)Preferences.Get("GamePausedBakersdozen", false);
 
             Debug.WriteLine("LoadAllGamesPausedState: Loaded current games' paused state. " + 
                 "Klondike " + vm.GamePausedKlondike + ", Pyramid " + vm.GamePausedPyramid +
-                ", Tripeaks " + vm.GamePausedTripeaks);
+                ", Tripeaks " + vm.GamePausedTripeaks + ", Bakersdozen " + vm.GamePausedBakersdozen);
 
             SetPauseResumeButtonState();
         }
@@ -334,7 +319,7 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Check current puased states.");
+            Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Check current paused states.");
 
             if ((currentGameType == SolitaireGameType.Klondike) && !vm.GamePausedKlondike)
             {
@@ -354,6 +339,12 @@ namespace Sa11ytaire4All
 
                 timeStartOfThisTripeaksSession = DateTime.Now;
             }
+            else if ((currentGameType == SolitaireGameType.Bakersdozen) && !vm.GamePausedBakersdozen)
+            {
+                Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Barkersdozen set start of this session to now.");
+
+                timeStartOfThisBakersdozenSession = DateTime.Now;
+            }
         }
 
         private void ClearAllPiles()
@@ -372,12 +363,18 @@ namespace Sa11ytaire4All
                 targetPile.Clear();
             }
 
+            TargetPileC.Card = null;
+            TargetPileD.Card = null;
+            TargetPileH.Card = null;
+            TargetPileS.Card = null;
+
             foreach (var dealtCardPile in vm.DealtCards)
             {
                 dealtCardPile.Clear();
             }
 
-            if (currentGameType != SolitaireGameType.Klondike)
+            if ((currentGameType != SolitaireGameType.Klondike) &&
+                (currentGameType != SolitaireGameType.Bakersdozen))
             {
                 ClearPyramidCardsSelection();
             }

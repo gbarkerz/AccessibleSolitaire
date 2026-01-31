@@ -277,7 +277,8 @@ namespace Sa11ytaire4All.Views
 
             var gameType = (SolitaireGameType)value;
 
-            return (gameType == SolitaireGameType.Klondike);
+            return ((gameType == SolitaireGameType.Klondike) ||
+                    (gameType == SolitaireGameType.Bakersdozen));
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -297,7 +298,8 @@ namespace Sa11ytaire4All.Views
 
             var gameType = (SolitaireGameType)value;
 
-            return (gameType != SolitaireGameType.Klondike);
+            return ((gameType != SolitaireGameType.Klondike) &&
+                    (gameType != SolitaireGameType.Bakersdozen));
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -645,7 +647,9 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if ((value == null) || (MainPage.currentGameType != SolitaireGameType.Klondike))
+            if ((value == null) ||
+                 ((MainPage.currentGameType != SolitaireGameType.Klondike) &&
+                  (MainPage.currentGameType != SolitaireGameType.Bakersdozen)))
             {
                 return new Thickness();
             }
@@ -665,7 +669,8 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (MainPage.currentGameType != SolitaireGameType.Klondike)
+            if ((MainPage.currentGameType != SolitaireGameType.Klondike) &&
+                (MainPage.currentGameType != SolitaireGameType.Bakersdozen))
             {
                 return true;
             }

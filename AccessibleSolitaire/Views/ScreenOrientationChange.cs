@@ -29,7 +29,11 @@ namespace Sa11ytaire4All
             SetUpperGridViewOrientationLayout(isPortrait);
 
             var changedLayout = true;
-#if IOS
+
+#if WINDOWS
+            Debug.WriteLine("SetOrientationLayout: On Windows, don't show the message about screen rotation being unavailable.");
+#else
+            // Either iOS or Android.
 
             // Have we already set the UI layout to account for the screen orientation?
             if (initialScreenOrientationPortrait != null)
@@ -89,13 +93,14 @@ namespace Sa11ytaire4All
 
             SetLowerScrollViewOrientationLayout(isPortrait);
 
-            var isKlondike = (currentGameType == SolitaireGameType.Klondike);
+            var isKlondikeOrBakersdozen = ((currentGameType == SolitaireGameType.Klondike) ||
+                                           (currentGameType == SolitaireGameType.Bakersdozen));
 
             if (changedLayout)
             {
                 InnerMainGrid.IsVisible = true;
 
-                CardPileGrid.IsVisible = isKlondike;
+                CardPileGrid.IsVisible = isKlondikeOrBakersdozen;
 
                 NoScreenOrientationChangeLabel.IsVisible = false;
             }
@@ -140,7 +145,7 @@ namespace Sa11ytaire4All
             else
             {
                 cardPileGridRow = 3;
-                cardPileGridRowSpan = 6;
+                cardPileGridRowSpan = GetCardPileCount() - 1;
             }
 
             Grid.SetRow(CardPileGrid, cardPileGridRow);
@@ -161,6 +166,12 @@ namespace Sa11ytaire4All
             SetCollectionViewOrientationLayout(isPortrait, 4, CardPile5);
             SetCollectionViewOrientationLayout(isPortrait, 5, CardPile6);
             SetCollectionViewOrientationLayout(isPortrait, 6, CardPile7);
+            SetCollectionViewOrientationLayout(isPortrait, 7, CardPile8);
+            SetCollectionViewOrientationLayout(isPortrait, 8, CardPile9);
+            SetCollectionViewOrientationLayout(isPortrait, 9, CardPile10);
+            SetCollectionViewOrientationLayout(isPortrait, 10, CardPile11);
+            SetCollectionViewOrientationLayout(isPortrait, 11, CardPile12);
+            SetCollectionViewOrientationLayout(isPortrait, 12, CardPile13);
         }
 
         private void SetCollectionViewOrientationLayout(bool isPortrait, int index, CollectionView collectionView)

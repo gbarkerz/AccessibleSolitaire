@@ -12,7 +12,8 @@ namespace Sa11ytaire4All
         NoGame = 0,
         Klondike = 1,
         Pyramid = 2,
-        Tripeaks = 3
+        Tripeaks = 3,
+        Bakersdozen = 4
     }
 
     public partial class MainPage : ContentPage
@@ -21,32 +22,135 @@ namespace Sa11ytaire4All
 
         public void LoadKlondikeGame()
         {
+            var previousGame = currentGameType;
+            if (previousGame == SolitaireGameType.Klondike)
+            {
+                return;
+            }
+
             ChangeGameType(SolitaireGameType.Klondike);
 
             PyramidOpenCardsAnnouncementButton.IsVisible = false;
+
+            ComleteVisualsUpdateFollowingGameChange();
+        }
+
+        public void ResizeDealtCardWidth()
+        {
+            if ((CardPileGrid.Width > 0) && !MainPage.IsPortrait())
+            {
+                var vm = this.BindingContext as DealtCardViewModel;
+                if (vm == null)
+                {
+                    return;
+                }
+
+                var currentCardWidth = MainPageGrid.Width / GetCardPileCount();
+                if (currentCardWidth != vm.CardWidth)
+                {
+                    vm.CardWidth = currentCardWidth;
+
+                    if (currentGameType == SolitaireGameType.Bakersdozen)
+                    {
+                        currentCardWidth *= 2;
+                    }
+
+                    NextCardDeck.WidthRequest = currentCardWidth;
+
+                    CardDeckUpturned.WidthRequest = currentCardWidth;
+                    CardDeckUpturnedObscuredHigher.WidthRequest = currentCardWidth;
+                    CardDeckUpturnedObscuredLower.WidthRequest = currentCardWidth;
+
+                    TargetPileC.WidthRequest = currentCardWidth;
+                    TargetPileD.WidthRequest = currentCardWidth;
+                    TargetPileH.WidthRequest = currentCardWidth;
+                    TargetPileS.WidthRequest = currentCardWidth;
+                }
+            }
+        }
+
+        private void ComleteVisualsUpdateFollowingGameChange()
+        {
+            SetRemainingCardUIVisibility();
+
+            ResizeDealtCardWidth();
+
+            RefreshAllCardVisuals();
+        }
+
+        public void LoadBakersdozenGame()
+        {
+            var previousGame = currentGameType;
+            if (previousGame == SolitaireGameType.Bakersdozen)
+            {
+                return;
+            }
+
+            ChangeGameType(SolitaireGameType.Bakersdozen);
+
+            PyramidOpenCardsAnnouncementButton.IsVisible = false;
+
+            ComleteVisualsUpdateFollowingGameChange();
         }
 
         public void LoadPyramidGame()
         {
+            var previousGame = currentGameType;
+            if (previousGame == SolitaireGameType.Pyramid)
+            {
+                return;
+            }
+
             ChangeGameType(SolitaireGameType.Pyramid);
 
             // This button is only visible if the Show Screen Reader Buttons setting is on.
             PyramidOpenCardsAnnouncementButton.IsVisible = true;
 
             ArrangePyramidButtons();
+
+            ComleteVisualsUpdateFollowingGameChange();
         }
 
         public void LoadTripeaksGame()
         {
+            var previousGame = currentGameType;
+            if (previousGame == SolitaireGameType.Tripeaks)
+            {
+                return;
+            }
+
             ChangeGameType(SolitaireGameType.Tripeaks);
 
             // This button is only visible if the Show Screen Reader Buttons setting is on.
             PyramidOpenCardsAnnouncementButton.IsVisible = true;
 
             ArrangePyramidButtons();
+
+            ComleteVisualsUpdateFollowingGameChange();
         }
 
-        private void ChangeGameType(SolitaireGameType targetGameType)
+        private void SetRemainingCardUIVisibility()
+        {
+            if (currentGameType == SolitaireGameType.Bakersdozen)
+            {
+                NextCardDeck.IsVisible = false;
+
+                CardDeckUpturnedObscuredLower.IsVisible = false;
+                CardDeckUpturnedObscuredHigher.IsVisible = false;
+                CardDeckUpturned.IsVisible = false;
+            }
+            else
+            {
+                NextCardDeck.IsVisible = true;
+
+                CardDeckUpturned.IsVisible = true;
+
+                CardDeckUpturnedObscuredHigher.IsVisible = (currentGameType != SolitaireGameType.Tripeaks);
+                CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
+            }
+        }
+
+        private async void ChangeGameType(SolitaireGameType targetGameType)
         {
             StopCelebratoryActions();
 
@@ -63,54 +167,98 @@ namespace Sa11ytaire4All
                 vm.CurrentGameType = currentGameType;
             }
 
-            var isKlondike = (currentGameType == SolitaireGameType.Klondike);
+            var isKlondikeOrBakersdozen = ((currentGameType == SolitaireGameType.Klondike) ||
+                                           (currentGameType == SolitaireGameType.Bakersdozen));
 
-            CardDeckUpturnedObscuredLower.IsVisible = isKlondike;
+            CardDeckUpturnedObscuredLower.IsVisible = isKlondikeOrBakersdozen;
 
-            TargetPiles.IsVisible = isKlondike;
+            TargetPiles.IsVisible = isKlondikeOrBakersdozen;
 
-            CardPileGrid.IsVisible = isKlondike;
+            CardPileGrid.IsVisible = isKlondikeOrBakersdozen;
 
             ClearAllPiles();
 
-            if (!LoadSession())
+            if (timerDelayLoadSession == null)
+            {
+                timerDelayLoadSession = new Timer(
+                    new TimerCallback((s) => TimedDelayLoadSession()),
+                        null,
+                        TimeSpan.FromMilliseconds(500),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+            }
+        }
+
+        private Timer? timerDelayLoadSession;
+
+        private async void TimedDelayLoadSession()
+        {
+            timerDelayLoadSession?.Dispose();
+            timerDelayLoadSession = null;
+
+            // DON'T run this on the UI thread.
+            var loadSucceeded = await LoadSession();
+
+            // Now run the rest on the UI thread.
+            LoadSessionPostprocessOnUIThread(loadSucceeded);
+        }
+
+        private void LoadSessionPostprocessOnUIThread(bool loadSucceeded)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
             {
                 // Barker: For Klondike games, we can no longer only check for a target pile being complete
                 // simply by the count of cards in the pile, as auto-complete games simply puts a King as
                 // the displayed card on top of whatever else is there in the pile. So check for an
                 // auto-completed game here. The check for the current game being a Klondike game is
                 // made beneath CheckForAutoComplete().
-                if (CheckForAutoComplete())
+
+                if (loadSucceeded)
                 {
-                    // Set up the layout for an autom-completed game, but don';'t show any message.
-                    AutoCompleteGameNow(false);
+                    if ((currentGameType != SolitaireGameType.Klondike) &&
+                        (currentGameType != SolitaireGameType.Bakersdozen))
+                    {
+                        var pyramidPostprocessSucceeded = DealPyramidCardsPostprocess(false);
+                        Debug.WriteLine("LoadSession: pyramidPostprocessSucceeded " + pyramidPostprocessSucceeded);
+                    }
+                    else
+                    {
+                        // Without this refreshing of the cards' accessible name, the N in MofN is stuck
+                        // as it was when the card was added to the pile, and doesn't account for the 
+                        // total number of cards added. 
+                        for (int i = 0; i < cCardPiles; i++)
+                        {
+                            var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
+                            if (dealtCardPile != null)
+                            {
+                                RefreshDealtCardPileAccessibleNames(dealtCardPile);
+                            }
+                        }
+                    }
+
+                    RefreshUpperCards();
+
+                    ClearAllSelections(true);
+
+                    LoadAllGamesPausedState();
+
+                    SetNowAsStartOfCurrentGameSessionIfAppropriate();
+
+                    Debug.WriteLine("LoadSession: Note time of start of this game session.");
+
+                    if (CheckForAutoComplete())
+                    {
+                        // Set up the layout for an auto-completed game, but don't show any message.
+                        AutoCompleteGameNow(false);
+                    }
                 }
                 else
                 {
+                    ClearAllPiles();
+
                     Debug.WriteLine("ChangeGameType: Failed to LoadSession, so restart game.");
 
                     RestartGame(true /* screenReaderAnnouncement. */);
                 }
-            }
-
-            timerRefreshDealtCards = new Timer(
-                new TimerCallback((s) => RefreshDealtCards()),
-                    null,
-                    TimeSpan.FromMilliseconds(200),
-                    TimeSpan.FromMilliseconds(Timeout.Infinite));
-        }
-
-        private Timer? timerRefreshDealtCards;
-
-        private void RefreshDealtCards()
-        {
-            timerRefreshDealtCards?.Dispose();
-            timerRefreshDealtCards = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                RefreshAllCardVisuals();
             });
         }
 
@@ -136,7 +284,7 @@ namespace Sa11ytaire4All
                 CardPileGridPyramid.Children.Add(button);
             }
 
-            // Now arrange the buttons for the 
+            // Now arrange the buttons for the pyramid.
             ArrangePyramidButtons();
         }
 
@@ -148,7 +296,8 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
                 return;
             }
@@ -386,7 +535,8 @@ namespace Sa11ytaire4All
                 return false;
             }
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) || 
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
                 return false;
             }
@@ -1144,6 +1294,7 @@ namespace Sa11ytaire4All
             DealtCard? dealtCard = null;
 
             if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen) ||
                 (currentGameType == SolitaireGameType.Pyramid))
             {
                 CollectionView? list;
@@ -1292,7 +1443,8 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) || 
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
                 return;
             }

@@ -224,7 +224,8 @@ namespace Sa11ytaire4All.Source
         {
             get
             {
-                if (MainPage.currentGameType != SolitaireGameType.Klondike)
+                if ((MainPage.currentGameType != SolitaireGameType.Klondike) &&
+                    (MainPage.currentGameType != SolitaireGameType.Bakersdozen))
                 {
                     return "";
                 }
@@ -340,10 +341,10 @@ namespace Sa11ytaire4All.Source
             var mergeFaceDownCards = vm.MergeFaceDownCards;
             var cardWidth = vm.CardWidth;
 
-            var scrollViewWidth = MainPage.MainPageSingleton.GetCardPileGridWidth();
+            var cardPileViewWidth = MainPage.MainPageSingleton.GetCardPileGridWidth();
 
-            if ((cardWidth <= 0) || (scrollViewWidth <= 0) ||
-                (currentDealtCardPileIndex < 0) || (currentDealtCardPileIndex > 6))
+            if ((cardWidth <= 0) || (cardPileViewWidth <= 0) ||
+                (currentDealtCardPileIndex < 0) || (currentDealtCardPileIndex > 12))
             {
                 return 0;
             }
@@ -418,7 +419,7 @@ namespace Sa11ytaire4All.Source
                 if (extendDealtCardHitTarget)
                 {
                     // Start with the card almost reaching the far side of the screen.
-                    width = scrollViewWidth - 20;
+                    width = cardPileViewWidth - 20;
 
                     // If there are no other cards in the pile, there's nothing more to be done.
                     if (currentCardIndexInDealtCardPile > 0)
@@ -1043,7 +1044,7 @@ namespace Sa11ytaire4All.Source
             if (this.Card != null)
             {
                 OnPropertyChanged("Card");
-                
+
                 OnPropertyChanged("DealtCardTintColour");
 
                 // Barker Note: Ok, here's the deal. Originally the two Images inside the DealtCard were bound
@@ -1063,7 +1064,7 @@ namespace Sa11ytaire4All.Source
                 // FaceupDealtCardImageSource and FaceupPictureDealtCardImageSource, and each of those
                 // uses single binding to the DealtCards' Source. With that in place, when the visuals
                 // for a dealt card changes on Windows, RefreshVisuals() can be called, and when the 
-                // property changes are raised, the cad image is resized as required.
+                // property changes are raised, the card image is resized as required.
 
                 OnPropertyChanged("FaceupDealtCardImageSource");
                 OnPropertyChanged("FaceupPictureDealtCardImageSource");

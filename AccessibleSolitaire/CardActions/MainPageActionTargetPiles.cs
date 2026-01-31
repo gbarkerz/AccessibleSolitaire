@@ -74,8 +74,9 @@ namespace Sa11ytaire4All
 
                 default:
 
-                    // If Pyramid, check for a click on a not-open pyramid card.
-                    if (currentGameType != SolitaireGameType.Klondike)
+                    // If Pyramid or Tripeaks, check for a click on a not-open card.
+                    if ((currentGameType != SolitaireGameType.Klondike) &&
+                        (currentGameType != SolitaireGameType.Bakersdozen))
                     {
                         isPyramidCard = true;
 
@@ -169,7 +170,8 @@ namespace Sa11ytaire4All
             var cardWasMoved = false;
 
             // Barker Todo: Check if action can be taken here.
-            if (currentGameType != SolitaireGameType.Klondike)
+            if ((currentGameType != SolitaireGameType.Klondike) &&
+                (currentGameType != SolitaireGameType.Bakersdozen))
             {
                 HandlePyramidCardClick(cardButton);
 
@@ -380,7 +382,20 @@ namespace Sa11ytaire4All
 
             if (listAlreadySelected == null)
             {
-                ClearSelectionStatesAfterTargetCardSelectionChange(cardButton);
+                if (currentGameType == SolitaireGameType.Bakersdozen)
+                {
+                    // Target card pile cards can't be selected in a Baker's Dozen game.
+                    PlaySound(false);
+
+                    var announcement = MainPage.MyGetString("NoSelectTargetCards");
+                    MakeDelayedScreenReaderAnnouncement(announcement, false);
+
+                    SetCardButtonToggledSelectionState(cardButton, false);
+                }
+                else
+                {
+                    ClearSelectionStatesAfterTargetCardSelectionChange(cardButton);
+                }
 
                 return false;
             }

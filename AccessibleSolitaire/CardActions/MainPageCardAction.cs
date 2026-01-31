@@ -18,9 +18,10 @@ namespace Sa11ytaire4All
 
         private void ClearDealtCardPileSelections()
         {
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
-                for (int i = 0; i < cCardPiles; i++)
+                for (int i = 0; i < GetCardPileCount(); i++)
                 {
                     var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
 
@@ -43,7 +44,7 @@ namespace Sa11ytaire4All
             DealtCard? selectedCard = null;
 
             // Is any card selected in a CardPile list?
-            for (int i = 0; i < cCardPiles; i++)
+            for (int i = 0; i < GetCardPileCount(); i++)
             {
                 var list = (CollectionView?)CardPileGrid.FindByName("CardPile" + (i + 1));
                 if (list != null)
@@ -97,7 +98,8 @@ namespace Sa11ytaire4All
         {
             var gameIsOver = true;
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
                 // We've moved a card to the TargetPile. Now let's see if the game is over.
                 for (int i = 0; i < cTargetPiles; i++)

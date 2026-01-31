@@ -434,7 +434,7 @@ namespace Sa11ytaire4All
             // topmost card in a dealt card pile.
 
             // d is a destination for a move between dealt cards.
-            for (int d = 0; d < cCardPiles; d++)
+            for (int d = 0; d < GetCardPileCount(); d++)
             {
                 var destinationDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (d + 1));
                 if (destinationDealtCardPile != null)
@@ -500,7 +500,7 @@ namespace Sa11ytaire4All
                             }
 
                             // Now move through all the dealt card piles looking for a source card for amove.
-                            for (int s = 0; s < cCardPiles; s++)
+                            for (int s = 0; s < GetCardPileCount(); s++)
                             {
                                 var sourceDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (s + 1));
 
@@ -581,7 +581,8 @@ namespace Sa11ytaire4All
 
             var openCardsComment = "";
 
-            if (currentGameType != SolitaireGameType.Klondike)
+            if ((currentGameType != SolitaireGameType.Klondike) &&
+                (currentGameType != SolitaireGameType.Bakersdozen))
             {
                 openCardsComment = AnnouncePyramidOpenCards();
 
@@ -607,7 +608,8 @@ namespace Sa11ytaire4All
 
             var moveComment = "";
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
                 moveComment = AnnounceAvailableMovesKlondike();
             }

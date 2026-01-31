@@ -47,7 +47,7 @@ namespace Sa11ytaire4All
                 // Respect the player's selection in the Settings.
                 var countCardsToTurn = Math.Min(OptionCardTurnCount, maxCountCardsToTurn);
 
-                // We only ever turn over one card in Pyramid and Klondike solitaire.
+                // We only ever turn over one card in Pyramid and Tripeaks solitaire.
                 if (currentGameType != SolitaireGameType.Klondike)
                 {
                     countCardsToTurn = 1;

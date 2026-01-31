@@ -31,11 +31,11 @@
         Text="{x:Static resources:Strings.StringResources.KlondikeSolitaire}">
     </MenuItem>
 
-    <!--<MenuItem x:Name="BakersdozenSolitaireMenuItem" 
+    <MenuItem x:Name="BakersdozenSolitaireMenuItem" 
         Clicked="BakersdozenSolitaireMenuItem_Clicked"
         IconImageSource="cardbackbakersdozen.png"
         Text="{x:Static resources:Strings.StringResources.BakersdozenSolitaire}">
-    </MenuItem>-->
+    </MenuItem>
 
     <MenuItem x:Name="PyramidSolitaireMenuItem" 
         Clicked="PyramidSolitaireMenuItem_Clicked"

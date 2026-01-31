@@ -24,10 +24,10 @@ namespace Sa11ytaire4All
         {
             Shell.Current.FlyoutIsPresented = false;
 
-            //if (MainPage.currentGameType != SolitaireGameType.Klondike)
-            //{
-            //    MainPage.MainPageSingleton?.LoadKlondikeGame();
-            //}
+            if (MainPage.currentGameType != SolitaireGameType.Bakersdozen)
+            {
+                MainPage.MainPageSingleton?.LoadBakersdozenGame();
+            }
         }
 
         private void PyramidSolitaireMenuItem_Clicked(object sender, EventArgs e)

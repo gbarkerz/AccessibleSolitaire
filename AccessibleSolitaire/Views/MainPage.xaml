@@ -119,7 +119,7 @@
                 
                 <!-- The width and height of this Border and the contained Grid is unaffected by 
                     whether the dealt card is selected. -->
-                
+
                 <Border x:Name="CardBorder" 
                     Margin="0" Padding="0"
                     AutomationProperties.IsInAccessibleTree="False"
@@ -709,12 +709,13 @@
                         x:DataType={x:Type vm:DealtCardViewModel},
                         Path=CurrentGameType,
                         Converter={StaticResource CurrentGameTypeToKlondikeUIVisibility}}"
+                    HorizontalOptions="Center"
                     Margin="0" Padding="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     
                     <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
@@ -785,9 +786,21 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -853,6 +866,42 @@
                     ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
                     SelectionChanged="CardPile_SelectionChanged" />
 
+                <CollectionView x:Name="CardPile8" AutomationId="CardPile8" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards8}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged" />
+
+                <CollectionView x:Name="CardPile9" AutomationId="CardPile9" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards9}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged" />
+
+                <CollectionView x:Name="CardPile10" AutomationId="CardPile10" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards10}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged" />
+
+                <CollectionView x:Name="CardPile11" AutomationId="CardPile11" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards11}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged" />
+
+                <CollectionView x:Name="CardPile12" AutomationId="CardPile12" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards12}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged" />
+
+                <CollectionView x:Name="CardPile13" AutomationId="CardPile13" 
+                    Style="{StaticResource CollectionViewStyle}"
+                    ItemsSource="{Binding DealtCards13}"
+                    ItemTemplate="{StaticResource PlayingCollectionViewTemplate}"
+                    SelectionChanged="CardPile_SelectionChanged" />
+
             </Grid>
 
             <!-- Add all the cards for pyramid solitaire.  -->
@@ -870,21 +919,21 @@
                 Padding="0" Margin="0">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+
                     <!-- These last six columns are used in the TripPeaks game only. -->
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
