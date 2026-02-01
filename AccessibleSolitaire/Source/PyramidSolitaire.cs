@@ -65,39 +65,37 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardHeight to " + vm.CardHeight);
                 }
             }
-            else
+
+            var currentCardWidth = CardPileGrid.Width / GetCardPileCount();
+
+            Debug.WriteLine("ResizeDealtCardWidth: Required card width " + currentCardWidth);
+
+            if (forceResize || (currentCardWidth != vm.CardWidth))
             {
-                var currentCardWidth = CardPileGrid.Width / GetCardPileCount();
+                vm.CardWidth = currentCardWidth;
 
-                Debug.WriteLine("ResizeDealtCardWidth: Required card width " + currentCardWidth);
-
-                if (forceResize || (currentCardWidth != vm.CardWidth))
-                {
-                    vm.CardWidth = currentCardWidth;
-
-                    Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardWidth to " + vm.CardWidth);
-                }
-
-                if (currentGameType == SolitaireGameType.Bakersdozen)
-                {
-                    currentCardWidth *= 2;
-                }
-
-                currentCardWidth -= 5;
-
-                Debug.WriteLine("ResizeDealtCardWidth: Set top cards width to " + currentCardWidth);
-
-                NextCardDeck.WidthRequest = currentCardWidth;
-
-                CardDeckUpturned.WidthRequest = currentCardWidth;
-                CardDeckUpturnedObscuredHigher.WidthRequest = currentCardWidth;
-                CardDeckUpturnedObscuredLower.WidthRequest = currentCardWidth;
-
-                TargetPileC.WidthRequest = currentCardWidth;
-                TargetPileD.WidthRequest = currentCardWidth;
-                TargetPileH.WidthRequest = currentCardWidth;
-                TargetPileS.WidthRequest = currentCardWidth;
+                Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardWidth to " + vm.CardWidth);
             }
+
+            if (currentGameType == SolitaireGameType.Bakersdozen)
+            {
+                currentCardWidth *= 2;
+            }
+
+            currentCardWidth -= 5;
+
+            Debug.WriteLine("ResizeDealtCardWidth: Set top cards width to " + currentCardWidth);
+
+            NextCardDeck.WidthRequest = currentCardWidth;
+
+            CardDeckUpturned.WidthRequest = currentCardWidth;
+            CardDeckUpturnedObscuredHigher.WidthRequest = currentCardWidth;
+            CardDeckUpturnedObscuredLower.WidthRequest = currentCardWidth;
+
+            TargetPileC.WidthRequest = currentCardWidth;
+            TargetPileD.WidthRequest = currentCardWidth;
+            TargetPileH.WidthRequest = currentCardWidth;
+            TargetPileS.WidthRequest = currentCardWidth;
         }
 
         private void ComleteVisualsUpdateFollowingGameChange()
@@ -270,7 +268,7 @@ namespace Sa11ytaire4All
 
             var gameType = "";
 
-            switch (currentGameType)
+            switch (targetGameType)
             {
                 case SolitaireGameType.Klondike:
                     gameType = MyGetString("KlondikeSolitaire");
