@@ -191,8 +191,7 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
             }
 
-            PyramidOpenCardsAnnouncementButton.IsVisible = ((currentGameType == SolitaireGameType.Pyramid) ||
-                                                            (currentGameType == SolitaireGameType.Tripeaks));
+            PyramidOpenCardsAnnouncementButton.IsVisible = (currentGameType != SolitaireGameType.Klondike);
         }
 
         private async void ChangeGameType(SolitaireGameType targetGameType)

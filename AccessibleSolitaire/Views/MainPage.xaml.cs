@@ -829,7 +829,15 @@ namespace Sa11ytaire4All
 
             foreach (var dealtCardPile in vm.DealtCards)
             {
-                cardCount += dealtCardPile.Count;
+                // Don't include empty pile placeholders in the count.
+                if (dealtCardPile.Count > 0)
+                {
+                    var topDealtCardInPile = dealtCardPile[dealtCardPile.Count - 1];
+                    if (topDealtCardInPile.CardState != CardState.KingPlaceHolder)
+                    {
+                        cardCount += dealtCardPile.Count;
+                    }
+                }
             }
 
             Debug.WriteLine("LoadSession: FULL cardCount " + cardCount);
@@ -2315,7 +2323,14 @@ namespace Sa11ytaire4All
 
         private void PyramidOpenCardsAnnouncementButton_Clicked(object sender, EventArgs e)
         {
-            AnnouncePyramidOpenCards(true);
+            if (currentGameType == SolitaireGameType.Bakersdozen)
+            {
+                AnnounceBakersdozenOpenCards(true);
+            }
+            else
+            {
+                AnnouncePyramidOpenCards(true);
+            }
         }
 
         private void MakeDelayedScreenReaderAnnouncement(string? announcement, bool appendAvailableMoves)

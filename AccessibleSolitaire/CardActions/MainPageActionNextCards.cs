@@ -17,6 +17,12 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            // This button should never do anything if a completed game is being shown.
+            if (GameOver())
+            {
+                return;
+            }
+
             PerformNextCardAction();
         }
 

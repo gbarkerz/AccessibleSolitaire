@@ -326,7 +326,7 @@ namespace Sa11ytaire4All
             return moveComment;
         }
 
-        private string? AnnouncePyramidOpenCards()
+        private string? GetPyramidOpenCardsAnnouncement()
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -374,6 +374,53 @@ namespace Sa11ytaire4All
             }
 
             return openCardsComment;
+        }
+
+        private string? GetBakersDozenOpenCardsAnnouncement()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return null;
+            }
+
+            var openCardsComment = "";
+
+            // There are always 13 card piles in the Baker's Dozen game.
+            for (int i = 0; i < 13; ++i)
+            {
+                var includedPileIndex = false;
+
+                var countOfCardsOnRow = vm.DealtCards[i].Count;
+                if (countOfCardsOnRow > 0)
+                {
+                    var dealtCard = vm.DealtCards[i][countOfCardsOnRow - 1];
+                    if (dealtCard.Card != null)
+                    {
+                        // Ignore empty piles.
+                        if (dealtCard.CardState == CardState.KingPlaceHolder)
+                        {
+                            continue;
+                        }
+
+                        if (!string.IsNullOrEmpty(openCardsComment))
+                        {
+                            openCardsComment += ", ";
+                        }
+
+                        if (!includedPileIndex)
+                        {
+                            includedPileIndex = true;
+
+                            openCardsComment += MyGetString("Pile") + " " + (i + 1).ToString();
+                        }
+
+                        openCardsComment += ", " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                    }
+                }
+            }
+
+            return openCardsComment + ".";
         }
 
         private string? AnnounceAvailableMovesKlondike()
@@ -704,7 +751,7 @@ namespace Sa11ytaire4All
             if ((currentGameType != SolitaireGameType.Klondike) &&
                 (currentGameType != SolitaireGameType.Bakersdozen))
             {
-                openCardsComment = AnnouncePyramidOpenCards();
+                openCardsComment = GetPyramidOpenCardsAnnouncement();
 
                 if (makeAnnouncement)
                 {
@@ -713,9 +760,33 @@ namespace Sa11ytaire4All
                         openCardsComment = noMoveIsAvailable;
                     }
 
-                    Debug.WriteLine("Screen reader announce: " + openCardsComment);
+                    Debug.WriteLine("AnnouncePyramidOpenCards: Announce " + openCardsComment);
 
                     MakeDelayedScreenReaderAnnouncement(openCardsComment, false);
+                }
+            }
+
+            return openCardsComment;
+        }
+
+        public string? AnnounceBakersdozenOpenCards(bool makeAnnouncement)
+        {
+            var noMoveIsAvailable = MyGetString("NoOpenCardsAreAvailable");
+
+            var openCardsComment = "";
+
+            if (currentGameType == SolitaireGameType.Bakersdozen)
+            {
+                openCardsComment = GetBakersDozenOpenCardsAnnouncement();
+
+                if (makeAnnouncement)
+                {
+                    if (!string.IsNullOrEmpty(openCardsComment))
+                    {
+                        Debug.WriteLine("AnnounceBakersdozenOpenCards: Announce " + openCardsComment);
+
+                        MakeDelayedScreenReaderAnnouncement(openCardsComment, false);
+                    }
                 }
             }
 

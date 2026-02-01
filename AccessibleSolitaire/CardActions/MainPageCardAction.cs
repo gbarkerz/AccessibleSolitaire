@@ -102,12 +102,13 @@ namespace Sa11ytaire4All
                 (currentGameType == SolitaireGameType.Bakersdozen))
             {
                 // We've moved a card to the TargetPile. Now let's see if the game is over.
-                for (int i = 0; i < cTargetPiles; i++)
-                {
-                    if (_targetPiles[i].Count != 13)
-                    {
-                        gameIsOver = false;
-                    }
+                // The game is over if all target card piles are showing Kings.
+                if ((TargetPileC.Card == null) || (TargetPileC.Card.Rank != 13) ||
+                    (TargetPileD.Card == null) || (TargetPileD.Card.Rank != 13) ||
+                    (TargetPileH.Card == null) || (TargetPileH.Card.Rank != 13) ||
+                    (TargetPileS.Card == null) || (TargetPileS.Card.Rank != 13))
+                {    
+                    gameIsOver = false;
                 }
             }
             else if (currentGameType == SolitaireGameType.Pyramid)
