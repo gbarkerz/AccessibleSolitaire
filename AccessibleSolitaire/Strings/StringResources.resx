@@ -831,4 +831,13 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="NoMoveToEmptyPile" xml:space="preserve">
     <value>Cards cannot be moved to empty dealt card piles.</value>
   </data>
+  <data name="11" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="12" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="13" xml:space="preserve">
+    <value>13</value>
+  </data>
 </root>

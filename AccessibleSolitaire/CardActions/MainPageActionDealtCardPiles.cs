@@ -484,12 +484,18 @@ namespace Sa11ytaire4All
                 MainPage.MyGetString("To") + " " +
                 MainPage.MyGetString("Empty") + " " +
                 MainPage.MyGetString("DealtCardPile") + " " +
-                localizedNumbers[listEmptyIndex] + ", " +
-                revealedString + " " +
-                cardRevealedName + " " +
-                inDealtCardPile + " " +
-                localizedNumbers[listKingIndex] +
-                ".";
+                localizedNumbers[listEmptyIndex];
+                
+            if (currentGameType == SolitaireGameType.Klondike)
+            {
+                announcement += ", " +
+                    revealedString + " " +
+                    cardRevealedName + " " +
+                    inDealtCardPile + " " +
+                    localizedNumbers[listKingIndex];
+            }
+
+            announcement += ".";
 
             MakeDelayedScreenReaderAnnouncement(announcement, true);
 
@@ -923,12 +929,18 @@ namespace Sa11ytaire4All
                 {
                     string announcement =
                         MainPage.MyGetString("Moved") + " " +
-                        cardAbove.Card.GetCardAccessibleName() + ", " +
-                        revealedString + " " +
-                        cardRevealedName + " " +
-                        inDealtCardPile + " " +
-                        localizedNumbers[listAlreadySelectedIndex] +
-                        ".";
+                        cardAbove.Card.GetCardAccessibleName();
+
+                    if (currentGameType == SolitaireGameType.Klondike)
+                    {
+                        announcement += ", " +
+                            revealedString + " " +
+                            cardRevealedName + " " +
+                            inDealtCardPile + " " +
+                            localizedNumbers[listAlreadySelectedIndex];
+                    }
+
+                    announcement += ".";
 
                     MakeDelayedScreenReaderAnnouncement(announcement, true);
                 }
@@ -1163,11 +1175,18 @@ namespace Sa11ytaire4All
                     // Have screen readers make a related announcement.
                     string announcement =
                         MainPage.MyGetString("Moved") + " " +
-                        cardAbove.Card.GetCardAccessibleName() + ", " +
+                        cardAbove.Card.GetCardAccessibleName();
+
+                    if (currentGameType == SolitaireGameType.Klondike)
+                    {
+                        announcement += ", " +
                         revealedString + " " +
                         cardRevealedAnnouncement +
                         " " + inDealtCardPile + " " +
-                        localizedNumbers[listAlreadySelectedIndex] + ".";
+                        localizedNumbers[listAlreadySelectedIndex];
+                    }
+
+                    announcement += ".";
 
                     MakeDelayedScreenReaderAnnouncement(announcement, true);
 

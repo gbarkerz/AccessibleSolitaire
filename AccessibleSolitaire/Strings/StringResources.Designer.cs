@@ -79,6 +79,33 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 11.
+        /// </summary>
+        internal static string _11 {
+            get {
+                return ResourceManager.GetString("11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12.
+        /// </summary>
+        internal static string _12 {
+            get {
+                return ResourceManager.GetString("12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 13.
+        /// </summary>
+        internal static string _13 {
+            get {
+                return ResourceManager.GetString("13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 2.
         /// </summary>
         internal static string _2 {

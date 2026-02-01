@@ -2272,7 +2272,12 @@ namespace Sa11ytaire4All
         {
             //SentrySdk.CaptureMessage("Accessible Solitaire: Button Clicked: StateAnnouncementButton", SentryLevel.Info);
 
-            var announcementRemainingCards = AnnounceStateRemainingCards(false);
+            var announcementRemainingCards = "";
+            
+            if (currentGameType != SolitaireGameType.Bakersdozen)
+            {
+                AnnounceStateRemainingCards(false);
+            }
 
             var announceStateTargetPiles = AnnounceStateTargetPiles(false);
 
@@ -2521,10 +2526,13 @@ namespace Sa11ytaire4All
         {
             string stateMessage = "";
 
-            if ((currentGameType == SolitaireGameType.Klondike) || 
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            if (currentGameType == SolitaireGameType.Klondike)
             {
                 stateMessage = AnnounceStateDealtCardPilesKlondike();
+            }
+            else if (currentGameType == SolitaireGameType.Bakersdozen)
+            {
+                stateMessage = AnnounceStateDealtCardPilesBakersDozen();
             }
             else if ((currentGameType == SolitaireGameType.Pyramid) ||
                      (currentGameType == SolitaireGameType.Tripeaks))
@@ -2544,6 +2552,12 @@ namespace Sa11ytaire4All
         {
             string stateMessage = "";
 
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return "";
+            }
+
             string empty = MyGetString("Empty");
             string pile = MyGetString("Pile");
             string to = MyGetString("To");
@@ -2559,12 +2573,6 @@ namespace Sa11ytaire4All
 
                 int cFaceDown = 0;
                 int indexLastFaceUp = -1;
-
-                var vm = this.BindingContext as DealtCardViewModel;
-                if ((vm == null) || (vm.DealtCards == null))
-                {
-                    break;
-                }
 
                 var faceDownMessage = "";
 
@@ -2625,6 +2633,50 @@ namespace Sa11ytaire4All
                     stateMessage += (i < countPiles - 1 ? ", " : ".");
                 }
             }
+
+            return stateMessage;
+        }
+
+        public string AnnounceStateDealtCardPilesBakersDozen()
+        {
+            string stateMessage = "";
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return "";
+            }
+
+            string empty = MyGetString("Empty");
+            string pile = MyGetString("Pile");
+            string card = MyGetString("Card");
+            string cards = MyGetString("Cards");
+
+            var countPiles = GetCardPileCount();
+
+            for (int i = 0; i < countPiles; i++)
+            {
+                stateMessage += pile + " " + (i + 1) + ", ";
+
+                for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                {
+                    if ((vm.DealtCards[i][j] as DealtCard).CardState == CardState.KingPlaceHolder)
+                    {
+                        stateMessage += empty;
+                    }
+                    else
+                    {
+                        stateMessage += (vm.DealtCards[i][j] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
+                    }
+
+                    if ((i < countPiles - 1) | (j > 0))
+                    {
+                        stateMessage += ", ";
+                    }
+                }
+            }
+
+            stateMessage += ".";
 
             return stateMessage;
         }

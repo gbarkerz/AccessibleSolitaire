@@ -831,4 +831,13 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="NoMoveToEmptyPile" xml:space="preserve">
     <value>Kart nie można przenosić na puste stosy rozdanych kart.</value>
   </data>
+  <data name="11" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="12" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="13" xml:space="preserve">
+    <value>13</value>
+  </data>
 </root>

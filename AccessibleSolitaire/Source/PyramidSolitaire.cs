@@ -30,8 +30,6 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Klondike);
 
-            PyramidOpenCardsAnnouncementButton.IsVisible = false;
-
             ComleteVisualsUpdateFollowingGameChange();
         }
 
@@ -88,8 +86,6 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Bakersdozen);
 
-            PyramidOpenCardsAnnouncementButton.IsVisible = false;
-
             ComleteVisualsUpdateFollowingGameChange();
         }
 
@@ -102,9 +98,6 @@ namespace Sa11ytaire4All
             }
 
             ChangeGameType(SolitaireGameType.Pyramid);
-
-            // This button is only visible if the Show Screen Reader Buttons setting is on.
-            PyramidOpenCardsAnnouncementButton.IsVisible = true;
 
             ArrangePyramidButtons();
 
@@ -120,9 +113,6 @@ namespace Sa11ytaire4All
             }
 
             ChangeGameType(SolitaireGameType.Tripeaks);
-
-            // This button is only visible if the Show Screen Reader Buttons setting is on.
-            PyramidOpenCardsAnnouncementButton.IsVisible = true;
 
             ArrangePyramidButtons();
 
@@ -148,6 +138,9 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredHigher.IsVisible = (currentGameType != SolitaireGameType.Tripeaks);
                 CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
             }
+
+            PyramidOpenCardsAnnouncementButton.IsVisible = ((currentGameType == SolitaireGameType.Pyramid) ||
+                                                            (currentGameType == SolitaireGameType.Tripeaks));
         }
 
         private async void ChangeGameType(SolitaireGameType targetGameType)
