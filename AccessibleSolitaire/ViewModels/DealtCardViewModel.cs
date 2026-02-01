@@ -50,9 +50,11 @@ namespace Sa11ytaire4All.ViewModels
             }
             set
             {
-                if (cardWidth != value)
+                //if (cardWidth != value)
                 {
                     cardWidth = value;
+
+                    Debug.WriteLine("CardWidth: Raise OnPropertyChanged " + cardWidth);
 
                     OnPropertyChanged("CardWidth");
                     OnPropertyChanged("DealtCardPileWidth");

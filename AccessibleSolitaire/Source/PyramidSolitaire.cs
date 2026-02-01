@@ -4,6 +4,8 @@ using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace Sa11ytaire4All
 {
@@ -35,7 +37,9 @@ namespace Sa11ytaire4All
 
         public void ResizeDealtCardWidth(bool forceResize)
         {
-            if ((CardPileGrid.Width > 0) && !MainPage.IsPortrait())
+            Debug.WriteLine("ResizeDealtCardWidth: Begin resize");
+
+            if ((MainPageGrid.Width > 0) && !MainPage.IsPortrait())
             {
                 var vm = this.BindingContext as DealtCardViewModel;
                 if (vm == null)
@@ -44,14 +48,21 @@ namespace Sa11ytaire4All
                 }
 
                 var currentCardWidth = MainPageGrid.Width / GetCardPileCount();
+
+                Debug.WriteLine("ResizeDealtCardWidth: Required card width " + currentCardWidth);
+
                 if (forceResize || (currentCardWidth != vm.CardWidth))
                 {
                     vm.CardWidth = currentCardWidth;
+
+                    Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardWidth to " + vm.CardWidth);
 
                     if (currentGameType == SolitaireGameType.Bakersdozen)
                     {
                         currentCardWidth *= 2;
                     }
+
+                    Debug.WriteLine("ResizeDealtCardWidth: Set top cards width to " + currentCardWidth);
 
                     NextCardDeck.WidthRequest = currentCardWidth;
 
@@ -69,11 +80,32 @@ namespace Sa11ytaire4All
 
         private void ComleteVisualsUpdateFollowingGameChange()
         {
-            SetRemainingCardUIVisibility();
+            if (timerDelayCompleteGameTypeChangeUpdate == null)
+            {
+                timerDelayCompleteGameTypeChangeUpdate = new Timer(
+                    new TimerCallback((s) => TimerDelayCompleteGameTypeChangeUpdate()),
+                        null,
+                        TimeSpan.FromMilliseconds(2000),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+            }
+        }
 
-            ResizeDealtCardWidth(false);
+        private Timer? timerDelayCompleteGameTypeChangeUpdate;
 
-            RefreshAllCardVisuals();
+        private async void TimerDelayCompleteGameTypeChangeUpdate()
+        {
+            timerDelayCompleteGameTypeChangeUpdate?.Dispose();
+            timerDelayCompleteGameTypeChangeUpdate = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                SetRemainingCardUIVisibility();
+
+                ResizeDealtCardWidth(false);
+
+                RefreshAllCardVisuals();
+            });
         }
 
         public void LoadBakersdozenGame()
@@ -149,6 +181,8 @@ namespace Sa11ytaire4All
 
             SaveSession();
 
+            PrepareForGameTypeChange(currentGameType, targetGameType);
+
             // Barker Todo: Remove currentGameType now that we have vm.CurrentGameType.
             currentGameType = targetGameType;
 
@@ -176,7 +210,7 @@ namespace Sa11ytaire4All
                 timerDelayLoadSession = new Timer(
                     new TimerCallback((s) => TimedDelayLoadSession()),
                         null,
-                        TimeSpan.FromMilliseconds(500),
+                        TimeSpan.FromMilliseconds(200),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
         }
@@ -193,6 +227,53 @@ namespace Sa11ytaire4All
 
             // Now run the rest on the UI thread.
             LoadSessionPostprocessOnUIThread(loadSucceeded);
+        }
+
+        private void PrepareForGameTypeChange(SolitaireGameType currentGameType, SolitaireGameType targetGameType)
+        {
+            switch (targetGameType)
+            {
+                case SolitaireGameType.Klondike:
+                case SolitaireGameType.Bakersdozen:
+                    CardPileGrid.IsVisible = true;
+                    CardPileGridPyramid.IsVisible = false;
+                    break;
+
+                case SolitaireGameType.Pyramid:
+                case SolitaireGameType.Tripeaks:
+                    CardPileGrid.IsVisible = false;
+                    CardPileGridPyramid.IsVisible = true;
+                    break;
+            }
+
+            var gameType = "";
+
+            switch (currentGameType)
+            {
+                case SolitaireGameType.Klondike:
+                    gameType = MyGetString("KlondikeSolitaire");
+                    break;
+
+                case SolitaireGameType.Pyramid:
+                    gameType = MyGetString("PyramidSolitaire");
+                    break;
+
+                case SolitaireGameType.Tripeaks:
+                    gameType = MyGetString("TripeaksSolitaire");
+                    break;
+
+                case SolitaireGameType.Bakersdozen:
+                    gameType = MyGetString("BakersdozenSolitaire");
+                    break;
+
+                default:
+                    break;
+            }
+
+            string announcement = MyGetString("PreparingGameTypeLayout");
+            announcement = string.Format(announcement, gameType);
+
+            MakeDelayedScreenReaderAnnouncement(announcement, false);
         }
 
         private bool LoadedCardCountUnexpected()

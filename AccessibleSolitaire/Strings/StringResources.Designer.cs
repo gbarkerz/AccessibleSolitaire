@@ -1708,6 +1708,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preparing {0} layout.
+        /// </summary>
+        internal static string PreparingGameTypeLayout {
+            get {
+                return ResourceManager.GetString("PreparingGameTypeLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preview sound.
         /// </summary>
         internal static string PreviewSound {

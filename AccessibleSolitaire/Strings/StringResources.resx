@@ -840,4 +840,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="13" xml:space="preserve">
     <value>13</value>
   </data>
+  <data name="PreparingGameTypeLayout" xml:space="preserve">
+    <value>Preparing {0} layout</value>
+  </data>
 </root>

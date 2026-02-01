@@ -595,6 +595,16 @@ namespace Sa11ytaire4All
 
                 SetRemainingCardUIVisibility();
 
+                if ((currentGameType == SolitaireGameType.Klondike) ||
+                    (currentGameType == SolitaireGameType.Bakersdozen))
+                {
+                    CardPileGrid.IsVisible = true;
+                }
+                else
+                {
+                    CardPileGridPyramid.IsVisible = true;
+                }
+
                 PauseResumeButton.IsVisible = (bool)Preferences.Get("ShowPauseResumeButton", false);
 
                 // If the Pause/Resume button is not visible, make sure no game is currently paused.

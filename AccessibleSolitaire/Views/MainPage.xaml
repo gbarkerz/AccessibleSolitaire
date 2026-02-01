@@ -768,11 +768,7 @@
             <!-- Add the seven dealt card piles.  -->
 
             <Grid x:Name="CardPileGrid"
-                IsVisible="{Binding Mode=OneWay,
-                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                    x:DataType={x:Type vm:DealtCardViewModel},
-                    Path=CurrentGameType,
-                    Converter={StaticResource CurrentGameTypeToKlondikeUIVisibility}}"
+                IsVisible="False"
                 FlowDirection="{Binding 
                     Path=FlipGameLayoutHorizontally,
                     Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"
@@ -908,11 +904,7 @@
             <Grid x:Name="CardPileGridPyramid"
                 Grid.Row="3" Grid.RowSpan="6"
                 InputTransparent="True" CascadeInputTransparent="False"
-                IsVisible="{Binding Mode=OneWay,
-                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                    x:DataType={x:Type vm:DealtCardViewModel},
-                    Path=CurrentGameType,
-                    Converter={StaticResource CurrentGameTypeToPyramidUIVisibility}}"
+                IsVisible="False"
                 FlowDirection="{Binding 
                     Path=FlipGameLayoutHorizontally,
                     Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}"

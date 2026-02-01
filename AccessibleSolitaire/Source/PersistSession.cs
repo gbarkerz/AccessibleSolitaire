@@ -267,7 +267,6 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("LoadSession: " + ex);
             }
 
-            // Always run this on the UI thread.
             Debug.WriteLine("LoadSession: loadedSession " + loadedSession);
 
             return loadedSession;
