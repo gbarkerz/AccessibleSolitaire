@@ -840,4 +840,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="13" xml:space="preserve">
     <value>13</value>
   </data>
+  <data name="PreparingGameTypeLayout" xml:space="preserve">
+    <value>Przygotowywanie układu {0}</value>
+  </data>
 </root>
