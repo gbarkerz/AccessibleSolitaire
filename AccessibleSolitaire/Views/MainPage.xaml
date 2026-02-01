@@ -53,15 +53,16 @@
         
         <!-- Style the four target piles. -->
 
+        <!--<Setter Property="WidthRequest" Value="{Binding 
+                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                x:DataType=vm:DealtCardViewModel,
+                Path=CardWidth, Converter={StaticResource CardWidthToTargetCardWidthConverter}}" />-->
+
         <Style x:Key="CardButtonStyle" TargetType="local_views:CardButton">
             <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="WidthRequest" Value="{Binding 
-                Source={RelativeSource Mode=FindAncestorBindingContext, 
-                    AncestorType={x:Type vm:DealtCardViewModel}}, 
-                x:DataType=vm:DealtCardViewModel,
-                Path=CardWidth, Converter={StaticResource CardWidthToTargetCardWidthConverter}}" />
             <Setter Property="HeightRequest" Value="{Binding 
                 Source={RelativeSource Mode=FindAncestorBindingContext, 
                     AncestorType={x:Type vm:DealtCardViewModel}}, 

@@ -76,25 +76,27 @@ namespace Sa11ytaire4All
                     vm.CardWidth = currentCardWidth;
 
                     Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardWidth to " + vm.CardWidth);
-
-                    if (currentGameType == SolitaireGameType.Bakersdozen)
-                    {
-                        currentCardWidth *= 2;
-                    }
-
-                    Debug.WriteLine("ResizeDealtCardWidth: Set top cards width to " + currentCardWidth);
-
-                    NextCardDeck.WidthRequest = currentCardWidth;
-
-                    CardDeckUpturned.WidthRequest = currentCardWidth;
-                    CardDeckUpturnedObscuredHigher.WidthRequest = currentCardWidth;
-                    CardDeckUpturnedObscuredLower.WidthRequest = currentCardWidth;
-
-                    TargetPileC.WidthRequest = currentCardWidth;
-                    TargetPileD.WidthRequest = currentCardWidth;
-                    TargetPileH.WidthRequest = currentCardWidth;
-                    TargetPileS.WidthRequest = currentCardWidth;
                 }
+
+                if (currentGameType == SolitaireGameType.Bakersdozen)
+                {
+                    currentCardWidth *= 2;
+                }
+
+                currentCardWidth -= 5;
+
+                Debug.WriteLine("ResizeDealtCardWidth: Set top cards width to " + currentCardWidth);
+
+                NextCardDeck.WidthRequest = currentCardWidth;
+
+                CardDeckUpturned.WidthRequest = currentCardWidth;
+                CardDeckUpturnedObscuredHigher.WidthRequest = currentCardWidth;
+                CardDeckUpturnedObscuredLower.WidthRequest = currentCardWidth;
+
+                TargetPileC.WidthRequest = currentCardWidth;
+                TargetPileD.WidthRequest = currentCardWidth;
+                TargetPileH.WidthRequest = currentCardWidth;
+                TargetPileS.WidthRequest = currentCardWidth;
             }
         }
 
@@ -230,7 +232,7 @@ namespace Sa11ytaire4All
                 timerDelayLoadSession = new Timer(
                     new TimerCallback((s) => TimedDelayLoadSession()),
                         null,
-                        TimeSpan.FromMilliseconds(200),
+                        TimeSpan.FromMilliseconds(1000),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
         }
@@ -326,9 +328,15 @@ namespace Sa11ytaire4All
                 // auto-completed game here. The check for the current game being a Klondike game is
                 // made beneath CheckForAutoComplete().
 
+                var setAutoCompleteVisuals = false;
+
                 if (loadSucceeded && LoadedCardCountUnexpected())
                 {
-                    loadSucceeded = false;
+                    setAutoCompleteVisuals = CheckForAutoComplete();
+                    if (!setAutoCompleteVisuals)
+                    {
+                        loadSucceeded = false;
+                    }
                 }
 
                 if (loadSucceeded)
@@ -355,7 +363,15 @@ namespace Sa11ytaire4All
                         }
                     }
 
-                    RefreshUpperCards();
+                    if (!setAutoCompleteVisuals)
+                    {
+                        RefreshUpperCards();
+                    }
+                    else
+                    {
+                        // Set up the layout for an auto-completed game, but don't show any message.
+                        AutoCompleteGameNow(false);
+                    }
 
                     ClearAllSelections(true);
 
@@ -364,12 +380,6 @@ namespace Sa11ytaire4All
                     SetNowAsStartOfCurrentGameSessionIfAppropriate();
 
                     Debug.WriteLine("LoadSession: Note time of start of this game session.");
-
-                    if (CheckForAutoComplete())
-                    {
-                        // Set up the layout for an auto-completed game, but don't show any message.
-                        AutoCompleteGameNow(false);
-                    }
                 }
                 else
                 {
