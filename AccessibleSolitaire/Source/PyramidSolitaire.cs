@@ -39,15 +39,35 @@ namespace Sa11ytaire4All
         {
             Debug.WriteLine("ResizeDealtCardWidth: Begin resize");
 
-            if ((MainPageGrid.Width > 0) && !MainPage.IsPortrait())
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
             {
-                var vm = this.BindingContext as DealtCardViewModel;
-                if (vm == null)
-                {
-                    return;
-                }
+                return;
+            }
 
-                var currentCardWidth = MainPageGrid.Width / GetCardPileCount();
+            if ((CardPileGrid.Width <= 0) || (CardPileGrid.Height <= 0))
+            {
+                return;
+            }
+
+            if (MainPage.IsPortrait())
+            {
+                var currentCardHeight = CardPileGrid.Height / 
+                                            (currentGameType != SolitaireGameType.Bakersdozen ?
+                                                7 : 13);
+
+                Debug.WriteLine("ResizeDealtCardWidth: Required card height" + currentCardHeight);
+
+                if (forceResize || (currentCardHeight != vm.CardHeight))
+                {
+                    vm.CardHeight = currentCardHeight;
+
+                    Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardHeight to " + vm.CardHeight);
+                }
+            }
+            else
+            {
+                var currentCardWidth = CardPileGrid.Width / GetCardPileCount();
 
                 Debug.WriteLine("ResizeDealtCardWidth: Required card width " + currentCardWidth);
 
