@@ -125,7 +125,22 @@ namespace Sa11ytaire4All
                 ResizeDealtCardWidth(false);
 
                 RefreshAllCardVisuals();
+
+                RefreshDealtCardPilesIsInAccessibleTree();
             });
+        }
+
+        private void RefreshDealtCardPilesIsInAccessibleTree()
+        {
+            // The last six dealt card piles are only of interest in the Baker's Dozen game.
+            var lastCardPileRelevant = (currentGameType == SolitaireGameType.Bakersdozen);
+
+            AutomationProperties.SetIsInAccessibleTree(CardPile8, lastCardPileRelevant);
+            AutomationProperties.SetIsInAccessibleTree(CardPile9, lastCardPileRelevant);
+            AutomationProperties.SetIsInAccessibleTree(CardPile10, lastCardPileRelevant);
+            AutomationProperties.SetIsInAccessibleTree(CardPile11, lastCardPileRelevant);
+            AutomationProperties.SetIsInAccessibleTree(CardPile12, lastCardPileRelevant);
+            AutomationProperties.SetIsInAccessibleTree(CardPile13, lastCardPileRelevant);
         }
 
         public void LoadBakersdozenGame()

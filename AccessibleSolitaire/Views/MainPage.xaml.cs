@@ -605,6 +605,8 @@ namespace Sa11ytaire4All
                     CardPileGridPyramid.IsVisible = true;
                 }
 
+                RefreshDealtCardPilesIsInAccessibleTree();
+
                 PauseResumeButton.IsVisible = (bool)Preferences.Get("ShowPauseResumeButton", false);
 
                 // If the Pause/Resume button is not visible, make sure no game is currently paused.
