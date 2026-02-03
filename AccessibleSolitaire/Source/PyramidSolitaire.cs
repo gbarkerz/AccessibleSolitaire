@@ -74,13 +74,13 @@ namespace Sa11ytaire4All
 
                     case SolitaireGameType.Bakersdozen:
 
-                        currentCardHeight = InnerMainGrid.Height / 15;
+                        currentCardHeight = (InnerMainGrid.Height / 15) - 1;
 
                         break;
 
                     default: // Klondike:
 
-                        currentCardHeight = InnerMainGrid.Height / 10;
+                        currentCardHeight = (InnerMainGrid.Height / 10) - 1;
 
                         break;
                 }
@@ -318,6 +318,28 @@ namespace Sa11ytaire4All
             announcement = string.Format(announcement, gameType);
 
             MakeDelayedScreenReaderAnnouncement(announcement, false);
+
+            ClearPyramidCards();
+        }
+
+        private void ClearPyramidCards()
+        {
+            if ((currentGameType == SolitaireGameType.Pyramid) ||
+                (currentGameType == SolitaireGameType.Tripeaks))
+            {
+                var pyramidCards = CardPileGridPyramid.Children;
+
+                foreach (var pyramidCard in pyramidCards)
+                {
+                    var card = pyramidCard as CardButton;
+                    if ((card != null) && (card.Card != null))
+                    {
+                        card.Card = null;
+
+                        card.RefreshVisuals();
+                    }
+                }
+            }
         }
 
         private bool LoadedCardCountUnexpected()
