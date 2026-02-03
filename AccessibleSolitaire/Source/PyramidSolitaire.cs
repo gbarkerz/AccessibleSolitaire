@@ -35,9 +35,11 @@ namespace Sa11ytaire4All
             ComleteVisualsUpdateFollowingGameChange();
         }
 
-        public void ResizeDealtCardWidth(bool forceResize)
+        // Resize the CardWidth and CardHeight (to which so much UI is bound) based on the
+        // current dimensions of the app main grid, and the current solitaire game.
+        public void ResizeDealtCard(bool forceResize)
         {
-            Debug.WriteLine("ResizeDealtCardWidth: Begin resize");
+            Debug.WriteLine("ResizeDealtCard: Begin resizing.");
 
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm == null)
@@ -45,89 +47,97 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if ((CardPileGrid.Width <= 0) || (CardPileGrid.Height <= 0))
+            if ((InnerMainGrid.Width <= 0) || (InnerMainGrid.Height <= 0))
             {
                 return;
             }
 
             if (MainPage.IsPortrait())
             {
-                var currentCardHeight = CardPileGrid.Height / 
-                                            (currentGameType != SolitaireGameType.Bakersdozen ?
-                                                7 : 13);
+                vm.CardWidth = InnerMainGrid.Width / 5;
 
-                Debug.WriteLine("ResizeDealtCardWidth: Required card height" + currentCardHeight);
+                var currentCardHeight = 0.0;
 
-                if (forceResize || (currentCardHeight != vm.CardHeight))
+                // The card height is based on the current game and the current number of rows.
+
+                switch (currentGameType)
                 {
-                    vm.CardHeight = currentCardHeight;
+                    // For Tri Peaks, match the height of the cards in the Pyramid game,
+                    // leaving some space in the main area.
 
-                    Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardHeight to " + vm.CardHeight);
+                    case SolitaireGameType.Pyramid:
+                    case SolitaireGameType.Tripeaks:
+
+                        currentCardHeight = (3 * InnerMainGrid.Height / 13);
+
+                        break;
+
+                    case SolitaireGameType.Bakersdozen:
+
+                        currentCardHeight = InnerMainGrid.Height / 15;
+
+                        break;
+
+                    default: // Klondike:
+
+                        currentCardHeight = InnerMainGrid.Height / 10;
+
+                        break;
+                }
+
+                if ((currentCardHeight > 0) && (currentCardHeight != vm.CardHeight))
+                {
+                    Debug.WriteLine("ResizeDealtCard: Set vm.CardHeight to: " + currentCardHeight);
+
+                    vm.CardHeight = currentCardHeight;
                 }
             }
-
-            var currentCardWidth = CardPileGrid.Width / GetCardPileCount();
-
-            Debug.WriteLine("ResizeDealtCardWidth: Required card width " + currentCardWidth);
-
-            if (forceResize || (currentCardWidth != vm.CardWidth))
+            else // Landscape.
             {
-                vm.CardWidth = currentCardWidth;
+                if ((currentGameType == SolitaireGameType.Pyramid) ||
+                    (currentGameType == SolitaireGameType.Tripeaks))
+                {
+                    vm.CardHeight = (3 * MainPageGrid.Height) / 13;
 
-                Debug.WriteLine("ResizeDealtCardWidth: Set vm.CardWidth to " + vm.CardWidth);
+                    var currentCardWidth = MainPageGrid.Width /
+                                            (currentGameType == SolitaireGameType.Pyramid ? 7 : 10);
+
+                    if (currentCardWidth != vm.CardWidth)
+                    {
+                        vm.CardWidth = currentCardWidth;
+
+                        Debug.WriteLine("ResizeDealtCard: Set vm.CardWidth to " + vm.CardWidth);
+                    }
+                }
+                else // Klondike or Baker's Dozen.
+                {
+                    vm.CardHeight = (3 * MainPageGrid.Height) / 13;
+
+                    var currentCardWidth = (MainPageGrid.Width - 1) /
+                                            (currentGameType == SolitaireGameType.Klondike ? 7 : 13);
+
+                    if (currentCardWidth != vm.CardWidth)
+                    {
+                        vm.CardWidth = currentCardWidth;
+
+                        Debug.WriteLine("ResizeDealtCard: Set vm.CardWidth to " + vm.CardWidth);
+                    }
+                }
             }
-
-            if (currentGameType == SolitaireGameType.Bakersdozen)
-            {
-                currentCardWidth *= 2;
-            }
-
-            currentCardWidth -= 5;
-
-            Debug.WriteLine("ResizeDealtCardWidth: Set top cards width to " + currentCardWidth);
-
-            NextCardDeck.WidthRequest = currentCardWidth;
-
-            CardDeckUpturned.WidthRequest = currentCardWidth;
-            CardDeckUpturnedObscuredHigher.WidthRequest = currentCardWidth;
-            CardDeckUpturnedObscuredLower.WidthRequest = currentCardWidth;
-
-            TargetPileC.WidthRequest = currentCardWidth;
-            TargetPileD.WidthRequest = currentCardWidth;
-            TargetPileH.WidthRequest = currentCardWidth;
-            TargetPileS.WidthRequest = currentCardWidth;
         }
 
         private void ComleteVisualsUpdateFollowingGameChange()
         {
-            if (timerDelayCompleteGameTypeChangeUpdate == null)
-            {
-                timerDelayCompleteGameTypeChangeUpdate = new Timer(
-                    new TimerCallback((s) => TimerDelayCompleteGameTypeChangeUpdate()),
-                        null,
-                        TimeSpan.FromMilliseconds(2000),
-                        TimeSpan.FromMilliseconds(Timeout.Infinite));
-            }
-        }
+            SetRemainingCardUIVisibility();
 
-        private Timer? timerDelayCompleteGameTypeChangeUpdate;
+            // The number of rows in the main area may need to be updated based on the current game.
+            SetOrientationLayout();
 
-        private async void TimerDelayCompleteGameTypeChangeUpdate()
-        {
-            timerDelayCompleteGameTypeChangeUpdate?.Dispose();
-            timerDelayCompleteGameTypeChangeUpdate = null;
+            ResizeDealtCard(false);
 
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                SetRemainingCardUIVisibility();
+            RefreshAllCardVisuals();
 
-                ResizeDealtCardWidth(false);
-
-                RefreshAllCardVisuals();
-
-                RefreshDealtCardPilesIsInAccessibleTree();
-            });
+            RefreshDealtCardPilesIsInAccessibleTree();
         }
 
         private void RefreshDealtCardPilesIsInAccessibleTree()

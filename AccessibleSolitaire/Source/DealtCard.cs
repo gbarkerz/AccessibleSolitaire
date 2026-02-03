@@ -729,7 +729,7 @@ namespace Sa11ytaire4All.Source
                 return height;
             }
 
-            var partiallyShownHeight = (height / 6) - 1;
+            var partiallyShownHeight = (height / 4) - 1;
 
             // The last card in the pile is always full height.
             if (!isLastCardInPile)

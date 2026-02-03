@@ -53,16 +53,15 @@
         
         <!-- Style the four target piles. -->
 
-        <!--<Setter Property="WidthRequest" Value="{Binding 
-                Source={RelativeSource Mode=FindAncestorBindingContext, 
-                    AncestorType={x:Type vm:DealtCardViewModel}}, 
-                x:DataType=vm:DealtCardViewModel,
-                Path=CardWidth, Converter={StaticResource CardWidthToTargetCardWidthConverter}}" />-->
-
         <Style x:Key="CardButtonStyle" TargetType="local_views:CardButton">
             <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
+            <Setter Property="WidthRequest" Value="{Binding 
+                Source={RelativeSource Mode=FindAncestorBindingContext, 
+                    AncestorType={x:Type vm:DealtCardViewModel}}, 
+                x:DataType=vm:DealtCardViewModel,
+                Path=CardWidth, Converter={StaticResource CardWidthToTargetCardWidthConverter}}" />
             <Setter Property="HeightRequest" Value="{Binding 
                 Source={RelativeSource Mode=FindAncestorBindingContext, 
                     AncestorType={x:Type vm:DealtCardViewModel}}, 
@@ -259,15 +258,9 @@
 
         <!-- The MainPageGrid Grid above contains the system's status bar (wifi, battery, etc) and
             navigation bar. For sizing calculations later, we do not want to include the height
-            of those bars. So add this InnerMainGrid Grid here, which does not include the system ,
+            of those bars. So add this InnerMainGrid Grid here, which does not include the system
             bars, and whose height fits all the rows of cards appropriately. -->
         <Grid x:Name="InnerMainGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="6*" />
-            </Grid.RowDefinitions>
         
             <!-- Add a MediaElement in order to be able to play sounds in the game.
                 Screen readers do not navigate to this element. Note that on Android
@@ -546,6 +539,7 @@
 
                     <!-- Add the Next Card button. -->
                     <local_source:NextCardPileButton Grid.Column="0" x:Name="NextCardDeck" 
+                        Style="{StaticResource CardButtonStyle}"
                         AutomationId="NextCardButton"
                         Clicked="NextCard_Click"
                         BackgroundColor="{AppThemeBinding Light=#0ED145, Dark=#0BA938}"
@@ -557,10 +551,6 @@
                         Margin="0" Padding="0"
                         VerticalOptions="Start"
                         BorderColor="{AppThemeBinding Light=Black, Dark=White}" 
-                        HeightRequest="{Binding 
-                            Path=CardHeight}"
-                        WidthRequest="{Binding 
-                            Path=CardWidth}"
                         Aspect="Fill"
                         Source="{Binding State, Mode=OneWay, 
                             Source={RelativeSource Self}, 
@@ -903,7 +893,6 @@
 
             <!-- Add all the cards for pyramid solitaire.  -->
             <Grid x:Name="CardPileGridPyramid"
-                Grid.Row="3" Grid.RowSpan="6"
                 InputTransparent="True" CascadeInputTransparent="False"
                 IsVisible="False"
                 FlowDirection="{Binding 

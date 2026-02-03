@@ -132,8 +132,7 @@ namespace Sa11ytaire4All
 
             SetContainerAccessibleNames();
 
-            CardPileGrid.SizeChanged += CardPileGrid_SizeChanged;
-            CardPileGridPyramid.SizeChanged += CardPileGrid_SizeChanged;
+            MainPageGrid.SizeChanged += MainPageGrid_SizeChanged;
 
             for (int i = 0; i < 13; i++)
             {
@@ -858,7 +857,7 @@ namespace Sa11ytaire4All
                 }
             }
 
-            ResizeDealtCardWidth(true);
+            ResizeDealtCard(true);
 
             if (loadSucceeded)
             {
@@ -1144,166 +1143,14 @@ namespace Sa11ytaire4All
             return isPortrait;
         }
 
-        private bool gotPreviousOrientation = false;
-        private bool previousOrientationPortrait;
-
-        private bool processingSizeChanged = false;
-
-        private Timer? timerDelayProcessSizeChangedEvent;
-        private DateTime timeOfMostRecentSizeChangedEvent;
-
-        private void CardPileGrid_SizeChanged(object? sender, EventArgs e)
+        private void MainPageGrid_SizeChanged(object? sender, EventArgs e)
         {
-            Debug.WriteLine("CardPileGrid_SizeChanged: START");
+            Debug.WriteLine("MainPageGrid_SizeChanged: Set all sizes and layout.");
 
-            timeOfMostRecentSizeChangedEvent = DateTime.Now;
+            // The number of rows in the main area may need to be updated based on the current game.
+            SetOrientationLayout();
 
-            var vm = this.BindingContext as DealtCardViewModel;
-            if (vm != null)
-            {
-                // If the timer's still running from an earlier SizeChanged event, 
-                // ignore this event.
-                if (timerDelayProcessSizeChangedEvent == null)
-                {
-                    Debug.WriteLine("CardPileGrid_SizeChanged: Starting timer to process SizeChanged event.");
-
-                    timerDelayProcessSizeChangedEvent = new Timer(
-                        new TimerCallback((s) => TimedDelayProcessSizeChangedEvent()),
-                            null,
-                            TimeSpan.FromMilliseconds(500),
-                            TimeSpan.FromMilliseconds(500));
-                }
-            }
-
-            Debug.WriteLine("CardPileGrid_SizeChanged: DONE");
-        }
-
-        private void TimedDelayProcessSizeChangedEvent()
-        {
-            Debug.WriteLine("TimedDelayProcessSizeChangedEvent: START");
-
-            var timeSinceMostRecentSizeChangedEvent = DateTime.Now - timeOfMostRecentSizeChangedEvent;
-
-            Debug.WriteLine("Time since most recent SizeChanged event: " + timeSinceMostRecentSizeChangedEvent.TotalMilliseconds);
-
-            if (timeSinceMostRecentSizeChangedEvent.TotalMilliseconds < 600)
-            {
-                Debug.WriteLine("TimedDelayProcessSizeChangedEvent: STOP due to insufficient time passing.");
-
-                return;
-            }
-
-            // Ok, enough time has passed to process the most recent SizeChanged event.
-            timerDelayProcessSizeChangedEvent?.Dispose();
-            timerDelayProcessSizeChangedEvent = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ProcessSizeChangedEvent();
-            });
-
-            Debug.WriteLine("TimedDelayProcessSizeChangedEvent: STOP.");
-        }
-
-        private void ProcessSizeChangedEvent()
-        {
-            var vm = this.BindingContext as DealtCardViewModel;
-            if (vm == null)
-            {
-                return;
-            }
-
-            Debug.WriteLine("ProcessSizeChangedEvent: START");
-
-            if (processingSizeChanged)
-            {
-                Debug.WriteLine("ProcessSizeChangedEvent: STOP due to processingSizeChanged");
-
-                return;
-            }
-
-            processingSizeChanged = true;
-
-            // On iOS the topmost Grid containing the app UI also contains the system's status and navigation
-            // base, which we do not want to include here. So base the app's UI sizing on the inner main Grid
-            // which does not contain those bars.
-            var mainContentGrid = InnerMainGrid;
-
-            // Determine if we need to change layout orientation.
-            var currentOrientationIsPortrait = IsPortrait();
-
-            if (!gotPreviousOrientation || (currentOrientationIsPortrait != previousOrientationPortrait))
-            {
-                // Do not change orientation layout on iOS.
-                SetOrientationLayout();
-
-                OriginalCardWidth = 0;
-                OriginalCardHeight = 0;
-            }
-
-            previousOrientationPortrait = currentOrientationIsPortrait;
-            gotPreviousOrientation = true;
-
-            // Barker Todo: Consider why the width calculation below doesn't need 
-            // to account for the number of columns used in the pyramid.
-
-            if (currentOrientationIsPortrait)
-            {
-                if (currentGameType != SolitaireGameType.Bakersdozen)
-                {
-                    vm.CardHeight = mainContentGrid.Height / 9;
-                }
-                else
-                {
-                    vm.CardHeight = mainContentGrid.Height / 17;
-                }
-
-                vm.CardWidth = mainContentGrid.Width / 5;
-            }
-            else
-            {
-                vm.CardHeight = mainContentGrid.Height / 3;
-
-                vm.CardWidth = mainContentGrid.Width / GetCardPileCount();
-            }
-
-            bool refreshAllCardVisuals = false;
-
-            if (vm.CardWidth > 0)
-            {
-                if (OriginalCardWidth == 0)
-                {
-                    OriginalCardWidth = vm.CardWidth;
-
-                    refreshAllCardVisuals = true;
-                }
-
-                vm.CardWidth = OriginalCardWidth;
-            }
-
-            if (vm.CardHeight > 0)
-            {
-                if (OriginalCardHeight == 0)
-                {
-                    OriginalCardHeight = vm.CardHeight;
-
-                    refreshAllCardVisuals = true;
-                }
-
-                vm.CardHeight = OriginalCardHeight;
-            }
-
-            if (refreshAllCardVisuals || firstSizeHandlingSinceStarting)
-            {
-                firstSizeHandlingSinceStarting = false;
-
-                RefreshAllCardVisuals();
-            }
-
-            processingSizeChanged = false;
-
-            Debug.WriteLine("ProcessSizeChangedEvent: STOP");
+            ResizeDealtCard(false);
         }
 
         private void ClearTargetPileButtons()

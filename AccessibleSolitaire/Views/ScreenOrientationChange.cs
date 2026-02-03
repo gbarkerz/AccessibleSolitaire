@@ -1,4 +1,5 @@
 ﻿
+using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Controls;
 using Sa11ytaire4All.ViewModels;
 using System;
@@ -110,9 +111,42 @@ namespace Sa11ytaire4All
 
         private void SetUpperGridViewOrientationLayout(bool isPortrait)
         {
-            if (isPortrait)
+            if (isPortrait ||
+                (currentGameType == SolitaireGameType.Pyramid) ||
+                (currentGameType == SolitaireGameType.Tripeaks))
             {
-                Grid.SetRowSpan(UpperGrid, 2);
+                // First set the rows for the InnerMainGrid based on the current game.
+
+                var rowDefinitionCollection = new RowDefinitionCollection();
+
+                int upperGridRowSpan = 2; // Baker's Dozen
+
+                for (int i = 0; i < 15; ++i)
+                {
+                    if ((currentGameType == SolitaireGameType.Klondike) && 
+                        (i >= 10))
+                    {
+                        upperGridRowSpan = 3;
+
+                        break;
+                    }
+                    else if (((currentGameType == SolitaireGameType.Pyramid) ||
+                              (currentGameType == SolitaireGameType.Tripeaks )) && 
+                                (i >= 13))
+                    {
+                        upperGridRowSpan = 4;
+
+                        break;
+                    }
+
+                    rowDefinitionCollection.Add( new RowDefinition(new GridLength(1, GridUnitType.Star)));
+                }
+
+                InnerMainGrid.RowDefinitions = rowDefinitionCollection;
+
+                Debug.WriteLine("SetUpperGridViewOrientationLayout: Main area row count " + rowDefinitionCollection.Count);
+
+                Grid.SetRowSpan(UpperGrid, upperGridRowSpan);
 
                 Grid.SetColumnSpan(TopCornerPiles, 2);
 
@@ -120,9 +154,20 @@ namespace Sa11ytaire4All
                 Grid.SetColumn(TargetPiles, 2);
                 Grid.SetColumnSpan(TargetPiles, 2);
             }
-            else
+            else // Landscape.
             {
-                Grid.SetRowSpan(UpperGrid, 3);
+                // First set the rows for the InnerMainGrid based on the current game.
+
+                var rowDefinitionCollection = new RowDefinitionCollection();
+
+                for (int i = 0; i < 3; ++i)
+                {
+                    rowDefinitionCollection.Add(new RowDefinition(new GridLength(1, GridUnitType.Star)));
+                }
+
+                InnerMainGrid.RowDefinitions = rowDefinitionCollection;
+
+                Grid.SetRowSpan(UpperGrid, 1);
 
                 Grid.SetColumnSpan(TopCornerPiles, 1);
 
@@ -137,24 +182,48 @@ namespace Sa11ytaire4All
             int cardPileGridRow;
             int cardPileGridRowSpan;
 
-            if (isPortrait)
+            if (isPortrait ||
+                (currentGameType == SolitaireGameType.Pyramid) ||
+                (currentGameType == SolitaireGameType.Tripeaks))
             {
-                cardPileGridRow = 2;
-                cardPileGridRowSpan = 7;
+                switch (currentGameType)
+                {
+                    case SolitaireGameType.Bakersdozen:
+                        cardPileGridRow = 2;
+                        cardPileGridRowSpan = 13;
+                        break;
+
+                    case SolitaireGameType.Pyramid:
+                    case SolitaireGameType.Tripeaks:
+                        cardPileGridRow = 4;
+                        cardPileGridRowSpan = 9;
+                        break;
+
+                    default: // Klondike:
+                        cardPileGridRow = 3;
+                        cardPileGridRowSpan = 7;
+                        break;
+                }
+            }
+            else // Landscape.
+            {
+                cardPileGridRow = 1;
+                cardPileGridRowSpan = 2;
+            }
+
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
+            {
+                Grid.SetRow(CardPileGrid, cardPileGridRow);
+                Grid.SetRowSpan(CardPileGrid, cardPileGridRowSpan);
+
+                SetCollectionViewsOrientationLayout(isPortrait);
             }
             else
             {
-                cardPileGridRow = 3;
-                cardPileGridRowSpan = GetCardPileCount() - 1;
+                Grid.SetRow(CardPileGridPyramid, cardPileGridRow);
+                Grid.SetRowSpan(CardPileGridPyramid, cardPileGridRowSpan);
             }
-
-            Grid.SetRow(CardPileGrid, cardPileGridRow);
-            Grid.SetRowSpan(CardPileGrid, cardPileGridRowSpan);
-
-            Grid.SetRow(CardPileGridPyramid, cardPileGridRow);
-            Grid.SetRowSpan(CardPileGridPyramid, cardPileGridRowSpan);
-
-            SetCollectionViewsOrientationLayout(isPortrait);
         }
 
         private void SetCollectionViewsOrientationLayout(bool isPortrait)
