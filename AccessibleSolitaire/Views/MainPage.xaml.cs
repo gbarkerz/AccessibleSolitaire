@@ -132,7 +132,7 @@ namespace Sa11ytaire4All
 
             SetContainerAccessibleNames();
 
-            MainPageGrid.SizeChanged += MainPageGrid_SizeChanged;
+            InnerMainGrid.SizeChanged += InnerMainPageGrid_SizeChanged;
 
             for (int i = 0; i < 13; i++)
             {
@@ -580,6 +580,8 @@ namespace Sa11ytaire4All
         {
             Debug.WriteLine("OnAppearing: START");
 
+            var timeOnAppearingStart = DateTime.Now;
+
             base.OnAppearing();
 
             // Accessibility-related options.
@@ -679,6 +681,10 @@ namespace Sa11ytaire4All
                 // Refresh the visuals on all cards if necessary.
                 if (MainPage.ShowRankSuitLarge != previousShowRankSuitLarge)
                 {
+                    // Make sure all required images are loaded.
+                    // Barker: Move this to a background thread.
+                    LoadAllCardImages();
+
                     RefreshAllCardVisuals();
                 }
 
@@ -802,11 +808,135 @@ namespace Sa11ytaire4All
                 {
                     firstAppAppearanceSinceStarting = false;
 
+                    // Don't load the card images until the sessions been loaded.
+                    ReadyToLoadCardImages = false;
+
                     LoadPreviousSession();
+
+                    // Make sure all the required card images get loaded up now.
+                    CardPackImagesLoad();
                 }
             }
 
-            Debug.WriteLine("OnAppearing: DONE");
+            var timeInOnAppearing = (DateTime.Now - timeOnAppearingStart).TotalMilliseconds;
+
+            Debug.WriteLine("OnAppearing: DONE timeInOnAppearing ms " + timeInOnAppearing);
+        }
+
+        private Timer? timerPackImagesLoad;
+
+        private async void CardPackImagesLoad()
+        {
+            timerPackImagesLoad = new Timer(
+                new TimerCallback((s) => BackgroundLoadCardImagesAfterDealtCardReady()),
+                    null,
+                    TimeSpan.FromMilliseconds(200),
+                    TimeSpan.FromMilliseconds(Timeout.Infinite));
+        }
+
+        public static Dictionary<string, ImageSource> PackImageSourcesLarge = new Dictionary<string, ImageSource>();
+
+        private void BackgroundLoadCardImagesAfterDealtCardReady()
+        {
+            timerPackImagesLoad?.Dispose();
+            timerPackImagesLoad = null;
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            Debug.WriteLine("BackgroundImagesLoad: START.");
+
+            var timeImageLoadStart = DateTime.Now;
+
+            // Wait in this background thread until all cards have been dealt.
+            while (!ReadyToLoadCardImages)
+            {
+                Thread.Sleep(200);
+            }
+
+            // Ok, all the dealt card sources are ready, so begin loading the images.
+            LoadAllCardImages();
+
+            Debug.WriteLine("BackgroundImagesLoad: Done time (ms) = " + 
+                (DateTime.Now - timeImageLoadStart).TotalMilliseconds);
+        }
+
+        private void LoadAllCardImages()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            Debug.WriteLine("LoadAllCardImages: START.");
+
+            var timeImageLoadStart = DateTime.Now;
+
+            // Ok, all the dealt card sources are ready, so begin loading the images.
+            for (int i = 0; i < GetCardPileCount(); i++)
+            {
+                for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                {
+                    var pileCard = vm.DealtCards[i][j];
+
+                    string? cardImageSourceName = null;
+
+                    if ((pileCard != null) && (pileCard.Card != null))
+                    {
+                        Debug.WriteLine("BackgroundImagesLoad: Get image name for Rank " +
+                            pileCard.Card.Rank + ", Suit " + pileCard.Card.Suit);
+
+                        TryToAddCardImageWithPictureToDictionary(pileCard);
+
+                        Debug.WriteLine("LoadAllCardImages: Image name " + cardImageSourceName);
+                    }
+                }
+            }
+
+            Debug.WriteLine("LoadAllCardImages: Done time (ms) = " +
+                (DateTime.Now - timeImageLoadStart).TotalMilliseconds);
+        }
+
+        private void TryToAddCardImageWithPictureToDictionary(DealtCard pileCard)
+        {
+            if ((pileCard == null) || (pileCard.Card == null))
+            {
+                return;
+            }
+
+            var cardImageSourceName = pileCard.GetFaceupDealtCardImageSourceName();
+
+            TryToAddCardImageToDictionary(cardImageSourceName, pileCard);
+
+            // Check if we also need the picture card image too.
+            if (!ShowRankSuitLarge && (pileCard.Card.Rank > 10))
+            {
+                cardImageSourceName = pileCard.GetFaceupPictureDealtCardImageSourceName();
+
+                TryToAddCardImageToDictionary(cardImageSourceName, pileCard);
+            }
+        }
+
+        private void TryToAddCardImageToDictionary(string? imageSourceName, DealtCard pileCard)
+        {
+            if (!string.IsNullOrEmpty(imageSourceName))
+            {
+                if (PackImageSourcesLarge.TryAdd(
+                        imageSourceName,
+                        ImageSource.FromFile(imageSourceName)))
+                {
+                    Debug.WriteLine("TryToAddCardImageToDictionary: Ready to use " + imageSourceName);
+
+                    pileCard.RefreshCardImageSources();
+
+                    // Give the UI a chance to catch up.
+                    Thread.Sleep(100);
+                }
+            }
         }
 
         private int CountCards()
@@ -848,6 +978,9 @@ namespace Sa11ytaire4All
 
         private async void LoadPreviousSession()
         {
+            // Don't load the card images until the sessions been loaded.
+            ReadyToLoadCardImages = false;
+
             var loadSucceeded = await LoadSession();
             if (loadSucceeded)
             {
@@ -869,6 +1002,8 @@ namespace Sa11ytaire4All
                     DealPyramidCardsPostprocess(false);
                 }
 
+                RefreshUpperCards();
+
                 SetNowAsStartOfCurrentGameSessionIfAppropriate();
             }
             else
@@ -886,7 +1021,12 @@ namespace Sa11ytaire4All
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
             }
+
+            // We can now proceed with loading the card images.
+            ReadyToLoadCardImages = true;
         }
+
+        public bool ReadyToLoadCardImages = false;
 
         private void SetCardButtonsHeadingState(bool isHeading)
         {
@@ -1143,9 +1283,9 @@ namespace Sa11ytaire4All
             return isPortrait;
         }
 
-        private void MainPageGrid_SizeChanged(object? sender, EventArgs e)
+        private void InnerMainPageGrid_SizeChanged(object? sender, EventArgs e)
         {
-            Debug.WriteLine("MainPageGrid_SizeChanged: Set all sizes and layout.");
+            Debug.WriteLine("InnerMainPageGrid_SizeChanged: Set all sizes and layout.");
 
             // The number of rows in the main area may need to be updated based on the current game.
             SetOrientationLayout();
@@ -1242,6 +1382,9 @@ namespace Sa11ytaire4All
                         ++cardIndex;
 
                         vm.DealtCards[i].Add(card);
+
+                        // Give the UI a chance to catch up.
+                        await Task.Delay(10);
                     }
                 }
             }
@@ -1267,6 +1410,9 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("DealCards: DealPyramidCardsPostprocess failed.");
                 }
             }
+
+            // We can now proceed with loading the card images.
+            ReadyToLoadCardImages = true;
         }
 
         private void ClearUpturnedPileButton()
@@ -1311,6 +1457,9 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            // Don't load the card images until the cards have all been re-dealt.
+            ReadyToLoadCardImages = false;
+
             ClearCardButtonSelections(true);
 
             _deckUpturned.Clear();
@@ -1346,25 +1495,32 @@ namespace Sa11ytaire4All
 
             var countPiles = (currentGameType == SolitaireGameType.Tripeaks ? 4 : GetCardPileCount());
 
-            for (int i = 0; i < countPiles; i++)
+            // Barker Todo: On Windows simply calling vm.DealtCards[i].Clear() here and then adding 
+            // the new cards can leave the suit colours in the new cards wrong. So it seems that
+            // something's up with the tint colour binding. However, explicitly removing all the
+            // existing cards in the pile before adding the new cards seems to avoid this. So do
+            // that for now, and investigate the correct fix.
+
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
-                // Barker Todo: On Windows simply calling vm.DealtCards[i].Clear() here and then adding 
-                // the new cards can leave the suit colours in the new cards wrong. So it seems that
-                // something's up with the tint colour binding. However, explicitly removing all the
-                // existing cards in the pile before adding the new cards seems to avoid this. So do
-                // that for now, and investigate the correct fix.
-#if WINDOWS
-                var previousCount = vm.DealtCards[i].Count;
-
-                for (int previousItemIndex = 0; previousItemIndex < previousCount; ++previousItemIndex)
+                for (int i = 0; i < countPiles; i++)
                 {
-                    vm.DealtCards[i].RemoveAt(0);
-                }
-#else
-                vm.DealtCards[i].Clear();
+#if WINDOWS
+                    var previousCount = vm.DealtCards[i].Count;
 
-                ClearPyramidCards();
+                    for (int previousItemIndex = 0; previousItemIndex < previousCount; ++previousItemIndex)
+                    {
+                        vm.DealtCards[i].RemoveAt(0);
+                    }
+#else
+                    vm.DealtCards[i].Clear();
 #endif
+                }
+            }
+            else
+            {
+                ClearPyramidCards();
             }
 
             timerDelayDealCards = new Timer(
@@ -1372,6 +1528,13 @@ namespace Sa11ytaire4All
                     null,
                     TimeSpan.FromMilliseconds(200),
                     TimeSpan.FromMilliseconds(Timeout.Infinite));
+
+            // Make sure all the required card images get loaded up now. We don't need to do this
+            // for Baker's Dozen as we know all the card images must have already been loaded.
+            if (currentGameType != SolitaireGameType.Bakersdozen)
+            {
+                CardPackImagesLoad();
+            }
 
             NextCardDeck.State = NextCardPileState.Active;
 
@@ -1719,7 +1882,9 @@ namespace Sa11ytaire4All
         private void SetUpturnedCards()
         {
             CardDeckUpturned.IsEnabled = true;
-            CardDeckUpturned.Card = _deckUpturned[_deckUpturned.Count - 1];
+
+            CardDeckUpturned.Card = (_deckUpturned.Count > 0 ? 
+                                        _deckUpturned[_deckUpturned.Count - 1] : null);
 
             CardDeckUpturnedObscuredHigher.Card = (_deckUpturned.Count > 1 ?
                                                     _deckUpturned[_deckUpturned.Count - 2] : null);

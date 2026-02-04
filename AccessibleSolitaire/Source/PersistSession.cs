@@ -142,6 +142,10 @@ namespace Sa11ytaire4All
         // Important: This is run on a background thread, and periodicaly pauses to allow the UI thread to catch up.
         public async Task<bool> LoadSession()
         {
+            Debug.WriteLine("LoadSession START");
+
+            var timeStartLoadSession = DateTime.Now;
+
             bool loadedSession = false;
 
             var vm = this.BindingContext as DealtCardViewModel;
@@ -228,12 +232,12 @@ namespace Sa11ytaire4All
                             foreach (var dealtCard in dealtCardPile)
                             {
                                 vm.DealtCards[i].Add(dealtCard);
+
+                                // Give the UI a chance to catch up.
+                                await Task.Delay(10);
                             }
                         }
                     }
-
-                    // Give the UI a chance to catch up.
-                    await Task.Delay(100);
                 }
 
                 foreach (var dealtCardPile in vm.DealtCards)
@@ -267,7 +271,8 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("LoadSession: " + ex);
             }
 
-            Debug.WriteLine("LoadSession: loadedSession " + loadedSession);
+            Debug.WriteLine("LoadSession: DONE " + loadedSession + 
+                ", duration " + (DateTime.Now - timeStartLoadSession).TotalMilliseconds);
 
             return loadedSession;
         }

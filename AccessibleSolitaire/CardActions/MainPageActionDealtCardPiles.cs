@@ -189,6 +189,9 @@ namespace Sa11ytaire4All
                             return;
                         }
 
+                        // Make sure its image is loaded to appear in the dealt card pile.
+                        TryToAddCardImageWithPictureToDictionary(cardUpturned);
+
                         itemsAdded.Add(cardUpturned);
 
                         cardDealtPile.IsLastCardInPile = false;
@@ -380,6 +383,44 @@ namespace Sa11ytaire4All
             return (!OptionKingsOnlyToEmptyPile || (card.Rank == 13));
         }
 
+        private void TurnUpCardWithImage(DealtCard? dealtCard)
+        {
+            if ((dealtCard == null) || (dealtCard.Card == null))
+            {
+                return;
+            }
+
+            LoadCardImage(dealtCard);
+
+            dealtCard.FaceDown = false;
+        }
+
+        private void LoadCardImage(DealtCard? dealtCard)
+        {
+            if ((dealtCard == null) || (dealtCard.Card == null))
+            {
+                return;
+            }
+
+            string? cardImageSourceName = null;
+
+            if (ShowRankSuitLarge || (dealtCard.Card.Rank < 11))
+            {
+                cardImageSourceName = dealtCard.GetFaceupDealtCardImageSourceName();
+            }
+            else
+            {
+                cardImageSourceName = dealtCard.GetFaceupPictureDealtCardImageSourceName();
+            }
+
+            if (!string.IsNullOrEmpty(cardImageSourceName))
+            {
+                PackImageSourcesLarge.TryAdd(
+                    cardImageSourceName,
+                    ImageSource.FromFile(cardImageSourceName));
+            }
+        }
+
         private void MoveKingToEmptyCard(DealtCard cardKing, CollectionView listEmpty, CollectionView listKing, int listKingIndex)
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -452,7 +493,9 @@ namespace Sa11ytaire4All
 
                 // The card being revealed is no longer face-down, and is now the
                 // last card in the list.
-                cardRevealed.FaceDown = false;
+
+                TurnUpCardWithImage(cardRevealed);
+
                 cardRevealed.CardState = CardState.FaceUp;
                 cardRevealed.IsLastCardInPile = true;
 
@@ -580,6 +623,10 @@ namespace Sa11ytaire4All
                             itemsAdded[itemsAddedCurrentCount - 1].IsLastCardInPile = false;
 
                             // Now add the moved card to the destination pile.
+                            
+                            // Make sure its image is loaded to appear in the dealt card pile.
+                            TryToAddCardImageWithPictureToDictionary(cardAbove);
+
                             itemsAdded.Add(cardAbove);
 
                             ++itemsAddedCurrentCount;
@@ -904,7 +951,9 @@ namespace Sa11ytaire4All
 
                     // The card being revealed is no longer face-down, and is now the
                     // last card in the list.
-                    cardRevealed.FaceDown = false;
+
+                    TurnUpCardWithImage(cardRevealed);
+
                     cardRevealed.CardState = CardState.FaceUp;
                     cardRevealed.IsLastCardInPile = true;
 
@@ -1077,8 +1126,9 @@ namespace Sa11ytaire4All
                             // Update the count of face-down cards in the pile in the bottom card in the pile.
                             UpdatePileFaceDownCount(listArray, cardRevealed);
 
+                            TurnUpCardWithImage(listArray[updatedItemCount - 1]);
+
                             listArray[updatedItemCount - 1].IsLastCardInPile = true;
-                            listArray[updatedItemCount - 1].FaceDown = false;
                             listArray[updatedItemCount - 1].RefreshVisuals();
                         }
 
@@ -1146,7 +1196,8 @@ namespace Sa11ytaire4All
 
                                 cardRevealed.CardState = CardState.FaceUp;
 
-                                listArray[updatedItemCount - 1].FaceDown = false;
+                                TurnUpCardWithImage(listArray[updatedItemCount - 1]);
+
                                 listArray[updatedItemCount - 1].IsLastCardInPile = true;
                                 listArray[updatedItemCount - 1].RefreshVisuals();
 

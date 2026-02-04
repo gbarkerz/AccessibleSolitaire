@@ -143,14 +143,17 @@ namespace Sa11ytaire4All
         private void RefreshDealtCardPilesIsInAccessibleTree()
         {
             // The last six dealt card piles are only of interest in the Baker's Dozen game.
-            var lastCardPileRelevant = (currentGameType == SolitaireGameType.Bakersdozen);
+            var hideLastDealtCardPiles = (currentGameType != SolitaireGameType.Bakersdozen);
 
-            AutomationProperties.SetIsInAccessibleTree(CardPile8, lastCardPileRelevant);
-            AutomationProperties.SetIsInAccessibleTree(CardPile9, lastCardPileRelevant);
-            AutomationProperties.SetIsInAccessibleTree(CardPile10, lastCardPileRelevant);
-            AutomationProperties.SetIsInAccessibleTree(CardPile11, lastCardPileRelevant);
-            AutomationProperties.SetIsInAccessibleTree(CardPile12, lastCardPileRelevant);
-            AutomationProperties.SetIsInAccessibleTree(CardPile13, lastCardPileRelevant);
+            // Important: Do not use SetIsInAccessibleTree here, as that won't impact the
+            // items contained within the CollectionViews.
+
+            AutomationProperties.SetExcludedWithChildren(CardPile8, hideLastDealtCardPiles);
+            AutomationProperties.SetExcludedWithChildren(CardPile9, hideLastDealtCardPiles);
+            AutomationProperties.SetExcludedWithChildren(CardPile10, hideLastDealtCardPiles);
+            AutomationProperties.SetExcludedWithChildren(CardPile11, hideLastDealtCardPiles);
+            AutomationProperties.SetExcludedWithChildren(CardPile12, hideLastDealtCardPiles);
+            AutomationProperties.SetExcludedWithChildren(CardPile13, hideLastDealtCardPiles);
         }
 
         public void LoadBakersdozenGame()
@@ -221,6 +224,9 @@ namespace Sa11ytaire4All
 
         private async void ChangeGameType(SolitaireGameType targetGameType)
         {
+            // Don't load the card images until the sessions been loaded.
+            ReadyToLoadCardImages = false;
+
             StopCelebratoryActions();
 
             SaveSession();
@@ -257,6 +263,9 @@ namespace Sa11ytaire4All
                         TimeSpan.FromMilliseconds(1000),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
+
+            // Make sure all the required card images get loaded up now.
+            CardPackImagesLoad();
         }
 
         private Timer? timerDelayLoadSession;
@@ -433,6 +442,9 @@ namespace Sa11ytaire4All
 
                     RestartGame(true /* screenReaderAnnouncement. */);
                 }
+
+                // We can now proceed with loading the card images.
+                ReadyToLoadCardImages = true;
             });
         }
 

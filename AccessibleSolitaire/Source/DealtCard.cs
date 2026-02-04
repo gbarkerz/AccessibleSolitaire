@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Sa11ytaire4All.ViewModels;
+using Sa11ytaire4All.Views;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -500,7 +501,7 @@ namespace Sa11ytaire4All.Source
 #if WINDOWS
             cardHeight = (2 * cardHeight) / 3;
 #endif
-            return (cardHeight / 6) - 1;
+            return (cardHeight / 4) - 2;
         }
 
         [JsonIgnore]
@@ -813,6 +814,24 @@ namespace Sa11ytaire4All.Source
 
         private ImageSource? GetImageSourceFromDealtCard()
         {
+            var imageFileName = GetFaceupDealtCardImageSourceName();
+            if (imageFileName == null)
+            {
+                return null;
+            }
+
+            ImageSource? imageSource = null;
+
+            MainPage.PackImageSourcesLarge.TryGetValue(imageFileName, out imageSource);
+
+            Debug.WriteLine("GetImageSourceFromDealtCard: Card " + imageFileName +
+                ", imageSource " + imageSource);
+
+            return imageSource;
+        }
+
+        public string? GetFaceupDealtCardImageSourceName()
+        {
             if (Application.Current == null)
             {
                 return null;
@@ -935,9 +954,7 @@ namespace Sa11ytaire4All.Source
                 imageFileName = "dark" + imageFileName;
             }
 
-            var imageSource = ImageSource.FromFile(imageFileName);
-
-            return imageSource;
+            return imageFileName;
         }
 
         [JsonIgnore]
@@ -957,6 +974,25 @@ namespace Sa11ytaire4All.Source
         }
 
         private ImageSource? GetImageSourceFromPictureDealtCard()
+        {
+            var imageFileName = GetFaceupPictureDealtCardImageSourceName();
+            if (imageFileName == null)
+            {
+                return null;
+            }
+
+            ImageSource? imageSource = null;
+
+            MainPage.PackImageSourcesLarge.TryGetValue(imageFileName, out imageSource);
+
+            Debug.WriteLine("GetImageSourceFromPictureDealtCard: Card " + imageFileName +
+                ", imageSource " + imageSource);
+
+            return imageSource;
+        }
+
+
+        public string? GetFaceupPictureDealtCardImageSourceName()
         {
             if (Application.Current == null)
             {
@@ -1027,9 +1063,7 @@ namespace Sa11ytaire4All.Source
                 imageFileName = "dark" + imageFileName;
             }
 
-            var imageSource = ImageSource.FromFile(imageFileName);
-
-            return imageSource;
+            return imageFileName;
         }
 
         [JsonIgnore]
@@ -1038,6 +1072,18 @@ namespace Sa11ytaire4All.Source
 
         [ObservableProperty] 
         public partial int CountFaceDownCardsInPile { get; set; }
+
+        public void RefreshCardImageSources()
+        {
+            if (this.Card != null)
+            {
+                Debug.WriteLine("RefreshCardImageSources: Refresh card, " +
+                    "FaceDown " + this.FaceDown + ", Rank " + this.Card.Rank + ", Suit " + this.Card.Suit);
+
+                OnPropertyChanged("FaceupDealtCardImageSource");
+                OnPropertyChanged("FaceupPictureDealtCardImageSource");
+            }
+        }
 
         public void RefreshVisuals()
         {
