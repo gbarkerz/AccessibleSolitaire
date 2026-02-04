@@ -224,6 +224,20 @@ namespace Sa11ytaire4All
 
         private async void ChangeGameType(SolitaireGameType targetGameType)
         {
+            Preferences.Set("ChangeGameType: targetGameType ", targetGameType.ToString());
+
+            if (((targetGameType == SolitaireGameType.Klondike) ||
+                 (targetGameType == SolitaireGameType.Bakersdozen)) &&
+                ((currentGameType != SolitaireGameType.Klondike) ||
+                 (currentGameType != SolitaireGameType.Bakersdozen)))
+            {
+                // Barker Todo: The CollectionViews' containing grid is -1 height here because it's 
+                // yet to appear. Explicitly size the first CollectionView to be the height we know
+                // the CollectionViews and their containing grid will ultimately be. Remove this at
+                // some point once it's understood where the correct fix should go.
+                CardPile1.HeightRequest = (2 * InnerMainGrid.Height) / 3;
+            }
+
             // Don't load the card images until the sessions been loaded.
             ReadyToLoadCardImages = false;
 
@@ -244,6 +258,8 @@ namespace Sa11ytaire4All
                 vm.CurrentGameType = currentGameType;
             }
 
+            Preferences.Set("ChangeGameType: currentGameType now ", currentGameType.ToString());
+
             var isKlondikeOrBakersdozen = ((currentGameType == SolitaireGameType.Klondike) ||
                                            (currentGameType == SolitaireGameType.Bakersdozen));
 
@@ -252,17 +268,17 @@ namespace Sa11ytaire4All
             TargetPiles.IsVisible = isKlondikeOrBakersdozen;
 
             CardPileGrid.IsVisible = isKlondikeOrBakersdozen;
+            CardPileGridPyramid.IsVisible = !isKlondikeOrBakersdozen;
 
             ClearAllPiles();
 
-            if (timerDelayLoadSession == null)
-            {
-                timerDelayLoadSession = new Timer(
-                    new TimerCallback((s) => TimedDelayLoadSession()),
-                        null,
-                        TimeSpan.FromMilliseconds(1000),
-                        TimeSpan.FromMilliseconds(Timeout.Infinite));
-            }
+            ReadyToLoadCardImages = false;
+
+            timerDelayLoadSession = new Timer(
+                new TimerCallback((s) => TimedDelayLoadSession()),
+                    null,
+                    TimeSpan.FromMilliseconds(1000),
+                    TimeSpan.FromMilliseconds(Timeout.Infinite));
 
             // Make sure all the required card images get loaded up now.
             CardPackImagesLoad();
@@ -373,6 +389,8 @@ namespace Sa11ytaire4All
 
         private void LoadSessionPostprocessOnUIThread(bool loadSucceeded)
         {
+            Debug.WriteLine("LoadSessionPostprocessOnUIThread: START");
+
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 // Barker: For Klondike games, we can no longer only check for a target pile being complete
@@ -399,7 +417,8 @@ namespace Sa11ytaire4All
                     {
                         var pyramidPostprocessSucceeded = DealPyramidCardsPostprocess(false);
 
-                        Debug.WriteLine("LoadSession: pyramidPostprocessSucceeded " + pyramidPostprocessSucceeded);
+                        Debug.WriteLine("LoadSessionPostprocessOnUIThread: pyramidPostprocessSucceeded " + 
+                                            pyramidPostprocessSucceeded);
                     }
                     else
                     {
@@ -432,16 +451,18 @@ namespace Sa11ytaire4All
 
                     SetNowAsStartOfCurrentGameSessionIfAppropriate();
 
-                    Debug.WriteLine("LoadSession: Note time of start of this game session.");
+                    Debug.WriteLine("LoadSessionPostprocessOnUIThread: Note time of start of this game session.");
                 }
                 else
                 {
                     ClearAllPiles();
 
-                    Debug.WriteLine("ChangeGameType: Failed to LoadSession, so restart game.");
+                    Debug.WriteLine("LoadSessionPostprocessOnUIThread: Failed to LoadSession, so restart game.");
 
                     RestartGame(true /* screenReaderAnnouncement. */);
                 }
+
+                Debug.WriteLine("LoadSessionPostprocessOnUIThread: Set ReadyToLoadCardImages true.");
 
                 // We can now proceed with loading the card images.
                 ReadyToLoadCardImages = true;

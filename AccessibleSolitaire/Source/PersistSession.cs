@@ -232,9 +232,6 @@ namespace Sa11ytaire4All
                             foreach (var dealtCard in dealtCardPile)
                             {
                                 vm.DealtCards[i].Add(dealtCard);
-
-                                // Give the UI a chance to catch up.
-                                await Task.Delay(10);
                             }
                         }
                     }

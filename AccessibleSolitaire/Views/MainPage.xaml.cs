@@ -600,9 +600,11 @@ namespace Sa11ytaire4All
                     (currentGameType == SolitaireGameType.Bakersdozen))
                 {
                     CardPileGrid.IsVisible = true;
+                    CardPileGridPyramid.IsVisible = false;
                 }
                 else
                 {
+                    CardPileGrid.IsVisible = false;
                     CardPileGridPyramid.IsVisible = true;
                 }
 
@@ -811,16 +813,39 @@ namespace Sa11ytaire4All
                     // Don't load the card images until the sessions been loaded.
                     ReadyToLoadCardImages = false;
 
-                    LoadPreviousSession();
+                    Debug.WriteLine("OnAppearing: Loading previous session.");
 
-                    // Make sure all the required card images get loaded up now.
-                    CardPackImagesLoad();
+                    CardPileGrid.Loaded += CardPileGrid_Loaded;
                 }
             }
 
             var timeInOnAppearing = (DateTime.Now - timeOnAppearingStart).TotalMilliseconds;
 
             Debug.WriteLine("OnAppearing: DONE timeInOnAppearing ms " + timeInOnAppearing);
+        }
+
+        private void CardPileGrid_Loaded(object? sender, EventArgs e)
+        {
+            timerDelayLoadPreviousSession = new Timer(
+                        new TimerCallback((s) => TimedDelayLoadPreviousSession()),
+                            null,
+                            TimeSpan.FromMilliseconds(2000),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+        }
+
+        private Timer? timerDelayLoadPreviousSession;
+
+        private void TimedDelayLoadPreviousSession()
+        {
+            timerDelayLoadPreviousSession?.Dispose();
+            timerDelayLoadPreviousSession = null;
+
+            ReadyToLoadCardImages = false;
+
+            LoadPreviousSession();
+
+            // Make sure all the required card images get loaded up now.
+            CardPackImagesLoad();
         }
 
         private Timer? timerPackImagesLoad;
@@ -830,7 +855,7 @@ namespace Sa11ytaire4All
             timerPackImagesLoad = new Timer(
                 new TimerCallback((s) => BackgroundLoadCardImagesAfterDealtCardReady()),
                     null,
-                    TimeSpan.FromMilliseconds(200),
+                    TimeSpan.FromMilliseconds(500),
                     TimeSpan.FromMilliseconds(Timeout.Infinite));
         }
 
@@ -851,11 +876,17 @@ namespace Sa11ytaire4All
 
             var timeImageLoadStart = DateTime.Now;
 
+            Debug.WriteLine("BackgroundImagesLoad: ReadyToLoadCardImages at start " + ReadyToLoadCardImages);
+
             // Wait in this background thread until all cards have been dealt.
             while (!ReadyToLoadCardImages)
             {
+                Debug.WriteLine("BackgroundImagesLoad: ReadyToLoadCardImages waiting...");
+
                 Thread.Sleep(200);
             }
+
+            Debug.WriteLine("BackgroundImagesLoad: ReadyToLoadCardImages load cards now.");
 
             // Ok, all the dealt card sources are ready, so begin loading the images.
             LoadAllCardImages();
@@ -874,11 +905,19 @@ namespace Sa11ytaire4All
 
             Debug.WriteLine("LoadAllCardImages: START.");
 
+            var emptyCardName = "emptydealtcardpile.png";
+            PackImageSourcesLarge.TryAdd(emptyCardName, ImageSource.FromFile(emptyCardName));
+
+            var darkemptyCardName = "darkemptyCardName.png";
+            PackImageSourcesLarge.TryAdd(darkemptyCardName, ImageSource.FromFile(darkemptyCardName));
+
             var timeImageLoadStart = DateTime.Now;
 
             // Ok, all the dealt card sources are ready, so begin loading the images.
             for (int i = 0; i < GetCardPileCount(); i++)
             {
+                Debug.WriteLine("LoadAllCardImages: Pile " + 1 + ", count " + vm.DealtCards[i].Count);
+
                 for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                 {
                     var pileCard = vm.DealtCards[i][j];
@@ -887,7 +926,7 @@ namespace Sa11ytaire4All
 
                     if ((pileCard != null) && (pileCard.Card != null))
                     {
-                        Debug.WriteLine("BackgroundImagesLoad: Get image name for Rank " +
+                        Debug.WriteLine("LoadAllCardImages: Get image name for Rank " +
                             pileCard.Card.Rank + ", Suit " + pileCard.Card.Suit);
 
                         TryToAddCardImageWithPictureToDictionary(pileCard);
@@ -921,7 +960,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void TryToAddCardImageToDictionary(string? imageSourceName, DealtCard pileCard)
+        private async void TryToAddCardImageToDictionary(string? imageSourceName, DealtCard pileCard)
         {
             if (!string.IsNullOrEmpty(imageSourceName))
             {
@@ -934,7 +973,7 @@ namespace Sa11ytaire4All
                     pileCard.RefreshCardImageSources();
 
                     // Give the UI a chance to catch up.
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                 }
             }
         }
@@ -976,51 +1015,62 @@ namespace Sa11ytaire4All
             return cardCount;
         }
 
+        // This is called on a background thread.
         private async void LoadPreviousSession()
         {
             // Don't load the card images until the sessions been loaded.
             ReadyToLoadCardImages = false;
 
             var loadSucceeded = await LoadSession();
-            if (loadSucceeded)
+
+            //Thread.Sleep(10000);
+
+            //loadSucceeded = false;
+
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (loadSucceeded && LoadedCardCountUnexpected())
+                if (loadSucceeded)
                 {
-                    loadSucceeded = false;
-                }
-            }
-
-            ResizeDealtCard(true);
-
-            if (loadSucceeded)
-            {
-                LoadAllGamesPausedState();
-
-                if ((currentGameType != SolitaireGameType.Klondike) &&
-                    (currentGameType != SolitaireGameType.Bakersdozen))
-                {
-                    DealPyramidCardsPostprocess(false);
+                    if (loadSucceeded && LoadedCardCountUnexpected())
+                    {
+                        loadSucceeded = false;
+                    }
                 }
 
-                RefreshUpperCards();
+                ResizeDealtCard(true);
 
-                SetNowAsStartOfCurrentGameSessionIfAppropriate();
-            }
-            else
-            {
-                ClearAllPiles();
-
-                RestartGame(false /* screenReaderAnnouncement. */);
-
-                if (playSoundOther)
+                if (loadSucceeded)
                 {
-                    timerPlayFirstDealSounds = new Timer(
-                    new TimerCallback((s) => TimedDelayMakeFirstDealSounds()),
-                        null,
-                        TimeSpan.FromMilliseconds(500),
-                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    LoadAllGamesPausedState();
+
+                    if ((currentGameType != SolitaireGameType.Klondike) &&
+                        (currentGameType != SolitaireGameType.Bakersdozen))
+                    {
+                        DealPyramidCardsPostprocess(false);
+                    }
+
+                    RefreshUpperCards();
+
+                    SetNowAsStartOfCurrentGameSessionIfAppropriate();
                 }
-            }
+                else
+                {
+                    ClearAllPiles();
+
+                    RestartGame(false /* screenReaderAnnouncement. */);
+
+                    if (playSoundOther)
+                    {
+                        timerPlayFirstDealSounds = new Timer(
+                        new TimerCallback((s) => TimedDelayMakeFirstDealSounds()),
+                            null,
+                            TimeSpan.FromMilliseconds(500),
+                            TimeSpan.FromMilliseconds(Timeout.Infinite));
+                    }
+                }
+            });
+
+            Debug.WriteLine("LoadPreviousSession: Set ReadyToLoadCardImages true.");
 
             // We can now proceed with loading the card images.
             ReadyToLoadCardImages = true;
@@ -1304,6 +1354,8 @@ namespace Sa11ytaire4All
         // Assume all dealt card piles have been cleared before this is called.
         private async void DealCards()
         {
+            ReadyToLoadCardImages = false;
+
             int cardIndex = 0;
 
             Debug.WriteLine("Deal, start with " + _deckRemaining.Count + " cards.");
@@ -1384,7 +1436,7 @@ namespace Sa11ytaire4All
                         vm.DealtCards[i].Add(card);
 
                         // Give the UI a chance to catch up.
-                        await Task.Delay(10);
+                        await Task.Delay(100);
                     }
                 }
             }
@@ -1410,6 +1462,8 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("DealCards: DealPyramidCardsPostprocess failed.");
                 }
             }
+
+            Debug.WriteLine("DealCards: Set ReadyToLoadCardImages true.");
 
             // We can now proceed with loading the card images.
             ReadyToLoadCardImages = true;
@@ -1523,18 +1577,16 @@ namespace Sa11ytaire4All
                 ClearPyramidCards();
             }
 
+            ReadyToLoadCardImages = false;
+
             timerDelayDealCards = new Timer(
                 new TimerCallback((s) => TimedDelayDealCards()),
                     null,
                     TimeSpan.FromMilliseconds(200),
                     TimeSpan.FromMilliseconds(Timeout.Infinite));
 
-            // Make sure all the required card images get loaded up now. We don't need to do this
-            // for Baker's Dozen as we know all the card images must have already been loaded.
-            if (currentGameType != SolitaireGameType.Bakersdozen)
-            {
-                CardPackImagesLoad();
-            }
+            // Make sure all the required card images get loaded up now.
+            CardPackImagesLoad();
 
             NextCardDeck.State = NextCardPileState.Active;
 

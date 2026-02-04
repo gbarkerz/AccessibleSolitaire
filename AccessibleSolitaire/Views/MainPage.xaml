@@ -539,9 +539,9 @@
 
                     <!-- Add the Next Card button. -->
                     <local_source:NextCardPileButton Grid.Column="0" x:Name="NextCardDeck" 
-                        Style="{StaticResource CardButtonStyle}"
                         AutomationId="NextCardButton"
-                        AutomationProperties.IsInAccessibleTree="True"
+                        WidthRequest="{Binding CardWidth}"
+                        HeightRequest="{Binding CardHeight}"
                         Clicked="NextCard_Click"
                         BackgroundColor="{AppThemeBinding Light=#0ED145, Dark=#0BA938}"
                         SemanticProperties.Description="{Binding State, Mode=OneWay, 

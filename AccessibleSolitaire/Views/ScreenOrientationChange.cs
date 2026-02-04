@@ -45,7 +45,9 @@ namespace Sa11ytaire4All
                 if ((bool)initialScreenOrientationPortrait != isPortrait)
                 {
                     InnerMainGrid.IsVisible = false;
+
                     CardPileGrid.IsVisible = false;
+                    CardPileGridPyramid.IsVisible = false;
 
                     Debug.WriteLine("SetOrientationLayout: NoScreenOrientationChangeLabel.IsVisible " + NoScreenOrientationChangeLabel.IsVisible);
 
@@ -102,6 +104,7 @@ namespace Sa11ytaire4All
                 InnerMainGrid.IsVisible = true;
 
                 CardPileGrid.IsVisible = isKlondikeOrBakersdozen;
+                CardPileGridPyramid.IsVisible = !isKlondikeOrBakersdozen;
 
                 NoScreenOrientationChangeLabel.IsVisible = false;
             }
