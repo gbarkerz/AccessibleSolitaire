@@ -1555,26 +1555,23 @@ namespace Sa11ytaire4All
             // existing cards in the pile before adding the new cards seems to avoid this. So do
             // that for now, and investigate the correct fix.
 
-            if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            for (int i = 0; i < countPiles; i++)
             {
-                for (int i = 0; i < countPiles; i++)
-                {
 #if WINDOWS
-                    var previousCount = vm.DealtCards[i].Count;
+                var previousCount = vm.DealtCards[i].Count;
 
-                    for (int previousItemIndex = 0; previousItemIndex < previousCount; ++previousItemIndex)
-                    {
-                        vm.DealtCards[i].RemoveAt(0);
-                    }
-#else
-                    vm.DealtCards[i].Clear();
-#endif
+                for (int previousItemIndex = 0; previousItemIndex < previousCount; ++previousItemIndex)
+                {
+                    vm.DealtCards[i].RemoveAt(0);
                 }
-            }
-            else
-            {
-                ClearPyramidCards();
+#else
+                vm.DealtCards[i].Clear();
+#endif
+                if ((currentGameType == SolitaireGameType.Pyramid) ||
+                    (currentGameType == SolitaireGameType.Tripeaks))
+                {
+                    ClearPyramidCards();
+                }
             }
 
             ReadyToLoadCardImages = false;
@@ -1598,8 +1595,13 @@ namespace Sa11ytaire4All
                     PlaySoundFile("deal.mp4");
                 }
 
-                var announcement = MainPage.MyGetString("GameRestarted");
-                MakeDelayedScreenReaderAnnouncement(announcement, false);
+                // Some game's can take a while to start, so delay the "Game restarted" announcement.
+                // Barker todo: Move the announcement to be nearer to where the restart work is done.
+                timerGameRestartedAnnouncement = new Timer(
+                    new TimerCallback((s) => TimedDelayGameRestartedAnnouncement()),
+                        null,
+                        TimeSpan.FromMilliseconds(4000),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
 
             ClearDealtCardPileSelections();
@@ -1631,6 +1633,21 @@ namespace Sa11ytaire4All
             }
 
             Debug.WriteLine("Accessible Solitaire: Zero time spent playing this game.");
+        }
+
+        private Timer? timerGameRestartedAnnouncement;
+
+        private void TimedDelayGameRestartedAnnouncement()
+        {
+            timerGameRestartedAnnouncement?.Dispose();
+            timerGameRestartedAnnouncement = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                var announcement = MainPage.MyGetString("GameRestarted");
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
+            });
         }
 
         private void MoveBakersdozenKingsAroundDealtCard()
@@ -2400,9 +2417,10 @@ namespace Sa11ytaire4All
 
         private void PyramidOpenCardsAnnouncementButton_Clicked(object sender, EventArgs e)
         {
-            if (currentGameType == SolitaireGameType.Bakersdozen)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
-                AnnounceBakersdozenOpenCards(true);
+                AnnounceKlondikeOrBakersdozenOpenCards(true);
             }
             else
             {

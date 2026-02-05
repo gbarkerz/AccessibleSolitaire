@@ -218,8 +218,6 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredHigher.IsVisible = (currentGameType != SolitaireGameType.Tripeaks);
                 CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
             }
-
-            PyramidOpenCardsAnnouncementButton.IsVisible = (currentGameType != SolitaireGameType.Klondike);
         }
 
         private async void ChangeGameType(SolitaireGameType targetGameType)
@@ -235,7 +233,22 @@ namespace Sa11ytaire4All
                 // yet to appear. Explicitly size the first CollectionView to be the height we know
                 // the CollectionViews and their containing grid will ultimately be. Remove this at
                 // some point once it's understood where the correct fix should go.
-                CardPile1.HeightRequest = (2 * InnerMainGrid.Height) / 3;
+
+                var pileHeight = (2 * InnerMainGrid.Height) / 3;
+
+                CardPile1.HeightRequest = pileHeight;
+                CardPile2.HeightRequest = pileHeight;
+                CardPile3.HeightRequest = pileHeight;
+                CardPile4.HeightRequest = pileHeight;
+                CardPile5.HeightRequest = pileHeight;
+                CardPile6.HeightRequest = pileHeight;
+                CardPile7.HeightRequest = pileHeight;
+                CardPile8.HeightRequest = pileHeight;
+                CardPile9.HeightRequest = pileHeight;
+                CardPile10.HeightRequest = pileHeight;
+                CardPile11.HeightRequest = pileHeight;
+                CardPile12.HeightRequest = pileHeight;
+                CardPile13.HeightRequest = pileHeight;
             }
 
             // Don't load the card images until the sessions been loaded.

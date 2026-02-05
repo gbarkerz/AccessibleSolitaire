@@ -376,7 +376,7 @@ namespace Sa11ytaire4All
             return openCardsComment;
         }
 
-        private string? GetBakersDozenOpenCardsAnnouncement()
+        private string? GetKlondikeOrBakersDozenOpenCardsAnnouncement()
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -386,8 +386,7 @@ namespace Sa11ytaire4All
 
             var openCardsComment = "";
 
-            // There are always 13 card piles in the Baker's Dozen game.
-            for (int i = 0; i < 13; ++i)
+            for (int i = 0; i < GetCardPileCount(); ++i)
             {
                 var includedPileIndex = false;
 
@@ -769,15 +768,16 @@ namespace Sa11ytaire4All
             return openCardsComment;
         }
 
-        public string? AnnounceBakersdozenOpenCards(bool makeAnnouncement)
+        public string? AnnounceKlondikeOrBakersdozenOpenCards(bool makeAnnouncement)
         {
             var noMoveIsAvailable = MyGetString("NoOpenCardsAreAvailable");
 
             var openCardsComment = "";
 
-            if (currentGameType == SolitaireGameType.Bakersdozen)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
             {
-                openCardsComment = GetBakersDozenOpenCardsAnnouncement();
+                openCardsComment = GetKlondikeOrBakersDozenOpenCardsAnnouncement();
 
                 if (makeAnnouncement)
                 {
