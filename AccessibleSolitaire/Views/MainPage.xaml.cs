@@ -610,6 +610,7 @@ namespace Sa11ytaire4All
 
                 RefreshDealtCardPilesIsInAccessibleTree();
 
+                RestartButton.IsVisible = (bool)Preferences.Get("ShowRestartButton", false);
                 PauseResumeButton.IsVisible = (bool)Preferences.Get("ShowPauseResumeButton", false);
 
                 // If the Pause/Resume button is not visible, make sure no game is currently paused.
@@ -2963,15 +2964,53 @@ namespace Sa11ytaire4All
             }
         }
 
-        private string Sa11ytaireHelpPage =
-            "https://accessiblesolitaire.wordpress.com/2025/07/17/accessible-solitaire-for-ios-android-and-windows";
+        private string Sa11ytaireHelpPageGeneral =
+            "https://accessiblesolitaire.com";
+
+        private string Sa11ytaireHelpPageKlondike =
+            "https://accessiblesolitaire.com/2025/07/17/accessible-solitaire-for-ios-android-and-windows";
+
+        private string Sa11ytaireHelpPageBakersdozen =
+            "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";
+
+        private string Sa11ytaireHelpPagePyramid =
+            "https://accessiblesolitaire.com/2025/11/26/coming-soon-accessible-pyramid-solitaire";
+
+        private string Sa11ytaireHelpPageTripeaks =
+            "https://accessiblesolitaire.com/2026/01/21/accessible-tri-peaks-solitaire";
 
         public async void LaunchHelp()
         {
             try
             {
+                // Launch game-specific help.
+                var gameSpecificUrl = "";
+
+                switch (currentGameType)
+                {
+                    case SolitaireGameType.Klondike:
+                        gameSpecificUrl = Sa11ytaireHelpPageKlondike;
+                        break;
+
+                    case SolitaireGameType.Bakersdozen:
+                        gameSpecificUrl = Sa11ytaireHelpPageBakersdozen;
+                        break;
+                    
+                    case SolitaireGameType.Pyramid:
+                        gameSpecificUrl = Sa11ytaireHelpPagePyramid;
+                        break;
+
+                    case SolitaireGameType.Tripeaks:
+                        gameSpecificUrl = Sa11ytaireHelpPageTripeaks;
+                        break;
+
+                    default:
+                        gameSpecificUrl = Sa11ytaireHelpPageGeneral;
+                        break;
+                }
+
                 // Open the Sa11ytaireHelp page on Facebook.
-                Uri uri = new Uri(Sa11ytaireHelpPage);
+                Uri uri = new Uri(gameSpecificUrl);
 
                 await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
             }
@@ -3258,6 +3297,11 @@ namespace Sa11ytaire4All
             }
 
             return CardPileGrid.Height;
+        }
+
+        private void RestartButton_Clicked(object sender, EventArgs e)
+        {
+            QueryRestartGame();
         }
     }
 }

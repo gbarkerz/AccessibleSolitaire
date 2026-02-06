@@ -158,6 +158,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- Show rank and suit large in cards. -->
@@ -330,20 +333,47 @@
 
                     </HorizontalStackLayout>
 
-                    <!-- Show Pause/Resume button. -->
+                    <!-- Show Restart button. -->
 
                     <Label Grid.Row="9"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButton}" />
+                        Text="{x:Static resources:Strings.StringResources.ShowRestartButton}" />
 
                     <Label Grid.Row="10" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
-                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonInstructions}" />
+                        Text="{x:Static resources:Strings.StringResources.ShowRestartButtonInstructions}" />
 
                     <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:Strings.StringResources.ShowRestartButtonSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="ShowRestartButtonSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.ShowRestartButtonSwitchLabel}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.ShowRestartButtonInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <!-- Show Pause/Resume button. -->
+
+                    <Label Grid.Row="12"
+                        FontAttributes="Bold" 
+                        Margin="8,8,0,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButton}" />
+
+                    <Label Grid.Row="13" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="14" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                

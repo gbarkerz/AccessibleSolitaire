@@ -98,6 +98,9 @@ public partial class SettingsPage : ContentPage
         var flipGameLayoutHorizontally = (bool)Preferences.Get("FlipGameLayoutHorizontally", false);
         FlipGameLayoutHorizontallySwitch.IsToggled = flipGameLayoutHorizontally;
 
+        var showRestartButton = (bool)Preferences.Get("ShowRestartButton", false);
+        ShowRestartButtonSwitch.IsToggled = showRestartButton;
+
         var showPauseResumeButton = (bool)Preferences.Get("ShowPauseResumeButton", false);
         ShowPauseResumeButtonSwitch.IsToggled = showPauseResumeButton;
 
@@ -276,6 +279,9 @@ public partial class SettingsPage : ContentPage
 
         var flipGameLayoutHorizontally = FlipGameLayoutHorizontallySwitch.IsToggled;
         Preferences.Set("FlipGameLayoutHorizontally", flipGameLayoutHorizontally);
+
+        var showRestartButton = ShowRestartButtonSwitch.IsToggled;
+        Preferences.Set("ShowRestartButton", showRestartButton);
 
         var showPauseResumeButton = ShowPauseResumeButtonSwitch.IsToggled;
         Preferences.Set("ShowPauseResumeButton", showPauseResumeButton);

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V3.15</value>
+    <value>Accessible Solitaire V3.16</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -198,7 +198,7 @@
   <data name="FirstRunMessage" xml:space="preserve">
     <value>Welcome to the Accessible Solitaire game!
 
-Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you.</value>
+Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you. The content shown relates to the game currently being played, and to view all posts for the Accessible Solitaire app, please visit http://AccessibleSolitaire.com.</value>
   </data>
   <data name="GameRestarted" xml:space="preserve">
     <value>The game has restarted.</value>
@@ -793,7 +793,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Show the Pause/Resume button</value>
   </data>
   <data name="ShowPauseResumeButtonInstructions" xml:space="preserve">
-    <value>Check this option if you'd like a Pause button to shown below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button.</value>
+    <value>Check this option if you'd like a Pause button to show below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button.</value>
   </data>
   <data name="ShowPauseResumeButtonSwitchLabel" xml:space="preserve">
     <value>Show Pause/Resume button:</value>
@@ -842,5 +842,14 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="PreparingGameTypeLayout" xml:space="preserve">
     <value>Preparing {0} layout</value>
+  </data>
+  <data name="ShowRestartButton" xml:space="preserve">
+    <value>Show the Restart button</value>
+  </data>
+  <data name="ShowRestartButtonInstructions" xml:space="preserve">
+    <value>Check this option if you'd like a Restart button to show below the Menu button.</value>
+  </data>
+  <data name="ShowRestartButtonSwitchLabel" xml:space="preserve">
+    <value>Show Restart button:</value>
   </data>
 </root>

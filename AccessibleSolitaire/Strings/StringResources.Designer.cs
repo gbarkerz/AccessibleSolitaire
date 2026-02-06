@@ -187,7 +187,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V3.15.
+        ///   Looks up a localized string similar to Accessible Solitaire V3.16.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -945,7 +945,7 @@ namespace Sa11ytaire4All.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Welcome to the Accessible Solitaire game!
         ///
-        ///Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you..
+        ///Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you. The content shown relates to the game currently being played, and to view all posts for the Accessible Solitaire app, please visit http://AccessibleSolitaire.com..
         /// </summary>
         internal static string FirstRunMessage {
             get {
@@ -1862,7 +1862,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check this option if you&apos;d like a Pause button to shown below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button..
+        ///   Looks up a localized string similar to Check this option if you&apos;d like a Pause button to show below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button..
         /// </summary>
         internal static string ShowPauseResumeButtonInstructions {
             get {
@@ -1903,6 +1903,33 @@ namespace Sa11ytaire4All.Strings {
         internal static string ShowRankSuitLargeSwitchName {
             get {
                 return ResourceManager.GetString("ShowRankSuitLargeSwitchName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the Restart button.
+        /// </summary>
+        internal static string ShowRestartButton {
+            get {
+                return ResourceManager.GetString("ShowRestartButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check this option if you&apos;d like a Restart button to show below the Menu button..
+        /// </summary>
+        internal static string ShowRestartButtonInstructions {
+            get {
+                return ResourceManager.GetString("ShowRestartButtonInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Restart button:.
+        /// </summary>
+        internal static string ShowRestartButtonSwitchLabel {
+            get {
+                return ResourceManager.GetString("ShowRestartButtonSwitchLabel", resourceCulture);
             }
         }
         
