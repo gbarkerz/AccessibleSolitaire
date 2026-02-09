@@ -187,7 +187,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V3.16.
+        ///   Looks up a localized string similar to Accessible Solitaire V3.17.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -945,7 +945,7 @@ namespace Sa11ytaire4All.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Welcome to the Accessible Solitaire game!
         ///
-        ///Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you. The content shown relates to the game currently being played, and to view all posts for the Accessible Solitaire app, please visit http://AccessibleSolitaire.com..
+        ///Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you. The content shown relates to the game currently being played, and to view all posts for the Accessible Solitaire app, please visit AccessibleSolitaire.com..
         /// </summary>
         internal static string FirstRunMessage {
             get {

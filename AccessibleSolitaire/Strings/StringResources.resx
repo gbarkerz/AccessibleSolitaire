@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V3.16</value>
+    <value>Accessible Solitaire V3.17</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -198,7 +198,7 @@
   <data name="FirstRunMessage" xml:space="preserve">
     <value>Welcome to the Accessible Solitaire game!
 
-Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you. The content shown relates to the game currently being played, and to view all posts for the Accessible Solitaire app, please visit http://AccessibleSolitaire.com.</value>
+Please click the Menu button and review the Help content to learn how to get the best game-playing experiences for you. The content shown relates to the game currently being played, and to view all posts for the Accessible Solitaire app, please visit AccessibleSolitaire.com.</value>
   </data>
   <data name="GameRestarted" xml:space="preserve">
     <value>The game has restarted.</value>
