@@ -1997,6 +1997,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spider Solitaire.
+        /// </summary>
+        internal static string SpiderSolitaire {
+            get {
+                return ResourceManager.GetString("SpiderSolitaire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suit Colours.
         /// </summary>
         internal static string SuitColours {

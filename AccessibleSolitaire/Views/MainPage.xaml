@@ -76,7 +76,7 @@
             did not consistently match that of the rest of the UI. So set it explicitly on each of the 
             CollectionViews and on high-level Grid inside the upper ScrollView. -->
 
-        <!--<Setter Property="ItemsLayout" Value="LinearItemsLayout.Horizontal" />-->
+        <!--<Setter Property="ItemsLayout" Value="HorizontalList" />-->
 
         <Style x:Key="CollectionViewStyle" TargetType="CollectionView">
             <Setter Property="WidthRequest" Value="{Binding DealtCardPileWidth}" />

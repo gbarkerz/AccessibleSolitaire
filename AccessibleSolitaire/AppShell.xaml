@@ -49,6 +49,12 @@
         Text="{x:Static resources:Strings.StringResources.TripeaksSolitaire}">
     </MenuItem>
 
+    <MenuItem x:Name="SpiderSolitaireMenuItem" 
+        Clicked="SpiderSolitaireMenuItem_Clicked"
+        IconImageSource="menuspider.png"
+        Text="{x:Static resources:Strings.StringResources.SpiderSolitaire}">
+    </MenuItem>
+
     <MenuItem x:Name="HelpMenuItem" 
         Clicked="HelpMenuItem_Clicked"
         Text="{x:Static resources:Strings.StringResources.Help}">

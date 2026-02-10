@@ -50,6 +50,16 @@ namespace Sa11ytaire4All
             }
         }
 
+        private void SpiderSolitaireMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            if (MainPage.currentGameType != SolitaireGameType.Spider)
+            {
+                MainPage.MainPageSingleton?.LoadSpiderGame();
+            }
+        }
+
         private void HelpMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;

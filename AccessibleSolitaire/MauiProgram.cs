@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Maui.KeyListener;
@@ -23,7 +24,11 @@ namespace Sa11ytaire4All
                 .UseMauiApp<App>()
                 .UseKeyListener()
                 .UseMauiCommunityToolkit()
-                .UseMauiCommunityToolkitMediaElement()
+                .UseMauiCommunityToolkitMediaElement(false)
+                //.UseMauiCommunityToolkitMediaElement(isAndroidForegroundServiceEnabled: false, static options =>
+                //    {
+                //        options.SetDefaultAndroidViewType(AndroidViewType.TextureView);
+                //    })
                 .ConfigureMauiHandlers(handlers =>
                 {
 #if IOS

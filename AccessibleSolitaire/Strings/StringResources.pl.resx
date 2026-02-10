@@ -852,4 +852,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="ShowRestartButtonSwitchLabel" xml:space="preserve">
     <value>Pokaż przycisk Rozdaj karty:</value>
   </data>
+  <data name="SpiderSolitaire" xml:space="preserve">
+    <value>Spider Solitaire</value>
+  </data>
 </root>

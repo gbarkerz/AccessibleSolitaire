@@ -15,7 +15,8 @@ namespace Sa11ytaire4All
         Klondike = 1,
         Pyramid = 2,
         Tripeaks = 3,
-        Bakersdozen = 4
+        Bakersdozen = 4,
+        Spider = 5,
     }
 
     public partial class MainPage : ContentPage
@@ -199,6 +200,19 @@ namespace Sa11ytaire4All
             ComleteVisualsUpdateFollowingGameChange();
         }
 
+        public void LoadSpiderGame()
+        {
+            var previousGame = currentGameType;
+            if (previousGame == SolitaireGameType.Spider)
+            {
+                return;
+            }
+
+            ChangeGameType(SolitaireGameType.Spider);
+
+            ComleteVisualsUpdateFollowingGameChange();
+        }
+
         private void SetRemainingCardUIVisibility()
         {
             if (currentGameType == SolitaireGameType.Bakersdozen)
@@ -218,97 +232,6 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredHigher.IsVisible = (currentGameType != SolitaireGameType.Tripeaks);
                 CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
             }
-        }
-
-        private async void ChangeGameType(SolitaireGameType targetGameType)
-        {
-            Preferences.Set("ChangeGameType: targetGameType ", targetGameType.ToString());
-
-            if (((targetGameType == SolitaireGameType.Klondike) ||
-                 (targetGameType == SolitaireGameType.Bakersdozen)) &&
-                ((currentGameType != SolitaireGameType.Klondike) ||
-                 (currentGameType != SolitaireGameType.Bakersdozen)))
-            {
-                // Barker Todo: The CollectionViews' containing grid is -1 height here because it's 
-                // yet to appear. Explicitly size the first CollectionView to be the height we know
-                // the CollectionViews and their containing grid will ultimately be. Remove this at
-                // some point once it's understood where the correct fix should go.
-
-                var pileHeight = (2 * InnerMainGrid.Height) / 3;
-
-                CardPile1.HeightRequest = pileHeight;
-                CardPile2.HeightRequest = pileHeight;
-                CardPile3.HeightRequest = pileHeight;
-                CardPile4.HeightRequest = pileHeight;
-                CardPile5.HeightRequest = pileHeight;
-                CardPile6.HeightRequest = pileHeight;
-                CardPile7.HeightRequest = pileHeight;
-                CardPile8.HeightRequest = pileHeight;
-                CardPile9.HeightRequest = pileHeight;
-                CardPile10.HeightRequest = pileHeight;
-                CardPile11.HeightRequest = pileHeight;
-                CardPile12.HeightRequest = pileHeight;
-                CardPile13.HeightRequest = pileHeight;
-            }
-
-            // Don't load the card images until the sessions been loaded.
-            ReadyToLoadCardImages = false;
-
-            StopCelebratoryActions();
-
-            SaveSession();
-
-            PrepareForGameTypeChange(currentGameType, targetGameType);
-
-            // Barker Todo: Remove currentGameType now that we have vm.CurrentGameType.
-            currentGameType = targetGameType;
-
-            Preferences.Set("CurrentGameType", Convert.ToInt32(currentGameType));
-
-            var vm = this.BindingContext as DealtCardViewModel;
-            if (vm != null)
-            {
-                vm.CurrentGameType = currentGameType;
-            }
-
-            Preferences.Set("ChangeGameType: currentGameType now ", currentGameType.ToString());
-
-            var isKlondikeOrBakersdozen = ((currentGameType == SolitaireGameType.Klondike) ||
-                                           (currentGameType == SolitaireGameType.Bakersdozen));
-
-            CardDeckUpturnedObscuredLower.IsVisible = isKlondikeOrBakersdozen;
-
-            TargetPiles.IsVisible = isKlondikeOrBakersdozen;
-
-            CardPileGrid.IsVisible = isKlondikeOrBakersdozen;
-            CardPileGridPyramid.IsVisible = !isKlondikeOrBakersdozen;
-
-            ClearAllPiles();
-
-            ReadyToLoadCardImages = false;
-
-            timerDelayLoadSession = new Timer(
-                new TimerCallback((s) => TimedDelayLoadSession()),
-                    null,
-                    TimeSpan.FromMilliseconds(1000),
-                    TimeSpan.FromMilliseconds(Timeout.Infinite));
-
-            // Make sure all the required card images get loaded up now.
-            CardPackImagesLoad();
-        }
-
-        private Timer? timerDelayLoadSession;
-
-        private async void TimedDelayLoadSession()
-        {
-            timerDelayLoadSession?.Dispose();
-            timerDelayLoadSession = null;
-
-            // DON'T run this on the UI thread.
-            var loadSucceeded = await LoadSession();
-
-            // Now run the rest on the UI thread.
-            LoadSessionPostprocessOnUIThread(loadSucceeded);
         }
 
         private void PrepareForGameTypeChange(SolitaireGameType currentGameType, SolitaireGameType targetGameType)
@@ -400,86 +323,78 @@ namespace Sa11ytaire4All
             return countUnexpected;
         }
 
-        private void LoadSessionPostprocessOnUIThread(bool loadSucceeded)
+        private void ChangeGameLoadSessionPostprocess(bool loadSucceeded)
         {
-            Debug.WriteLine("LoadSessionPostprocessOnUIThread: START");
+            Debug.WriteLine("ChangeGameLoadSessionPostprocess: START");
 
-            MainThread.BeginInvokeOnMainThread(() =>
+            // Barker: For Klondike games, we can no longer only check for a target pile being complete
+            // simply by the count of cards in the pile, as auto-complete games simply puts a King as
+            // the displayed card on top of whatever else is there in the pile. So check for an
+            // auto-completed game here. The check for the current game being a Klondike game is
+            // made beneath CheckForAutoComplete().
+
+            var setAutoCompleteVisuals = false;
+
+            if (loadSucceeded && LoadedCardCountUnexpected())
             {
-                // Barker: For Klondike games, we can no longer only check for a target pile being complete
-                // simply by the count of cards in the pile, as auto-complete games simply puts a King as
-                // the displayed card on top of whatever else is there in the pile. So check for an
-                // auto-completed game here. The check for the current game being a Klondike game is
-                // made beneath CheckForAutoComplete().
-
-                var setAutoCompleteVisuals = false;
-
-                if (loadSucceeded && LoadedCardCountUnexpected())
+                setAutoCompleteVisuals = CheckForAutoComplete();
+                if (!setAutoCompleteVisuals)
                 {
-                    setAutoCompleteVisuals = CheckForAutoComplete();
-                    if (!setAutoCompleteVisuals)
-                    {
-                        loadSucceeded = false;
-                    }
+                    loadSucceeded = false;
                 }
+            }
 
-                if (loadSucceeded)
-                { 
-                    if ((currentGameType != SolitaireGameType.Klondike) &&
-                        (currentGameType != SolitaireGameType.Bakersdozen))
-                    {
-                        var pyramidPostprocessSucceeded = DealPyramidCardsPostprocess(false);
+            if (loadSucceeded)
+            { 
+                if ((currentGameType != SolitaireGameType.Klondike) &&
+                    (currentGameType != SolitaireGameType.Bakersdozen))
+                {
+                    var pyramidPostprocessSucceeded = DealPyramidCardsPostprocess(false);
 
-                        Debug.WriteLine("LoadSessionPostprocessOnUIThread: pyramidPostprocessSucceeded " + 
-                                            pyramidPostprocessSucceeded);
-                    }
-                    else
-                    {
-                        // Without this refreshing of the cards' accessible name, the N in MofN is stuck
-                        // as it was when the card was added to the pile, and doesn't account for the 
-                        // total number of cards added. 
-                        for (int i = 0; i < cCardPiles; i++)
-                        {
-                            var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
-                            if (dealtCardPile != null)
-                            {
-                                RefreshDealtCardPileAccessibleNames(dealtCardPile);
-                            }
-                        }
-                    }
-
-                    if (!setAutoCompleteVisuals)
-                    {
-                        RefreshUpperCards();
-                    }
-                    else
-                    {
-                        // Set up the layout for an auto-completed game, but don't show any message.
-                        AutoCompleteGameNow(false);
-                    }
-
-                    ClearAllSelections(true);
-
-                    LoadAllGamesPausedState();
-
-                    SetNowAsStartOfCurrentGameSessionIfAppropriate();
-
-                    Debug.WriteLine("LoadSessionPostprocessOnUIThread: Note time of start of this game session.");
+                    Debug.WriteLine("ChangeGameLoadSessionPostprocess: pyramidPostprocessSucceeded " + 
+                                        pyramidPostprocessSucceeded);
                 }
                 else
                 {
-                    ClearAllPiles();
-
-                    Debug.WriteLine("LoadSessionPostprocessOnUIThread: Failed to LoadSession, so restart game.");
-
-                    RestartGame(true /* screenReaderAnnouncement. */);
+                    // Without this refreshing of the cards' accessible name, the N in MofN is stuck
+                    // as it was when the card was added to the pile, and doesn't account for the 
+                    // total number of cards added. 
+                    for (int i = 0; i < cCardPiles; i++)
+                    {
+                        var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
+                        if (dealtCardPile != null)
+                        {
+                            RefreshDealtCardPileAccessibleNames(dealtCardPile);
+                        }
+                    }
                 }
 
-                Debug.WriteLine("LoadSessionPostprocessOnUIThread: Set ReadyToLoadCardImages true.");
+                if (!setAutoCompleteVisuals)
+                {
+                    RefreshUpperCards();
+                }
+                else
+                {
+                    // Set up the layout for an auto-completed game, but don't show any message.
+                    AutoCompleteGameNow(false);
+                }
 
-                // We can now proceed with loading the card images.
-                ReadyToLoadCardImages = true;
-            });
+                ClearAllSelections(true);
+
+                LoadAllGamesPausedState();
+
+                SetNowAsStartOfCurrentGameSessionIfAppropriate();
+
+                Debug.WriteLine("ChangeGameLoadSessionPostprocess: Note time of start of this game session.");
+            }
+            else
+            {
+                ClearAllPiles();
+
+                Debug.WriteLine("ChangeGameLoadSessionPostprocess: Failed to LoadSession, so restart game.");
+
+                RestartGame(true /* screenReaderAnnouncement. */);
+            }
         }
 
         private void AddPyramidButtons()
