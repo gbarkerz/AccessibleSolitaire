@@ -389,8 +389,10 @@ namespace Sa11ytaire4All.Source
                     }
                     else
                     {
-                        // Are we merging all other face-down cards?
-                        if (mergeFaceDownCards)
+                        // Are we merging all other face-down cards? This setting only 
+                        // has effect in the Klondike game.
+                        if (mergeFaceDownCards &&
+                            (MainPage.currentGameType == SolitaireGameType.Klondike))
                         {
                             // .NET 9 assumes that if a cell is zero-height, that's unintentional 
                             // and takes action which means nothing gets rendered. So give a merged
@@ -526,7 +528,9 @@ namespace Sa11ytaire4All.Source
             var currentCardIndexInDealtCardPile = this.CurrentCardIndexInDealtCardPile;
             var mergeFaceDownCards = vm.MergeFaceDownCards;
 
-            return (mergeFaceDownCards && faceDown && (currentCardIndexInDealtCardPile == 0));
+            // The face-down label count is only available in the Klondike game.
+            return ((MainPage.currentGameType == SolitaireGameType.Klondike) && 
+                    mergeFaceDownCards && faceDown && (currentCardIndexInDealtCardPile == 0));
         }
 
         [JsonIgnore]
@@ -749,8 +753,10 @@ namespace Sa11ytaire4All.Source
                     }
                     else
                     {
-                        // Are we merging all other face-down cards?
-                        if (mergeFaceDownCards)
+                        // Are we merging all other face-down cards? This setting only 
+                        // has effect in the Klondike game.
+                        if (mergeFaceDownCards &&
+                            (MainPage.currentGameType == SolitaireGameType.Klondike))
                         {
                             // .NET 9 assumes that if a cell is zero-height, that's unintentional 
                             // and takes action which means nothing gets rendered. So give a merged

@@ -135,7 +135,7 @@ namespace Sa11ytaire4All
                     else if ((currentGameType == SolitaireGameType.Spider) &&
                         (i >= 10))
                     {
-                        upperGridRowSpan = 3;
+                        upperGridRowSpan = 2;
 
                         break;
                     }
@@ -198,7 +198,7 @@ namespace Sa11ytaire4All
                 switch (currentGameType)
                 {
                     case SolitaireGameType.Spider:
-                        cardPileGridRow = 3;
+                        cardPileGridRow = 2;
                         cardPileGridRowSpan = 10;
                         break;
 

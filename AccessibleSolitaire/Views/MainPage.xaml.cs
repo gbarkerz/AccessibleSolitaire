@@ -263,8 +263,8 @@ namespace Sa11ytaire4All
 #if (ANDROID || WINDOWS)
             var resmgr = Strings.StringResources.ResourceManager;
 
-            SemanticProperties.SetDescription(UpturnedCardsGrid, resmgr.GetString("UpturnedCards"));
-            
+            // The UpturnedCardsGrid is managed at a per-game level.
+
             SemanticProperties.SetDescription(TargetPiles, resmgr.GetString("TargetCardPiles"));
             SemanticProperties.SetDescription(CardPileGrid, resmgr.GetString("DealtCardPiles"));
 

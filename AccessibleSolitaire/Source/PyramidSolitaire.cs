@@ -77,7 +77,7 @@ namespace Sa11ytaire4All
 
                     case SolitaireGameType.Spider:
 
-                        currentCardHeight = (InnerMainGrid.Height / 10) - 1;
+                        currentCardHeight = (InnerMainGrid.Height / 12) - 1;
 
                         break;
 
@@ -263,10 +263,20 @@ namespace Sa11ytaire4All
 
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = true;
 
+#if (ANDROID || WINDOWS)
+                // Spider solitaire does not show a group of upturned card elements.
+                SemanticProperties.SetDescription(UpturnedCardsGrid, "");
+#endif
+
                 CardDeckUpturned.IsVisible = false;
             }
             else
             {
+#if (ANDROID || WINDOWS)
+                // Spider solitaire does not show a group of upturned card elements.
+                SemanticProperties.SetDescription(UpturnedCardsGrid, MyGetString("UpturnedCards"));
+#endif
+
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = false;
 
                 TargetPileC.IsVisible = true;
