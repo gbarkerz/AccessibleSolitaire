@@ -259,13 +259,15 @@ namespace Sa11ytaire4All
 
                 var sequencesComplete = (104 - cardCount) / 13;
 
-                SpiderDiscardedSequenceCountLabel.Text = sequencesComplete.ToString();
-                SpiderDiscardedSequenceCountLabel.IsVisible = true;
+                SetSpiderDiscardedSequenceDetails(sequencesComplete.ToString());
 
+                SpiderDiscardedSequenceCountLabelContainer.IsVisible = true;
+
+                CardDeckUpturned.IsVisible = false;
             }
             else
             {
-                SpiderDiscardedSequenceCountLabel.IsVisible = false;
+                SpiderDiscardedSequenceCountLabelContainer.IsVisible = false;
 
                 TargetPileC.IsVisible = true;
                 TargetPileD.IsVisible = true;

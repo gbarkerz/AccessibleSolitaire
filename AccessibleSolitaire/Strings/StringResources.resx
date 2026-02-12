@@ -858,4 +858,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="SpiderCardsCannotBeDealt" xml:space="preserve">
     <value>More cards cannot be dealt while there are cards already dealt which can be moved into the empty dealt card piles.</value>
   </data>
+  <data name="DiscardedSequenceCount" xml:space="preserve">
+    <value>Discarded sequence count</value>
+  </data>
 </root>

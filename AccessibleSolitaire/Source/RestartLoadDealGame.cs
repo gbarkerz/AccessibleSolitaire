@@ -116,7 +116,7 @@ namespace Sa11ytaire4All
             {
                 AddOnePackToRemainingCards();
 
-                SpiderDiscardedSequenceCountLabel.Text = "0";
+                SetSpiderDiscardedSequenceDetails("0");
             }
 
             _shuffler = new Shuffler();

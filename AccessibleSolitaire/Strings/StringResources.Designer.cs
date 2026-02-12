@@ -871,6 +871,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded sequence count.
+        /// </summary>
+        internal static string DiscardedSequenceCount {
+            get {
+                return ResourceManager.GetString("DiscardedSequenceCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard pile.
         /// </summary>
         internal static string DiscardPile {

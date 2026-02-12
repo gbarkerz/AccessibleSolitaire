@@ -7,6 +7,15 @@ namespace Sa11ytaire4All
 {
     public sealed partial class MainPage : ContentPage
     {
+        private void SetSpiderDiscardedSequenceDetails(string count)
+        {
+            SpiderDiscardedSequenceCountLabel.Text = count;
+
+            SemanticProperties.SetDescription(
+                SpiderDiscardedSequenceCountLabel,
+                MainPage.MyGetString("DiscardedSequenceCount") + " " + count);
+        }
+
         private async void SpiderPerformNextCardAction()
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -212,7 +221,7 @@ namespace Sa11ytaire4All
                         count = 0;
                     }
 
-                    SpiderDiscardedSequenceCountLabel.Text = (count + 1).ToString();
+                    SetSpiderDiscardedSequenceDetails((count + 1).ToString());
 
                     // Is the game over now?
                     if (GameOver())
