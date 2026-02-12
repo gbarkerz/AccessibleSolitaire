@@ -305,7 +305,8 @@ namespace Sa11ytaire4All
 
                         if (j == 0)
                         {
-                            card.CountFaceDownCardsInPile = i;
+                            card.CountFaceDownCardsInPile = (currentGameType != SolitaireGameType.Spider ?
+                                                                i : rowCardCount - 1);
                         }
 
                         card.Card = _deckRemaining[cardIndex];

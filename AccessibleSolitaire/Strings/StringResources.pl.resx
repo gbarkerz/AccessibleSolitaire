@@ -858,4 +858,13 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="SpiderCardsCannotBeDealt" xml:space="preserve">
     <value>Nie można rozdać więcej kart, jeśli karty już rozdano i można je przenieść na puste stosy rozdanych kart.</value>
   </data>
+  <data name="SpiderDiscardedSequenceCount" xml:space="preserve">
+    <value>Liczba odrzuconych sekwencji</value>
+  </data>
+  <data name="SpiderDealtTenCards" xml:space="preserve">
+    <value>Rozdano dziesięć kolejnych kart do stosów kart rozdanych.</value>
+  </data>
+  <data name="SpiderDiscardCompletedSequence" xml:space="preserve">
+    <value>Odrzucanie ukończonego numeru sekwencji</value>
+  </data>
 </root>

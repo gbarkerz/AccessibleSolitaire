@@ -264,8 +264,9 @@ namespace Sa11ytaire4All
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = true;
 
 #if (ANDROID || WINDOWS)
-                // Spider solitaire does not show a group of upturned card elements.
+                // Spider solitaire does not show a group of upturned card or target card elements.
                 SemanticProperties.SetDescription(UpturnedCardsGrid, "");
+                SemanticProperties.SetDescription(TargetPiles, "");
 #endif
 
                 CardDeckUpturned.IsVisible = false;
@@ -275,6 +276,7 @@ namespace Sa11ytaire4All
 #if (ANDROID || WINDOWS)
                 // Spider solitaire does not show a group of upturned card elements.
                 SemanticProperties.SetDescription(UpturnedCardsGrid, MyGetString("UpturnedCards"));
+                SemanticProperties.SetDescription(TargetPiles, MyGetString("TargetCardPiles"));
 #endif
 
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = false;

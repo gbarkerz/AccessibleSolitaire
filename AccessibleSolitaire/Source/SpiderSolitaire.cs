@@ -39,6 +39,8 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            var announceDealMessage = true;
+
             for (int i = 0; i < 10; ++i)
             {
                 var card = _deckRemaining[_deckRemaining.Count - 1];
@@ -89,9 +91,20 @@ namespace Sa11ytaire4All
                 {
                     // If a sequence is complete, all the subsequence action is taken below here.
                     var sequenceComplete = CheckForSpiderSequenceComplete(vm.DealtCards[i], i);
+                    if (sequenceComplete)
+                    {
+                        announceDealMessage = false;
+                    }
 
                     Debug.WriteLine("SpiderPerformNextCardAction: Did Ace complete sequence - " + sequenceComplete);
                 }
+            }
+
+            // If we're not announcing a message about a sequence completing, announce the deal.
+            if (announceDealMessage)
+            {
+                var announcement = MainPage.MyGetString("SpiderDealtTenCards");
+                MakeDelayedScreenReaderAnnouncement(announcement, false);
             }
         }
 
@@ -222,6 +235,9 @@ namespace Sa11ytaire4All
                     }
 
                     SetSpiderDiscardedSequenceDetails((count + 1).ToString());
+
+                    var announcement = MainPage.MyGetString("SpiderDiscardCompletedSequence") + " " + (count + 1);
+                    MakeDelayedScreenReaderAnnouncement(announcement, false);
 
                     // Is the game over now?
                     if (GameOver())

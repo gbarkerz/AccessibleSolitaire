@@ -871,15 +871,6 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discarded sequence count.
-        /// </summary>
-        internal static string DiscardedSequenceCount {
-            get {
-                return ResourceManager.GetString("DiscardedSequenceCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Discard pile.
         /// </summary>
         internal static string DiscardPile {
@@ -2011,6 +2002,33 @@ namespace Sa11ytaire4All.Strings {
         internal static string SpiderCardsCannotBeDealt {
             get {
                 return ResourceManager.GetString("SpiderCardsCannotBeDealt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealt ten more cards to the dealt card piles..
+        /// </summary>
+        internal static string SpiderDealtTenCards {
+            get {
+                return ResourceManager.GetString("SpiderDealtTenCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discarding completed sequence number.
+        /// </summary>
+        internal static string SpiderDiscardCompletedSequence {
+            get {
+                return ResourceManager.GetString("SpiderDiscardCompletedSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discarded sequence count.
+        /// </summary>
+        internal static string SpiderDiscardedSequenceCount {
+            get {
+                return ResourceManager.GetString("SpiderDiscardedSequenceCount", resourceCulture);
             }
         }
         
