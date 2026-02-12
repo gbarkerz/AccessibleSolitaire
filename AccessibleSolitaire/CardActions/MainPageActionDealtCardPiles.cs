@@ -1,6 +1,7 @@
 ﻿using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace Sa11ytaire4All
@@ -642,7 +643,7 @@ namespace Sa11ytaire4All
                             var announcedDealtCardIndex = 0;
 
                             // Get the index of the list containing the selected cards.
-                            for (int i = 0; i < GetCardPileCount(); i++)
+                            for (int i = 0; i < GetGameCardPileCount(); i++)
                             {
                                 var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
                                 if (list == listDealtCardPile)
@@ -783,7 +784,7 @@ namespace Sa11ytaire4All
                 var announcedSelectedIndex = 0;
 
                 // Get the index of the list containing the selected cards.
-                for (int i = 0; i < GetCardPileCount(); i++)
+                for (int i = 0; i < GetGameCardPileCount(); i++)
                 {
                     var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
                     if (list == listSelectionChanged)
@@ -997,6 +998,9 @@ namespace Sa11ytaire4All
                 cardBelow.IsLastCardInPile = false;
 
                 movedCard = true;
+
+                // If a sequence is complete, all the subsequence action is taken below here.
+                CheckForSpiderSequenceComplete(itemsAdded, listSelectedIndex);
             }
             else
             {
@@ -1295,7 +1299,7 @@ namespace Sa11ytaire4All
             var autoComplete = true;
 
             // Are all cards in the dealt card piles face up now?
-            for (int i = 0; i < GetCardPileCount(); i++)
+            for (int i = 0; i < GetGameCardPileCount(); i++)
             {
                 if (vm.DealtCards[i].Count > 0)
                 {
@@ -1391,7 +1395,7 @@ namespace Sa11ytaire4All
 
         private void RefreshAllDealtCardPileCardIsInAccessibleTree()
         {
-            for (int i = 0; i < GetCardPileCount(); i++)
+            for (int i = 0; i < GetGameCardPileCount(); i++)
             {
                 var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
                 if (collectionView != null)

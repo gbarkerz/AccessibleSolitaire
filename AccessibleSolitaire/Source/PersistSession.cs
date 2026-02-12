@@ -35,6 +35,10 @@ namespace Sa11ytaire4All
             {
                 preferenceSuffix = "Bakersdozen";
             }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                preferenceSuffix = "Spider";
+            }
 
             try
             {
@@ -134,6 +138,16 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("BakersdozenSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
+            else if ((currentGameType == SolitaireGameType.Spider) && !vm.GamePausedSpider)
+            {
+                Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Spider session time.");
+
+                timeSpentPlayingPrevious = (int)Preferences.Get("SpiderSessionDuration", 0);
+
+                timeSession = (int)(DateTime.Now - timeStartOfThisSpiderSession).TotalSeconds;
+
+                Preferences.Set("SpiderSessionDuration", timeSpentPlayingPrevious + timeSession);
+            }
 
             Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Time persisted spent playing this game. Previous " +
                 timeSpentPlayingPrevious + ", Current " + timeSession);
@@ -152,10 +166,12 @@ namespace Sa11ytaire4All
             vm.GamePausedPyramid = (bool)Preferences.Get("GamePausedPyramid", false);
             vm.GamePausedTripeaks = (bool)Preferences.Get("GamePausedTripeaks", false);
             vm.GamePausedBakersdozen = (bool)Preferences.Get("GamePausedBakersdozen", false);
+            vm.GamePausedSpider = (bool)Preferences.Get("GamePausedSpider", false);
 
             Debug.WriteLine("LoadAllGamesPausedState: Loaded current games' paused state. " + 
                 "Klondike " + vm.GamePausedKlondike + ", Pyramid " + vm.GamePausedPyramid +
-                ", Tripeaks " + vm.GamePausedTripeaks + ", Bakersdozen " + vm.GamePausedBakersdozen);
+                ", Tripeaks " + vm.GamePausedTripeaks + ", Bakersdozen " + vm.GamePausedBakersdozen +
+                ", Spider " + vm.GamePausedSpider);
 
             SetPauseResumeButtonState();
         }
@@ -197,6 +213,12 @@ namespace Sa11ytaire4All
 
                 timeStartOfThisBakersdozenSession = DateTime.Now;
             }
+            else if ((currentGameType == SolitaireGameType.Spider) && !vm.GamePausedSpider)
+            {
+                Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Spider set start of this session to now.");
+
+                timeStartOfThisSpiderSession = DateTime.Now;
+            }
         }
 
         private void ClearAllPiles()
@@ -225,8 +247,7 @@ namespace Sa11ytaire4All
                 dealtCardPile.Clear();
             }
 
-            if ((currentGameType != SolitaireGameType.Klondike) &&
-                (currentGameType != SolitaireGameType.Bakersdozen))
+            if (!IsGameCollectionViewBased())
             {
                 ClearPyramidCardsSelection();
             }

@@ -270,6 +270,11 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return null;
+            }
+
             if (value == null)
             {
                 return null;
@@ -277,8 +282,7 @@ namespace Sa11ytaire4All.Views
 
             var gameType = (SolitaireGameType)value;
 
-            return ((gameType == SolitaireGameType.Klondike) ||
-                    (gameType == SolitaireGameType.Bakersdozen));
+            return (MainPage.MainPageSingleton.IsGameCollectionViewBased());
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -291,6 +295,11 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+            if (MainPage.MainPageSingleton == null)
+            {
+                return null;
+            }
+
             if (value == null)
             {
                 return null;
@@ -298,8 +307,7 @@ namespace Sa11ytaire4All.Views
 
             var gameType = (SolitaireGameType)value;
 
-            return ((gameType != SolitaireGameType.Klondike) &&
-                    (gameType != SolitaireGameType.Bakersdozen));
+            return (!MainPage.MainPageSingleton.IsGameCollectionViewBased());
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -647,9 +655,8 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if ((value == null) ||
-                 ((MainPage.currentGameType != SolitaireGameType.Klondike) &&
-                  (MainPage.currentGameType != SolitaireGameType.Bakersdozen)))
+            if ((value == null) || (MainPage.MainPageSingleton == null) ||
+                 !MainPage.MainPageSingleton.IsGameCollectionViewBased())
             {
                 return new Thickness();
             }
@@ -669,8 +676,12 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if ((MainPage.currentGameType != SolitaireGameType.Klondike) &&
-                (MainPage.currentGameType != SolitaireGameType.Bakersdozen))
+            if (MainPage.MainPageSingleton == null)
+            {
+                return false;
+            }
+
+            if (!MainPage.MainPageSingleton.IsGameCollectionViewBased())
             {
                 return true;
             }

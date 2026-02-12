@@ -225,8 +225,7 @@ namespace Sa11ytaire4All.Source
         {
             get
             {
-                if ((MainPage.currentGameType != SolitaireGameType.Klondike) &&
-                    (MainPage.currentGameType != SolitaireGameType.Bakersdozen))
+                if (!MainPage.MainPageSingleton.IsGameCollectionViewBased())
                 {
                     return "";
                 }
@@ -1089,6 +1088,8 @@ namespace Sa11ytaire4All.Source
         {
             if (this.Card != null)
             {
+                Debug.WriteLine("RefreshVisuals: dealt card " + this.AccessibleName);
+
                 OnPropertyChanged("Card");
 
                 OnPropertyChanged("DealtCardTintColour");

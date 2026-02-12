@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json;
-
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 
@@ -22,6 +21,8 @@ namespace Sa11ytaire4All
         private void CardPileGrid_Loaded(object? sender, EventArgs e)
         {
             LoadPreviousSession();
+
+            SetRemainingCardUIVisibility();
         }
 
         // This is called on the UI thread.
@@ -42,8 +43,7 @@ namespace Sa11ytaire4All
             {
                 LoadAllGamesPausedState();
 
-                if ((currentGameType != SolitaireGameType.Klondike) &&
-                    (currentGameType != SolitaireGameType.Bakersdozen))
+                if (!IsGameCollectionViewBased())
                 {
                     DealPyramidCardsPostprocess(false);
                 }
@@ -73,6 +73,22 @@ namespace Sa11ytaire4All
             }
         }
 
+        private void AddOnePackToRemainingCards()
+        {
+            for (int rank = 1; rank <= 13; ++rank)
+            {
+                foreach (Suit suit in Enum.GetValues(typeof(Suit)))
+                {
+                    if (suit == Suit.NoSuit)
+                    {
+                        continue;
+                    }
+
+                    _deckRemaining.Add(new Card { Rank = rank, Suit = suit });
+                }
+            }
+        }
+
         public void RestartGame(bool screenReaderAnnouncement)
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -93,17 +109,14 @@ namespace Sa11ytaire4All
 
             _deckRemaining.Clear();
 
-            for (int rank = 1; rank <= 13; ++rank)
-            {
-                foreach (Suit suit in Enum.GetValues(typeof(Suit)))
-                {
-                    if (suit == Suit.NoSuit)
-                    {
-                        continue;
-                    }
+            AddOnePackToRemainingCards();
 
-                    _deckRemaining.Add(new Card { Rank = rank, Suit = suit });
-                }
+            // Spider Solitaire uses two packs.
+            if (currentGameType == SolitaireGameType.Spider)
+            {
+                AddOnePackToRemainingCards();
+
+                SpiderDiscardedSequenceCountLabel.Text = "0";
             }
 
             _shuffler = new Shuffler();
@@ -114,7 +127,7 @@ namespace Sa11ytaire4All
                 MoveBakersdozenKingsAroundDealtCard();
             }
 
-            var countPiles = (currentGameType == SolitaireGameType.Tripeaks ? 4 : GetCardPileCount());
+            var countPiles = GetGameCardPileCount();
 
             // Barker Todo: On Windows simply calling vm.DealtCards[i].Clear() here and then adding 
             // the new cards can leave the suit colours in the new cards wrong. So it seems that
@@ -189,6 +202,12 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("BakersdozenSessionDuration", 0);
             }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                timeStartOfThisSpiderSession = DateTime.Now;
+
+                Preferences.Set("SpiderSessionDuration", 0);
+            }
 
             Debug.WriteLine("Accessible Solitaire: Zero time spent playing this game.");
 
@@ -196,16 +215,50 @@ namespace Sa11ytaire4All
             CardPackImagesLoad();
         }
 
+        private int GetGameCardPileCount()
+        {
+            int count = 0;
+
+            switch (currentGameType)
+            {
+                case SolitaireGameType.Klondike:
+                    count = 7;
+                    break;
+
+                case SolitaireGameType.Bakersdozen:
+                    count = 13;
+                    break;
+
+                case SolitaireGameType.Spider:
+                    count = 10;
+                    break;
+
+                case SolitaireGameType.Pyramid:
+                case SolitaireGameType.Tripeaks:
+                    // Barker: Set 7 here, but consider if the value's used at all for these games.
+                    count = 7;
+                    break;
+
+                default:
+                    Debug.WriteLine("GetGameCardPileCount: Unexpected game type.");
+                    break;
+            }
+
+            return count;
+        }
+
         // A game is being restarted by the user, or a previous session cannot be loaded
         // when the app is started or switching between games, so deal out the cards now.
         // Assume all dealt card piles have been cleared before this is called.
+
+        // This will add cards to the CollectionView datasources, and so muct be called on the UI thread.
         private async void DealCards()
         {
             int cardIndex = 0;
 
             Debug.WriteLine("Deal, start with " + _deckRemaining.Count + " cards.");
 
-            var countPiles = (currentGameType == SolitaireGameType.Tripeaks ? 4 : GetCardPileCount());
+            var countPiles = GetGameCardPileCount();
 
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
@@ -229,6 +282,18 @@ namespace Sa11ytaire4All
                     {
                         rowCardCount = 4;
                     }
+                    else if (currentGameType == SolitaireGameType.Spider)
+                    {
+                        // The first 5 rows have a 6th card.
+                        if (i < 4)
+                        {
+                            rowCardCount = 6;
+                        }
+                        else
+                        {
+                            rowCardCount = 5;
+                        }
+                    }
                     else // Klondike, Pyramid.
                     {
                         rowCardCount = (i + 1);
@@ -245,9 +310,14 @@ namespace Sa11ytaire4All
 
                         card.Card = _deckRemaining[cardIndex];
 
-                        var cardEnabled = (j == i) ||
-                                            ((vm.CurrentGameType != SolitaireGameType.Klondike) &&
-                                                (vm.CurrentGameType != SolitaireGameType.Bakersdozen));
+                        var cardEnabled = false;
+
+                        if (((currentGameType == SolitaireGameType.Klondike) && (j == i)) ||
+                            ((currentGameType == SolitaireGameType.Spider) && (j == rowCardCount - 1)) ||
+                            !IsGameCollectionViewBased())
+                        {
+                            cardEnabled = true;
+                        }
 
                         // EnableCard() sets FaceDown and CardState.
                         EnableCard(card, cardEnabled);
@@ -265,8 +335,7 @@ namespace Sa11ytaire4All
                             card.IsLastCardInPile = (j == rowCardCount - 1);
                         }
 
-                        if ((currentGameType != SolitaireGameType.Klondike) &&
-                            (currentGameType != SolitaireGameType.Bakersdozen))
+                        if (!IsGameCollectionViewBased())
                         {
                             // All of these are zero-based.
                             card.PyramidRow = i;
@@ -295,8 +364,7 @@ namespace Sa11ytaire4All
             ClearTargetPileButtons();
             ClearUpturnedPileButton();
 
-            if ((currentGameType != SolitaireGameType.Klondike) &&
-                (currentGameType != SolitaireGameType.Bakersdozen))
+            if (!IsGameCollectionViewBased())
             {
                 var postprocessSuccess = DealPyramidCardsPostprocess(true);
                 if (!postprocessSuccess)
@@ -312,53 +380,35 @@ namespace Sa11ytaire4All
             Preferences.Set("ChangeGameType: targetGameType ", targetGameType.ToString());
 
             if (((targetGameType == SolitaireGameType.Klondike) ||
-                    (targetGameType == SolitaireGameType.Bakersdozen)) &&
+                    (targetGameType == SolitaireGameType.Bakersdozen) ||
+                    (targetGameType == SolitaireGameType.Spider)) &&
                 ((currentGameType != SolitaireGameType.Klondike) ||
-                    (currentGameType != SolitaireGameType.Bakersdozen)))
+                    (currentGameType != SolitaireGameType.Bakersdozen) ||
+                    (currentGameType != SolitaireGameType.Spider)))
             {
                 // Barker Todo: The CollectionViews' containing grid is -1 height here because it's 
                 // yet to appear. Explicitly size the first CollectionView to be the height we know
                 // the CollectionViews and their containing grid will ultimately be. Remove this at
                 // some point once it's understood where the correct fix should go.
 
-                if (MainPage.IsPortrait())
-                {
-                    //var pileWidth = 200; //  InnerMainGrid.Width - 8;
-                    //if (pileWidth > 0)
-                    //{
-                    //    CardPile1.WidthRequest = pileWidth;
-                    //    CardPile2.WidthRequest = pileWidth;
-                    //    CardPile3.WidthRequest = pileWidth;
-                    //    CardPile4.WidthRequest = pileWidth;
-                    //    CardPile5.WidthRequest = pileWidth;
-                    //    CardPile6.WidthRequest = pileWidth;
-                    //    CardPile7.WidthRequest = pileWidth;
-                    //    CardPile8.WidthRequest = pileWidth;
-                    //    CardPile9.WidthRequest = pileWidth;
-                    //    CardPile10.WidthRequest = pileWidth;
-                    //    CardPile11.WidthRequest = pileWidth;
-                    //    CardPile12.WidthRequest = pileWidth;
-                    //    CardPile13.WidthRequest = pileWidth;
-                    //}
-                }
-                else
+                if (!MainPage.IsPortrait())
                 {
                     var pileHeight = (2 * InnerMainGrid.Height) / 3;
                     if (pileHeight > 0)
                     {
-                        CardPile1.HeightRequest = pileHeight;
-                        CardPile2.HeightRequest = pileHeight;
-                        CardPile3.HeightRequest = pileHeight;
-                        CardPile4.HeightRequest = pileHeight;
-                        CardPile5.HeightRequest = pileHeight;
-                        CardPile6.HeightRequest = pileHeight;
-                        CardPile7.HeightRequest = pileHeight;
-                        CardPile8.HeightRequest = pileHeight;
-                        CardPile9.HeightRequest = pileHeight;
-                        CardPile10.HeightRequest = pileHeight;
-                        CardPile11.HeightRequest = pileHeight;
-                        CardPile12.HeightRequest = pileHeight;
-                        CardPile13.HeightRequest = pileHeight;
+                        //CardPile1.HeightRequest = pileHeight;
+                        //CardPile2.HeightRequest = pileHeight;
+                        //CardPile3.HeightRequest = pileHeight;
+                        //CardPile4.HeightRequest = pileHeight;
+                        //CardPile5.HeightRequest = pileHeight;
+                        //CardPile6.HeightRequest = pileHeight;
+                        //CardPile7.HeightRequest = pileHeight;
+                        //CardPile8.HeightRequest = pileHeight;
+                        //CardPile9.HeightRequest = pileHeight;
+                        //CardPile10.HeightRequest = pileHeight;
+                        //CardPile11.HeightRequest = pileHeight;
+                        //CardPile12.HeightRequest = pileHeight;
+                        //CardPile13.HeightRequest = pileHeight;
                     }
                 }
             }
@@ -383,15 +433,14 @@ namespace Sa11ytaire4All
 
             Preferences.Set("ChangeGameType: currentGameType now ", currentGameType.ToString());
 
-            var isKlondikeOrBakersdozen = ((currentGameType == SolitaireGameType.Klondike) ||
-                                           (currentGameType == SolitaireGameType.Bakersdozen));
+            var isGameCollectionViewBased = IsGameCollectionViewBased();
 
-            CardDeckUpturnedObscuredLower.IsVisible = isKlondikeOrBakersdozen;
+            CardDeckUpturnedObscuredLower.IsVisible = isGameCollectionViewBased;
 
-            TargetPiles.IsVisible = isKlondikeOrBakersdozen;
+            TargetPiles.IsVisible = isGameCollectionViewBased;
 
-            CardPileGrid.IsVisible = isKlondikeOrBakersdozen;
-            CardPileGridPyramid.IsVisible = !isKlondikeOrBakersdozen;
+            CardPileGrid.IsVisible = isGameCollectionViewBased;
+            CardPileGridPyramid.IsVisible = !isGameCollectionViewBased;
 
             ClearAllPiles();
 
@@ -505,7 +554,7 @@ namespace Sa11ytaire4All
                 }
 
                 // The dealt card piles.
-                for (var i = 0; i < GetCardPileCount(); ++i)
+                for (var i = 0; i < GetGameCardPileCount(); ++i)
                 {
                     var dealtCardPileJson = (string)Preferences.Get(
                                                 "DealtCardsSession" + i.ToString() + preferenceSuffix, "");
@@ -613,7 +662,7 @@ namespace Sa11ytaire4All
             var timeImageLoadStart = DateTime.Now;
 
             // Ok, all the dealt card sources are ready, so begin loading the images.
-            for (int i = 0; i < GetCardPileCount(); i++)
+            for (int i = 0; i < GetGameCardPileCount(); i++)
             {
                 Debug.WriteLine("LoadAllCardImages: Pile " + i + ", count " + vm.DealtCards[i].Count);
 
@@ -621,16 +670,12 @@ namespace Sa11ytaire4All
                 {
                     var pileCard = vm.DealtCards[i][j];
 
-                    string? cardImageSourceName = null;
-
                     if ((pileCard != null) && (pileCard.Card != null))
                     {
                         Debug.WriteLine("LoadAllCardImages: Get image name for Rank " +
                             pileCard.Card.Rank + ", Suit " + pileCard.Card.Suit);
 
                         TryToAddCardImageWithPictureToDictionary(pileCard);
-
-                        Debug.WriteLine("LoadAllCardImages: Image name " + cardImageSourceName);
                     }
                 }
             }
@@ -647,6 +692,8 @@ namespace Sa11ytaire4All
             }
 
             var cardImageSourceName = pileCard.GetFaceupDealtCardImageSourceName();
+
+            Debug.WriteLine("TryToAddCardImageWithPictureToDictionary: Card image name " + cardImageSourceName);
 
             TryToAddCardImageToDictionary(cardImageSourceName, pileCard);
 
@@ -668,12 +715,12 @@ namespace Sa11ytaire4All
                         ImageSource.FromFile(imageSourceName)))
                 {
                     Debug.WriteLine("TryToAddCardImageToDictionary: Ready to use " + imageSourceName);
-
-                    pileCard.RefreshCardImageSources();
-
-                    // Give the UI a chance to catch up.
-                    await Task.Delay(100);
                 }
+
+                pileCard.RefreshCardImageSources();
+
+                // Give the UI a chance to catch up.
+                await Task.Delay(100);
             }
         }
 

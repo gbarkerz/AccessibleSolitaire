@@ -96,15 +96,14 @@ namespace Sa11ytaire4All
 
             SetLowerScrollViewOrientationLayout(isPortrait);
 
-            var isKlondikeOrBakersdozen = ((currentGameType == SolitaireGameType.Klondike) ||
-                                           (currentGameType == SolitaireGameType.Bakersdozen));
+            var isGameCollectionViewBased = IsGameCollectionViewBased();
 
             if (changedLayout)
             {
                 InnerMainGrid.IsVisible = true;
 
-                CardPileGrid.IsVisible = isKlondikeOrBakersdozen;
-                CardPileGridPyramid.IsVisible = !isKlondikeOrBakersdozen;
+                CardPileGrid.IsVisible = isGameCollectionViewBased;
+                CardPileGridPyramid.IsVisible = !isGameCollectionViewBased;
 
                 NoScreenOrientationChangeLabel.IsVisible = false;
             }
@@ -126,7 +125,14 @@ namespace Sa11ytaire4All
 
                 for (int i = 0; i < 15; ++i)
                 {
-                    if ((currentGameType == SolitaireGameType.Klondike) && 
+                    if ((currentGameType == SolitaireGameType.Klondike) &&
+                        (i >= 10))
+                    {
+                        upperGridRowSpan = 3;
+
+                        break;
+                    }
+                    else if ((currentGameType == SolitaireGameType.Spider) &&
                         (i >= 10))
                     {
                         upperGridRowSpan = 3;
@@ -191,6 +197,11 @@ namespace Sa11ytaire4All
             {
                 switch (currentGameType)
                 {
+                    case SolitaireGameType.Spider:
+                        cardPileGridRow = 3;
+                        cardPileGridRowSpan = 10;
+                        break;
+
                     case SolitaireGameType.Bakersdozen:
                         cardPileGridRow = 2;
                         cardPileGridRowSpan = 13;
@@ -214,8 +225,7 @@ namespace Sa11ytaire4All
                 cardPileGridRowSpan = 2;
             }
 
-            if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            if (IsGameCollectionViewBased())
             {
                 Grid.SetRow(CardPileGrid, cardPileGridRow);
                 Grid.SetRowSpan(CardPileGrid, cardPileGridRowSpan);

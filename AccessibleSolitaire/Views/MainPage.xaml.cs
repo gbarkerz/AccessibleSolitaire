@@ -37,8 +37,6 @@ namespace Sa11ytaire4All
         // Barker: Remove the use of this static.
         static public bool ShowRankSuitLarge = false;
 
-        private int cCardPiles = 7;
-
         private Shuffler? _shuffler;
         private List<Card> _deckRemaining = new List<Card>();
         private List<Card> _deckUpturned = new List<Card>();
@@ -230,16 +228,6 @@ namespace Sa11ytaire4All
             mergeFaceDownCardsSetting = (bool)Preferences.Get("MergeFaceDownCards", true);
 #endif
             return mergeFaceDownCardsSetting;
-        }
-
-        // Barker Todo: Until adding the Baker's Dozen game, we always considered there 
-        // to be 7 dealt card piles, regardless of what game was current. Continue to 
-        // that here, except for returning 13 when the current game really is Baker's Dozen.
-        // Consider more closely exactly how this count is used, and how it relates to 
-        // the Pyramid and Tri Pakes games.
-        private int GetCardPileCount()
-        {
-            return (currentGameType != SolitaireGameType.Bakersdozen ? cCardPiles : 13);
         }
 
         private void SetContainerAccessibleNames()
@@ -466,7 +454,7 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
-                for (int i = 0; i < GetCardPileCount(); i++)
+                for (int i = 0; i < GetGameCardPileCount(); i++)
                 {
                     for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                     {
@@ -523,7 +511,7 @@ namespace Sa11ytaire4All
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm != null) && (vm.DealtCards != null))
             {
-                for (int i = 0; i < GetCardPileCount(); i++)
+                for (int i = 0; i < GetGameCardPileCount(); i++)
                 {
                     for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                     {
@@ -576,6 +564,13 @@ namespace Sa11ytaire4All
         // We always set the suit colours on startup.
         private bool InitialSetSuitColours = true;
 
+        public bool IsGameCollectionViewBased()
+        {
+            return ((currentGameType == SolitaireGameType.Klondike) ||
+                    (currentGameType == SolitaireGameType.Bakersdozen) ||
+                    (currentGameType == SolitaireGameType.Spider));
+        }
+
         protected override void OnAppearing()
         {
             Debug.WriteLine("OnAppearing: START");
@@ -610,10 +605,9 @@ namespace Sa11ytaire4All
 
                 vm.CurrentGameType = currentGameType;
 
-                SetRemainingCardUIVisibility();
+                //SetRemainingCardUIVisibility();
 
-                if ((currentGameType == SolitaireGameType.Klondike) ||
-                    (currentGameType == SolitaireGameType.Bakersdozen))
+                if (IsGameCollectionViewBased())
                 {
                     CardPileGrid.IsVisible = true;
                     CardPileGridPyramid.IsVisible = false;
@@ -633,11 +627,13 @@ namespace Sa11ytaire4All
                 if (!PauseResumeButton.IsVisible)
                 {
                     vm.GamePausedKlondike = false;
+                    vm.GamePausedSpider = false;
                     vm.GamePausedPyramid = false;
                     vm.GamePausedTripeaks = false;
                     vm.GamePausedBakersdozen = false;
 
                     Preferences.Set("GamePausedKlondike", false);
+                    Preferences.Set("GamePausedSpider", false);
                     Preferences.Set("GamePausedPyramid", false);
                     Preferences.Set("GamePausedTripeaks", false);
                     Preferences.Set("GamePausedBakersdozen", false);
@@ -845,13 +841,12 @@ namespace Sa11ytaire4All
             TargetPileH.SetHeadingState(isHeading);
             TargetPileS.SetHeadingState(isHeading);
 
-            if ((currentGameType != SolitaireGameType.Klondike) &&
-                (currentGameType != SolitaireGameType.Bakersdozen))
+            if (IsGameCollectionViewBased())
             {
                 var vm = this.BindingContext as DealtCardViewModel;
                 if ((vm != null) && (vm.DealtCards != null))
                 {
-                    for (int i = 0; i < GetCardPileCount(); i++)
+                    for (int i = 0; i < GetGameCardPileCount(); i++)
                     {
                         for (int j = 0; j < vm.DealtCards[i].Count; ++j)
                         {
@@ -883,14 +878,15 @@ namespace Sa11ytaire4All
             if ((vm != null) && (vm.DealtCards != null))
             {
                 // Refresh all the cards to show the required visuals.
-                if ((currentGameType == SolitaireGameType.Klondike) ||
-                    (currentGameType == SolitaireGameType.Bakersdozen))
+                if (IsGameCollectionViewBased())
                 {
-                    for (int i = 0; i < GetCardPileCount(); i++)
+                    for (int i = 0; i < GetGameCardPileCount(); i++)
                     {
                         for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                         {
                             var pileCard = vm.DealtCards[i][j];
+
+                            Debug.WriteLine("RefreshAllCardVisuals: pileCard " + pileCard.AccessibleName);
 
                             pileCard.RefreshVisuals();
                         }
@@ -1130,8 +1126,7 @@ namespace Sa11ytaire4All
             {
                 SetCardButtonToggledSelectionState(CardDeckUpturned, false);
 
-                if ((currentGameType != SolitaireGameType.Klondike) && 
-                    (currentGameType != SolitaireGameType.Bakersdozen))
+                if (IsGameCollectionViewBased())
                 {
                     SetCardButtonToggledSelectionState(CardDeckUpturnedObscuredHigher, false);
                 }
@@ -1277,6 +1272,13 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("PauseResumeButton_Click: Klondike paused game state " + vm.GamePausedKlondike);
                     break;
 
+                case SolitaireGameType.Spider:
+                    vm.GamePausedSpider = !vm.GamePausedSpider;
+                    Preferences.Set("GamePausedSpider", vm.GamePausedSpider);
+
+                    Debug.WriteLine("PauseResumeButton_Click: Spider paused game state " + vm.GamePausedSpider);
+                    break;
+
                 case SolitaireGameType.Pyramid:
                     vm.GamePausedPyramid = !vm.GamePausedPyramid;
                     Preferences.Set("GamePausedPyramid", vm.GamePausedPyramid);
@@ -1365,6 +1367,13 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("IsCurrentGamePaused: Current Klondike paused state " + currentGameIsPaused);
 
                     currentGameIsPaused = vm.GamePausedKlondike;
+                    break;
+
+                case SolitaireGameType.Spider:
+
+                    Debug.WriteLine("IsCurrentGamePaused: Current Spider paused state " + currentGameIsPaused);
+
+                    currentGameIsPaused = vm.GamePausedSpider;
                     break;
 
                 case SolitaireGameType.Pyramid:
@@ -1573,8 +1582,9 @@ namespace Sa11ytaire4All
                     {
                         if (cardBelow.Card.Rank == cardAbove.Card.Rank + 1)
                         {
-                            // Suit doesn't matter in the Baker's Dozen game.
-                            if (currentGameType != SolitaireGameType.Bakersdozen)
+                            // Suit doesn't matter in the Spider and Baker's Dozen games.
+                            if ((currentGameType != SolitaireGameType.Spider) &&
+                                (currentGameType != SolitaireGameType.Bakersdozen))
                             {
                                 bool isBelowRed = ((cardBelow.Card.Suit == Suit.Diamonds) || (cardBelow.Card.Suit == Suit.Hearts));
                                 bool isAboveRed = ((cardAbove.Card.Suit == Suit.Diamonds) || (cardAbove.Card.Suit == Suit.Hearts));
@@ -1617,6 +1627,7 @@ namespace Sa11ytaire4All
         private DateTime timeStartOfThisPyramidSession;
         private DateTime timeStartOfThisTripeaksSession;
         private DateTime timeStartOfThisBakersdozenSession;
+        private DateTime timeStartOfThisSpiderSession;
 
         private async void ShowEndOfGameDialog(bool gameWasAutoCompleted)
         {
@@ -1642,6 +1653,10 @@ namespace Sa11ytaire4All
             {
                 case SolitaireGameType.Klondike:
                     nameOfCurrentGame = MainPage.MyGetString("KlondikeSolitaire");
+                    break;
+
+                case SolitaireGameType.Spider:
+                    nameOfCurrentGame = MainPage.MyGetString("SpiderSolitaire");
                     break;
 
                 case SolitaireGameType.Pyramid:
@@ -1676,6 +1691,10 @@ namespace Sa11ytaire4All
             {
                 timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisKlondikeSession;
             }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisSpiderSession;
+            }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisPyramidSession;
@@ -1697,6 +1716,10 @@ namespace Sa11ytaire4All
             if (currentGameType == SolitaireGameType.Klondike)
             {
                 secondsSpentPlayingPrevious = (int)Preferences.Get("KlondikeSessionDuration", 0);
+            }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                secondsSpentPlayingPrevious = (int)Preferences.Get("SpiderSessionDuration", 0);
             }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
@@ -1769,7 +1792,8 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredHigher.RotateToAsync(0, 0);
                 CardDeckUpturned.RotateToAsync(0, 0);
             }
-            else if (currentGameType == SolitaireGameType.Tripeaks)
+            else if ((currentGameType == SolitaireGameType.Spider) ||
+                     (currentGameType == SolitaireGameType.Tripeaks))
             {
                 NextCardDeck.RotateToAsync(0, 0);
                 CardDeckUpturned.RotateToAsync(0, 0);
@@ -1864,7 +1888,8 @@ namespace Sa11ytaire4All
                             break;
                     }
                 }
-                else if (currentGameType == SolitaireGameType.Tripeaks)
+                else if ((currentGameType == SolitaireGameType.Spider) ||
+                         (currentGameType == SolitaireGameType.Tripeaks))
                 {
                     switch (countOfSpinningCards)
                     {
@@ -2193,7 +2218,7 @@ namespace Sa11ytaire4All
             string cards = MyGetString("Cards");
             string facedown = MyGetString("FaceDown");
 
-            var countPiles = GetCardPileCount();
+            var countPiles = GetGameCardPileCount();
 
             for (int i = 0; i < countPiles; i++)
             {
@@ -2280,7 +2305,7 @@ namespace Sa11ytaire4All
             string card = MyGetString("Card");
             string cards = MyGetString("Cards");
 
-            var countPiles = GetCardPileCount();
+            var countPiles = GetGameCardPileCount();
 
             for (int i = 0; i < countPiles; i++)
             {
@@ -2477,6 +2502,9 @@ namespace Sa11ytaire4All
         private string Sa11ytaireHelpPageKlondike =
             "https://accessiblesolitaire.com/2025/07/17/accessible-solitaire-for-ios-android-and-windows";
 
+        private string Sa11ytaireHelpPageSpider =
+            "https://accessiblesolitaire.com/2026/01/21/accessible-spider-solitaire";
+
         private string Sa11ytaireHelpPageBakersdozen =
             "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";
 
@@ -2497,6 +2525,10 @@ namespace Sa11ytaire4All
                 {
                     case SolitaireGameType.Klondike:
                         gameSpecificUrl = Sa11ytaireHelpPageKlondike;
+                        break;
+
+                    case SolitaireGameType.Spider:
+                        gameSpecificUrl = Sa11ytaireHelpPageSpider;
                         break;
 
                     case SolitaireGameType.Bakersdozen:
@@ -2803,7 +2835,19 @@ namespace Sa11ytaire4All
                 return 0;
             }
 
-            return CardPileGrid.Height;
+            var height = 0.0;
+
+            if (!IsPortrait())
+            {
+                height = (2 * InnerMainGrid.Height) / 3;
+            }
+
+            if (height <= 0.0)
+            {
+                height = CardPileGrid.Height;
+            }
+
+            return height;
         }
 
         private void RestartButton_Clicked(object sender, EventArgs e)

@@ -21,7 +21,7 @@ namespace Sa11ytaire4All
             if ((currentGameType == SolitaireGameType.Klondike) ||
                 (currentGameType == SolitaireGameType.Bakersdozen))
             {
-                for (int i = 0; i < GetCardPileCount(); i++)
+                for (int i = 0; i < GetGameCardPileCount(); i++)
                 {
                     var list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
 
@@ -44,7 +44,7 @@ namespace Sa11ytaire4All
             DealtCard? selectedCard = null;
 
             // Is any card selected in a CardPile list?
-            for (int i = 0; i < GetCardPileCount(); i++)
+            for (int i = 0; i < GetGameCardPileCount(); i++)
             {
                 var list = (CollectionView?)CardPileGrid.FindByName("CardPile" + (i + 1));
                 if (list != null)
@@ -110,6 +110,11 @@ namespace Sa11ytaire4All
                 {    
                     gameIsOver = false;
                 }
+            }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                // If 8 sequences have been discarded, then the game's complete.
+                gameIsOver = (SpiderDiscardedSequenceCountLabel.Text == "8");
             }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {

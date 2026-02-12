@@ -695,15 +695,26 @@
                                     Path=CardWidth,
                                     Converter={StaticResource IsObscuredCardToMargin}}" />
 
-                            <local_views:CardButton Grid.Column="2" Style="{StaticResource CardButtonStyle}"
-                                Margin="0" Padding="0" 
-                                x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
-                                LongPressZoomDuration="{Binding Mode=OneWay, 
-                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                                    x:DataType={x:Type vm:DealtCardViewModel},
-                                    Path=LongPressZoomDuration,
-                                    Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                                BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}" />
+                            <Grid Grid.Column="2">
+                                <local_views:CardButton Style="{StaticResource CardButtonStyle}"
+                                    Margin="0" Padding="0" 
+                                    x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
+                                    LongPressZoomDuration="{Binding Mode=OneWay, 
+                                        Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                                        x:DataType={x:Type vm:DealtCardViewModel},
+                                        Path=LongPressZoomDuration,
+                                        Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                                    BackgroundColor="{AppThemeBinding Light=Black, Dark=#004000}">
+                                </local_views:CardButton>
+
+                                <Label x:Name="SpiderDiscardedSequenceCountLabel"
+                                    IsVisible="False"
+                                    HorizontalOptions="Center" VerticalOptions="Center"
+                                    FontSize="Header"
+                                    Text="0"
+                                    TextColor="Black" 
+                                    BackgroundColor="Transparent" />
+                            </Grid>
                             
                         </Grid>
                     </Grid>

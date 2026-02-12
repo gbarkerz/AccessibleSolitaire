@@ -1,11 +1,7 @@
-﻿using CommunityToolkit.Maui.Behaviors;
-using CommunityToolkit.Maui.Markup;
-using Sa11ytaire4All.Source;
+﻿using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
-using WindowsInput;
-using WindowsInput.Native;
 
 namespace Sa11ytaire4All
 {
@@ -79,6 +75,12 @@ namespace Sa11ytaire4All
 
                         break;
 
+                    case SolitaireGameType.Spider:
+
+                        currentCardHeight = (InnerMainGrid.Height / 10) - 1;
+
+                        break;
+
                     default: // Klondike:
 
                         currentCardHeight = (InnerMainGrid.Height / 10) - 1;
@@ -95,8 +97,7 @@ namespace Sa11ytaire4All
             }
             else // Landscape.
             {
-                if ((currentGameType == SolitaireGameType.Pyramid) ||
-                    (currentGameType == SolitaireGameType.Tripeaks))
+                if (!IsGameCollectionViewBased())
                 {
                     vm.CardHeight = (3 * MainPageGrid.Height) / 13;
 
@@ -110,12 +111,11 @@ namespace Sa11ytaire4All
                         Debug.WriteLine("ResizeDealtCard: Set vm.CardWidth to " + vm.CardWidth);
                     }
                 }
-                else // Klondike or Baker's Dozen.
+                else 
                 {
                     vm.CardHeight = (3 * MainPageGrid.Height) / 13;
 
-                    var currentCardWidth = (MainPageGrid.Width - 1) /
-                                            (currentGameType == SolitaireGameType.Klondike ? 7 : 13);
+                    var currentCardWidth = (MainPageGrid.Width - 1) / GetGameCardPileCount();
 
                     if (currentCardWidth != vm.CardWidth)
                     {
@@ -143,18 +143,28 @@ namespace Sa11ytaire4All
 
         private void RefreshDealtCardPilesIsInAccessibleTree()
         {
-            // The last six dealt card piles are only of interest in the Baker's Dozen game.
-            var hideLastDealtCardPiles = (currentGameType != SolitaireGameType.Bakersdozen);
+            if (!IsGameCollectionViewBased())
+            {
+                return;
+            }
 
-            // Important: Do not use SetIsInAccessibleTree here, as that won't impact the
-            // items contained within the CollectionViews.
+            // The first seven dealt card piles are always of interest.
 
-            AutomationProperties.SetExcludedWithChildren(CardPile8, hideLastDealtCardPiles);
-            AutomationProperties.SetExcludedWithChildren(CardPile9, hideLastDealtCardPiles);
-            AutomationProperties.SetExcludedWithChildren(CardPile10, hideLastDealtCardPiles);
-            AutomationProperties.SetExcludedWithChildren(CardPile11, hideLastDealtCardPiles);
-            AutomationProperties.SetExcludedWithChildren(CardPile12, hideLastDealtCardPiles);
-            AutomationProperties.SetExcludedWithChildren(CardPile13, hideLastDealtCardPiles);
+            for (int i = 8; i < 13; i++)
+            {
+                var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + i);
+
+                // Piles 8, 9, and 10 are of interest to both Spider and Baker's Dozen.
+                // Piles 11, 12, and 13 are only of interest to Baker's Dozen.
+
+                var hideDealtCardPile = (currentGameType == SolitaireGameType.Klondike) || 
+                                         ((currentGameType == SolitaireGameType.Spider) && (i >10));
+
+                // Important: Do not use SetIsInAccessibleTree here, as that won't impact the
+                // items contained within the CollectionViews.
+
+                AutomationProperties.SetExcludedWithChildren(collectionView, hideDealtCardPile);
+            }
         }
 
         public void LoadBakersdozenGame()
@@ -215,22 +225,70 @@ namespace Sa11ytaire4All
 
         private void SetRemainingCardUIVisibility()
         {
-            if (currentGameType == SolitaireGameType.Bakersdozen)
-            {
-                NextCardDeck.IsVisible = false;
-
-                CardDeckUpturnedObscuredLower.IsVisible = false;
-                CardDeckUpturnedObscuredHigher.IsVisible = false;
-                CardDeckUpturned.IsVisible = false;
-            }
-            else
+            if (currentGameType == SolitaireGameType.Spider)
             {
                 NextCardDeck.IsVisible = true;
 
+                CardDeckUpturnedObscuredLower.IsVisible = false;
+                CardDeckUpturnedObscuredHigher.IsVisible = false;
+
                 CardDeckUpturned.IsVisible = true;
 
-                CardDeckUpturnedObscuredHigher.IsVisible = (currentGameType != SolitaireGameType.Tripeaks);
-                CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
+                TargetPileC.IsVisible = false;
+                TargetPileD.IsVisible = false;
+                TargetPileH.IsVisible = false;
+                TargetPileS.IsVisible = false;
+
+                var cardCount = _deckRemaining.Count;
+
+                var vm = this.BindingContext as DealtCardViewModel;
+                if ((vm != null) && (vm.DealtCards != null))
+                {
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        if ((vm.DealtCards[i] != null) && (vm.DealtCards[i].Count > 0))
+                        {
+                            var card = vm.DealtCards[i][0];
+                            if (card.CardState != CardState.KingPlaceHolder)
+                            {
+                                cardCount += vm.DealtCards[i].Count;
+                            }
+                        }
+                    }
+                }
+
+                var sequencesComplete = (104 - cardCount) / 13;
+
+                SpiderDiscardedSequenceCountLabel.Text = sequencesComplete.ToString();
+                SpiderDiscardedSequenceCountLabel.IsVisible = true;
+
+            }
+            else
+            {
+                SpiderDiscardedSequenceCountLabel.IsVisible = false;
+
+                TargetPileC.IsVisible = true;
+                TargetPileD.IsVisible = true;
+                TargetPileH.IsVisible = true;
+                TargetPileS.IsVisible = true;
+
+                if (currentGameType == SolitaireGameType.Bakersdozen)
+                {
+                    NextCardDeck.IsVisible = false;
+
+                    CardDeckUpturnedObscuredLower.IsVisible = false;
+                    CardDeckUpturnedObscuredHigher.IsVisible = false;
+                    CardDeckUpturned.IsVisible = false;
+                }
+                else
+                {
+                    NextCardDeck.IsVisible = true;
+
+                    CardDeckUpturned.IsVisible = true;
+
+                    CardDeckUpturnedObscuredHigher.IsVisible = (currentGameType != SolitaireGameType.Tripeaks);
+                    CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
+                }
             }
         }
 
@@ -240,6 +298,7 @@ namespace Sa11ytaire4All
             {
                 case SolitaireGameType.Klondike:
                 case SolitaireGameType.Bakersdozen:
+                case SolitaireGameType.Spider:
                     CardPileGrid.IsVisible = true;
                     CardPileGridPyramid.IsVisible = false;
                     break;
@@ -269,6 +328,10 @@ namespace Sa11ytaire4All
 
                 case SolitaireGameType.Bakersdozen:
                     gameType = MyGetString("BakersdozenSolitaire");
+                    break;
+
+                case SolitaireGameType.Spider:
+                    gameType = MyGetString("SpiderSolitaire");
                     break;
 
                 default:
@@ -309,7 +372,7 @@ namespace Sa11ytaire4All
 
             var countCardsLoaded = CountCards();
 
-            if (countCardsLoaded == 0)
+            if ((countCardsLoaded == 0) && (currentGameType != SolitaireGameType.Spider))
             {
                 countUnexpected = true;
             }
@@ -318,6 +381,13 @@ namespace Sa11ytaire4All
                      (countCardsLoaded != 52))
             {
                 countUnexpected = true;
+            }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                if (countCardsLoaded % 13 != 0)
+                {
+                    countUnexpected = true;
+                }
             }
 
             return countUnexpected;
@@ -346,8 +416,7 @@ namespace Sa11ytaire4All
 
             if (loadSucceeded)
             { 
-                if ((currentGameType != SolitaireGameType.Klondike) &&
-                    (currentGameType != SolitaireGameType.Bakersdozen))
+                if (!IsGameCollectionViewBased())
                 {
                     var pyramidPostprocessSucceeded = DealPyramidCardsPostprocess(false);
 
@@ -359,7 +428,7 @@ namespace Sa11ytaire4All
                     // Without this refreshing of the cards' accessible name, the N in MofN is stuck
                     // as it was when the card was added to the pile, and doesn't account for the 
                     // total number of cards added. 
-                    for (int i = 0; i < cCardPiles; i++)
+                    for (int i = 0; i < GetGameCardPileCount(); i++)
                     {
                         var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
                         if (dealtCardPile != null)
@@ -431,8 +500,7 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            if (IsGameCollectionViewBased())
             {
                 return;
             }
@@ -670,8 +738,7 @@ namespace Sa11ytaire4All
                 return false;
             }
 
-            if ((currentGameType == SolitaireGameType.Klondike) || 
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            if (IsGameCollectionViewBased())
             {
                 return false;
             }
@@ -1430,6 +1497,7 @@ namespace Sa11ytaire4All
 
             if ((currentGameType == SolitaireGameType.Klondike) ||
                 (currentGameType == SolitaireGameType.Bakersdozen) ||
+                (currentGameType == SolitaireGameType.Spider) ||
                 (currentGameType == SolitaireGameType.Pyramid))
             {
                 CollectionView? list;
@@ -1578,8 +1646,7 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            if ((currentGameType == SolitaireGameType.Klondike) || 
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            if (IsGameCollectionViewBased())
             {
                 return;
             }

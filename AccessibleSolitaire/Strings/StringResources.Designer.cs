@@ -1997,6 +1997,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More cards cannot be dealt while there are cards already dealt which can be moved into the empty dealt card piles..
+        /// </summary>
+        internal static string SpiderCardsCannotBeDealt {
+            get {
+                return ResourceManager.GetString("SpiderCardsCannotBeDealt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spider Solitaire.
         /// </summary>
         internal static string SpiderSolitaire {

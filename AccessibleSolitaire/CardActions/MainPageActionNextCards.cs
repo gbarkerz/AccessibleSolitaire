@@ -1,4 +1,5 @@
 ﻿using Sa11ytaire4All.Source;
+using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 
 namespace Sa11ytaire4All
@@ -46,39 +47,47 @@ namespace Sa11ytaire4All
             // Can we turn over at least one card?
             if (_deckRemaining.Count > 0)
             {
-                // Yes, so how many cards can we turn over? Never try to turn over more cards
-                // than remain in the remaining cards pile.
-                var maxCountCardsToTurn = (_deckRemaining.Count >= 3 ? 3 : _deckRemaining.Count);
-                
-                // Respect the player's selection in the Settings.
-                var countCardsToTurn = Math.Min(OptionCardTurnCount, maxCountCardsToTurn);
-
-                // We only ever turn over one card in Pyramid and Tripeaks solitaire.
-                if (currentGameType != SolitaireGameType.Klondike)
+                if (currentGameType == SolitaireGameType.Spider)
                 {
-                    countCardsToTurn = 1;
+                    SpiderPerformNextCardAction();
                 }
-
-                soundFilename = (countCardsToTurn > 1 ? "movecards.mp4" : "movecard.mp4");
-
-                // Turn over each card in turn.
-                for (int i = 0; i < countCardsToTurn; ++i)
+                else
                 {
-                    Card card = _deckRemaining[_deckRemaining.Count - 1];
+                    // Yes, so how many cards can we turn over? Never try to turn over more cards
+                    // than remain in the remaining cards pile.
+                    var maxCountCardsToTurn = (_deckRemaining.Count >= 3 ? 3 : _deckRemaining.Count);
 
-                    _deckRemaining.Remove(card);
-                    _deckUpturned.Add(card);
+                    // Respect the player's selection in the Settings.
+                    var countCardsToTurn = Math.Min(OptionCardTurnCount, maxCountCardsToTurn);
 
-                    screenReaderAnnouncement += card.GetCardAccessibleName() + (i < countCardsToTurn - 1 ? ", " : " ");
+                    // We only ever turn over one card in Pyramid and Tripeaks solitaire.
+                    if (currentGameType != SolitaireGameType.Klondike)
+                    {
+                        countCardsToTurn = 1;
+                    }
+
+                    soundFilename = (countCardsToTurn > 1 ? "movecards.mp4" : "movecard.mp4");
+
+                    // Turn over each card in turn.
+                    for (int i = 0; i < countCardsToTurn; ++i)
+                    {
+                        Card card = _deckRemaining[_deckRemaining.Count - 1];
+
+                        _deckRemaining.Remove(card);
+                        _deckUpturned.Add(card);
+
+                        screenReaderAnnouncement += card.GetCardAccessibleName() + (i < countCardsToTurn - 1 ? ", " : " ");
+                    }
+
+                    screenReaderAnnouncement += MainPage.MyGetString("OnTop") + ". " +
+                             (_deckRemaining.Count == 0 ? MainPage.MyGetString("NoCardLeft") + " " : "");
                 }
-
-                screenReaderAnnouncement += MainPage.MyGetString("OnTop") + ". " +
-                         (_deckRemaining.Count == 0 ? MainPage.MyGetString("NoCardLeft") + " " : "");
             }
             else
             {
-                // The Tripeaks remaining cards cannot be turned back over.
-                if (currentGameType == SolitaireGameType.Tripeaks)
+                // The Tripeaks and Spider remaining cards cannot be turned back over.
+                if ((currentGameType == SolitaireGameType.Spider) ||
+                    (currentGameType == SolitaireGameType.Tripeaks))
                 {
                     PlaySound(false);
 

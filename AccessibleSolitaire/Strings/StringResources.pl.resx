@@ -855,4 +855,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="SpiderSolitaire" xml:space="preserve">
     <value>Spider Solitaire</value>
   </data>
+  <data name="SpiderCardsCannotBeDealt" xml:space="preserve">
+    <value>Nie można rozdać więcej kart, jeśli karty już rozdano i można je przenieść na puste stosy rozdanych kart.</value>
+  </data>
 </root>
