@@ -101,12 +101,12 @@ namespace Sa11ytaire4All
             if (currentGameType == SolitaireGameType.Spider)
             {
                 // Does the target dealt card pile contain a sequence from King to Ace?
-
-                // Barker: We're assuming here that the Ace must be the topmost card in the pile.
+                // Start from the top of this pile working downwards until we find an Ace.
                 for (int i = dealtCards.Count - 1; i >= 0; --i)
                 {
                     var card = dealtCards[i].Card;
 
+                    // Have we found an ace?
                     if ((dealtCards[i] != null) && (card != null) && (card.Rank == 1))
                     {
                         // We've found an Ace.
@@ -126,14 +126,34 @@ namespace Sa11ytaire4All
                             ++nextRankInSequence;
                         }
 
+                        // Did we find an entire sequence leading to a King?
                         if (nextRankInSequence == 14)
                         {
+                            Debug.WriteLine("CheckForSpiderSequenceComplete: Found sequence found from Ace at index " +
+                                aceIndex + ".");
+
+                            // We did find a sequence.
                             kingIndex = aceIndex - 12;
 
                             spiderSequenceComplete = true;
-                        }
 
-                        break;
+                            break;
+                        }
+                        else
+                        {
+                            // We didn't find a sequence, so continue looking if there may still be a sequence.
+                            if (i >= 13)
+                            {
+                                Debug.WriteLine("CheckForSpiderSequenceComplete: No sequence found from Ace at index " +  
+                                    i + ". Check for another Ace in the pile.");
+
+                                aceIndex = -1;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
 

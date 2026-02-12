@@ -875,6 +875,15 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            // Do not allow a card to be moved around inside the same dealt card pile.
+            if (listSelectionChanged == listAlreadySelected)
+            {
+                Debug.WriteLine("DelayedAttemptToMoveCardBetweenPiles: Ignore attempt to move card around " +
+                    "within its current dealt card pile.");
+
+                return;
+            }
+
             bool movedCard = false;
 
             // Is a valid move possible between card piles?
