@@ -376,7 +376,7 @@ namespace Sa11ytaire4All
             return openCardsComment;
         }
 
-        private string? GetKlondikeOrBakersDozenOpenCardsAnnouncement()
+        private string? GetCollectionViewBasedOpenCardsAnnouncement()
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -438,7 +438,7 @@ namespace Sa11ytaire4All
             // Barker Note: When moving between dealt card piles, we only check whether the lowest face-up 
             // card in a pile can be moved, not any of the other face-up cards that might lie above that one.
             // This is important, because it's not the same dealt card as when checking whether a dealt card
-            // can be moved to a Target cad pile. For a move from a dealt card pile to a Target card pile,
+            // can be moved to a Target card pile. For a move from a dealt card pile to a Target card pile,
             // we only check the topmost card in the dealt card pile.
 
             int numberOfMoves = 0;
@@ -621,6 +621,116 @@ namespace Sa11ytaire4All
             return moveComment;
         }
 
+        private string? AnnounceAvailableMovesSpider()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return null;
+            }
+
+            // Barker Note: We don't check for moves to empty card piles, as that would fill the announcement.
+
+            // Barker Note: When moving between dealt card piles, we only check whether the lowest face-up 
+            // card in a pile can be moved, not any of the other face-up cards that might lie above that one.
+            // This is important, because it's not the same dealt card as when checking whether a dealt card
+            // can be moved to a Target card pile. For a move from a dealt card pile to a Target card pile,
+            // we only check the topmost card in the dealt card pile.
+
+            int numberOfMoves = 0;
+            string moveComment = "";
+            DealtCard? destinationCard = null;
+            DealtCard? sourceCard = null;
+
+            // Barker Note: If this ever does get translated, consider using formatted strings here, 
+            // rather than concatenating all the various strings.
+
+            var moveAnnouncementInPileString = MyGetString("MoveAnnouncementInPile");
+            var onString = MyGetString("On");
+            var dealtCardPile = MyGetString("DealtCardPile");
+            var canBeMovedTo = MyGetString("CanBeMovedTo");
+
+            // First move through all the dealt card piles to determine if a card can be moved on to the
+            // topmost card in a dealt card pile.
+
+            // d is a destination for a move between dealt cards.
+            for (int d = 0; d < GetGameCardPileCount(); d++)
+            {
+                var destinationDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (d + 1));
+                if (destinationDealtCardPile != null)
+                {
+                    var countOfCardsInPile = destinationDealtCardPile.ItemsSource.Cast<DealtCard>().Count();
+
+                    var items = destinationDealtCardPile.ItemsSource;
+                    foreach (var item in items)
+                    {
+                        destinationCard = item as DealtCard;
+                        if (destinationCard != null)
+                        {
+                            // If this card is face down, ignore it.
+                            if (destinationCard.CardState == CardState.FaceDown)
+                            {
+                                continue;
+                            }
+
+                            // Now move through all the dealt card piles looking for a source card for a move.
+                            for (int s = 0; s < GetGameCardPileCount(); s++)
+                            {
+                                var sourceDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (s + 1));
+
+                                // Don't attempt to move a card onto itself.
+                                if ((destinationDealtCardPile != null) && (destinationDealtCardPile != sourceDealtCardPile))
+                                {
+                                    var itemsSource = vm.DealtCards[s];
+
+                                    DealtCard sourceDealtCard = (itemsSource[0] as DealtCard);
+
+                                    // If this source dealt card pile is either empty, or only holds a King, no move is possible.
+                                    if (sourceDealtCard.CardState == CardState.KingPlaceHolder)
+                                    {
+                                        continue;
+                                    }
+
+                                    // Find the lowest face-up card in the dealt card pile that can be moved to
+                                    // the destinationCardPile.
+
+                                    for (int cardsOnPile = itemsSource.Count; cardsOnPile > 0; --cardsOnPile)
+                                    {
+                                        sourceCard = itemsSource[cardsOnPile - 1] as DealtCard;
+                                        if ((sourceCard != null) && (sourceCard.CardState == CardState.FaceUp))
+                                        {
+                                            if (CanMoveCardToDealtCardPile(destinationCard, sourceCard))
+                                            {
+                                                if (numberOfMoves > 0)
+                                                {
+                                                    moveComment += ", \r\n";
+                                                }
+
+                                                moveComment +=
+                                                    sourceCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                                    moveAnnouncementInPileString + " " +
+                                                    dealtCardPile + " " + localizedNumbers[s].ToString() + " " +
+                                                    canBeMovedTo + " " +
+                                                    destinationCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                                    moveAnnouncementInPileString + " " +
+                                                    dealtCardPile + " " + localizedNumbers[d].ToString();
+
+                                                numberOfMoves++;
+
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return moveComment;
+        }
+
         private string? AnnounceAvailableMovesBakersdozen()
         {
             var vm = this.BindingContext as DealtCardViewModel;
@@ -629,7 +739,7 @@ namespace Sa11ytaire4All
                 return null;
             }
 
-            // In Baker's Dozen cards can either be moved between delat piles, or 
+            // In Baker's Dozen cards can either be moved between dealt piles, or 
             // from dealt card piles to target card piles.
 
             int numberOfMoves = 0;
@@ -768,16 +878,15 @@ namespace Sa11ytaire4All
             return openCardsComment;
         }
 
-        public string? AnnounceKlondikeOrBakersdozenOpenCards(bool makeAnnouncement)
+        public string? AnnounceCollectionViewBasedOpenCards(bool makeAnnouncement)
         {
             var noMoveIsAvailable = MyGetString("NoOpenCardsAreAvailable");
 
             var openCardsComment = "";
 
-            if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            if (IsGameCollectionViewBased())
             {
-                openCardsComment = GetKlondikeOrBakersDozenOpenCardsAnnouncement();
+                openCardsComment = GetCollectionViewBasedOpenCardsAnnouncement();
 
                 if (makeAnnouncement)
                 {
@@ -802,6 +911,10 @@ namespace Sa11ytaire4All
             if (currentGameType == SolitaireGameType.Klondike)
             {
                 moveComment = AnnounceAvailableMovesKlondike();
+            }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                moveComment = AnnounceAvailableMovesSpider();
             }
             else if (currentGameType == SolitaireGameType.Bakersdozen)
             {

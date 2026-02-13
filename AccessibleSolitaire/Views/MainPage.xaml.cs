@@ -821,8 +821,8 @@ namespace Sa11ytaire4All
                 // We wait to play the first sounds in the app until the UI is appearing.
                 if (firstAppAppearanceSinceStarting)
                 {
-                    firstAppAppearanceSinceStarting = false;
-
+                    // Set firstAppAppearanceSinceStarting false inside the first handling
+                    // of CardPileGrid_Loaded.
                     CardPileGrid.Loaded += CardPileGrid_Loaded;
                 }
             }
@@ -1921,7 +1921,7 @@ namespace Sa11ytaire4All
             
             if (currentGameType != SolitaireGameType.Bakersdozen)
             {
-                AnnounceStateRemainingCards(false);
+                announcementRemainingCards = AnnounceStateRemainingCards(false);
             }
 
             var announceStateTargetPiles = AnnounceStateTargetPiles(false);
@@ -1948,12 +1948,11 @@ namespace Sa11ytaire4All
             AnnounceAvailableMoves(true);
         }
 
-        private void PyramidOpenCardsAnnouncementButton_Clicked(object sender, EventArgs e)
+        private void OpenCardsAnnouncementButton_Clicked(object sender, EventArgs e)
         {
-            if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
+            if (IsGameCollectionViewBased())
             {
-                AnnounceKlondikeOrBakersdozenOpenCards(true);
+                AnnounceCollectionViewBasedOpenCards(true);
             }
             else
             {
@@ -2034,6 +2033,10 @@ namespace Sa11ytaire4All
             {
                 stateMessage = AnnounceStateRemainingCardsKlondike();
             }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                stateMessage = AnnounceStateRemainingCardsSpider();
+            }
             else if ((currentGameType == SolitaireGameType.Pyramid) ||
                      (currentGameType == SolitaireGameType.Tripeaks))
             {
@@ -2088,6 +2091,17 @@ namespace Sa11ytaire4All
             return stateMessage;
         }
 
+        public string AnnounceStateRemainingCardsSpider()
+        {
+            string stateMessage = MainPage.MyGetString("SpiderDiscardedSequenceCount") + " " +
+                                    SpiderDiscardedSequenceCountLabel.Text + ". ";
+
+            stateMessage += MyGetString(_deckRemaining.Count > 0 ?
+                                "MoreCardsAreAvailable" : "NextCardPile_NoMoreCardsRemaining") + ".";
+
+            return stateMessage;
+        }
+
         public string AnnounceStateRemainingCardsPyramid()
         {
             string stateMessage = "";
@@ -2135,8 +2149,9 @@ namespace Sa11ytaire4All
 
         public string AnnounceStateTargetPiles(bool makeAnnouncement)
         {
-            if ((currentGameType != SolitaireGameType.Klondike) &&
-                (currentGameType != SolitaireGameType.Bakersdozen))
+            if ((currentGameType == SolitaireGameType.Spider) || 
+                (currentGameType == SolitaireGameType.Pyramid) ||
+                (currentGameType != SolitaireGameType.Tripeaks))
             {
                 return "";
             }
@@ -2179,7 +2194,8 @@ namespace Sa11ytaire4All
         {
             string stateMessage = "";
 
-            if (currentGameType == SolitaireGameType.Klondike)
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Spider))
             {
                 stateMessage = AnnounceStateDealtCardPilesKlondike();
             }
@@ -2260,6 +2276,10 @@ namespace Sa11ytaire4All
                                 ++cFaceDown;
                             }
                         }
+                        else if (currentGameType == SolitaireGameType.Spider)
+                        {
+                            stateMessage += ", " + (vm.DealtCards[i][j] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
+                        }
                         else
                         {
                             indexLastFaceUp = j;
@@ -2267,7 +2287,8 @@ namespace Sa11ytaire4All
                     }
                 }
 
-                if ((indexLastFaceUp != -1) && (indexLastFaceUp != vm.DealtCards[i].Count - 1))
+                if ((currentGameType != SolitaireGameType.Spider) &&
+                    ((indexLastFaceUp != -1) && (indexLastFaceUp != vm.DealtCards[i].Count - 1)))
                 {
                     stateMessage += " " + to + " " + (vm.DealtCards[i][indexLastFaceUp] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
                 }

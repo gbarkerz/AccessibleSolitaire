@@ -753,7 +753,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Twoja rozgrywka trwała {0}min. i {1}s.
 </value>
   </data>
-  <data name="AnnouncePyramidOpenCards" xml:space="preserve">
+  <data name="AnnounceOpenCards" xml:space="preserve">
     <value>Dostępna karty</value>
   </data>
   <data name="NoOpenCardsAreAvailable" xml:space="preserve">
@@ -866,5 +866,8 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   </data>
   <data name="SpiderDiscardCompletedSequence" xml:space="preserve">
     <value>Odrzucanie ukończonego numeru sekwencji</value>
+  </data>
+  <data name="NextCardPile_NextTenCards" xml:space="preserve">
+    <value>Następne dziesięć kart</value>
   </data>
 </root>

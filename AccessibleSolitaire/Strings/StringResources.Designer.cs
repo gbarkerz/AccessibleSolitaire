@@ -297,9 +297,9 @@ namespace Sa11ytaire4All.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Open cards.
         /// </summary>
-        internal static string AnnouncePyramidOpenCards {
+        internal static string AnnounceOpenCards {
             get {
-                return ResourceManager.GetString("AnnouncePyramidOpenCards", resourceCulture);
+                return ResourceManager.GetString("AnnounceOpenCards", resourceCulture);
             }
         }
         
@@ -1380,6 +1380,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string NextCardPile_NextCard {
             get {
                 return ResourceManager.GetString("NextCardPile_NextCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next ten cards.
+        /// </summary>
+        internal static string NextCardPile_NextTenCards {
+            get {
+                return ResourceManager.GetString("NextCardPile_NextTenCards", resourceCulture);
             }
         }
         

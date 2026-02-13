@@ -530,14 +530,14 @@
 
                         </ImageButton>
 
-                        <ImageButton x:Name="PyramidOpenCardsAnnouncementButton"
-                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AnnouncePyramidOpenCards}"
+                        <ImageButton x:Name="OpenCardsAnnouncementButton"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.AnnounceOpenCards}"
                             Source="pyramidopencardsicon.png" 
                             Aspect="Fill"
                             WidthRequest="{Binding 
                                 Path=CardWidth,
                                     Converter={StaticResource CardWidthToHamburgerWidthConverter}}"
-                            Clicked="PyramidOpenCardsAnnouncementButton_Clicked"
+                            Clicked="OpenCardsAnnouncementButton_Clicked"
                             BackgroundColor="Transparent"
                             BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                             Margin="0" Padding="0" 

@@ -13,7 +13,7 @@ namespace Sa11ytaire4All
 
             SemanticProperties.SetDescription(
                 SpiderDiscardedSequenceCountLabel,
-                MainPage.MyGetString("DiscardedSequenceCount") + " " + count);
+                MainPage.MyGetString("SpiderDiscardedSequenceCount") + " " + count);
         }
 
         private async void SpiderPerformNextCardAction()
@@ -237,7 +237,9 @@ namespace Sa11ytaire4All
                     SetSpiderDiscardedSequenceDetails((count + 1).ToString());
 
                     var announcement = MainPage.MyGetString("SpiderDiscardCompletedSequence") + " " + (count + 1);
-                    MakeDelayedScreenReaderAnnouncement(announcement, false);
+
+                    // Prevent the standard "moved card" announcement impacting this.
+                    MakeDelayedScreenReaderAnnouncementWithDelayTime(announcement, false, 1000);
 
                     // Is the game over now?
                     if (GameOver())

@@ -20,9 +20,17 @@ namespace Sa11ytaire4All
         // called on the UI thread.
         private void CardPileGrid_Loaded(object? sender, EventArgs e)
         {
-            LoadPreviousSession();
+            // We're here when the app is first started, and when returning to the MainPage after
+            // visiting the Settings page or the Help content. We only need to take action here
+            // in response to the app starting.
+            if (firstAppAppearanceSinceStarting)
+            {
+                firstAppAppearanceSinceStarting = false;
 
-            SetRemainingCardUIVisibility();
+                LoadPreviousSession();
+
+                SetRemainingCardUIVisibility();
+            }
         }
 
         // This is called on the UI thread.
@@ -234,9 +242,11 @@ namespace Sa11ytaire4All
                     break;
 
                 case SolitaireGameType.Pyramid:
-                case SolitaireGameType.Tripeaks:
-                    // Barker: Set 7 here, but consider if the value's used at all for these games.
                     count = 7;
+                    break;
+
+               case SolitaireGameType.Tripeaks:
+                    count = 4;
                     break;
 
                 default:

@@ -753,7 +753,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Your game lasted {0} minutes and {1} seconds.
 </value>
   </data>
-  <data name="AnnouncePyramidOpenCards" xml:space="preserve">
+  <data name="AnnounceOpenCards" xml:space="preserve">
     <value>Open cards</value>
   </data>
   <data name="NoOpenCardsAreAvailable" xml:space="preserve">
@@ -866,5 +866,8 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="SpiderDiscardCompletedSequence" xml:space="preserve">
     <value>Discarding completed sequence number</value>
+  </data>
+  <data name="NextCardPile_NextTenCards" xml:space="preserve">
+    <value>Next ten cards</value>
   </data>
 </root>

@@ -841,11 +841,13 @@ namespace Sa11ytaire4All.Views
 
             NextCardPileState state = (NextCardPileState)value;
 
-            var stateStringId = "NextCardPile_NextCard";
+            var stateStringId = (MainPage.currentGameType != SolitaireGameType.Spider ?
+                                    "NextCardPile_NextCard" : "NextCardPile_NextTenCards");
 
             if (state == NextCardPileState.Empty)
             {
-                stateStringId = (MainPage.currentGameType == SolitaireGameType.Tripeaks ?
+                stateStringId = (((MainPage.currentGameType == SolitaireGameType.Spider) ||
+                                  (MainPage.currentGameType == SolitaireGameType.Tripeaks)) ?
                                     "NextCardPile_NoMoreCardsRemaining" : "NextCardPile_TurnOverCards");
             }
             else if (state == NextCardPileState.Finished)
