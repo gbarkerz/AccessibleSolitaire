@@ -841,8 +841,12 @@ namespace Sa11ytaire4All.Views
 
             NextCardPileState state = (NextCardPileState)value;
 
-            var stateStringId = (MainPage.currentGameType != SolitaireGameType.Spider ?
-                                    "NextCardPile_NextCard" : "NextCardPile_NextTenCards");
+            // In the Spider game, name the card "Next card" despite it turning over ten cards,
+            // in order to make the button name consistent in all games.
+            //var stateStringId = (MainPage.currentGameType != SolitaireGameType.Spider ?
+            //                        "NextCardPile_NextCard" : "NextCardPile_NextTenCards");
+
+            var stateStringId = "NextCardPile_NextCard";
 
             if (state == NextCardPileState.Empty)
             {
