@@ -711,11 +711,11 @@
                                     WidthRequest="{Binding CardWidth}"
                                     HeightRequest="{Binding CardHeight}"
                                     BackgroundColor="{AppThemeBinding Light=#C0C0C0, Dark=#004000}">
-                                        
+
                                     <Label x:Name="SpiderDiscardedSequenceCountLabel"
                                         HorizontalOptions="Center" VerticalOptions="Center"
-                                        FontSize="Header"
-                                        Text="0"
+                                        FontSize="Title"
+                                        Text="{Binding SpiderDiscardedSequenceCount}"
                                         TextColor="Black" 
                                         BackgroundColor="Transparent" />
                                 </Border>

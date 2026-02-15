@@ -60,6 +60,11 @@ namespace Sa11ytaire4All
                     Preferences.Set("DealtCardsSession" + i.ToString() + preferenceSuffix, dealtCardPileJson);
                 }
 
+                if (currentGameType == SolitaireGameType.Spider)
+                {
+                    Preferences.Set("SpiderDiscardedSequenceCount", vm.SpiderDiscardedSequenceCount);
+                }
+
                 savedSession = true;
             }
             catch (Exception ex)

@@ -984,7 +984,13 @@ namespace Sa11ytaire4All
                 string inDealtCardPile = MainPage.MyGetString("InDealtCardPile");
                 string revealedString = MainPage.MyGetString("Revealed");
 
-                if (cardAbove.Card != null)
+                cardBelow.IsLastCardInPile = false;
+
+                movedCard = true;
+
+                // If a spider sequence is complete, all the subsequence action is taken below here.
+                var spiderSequenceComplete = CheckForSpiderSequenceComplete(itemsAdded, listSelectedIndex);
+                if (!spiderSequenceComplete && (cardAbove.Card != null))
                 {
                     string announcement =
                         MainPage.MyGetString("Moved") + " " +
@@ -1003,13 +1009,6 @@ namespace Sa11ytaire4All
 
                     MakeDelayedScreenReaderAnnouncement(announcement, true);
                 }
-
-                cardBelow.IsLastCardInPile = false;
-
-                movedCard = true;
-
-                // If a sequence is complete, all the subsequence action is taken below here.
-                CheckForSpiderSequenceComplete(itemsAdded, listSelectedIndex);
             }
             else
             {

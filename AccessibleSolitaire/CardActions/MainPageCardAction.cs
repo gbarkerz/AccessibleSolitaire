@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Sa11ytaire4All.Source;
+using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 
@@ -96,6 +97,12 @@ namespace Sa11ytaire4All
 
         private bool GameOver()
         {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return false;
+            }
+
             var gameIsOver = true;
 
             if ((currentGameType == SolitaireGameType.Klondike) ||
@@ -114,7 +121,7 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Spider)
             {
                 // If 8 sequences have been discarded, then the game's complete.
-                gameIsOver = (SpiderDiscardedSequenceCountLabel.Text == "8");
+                gameIsOver = (vm.SpiderDiscardedSequenceCount == 8);
             }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {

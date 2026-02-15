@@ -124,7 +124,9 @@ namespace Sa11ytaire4All
             {
                 AddOnePackToRemainingCards();
 
-                SetSpiderDiscardedSequenceDetails("0");
+                vm.SpiderDiscardedSequenceCount = 0;
+
+                SetSpiderDiscardedSequenceDetails();
             }
 
             _shuffler = new Shuffler();
@@ -390,40 +392,6 @@ namespace Sa11ytaire4All
         {
             Preferences.Set("ChangeGameType: targetGameType ", targetGameType.ToString());
 
-            if (((targetGameType == SolitaireGameType.Klondike) ||
-                    (targetGameType == SolitaireGameType.Bakersdozen) ||
-                    (targetGameType == SolitaireGameType.Spider)) &&
-                ((currentGameType != SolitaireGameType.Klondike) ||
-                    (currentGameType != SolitaireGameType.Bakersdozen) ||
-                    (currentGameType != SolitaireGameType.Spider)))
-            {
-                // Barker Todo: The CollectionViews' containing grid is -1 height here because it's 
-                // yet to appear. Explicitly size the first CollectionView to be the height we know
-                // the CollectionViews and their containing grid will ultimately be. Remove this at
-                // some point once it's understood where the correct fix should go.
-
-                if (!MainPage.IsPortrait())
-                {
-                    var pileHeight = (2 * InnerMainGrid.Height) / 3;
-                    if (pileHeight > 0)
-                    {
-                        //CardPile1.HeightRequest = pileHeight;
-                        //CardPile2.HeightRequest = pileHeight;
-                        //CardPile3.HeightRequest = pileHeight;
-                        //CardPile4.HeightRequest = pileHeight;
-                        //CardPile5.HeightRequest = pileHeight;
-                        //CardPile6.HeightRequest = pileHeight;
-                        //CardPile7.HeightRequest = pileHeight;
-                        //CardPile8.HeightRequest = pileHeight;
-                        //CardPile9.HeightRequest = pileHeight;
-                        //CardPile10.HeightRequest = pileHeight;
-                        //CardPile11.HeightRequest = pileHeight;
-                        //CardPile12.HeightRequest = pileHeight;
-                        //CardPile13.HeightRequest = pileHeight;
-                    }
-                }
-            }
-
             StopCelebratoryActions();
 
             // Save the current game so that we can reload it and continue it later.
@@ -514,6 +482,11 @@ namespace Sa11ytaire4All
             // we'll move along to deal out the cards for a new game.
             try
             {
+                if (currentGameType == SolitaireGameType.Spider)
+                {
+                    vm.SpiderDiscardedSequenceCount = Preferences.Get("SpiderDiscardedSequenceCount", 0);
+                }
+
                 // Cards in the face-down remaining cards pile.
                 var deckRemainingJson = (string)Preferences.Get(
                                             "DeckRemainingSession" + preferenceSuffix, "");

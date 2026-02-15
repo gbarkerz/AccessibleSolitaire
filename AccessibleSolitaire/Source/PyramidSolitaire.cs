@@ -232,7 +232,7 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredLower.IsVisible = false;
                 CardDeckUpturnedObscuredHigher.IsVisible = false;
 
-                CardDeckUpturned.IsVisible = true;
+                CardDeckUpturned.IsVisible = false;
 
                 TargetPileC.IsVisible = false;
                 TargetPileD.IsVisible = false;
@@ -257,9 +257,7 @@ namespace Sa11ytaire4All
                     }
                 }
 
-                var sequencesComplete = (104 - cardCount) / 13;
-
-                SetSpiderDiscardedSequenceDetails(sequencesComplete.ToString());
+                SetSpiderDiscardedSequenceDetails();
 
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = true;
 
@@ -382,6 +380,12 @@ namespace Sa11ytaire4All
 
         private bool LoadedCardCountUnexpected()
         {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if (vm == null)
+            {
+                return false;
+            }
+
             var countUnexpected = false;
 
             var countCardsLoaded = CountCards();
@@ -400,6 +404,11 @@ namespace Sa11ytaire4All
             {
                 if (countCardsLoaded % 13 != 0)
                 {
+                    countUnexpected = true;
+                }
+                else if ((countCardsLoaded == 0) && (vm.SpiderDiscardedSequenceCount != 8))
+                {
+                    // The count is only empty when we've discarded 8 sequences.
                     countUnexpected = true;
                 }
             }

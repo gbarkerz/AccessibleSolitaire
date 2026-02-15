@@ -127,6 +127,9 @@ namespace Sa11ytaire4All.ViewModels
         [ObservableProperty]
         public partial bool GamePausedSpider { get; set; }
 
+        [ObservableProperty]
+        public partial int SpiderDiscardedSequenceCount { get; set; }        
+
         public double DealtCardPileWidth 
         { 
             get

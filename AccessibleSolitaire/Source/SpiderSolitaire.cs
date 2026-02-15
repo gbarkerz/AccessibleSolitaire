@@ -7,8 +7,16 @@ namespace Sa11ytaire4All
 {
     public sealed partial class MainPage : ContentPage
     {
-        private void SetSpiderDiscardedSequenceDetails(string count)
+        private void SetSpiderDiscardedSequenceDetails()
         {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            var count = vm.SpiderDiscardedSequenceCount.ToString();
+
             SpiderDiscardedSequenceCountLabel.Text = count;
 
             SemanticProperties.SetDescription(
@@ -110,6 +118,12 @@ namespace Sa11ytaire4All
 
         private bool CheckForSpiderSequenceComplete(ObservableCollection<DealtCard> dealtCards, int cardPileIndex)
         {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return false;
+            }
+
             if ((dealtCards == null) || (dealtCards.Count < 13))
             {
                 return false;
@@ -151,7 +165,7 @@ namespace Sa11ytaire4All
                         // Did we find an entire sequence leading to a King?
                         if (nextRankInSequence == 14)
                         {
-                            Debug.WriteLine("CheckForSpiderSequenceComplete: Found sequence found from Ace at index " +
+                            Debug.WriteLine("CheckForSpiderSequenceComplete: Found sequence from Ace at index " +
                                 aceIndex + ".");
 
                             // We did find a sequence.
@@ -181,6 +195,8 @@ namespace Sa11ytaire4All
 
                 if (spiderSequenceComplete)
                 {
+                    Debug.WriteLine("CheckForSpiderSequenceComplete: Process found sequence.");
+
                     var sequenceIsAtTopOfPile = true;
 
                     // Is there a card higher in the pile above the sequence?
@@ -226,20 +242,16 @@ namespace Sa11ytaire4All
                         }
                     }
 
-                    var countText = SpiderDiscardedSequenceCountLabel.Text;
-                    
-                    int count;                    
-                    if (!int.TryParse(countText, out count))
-                    {
-                        count = 0;
-                    }
+                    ++vm.SpiderDiscardedSequenceCount;
 
-                    SetSpiderDiscardedSequenceDetails((count + 1).ToString());
+                    SetSpiderDiscardedSequenceDetails();
 
-                    var announcement = MainPage.MyGetString("SpiderDiscardCompletedSequence") + " " + (count + 1);
+                    var announcement = MainPage.MyGetString("SpiderDiscardCompletedSequence") + " " +  
+                                        vm.SpiderDiscardedSequenceCount;
 
-                    // Prevent the standard "moved card" announcement impacting this.
-                    MakeDelayedScreenReaderAnnouncementWithDelayTime(announcement, false, 1000);
+                    Debug.WriteLine("CheckForSpiderSequenceComplete: Prepare to announce: " + announcement);
+
+                    MakeDelayedScreenReaderAnnouncement(announcement, true);
 
                     // Is the game over now?
                     if (GameOver())
