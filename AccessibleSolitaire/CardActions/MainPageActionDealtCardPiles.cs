@@ -996,7 +996,8 @@ namespace Sa11ytaire4All
                         MainPage.MyGetString("Moved") + " " +
                         cardAbove.Card.GetCardAccessibleName();
 
-                    if (currentGameType == SolitaireGameType.Klondike)
+                    if ((currentGameType == SolitaireGameType.Klondike) ||
+                        (currentGameType == SolitaireGameType.Spider))
                     {
                         announcement += ", " +
                             revealedString + " " +

@@ -1786,14 +1786,18 @@ namespace Sa11ytaire4All
                 TargetPileH.RotateToAsync(0, 0);
                 TargetPileS.RotateToAsync(0, 0);
             }
+            else if (currentGameType == SolitaireGameType.Spider)
+            {
+                NextCardDeck.RotateToAsync(0, 0);
+                SpiderDiscardedSequenceCountLabelContainer.RotateToAsync(0, 0);
+            }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 NextCardDeck.RotateToAsync(0, 0);
                 CardDeckUpturnedObscuredHigher.RotateToAsync(0, 0);
                 CardDeckUpturned.RotateToAsync(0, 0);
             }
-            else if ((currentGameType == SolitaireGameType.Spider) ||
-                     (currentGameType == SolitaireGameType.Tripeaks))
+            else if (currentGameType == SolitaireGameType.Tripeaks)
             {
                 NextCardDeck.RotateToAsync(0, 0);
                 CardDeckUpturned.RotateToAsync(0, 0);
@@ -1865,6 +1869,25 @@ namespace Sa11ytaire4All
                             break;
                     }
                 }
+                else if (currentGameType == SolitaireGameType.Tripeaks)
+                {
+                    switch (countOfSpinningCards)
+                    {
+                        case 0:
+                            NextCardDeck.RelRotateToAsync(3600, 10000);
+                            break;
+
+                        case 1:
+                            SpiderDiscardedSequenceCountLabelContainer.RelRotateToAsync(3600, 10000);
+                            break;
+
+                        default:
+                            timerDelayCardSpin?.Dispose();
+                            timerDelayCardSpin = null;
+
+                            break;
+                    }
+                }
                 else if (currentGameType == SolitaireGameType.Pyramid)
                 {
                     switch (countOfSpinningCards)
@@ -1888,8 +1911,7 @@ namespace Sa11ytaire4All
                             break;
                     }
                 }
-                else if ((currentGameType == SolitaireGameType.Spider) ||
-                         (currentGameType == SolitaireGameType.Tripeaks))
+                else if (currentGameType == SolitaireGameType.Tripeaks)
                 {
                     switch (countOfSpinningCards)
                     {
@@ -2524,7 +2546,7 @@ namespace Sa11ytaire4All
             "https://accessiblesolitaire.com/2025/07/17/accessible-solitaire-for-ios-android-and-windows";
 
         private string Sa11ytaireHelpPageSpider =
-            "https://accessiblesolitaire.com/2026/01/21/accessible-spider-solitaire";
+            "https://accessiblesolitaire.com/2026/02/16/accessible-spider-solitaire";
 
         private string Sa11ytaireHelpPageBakersdozen =
             "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";

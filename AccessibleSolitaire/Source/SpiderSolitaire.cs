@@ -251,7 +251,8 @@ namespace Sa11ytaire4All
 
                     Debug.WriteLine("CheckForSpiderSequenceComplete: Prepare to announce: " + announcement);
 
-                    MakeDelayedScreenReaderAnnouncement(announcement, true);
+                    // Barker: Improve robustness of not losing the announcement.
+                    MakeDelayedScreenReaderAnnouncementWithDelayTime(announcement, true, 2500);
 
                     // Is the game over now?
                     if (GameOver())
