@@ -392,7 +392,8 @@ namespace Sa11ytaire4All.Source
                         // Are we merging all other face-down cards? This setting only 
                         // has effect in the Klondike game.
                         if (mergeFaceDownCards &&
-                            (MainPage.currentGameType == SolitaireGameType.Klondike))
+                            ((MainPage.currentGameType == SolitaireGameType.Klondike) ||
+                             (MainPage.currentGameType == SolitaireGameType.Spider)))
                         {
                             // .NET 9 assumes that if a cell is zero-height, that's unintentional 
                             // and takes action which means nothing gets rendered. So give a merged
@@ -528,8 +529,9 @@ namespace Sa11ytaire4All.Source
             var currentCardIndexInDealtCardPile = this.CurrentCardIndexInDealtCardPile;
             var mergeFaceDownCards = vm.MergeFaceDownCards;
 
-            // The face-down label count is only available in the Klondike game.
-            return ((MainPage.currentGameType == SolitaireGameType.Klondike) && 
+            // The face-down label count is only available in the Klondike and Spider game.
+            return (((MainPage.currentGameType == SolitaireGameType.Klondike) ||
+                     (MainPage.currentGameType == SolitaireGameType.Spider)) && 
                     mergeFaceDownCards && faceDown && (currentCardIndexInDealtCardPile == 0));
         }
 
@@ -756,7 +758,8 @@ namespace Sa11ytaire4All.Source
                         // Are we merging all other face-down cards? This setting only 
                         // has effect in the Klondike game.
                         if (mergeFaceDownCards &&
-                            (MainPage.currentGameType == SolitaireGameType.Klondike))
+                            ((MainPage.currentGameType == SolitaireGameType.Klondike) ||
+                             (MainPage.currentGameType == SolitaireGameType.Spider)))
                         {
                             // .NET 9 assumes that if a cell is zero-height, that's unintentional 
                             // and takes action which means nothing gets rendered. So give a merged
