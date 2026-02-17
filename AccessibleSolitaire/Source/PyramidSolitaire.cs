@@ -256,50 +256,6 @@ namespace Sa11ytaire4All
             // this until I figure out what's going on.
 
             cardButton.LongPressZoomDuration = vm.LongPressZoomDuration;
-
-            //var image = (Image)cardButton.FindByName("TintedCardImage");
-            //if (image != null)
-            //{
-            //    //button.BindingContext = vm;
-
-            //    //button.SetBinding(CardButton.LongPressZoomDurationProperty, 
-            //    //                    static (DealtCardViewModel vm) => vm.LongPressZoomDuration);
-
-            //    //button.SetBinding(CardButton.SuitColoursClubsSwitchProperty,
-            //    //                    static (DealtCardViewModel vm) => vm.SuitColoursClubs);
-
-            //    cardButton.LongPressZoomDuration = vm.LongPressZoomDuration;
-
-            //    var iconTintColorBehavior = new IconTintColorBehavior();
-            //    iconTintColorBehavior.TintColor = Colors.Transparent;
-
-            //    if (cardButton.Card != null)
-            //    {
-            //        switch (cardButton.Card.Suit)
-            //        {
-            //            case Suit.Clubs:
-            //                iconTintColorBehavior.TintColor = vm.SuitColoursClubs;
-            //                break;
-            //            case Suit.Diamonds:
-            //                iconTintColorBehavior.TintColor = vm.SuitColoursDiamonds;
-            //                break;
-            //            case Suit.Hearts:
-            //                iconTintColorBehavior.TintColor = vm.SuitColoursHearts;
-            //                break;
-            //            case Suit.Spades:
-            //                iconTintColorBehavior.TintColor = vm.SuitColoursSpades;
-            //                break;
-            //            default:
-            //                iconTintColorBehavior.TintColor = vm.SuitColoursSpades;
-            //                break;
-            //        }
-            //    }
-
-            //    if (iconTintColorBehavior.TintColor != Colors.Transparent)
-            //    {
-            //        image.Behaviors.Add(iconTintColorBehavior);
-            //    }
-            //}
         }
 
         private bool DealPyramidCardsPostprocess(bool setDealtCardProperties)

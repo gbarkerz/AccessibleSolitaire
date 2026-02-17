@@ -49,7 +49,6 @@ namespace Sa11ytaire4All
         // Barker Todo: Remove as much of the timer use as possible.
         private Timer? timerFirstRunAnnouncement;
         private Timer? timerPlayFirstDealSounds;
-        private Timer? timerSetSuitColours;
         private Timer? timerDelayDealCards;
         private Timer? timerDelayCardSpin;
         private Timer? timerDelayScreenReaderAnnouncement;
@@ -69,27 +68,6 @@ namespace Sa11ytaire4All
         private bool automaticallyAnnounceMoves = false;
 
         private MediaElement mainMediaElement = new MediaElement();
-
-        public static Dictionary<string, Color> suitColours =
-            new Dictionary<string, Color>
-            {
-                { "Default", Colors.Transparent },
-                { "Black", Colors.Black },
-                { "DarkRed", Colors.DarkRed },
-                { "DarkOrange", Colors.DarkOrange },
-                { "DarkGold", Colors.DarkGoldenrod },
-                { "DarkGreen", Colors.DarkGreen },
-                { "DarkBlue", Colors.DarkBlue },
-                { "DarkIndigo", Color.FromArgb("#FF1F0954") },
-                { "DarkViolet", Colors.DarkViolet },
-                { "White", Colors.White },
-                { "Yellow", Colors.Yellow },
-                { "Pink", Color.FromArgb("#FFFF74A0") }, // Colors.Pink is too light. 
-                { "Cyan", Colors.Cyan },
-                { "LightBlue", Colors.LightBlue },
-                { "LightGreen", Colors.LightGreen },
-                { "LightCoral", Colors.LightCoral }
-            };
 
         private KeyboardBehavior? keyboardBehavior;
 
@@ -561,9 +539,6 @@ namespace Sa11ytaire4All
 
         private bool firstAppAppearanceSinceStarting = true;
 
-        // We always set the suit colours on startup.
-        private bool InitialSetSuitColours = true;
-
         public bool IsGameCollectionViewBased()
         {
             return ((currentGameType == SolitaireGameType.Klondike) ||
@@ -644,51 +619,7 @@ namespace Sa11ytaire4All
                 var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
                 vm.LongPressZoomDuration = longPressZoomDuration;
 
-                var previousColoursClubs = vm.SuitColoursClubs;
-                var previousColoursDiamonds = vm.SuitColoursDiamonds;
-                var previousColoursHearts = vm.SuitColoursHearts;
-                var previousColoursSpades = vm.SuitColoursSpades;
-
-                try
-                {
-                    var suitColourNameClubs = (string)Preferences.Get("SuitColoursClubs", "Default");
-                    vm.SuitColoursClubs = DetermineSuitColour(suitColourNameClubs, Colors.Black, Colors.White);
-
-                    var suitColourNameDiamonds = (string)Preferences.Get("SuitColoursDiamonds", "Default");
-                    vm.SuitColoursDiamonds = DetermineSuitColour(suitColourNameDiamonds,
-                                                Color.FromRgb(0xD0, 0x00, 0x00), Colors.Red);
-
-                    var suitColourNameHearts = (string)Preferences.Get("SuitColoursHearts", "Default");
-                    vm.SuitColoursHearts = DetermineSuitColour(suitColourNameHearts,
-                                                Color.FromRgb(0xD0, 0x00, 0x00), Colors.Red);
-
-                    var suitColourNameSpades = (string)Preferences.Get("SuitColoursSpades", "Default");
-                    vm.SuitColoursSpades = DetermineSuitColour(suitColourNameSpades, Colors.Black, Colors.White);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("MainPage Attempt to handle suit colours: " + ex.Message);
-
-                    if (Application.Current != null) // To prevent build warning.
-                    {
-                        if (Application.Current.RequestedTheme != AppTheme.Dark)
-                        {
-                            vm.SuitColoursClubs = Colors.Black;
-                            vm.SuitColoursDiamonds = Colors.Red;
-                            vm.SuitColoursHearts = Colors.Red;
-                            vm.SuitColoursSpades = Colors.Black;
-                        }
-                        else
-                        {
-                            vm.SuitColoursClubs = Colors.White;
-                            vm.SuitColoursDiamonds = Color.FromRgb(0xD0, 0x00, 0x00);
-                            vm.SuitColoursHearts = Color.FromRgb(0xD0, 0x00, 0x00);
-                            vm.SuitColoursSpades = Colors.White;
-                        }
-                    }
-                }
-
-                // Barker: Remove use of this static.
+                // Barker: Remove use of statics.
 
                 var previousShowRankSuitLarge = MainPage.ShowRankSuitLarge;
                 MainPage.ShowRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
@@ -701,22 +632,6 @@ namespace Sa11ytaire4All
                     LoadAllCardImages();
 
                     RefreshAllCardVisuals();
-                }
-
-                // If we don't set the colours here, the default colours show initially.
-                if (InitialSetSuitColours ||
-                    (previousColoursClubs != vm.SuitColoursClubs) ||
-                    (previousColoursDiamonds != vm.SuitColoursDiamonds) ||
-                    (previousColoursHearts != vm.SuitColoursHearts) ||
-                    (previousColoursSpades != vm.SuitColoursSpades))
-                {
-                    InitialSetSuitColours = false;
-
-                    timerSetSuitColours = new Timer(
-                        new TimerCallback((s) => TimedDelaySetSuitColours()),
-                            null,
-                            TimeSpan.FromMilliseconds(1000),
-                            TimeSpan.FromMilliseconds(Timeout.Infinite));
                 }
 
                 var previousMergeFaceDownCards = vm.MergeFaceDownCards;
@@ -916,61 +831,6 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredHigher.RefreshVisuals();
                 CardDeckUpturned.RefreshVisuals();
             }
-        }
-
-        private Color? DetermineSuitColour(string suitColourName, Color DefaultLight, Color DefaultDark)
-        {
-            // Avoid build warnings re: Application.Current being null.
-            if (Application.Current == null)
-            {
-                return null;
-            }
-
-            Color suitColour;
-
-            if (suitColourName == "Default")
-            {
-                suitColour = (Application.Current.RequestedTheme != AppTheme.Dark ?
-                                        DefaultLight : DefaultDark);
-            }
-            else
-            {
-                suitColour = suitColours[suitColourName];
-            }
-
-            return suitColour;
-        }
-
-        private void TimedDelaySetSuitColours()
-        {
-            Debug.WriteLine("TimedDelaySetSuitColours: START");
-
-            timerSetSuitColours?.Dispose();
-            timerSetSuitColours = null;
-
-            Debug.WriteLine("TimedDelaySetSuitColours: SetCardSuitColours for upturned cards.");
-
-            SetCardSuitColours(CardDeckUpturnedObscuredLower);
-            SetCardSuitColours(CardDeckUpturnedObscuredHigher);
-            SetCardSuitColours(CardDeckUpturned);
-
-            SetCardSuitColours(TargetPileC);
-            SetCardSuitColours(TargetPileD);
-            SetCardSuitColours(TargetPileH);
-            SetCardSuitColours(TargetPileS);
-
-            Debug.WriteLine("TimedDelaySetSuitColours: About to dispatch.");
-
-            Dispatcher.Dispatch(() =>
-            {
-                Debug.WriteLine("TimedDelaySetSuitColours: About to call RefreshAllCardVisuals.");
-
-                RefreshAllCardVisuals();
-
-                Debug.WriteLine("TimedDelaySetSuitColours: DONE on dispatched thread.");
-            });
-
-            Debug.WriteLine("TimedDelaySetSuitColours: DONE on calling thread.");
         }
 
         private void TimedDelayMakeFirstDealSounds()
@@ -1455,11 +1315,6 @@ namespace Sa11ytaire4All
                 SetUpturnedCards();
             }
 
-            // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-            SetCardSuitColours(CardDeckUpturned);
-            SetCardSuitColours(CardDeckUpturnedObscuredHigher);
-            SetCardSuitColours(CardDeckUpturnedObscuredLower);
-
             CardDeckUpturned.RefreshVisuals();
             CardDeckUpturnedObscuredHigher.RefreshVisuals();
             CardDeckUpturnedObscuredLower.RefreshVisuals();
@@ -1480,65 +1335,6 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredLower.Card = (_deckUpturned.Count > 2 ?
                                                         _deckUpturned[_deckUpturned.Count - 3] : null);
             }
-        }
-
-        private void SetCardSuitColours(CardButton cardButton)
-        {
-            var vm = this.BindingContext as DealtCardViewModel;
-            if (vm == null)
-            {
-                return;
-            }
-
-            var setSuitColour = true;
-
-            if ((cardButton.Card == null) && !string.IsNullOrEmpty(cardButton.AutomationId))
-            {
-                setSuitColour = false;
-
-                string pileId = cardButton.AutomationId.Replace("TargetPile", "");
-                switch (pileId)
-                {
-                    case "C":
-                        cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
-                        break;
-
-                    case "D":
-                        cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
-                        break;
-
-                    case "H":
-                        cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
-                        break;
-
-                    case "S":
-                        cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
-                        break;
-                }
-            }
-
-            if (setSuitColour && (cardButton.Card != null))
-            {
-                switch (cardButton.Card.Suit)
-                {
-                    case Suit.Clubs:
-                        cardButton.SuitColoursClubsSwitch = vm.SuitColoursClubs;
-                        break;
-
-                    case Suit.Diamonds:
-                        cardButton.SuitColoursDiamondsSwitch = vm.SuitColoursDiamonds;
-                        break;
-
-                    case Suit.Hearts:
-                        cardButton.SuitColoursHeartsSwitch = vm.SuitColoursHearts;
-                        break;
-
-                    case Suit.Spades:
-                        cardButton.SuitColoursSpadesSwitch = vm.SuitColoursSpades;
-                        break;
-                }
-            }
-
         }
 
         // Barker: Use the approved method of getting the items source.

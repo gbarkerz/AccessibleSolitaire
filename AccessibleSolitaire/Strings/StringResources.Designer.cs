@@ -187,7 +187,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V4.0.
+        ///   Looks up a localized string similar to Accessible Solitaire V4.1.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -2047,60 +2047,6 @@ namespace Sa11ytaire4All.Strings {
         internal static string SpiderSolitaire {
             get {
                 return ResourceManager.GetString("SpiderSolitaire", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Suit Colours.
-        /// </summary>
-        internal static string SuitColours {
-            get {
-                return ResourceManager.GetString("SuitColours", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clubs:.
-        /// </summary>
-        internal static string SuitColoursClubsPickerLabel {
-            get {
-                return ResourceManager.GetString("SuitColoursClubsPickerLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Diamonds:.
-        /// </summary>
-        internal static string SuitColoursDiamondsPickerLabel {
-            get {
-                return ResourceManager.GetString("SuitColoursDiamondsPickerLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hearts:.
-        /// </summary>
-        internal static string SuitColoursHeartsPickerLabel {
-            get {
-                return ResourceManager.GetString("SuitColoursHeartsPickerLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If you&apos;d prefer to have cards show colours other than the traditional black and red for the four suits, select your preferred colours here..
-        /// </summary>
-        internal static string SuitColoursInstructions {
-            get {
-                return ResourceManager.GetString("SuitColoursInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Spades:.
-        /// </summary>
-        internal static string SuitColoursSpadesPickerLabel {
-            get {
-                return ResourceManager.GetString("SuitColoursSpadesPickerLabel", resourceCulture);
             }
         }
         

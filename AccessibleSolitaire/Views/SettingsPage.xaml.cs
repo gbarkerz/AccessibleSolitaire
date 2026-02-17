@@ -12,10 +12,6 @@ public partial class SettingsPage : ContentPage
 	{
 		InitializeComponent();
 
-#if WINDOWS
-        SuitColoursContainer.IsVisible = false;
-#endif
-
         settingsMediaElement.ShouldShowPlaybackControls = false;
         settingsMediaElement.IsVisible = false;
 
@@ -34,20 +30,6 @@ public partial class SettingsPage : ContentPage
         VoiceOverScreenReaderWarning.IsVisible = true;
 #endif
 
-        var pickers = new Picker[]{ 
-            SuitColoursClubsPicker,
-            SuitColoursDiamondsPicker,
-            SuitColoursHeartsPicker,
-            SuitColoursSpadesPicker};
-
-        foreach (var picker in pickers)
-        {
-            foreach (var colourName in MainPage.suitColours.Keys)
-            {
-                picker.Items.Add(MainPage.MyGetString(colourName));
-            }
-        }
-
         for (int i = 0; i < 6; ++i)
         {
             LongPressOnCardPicker.Items.Add(i == 0 ? "Never" : i.ToString());
@@ -55,18 +37,6 @@ public partial class SettingsPage : ContentPage
 
         var longPressZoomDuration = (int)Preferences.Get("LongPressZoomDuration", 2000);
         LongPressOnCardPicker.SelectedIndex = longPressZoomDuration / 1000;
-
-        var currentColour = (string)Preferences.Get("SuitColoursClubs", "Default");
-        SuitColoursClubsPicker.SelectedItem = MainPage.MyGetString(currentColour);
-
-        currentColour = (string)Preferences.Get("SuitColoursDiamonds", "Default");
-        SuitColoursDiamondsPicker.SelectedItem = MainPage.MyGetString(currentColour);
-
-        currentColour = (string)Preferences.Get("SuitColoursHearts", "Default");
-        SuitColoursHeartsPicker.SelectedItem = MainPage.MyGetString(currentColour);
-
-        currentColour = (string)Preferences.Get("SuitColoursSpades", "Default");
-        SuitColoursSpadesPicker.SelectedItem = MainPage.MyGetString(currentColour);
 
         var showRankSuitLarge = (bool)Preferences.Get("ShowRankSuitLarge", true);
         ShowRankSuitLargeSwitch.IsToggled = showRankSuitLarge;
@@ -222,32 +192,6 @@ public partial class SettingsPage : ContentPage
             {
                 Preferences.Set("LongPressZoomDuration", selectedIndex * 1000);
             }
-        }
-
-        var suitColoursArray = MainPage.suitColours.ToArray();
-
-        var selectedSuitIndex = SuitColoursClubsPicker.SelectedIndex;
-        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count)) 
-        {
-            Preferences.Set("SuitColoursClubs", suitColoursArray[selectedSuitIndex].Key);
-        }
-
-        selectedSuitIndex = SuitColoursDiamondsPicker.SelectedIndex;
-        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count))
-        {
-            Preferences.Set("SuitColoursDiamonds", suitColoursArray[selectedSuitIndex].Key);
-        }
-
-        selectedSuitIndex = SuitColoursHeartsPicker.SelectedIndex;
-        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count))
-        {
-            Preferences.Set("SuitColoursHearts", suitColoursArray[selectedSuitIndex].Key);
-        }
-
-        selectedSuitIndex = SuitColoursSpadesPicker.SelectedIndex;
-        if ((selectedSuitIndex >= 0) && (selectedSuitIndex < MainPage.suitColours.Count))
-        {
-            Preferences.Set("SuitColoursSpades", suitColoursArray[selectedSuitIndex].Key);
         }
 
         var showRankSuitLarge = ShowRankSuitLargeSwitch.IsToggled;

@@ -1233,9 +1233,6 @@ namespace Sa11ytaire4All
                     Card card = _targetPiles[targetPileIndex][count - 1];
                     targetPileCardButton.Card = card;
 
-                    // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-                    SetCardSuitColours(targetPileCardButton);
-
                     // Have screen readers make a related announcement.
                     string announcement =
                         MainPage.MyGetString("Moved") + " " +

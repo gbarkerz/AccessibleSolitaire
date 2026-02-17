@@ -22,7 +22,6 @@
     -->
 
     <toolkit:Popup.Resources>
-        <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToCardPopupAccessibleName x:Key="CardToCardPopupAccessibleName" />
         <local_views:CardToCardImageConverter x:Key="CardToCardImageConverter" />
         <local_views:PictureCardToCardImageConverter x:Key="PictureCardToCardImageConverter" />
@@ -44,22 +43,11 @@
             StrokeThickness="2"
             Stroke="{AppThemeBinding Light=Black, Dark=White}">
 
-            <Image Grid.ColumnSpan="2" x:Name="TintedCardImage"
+            <Image Grid.ColumnSpan="2"
                 BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
                 Source="{Binding Card, Mode=OneWay, 
                     x:DataType=local_views:CardPopup,
-                    Converter={StaticResource CardToCardImageConverter}}">
-
-                <Image.Behaviors>
-                    <toolkit:IconTintColorBehavior
-                        BindingContext="{Binding BindingContext,
-                            Source={x:Reference TintedCardImage}, x:DataType=Image}"
-                            TintColor="{OnPlatform 
-                                iOS={Binding CardPopupTintColour, x:DataType=local_views:CardPopup}, 
-                                Android={Binding CardPopupTintColour, x:DataType=local_views:CardPopup}}" />
-                </Image.Behaviors>
-            </Image>
-
+                    Converter={StaticResource CardToCardImageConverter}}" />
         </Border>
 
         <!-- Note: This accessibility is set based on the Android TalkBack experience, NOT the earlier Samsung "Screen Reader". -->

@@ -33,7 +33,6 @@
         <local_views:CurrentGameTypeToKlondikeUIVisibility x:Key="CurrentGameTypeToKlondikeUIVisibility" />
         <local_views:CurrentGameTypeToPyramidUIVisibility x:Key="CurrentGameTypeToPyramidUIVisibility" />
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
-        <local_views:DealtCardSuitSuitColoursToColor x:Key="DealtCardSuitSuitColoursToColor" />
         <local_views:FlipGameLayoutHorizontallyToFlowDirection x:Key="FlipGameLayoutHorizontallyToFlowDirection" />
         <local_views:ConverterForDealtCardLabelHorizontalOptions x:Key="ConverterForDealtCardLabelHorizontalOptions" />
         <local_views:IsFaceDownToVisibilityConverter x:Key="IsFaceDownToVisibilityConverter" />
@@ -203,7 +202,7 @@
                             whether the card is fully shown or partially obscurred. Also here the width 
                             and height is adjusted as required depending on whether the card is selected. -->
 
-                        <Image Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="TintedCardImage"
+                        <Image Grid.RowSpan="3" Grid.ColumnSpan="3"
                             AutomationProperties.IsInAccessibleTree="False"
                             Margin="0"
                             WidthRequest="{Binding DealtCardImageWidth}"
@@ -213,13 +212,6 @@
                             Aspect="Fill" 
                             IsVisible="{Binding FaceDown, Mode=OneWay, Converter={StaticResource IsFaceDownToVisibilityConverter}}"
                             Source="{Binding FaceupDealtCardImageSource, Mode=OneWay}">
-
-                            <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior
-                                    BindingContext="{Binding BindingContext, 
-                                        Source={x:Reference TintedCardImage}, x:DataType=Image}"
-                                    TintColor="{OnPlatform iOS={Binding DealtCardTintColour}, Android={Binding DealtCardTintColour}}" />
-                            </Image.Behaviors>
 
                             <Image.BackgroundColor>
                                 <MultiBinding Mode="OneWay" 

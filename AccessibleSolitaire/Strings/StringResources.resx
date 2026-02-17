@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V4.0</value>
+    <value>Accessible Solitaire V4.1</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -421,24 +421,6 @@ Please click the Menu button and review the Help content to learn how to get the
   </data>
   <data name="ExtendDealtCardHitTargetInstructions" xml:space="preserve">
     <value>This setting only applies using a portrait screen orientation. When checked, the hit target for each of the topmost dealt cards extends across the width of the screen. The hit target is represented by a solid colour, and the dealt card appears in the middle of the area. Extending the hit target area may make it quicker to find the topmost card in each pile when moving your finger over the screen while using a screen reader.</value>
-  </data>
-  <data name="SuitColours" xml:space="preserve">
-    <value>Suit Colours</value>
-  </data>
-  <data name="SuitColoursInstructions" xml:space="preserve">
-    <value>If you'd prefer to have cards show colours other than the traditional black and red for the four suits, select your preferred colours here.</value>
-  </data>
-  <data name="SuitColoursClubsPickerLabel" xml:space="preserve">
-    <value>Clubs:</value>
-  </data>
-  <data name="SuitColoursDiamondsPickerLabel" xml:space="preserve">
-    <value>Diamonds:</value>
-  </data>
-  <data name="SuitColoursHeartsPickerLabel" xml:space="preserve">
-    <value>Hearts:</value>
-  </data>
-  <data name="SuitColoursSpadesPickerLabel" xml:space="preserve">
-    <value>Spades:</value>
   </data>
   <data name="LongPressOnCard" xml:space="preserve">
     <value>Press and hold on card to zoom</value>

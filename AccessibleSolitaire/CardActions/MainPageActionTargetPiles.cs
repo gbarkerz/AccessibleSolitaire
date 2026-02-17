@@ -306,9 +306,6 @@ namespace Sa11ytaire4All
                     // Move the upturned card to the Target Pile.
                     _targetPiles[targetPileIndex].Add(cardAbove.Card);
 
-                    // Couldn't seem to get the binding to work for the suit colours, so set them explicitly here. 
-                    SetCardSuitColours(cardButton);
-
                     cardButton.Card = cardAbove.Card;
 
                     RemoveDealtCardFromDealtCardList(_deckUpturned, cardAbove);

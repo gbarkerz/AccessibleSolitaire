@@ -30,7 +30,34 @@ namespace Sa11ytaire4All
                 LoadPreviousSession();
 
                 SetRemainingCardUIVisibility();
+
+                timerDelayRefreshAllCards = new Timer(
+                    new TimerCallback((s) => TimedDelayRefreshAllCards()),
+                        null,
+                        TimeSpan.FromMilliseconds(1000),
+                        TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
+        }
+
+        private Timer? timerDelayRefreshAllCards;
+
+        private void TimedDelayRefreshAllCards()
+        {
+            Debug.WriteLine("TimedDelayRefreshAllCards: START");
+
+            timerDelayRefreshAllCards?.Dispose();
+            timerDelayRefreshAllCards = null;
+
+            Dispatcher.Dispatch(() =>
+            {
+                Debug.WriteLine("TimedDelayRefreshAllCards: About to call RefreshAllCardVisuals.");
+
+                RefreshAllCardVisuals();
+
+                Debug.WriteLine("TimedDelayRefreshAllCards: DONE on dispatched thread.");
+            });
+
+            Debug.WriteLine("TimedDelayRefreshAllCards: DONE on calling thread.");
         }
 
         // This is called on the UI thread.
@@ -139,24 +166,10 @@ namespace Sa11ytaire4All
 
             var countPiles = GetGameCardPileCount();
 
-            // Barker Todo: On Windows simply calling vm.DealtCards[i].Clear() here and then adding 
-            // the new cards can leave the suit colours in the new cards wrong. So it seems that
-            // something's up with the tint colour binding. However, explicitly removing all the
-            // existing cards in the pile before adding the new cards seems to avoid this. So do
-            // that for now, and investigate the correct fix.
-
             for (int i = 0; i < countPiles; i++)
             {
-#if WINDOWS
-                var previousCount = vm.DealtCards[i].Count;
-
-                for (int previousItemIndex = 0; previousItemIndex < previousCount; ++previousItemIndex)
-                {
-                    vm.DealtCards[i].RemoveAt(0);
-                }
-#else
                 vm.DealtCards[i].Clear();
-#endif
+
                 if ((currentGameType == SolitaireGameType.Pyramid) ||
                     (currentGameType == SolitaireGameType.Tripeaks))
                 {
@@ -662,6 +675,8 @@ namespace Sa11ytaire4All
                         TryToAddCardImageWithPictureToDictionary(pileCard);
                     }
                 }
+
+                Thread.Sleep(100);
             }
 
             Debug.WriteLine("LoadAllCardImages: Done time (ms) = " +
@@ -704,7 +719,7 @@ namespace Sa11ytaire4All
                 pileCard.RefreshCardImageSources();
 
                 // Give the UI a chance to catch up.
-                await Task.Delay(100);
+                await Task.Delay(50);
             }
         }
 

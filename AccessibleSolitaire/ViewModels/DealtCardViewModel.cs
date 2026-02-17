@@ -80,18 +80,6 @@ namespace Sa11ytaire4All.ViewModels
         }
 
         [ObservableProperty]
-        public partial Color? SuitColoursClubs { get; set; }
-
-        [ObservableProperty]
-        public partial Color? SuitColoursDiamonds { get; set; }
-
-        [ObservableProperty]
-        public partial Color? SuitColoursHearts { get; set; }
-
-        [ObservableProperty]
-        public partial Color? SuitColoursSpades { get; set; }
-
-        [ObservableProperty]
         public partial bool ShowScreenReaderAnnouncementButtons { get; set; }
 
         [ObservableProperty]

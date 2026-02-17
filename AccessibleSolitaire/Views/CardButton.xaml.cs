@@ -52,7 +52,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
                 this.OnPropertyChanged("Card");
                 this.OnPropertyChanged("CardPileAccessibleName");
-                this.OnPropertyChanged("CardButtonTintColour");
 
                 // Whenever the card changes, we must update the bound contained pictures.
                 this.OnPropertyChanged("CardPileImage");
@@ -496,150 +495,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
-    public static readonly BindableProperty SuitColoursClubsSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursClubsSwitch), typeof(Color), typeof(CardButton));
-
-    public Color? SuitColoursClubsSwitch
-    {
-        get => (Color)GetValue(SuitColoursClubsSwitchProperty);
-        set
-        {
-            if ((Color)GetValue(SuitColoursClubsSwitchProperty) != value)
-            {
-                SetValue(SuitColoursClubsSwitchProperty, value);
-
-                this.OnPropertyChanged("SuitColoursClubsSwitch");
-            }
-        }
-    }
-
-    public static readonly BindableProperty SuitColoursDiamondsSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursDiamondsSwitch), typeof(Color), typeof(CardButton));
-
-    public Color? SuitColoursDiamondsSwitch
-    {
-        get => (Color)GetValue(SuitColoursDiamondsSwitchProperty);
-        set
-        {
-            if ((Color)GetValue(SuitColoursDiamondsSwitchProperty) != value)
-            {
-                SetValue(SuitColoursDiamondsSwitchProperty, value);
-
-                this.OnPropertyChanged("SuitColoursDiamondsSwitch");
-            }
-        }
-    }
-
-    public static readonly BindableProperty SuitColoursHeartsSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursHeartsSwitch), typeof(Color), typeof(CardButton));
-
-    public Color? SuitColoursHeartsSwitch
-    {
-        get => (Color)GetValue(SuitColoursHeartsSwitchProperty);
-        set
-        {
-            if ((Color)GetValue(SuitColoursHeartsSwitchProperty) != value)
-            {
-                SetValue(SuitColoursHeartsSwitchProperty, value);
-
-                this.OnPropertyChanged("SuitColoursHeartsSwitch");
-            }
-        }
-    }
-
-    public static readonly BindableProperty SuitColoursSpadesSwitchProperty =
-        BindableProperty.Create(nameof(SuitColoursSpadesSwitch), typeof(Color), typeof(CardButton));
-
-    public Color? SuitColoursSpadesSwitch
-    {
-        get => (Color)GetValue(SuitColoursSpadesSwitchProperty);
-        set
-        {
-            if ((Color)GetValue(SuitColoursSpadesSwitchProperty) != value)
-            {
-                SetValue(SuitColoursSpadesSwitchProperty, value);
-
-                this.OnPropertyChanged("SuitColoursSpadesSwitch");
-            }
-        }
-    }
-
-    public static readonly BindableProperty CardButtonTintColourProperty =
-        BindableProperty.Create(nameof(CardButtonTintColour), typeof(Color), typeof(CardButton));
-
-    public Color? CardButtonTintColour
-    {
-        get => GetCardButtonColourTint();
-    }
-
-    private Color? GetCardButtonColourTint()
-    {
-        Color? suitColor = null;
-
-        if (this.Card == null)
-        {
-            // No Card supplied, so perhaps this is an empty target card pile.
-            if (this.AutomationId == null)
-            {
-                return null;
-            }
-
-            switch (this.AutomationId)
-            {
-                case "TargetPileC":
-                    suitColor = this.SuitColoursClubsSwitch;
-                    break;
-
-                case "TargetPileD":
-                    suitColor = this.SuitColoursDiamondsSwitch;
-                    break;
-
-                case "TargetPileH":
-                    suitColor = this.SuitColoursHeartsSwitch;
-                    break;
-
-                case "TargetPileS":
-                    suitColor = this.SuitColoursSpadesSwitch;
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        else
-        {
-            switch (this.Card.Suit)
-            {
-                case Suit.Clubs:
-                    suitColor = this.SuitColoursClubsSwitch;
-                    break;
-
-                case Suit.Diamonds:
-                    suitColor = this.SuitColoursDiamondsSwitch;
-                    break;
-
-                case Suit.Hearts:
-                    suitColor = this.SuitColoursHeartsSwitch;
-                    break;
-
-                case Suit.Spades:
-                    suitColor = this.SuitColoursSpadesSwitch;
-                    break;
-
-                default:
-                    if (Application.Current != null)
-                    {
-                        suitColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
-                            Colors.LightGrey : Colors.Grey);
-                    }
-
-                    break;
-            }
-        }
-
-        return suitColor;
-    }
-
     public static readonly BindableProperty LongPressZoomDurationProperty =
         BindableProperty.Create(nameof(LongPressZoomDuration), typeof(int), typeof(CardButton));
 
@@ -671,7 +526,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
                 this.OnPropertyChanged("IsToggled");
                 this.OnPropertyChanged("CardPileAccessibleName");
-                this.OnPropertyChanged("CardButtonTintColour");
             }
         }
     }
@@ -715,7 +569,6 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
         this.OnPropertyChanged("Card");
         this.OnPropertyChanged("CardPileAccessibleName");
-        this.OnPropertyChanged("CardButtonTintColour");
 
         this.OnPropertyChanged("BackgroundColor");
         this.OnPropertyChanged("CardPileImage");

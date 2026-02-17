@@ -60,69 +60,6 @@ namespace Sa11ytaire4All.Source
         [ObservableProperty, NotifyPropertyChangedFor(nameof(CardIsInAccessibleTree))]
         public partial bool FaceDown { get; set; }
 
-        public static readonly BindableProperty DealtCardTintColourProperty =
-            BindableProperty.Create(nameof(DealtCardTintColour), typeof(Color), typeof(DealtCard));
-
-        [JsonIgnore]
-        public Color? DealtCardTintColour
-        {
-            get => GetDealtCardColourTint();
-        }
-
-        // Barker Todo: The app has 3 version of this method, one for each of the 
-        // dealt cards, card buttons, and card popup. Consolidate all these into
-        // a single place.
-        private Color? GetDealtCardColourTint()
-        {
-            Color? suitColor = null;
-
-            if (this.Card == null)
-            {
-                return null;
-            }
-
-            if (MainPage.MainPageSingleton == null)
-            {
-                return null;
-            }
-
-            var vm = MainPage.MainPageSingleton.BindingContext as DealtCardViewModel;
-            if (vm == null)
-            {
-                return null;
-            }
-
-            switch (this.Card.Suit)
-            {
-                case Suit.Clubs:
-                    suitColor = vm.SuitColoursClubs;
-                    break;
-
-                case Suit.Diamonds:
-                    suitColor = vm.SuitColoursDiamonds;
-                    break;
-
-                case Suit.Hearts:
-                    suitColor = vm.SuitColoursHearts;
-                    break;
-
-                case Suit.Spades:
-                    suitColor = vm.SuitColoursSpades;
-                    break;
-
-                default:
-                    if (Application.Current != null)
-                    {
-                        suitColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
-                            Colors.LightGrey : Colors.Grey);
-                    }
-
-                    break;
-            }
-
-            return suitColor;
-        }
-
         public string AccessibleNameWithoutSelectionAndMofN
         {
             get
@@ -1100,8 +1037,6 @@ namespace Sa11ytaire4All.Source
                 Debug.WriteLine("RefreshVisuals: dealt card " + this.AccessibleName);
 
                 OnPropertyChanged("Card");
-
-                OnPropertyChanged("DealtCardTintColour");
 
                 // Barker Note: Ok, here's the deal. Originally the two Images inside the DealtCard were bound
                 // to the Card, with converters to generate the appropriate ImageSource from the Card. This worked

@@ -186,98 +186,17 @@
                             SemanticProperties.Description="{x:Static resources:Strings.StringResources.ShowRankSuitLarge}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.ShowRankSuitLargeInstructions}" />
                     </HorizontalStackLayout>
-
-                    <!-- Suit Colours. -->
-                    <Grid Grid.Row="3" x:Name="SuitColoursContainer">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Label Grid.Row="0" 
-                            FontAttributes="Bold" 
-                            Margin="8,8,0,0"
-                            FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                            Text="{x:Static resources:Strings.StringResources.SuitColours}" />
-
-                        <Label Grid.Row="1" 
-                           Margin="8,0,8,0"
-                           LineBreakMode="WordWrap"
-                           Text="{x:Static resources:Strings.StringResources.SuitColoursInstructions}" />
-
-                        <HorizontalStackLayout Grid.Row="2" Padding="0" Margin="8,0,8,0">
-
-                            <Label 
-                                VerticalOptions="Center"                
-                                Text="{x:Static resources:Strings.StringResources.SuitColoursClubsPickerLabel}" 
-                                Margin="0" Padding="0" />
-
-                            <Picker x:Name="SuitColoursClubsPicker"
-                                Margin="0" WidthRequest="200"
-                                SemanticProperties.Description="{x:Static resources:Strings.StringResources.SuitColoursClubsPickerLabel}"
-                                SemanticProperties.Hint="{x:Static resources:Strings.StringResources.SuitColoursInstructions}" />
-
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Grid.Row="3" Padding="0" Margin="8,0,8,0">
-
-                            <Label
-                                VerticalOptions="Center"                
-                                Text="{x:Static resources:Strings.StringResources.SuitColoursDiamondsPickerLabel}" 
-                                Margin="0" Padding="0" />
-
-                            <Picker x:Name="SuitColoursDiamondsPicker"
-                                Margin="0" WidthRequest="200"
-                                SemanticProperties.Description="{x:Static resources:Strings.StringResources.SuitColoursDiamondsPickerLabel}"
-                                SemanticProperties.Hint="{x:Static resources:Strings.StringResources.SuitColoursInstructions}" />
-
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Grid.Row="4" Padding="0" Margin="8,0,8,0">
-
-                            <Label
-                                VerticalOptions="Center"                
-                                Text="{x:Static resources:Strings.StringResources.SuitColoursHeartsPickerLabel}" 
-                                Margin="0" Padding="0" />
-
-                            <Picker x:Name="SuitColoursHeartsPicker"
-                                Margin="0" WidthRequest="200"
-                                SemanticProperties.Description="{x:Static resources:Strings.StringResources.SuitColoursHeartsPickerLabel}"
-                                SemanticProperties.Hint="{x:Static resources:Strings.StringResources.SuitColoursInstructions}" />
-
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Grid.Row="5" Padding="0" Margin="8,0,8,0">
-
-                            <Label
-                                VerticalOptions="Center"                
-                                Text="{x:Static resources:Strings.StringResources.SuitColoursSpadesPickerLabel}" 
-                                Margin="0" Padding="0" />
-
-                            <Picker x:Name="SuitColoursSpadesPicker"
-                                Margin="0" WidthRequest="200"
-                                SemanticProperties.Description="{x:Static resources:Strings.StringResources.SuitColoursSpadesPickerLabel}"
-                                SemanticProperties.Hint="{x:Static resources:Strings.StringResources.SuitColoursInstructions}" />
-
-                        </HorizontalStackLayout>
-
-                    </Grid>
                     
                     <!-- Merge all face-down cards into one visual item in a dealt card pile. -->
 
-                    <Label Grid.Row="4" x:Name="MergeFaceDownCardsHeading" 
+                    <Label Grid.Row="3" x:Name="MergeFaceDownCardsHeading" 
                         IsVisible="False"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:Strings.StringResources.MergeFaceDownCards}" />
 
-                    <Grid x:Name="MergeFaceDownCardsGrid" Grid.Row="5"
+                    <Grid x:Name="MergeFaceDownCardsGrid" Grid.Row="4"
                         IsVisible="False">
 
                         <Grid.RowDefinitions>
@@ -308,18 +227,18 @@
                     
                     <!-- Flip layout to be right-to-left rather than left-to-right. -->
 
-                    <Label Grid.Row="6"
+                    <Label Grid.Row="5"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:Strings.StringResources.FlipGameLayoutHorizontally}" />
 
-                    <Label Grid.Row="7" 
+                    <Label Grid.Row="6" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.FlipGameLayoutHorizontallyInstructions}" />
 
-                    <HorizontalStackLayout Grid.Row="8" Padding="0" Margin="8,0,8,0">
+                    <HorizontalStackLayout Grid.Row="7" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                
@@ -335,18 +254,18 @@
 
                     <!-- Show Restart button. -->
 
-                    <Label Grid.Row="9"
+                    <Label Grid.Row="8"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:Strings.StringResources.ShowRestartButton}" />
 
-                    <Label Grid.Row="10" 
+                    <Label Grid.Row="9" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.ShowRestartButtonInstructions}" />
 
-                    <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+                    <HorizontalStackLayout Grid.Row="10" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                
@@ -362,18 +281,18 @@
 
                     <!-- Show Pause/Resume button. -->
 
-                    <Label Grid.Row="12"
+                    <Label Grid.Row="11"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
                         Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButton}" />
 
-                    <Label Grid.Row="13" 
+                    <Label Grid.Row="12" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
                         Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonInstructions}" />
 
-                    <HorizontalStackLayout Grid.Row="14" Padding="0" Margin="8,0,8,0">
+                    <HorizontalStackLayout Grid.Row="13" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                

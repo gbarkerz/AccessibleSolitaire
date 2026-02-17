@@ -16,7 +16,6 @@
         <local_views:IsButtonFocusedToOuterBorderBackgroundColor x:Key="IsButtonFocusedToOuterBorderBackgroundColor" />
         <local_views:IsButtonFocusedToInnerBorderBackgroundColor x:Key="IsButtonFocusedToInnerBorderBackgroundColor" />
         <local_views:LongPressZoomDurationToActualDuration x:Key="LongPressZoomDurationToActualDuration" />
-        <local_views:SuitSuitColoursToColor x:Key="SuitSuitColoursToColor" />
         <local_views:CardToBackgroundConverter x:Key="CardToBackgroundConverter" />
         <local_views:IsToggledToMarginConverter x:Key="IsToggledToMarginConverter" />
         <local_views:IsToggledToBackgroundColorConverter x:Key="IsToggledToBackgroundColorConverter" />
@@ -128,7 +127,7 @@
 
                         </Button>
 
-                        <Image x:Name="TintedCardImage"
+                        <Image
                             AutomationProperties.IsInAccessibleTree="False"
                             InputTransparent="True"
                             Margin="{Binding IsToggled, Mode=OneWay,
@@ -156,13 +155,6 @@
                                         Path="AutomationId" />
                                 </MultiBinding>
                             </Image.Source>
-
-                            <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior 
-                                    BindingContext="{Binding BindingContext, 
-                                        Source={x:Reference TintedCardImage}, x:DataType=Image}"
-                                    TintColor="{OnPlatform iOS={Binding CardButtonTintColour}, Android={Binding CardButtonTintColour}}" />
-                            </Image.Behaviors>
 
                             <Image.BackgroundColor>
                                 <MultiBinding Mode="OneWay" 
