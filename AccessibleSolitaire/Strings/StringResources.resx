@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V4.1</value>
+    <value>Accessible Solitaire V4.2</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -838,7 +838,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Spider Solitaire</value>
   </data>
   <data name="SpiderCardsCannotBeDealt" xml:space="preserve">
-    <value>More cards cannot be dealt while there are cards already dealt which can be moved into the empty dealt card piles.</value>
+    <value>No more cards can be dealt if there are still dealt cards available to move to empty card piles.</value>
   </data>
   <data name="SpiderDiscardedSequenceCount" xml:space="preserve">
     <value>Discarded sequence count</value>

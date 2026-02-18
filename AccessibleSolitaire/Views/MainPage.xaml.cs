@@ -1637,35 +1637,35 @@ namespace Sa11ytaire4All
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if ((currentGameType == SolitaireGameType.Klondike) ||
-                    (currentGameType == SolitaireGameType.Bakersdozen))
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
+            {
+                switch (countOfSpinningCards)
                 {
-                    switch (countOfSpinningCards)
-                    {
-                        case 0:
-                            TargetPileC.RelRotateToAsync(3600, 10000);
-                            break;
+                    case 0:
+                        TargetPileC.RelRotateToAsync(3600, 10000);
+                        break;
 
-                        case 1:
-                            TargetPileD.RelRotateToAsync(3600, 10000);
-                            break;
+                    case 1:
+                        TargetPileD.RelRotateToAsync(3600, 10000);
+                        break;
 
-                        case 2:
-                            TargetPileH.RelRotateToAsync(3600, 10000);
-                            break;
+                    case 2:
+                        TargetPileH.RelRotateToAsync(3600, 10000);
+                        break;
 
-                        case 3:
-                            TargetPileS.RelRotateToAsync(3600, 10000);
-                            break;
+                    case 3:
+                        TargetPileS.RelRotateToAsync(3600, 10000);
+                        break;
 
-                        default:
-                            timerDelayCardSpin?.Dispose();
-                            timerDelayCardSpin = null;
+                    default:
+                        timerDelayCardSpin?.Dispose();
+                        timerDelayCardSpin = null;
 
-                            break;
-                    }
+                        break;
                 }
-                else if (currentGameType == SolitaireGameType.Tripeaks)
+            }
+            else if (currentGameType == SolitaireGameType.Spider)
                 {
                     switch (countOfSpinningCards)
                     {

@@ -187,7 +187,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V4.1.
+        ///   Looks up a localized string similar to Accessible Solitaire V4.2.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -2006,7 +2006,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to More cards cannot be dealt while there are cards already dealt which can be moved into the empty dealt card piles..
+        ///   Looks up a localized string similar to No more cards can be dealt if there are still dealt cards available to move to empty card piles..
         /// </summary>
         internal static string SpiderCardsCannotBeDealt {
             get {
