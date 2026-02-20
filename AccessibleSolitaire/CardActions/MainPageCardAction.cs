@@ -142,6 +142,10 @@ namespace Sa11ytaire4All
                     }
                 }
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                gameIsOver = false;
+            }
 
             return gameIsOver;
         }

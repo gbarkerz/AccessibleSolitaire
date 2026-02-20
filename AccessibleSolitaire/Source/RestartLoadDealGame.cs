@@ -146,18 +146,27 @@ namespace Sa11ytaire4All
 
             AddOnePackToRemainingCards();
 
-            // Spider Solitaire uses two packs.
-            if (currentGameType == SolitaireGameType.Spider)
+            // Spider Solitaire and Royal Parade uses two packs.
+            if ((currentGameType == SolitaireGameType.Spider) ||
+                (currentGameType == SolitaireGameType.Royalparade))
             {
                 AddOnePackToRemainingCards();
 
                 vm.SpiderDiscardedSequenceCount = 0;
 
-                SetSpiderDiscardedSequenceDetails();
+                if (currentGameType == SolitaireGameType.Spider)
+                {
+                    SetSpiderDiscardedSequenceDetails();
+                }
             }
 
             _shuffler = new Shuffler();
             _shuffler.Shuffle(_deckRemaining);
+
+            if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                PrepareCardsForRoyalParade();
+            }
 
             if (currentGameType == SolitaireGameType.Bakersdozen)
             {
@@ -231,6 +240,12 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("SpiderSessionDuration", 0);
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                timeStartOfThisRoyalparadeSession = DateTime.Now;
+
+                Preferences.Set("RoyalparadeSessionDuration", 0);
+            }
 
             Debug.WriteLine("Accessible Solitaire: Zero time spent playing this game.");
 
@@ -256,11 +271,15 @@ namespace Sa11ytaire4All
                     count = 10;
                     break;
 
+                case SolitaireGameType.Royalparade:
+                    count = 4;
+                    break;
+
                 case SolitaireGameType.Pyramid:
                     count = 7;
                     break;
 
-               case SolitaireGameType.Tripeaks:
+                case SolitaireGameType.Tripeaks:
                     count = 4;
                     break;
 
@@ -307,6 +326,10 @@ namespace Sa11ytaire4All
                     {
                         rowCardCount = 4;
                     }
+                    else if (currentGameType == SolitaireGameType.Royalparade)
+                    {
+                        rowCardCount = 8;
+                    }
                     else if (currentGameType == SolitaireGameType.Spider)
                     {
                         // The first 5 rows have a 6th card.
@@ -338,7 +361,11 @@ namespace Sa11ytaire4All
 
                         var cardEnabled = false;
 
-                        if (((currentGameType == SolitaireGameType.Klondike) && (j == i)) ||
+                        if (currentGameType == SolitaireGameType.Royalparade)
+                        {
+                            cardEnabled = true;
+                        }
+                        else if (((currentGameType == SolitaireGameType.Klondike) && (j == i)) ||
                             ((currentGameType == SolitaireGameType.Spider) && (j == rowCardCount - 1)) ||
                             !IsGameCollectionViewBased())
                         {
@@ -480,6 +507,10 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Spider)
             {
                 preferenceSuffix = "Spider";
+            }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                preferenceSuffix = "Royalparade";
             }
             else
             {

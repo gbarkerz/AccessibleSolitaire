@@ -1,8 +1,5 @@
 ﻿
-using CommunityToolkit.Maui.Markup;
-using Microsoft.Maui.Controls;
 using Sa11ytaire4All.ViewModels;
-using System;
 using System.Diagnostics;
 
 namespace Sa11ytaire4All
@@ -140,13 +137,20 @@ namespace Sa11ytaire4All
                         break;
                     }
                     else if (((currentGameType == SolitaireGameType.Pyramid) ||
-                              (currentGameType == SolitaireGameType.Tripeaks )) && 
+                              (currentGameType == SolitaireGameType.Tripeaks)) &&
                                 (i >= 13))
                     {
                         upperGridRowSpan = 4;
 
                         break;
                     }
+                    //else if ((currentGameType == SolitaireGameType.Royalparade) &&
+                    //            (i >= 4))
+                    //{
+                    //    upperGridRowSpan = 1;
+
+                    //    break;
+                    //}
 
                     rowDefinitionCollection.Add( new RowDefinition(new GridLength(1, GridUnitType.Star)));
                 }
@@ -194,6 +198,7 @@ namespace Sa11ytaire4All
             if (isPortrait ||
                 (currentGameType == SolitaireGameType.Pyramid) ||
                 (currentGameType == SolitaireGameType.Tripeaks))
+//                (currentGameType == SolitaireGameType.Royalparade))
             {
                 switch (currentGameType)
                 {
@@ -208,10 +213,14 @@ namespace Sa11ytaire4All
                         break;
 
                     case SolitaireGameType.Pyramid:
-                    case SolitaireGameType.Tripeaks:
                         cardPileGridRow = 4;
                         cardPileGridRowSpan = 9;
                         break;
+
+                    //case SolitaireGameType.Tripeaks:
+                    //    cardPileGridRow = 4;
+                    //    cardPileGridRowSpan = 4;
+                    //    break;
 
                     default: // Klondike:
                         cardPileGridRow = 3;

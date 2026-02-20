@@ -689,7 +689,8 @@ namespace Sa11ytaire4All.Views
             if (state == NextCardPileState.Empty)
             {
                 stateStringId = (((MainPage.currentGameType == SolitaireGameType.Spider) ||
-                                  (MainPage.currentGameType == SolitaireGameType.Tripeaks)) ?
+                                  (MainPage.currentGameType == SolitaireGameType.Tripeaks) ||
+                                  (MainPage.currentGameType == SolitaireGameType.Royalparade)) ?
                                     "NextCardPile_NoMoreCardsRemaining" : "NextCardPile_TurnOverCards");
             }
             else if (state == NextCardPileState.Finished)

@@ -852,4 +852,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="NextCardPile_NextTenCards" xml:space="preserve">
     <value>Next ten cards</value>
   </data>
+  <data name="RoyalparadeSolitaire" xml:space="preserve">
+    <value>Royal Parade Solitaire</value>
+  </data>
 </root>

@@ -1139,6 +1139,13 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("PauseResumeButton_Click: Spider paused game state " + vm.GamePausedSpider);
                     break;
 
+                case SolitaireGameType.Royalparade:
+                    vm.GamePausedRoyalparade = !vm.GamePausedRoyalparade;
+                    Preferences.Set("GamePausedRoyalparade", vm.GamePausedRoyalparade);
+
+                    Debug.WriteLine("PauseResumeButton_Click: Royal Parade paused game state " + vm.GamePausedRoyalparade);
+                    break;
+
                 case SolitaireGameType.Pyramid:
                     vm.GamePausedPyramid = !vm.GamePausedPyramid;
                     Preferences.Set("GamePausedPyramid", vm.GamePausedPyramid);
@@ -1234,6 +1241,13 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("IsCurrentGamePaused: Current Spider paused state " + currentGameIsPaused);
 
                     currentGameIsPaused = vm.GamePausedSpider;
+                    break;
+
+                case SolitaireGameType.Royalparade:
+
+                    Debug.WriteLine("IsCurrentGamePaused: Current Royal Parade paused state " + currentGameIsPaused);
+
+                    currentGameIsPaused = vm.GamePausedRoyalparade;
                     break;
 
                 case SolitaireGameType.Pyramid:
@@ -1424,6 +1438,7 @@ namespace Sa11ytaire4All
         private DateTime timeStartOfThisTripeaksSession;
         private DateTime timeStartOfThisBakersdozenSession;
         private DateTime timeStartOfThisSpiderSession;
+        private DateTime timeStartOfThisRoyalparadeSession;
 
         private async void ShowEndOfGameDialog(bool gameWasAutoCompleted)
         {
@@ -1453,6 +1468,10 @@ namespace Sa11ytaire4All
 
                 case SolitaireGameType.Spider:
                     nameOfCurrentGame = MainPage.MyGetString("SpiderSolitaire");
+                    break;
+
+                case SolitaireGameType.Royalparade:
+                    nameOfCurrentGame = MainPage.MyGetString("RoyalparadeSolitaire");
                     break;
 
                 case SolitaireGameType.Pyramid:
@@ -1491,6 +1510,10 @@ namespace Sa11ytaire4All
             {
                 timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisSpiderSession;
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisRoyalparadeSession;
+            }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisPyramidSession;
@@ -1516,6 +1539,10 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Spider)
             {
                 secondsSpentPlayingPrevious = (int)Preferences.Get("SpiderSessionDuration", 0);
+            }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                secondsSpentPlayingPrevious = (int)Preferences.Get("RoyalparadeSessionDuration", 0);
             }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
@@ -1587,6 +1614,10 @@ namespace Sa11ytaire4All
                 NextCardDeck.RotateToAsync(0, 0);
                 SpiderDiscardedSequenceCountLabelContainer.RotateToAsync(0, 0);
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                NextCardDeck.RotateToAsync(0, 0);
+            }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 NextCardDeck.RotateToAsync(0, 0);
@@ -1637,35 +1668,35 @@ namespace Sa11ytaire4All
             // Always run this on the UI thread.
             MainThread.BeginInvokeOnMainThread(() =>
             {
-            if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
-            {
-                switch (countOfSpinningCards)
+                if ((currentGameType == SolitaireGameType.Klondike) ||
+                    (currentGameType == SolitaireGameType.Bakersdozen))
                 {
-                    case 0:
-                        TargetPileC.RelRotateToAsync(3600, 10000);
-                        break;
+                    switch (countOfSpinningCards)
+                    {
+                        case 0:
+                            TargetPileC.RelRotateToAsync(3600, 10000);
+                            break;
 
-                    case 1:
-                        TargetPileD.RelRotateToAsync(3600, 10000);
-                        break;
+                        case 1:
+                            TargetPileD.RelRotateToAsync(3600, 10000);
+                            break;
 
-                    case 2:
-                        TargetPileH.RelRotateToAsync(3600, 10000);
-                        break;
+                        case 2:
+                            TargetPileH.RelRotateToAsync(3600, 10000);
+                            break;
 
-                    case 3:
-                        TargetPileS.RelRotateToAsync(3600, 10000);
-                        break;
+                        case 3:
+                            TargetPileS.RelRotateToAsync(3600, 10000);
+                            break;
 
-                    default:
-                        timerDelayCardSpin?.Dispose();
-                        timerDelayCardSpin = null;
+                        default:
+                            timerDelayCardSpin?.Dispose();
+                            timerDelayCardSpin = null;
 
-                        break;
+                            break;
+                    }
                 }
-            }
-            else if (currentGameType == SolitaireGameType.Spider)
+                else if (currentGameType == SolitaireGameType.Spider)
                 {
                     switch (countOfSpinningCards)
                     {
@@ -1675,6 +1706,21 @@ namespace Sa11ytaire4All
 
                         case 1:
                             SpiderDiscardedSequenceCountLabelContainer.RelRotateToAsync(3600, 10000);
+                            break;
+
+                        default:
+                            timerDelayCardSpin?.Dispose();
+                            timerDelayCardSpin = null;
+
+                            break;
+                    }
+                }
+                else if (currentGameType == SolitaireGameType.Royalparade)
+                {
+                    switch (countOfSpinningCards)
+                    {
+                        case 0:
+                            NextCardDeck.RelRotateToAsync(3600, 10000);
                             break;
 
                         default:
@@ -1855,6 +1901,10 @@ namespace Sa11ytaire4All
             {
                 stateMessage = AnnounceStateRemainingCardsSpider();
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                //stateMessage = AnnounceStateRemainingCardsRoyalparade();
+            }
             else if ((currentGameType == SolitaireGameType.Pyramid) ||
                      (currentGameType == SolitaireGameType.Tripeaks))
             {
@@ -1967,7 +2017,8 @@ namespace Sa11ytaire4All
 
         public string AnnounceStateTargetPiles(bool makeAnnouncement)
         {
-            if ((currentGameType == SolitaireGameType.Spider) || 
+            if ((currentGameType == SolitaireGameType.Spider) ||
+                (currentGameType == SolitaireGameType.Royalparade) ||
                 (currentGameType == SolitaireGameType.Pyramid) ||
                 (currentGameType != SolitaireGameType.Tripeaks))
             {
@@ -2344,6 +2395,9 @@ namespace Sa11ytaire4All
         private string Sa11ytaireHelpPageSpider =
             "https://accessiblesolitaire.com/2026/02/16/accessible-spider-solitaire";
 
+        private string Sa11ytaireHelpPageRoyalparade =
+            "https://accessiblesolitaire.com/2026/02/16/accessible-royal-parade-solitaire";
+
         private string Sa11ytaireHelpPageBakersdozen =
             "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";
 
@@ -2368,6 +2422,10 @@ namespace Sa11ytaire4All
 
                     case SolitaireGameType.Spider:
                         gameSpecificUrl = Sa11ytaireHelpPageSpider;
+                        break;
+
+                    case SolitaireGameType.Royalparade:
+                        gameSpecificUrl = Sa11ytaireHelpPageRoyalparade;
                         break;
 
                     case SolitaireGameType.Bakersdozen:

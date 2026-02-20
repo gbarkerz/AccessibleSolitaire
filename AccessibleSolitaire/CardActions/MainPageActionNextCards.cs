@@ -51,6 +51,10 @@ namespace Sa11ytaire4All
                 {
                     SpiderPerformNextCardAction();
                 }
+                else if (currentGameType == SolitaireGameType.Royalparade)
+                {
+                    //RoyalparadePerformNextCardAction();
+                }
                 else
                 {
                     // Yes, so how many cards can we turn over? Never try to turn over more cards

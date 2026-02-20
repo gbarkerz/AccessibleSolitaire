@@ -78,6 +78,19 @@ namespace Sa11ytaire4All
             ComleteVisualsUpdateFollowingGameChange();
         }
 
+        public void LoadRoyalparadeGame()
+        {
+            var previousGame = currentGameType;
+            if (previousGame == SolitaireGameType.Royalparade)
+            {
+                return;
+            }
+
+            ChangeGameType(SolitaireGameType.Royalparade);
+
+            ComleteVisualsUpdateFollowingGameChange();
+        }
+
         private void ComleteVisualsUpdateFollowingGameChange()
         {
             SetRemainingCardUIVisibility();
@@ -105,6 +118,7 @@ namespace Sa11ytaire4All
 
                 case SolitaireGameType.Pyramid:
                 case SolitaireGameType.Tripeaks:
+                case SolitaireGameType.Royalparade:
                     CardPileGrid.IsVisible = false;
                     CardPileGridPyramid.IsVisible = true;
                     break;
@@ -132,6 +146,10 @@ namespace Sa11ytaire4All
 
                 case SolitaireGameType.Spider:
                     gameType = MyGetString("SpiderSolitaire");
+                    break;
+
+                case SolitaireGameType.Royalparade:
+                    gameType = MyGetString("RoyalparadeSolitaire");
                     break;
 
                 default:
@@ -178,6 +196,7 @@ namespace Sa11ytaire4All
 
                     case SolitaireGameType.Pyramid:
                     case SolitaireGameType.Tripeaks:
+                    case SolitaireGameType.Royalparade:
 
                         currentCardHeight = (3 * InnerMainGrid.Height / 13);
 

@@ -35,6 +35,10 @@ namespace Sa11ytaire4All
             {
                 preferenceSuffix = "Spider";
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                preferenceSuffix = "Royalparade";
+            }
 
             try
             {
@@ -149,6 +153,16 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("SpiderSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
+            else if ((currentGameType == SolitaireGameType.Royalparade) && !vm.GamePausedRoyalparade)
+            {
+                Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Royal Parade session time.");
+
+                timeSpentPlayingPrevious = (int)Preferences.Get("RoyalparadeSessionDuration", 0);
+
+                timeSession = (int)(DateTime.Now - timeStartOfThisRoyalparadeSession).TotalSeconds;
+
+                Preferences.Set("RoyalparadeSessionDuration", timeSpentPlayingPrevious + timeSession);
+            }
 
             Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Time persisted spent playing this game. Previous " +
                 timeSpentPlayingPrevious + ", Current " + timeSession);
@@ -219,6 +233,12 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Spider set start of this session to now.");
 
                 timeStartOfThisSpiderSession = DateTime.Now;
+            }
+            else if ((currentGameType == SolitaireGameType.Royalparade) && !vm.GamePausedRoyalparade)
+            {
+                Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Royal Parade set start of this session to now.");
+
+                timeStartOfThisRoyalparadeSession = DateTime.Now;
             }
         }
     }

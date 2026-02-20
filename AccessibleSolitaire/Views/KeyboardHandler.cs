@@ -916,6 +916,10 @@ namespace Sa11ytaire4All
             {
                 moveComment = AnnounceAvailableMovesSpider();
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                //moveComment = AnnounceAvailableMovesRoyalparade();
+            }
             else if (currentGameType == SolitaireGameType.Bakersdozen)
             {
                 moveComment = AnnounceAvailableMovesBakersdozen();

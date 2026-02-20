@@ -1,4 +1,5 @@
-﻿using Sa11ytaire4All.Source;
+﻿using CommunityToolkit.Maui.Behaviors;
+using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
@@ -13,6 +14,7 @@ namespace Sa11ytaire4All
         Tripeaks = 3,
         Bakersdozen = 4,
         Spider = 5,
+        Royalparade = 6,
     }
 
     public partial class MainPage : ContentPage
@@ -48,7 +50,7 @@ namespace Sa11ytaire4All
             }
 
             // First add all the CardButtons for the pyramid.
-            for (int i = 0; i < 28; i++)
+            for (int i = 0; i < GetPyramidFullCardCount(); i++)
             {
                 button = new CardButton();
 
@@ -61,6 +63,11 @@ namespace Sa11ytaire4All
 
             // Now arrange the buttons for the pyramid.
             ArrangePyramidButtons();
+        }
+
+        private int GetPyramidFullCardCount()
+        {
+            return (currentGameType == SolitaireGameType.Royalparade ? 32 : 28);
         }
 
         // Barker Todo: No action required here if the cards are alread arranged as required.
@@ -79,10 +86,23 @@ namespace Sa11ytaire4All
             var countOfCardsPerRow = 1;
             var countOfCardsOnCurrentRow = 0;
 
-            var isPyramid = (currentGameType == SolitaireGameType.Pyramid);
+            var startColumn = 0;
 
-            var startColumn = isPyramid ? 6 : 3;
-            
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                startColumn = 6;
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                startColumn = 3;
+            }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                startColumn = 2;
+
+                countOfCardsPerRow = 8;
+            }
+
             var currentColumn = startColumn;
 
             var vm = this.BindingContext as DealtCardViewModel;
@@ -93,7 +113,7 @@ namespace Sa11ytaire4All
 
             var setSemanticHeading = true;
 
-            if (CardPileGridPyramid.Children.Count != 28)
+            if (CardPileGridPyramid.Children.Count != GetPyramidFullCardCount())
             {
                 Debug.WriteLine("ArrangePyramidButtons: Unexpected CardButton pyramid count " + 
                     CardPileGridPyramid.Children.Count);
@@ -116,7 +136,7 @@ namespace Sa11ytaire4All
 
             for (var i = 0; i < columnCount; i++)
             {
-                if (isPyramid && (i > 13))
+                if ((currentGameType == SolitaireGameType.Pyramid) && (i > 13))
                 {
                     columnDefinitions[i].Width = GridLength.Auto;
                 }
@@ -126,11 +146,11 @@ namespace Sa11ytaire4All
                 }
             }
 
-            for (int i = 0; i < 28; i++)
+            for (int i = 0; i < GetPyramidFullCardCount(); i++)
             {
                 button = (CardButton)CardPileGridPyramid.Children[i];
 
-                if (!isPyramid) // Tripeaks.
+                if (currentGameType == SolitaireGameType.Tripeaks)
                 {
                     if (i < 3)
                     {
@@ -152,7 +172,7 @@ namespace Sa11ytaire4All
                     }
                 }
 
-                if (!isPyramid && !button.IsFaceUp)
+                if ((currentGameType == SolitaireGameType.Tripeaks) && !button.IsFaceUp)
                 {
                     button.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                     Color.FromRgb(0x0E, 0xD1, 0x45) : Color.FromRgb(0x0B, 0xA9, 0x38));
@@ -165,11 +185,7 @@ namespace Sa11ytaire4All
 
                 var tripeaksRowIndex = 3;
 
-                if (isPyramid)
-                {
-                    CardPileGridPyramid.SetRow(button, countOfCardsPerRow - 1);
-                }
-                else // Tripeaks.
+                if (currentGameType == SolitaireGameType.Tripeaks)
                 {
                     if (i < 18)
                     {
@@ -178,10 +194,28 @@ namespace Sa11ytaire4All
 
                     CardPileGridPyramid.SetRow(button, tripeaksRowIndex);
                 }
+                else if (currentGameType == SolitaireGameType.Pyramid)
+                {
+                    CardPileGridPyramid.SetRow(button, countOfCardsPerRow - 1);
+                }
+                else if (currentGameType == SolitaireGameType.Royalparade)
+                {
+                    // Typicallt a card only occupies two rows in Royal Parade.
+                    var royalParadeRowIndex = 2 * (i / 8);
 
-                CardPileGridPyramid.SetRowSpan(button, 3);
+                    // Shift the bottom row down to show a gap between it and the main three rows.
+                    if (i >= 24)
+                    {
+                        ++royalParadeRowIndex;
+                    }
 
-                if (!isPyramid) // Tripeaks.
+                    CardPileGridPyramid.SetRow(button, royalParadeRowIndex);
+                }
+
+                CardPileGridPyramid.SetRowSpan(button, 
+                    (currentGameType == SolitaireGameType.Royalparade ? 2 : 3));
+
+                if (currentGameType == SolitaireGameType.Tripeaks)
                 {
                     if (i == 1)
                     {
@@ -219,17 +253,23 @@ namespace Sa11ytaire4All
 
                 if (countOfCardsOnCurrentRow == countOfCardsPerRow)
                 {
-                    ++countOfCardsPerRow;
-
                     countOfCardsOnCurrentRow = 0;
 
-                    if (isPyramid)
+                    if (currentGameType == SolitaireGameType.Tripeaks)
                     {
+                        ++countOfCardsPerRow;
+
+                        startColumn = 2 - tripeaksRowIndex;
+                    }
+                    if (currentGameType == SolitaireGameType.Pyramid)
+                    {
+                        ++countOfCardsPerRow;
+
                         --startColumn;
                     }
-                    else // Tripeaks.
+                    if (currentGameType == SolitaireGameType.Royalparade)
                     {
-                        startColumn = 2 - tripeaksRowIndex;
+                        startColumn = 2;
                     }
 
                     currentColumn = startColumn;
@@ -289,8 +329,21 @@ namespace Sa11ytaire4All
 
             var totalCountOfVisibleCardsInPyramid = 0;
 
-            // Pyramid has 7 rows, TriPeaks has 4 rows.
-            var countOfRows = (currentGameType == SolitaireGameType.Pyramid ? 7 : 4);
+            // Pyramid has 7 rows, TriPeaks has 4 rows, Royal Parade has 3 rows.
+            var countOfRows = 0;
+            
+            if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                countOfRows = 7;
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                countOfRows = 4;
+            }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                countOfRows = 4;
+            }
 
             for (int i = 0; i < countOfRows; ++i)
             {
@@ -311,23 +364,30 @@ namespace Sa11ytaire4All
                         countCardsPerRow = 3 * (i + 1);
                     }
                 }
-
-                try
+                else if (currentGameType == SolitaireGameType.Royalparade)
                 {
-                    for (int j = 0; j < countCardsPerRow; ++j)
+                    countCardsPerRow = 8;
+                }
+
+                if (currentGameType != SolitaireGameType.Royalparade)
+                {
+                    try
                     {
-                        var dealtCard = vm.DealtCards[i][j];
-                        if (dealtCard.Card != null)
+                        for (int j = 0; j < countCardsPerRow; ++j)
                         {
-                            ++countOfVisibleCardsOnRow;
+                            var dealtCard = vm.DealtCards[i][j];
+                            if (dealtCard.Card != null)
+                            {
+                                ++countOfVisibleCardsOnRow;
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("DealPyramidCardsPostprocess: ex " + ex.Message);
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("DealPyramidCardsPostprocess: ex " + ex.Message);
 
-                    return false;
+                        return false;
+                    }
                 }
 
                 totalCountOfVisibleCardsInPyramid += countOfVisibleCardsOnRow;
@@ -370,6 +430,17 @@ namespace Sa11ytaire4All
                         if (setDealtCardProperties)
                         {
                             dealtCard.FaceDown = !isBottomRow;
+                        }
+                    }
+                    else if (currentGameType == SolitaireGameType.Royalparade)
+                    {
+                        isBottomRow = (dealtCard.PyramidRow == 4);
+
+                        dealtCard.FaceDown = false;
+
+                        if (setDealtCardProperties)
+                        {
+                            dealtCard.FaceDown = false;
                         }
                     }
 
@@ -418,6 +489,8 @@ namespace Sa11ytaire4All
                             cardUI.IsFaceUp = true;
                         }
 
+                        cardUI.IsFaceUp = true;
+
                         cardUI.RefreshAccessibleName();
 
                         SetPyramidCardButtonBindingProperties(cardUI);
@@ -426,7 +499,10 @@ namespace Sa11ytaire4All
                     ++cardUIIndex;
                 }
 
-                ++countCardsPerRow;
+                if (currentGameType != SolitaireGameType.Royalparade)
+                {
+                    ++countCardsPerRow;
+                }
             }
 
             // For Tripeaks, automatically turn over the top remaining card.
@@ -455,6 +531,12 @@ namespace Sa11ytaire4All
             if (currentGameType == SolitaireGameType.Tripeaks)
             {
                 HandleTripeaksPyramidCardClick(cardButtonClicked);
+
+                return;
+            }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                HandleRoyalParadePyramidCardClick(cardButtonClicked);
 
                 return;
             }
@@ -718,6 +800,146 @@ namespace Sa11ytaire4All
                 cardButtonClicked.IsToggled = false;
 
                 PlaySound(false);
+            }
+        }
+
+        private void HandleRoyalParadePyramidCardClick(CardButton cardButtonClicked)
+        {
+            if (cardButtonClicked.Card == null)
+            {
+                return;
+            }
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            CardButton? cardAlreadySelected = null;
+
+            // Is any card in the pyramid already selected?
+            var gridCards = CardPileGridPyramid.Children;
+
+            foreach (var gridCard in gridCards)
+            {
+                var card = gridCard as CardButton;
+                if ((card != null) && (card != cardButtonClicked) && card.IsToggled)
+                {
+                    cardAlreadySelected = card;
+
+                    break;
+                }
+            }
+
+            var discardMessage = "";
+
+            // Track whether we'll be removing the card from the pyramid.
+            //var removeCard = false;
+
+            // Was another pyramid card already selected?
+            if ((cardAlreadySelected != null) && (cardAlreadySelected.Card != null))
+            {
+                // Can the already selected card be moved to clicked card?
+                // Royal Parade expects the cards to be the same suit.
+                var rankDifference = cardAlreadySelected.Card.Rank - cardButtonClicked.Card.Rank;
+                if ((rankDifference == 3) && 
+                    (cardButtonClicked.Card.Suit == cardAlreadySelected.Card.Suit))
+                {
+                    // Remove the already selected card.
+                    CollectionView? list;
+                    var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
+                    if (dealtCardAlreadySelected != null)
+                    {
+                        discardMessage = MainPage.MyGetString("Discarded");
+                        discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
+
+                        // Replace the already-select card with the clicked card.
+                        var dealtCardClicked = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
+                        if (dealtCardClicked != null)
+                        {
+                            vm.DealtCards[dealtCardClicked.PyramidRow]
+                                [dealtCardClicked.PyramidCardOriginalIndexInRow].Card =
+                            vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
+                                [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card;
+
+                            vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
+                                [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card = null;
+
+                            cardButtonClicked.Card = cardAlreadySelected.Card;
+                        }
+                    }
+
+                    cardAlreadySelected.IsVisible = false;
+                    cardAlreadySelected.IsToggled = false;
+
+                    //removeCard = true;
+                }
+                else
+                {
+                    // No other card was selected, so we'll simply select the clicked card.
+                    string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
+                    MakeDelayedScreenReaderAnnouncement(announcement, false);
+                }
+            }
+
+            // Should we remove the clicked pyramid card?
+            //if (removeCard)
+            //{
+            //    CollectionView? list;
+            //    var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
+            //    if (dealtCard != null)
+            //    {
+            //        if (string.IsNullOrEmpty(discardMessage))
+            //        {
+            //            discardMessage = MainPage.MyGetString("Discarded");
+            //        }
+
+            //        discardMessage += " " + dealtCard.AccessibleNameWithoutSelectionAndMofN + ". ";
+
+            //        // Has a card now been revealed? 
+            //        vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow].Card = null;
+
+            //        cardButtonClicked.IsVisible = false;
+            //        cardButtonClicked.IsToggled = false;
+
+            //        PlaySound(true);
+            //    }
+            //}
+            //else
+            //{
+                // The clicked card was not removed. If another pyramid card was already selected, deselect it.
+                if (cardAlreadySelected != null)
+                {
+                    cardButtonClicked.IsToggled = false;
+
+                    cardAlreadySelected.IsToggled = false;
+
+                    PlaySound(false);
+                }
+            //}
+
+            if (!string.IsNullOrEmpty(discardMessage))
+            {
+                // Barker Todo: Figure out how to announce the results of the operation without
+                // the announcement conflicting with the default VoiceOver announcement relating
+                // to focus moving.
+                //MakeDelayedScreenReaderAnnouncementWithDelayTime(discardMessage, true, 2000);
+
+                // Barker Todo: Still announce the available moves if necessary.
+                if (automaticallyAnnounceMoves)
+                {
+                    var availableMoveAnnouncement = AnnounceAvailableMoves(false);
+                    if (!string.IsNullOrEmpty(availableMoveAnnouncement))
+                    {
+                        MakeDelayedScreenReaderAnnouncementWithDelayTime(availableMoveAnnouncement, false, 3000);
+                    }
+                }
+            }
+
+            if (GameOver())
+            {
+                ShowEndOfGameDialog(false);
             }
         }
 

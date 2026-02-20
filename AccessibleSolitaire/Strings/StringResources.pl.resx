@@ -852,4 +852,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="NextCardPile_NextTenCards" xml:space="preserve">
     <value>Następne dziesięć kart</value>
   </data>
+  <data name="RoyalparadeSolitaire" xml:space="preserve">
+    <value>Royal Parade Solitaire</value>
+  </data>
 </root>

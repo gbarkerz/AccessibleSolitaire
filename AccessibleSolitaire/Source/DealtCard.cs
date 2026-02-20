@@ -162,7 +162,8 @@ namespace Sa11ytaire4All.Source
         {
             get
             {
-                if (!MainPage.MainPageSingleton.IsGameCollectionViewBased())
+                if ((MainPage.MainPageSingleton == null) ||
+                    !MainPage.MainPageSingleton.IsGameCollectionViewBased())
                 {
                     return "";
                 }
@@ -327,7 +328,7 @@ namespace Sa11ytaire4All.Source
                     else
                     {
                         // Are we merging all other face-down cards? This setting only 
-                        // has effect in the Klondike game.
+                        // has effect in the Klondike and Spider game.
                         if (mergeFaceDownCards &&
                             ((MainPage.currentGameType == SolitaireGameType.Klondike) ||
                              (MainPage.currentGameType == SolitaireGameType.Spider)))

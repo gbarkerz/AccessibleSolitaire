@@ -1826,6 +1826,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Royal Parade Solitaire.
+        /// </summary>
+        internal static string RoyalparadeSolitaire {
+            get {
+                return ResourceManager.GetString("RoyalparadeSolitaire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Screen Reader Usage.
         /// </summary>
         internal static string ScreenReaderUsage {

@@ -75,9 +75,11 @@ namespace Sa11ytaire4All
 
                 default:
 
-                    // If Pyramid or Tripeaks, check for a click on a not-open card.
-                    if ((currentGameType != SolitaireGameType.Klondike) &&
-                        (currentGameType != SolitaireGameType.Bakersdozen))
+                    // If Pyramid, Tripeaks or Royal Parade get the clicked card, and check
+                    // for a click on a not-open card is appropriate.
+                    if ((currentGameType == SolitaireGameType.Pyramid) ||
+                        (currentGameType == SolitaireGameType.Tripeaks) ||
+                        (currentGameType == SolitaireGameType.Royalparade))
                     {
                         isPyramidCard = true;
 
@@ -96,11 +98,15 @@ namespace Sa11ytaire4All
                                 return;
                             }
 
-                            CollectionView? list;
-                            var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
-                            if ((dealtCard != null) && !dealtCard.Open)
+                            // No card is obscured in Royal Parade.
+                            if (currentGameType != SolitaireGameType.Royalparade)
                             {
-                                obscuredCardButton = cardButton;
+                                CollectionView? list;
+                                var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
+                                if ((dealtCard != null) && !dealtCard.Open)
+                                {
+                                    obscuredCardButton = cardButton;
+                                }
                             }
                         }
                     }
