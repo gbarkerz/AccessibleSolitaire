@@ -10,7 +10,10 @@
              x:Class="Sa11ytaire4All.Views.CardButton"
              x:DataType="{x:Type local_views:CardButton}">
 
+    <!--<local_views:RoyalParadeOpenToBorderBackgroundConverter x:Key="RoyalParadeOpenToBorderBackgroundConverter" />-->
+
     <ContentView.Resources>
+        <local_views:RoyalParadeOpenToBorderPaddingConverter x:Key="RoyalParadeOpenToBorderPaddingConverter" />
         <local_views:IsFaceUpToImageSourceConverter x:Key="IsFaceUpToImageSourceConverter" />
         <local_views:IsToggledToBorderPaddingConverter x:Key="IsToggledToBorderPaddingConverter" />
         <local_views:IsButtonFocusedToOuterBorderBackgroundColor x:Key="IsButtonFocusedToOuterBorderBackgroundColor" />
@@ -33,9 +36,25 @@
         use of Switch was replaced with Button. All hit targets worked as expected then, and the app's announcements
         of selected state continued to work fine. -->
     
+            <!--Padding="{Binding Open, Mode=OneWay,
+                        Converter={StaticResource RoyalParadeOpenToBorderPaddingConverter}}"-->
+
         <Border 
+            BackgroundColor="Transparent"
             Stroke="{AppThemeBinding Light=Black, Dark=White}"
             StrokeThickness="1">
+
+            <!--<Border.Background>
+                <MultiBinding Mode="OneWay" 
+                    Converter="{StaticResource RoyalParadeOpenToBorderBackgroundConverter}">
+                    <Binding Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local_views:CardButton}}" 
+                                x:DataType="{x:Type local_views:CardButton}"
+                                Path="Open" />
+                    <Binding Source="{RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local_views:CardButton}}" 
+                            x:DataType="{x:Type local_views:CardButton}"
+                            Path="Card" />
+                </MultiBinding>
+            </Border.Background>-->
             
             <Grid Margin="0" Padding="0">
 
@@ -65,11 +84,11 @@
                         </MultiBinding>
                     </Border.BackgroundColor>
 
-                    <Border Margin="0" 
-                        Padding="{Binding IsToggled, Mode=OneWay,
-                            Converter={StaticResource IsToggledToBorderPaddingConverter}}"
-                        StrokeThickness="0">
-                        <Border.BackgroundColor>
+                <Border Margin="0" 
+                    Padding="{Binding IsToggled, Mode=OneWay,
+                        Converter={StaticResource IsToggledToBorderPaddingConverter}}"
+                    StrokeThickness="0">
+                    <Border.BackgroundColor>
 
                         <MultiBinding Mode="OneWay" 
                             Converter="{StaticResource IsButtonFocusedToInnerBorderBackgroundColor}">
@@ -129,6 +148,7 @@
 
                         <Image
                             AutomationProperties.IsInAccessibleTree="False"
+                            BackgroundColor="{Binding CardButtonImageBackgroundColour}"
                             InputTransparent="True"
                             Margin="{Binding IsToggled, Mode=OneWay,
                                 Converter={StaticResource IsToggledToMarginConverter},
@@ -156,7 +176,7 @@
                                 </MultiBinding>
                             </Image.Source>
 
-                            <Image.BackgroundColor>
+                            <!--<Image.BackgroundColor>
                                 <MultiBinding Mode="OneWay" 
                                     Converter="{StaticResource CardToBackgroundConverter}">
                                     <Binding Path="IsToggled" />
@@ -165,8 +185,18 @@
                                             AncestorType={x:Type local_views:CardButton}}" 
                                         x:DataType="{x:Type local_views:CardButton}"
                                         Path="Card" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="Open" />
+                                    <Binding 
+                                        Source="{RelativeSource Mode=FindAncestorBindingContext, 
+                                            AncestorType={x:Type local_views:CardButton}}" 
+                                        x:DataType="{x:Type local_views:CardButton}"
+                                        Path="StackDetails" />
                                 </MultiBinding>
-                            </Image.BackgroundColor>
+                            </Image.BackgroundColor>-->
                             
                         </Image>
 
@@ -205,6 +235,11 @@
                     </Grid>
                 </Border>
             </Border>
+
+            <Label Text="{Binding StackDetails}" 
+                FontAttributes="Bold"
+                BackgroundColor="White"
+                HorizontalOptions="CenterAndExpand" VerticalOptions="End" />
         </Grid>
     </Border>
 

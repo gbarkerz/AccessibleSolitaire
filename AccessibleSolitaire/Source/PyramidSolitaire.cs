@@ -39,8 +39,27 @@ namespace Sa11ytaire4All
             }
         }
 
+        public RadialGradientBrush cardGradientBrushRed = new RadialGradientBrush();
+        public RadialGradientBrush cardGradientBrushBlack = new RadialGradientBrush();
+
         private void AddPyramidButtons()
         {
+            cardGradientBrushRed.Center = new Point(0, 0);
+
+            cardGradientBrushRed.GradientStops = new GradientStopCollection
+                {
+                    new GradientStop(Colors.Red, (float)0.25),
+                    new GradientStop(Color.FromRgb(0xC0, 0xC0, 0xC0), (float)1.0)
+                };
+
+            cardGradientBrushBlack.Center = new Point(0, 0);
+
+            cardGradientBrushBlack.GradientStops = new GradientStopCollection
+                {
+                    new GradientStop(Colors.Black, (float)0.25),
+                    new GradientStop(Color.FromRgb(0xC0, 0xC0, 0xC0), (float)1.0)
+                };
+
             CardButton button;
 
             var vm = this.BindingContext as DealtCardViewModel;
@@ -68,7 +87,7 @@ namespace Sa11ytaire4All
         private int GetPyramidFullCardCount()
         {
             return (currentGameType == SolitaireGameType.Royalparade ? 32 : 28);
-        }
+        }                                                                
 
         // Barker Todo: No action required here if the cards are alread arranged as required.
         private void ArrangePyramidButtons()
@@ -366,7 +385,7 @@ namespace Sa11ytaire4All
                 }
                 else if (currentGameType == SolitaireGameType.Royalparade)
                 {
-                    countCardsPerRow = 8;
+                    countCardsPerRow = (i < countOfRows - 1 ? 8 : 72);
                 }
 
                 if (currentGameType != SolitaireGameType.Royalparade)
@@ -396,7 +415,25 @@ namespace Sa11ytaire4All
 
                 for (int j = 0; j < countCardsPerRow; ++j)
                 {
+                    if ((currentGameType == SolitaireGameType.Royalparade) && (i > 2))
+                    {
+                        cardUIIndex = 24 + (cardUIIndex % 8);
+                    }
+
                     var dealtCard = vm.DealtCards[i][j];
+
+                    if (dealtCard == null)
+                    {
+                        ++cardUIIndex;
+
+                        continue;
+                    }
+
+                    if ((currentGameType == SolitaireGameType.Royalparade) && (i == 3) &&
+                        (dealtCard.Card == null))
+                    {
+                        continue;
+                    }
 
                     // All of these are zero-based.
                     dealtCard.PyramidRow = i;
@@ -452,11 +489,25 @@ namespace Sa11ytaire4All
                     var cardUI = cardButtonsUI[cardUIIndex] as CardButton;
                     if (cardUI != null)
                     {
-                        var cardButtonIsVisible = (dealtCard.Card != null);
+                        var cardButtonIsVisible = (currentGameType == SolitaireGameType.Royalparade) ||
+                                                    (dealtCard.Card != null);
 
                         cardUI.IsVisible = cardButtonIsVisible;
 
                         cardUI.Card = dealtCard.Card;
+
+                        if (currentGameType == SolitaireGameType.Royalparade)
+                        {
+                            // PyramidCardCurrentCountOfCardsOnRow is repurposed as the stack count.
+                            if (setDealtCardProperties && (cardUI.Card != null))
+                            {
+                                dealtCard.StackDetails = cardUI.Card.Rank.ToString();
+                            }
+
+                            cardUI.StackDetails = dealtCard.StackDetails;
+
+                            cardUI.Open = dealtCard.Open;
+                        }
 
                         if (currentGameType == SolitaireGameType.Tripeaks)
                         {
@@ -517,7 +568,8 @@ namespace Sa11ytaire4All
         // Handle a click on one of the CardButtons in the pyramd.
         private void HandlePyramidCardClick(CardButton cardButtonClicked)
         {
-            if (cardButtonClicked.Card == null)
+            // Empty slots in Royal Parade can be clicked as the target of a move.
+            if ((cardButtonClicked.Card == null) && (currentGameType != SolitaireGameType.Royalparade))
             {
                 return;
             }
@@ -800,146 +852,6 @@ namespace Sa11ytaire4All
                 cardButtonClicked.IsToggled = false;
 
                 PlaySound(false);
-            }
-        }
-
-        private void HandleRoyalParadePyramidCardClick(CardButton cardButtonClicked)
-        {
-            if (cardButtonClicked.Card == null)
-            {
-                return;
-            }
-
-            var vm = this.BindingContext as DealtCardViewModel;
-            if ((vm == null) || (vm.DealtCards == null))
-            {
-                return;
-            }
-
-            CardButton? cardAlreadySelected = null;
-
-            // Is any card in the pyramid already selected?
-            var gridCards = CardPileGridPyramid.Children;
-
-            foreach (var gridCard in gridCards)
-            {
-                var card = gridCard as CardButton;
-                if ((card != null) && (card != cardButtonClicked) && card.IsToggled)
-                {
-                    cardAlreadySelected = card;
-
-                    break;
-                }
-            }
-
-            var discardMessage = "";
-
-            // Track whether we'll be removing the card from the pyramid.
-            //var removeCard = false;
-
-            // Was another pyramid card already selected?
-            if ((cardAlreadySelected != null) && (cardAlreadySelected.Card != null))
-            {
-                // Can the already selected card be moved to clicked card?
-                // Royal Parade expects the cards to be the same suit.
-                var rankDifference = cardAlreadySelected.Card.Rank - cardButtonClicked.Card.Rank;
-                if ((rankDifference == 3) && 
-                    (cardButtonClicked.Card.Suit == cardAlreadySelected.Card.Suit))
-                {
-                    // Remove the already selected card.
-                    CollectionView? list;
-                    var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
-                    if (dealtCardAlreadySelected != null)
-                    {
-                        discardMessage = MainPage.MyGetString("Discarded");
-                        discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
-
-                        // Replace the already-select card with the clicked card.
-                        var dealtCardClicked = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
-                        if (dealtCardClicked != null)
-                        {
-                            vm.DealtCards[dealtCardClicked.PyramidRow]
-                                [dealtCardClicked.PyramidCardOriginalIndexInRow].Card =
-                            vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card;
-
-                            vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card = null;
-
-                            cardButtonClicked.Card = cardAlreadySelected.Card;
-                        }
-                    }
-
-                    cardAlreadySelected.IsVisible = false;
-                    cardAlreadySelected.IsToggled = false;
-
-                    //removeCard = true;
-                }
-                else
-                {
-                    // No other card was selected, so we'll simply select the clicked card.
-                    string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
-                    MakeDelayedScreenReaderAnnouncement(announcement, false);
-                }
-            }
-
-            // Should we remove the clicked pyramid card?
-            //if (removeCard)
-            //{
-            //    CollectionView? list;
-            //    var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
-            //    if (dealtCard != null)
-            //    {
-            //        if (string.IsNullOrEmpty(discardMessage))
-            //        {
-            //            discardMessage = MainPage.MyGetString("Discarded");
-            //        }
-
-            //        discardMessage += " " + dealtCard.AccessibleNameWithoutSelectionAndMofN + ". ";
-
-            //        // Has a card now been revealed? 
-            //        vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow].Card = null;
-
-            //        cardButtonClicked.IsVisible = false;
-            //        cardButtonClicked.IsToggled = false;
-
-            //        PlaySound(true);
-            //    }
-            //}
-            //else
-            //{
-                // The clicked card was not removed. If another pyramid card was already selected, deselect it.
-                if (cardAlreadySelected != null)
-                {
-                    cardButtonClicked.IsToggled = false;
-
-                    cardAlreadySelected.IsToggled = false;
-
-                    PlaySound(false);
-                }
-            //}
-
-            if (!string.IsNullOrEmpty(discardMessage))
-            {
-                // Barker Todo: Figure out how to announce the results of the operation without
-                // the announcement conflicting with the default VoiceOver announcement relating
-                // to focus moving.
-                //MakeDelayedScreenReaderAnnouncementWithDelayTime(discardMessage, true, 2000);
-
-                // Barker Todo: Still announce the available moves if necessary.
-                if (automaticallyAnnounceMoves)
-                {
-                    var availableMoveAnnouncement = AnnounceAvailableMoves(false);
-                    if (!string.IsNullOrEmpty(availableMoveAnnouncement))
-                    {
-                        MakeDelayedScreenReaderAnnouncementWithDelayTime(availableMoveAnnouncement, false, 3000);
-                    }
-                }
-            }
-
-            if (GameOver())
-            {
-                ShowEndOfGameDialog(false);
             }
         }
 

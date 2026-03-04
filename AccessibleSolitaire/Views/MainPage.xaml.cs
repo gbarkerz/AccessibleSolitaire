@@ -494,31 +494,33 @@ namespace Sa11ytaire4All
                     for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                     {
                         var pileCard = vm.DealtCards[i][j];
-
-                        // Is this card face-down?
-                        if (pileCard.FaceDown)
+                        if (pileCard != null)
                         {
-                            // If we're not interested in face-down cards, move onto the next pile.
-                            if (!findNearestFaceUpCard && (currentGameType == SolitaireGameType.Klondike))
+                            // Is this card face-down?
+                            if (pileCard.FaceDown)
                             {
+                                // If we're not interested in face-down cards, move onto the next pile.
+                                if (!findNearestFaceUpCard && (currentGameType == SolitaireGameType.Klondike))
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                // Track the nearest face-up card in case we need to return it later in the 
+                                // event that the tap was on a face-down card in the same dealt card pile.
+                                nearestFaceUpDealtCard = pileCard;
+                            }
+
+                            if (pileCard.Card == card)
+                            {
+                                // We've found the card that was tapped on.
+                                list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
+
+                                dealtCard = (pileCard.FaceDown ? nearestFaceUpDealtCard : pileCard);
+
                                 break;
                             }
-                        }
-                        else
-                        {
-                            // Track the nearest face-up card in case we need to return it later in the 
-                            // event that the tap was on a face-down card in the same dealt card pile.
-                            nearestFaceUpDealtCard = pileCard;
-                        }
-
-                        if (pileCard.Card == card)
-                        {
-                            // We've found the card that was tapped on.
-                            list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
-
-                            dealtCard = (pileCard.FaceDown ? nearestFaceUpDealtCard : pileCard);
-
-                            break;
                         }
                     }
 
@@ -1429,7 +1431,14 @@ namespace Sa11ytaire4All
             {
                 //Debug.WriteLine("RaiseNotificationEvent: " + announcement);
 
-                SemanticScreenReader.Default.Announce(announcement);
+                try
+                {
+                    SemanticScreenReader.Default.Announce(announcement);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("RaiseNotificationEvent: " + ex.Message);
+                }
             }
         }
 
@@ -1616,7 +1625,16 @@ namespace Sa11ytaire4All
             }
             else if (currentGameType == SolitaireGameType.Royalparade)
             {
-                NextCardDeck.RotateToAsync(0, 0);
+                var gridCards = CardPileGridPyramid.Children;
+
+                for (var i = 0; i < 24; ++i)
+                {
+                    var cardButton = gridCards[i] as CardButton;
+                    if (cardButton != null)
+                    {
+                        cardButton.RelRotateToAsync(0, 0);
+                    }
+                }
             }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
@@ -1632,8 +1650,8 @@ namespace Sa11ytaire4All
 
 #pragma warning restore CS4014
 
-            // Stop any running sounds.
-            if ((mainMediaElement != null) && (mainMediaElement.Source != null))
+// Stop any running sounds.
+if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             {
                 mainMediaElement.Source = null;
             }
@@ -1717,10 +1735,22 @@ namespace Sa11ytaire4All
                 }
                 else if (currentGameType == SolitaireGameType.Royalparade)
                 {
+                    var gridCards = CardPileGridPyramid.Children;
+
+                    var indexCard = -1;
+
                     switch (countOfSpinningCards)
                     {
                         case 0:
-                            NextCardDeck.RelRotateToAsync(3600, 10000);
+                            indexCard = 0;
+                            break;
+
+                        case 1:
+                            indexCard = 8;
+                            break;
+
+                        case 2:
+                            indexCard = 16;
                             break;
 
                         default:
@@ -1728,6 +1758,18 @@ namespace Sa11ytaire4All
                             timerDelayCardSpin = null;
 
                             break;
+                    }
+
+                    if (indexCard != -1)
+                    {
+                        for (var i = indexCard; i < indexCard + 8; ++i)
+                        {
+                            var cardButton = gridCards[i] as CardButton;
+                            if (cardButton != null)
+                            {
+                                cardButton.RelRotateToAsync(3600, 10000);
+                            }
+                        }
                     }
                 }
                 else if (currentGameType == SolitaireGameType.Pyramid)

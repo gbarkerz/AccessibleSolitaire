@@ -25,10 +25,10 @@ namespace Sa11ytaire4All
                 .UseKeyListener()
                 .UseMauiCommunityToolkit()
                 .UseMauiCommunityToolkitMediaElement(false)
-                //.UseMauiCommunityToolkitMediaElement(isAndroidForegroundServiceEnabled: false, static options =>
-                //    {
-                //        options.SetDefaultAndroidViewType(AndroidViewType.TextureView);
-                //    })
+                .UseMauiCommunityToolkitMediaElement(isAndroidForegroundServiceEnabled: false, static options =>
+                    {
+                        options.SetDefaultAndroidViewType(AndroidViewType.TextureView);
+                    })
                 .ConfigureMauiHandlers(handlers =>
                 {
 #if IOS

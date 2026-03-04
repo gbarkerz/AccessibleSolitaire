@@ -61,15 +61,6 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.
-        /// </summary>
-        internal static string _1 {
-            get {
-                return ResourceManager.GetString("1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 10.
         /// </summary>
         internal static string _10 {
@@ -1826,11 +1817,29 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dealt eight more cards to the bottom row of cards..
+        /// </summary>
+        internal static string RoyalparadeDealtEightCards {
+            get {
+                return ResourceManager.GetString("RoyalparadeDealtEightCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Royal Parade Solitaire.
         /// </summary>
         internal static string RoyalparadeSolitaire {
             get {
                 return ResourceManager.GetString("RoyalparadeSolitaire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Card piles cannot be started if the base 2, 3, or 4 is not on the first, second, or third rows respectively..
+        /// </summary>
+        internal static string RoyalparadeTargetCardOnWrongRow {
+            get {
+                return ResourceManager.GetString("RoyalparadeTargetCardOnWrongRow", resourceCulture);
             }
         }
         

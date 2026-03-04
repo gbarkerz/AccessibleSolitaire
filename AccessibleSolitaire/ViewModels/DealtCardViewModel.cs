@@ -12,11 +12,11 @@ namespace Sa11ytaire4All.ViewModels
     {
         public DealtCardViewModel()
         {
-            DealtCards = new ObservableCollection<DealtCard>[13];
+            DealtCards = new ObservableCollection<DealtCard?>[13];
 
             for (int i = 0; i < DealtCards.Count(); ++i)
             {
-                DealtCards[i] = new ObservableCollection<DealtCard>();
+                DealtCards[i] = new ObservableCollection<DealtCard?>();
             }
 
             NoScreenOrientationChangeWarning = "";
@@ -24,22 +24,22 @@ namespace Sa11ytaire4All.ViewModels
             CardButtonsHeadingState = false;
         }
 
-        public ObservableCollection<DealtCard>? DealtCards1 { get => DealtCards?[0]; }
-        public ObservableCollection<DealtCard>? DealtCards2 { get => DealtCards?[1]; }
-        public ObservableCollection<DealtCard>? DealtCards3 { get => DealtCards?[2]; }
-        public ObservableCollection<DealtCard>? DealtCards4 { get => DealtCards?[3]; }
-        public ObservableCollection<DealtCard>? DealtCards5 { get => DealtCards?[4]; }
-        public ObservableCollection<DealtCard>? DealtCards6 { get => DealtCards?[5]; }
-        public ObservableCollection<DealtCard>? DealtCards7 { get => DealtCards?[6]; }
-        public ObservableCollection<DealtCard>? DealtCards8 { get => DealtCards?[7]; }
-        public ObservableCollection<DealtCard>? DealtCards9 { get => DealtCards?[8]; }
-        public ObservableCollection<DealtCard>? DealtCards10 { get => DealtCards?[9]; }
-        public ObservableCollection<DealtCard>? DealtCards11 { get => DealtCards?[10]; }
-        public ObservableCollection<DealtCard>? DealtCards12 { get => DealtCards?[11]; }
-        public ObservableCollection<DealtCard>? DealtCards13 { get => DealtCards?[12]; }
+        public ObservableCollection<DealtCard?>? DealtCards1 { get => DealtCards?[0]; }
+        public ObservableCollection<DealtCard?>? DealtCards2 { get => DealtCards?[1]; }
+        public ObservableCollection<DealtCard?>? DealtCards3 { get => DealtCards?[2]; }
+        public ObservableCollection<DealtCard?>? DealtCards4 { get => DealtCards?[3]; }
+        public ObservableCollection<DealtCard?>? DealtCards5 { get => DealtCards?[4]; }
+        public ObservableCollection<DealtCard?>? DealtCards6 { get => DealtCards?[5]; }
+        public ObservableCollection<DealtCard?>? DealtCards7 { get => DealtCards?[6]; }
+        public ObservableCollection<DealtCard?>? DealtCards8 { get => DealtCards?[7]; }
+        public ObservableCollection<DealtCard?>? DealtCards9 { get => DealtCards?[8]; }
+        public ObservableCollection<DealtCard?>? DealtCards10 { get => DealtCards?[9]; }
+        public ObservableCollection<DealtCard?>? DealtCards11 { get => DealtCards?[10]; }
+        public ObservableCollection<DealtCard?>? DealtCards12 { get => DealtCards?[11]; }
+        public ObservableCollection<DealtCard?>? DealtCards13 { get => DealtCards?[12]; }
 
         [ObservableProperty] 
-        public partial ObservableCollection<DealtCard>[]? DealtCards { get; set; }
+        public partial ObservableCollection<DealtCard?>[]? DealtCards { get; set; }
 
         private double cardWidth;
         public double CardWidth

@@ -53,7 +53,7 @@ namespace Sa11ytaire4All
                 }
                 else if (currentGameType == SolitaireGameType.Royalparade)
                 {
-                    //RoyalparadePerformNextCardAction();
+                    RoyalparadePerformNextCardAction();
                 }
                 else
                 {

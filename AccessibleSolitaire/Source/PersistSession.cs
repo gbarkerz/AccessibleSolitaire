@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
-
+using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 
 namespace Sa11ytaire4All
@@ -54,10 +54,21 @@ namespace Sa11ytaire4All
                     Preferences.Set("TargetCardPileSession" + i.ToString() + preferenceSuffix, targetCardPileJson);
                 }
 
-                for (var i = 0; i < vm.DealtCards.Length; ++i)
+                var typicalDealtCardPileCount = ((currentGameType == SolitaireGameType.Royalparade ? 
+                                                    4 : vm.DealtCards.Length));
+
+                for (var i = 0; i < typicalDealtCardPileCount; ++i)
                 {
-                    var dealtCardPileJson = JsonSerializer.Serialize(vm.DealtCards[i]);
-                    Preferences.Set("DealtCardsSession" + i.ToString() + preferenceSuffix, dealtCardPileJson);
+                    // Is this the 4th row of dealt cards in Royal Parade?
+                    if ((currentGameType == SolitaireGameType.Royalparade) && (i == 3))
+                    {
+                        PersistRoyalParadeDealtCardsRowFour(preferenceSuffix);
+                    }
+                    else
+                    {
+                        var dealtCardPileJson = JsonSerializer.Serialize(vm.DealtCards[i]);
+                        Preferences.Set("DealtCardsSession" + i.ToString() + preferenceSuffix, dealtCardPileJson);
+                    }
                 }
 
                 if (currentGameType == SolitaireGameType.Spider)

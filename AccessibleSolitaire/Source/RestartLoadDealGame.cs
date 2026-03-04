@@ -180,13 +180,19 @@ namespace Sa11ytaire4All
                 vm.DealtCards[i].Clear();
 
                 if ((currentGameType == SolitaireGameType.Pyramid) ||
-                    (currentGameType == SolitaireGameType.Tripeaks))
+                    (currentGameType == SolitaireGameType.Tripeaks) ||
+                    (currentGameType == SolitaireGameType.Royalparade))
                 {
                     ClearPyramidCards();
                 }
             }
 
             DealCards();
+
+            if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                CheckForOpenCardsRoyalParade();
+            }
 
             NextCardDeck.State = NextCardPileState.Active;
 
@@ -328,6 +334,7 @@ namespace Sa11ytaire4All
                     }
                     else if (currentGameType == SolitaireGameType.Royalparade)
                     {
+                        //rowCardCount = (i < 3 ? 8 : 72);
                         rowCardCount = 8;
                     }
                     else if (currentGameType == SolitaireGameType.Spider)
@@ -401,6 +408,17 @@ namespace Sa11ytaire4All
                         ++cardIndex;
 
                         vm.DealtCards[i].Add(card);
+                    }
+                }
+
+                if (currentGameType == SolitaireGameType.Royalparade)
+                {
+                    DealtCard? dummyDealtCard = null;
+
+                    // Fill the entire 8 piles of 9 slots with null entries.
+                    for (var i = 0; i < 8 * 8; ++i)
+                    {
+                        vm.DealtCards[3].Add(dummyDealtCard);
                     }
                 }
             }
@@ -584,16 +602,41 @@ namespace Sa11ytaire4All
                 // The dealt card piles.
                 for (var i = 0; i < GetGameCardPileCount(); ++i)
                 {
-                    var dealtCardPileJson = (string)Preferences.Get(
-                                                "DealtCardsSession" + i.ToString() + preferenceSuffix, "");
-                    if (!string.IsNullOrEmpty(dealtCardPileJson))
+                    // Is this the 4th row of dealt cards in Royal Parade?
+                    if ((currentGameType == SolitaireGameType.Royalparade) && (i == 3))
                     {
-                        var dealtCardPile = JsonSerializer.Deserialize<ObservableCollection<DealtCard>>(dealtCardPileJson);
-                        if (dealtCardPile != null)
+                        LoadRoyalParadeDealtCardsRowFour(preferenceSuffix);
+
+                        for (var j = 0; j < 9; ++j)
                         {
-                            foreach (var dealtCard in dealtCardPile)
+                            var dealtCardPileBottomRowJson = (string)Preferences.Get(
+                                                        "DealtCardsSessionBottomRow" + j.ToString() + preferenceSuffix, "");
+                            if (!string.IsNullOrEmpty(dealtCardPileBottomRowJson))
                             {
-                                vm.DealtCards[i].Add(dealtCard);
+                                var dealtCardPile = JsonSerializer.Deserialize<ObservableCollection<DealtCard>>(dealtCardPileBottomRowJson);
+                                if (dealtCardPile != null)
+                                {
+                                    foreach (var dealtCard in dealtCardPile)
+                                    {
+                                        vm.DealtCards[i].Add(dealtCard);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var dealtCardPileJson = (string)Preferences.Get(
+                                                    "DealtCardsSession" + i.ToString() + preferenceSuffix, "");
+                        if (!string.IsNullOrEmpty(dealtCardPileJson))
+                        {
+                            var dealtCardPile = JsonSerializer.Deserialize<ObservableCollection<DealtCard>>(dealtCardPileJson);
+                            if (dealtCardPile != null)
+                            {
+                                foreach (var dealtCard in dealtCardPile)
+                                {
+                                    vm.DealtCards[i].Add(dealtCard);
+                                }
                             }
                         }
                     }
@@ -779,7 +822,8 @@ namespace Sa11ytaire4All
                 if (dealtCardPile.Count > 0)
                 {
                     var topDealtCardInPile = dealtCardPile[dealtCardPile.Count - 1];
-                    if (topDealtCardInPile.CardState != CardState.KingPlaceHolder)
+                    if ((topDealtCardInPile != null) &&
+                        (topDealtCardInPile.CardState != CardState.KingPlaceHolder))
                     {
                         cardCount += dealtCardPile.Count;
                     }

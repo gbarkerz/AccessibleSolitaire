@@ -329,8 +329,26 @@ namespace Sa11ytaire4All
                 SemanticProperties.SetDescription(UpturnedCardsGrid, "");
                 SemanticProperties.SetDescription(TargetPiles, "");
 #endif
+            }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                NextCardDeck.IsVisible = true;
+
+                CardDeckUpturnedObscuredLower.IsVisible = false;
+                CardDeckUpturnedObscuredHigher.IsVisible = false;
 
                 CardDeckUpturned.IsVisible = false;
+
+                TargetPileC.IsVisible = false;
+                TargetPileD.IsVisible = false;
+                TargetPileH.IsVisible = false;
+                TargetPileS.IsVisible = false;
+
+#if (ANDROID || WINDOWS)
+                // Spider solitaire does not show a group of upturned card or target card elements.
+                SemanticProperties.SetDescription(UpturnedCardsGrid, "");
+                SemanticProperties.SetDescription(TargetPiles, "");
+#endif
             }
             else
             {

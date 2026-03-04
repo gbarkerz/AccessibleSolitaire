@@ -1,10 +1,11 @@
 ﻿// Copyright(c) Guy Barker. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Diagnostics;
-using System.Globalization;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
+using System.Diagnostics;
+using System.Globalization;
+using System.Security.Principal;
 
 namespace Sa11ytaire4All.Views
 {
@@ -37,6 +38,78 @@ namespace Sa11ytaire4All.Views
         }
     }
 
+    public class RoyalParadeOpenToBorderPaddingConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var padding = (MainPage.currentGameType == SolitaireGameType.Royalparade ? 8 : 0);
+
+#if WINDOWS
+            padding = 0;
+#endif
+
+            return padding;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
+    //public class RoyalParadeOpenToBorderBackgroundConverter : IMultiValueConverter
+    //{
+    //    public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        // Avoid build warnings re: Application.Current being null.
+    //        if (Application.Current == null)
+    //        {
+    //            return null;
+    //        }
+
+    //        if (MainPage.MainPageSingleton == null)
+    //        {
+    //            return null;
+    //        }
+
+    //        if (values == null || (values.Length < 2))
+    //        {
+    //            return null;
+    //        }
+
+    //        if ((values[0] == null) || (values[1] == null))
+    //        {
+    //            return null;
+    //        }
+
+    //        var open = (bool)values[0];
+
+    //        var card = values[1] as Card;
+    //        if (card == null)
+    //        {
+    //            return card;
+    //        }
+
+    //        var isBlackSuit = (card.Suit == Suit.Clubs) || (card.Suit == Suit.Spades);
+
+    //        Debug.WriteLine("RoyalParadeOpenToBorderBackgroundConverter: " +
+    //            card.GetCardAccessibleName() + " " + open);
+
+    //        return (open ?
+    //                    (isBlackSuit ? Colors.Black : Colors.Red) : 
+    //                Colors.Transparent);
+    //    }
+
+    //    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 
     public class IsButtonFocusedToOuterBorderBackgroundColor : IMultiValueConverter
     {
@@ -403,7 +476,7 @@ namespace Sa11ytaire4All.Views
                 return Colors.Transparent;
             }
 
-            if (values == null || values.Length < 2)
+            if (values == null || values.Length < 4)
             {
                 return Colors.Transparent;
             }
@@ -417,6 +490,46 @@ namespace Sa11ytaire4All.Views
 
             // Note that the card can be null here, for example, for an empty target card pile.
             var card = (Card?)values[1];
+
+            if (values[2] == null)
+            {
+                return Colors.Transparent;
+            }
+
+            var open = (bool)values[2];
+
+            if ((card != null) && (MainPage.currentGameType == SolitaireGameType.Royalparade))
+            {
+                if (open)
+                {
+                    return Colors.Yellow;
+                }
+            }
+
+            if (values[3] == null)
+            {
+                return Colors.Transparent;
+            }
+
+            var stackDetails = (string)values[3];
+
+            if ((card != null) && (MainPage.currentGameType == SolitaireGameType.Royalparade))
+            {
+                var fullPiles = new string[3]
+                    {
+                        "2 5 8 11",
+                        "3 6 9 12",
+                        "4 7 10 13"
+                    };
+
+                foreach (var fullPileDetails in fullPiles)
+                {
+                    if (stackDetails == fullPileDetails)
+                    {
+                        return Colors.LightGrey;
+                    }
+                }
+            }
 
             Color backgroundColor;
 

@@ -144,7 +144,24 @@ namespace Sa11ytaire4All
             }
             else if (currentGameType == SolitaireGameType.Royalparade)
             {
-                gameIsOver = false;
+                for (var i = 0; i < 3; ++i)
+                {
+                    if ((vm.DealtCards[i] != null) && (vm.DealtCards[i].Count > 0))
+                    {
+                        for (var j = 0; j < vm.DealtCards[i].Count - 1; ++j)
+                        {
+                            var card = vm.DealtCards[i][j];
+                            if (((i == 0) && (card.Card != null) && (card.Card.Rank != 11)) ||
+                                ((i == 1) && (card.Card != null) && (card.Card.Rank != 12)) ||
+                                ((i == 2) && (card.Card != null) && (card.Card.Rank != 13)))
+                            {
+                                gameIsOver = false;
+
+                                break;
+                            }
+                        }
+                    }
+                }
             }
 
             return gameIsOver;

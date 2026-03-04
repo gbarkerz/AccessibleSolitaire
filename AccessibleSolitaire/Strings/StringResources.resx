@@ -512,9 +512,6 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="AnnounceAvailableMoves" xml:space="preserve">
     <value>Available moves</value>
   </data>
-  <data name="1" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="2" xml:space="preserve">
     <value>2</value>
   </data>
@@ -854,5 +851,11 @@ S: Move the selected card to a target card pile if possible.</value>
   </data>
   <data name="RoyalparadeSolitaire" xml:space="preserve">
     <value>Royal Parade Solitaire</value>
+  </data>
+  <data name="RoyalparadeDealtEightCards" xml:space="preserve">
+    <value>Dealt eight more cards to the bottom row of cards.</value>
+  </data>
+  <data name="RoyalparadeTargetCardOnWrongRow" xml:space="preserve">
+    <value>Card piles cannot be started if the base 2, 3, or 4 is not on the first, second, or third rows respectively.</value>
   </data>
 </root>

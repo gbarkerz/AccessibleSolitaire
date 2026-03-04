@@ -1,7 +1,7 @@
-using System.ComponentModel;
-using System.Diagnostics;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Sa11ytaire4All.Views;
 
@@ -512,6 +512,47 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
+    public static readonly BindableProperty CardButtonImageBackgroundColourProperty =
+        BindableProperty.Create(nameof(CardButtonImageBackgroundColour), typeof(Color), typeof(CardButton));
+
+    public Color CardButtonImageBackgroundColour
+    {
+        get => GetCardButtonImageBackgroundColour();
+    }
+
+    public Color GetCardButtonImageBackgroundColour()
+    {
+        var colour = Colors.White;
+
+        if (MainPage.currentGameType == SolitaireGameType.Royalparade)
+        {
+            if (Card != null)
+            {
+                var fullPiles = new string[3]
+                    {
+                        "2 5 8 11",
+                        "3 6 9 12",
+                        "4 7 10 13"
+                    };
+
+                foreach (var fullPileDetails in fullPiles)
+                {
+                    if (StackDetails == fullPileDetails)
+                    {
+                        colour = Colors.LightGrey;
+                    }
+                }
+
+                if ((colour == Colors.White) && Open)
+                {
+                    colour = Colors.Yellow;
+                }
+            }
+        }
+
+        return colour;
+    }
+
     public static readonly BindableProperty IsToggledProperty =
         BindableProperty.Create(nameof(IsToggled), typeof(bool), typeof(CardButton));
 
@@ -530,6 +571,40 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
+    // Open and StackDetails is only used by the CardButton in Royal Parade.
+    public static readonly BindableProperty OpenProperty =
+        BindableProperty.Create(nameof(Open), typeof(bool), typeof(CardButton));
+
+    public bool Open
+    {
+        get => (bool)GetValue(OpenProperty);
+        set
+        {
+            if ((bool)GetValue(OpenProperty) != value)
+            {
+                SetValue(OpenProperty, value);
+
+                this.OnPropertyChanged("Open");
+            }
+        }
+    }
+
+    public static readonly BindableProperty StackDetailsProperty =
+        BindableProperty.Create(nameof(StackDetails), typeof(string), typeof(CardButton));
+
+    public string StackDetails
+    {
+        get => (string)GetValue(StackDetailsProperty);
+        set
+        {
+            if ((string)GetValue(StackDetailsProperty) != value)
+            {
+                SetValue(StackDetailsProperty, value);
+
+                this.OnPropertyChanged("StackDetails");
+            }
+        }
+    }
 
     public static readonly BindableProperty IsFaceUpProperty =
         BindableProperty.Create(nameof(IsFaceUp), typeof(bool), typeof(CardButton));
@@ -574,7 +649,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         this.OnPropertyChanged("CardPileImage");
         this.OnPropertyChanged("PictureCardPileImage");
 
-        this.OnPropertyChanged("IsFaceUp"); 
+        this.OnPropertyChanged("IsFaceUp");
+
+        this.OnPropertyChanged("StackDetails");
+
+        this.OnPropertyChanged("CardButtonImageBackgroundColour");
     }
 
     private void TouchBehavior_LongPressCompleted(object sender, CommunityToolkit.Maui.Core.LongPressCompletedEventArgs e)

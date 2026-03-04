@@ -217,6 +217,11 @@ namespace Sa11ytaire4All
                         cardPileGridRowSpan = 9;
                         break;
 
+                    case SolitaireGameType.Royalparade:
+                        cardPileGridRow = 4;
+                        cardPileGridRowSpan = 9;
+                        break;
+
                     //case SolitaireGameType.Tripeaks:
                     //    cardPileGridRow = 4;
                     //    cardPileGridRowSpan = 4;

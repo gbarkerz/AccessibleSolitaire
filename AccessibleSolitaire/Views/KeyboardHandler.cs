@@ -279,6 +279,82 @@ namespace Sa11ytaire4All
             return moveComment;
         }
 
+
+        private string? AnnounceAvailableMovesRoyalparade()
+        {
+            string moveComment = "";
+
+            // Move through all the dealt cards to determine if an open card can have another
+            // card placed on top of it.
+            var baseCards = CardPileGridPyramid.Children;
+            if (baseCards.Count > 0)
+            {
+                // First check for any Aces that can be discarded.
+                for (int i = 0; i < baseCards.Count - 1; ++i)
+                {
+                    var baseCard = baseCards[i] as CardButton;
+                    if ((baseCard != null) && (baseCard.Card != null) && (baseCard.Card.Rank == 1))
+                    {
+                        moveComment += baseCard.Card.GetCardAccessibleName() + " " +
+                                        MyGetString("Row") + " " + ((i / 8) + 1).ToString() + " " +
+                                        "can be discarded" + ". ";
+                    }
+                }
+
+                // We only move card to the first three rows.
+                for (int i = 0; i < 24; ++i)
+                {
+                    var baseCard = baseCards[i] as CardButton;
+                    if ((baseCard != null) && baseCard.IsVisible)
+                    {
+                        // Can any other card be moved onto this CardButton?
+                        for (var j = 0; j < baseCards.Count; ++j)
+                        {
+                            if (i == j)
+                            {
+                                continue;
+                            }
+
+                            var cardToMove = baseCards[j] as CardButton;
+
+                            // An open card can't be moved.
+                            if ((cardToMove != null) && (cardToMove.Card != null) && !cardToMove.Open)
+                            {
+                                // Is the destination an empty slot?
+                                if (baseCard.Card == null)
+                                {
+                                    if (((cardToMove.Card.Rank == 2) && ((j / 8) != 0) && ((i / 8) == 0)) ||
+                                        ((cardToMove.Card.Rank == 3) && ((j / 8) != 1) && ((i / 8) == 1)) ||
+                                        ((cardToMove.Card.Rank == 4) && ((j / 8) != 2) && ((i / 8) == 2)))
+                                    {
+                                        moveComment += cardToMove.Card.GetCardAccessibleName() + " " +
+                                                        MyGetString("Row") + " " + ((j / 8) + 1).ToString() + " " +
+                                                        "can be moved to" + " " + "empty space" + " " +
+                                                        MyGetString("Row") + " " + ((i / 8) + 1).ToString() + ". ";
+                                    }
+                                }
+                                else if (baseCard.Open)
+                                {
+                                    // Can the card be placed on top of the other card?
+                                    if ((cardToMove.Card.Suit == baseCard.Card.Suit) &&
+                                        (cardToMove.Card.Rank == baseCard.Card.Rank + 3))
+                                    {
+                                        moveComment += cardToMove.Card.GetCardAccessibleName() + " " +
+                                                        MyGetString("Row") + " " + ((j / 8) + 1).ToString() + " " +
+                                                        "can be moved to" + " " +
+                                                        baseCard.Card.GetCardAccessibleName() + " " +
+                                                        MyGetString("Row") + " " + ((i / 8) + 1).ToString() + ". ";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return moveComment;
+        }
+
         private string? AnnounceAvailableMovesTripeaks()
         {
             string moveComment = "";
@@ -918,7 +994,7 @@ namespace Sa11ytaire4All
             }
             else if (currentGameType == SolitaireGameType.Royalparade)
             {
-                //moveComment = AnnounceAvailableMovesRoyalparade();
+                moveComment = AnnounceAvailableMovesRoyalparade();
             }
             else if (currentGameType == SolitaireGameType.Bakersdozen)
             {
