@@ -307,8 +307,8 @@ namespace Sa11ytaire4All
                     var baseCard = baseCards[i] as CardButton;
                     if ((baseCard != null) && baseCard.IsVisible)
                     {
-                        // Can any other card be moved onto this CardButton?
-                        for (var j = 0; j < baseCards.Count; ++j)
+                        // Can any other card be moved onto this CardButton? Work from the 4th row to the 1st row.
+                        for (var j = baseCards.Count - 1; j >=0; --j)
                         {
                             if (i == j)
                             {

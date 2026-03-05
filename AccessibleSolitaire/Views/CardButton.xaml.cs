@@ -56,6 +56,8 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                 // Whenever the card changes, we must update the bound contained pictures.
                 this.OnPropertyChanged("CardPileImage");
                 this.OnPropertyChanged("PictureCardPileImage");
+
+                this.OnPropertyChanged("CardButtonImageBackgroundColour");
             }
         }
     }
@@ -520,12 +522,17 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         get => GetCardButtonImageBackgroundColour();
     }
 
+    private static readonly Color isToggledLightColor = Color.FromRgb(0xEB, 0xDB, 0xFD);
+    private static readonly Color isToggledDarkColor = Color.FromRgb(0x30, 0x30, 0x00);
+
     public Color GetCardButtonImageBackgroundColour()
     {
-        var colour = Colors.White;
+        Color colour;
 
         if (MainPage.currentGameType == SolitaireGameType.Royalparade)
         {
+            colour = Colors.White;
+
             if (Card != null)
             {
                 var fullPiles = new string[3]
@@ -549,6 +556,26 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                 }
             }
         }
+        else
+        {
+            if (Application.Current == null)
+            {
+                return Colors.Transparent;
+            }
+
+            if (Application.Current.RequestedTheme != AppTheme.Dark)
+            {
+                var cardBackground = (IsToggled ? isToggledLightColor : Colors.White);
+
+                colour = (card == null ? Color.FromRgb(0xC0, 0xFF, 0xC0) : cardBackground);
+            }
+            else
+            {
+                var cardBackground = (IsToggled ? isToggledDarkColor : Color.FromRgb(0x20, 0x20, 0x20));
+
+                colour = (card == null ? Colors.Black : cardBackground);
+            }
+        }
 
         return colour;
     }
@@ -567,6 +594,8 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
                 this.OnPropertyChanged("IsToggled");
                 this.OnPropertyChanged("CardPileAccessibleName");
+
+                this.OnPropertyChanged("CardButtonImageBackgroundColour");                
             }
         }
     }

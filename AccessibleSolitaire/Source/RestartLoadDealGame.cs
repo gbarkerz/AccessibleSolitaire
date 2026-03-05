@@ -94,6 +94,8 @@ namespace Sa11ytaire4All
             {
                 ClearAllPiles();
 
+                AddPyramidButtons();
+
                 // We'll load card images below RestartGame();
                 RestartGame(false /* screenReaderAnnouncement. */);
 
@@ -467,6 +469,8 @@ namespace Sa11ytaire4All
             {
                 vm.CurrentGameType = currentGameType;
             }
+
+            AddPyramidButtons();
 
             Preferences.Set("ChangeGameType: currentGameType now ", currentGameType.ToString());
 

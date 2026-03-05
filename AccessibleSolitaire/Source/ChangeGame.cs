@@ -45,8 +45,6 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Pyramid);
 
-            ArrangePyramidButtons();
-
             ComleteVisualsUpdateFollowingGameChange();
         }
 
@@ -59,8 +57,6 @@ namespace Sa11ytaire4All
             }
 
             ChangeGameType(SolitaireGameType.Tripeaks);
-
-            ArrangePyramidButtons();
 
             ComleteVisualsUpdateFollowingGameChange();
         }
@@ -343,6 +339,8 @@ namespace Sa11ytaire4All
                 TargetPileD.IsVisible = false;
                 TargetPileH.IsVisible = false;
                 TargetPileS.IsVisible = false;
+
+                SpiderDiscardedSequenceCountLabelContainer.IsVisible = false;
 
 #if (ANDROID || WINDOWS)
                 // Spider solitaire does not show a group of upturned card or target card elements.

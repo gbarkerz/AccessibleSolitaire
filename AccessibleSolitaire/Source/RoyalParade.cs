@@ -1,7 +1,6 @@
 ﻿using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
-using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json;
@@ -216,6 +215,8 @@ namespace Sa11ytaire4All
 
         private void SetRoyalParadeCardButtonEmpty(CardButton cardButton)
         {
+            Debug.WriteLine("*** TEST ***: SetRoyalParadeCardButtonEmpty set card invisible.");
+
             cardButton.IsVisible = false;
             cardButton.Card = null;
             cardButton.Open = false;
@@ -410,18 +411,29 @@ namespace Sa11ytaire4All
                     }
                 }
 
+                Debug.WriteLine("*** TEST ***: moveCard " +
+                    moveCard);
+
                 // Can we consider moving a card?
                 if (moveCard)
                 {
                     // Get the dealt cards associated with the already-selected card and the clicked card.
                     CollectionView? list;
+
+                    Debug.WriteLine("*** TEST ***: Try to find dealtCardAlreadySelected.");
+
                     var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
                     if (dealtCardAlreadySelected != null)
                     {
+                        Debug.WriteLine("*** TEST ***: cardButtonClicked.Card " + cardButtonClicked.Card);
+
                         // Is the clicked card an empty spot?
                         if (cardButtonClicked.Card != null)
                         {
                             var dealtCardClicked = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
+
+                            Debug.WriteLine("*** TEST ***: dealtCardClicked " + dealtCardClicked);
+
                             if (dealtCardClicked != null)
                             {
                                 // If the clicked card is a 2, 3, or 4, but is not on the required row, do not allow the move.
@@ -449,6 +461,9 @@ namespace Sa11ytaire4All
 
                                 cardButtonClicked.StackDetails += " " + cardAlreadySelected.Card.Rank.ToString();
 
+                                Debug.WriteLine("*** TEST ***: cardAlreadySelected.StackDetails " +
+                                    cardAlreadySelected.StackDetails);
+
                                 vm.DealtCards[dealtCardClicked.PyramidRow]
                                     [dealtCardClicked.PyramidCardOriginalIndexInRow].StackDetails =
                                         cardButtonClicked.StackDetails;
@@ -461,15 +476,16 @@ namespace Sa11ytaire4All
                                         vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
                                             [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card;
 
-                                // The alread-selected card is either nulled at the playing card level or at 
+                                // The already-selected card is either nulled at the playing card level or at 
                                 // the dealt card array itself.
+
+                                Debug.WriteLine("*** TEST ***: dealtCardAlreadySelected.PyramidRow " +
+                                    dealtCardAlreadySelected.PyramidRow);
+
                                 if (dealtCardAlreadySelected.PyramidRow < 3)
                                 {
                                     vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
                                         [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card = null;
-
-                                    vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                        [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].StackDetails = "";
                                 }
                                 else
                                 {
@@ -480,23 +496,25 @@ namespace Sa11ytaire4All
                                 // Now update the associated CardButtons.
                                 cardButtonClicked.Card = cardAlreadySelected.Card;
 
-                                // Was the card that moved, moved from the fourth row?
-                                if (dealtCardAlreadySelected.PyramidRow == 3)
-                                {
-                                    MoveCardFromFourthRow(dealtCardAlreadySelected, cardAlreadySelected);
-                                }
-                                else
-                                {
-                                    // A free spot has appeared in the first three rows, so clear its card 
-                                    // but do not hide the spot.
-                                    cardAlreadySelected.Card = null;
-                                    cardAlreadySelected.IsVisible = true;
-
-                                    cardAlreadySelected.StackDetails = "";
-                                }
-
                                 // The background colour of the card may change now.
                                 cardButtonClicked.RefreshVisuals();
+                            }
+
+                            // Was the card that moved, moved from the fourth row?
+                            if (dealtCardAlreadySelected.PyramidRow == 3)
+                            {
+                                Debug.WriteLine("*** TEST ***: Call MoveCardFromFourthRow");
+
+                                MoveCardFromFourthRow(dealtCardAlreadySelected, cardAlreadySelected);
+                            }
+                            else
+                            {
+                                // A free spot has appeared in the first three rows, so clear its card 
+                                // but do not hide the spot.
+                                cardAlreadySelected.Card = null;
+                                cardAlreadySelected.IsVisible = true;
+
+                                cardAlreadySelected.StackDetails = "";
                             }
                         }
                         else
@@ -514,6 +532,19 @@ namespace Sa11ytaire4All
                 if (cardButtonClicked != null)
                 {
                     cardButtonClicked.IsToggled = false;
+                }
+
+                if (cardAlreadySelected.Card != null)
+                {
+                    Debug.WriteLine("*** TEST ***: cardAlreadySelected.Card " + cardAlreadySelected.Card.GetCardAccessibleName());
+                }
+
+                Debug.WriteLine("*** TEST ***: cardAlreadySelected.StackDetails " + cardAlreadySelected.StackDetails);
+
+                if ((cardAlreadySelected.Card == null) && !string.IsNullOrEmpty(cardAlreadySelected.StackDetails))
+                {
+                    Debug.WriteLine("HandleRoyalParadePyramidCardClick: Unexpected null card with StackDetails " +
+                        cardAlreadySelected.StackDetails);
                 }
             }
             else

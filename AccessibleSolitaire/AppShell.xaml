@@ -37,12 +37,6 @@
         Text="{x:Static resources:Strings.StringResources.SpiderSolitaire}">
     </MenuItem>
 
-    <MenuItem x:Name="RoyalparadeSolitaireMenuItem" 
-        Clicked="RoyalparadeSolitaireMenuItem_Clicked"
-        IconImageSource="menuroyalparade.png"
-        Text="{x:Static resources:Strings.StringResources.RoyalparadeSolitaire}">
-    </MenuItem>
-
     <MenuItem x:Name="BakersdozenSolitaireMenuItem" 
         Clicked="BakersdozenSolitaireMenuItem_Clicked"
         IconImageSource="cardbackbakersdozen.png"
@@ -59,6 +53,12 @@
         Clicked="TripeaksSolitaireMenuItem_Clicked"
         IconImageSource="cardbacktripeaks.png"
         Text="{x:Static resources:Strings.StringResources.TripeaksSolitaire}">
+    </MenuItem>
+
+    <MenuItem x:Name="RoyalparadeSolitaireMenuItem" 
+        Clicked="RoyalparadeSolitaireMenuItem_Clicked"
+        IconImageSource="menuroyalparade.png"
+        Text="{x:Static resources:Strings.StringResources.RoyalparadeSolitaire}">
     </MenuItem>
 
     <MenuItem x:Name="HelpMenuItem" 

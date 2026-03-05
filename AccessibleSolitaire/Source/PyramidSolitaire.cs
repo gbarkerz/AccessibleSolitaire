@@ -44,6 +44,11 @@ namespace Sa11ytaire4All
 
         private void AddPyramidButtons()
         {
+            if (IsGameCollectionViewBased())
+            {
+                return;
+            }
+
             cardGradientBrushRed.Center = new Point(0, 0);
 
             cardGradientBrushRed.GradientStops = new GradientStopCollection
@@ -69,6 +74,8 @@ namespace Sa11ytaire4All
             }
 
             // First add all the CardButtons for the pyramid.
+            CardPileGridPyramid.Children.Clear();
+
             for (int i = 0; i < GetPyramidFullCardCount(); i++)
             {
                 button = new CardButton();
@@ -539,8 +546,6 @@ namespace Sa11ytaire4All
                         {
                             cardUI.IsFaceUp = true;
                         }
-
-                        cardUI.IsFaceUp = true;
 
                         cardUI.RefreshAccessibleName();
 
