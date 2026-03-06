@@ -435,7 +435,83 @@ namespace Sa11ytaire4All
                                 openCardsOnThisRow = ", " + MyGetString("Row") + " " + (i + 1).ToString();
                             }
 
-                            openCardsOnThisRow += ", " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                            openCardsOnThisRow += ", " +
+                                (dealtCard.Card != null ?
+                                    dealtCard.AccessibleNameWithoutSelectionAndMofN :
+                                    MyGetString("Empty") + " " + MyGetString("Spot"));
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(openCardsOnThisRow))
+                {
+                    if (string.IsNullOrEmpty(openCardsComment))
+                    {
+                        openCardsComment = MyGetString("OpenCards");
+                    }
+
+                    openCardsComment += openCardsOnThisRow;
+                }
+            }
+
+            return openCardsComment;
+        }
+
+
+        private string? GetRoyalParadeOpenCardsAnnouncement()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return null;
+            }
+
+            string openCardsComment = "";
+
+            for (int i = 0; i < 3; ++i)
+            {
+                var countOfCardsOnRow = vm.DealtCards[i].Count;
+
+                var openCardsOnThisRow = "";
+
+                for (int j = 0; j < countOfCardsOnRow; ++j)
+                {
+                    var gotEmptySpotOnThisRow = false;
+
+                    var dealtCard = vm.DealtCards[i][j];
+                    if (dealtCard != null)
+                    {
+                        var cardOpen = false;
+
+                        if (dealtCard.Card != null)
+                        {
+                            if (dealtCard.Open)
+                            {
+                                cardOpen = true;
+                            }
+                        }
+
+                        // We only include one empty spot per row.
+                        if (!cardOpen && !gotEmptySpotOnThisRow)
+                        {
+                            // An empty spot on the first 3 rows is considered open.
+                            if (dealtCard.Card == null)
+                            {
+                                cardOpen = true;
+                            }
+                        }
+
+                        if (cardOpen)
+                        {
+                            if (string.IsNullOrEmpty(openCardsOnThisRow))
+                            {
+                                openCardsOnThisRow = ", " + MyGetString("Row") + " " + (i + 1).ToString();
+                            }
+
+                            openCardsOnThisRow += ", " +
+                                (dealtCard.Card != null ?
+                                    dealtCard.AccessibleNameWithoutSelectionAndMofN :
+                                    MyGetString("Empty") + " " + MyGetString("Spot"));
                         }
                     }
                 }
@@ -940,7 +1016,14 @@ namespace Sa11ytaire4All
             if ((currentGameType != SolitaireGameType.Klondike) &&
                 (currentGameType != SolitaireGameType.Bakersdozen))
             {
-                openCardsComment = GetPyramidOpenCardsAnnouncement();
+                if (currentGameType == SolitaireGameType.Royalparade)
+                {
+                    openCardsComment = GetRoyalParadeOpenCardsAnnouncement();
+                }
+                else
+                {
+                    openCardsComment = GetPyramidOpenCardsAnnouncement();
+                }
 
                 if (makeAnnouncement)
                 {

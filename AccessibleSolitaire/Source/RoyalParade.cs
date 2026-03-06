@@ -507,7 +507,7 @@ namespace Sa11ytaire4All
                     var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
                     if (dealtCardAlreadySelected != null)
                     {
-                        // Is the clicked card an empty spot?
+                        // Is the clicked card not an empty spot?
                         if (cardButtonClicked.Card != null)
                         {
                             string? announcement = null;
@@ -587,6 +587,8 @@ namespace Sa11ytaire4All
 
                                 // The background colour of the card may change now.
                                 cardButtonClicked.RefreshVisuals();
+
+                                SetFinalOpenState(dealtCardClickedByIndex);
                             }
 
                             // Was the card that moved, moved from the fourth row?
@@ -665,6 +667,34 @@ namespace Sa11ytaire4All
             if (GameOver())
             {
                 ShowEndOfGameDialog(false);
+            }
+        }
+
+        private void SetFinalOpenState(DealtCard? dealtCardClickedByIndex)
+        {
+            if ((dealtCardClickedByIndex == null) || (dealtCardClickedByIndex.Card == null))
+            {
+                return;
+            }
+
+            var fullPiles = new string[3]
+            {
+                "2 5 8 11",
+                "3 6 9 12",
+                "4 7 10 13"
+            };
+
+            foreach (var fullPileDetails in fullPiles)
+            {
+                if (dealtCardClickedByIndex.StackDetails == fullPileDetails)
+                {
+                    dealtCardClickedByIndex.Open = false;
+
+                    Debug.WriteLine("SetFinalOpenState: Set complete pile not open " +
+                        dealtCardClickedByIndex.Card.GetCardAccessibleName());
+
+                    break;
+                }
             }
         }
 

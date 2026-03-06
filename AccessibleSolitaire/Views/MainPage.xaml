@@ -85,17 +85,7 @@
             <Setter Property="ItemSizingStrategy" Value="MeasureAllItems" />
         </Style>
 
-        <!--<Setter Property="FlowDirection" 
-                Value="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, 
-                AncestorType={x:Type vm:DealtCardViewModel}},
-                x:DataType=vm:DealtCardViewModel,
-                Path=FlipGameLayoutHorizontally,
-                Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}" />-->
-
         <!-- Define the UI for the cards in the dealt card piles. -->
-
-        <!-- Barker Todo: Remove the use of CardIsInAccessibleTree below once I know how to use multi-binding in XAML 
-            with an attached property. -->
 
         <DataTemplate x:Key="PlayingCollectionViewTemplate" x:DataType="{x:Type local_source:DealtCard}">
 

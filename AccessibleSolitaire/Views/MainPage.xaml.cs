@@ -1940,12 +1940,9 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             {
                 stateMessage = AnnounceStateRemainingCardsSpider();
             }
-            else if (currentGameType == SolitaireGameType.Royalparade)
-            {
-                //stateMessage = AnnounceStateRemainingCardsRoyalparade();
-            }
             else if ((currentGameType == SolitaireGameType.Pyramid) ||
-                     (currentGameType == SolitaireGameType.Tripeaks))
+                     (currentGameType == SolitaireGameType.Tripeaks) ||
+                     (currentGameType == SolitaireGameType.Royalparade))
             {
                 stateMessage = AnnounceStateRemainingCardsPyramid();
             }
@@ -2036,14 +2033,17 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                 }
             }
 
-            if (_deckUpturned.Count > 0)
+            if (currentGameType != SolitaireGameType.Royalparade)
             {
-                stateMessage += ". ";
-            }
+                if (_deckUpturned.Count > 0)
+                {
+                    stateMessage += ". ";
+                }
 
-            if (_deckUpturned.Count == 0)
-            {
-                stateMessage = MyGetString("ThereAreNoUpturnedCards") + ".";
+                if (_deckUpturned.Count == 0)
+                {
+                    stateMessage = MyGetString("ThereAreNoUpturnedCards") + ".";
+                }
             }
 
             if (_deckRemaining.Count > 0)
@@ -2115,6 +2115,10 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                      (currentGameType == SolitaireGameType.Tripeaks))
             {
                 stateMessage = AnnounceStateDealtCardPilesPyramid();
+            }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                stateMessage = AnnounceStateDealtCardPilesRoyalparade();
             }
 
             if (makeAnnouncement)
@@ -2299,6 +2303,46 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                         if ((dealtCard != null) && (dealtCard.Card != null))
                         {
                             stateMessage += dealtCard.Card.GetCardAccessibleName() + ", ";
+                        }
+                    }
+                }
+            }
+
+            return stateMessage;
+        }
+
+
+        public string AnnounceStateDealtCardPilesRoyalparade()
+        {
+            string stateMessage = "";
+
+            // Work from the first row in the pyramid.
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return "";
+            }
+
+            var cardButtonsUI = CardPileGridPyramid.Children;
+            if (cardButtonsUI != null)
+            {
+                for (int i = 0; i < cardButtonsUI.Count; i++)
+                {
+                    if (i % 8 == 0)
+                    {
+                        stateMessage += MyGetString("Row") + " " + ((i / 8) + 1) + ", ";
+                    }
+
+                    var cardButton = cardButtonsUI[i] as CardButton;
+                    if (cardButton != null)
+                    {
+                        if (cardButton.Card != null)
+                        {
+                            stateMessage += cardButton.Card.GetCardAccessibleName() + ", ";
+                        }
+                        else if (i < 24)
+                        {
+                            stateMessage += MyGetString("Empty") + " " + MyGetString("Spot") + ", ";
                         }
                     }
                 }
