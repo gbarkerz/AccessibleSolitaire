@@ -200,13 +200,13 @@ namespace Sa11ytaire4All
 
                     case SolitaireGameType.Bakersdozen:
 
-                        currentCardHeight = (InnerMainGrid.Height / 15) - 1;
+                        currentCardHeight = (InnerMainGrid.Height / 15) - 5;
 
                         break;
 
                     case SolitaireGameType.Spider:
 
-                        currentCardHeight = (InnerMainGrid.Height / 12) - 1;
+                        currentCardHeight = (InnerMainGrid.Height / 12) - 3;
 
                         break;
 

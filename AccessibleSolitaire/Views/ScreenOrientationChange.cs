@@ -203,12 +203,12 @@ namespace Sa11ytaire4All
                 switch (currentGameType)
                 {
                     case SolitaireGameType.Spider:
-                        cardPileGridRow = 1;
+                        cardPileGridRow = 2;
                         cardPileGridRowSpan = 10;
                         break;
 
                     case SolitaireGameType.Bakersdozen:
-                        cardPileGridRow = 2;
+                        cardPileGridRow = 3;
                         cardPileGridRowSpan = 13;
                         break;
 
