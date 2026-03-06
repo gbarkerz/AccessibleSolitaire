@@ -85,7 +85,9 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         {
             string cardPileAccessibleName = "";
 
-            if ((MainPage.currentGameType == SolitaireGameType.Pyramid) && string.IsNullOrEmpty(this.AutomationId))
+            if (string.IsNullOrEmpty(this.AutomationId) &&
+                ((MainPage.currentGameType == SolitaireGameType.Pyramid) ||
+                 (MainPage.currentGameType == SolitaireGameType.Royalparade)))
             {
                 if ((this != null) && this.IsVisible && (this.Card != null) && (MainPage.MainPageSingleton != null))
                 {

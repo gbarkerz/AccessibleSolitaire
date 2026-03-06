@@ -593,8 +593,6 @@ namespace Sa11ytaire4All.Views
                 imageSource = ImageSource.FromFile(imageFileName);
             }
 
-            Debug.WriteLine("*** TEST *** IsFaceUpToImageSourceConverter: imageSource " + imageSource);
-
             return imageSource;
         }
 

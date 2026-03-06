@@ -431,6 +431,15 @@ namespace Sa11ytaire4All
 
                     if (dealtCard == null)
                     {
+                        if ((i == 3) && (j < 8))
+                        {
+                            var cardButton = cardButtonsUI[cardUIIndex] as CardButton;
+                            if (cardButton != null)
+                            {
+                                cardButton.IsVisible = false;
+                            }
+                        }
+
                         ++cardUIIndex;
 
                         continue;

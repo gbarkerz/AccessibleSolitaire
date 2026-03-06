@@ -852,4 +852,13 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="RoyalparadeSolitaire" xml:space="preserve">
     <value>Royal Parade Solitaire</value>
   </data>
+  <data name="RoyalparadeDealtEightCards" xml:space="preserve">
+    <value>Rozdano osiem kart dolnemu rzędowi.</value>
+  </data>
+  <data name="RoyalparadeTargetCardOnWrongRow" xml:space="preserve">
+    <value>Nie można rozpocząć układania stosów kart, jeśli karty bazowe 2, 3 lub 4 nie znajdują się odpowiednio w pierwszym, drugim lub trzecim rzędzie.</value>
+  </data>
+  <data name="Spot" xml:space="preserve">
+    <value>miejsce</value>
+  </data>
 </root>

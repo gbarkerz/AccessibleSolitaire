@@ -2438,7 +2438,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             "https://accessiblesolitaire.com/2026/02/16/accessible-spider-solitaire";
 
         private string Sa11ytaireHelpPageRoyalparade =
-            "https://accessiblesolitaire.com/2026/02/16/accessible-royal-parade-solitaire";
+            "https://accessiblesolitaire.com/2026/03/04/accessible-royal-parade-solitaire";
 
         private string Sa11ytaireHelpPageBakersdozen =
             "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";

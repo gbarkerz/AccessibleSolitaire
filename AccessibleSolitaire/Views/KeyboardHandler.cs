@@ -329,7 +329,9 @@ namespace Sa11ytaire4All
                                     {
                                         moveComment += cardToMove.Card.GetCardAccessibleName() + " " +
                                                         MyGetString("Row") + " " + ((j / 8) + 1).ToString() + " " +
-                                                        "can be moved to" + " " + "empty space" + " " +
+                                                        MyGetString("CanBeMovedTo") + " " +
+                                                        MyGetString("Empty") + " " +
+                                                        MyGetString("Spot") + " " +
                                                         MyGetString("Row") + " " + ((i / 8) + 1).ToString() + ". ";
                                     }
                                 }
@@ -341,7 +343,7 @@ namespace Sa11ytaire4All
                                     {
                                         moveComment += cardToMove.Card.GetCardAccessibleName() + " " +
                                                         MyGetString("Row") + " " + ((j / 8) + 1).ToString() + " " +
-                                                        "can be moved to" + " " +
+                                                        MyGetString("CanBeMovedTo") + " " +
                                                         baseCard.Card.GetCardAccessibleName() + " " +
                                                         MyGetString("Row") + " " + ((i / 8) + 1).ToString() + ". ";
                                     }

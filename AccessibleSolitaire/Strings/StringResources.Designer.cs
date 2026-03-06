@@ -2069,6 +2069,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to spot.
+        /// </summary>
+        internal static string Spot {
+            get {
+                return ResourceManager.GetString("Spot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target card pile.
         /// </summary>
         internal static string TargetCardPile {
