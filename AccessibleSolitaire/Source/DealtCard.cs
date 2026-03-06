@@ -27,7 +27,7 @@ namespace Sa11ytaire4All.Source
         public int PyramidCardCurrentCountOfCardsOnRow { get; set; }
 
         // We do persist the next few...
-        public string StackDetails { get; set; }
+        public string? StackDetails { get; set; }
 
         public bool Open{ get; set; }
 

@@ -402,7 +402,7 @@ namespace Sa11ytaire4All
                         for (int j = 0; j < countCardsPerRow; ++j)
                         {
                             var dealtCard = vm.DealtCards[i][j];
-                            if (dealtCard.Card != null)
+                            if ((dealtCard != null) && (dealtCard.Card != null))
                             {
                                 ++countOfVisibleCardsOnRow;
                             }
@@ -414,6 +414,11 @@ namespace Sa11ytaire4All
 
                         return false;
                     }
+                }
+                else
+                {
+                    // Royal Parade rows always show 8 cards.
+                    countOfVisibleCardsOnRow = 8;
                 }
 
                 totalCountOfVisibleCardsInPyramid += countOfVisibleCardsOnRow;
@@ -454,6 +459,7 @@ namespace Sa11ytaire4All
                     // All of these are zero-based.
                     dealtCard.PyramidRow = i;
                     dealtCard.PyramidCardOriginalIndexInRow = j;
+
                     dealtCard.PyramidCardCurrentCountOfCardsOnRow = countOfVisibleCardsOnRow;
 
                     dealtCard.PyramidCardCurrentIndexInRow = currentVisibleIndexOfCardOnRow;
@@ -684,34 +690,41 @@ namespace Sa11ytaire4All
                 if ((cardAlreadySelected != null) && (cardAlreadySelected.Card != null))
                 {
                     // Do the selected pyramid cards add up to 13?
-                    var total = cardButtonClicked.Card.Rank + cardAlreadySelected.Card.Rank;
-                    if (total == 13)
+                    if (cardButtonClicked.Card != null)
                     {
-                        // Remove the already selected card.
-                        CollectionView? list;
-                        var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
-                        if (dealtCardAlreadySelected != null)
+                        var total = cardButtonClicked.Card.Rank + cardAlreadySelected.Card.Rank;
+                        if (total == 13)
                         {
-                            discardMessage = MainPage.MyGetString("Discarded");
-                            discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
+                            // Remove the already selected card.
+                            CollectionView? list;
+                            var dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
+                            if (dealtCardAlreadySelected != null)
+                            {
+                                discardMessage = MainPage.MyGetString("Discarded");
+                                discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
 
-                            // Has a card now been revealed? 
-                            SetOnTopStateFollowingMove(dealtCardAlreadySelected, false);
+                                // Has a card now been revealed? 
+                                SetOnTopStateFollowingMove(dealtCardAlreadySelected, false);
 
-                            RefreshCardButtonMofNInRow(cardAlreadySelected);
+                                RefreshCardButtonMofNInRow(cardAlreadySelected);
 
-                            // Always null out this card after the call to refresh the accessible name.
-                            vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card = null;
+                                // Always null out this card after the call to refresh the accessible name.
+                                var dealtCardAlreadySelectedByIndex = vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
+                                                                        [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow];
+                                if (dealtCardAlreadySelectedByIndex != null)
+                                {
+                                    dealtCardAlreadySelectedByIndex.Card = null;
+                                }                                
+                            }
+
+                            cardAlreadySelected.IsVisible = false;
+                            cardAlreadySelected.IsToggled = false;
+
+                            removeCard = true;
                         }
-
-                        cardAlreadySelected.IsVisible = false;
-                        cardAlreadySelected.IsToggled = false;
-
-                        removeCard = true;
                     }
                 }
-                else if (cardButtonClicked.Card.Rank == 13)
+                else if ((cardButtonClicked.Card != null) && (cardButtonClicked.Card.Rank == 13))
                 {
                     // If the clicked card is simply a King, remove it.
                     removeCard = true;
@@ -730,7 +743,7 @@ namespace Sa11ytaire4All
             }
 
             // Should we remove the clicked pyramid card?
-            if (removeCard)
+            if (removeCard && (cardButtonClicked != null) && (cardButtonClicked.Card != null))
             {
                 CollectionView? list;
                 var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
@@ -752,7 +765,11 @@ namespace Sa11ytaire4All
 
                     RefreshCardButtonMofNInRow(cardButtonClicked);
 
-                    vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow].Card = null;
+                    var dealtCardClicked = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow];
+                    if (dealtCardClicked != null)
+                    {
+                        dealtCardClicked.Card = null;
+                    }
 
                     cardButtonClicked.IsVisible = false;
                     cardButtonClicked.IsToggled = false;
@@ -765,7 +782,10 @@ namespace Sa11ytaire4All
                 // The clicked card was not removed. If another pyramid card was already selected, deselect it.
                 if (cardAlreadySelected != null)
                 {
-                    cardButtonClicked.IsToggled = false;
+                    if (cardButtonClicked != null)
+                    {
+                        cardButtonClicked.IsToggled = false;
+                    }
 
                     cardAlreadySelected.IsToggled = false;
 
@@ -828,7 +848,11 @@ namespace Sa11ytaire4All
 
                         RefreshCardButtonMofNInRow(cardButtonClicked);
 
-                        vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow].Card = null;
+                        var dealtCardSource = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow];
+                        if (dealtCardSource != null)
+                        {
+                            dealtCardSource.Card = null;
+                        }
 
                         cardButtonClicked.IsVisible = false;
                         cardButtonClicked.IsToggled = false;
@@ -943,8 +967,7 @@ namespace Sa11ytaire4All
 
                                     RefreshCardButtonMofNInRow(cardAlreadySelected);
 
-                                    vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                        [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card = null;
+                                    dealtCardAlreadySelected.Card = null;
 
                                     cardAlreadySelected.IsVisible = false;
 
@@ -1260,7 +1283,7 @@ namespace Sa11ytaire4All
             return startIndex;
         }
 
-        private CardButton? GetCardButtonFromPyramidDealtCard(DealtCard dealtCard, out int cardButtonPyramidIndex)
+        private CardButton? GetCardButtonFromPyramidDealtCard(DealtCard? dealtCard, out int cardButtonPyramidIndex)
         {
             cardButtonPyramidIndex = 0;
 
@@ -1410,7 +1433,7 @@ namespace Sa11ytaire4All
                 if (checkAboveLeft)
                 {
                     var cardToLeft = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow - 1];
-                    if (cardToLeft.Card == null)
+                    if ((cardToLeft != null) && (cardToLeft.Card == null))
                     {
                         var indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow - 1;
 
@@ -1449,28 +1472,31 @@ namespace Sa11ytaire4All
                         }
 
                         var cardAboveToLeft = vm.DealtCards[rowRevealed][indexOfCardInRowAbove] as DealtCard;
-                        cardAboveToLeft.Open = true;
-
-                        if (currentGameType == SolitaireGameType.Tripeaks)
+                        if (cardAboveToLeft != null)
                         {
-                            int cardButtonPyramidIndex;
-                            var cardButtonAboveToLeft = GetCardButtonFromPyramidDealtCard(cardAboveToLeft, out cardButtonPyramidIndex);
-                            if (cardButtonAboveToLeft != null)
+                            cardAboveToLeft.Open = true;
+
+                            if (currentGameType == SolitaireGameType.Tripeaks)
                             {
-                                cardButtonAboveToLeft.IsFaceUp = true;
+                                int cardButtonPyramidIndex;
+                                var cardButtonAboveToLeft = GetCardButtonFromPyramidDealtCard(cardAboveToLeft, out cardButtonPyramidIndex);
+                                if (cardButtonAboveToLeft != null)
+                                {
+                                    cardButtonAboveToLeft.IsFaceUp = true;
 
-                                cardButtonAboveToLeft.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
-                                                            Colors.White : Colors.Black);
+                                    cardButtonAboveToLeft.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                                                Colors.White : Colors.Black);
 
-                                // Barker Todo: Is FaceDown used in the pyramid games?
-                                cardAboveToLeft.FaceDown = false;
+                                    // Barker Todo: Is FaceDown used in the pyramid games?
+                                    cardAboveToLeft.FaceDown = false;
+                                }
                             }
-                        }
 
-                        var cardButtonUI = FindPyramidCardButtonFromDealtCard(cardAboveToLeft);
-                        if (cardButtonUI != null)
-                        {
-                            cardButtonUI.RefreshCardButtonMofN();
+                            var cardButtonUI = FindPyramidCardButtonFromDealtCard(cardAboveToLeft);
+                            if (cardButtonUI != null)
+                            {
+                                cardButtonUI.RefreshCardButtonMofN();
+                            }
                         }
                     }
                 }
@@ -1530,7 +1556,7 @@ namespace Sa11ytaire4All
                 if (checkAboveRight)
                 {
                     var cardToRight = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow + 1];
-                    if (cardToRight.Card == null)
+                    if ((cardToRight != null) && (cardToRight.Card == null))
                     {
                         var indexOfCardInRowAbove = dealtCard.PyramidCardOriginalIndexInRow;
 
@@ -1569,7 +1595,10 @@ namespace Sa11ytaire4All
                         }
 
                         var cardAboveToRight = vm.DealtCards[rowRevealed][indexOfCardInRowAbove] as DealtCard;
-                        cardAboveToRight.Open = true;
+                        if (cardAboveToRight != null)
+                        {
+                            cardAboveToRight.Open = true;
+                        }
 
                         if (currentGameType == SolitaireGameType.Tripeaks)
                         {
@@ -1582,19 +1611,24 @@ namespace Sa11ytaire4All
                                 cardButtonAboveToRight.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                                             Colors.White : Colors.Black);
 
-                                // Barker Todo: Is FaceDown used in the pyramid games?
-                                cardAboveToRight.FaceDown = false;
+                                if (cardAboveToRight != null)
+                                {
+                                    cardAboveToRight.FaceDown = false;
+                                }
                             }
                         }
 
-                        var cardButtonUI = FindPyramidCardButtonFromDealtCard(cardAboveToRight);
-                        if (cardButtonUI != null)
+                        if (cardAboveToRight != null)
                         {
-                            cardButtonUI.RefreshCardButtonMofN();
+                            var cardButtonUI = FindPyramidCardButtonFromDealtCard(cardAboveToRight);
+                            if (cardButtonUI != null)
+                            {
+                                cardButtonUI.RefreshCardButtonMofN();
+                            }
                         }
                     }
                 }
-            }
+            } 
 
             // While we're here, check if the card being removed is a heading.
             if (vm.CardButtonsHeadingState)

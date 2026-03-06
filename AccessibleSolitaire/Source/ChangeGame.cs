@@ -308,9 +308,12 @@ namespace Sa11ytaire4All
                         if ((vm.DealtCards[i] != null) && (vm.DealtCards[i].Count > 0))
                         {
                             var card = vm.DealtCards[i][0];
-                            if (card.CardState != CardState.KingPlaceHolder)
+                            if (card != null)
                             {
-                                cardCount += vm.DealtCards[i].Count;
+                                if (card.CardState != CardState.KingPlaceHolder)
+                                {
+                                    cardCount += vm.DealtCards[i].Count;
+                                }
                             }
                         }
                     }

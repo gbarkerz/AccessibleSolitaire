@@ -2,6 +2,7 @@ using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace Sa11ytaire4All.Views;
 
@@ -174,6 +175,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                             Debug.WriteLine("*** Unexpected empty accessible name. ***");
                         }
                     }
+                }
+                else if (MainPage.currentGameType == SolitaireGameType.Royalparade)
+                {
+                    // This spot is empty.
+                    cardPileAccessibleName = MainPage.MyGetString("Empty");
                 }
             }
             else
@@ -623,7 +629,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
     public static readonly BindableProperty StackDetailsProperty =
         BindableProperty.Create(nameof(StackDetails), typeof(string), typeof(CardButton));
 
-    public string StackDetails
+    public string? StackDetails
     {
         get => (string)GetValue(StackDetailsProperty);
         set
@@ -656,7 +662,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void RefreshAccessibleName()
     {
-        if (this.Card != null)
+        if ((this.Card != null) || (MainPage.currentGameType == SolitaireGameType.Royalparade))
         {
             OnPropertyChanged("CardPileAccessibleName");
         }

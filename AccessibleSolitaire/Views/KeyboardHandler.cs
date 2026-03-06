@@ -426,7 +426,7 @@ namespace Sa11ytaire4All
                 for (int j = 0; j < countOfCardsOnRow; ++j)
                 {
                     var dealtCard = vm.DealtCards[i][j];
-                    if (dealtCard.Card != null)
+                    if ((dealtCard != null) && (dealtCard.Card != null))
                     {
                         if (dealtCard.Open)
                         {
@@ -472,7 +472,7 @@ namespace Sa11ytaire4All
                 if (countOfCardsOnRow > 0)
                 {
                     var dealtCard = vm.DealtCards[i][countOfCardsOnRow - 1];
-                    if (dealtCard.Card != null)
+                    if ((dealtCard != null) && (dealtCard.Card != null))
                     {
                         // Ignore empty piles.
                         if (dealtCard.CardState == CardState.KingPlaceHolder)
@@ -633,14 +633,16 @@ namespace Sa11ytaire4All
                                 {
                                     var itemsSource = vm.DealtCards[s];
 
-                                    DealtCard sourceDealtCard = (itemsSource[0] as DealtCard);
-
-                                    // If this source dealt card pile is either empty, or only holds a King, no move is possible.
-                                    if (itemsSource.Count() == 1 &&
-                                        ((sourceDealtCard.CardState == CardState.KingPlaceHolder) ||
-                                        ((sourceDealtCard.Card != null) && (sourceDealtCard.Card.Rank == 13))))
+                                    DealtCard? sourceDealtCard = (itemsSource[0] as DealtCard);
+                                    if (sourceDealtCard != null)
                                     {
-                                        continue;
+                                        // If this source dealt card pile is either empty, or only holds a King, no move is possible.
+                                        if (itemsSource.Count() == 1 &&
+                                            ((sourceDealtCard.CardState == CardState.KingPlaceHolder) ||
+                                            ((sourceDealtCard.Card != null) && (sourceDealtCard.Card.Rank == 13))))
+                                        {
+                                            continue;
+                                        }
                                     }
 
                                     // Find the lowest card in the dealt card pile that's face up because that's the one 
@@ -649,7 +651,7 @@ namespace Sa11ytaire4All
                                     for (int cardsOnPile = itemsSource.Count; cardsOnPile > 0; --cardsOnPile)
                                     {
                                         sourceCard = itemsSource[cardsOnPile - 1] as DealtCard;
-                                        if (sourceCard.CardState != CardState.FaceUp)
+                                        if ((sourceCard != null) && (sourceCard.CardState != CardState.FaceUp))
                                         {
                                             sourceCard = itemsSource[cardsOnPile] as DealtCard;
 
@@ -761,10 +763,10 @@ namespace Sa11ytaire4All
                                 {
                                     var itemsSource = vm.DealtCards[s];
 
-                                    DealtCard sourceDealtCard = (itemsSource[0] as DealtCard);
+                                    DealtCard? sourceDealtCard = (itemsSource[0] as DealtCard);
 
                                     // If this source dealt card pile is either empty, or only holds a King, no move is possible.
-                                    if (sourceDealtCard.CardState == CardState.KingPlaceHolder)
+                                    if ((sourceDealtCard != null) && (sourceDealtCard.CardState == CardState.KingPlaceHolder))
                                     {
                                         continue;
                                     }
@@ -1222,16 +1224,18 @@ namespace Sa11ytaire4All
                 if ((list != null) && (list.Count > 0))
                 {
                     var dealtCard = vm.DealtCards[pileIndex][list.Count - 1];
-
-                    var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + (pileIndex + 1));
-
-                    if (dealtCard.CardSelected)
+                    if (dealtCard != null)
                     {
-                        TimedDelayDeselectDealtCard(collectionView);
-                    }
-                    else
-                    {
-                        TimedDelaySelectDealtCard(collectionView, dealtCard);
+                        var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + (pileIndex + 1));
+
+                        if (dealtCard.CardSelected)
+                        {
+                            TimedDelayDeselectDealtCard(collectionView);
+                        }
+                        else
+                        {
+                            TimedDelaySelectDealtCard(collectionView, dealtCard);
+                        }
                     }
                 }
             }

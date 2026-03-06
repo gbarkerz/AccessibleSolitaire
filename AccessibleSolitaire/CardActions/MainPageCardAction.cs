@@ -78,7 +78,7 @@ namespace Sa11ytaire4All
             return selectedCard;
         }
 
-        private void AddEmptyCardToCollectionView(ObservableCollection<DealtCard> cardList, int cardPileIndex)
+        private void AddEmptyCardToCollectionView(ObservableCollection<DealtCard?> cardList, int cardPileIndex)
         {
             DealtCard emptyCard = new DealtCard();
 
@@ -151,13 +151,16 @@ namespace Sa11ytaire4All
                         for (var j = 0; j < vm.DealtCards[i].Count - 1; ++j)
                         {
                             var card = vm.DealtCards[i][j];
-                            if (((i == 0) && (card.Card != null) && (card.Card.Rank != 11)) ||
-                                ((i == 1) && (card.Card != null) && (card.Card.Rank != 12)) ||
-                                ((i == 2) && (card.Card != null) && (card.Card.Rank != 13)))
+                            if (card != null)
                             {
-                                gameIsOver = false;
+                                if (((i == 0) && (card.Card != null) && (card.Card.Rank != 11)) ||
+                                    ((i == 1) && (card.Card != null) && (card.Card.Rank != 12)) ||
+                                    ((i == 2) && (card.Card != null) && (card.Card.Rank != 13)))
+                                {
+                                    gameIsOver = false;
 
-                                break;
+                                    break;
+                                }
                             }
                         }
                     }

@@ -58,19 +58,23 @@ namespace Sa11ytaire4All
                 var currentPileCount = vm.DealtCards[i].Count;
                 if (currentPileCount > 0)
                 {
-                    if ((currentPileCount > 1) || (vm.DealtCards[i][0].CardState != CardState.KingPlaceHolder))
+                    var dealtCard = vm.DealtCards[i][0];
+                    if (dealtCard != null)
                     {
-                        // The pile is not empty, so mark the existing topmost card in the pile as no longer topmost.
-                        var currentDealtCard = vm.DealtCards[i][currentPileCount - 1] as DealtCard;
-                        if (currentDealtCard != null)
+                        if ((currentPileCount > 1) || (dealtCard.CardState != CardState.KingPlaceHolder))
                         {
-                            currentDealtCard.IsLastCardInPile = false;
+                            // The pile is not empty, so mark the existing topmost card in the pile as no longer topmost.
+                            var currentDealtCard = vm.DealtCards[i][currentPileCount - 1] as DealtCard;
+                            if (currentDealtCard != null)
+                            {
+                                currentDealtCard.IsLastCardInPile = false;
+                            }
                         }
-                    }
-                    else
-                    {
-                        // The pile was empty, so remove the empty space placeholder.
-                        vm.DealtCards[i].RemoveAt(0);
+                        else
+                        {
+                            // The pile was empty, so remove the empty space placeholder.
+                            vm.DealtCards[i].RemoveAt(0);
+                        }
                     }
                 }
                 else
@@ -116,7 +120,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        private bool CheckForSpiderSequenceComplete(ObservableCollection<DealtCard> dealtCards, int cardPileIndex)
+        private bool CheckForSpiderSequenceComplete(ObservableCollection<DealtCard?> dealtCards, int cardPileIndex)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -140,54 +144,62 @@ namespace Sa11ytaire4All
                 // Start from the top of this pile working downwards until we find an Ace.
                 for (int i = dealtCards.Count - 1; i >= 0; --i)
                 {
-                    var card = dealtCards[i].Card;
-
-                    // Have we found an ace?
-                    if ((dealtCards[i] != null) && (card != null) && (card.Rank == 1))
+                    var dealtCard = dealtCards[i];
+                    if (dealtCard != null)
                     {
-                        // We've found an Ace.
-                        aceIndex = i;
+                        var card = dealtCard.Card;
 
-                        var nextRankInSequence = 2;
-
-                        for (int j = i - 1; j >= 0; --j)
+                        // Have we found an ace?
+                        if ((card != null) && (card.Rank == 1))
                         {
-                            card = dealtCards[j].Card;
+                            // We've found an Ace.
+                            aceIndex = i;
 
-                            if ((card != null) && (card.Rank != nextRankInSequence))
+                            var nextRankInSequence = 2;
+
+                            for (int j = i - 1; j >= 0; --j)
                             {
-                                break;
+                                var dealtCardNext = dealtCards[j];
+                                if (dealtCardNext != null)
+                                {
+                                    card = dealtCardNext.Card;
+
+                                    if ((card != null) && (card.Rank != nextRankInSequence))
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                ++nextRankInSequence;
                             }
 
-                            ++nextRankInSequence;
-                        }
-
-                        // Did we find an entire sequence leading to a King?
-                        if (nextRankInSequence == 14)
-                        {
-                            Debug.WriteLine("CheckForSpiderSequenceComplete: Found sequence from Ace at index " +
-                                aceIndex + ".");
-
-                            // We did find a sequence.
-                            kingIndex = aceIndex - 12;
-
-                            spiderSequenceComplete = true;
-
-                            break;
-                        }
-                        else
-                        {
-                            // We didn't find a sequence, so continue looking if there may still be a sequence.
-                            if (i >= 13)
+                            // Did we find an entire sequence leading to a King?
+                            if (nextRankInSequence == 14)
                             {
-                                Debug.WriteLine("CheckForSpiderSequenceComplete: No sequence found from Ace at index " +  
-                                    i + ". Check for another Ace in the pile.");
+                                Debug.WriteLine("CheckForSpiderSequenceComplete: Found sequence from Ace at index " +
+                                    aceIndex + ".");
 
-                                aceIndex = -1;
+                                // We did find a sequence.
+                                kingIndex = aceIndex - 12;
+
+                                spiderSequenceComplete = true;
+
+                                break;
                             }
                             else
                             {
-                                break;
+                                // We didn't find a sequence, so continue looking if there may still be a sequence.
+                                if (i >= 13)
+                                {
+                                    Debug.WriteLine("CheckForSpiderSequenceComplete: No sequence found from Ace at index " +
+                                        i + ". Check for another Ace in the pile.");
+
+                                    aceIndex = -1;
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -223,7 +235,7 @@ namespace Sa11ytaire4All
                         // we have a new topmost card in the pile.
                         if (sequenceIsAtTopOfPile)
                         {
-                            var cardRevealed = (DealtCard)dealtCards[kingIndex - 1];
+                            var cardRevealed = dealtCards[kingIndex - 1] as DealtCard;
                             if (cardRevealed != null)
                             {
                                 // Update the count of face-down cards in the pile in the bottom card in the pile.

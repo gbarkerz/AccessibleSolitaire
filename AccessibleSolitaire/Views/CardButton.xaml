@@ -222,6 +222,9 @@
                 </Border>
             </Border>
 
+            <!-- For debugging purposes in Royal Parade Solitaire. -->
+            <!--IsVisible="False"-->
+
             <Label Text="{Binding StackDetails}" 
                 FontAttributes="Bold"
                 BackgroundColor="White"

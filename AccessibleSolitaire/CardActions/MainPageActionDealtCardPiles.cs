@@ -455,7 +455,7 @@ namespace Sa11ytaire4All
             if (movingCardIndex > 0)
             {
                 // No, so show the card that was previously beneath the moving King.
-                cardRevealed = (DealtCard)listArray[movingCardIndex - 1];
+                cardRevealed = listArray[movingCardIndex - 1] as DealtCard;
             }
 
             // Remove the empty card from the dealt card pile.
@@ -471,14 +471,16 @@ namespace Sa11ytaire4All
             {
                 --listArrayCount;
 
-                var nextCard = (DealtCard)listArray[movingCardIndex];
+                var nextCard = listArray[movingCardIndex] as DealtCard;
+                if (nextCard != null)
+                {
+                    itemsRemoved.Remove(nextCard);
 
-                itemsRemoved.Remove(nextCard);
+                    nextCard.CurrentDealtCardPileIndex = listSelectedIndex;
+                    nextCard.CurrentCardIndexInDealtCardPile = itemsAddedCount;
 
-                nextCard.CurrentDealtCardPileIndex = listSelectedIndex;
-                nextCard.CurrentCardIndexInDealtCardPile = itemsAddedCount;
-
-                itemsAdded.Add(nextCard);
+                    itemsAdded.Add(nextCard);
+                }
 
                 ++itemsAddedCount;
             }
@@ -621,10 +623,14 @@ namespace Sa11ytaire4All
                             var itemsAddedCurrentCount = itemsAdded.Count;
 
                             // What was previously the last card in the destination pile, is not longer so.
-                            itemsAdded[itemsAddedCurrentCount - 1].IsLastCardInPile = false;
+                            var item = itemsAdded[itemsAddedCurrentCount - 1];
+                            if (item != null)
+                            {
+                                item.IsLastCardInPile = false;
+                            }
 
                             // Now add the moved card to the destination pile.
-                            
+
                             // Make sure its image is loaded to appear in the dealt card pile.
                             TryToAddCardImageWithPictureToDictionary(cardAbove);
 
@@ -907,7 +913,7 @@ namespace Sa11ytaire4All
                 if (movingCardIndex > 0)
                 {
                     // We will reveal the face-down card in the list where the card is moving from.
-                    cardRevealed = (DealtCard)sourceCardArray[movingCardIndex - 1];
+                    cardRevealed = sourceCardArray[movingCardIndex - 1] as DealtCard;
                 }
 
                 // Get the card lists for the list where the card is to be removed,
@@ -934,19 +940,21 @@ namespace Sa11ytaire4All
                 {
                     --sourceArrayCount;
 
-                    var nextCard = (DealtCard)sourceArray[movingCardIndex];
+                    var nextCard = sourceArray[movingCardIndex] as DealtCard;
+                    if (nextCard != null)
+                    {
+                        itemsRemoved.Remove(nextCard);
 
-                    itemsRemoved.Remove(nextCard);
+                        // Update the stored pile index and card index for the card being moved.
+                        nextCard.CurrentCardIndexInDealtCardPile = itemsAddedCurrentCount;
+                        nextCard.CurrentDealtCardPileIndex = listSelectedIndex;
 
-                    // Update the stored pile index and card index for the card being moved.
-                    nextCard.CurrentCardIndexInDealtCardPile = itemsAddedCurrentCount;
-                    nextCard.CurrentDealtCardPileIndex = listSelectedIndex;
+                        // No cards are selected after the move.
+                        DeselectCard(nextCard);
+                        nextCard.InSelectedSet = false;
 
-                    // No cards are selected after the move.
-                    DeselectCard(nextCard);
-                    nextCard.InSelectedSet = false;
-
-                    itemsAdded.Add(nextCard);
+                        itemsAdded.Add(nextCard);
+                    }
 
                     ++itemsAddedCurrentCount;
                 }
@@ -1133,15 +1141,19 @@ namespace Sa11ytaire4All
                         {
                             // The source list is not empty. We will reveal the face-down card in the list
                             // where the card is moving from.
-                            cardRevealed = (DealtCard)listArray[updatedItemCount - 1];
+                            cardRevealed = listArray[updatedItemCount - 1] as DealtCard;
 
                             // Update the count of face-down cards in the pile in the bottom card in the pile.
                             UpdatePileFaceDownCount(listArray, cardRevealed);
 
                             TurnUpCardWithImage(listArray[updatedItemCount - 1]);
 
-                            listArray[updatedItemCount - 1].IsLastCardInPile = true;
-                            listArray[updatedItemCount - 1].RefreshVisuals();
+                            var listItem = listArray[updatedItemCount - 1];
+                            if (listItem != null)
+                            {
+                                listItem.IsLastCardInPile = true;
+                                listItem.RefreshVisuals();
+                            }
                         }
 
                         if (cardRevealed != null)
@@ -1158,7 +1170,11 @@ namespace Sa11ytaire4All
                             cardRevealedAnnouncement = MainPage.MyGetString("EmptyCardPile");
                         }
 
-                        listArray[listArray.Count - 1].RefreshVisuals();
+                        var listItemToRefresh = listArray[listArray.Count - 1];
+                        if (listItemToRefresh != null)
+                        {
+                            listItemToRefresh.RefreshVisuals();
+                        }
 
                         movedCard = true;
                     }
@@ -1202,22 +1218,27 @@ namespace Sa11ytaire4All
                             else
                             {
                                 var cardRevealed = listArray[updatedItemCount - 1];
-
-                                // Update the count of face-down cards in the pile in the bottom card in the pile.
-                                UpdatePileFaceDownCount(listArray, cardRevealed);
-
-                                cardRevealed.CardState = CardState.FaceUp;
-
-                                TurnUpCardWithImage(listArray[updatedItemCount - 1]);
-
-                                listArray[updatedItemCount - 1].IsLastCardInPile = true;
-                                listArray[updatedItemCount - 1].RefreshVisuals();
-
-                                if (!string.IsNullOrEmpty(cardRevealed.AccessibleName))
+                                if (cardRevealed != null)
                                 {
-                                    cardRevealedAnnouncement = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
-                                }
+                                    // Update the count of face-down cards in the pile in the bottom card in the pile.
+                                    UpdatePileFaceDownCount(listArray, cardRevealed);
 
+                                    cardRevealed.CardState = CardState.FaceUp;
+
+                                    TurnUpCardWithImage(listArray[updatedItemCount - 1]);
+
+                                    var itemUpdated = listArray[updatedItemCount - 1];
+                                    if (itemUpdated != null)
+                                    {
+                                        itemUpdated.IsLastCardInPile = true;
+                                        itemUpdated.RefreshVisuals();
+                                    }
+
+                                    if (!string.IsNullOrEmpty(cardRevealed.AccessibleName))
+                                    {
+                                        cardRevealedAnnouncement = cardRevealed.AccessibleNameWithoutSelectionAndMofN;
+                                    }
+                                }
                             }
 
                             movedCard = true;
@@ -1308,14 +1329,17 @@ namespace Sa11ytaire4All
             {
                 if (vm.DealtCards[i].Count > 0)
                 {
-                    // If the bottom card is a face-up card, don't auto-complete.
-                    if ((vm.DealtCards[i][0].CardState != CardState.KingPlaceHolder) &&
-                        vm.DealtCards[i][0].FaceDown)
+                    var dealtCard = vm.DealtCards[i][0];
+                    if (dealtCard != null)
                     {
-                        // This card is not face up, so don't autocomplete.
-                        autoComplete = false;
+                        // If the bottom card is a face-up card, don't auto-complete.
+                        if ((dealtCard.CardState != CardState.KingPlaceHolder) && dealtCard.FaceDown)
+                        {
+                            // This card is not face up, so don't autocomplete.
+                            autoComplete = false;
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }

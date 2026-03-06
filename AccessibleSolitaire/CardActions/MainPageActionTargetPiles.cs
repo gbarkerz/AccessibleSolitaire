@@ -438,7 +438,7 @@ namespace Sa11ytaire4All
             return false;
         }
 
-        private void UpdatePileFaceDownCount(ObservableCollection<DealtCard> dealtCardCollection, DealtCard cardRevealed)
+        private void UpdatePileFaceDownCount(ObservableCollection<DealtCard?> dealtCardCollection, DealtCard? cardRevealed)
         {
             if (dealtCardCollection.Count == 0)
             {
@@ -446,13 +446,17 @@ namespace Sa11ytaire4All
             }
 
             // If the card revealed following a move is already face-up, no action is required here.
-            if (!cardRevealed.FaceDown)
+            if ((cardRevealed == null) || !cardRevealed.FaceDown)
             {
                 return;
             }
 
             // The revealed card will turned up, so decrement the count of face-down cards in the pile.
-            --dealtCardCollection[0].CountFaceDownCardsInPile;
+            var dealtCardRevealed = dealtCardCollection[0];
+            if (dealtCardRevealed != null)
+            {
+                --dealtCardRevealed.CountFaceDownCardsInPile;
+            }
 
             // Force a refresh of the height of the revealed card if necessary.
             if (dealtCardCollection.Count > 0)

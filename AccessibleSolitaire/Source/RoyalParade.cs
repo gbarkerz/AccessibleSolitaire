@@ -1,4 +1,5 @@
-﻿using Sa11ytaire4All.Source;
+﻿using CommunityToolkit.Maui.Markup;
+using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
@@ -95,6 +96,11 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            if ((dealtCardToMove == null) || ((dealtCardToMove.Card == null)))
+            {
+                return;
+            }
+
             var cardButtonDestinationRow = -1;
             var cardButtonDestinationColumn = -1;
 
@@ -126,40 +132,38 @@ namespace Sa11ytaire4All
                                             (cardButtonDestinationRow + 1).ToString() + ".";
 
                         // Deal with the StackDetails before nulling our any card.
-                        if ((vm.DealtCards[cardButtonDestinationRow][cardButtonDestinationColumn] != null) &&
-                            (vm.DealtCards[dealtCardToMove.PyramidRow]
-                                                    [dealtCardToMove.PyramidCardOriginalIndexInRow] != null))
+                        var dealtCardDestination = vm.DealtCards[cardButtonDestinationRow][cardButtonDestinationColumn];
+                        var dealtCardSource = vm.DealtCards[dealtCardToMove.PyramidRow][dealtCardToMove.PyramidCardOriginalIndexInRow];
+
+                        if ((dealtCardDestination != null) && (dealtCardSource != null))
                         {
-                            if (vm.DealtCards[dealtCardToMove.PyramidRow][dealtCardToMove.PyramidCardOriginalIndexInRow].Card != null)
+                            if (dealtCardSource.Card != null)
                             {
-                                vm.DealtCards[cardButtonDestinationRow][cardButtonDestinationColumn].StackDetails =
-                                        vm.DealtCards[dealtCardToMove.PyramidRow]
-                                            [dealtCardToMove.PyramidCardOriginalIndexInRow].Card.Rank.ToString();
+                                dealtCardDestination.StackDetails =
+                                        dealtCardSource.Card.Rank.ToString();
                             }
 
-                            cardButtonDestination.StackDetails =
-                                vm.DealtCards[cardButtonDestinationRow][cardButtonDestinationColumn].StackDetails;
+                            cardButtonDestination.StackDetails = dealtCardDestination.StackDetails;
                         }
 
-                        if (vm.DealtCards[dealtCardToMove.PyramidRow]
-                            [dealtCardToMove.PyramidCardOriginalIndexInRow] != null)
+                        if (dealtCardSource != null)
                         {
-                            vm.DealtCards[dealtCardToMove.PyramidRow]
-                                [dealtCardToMove.PyramidCardOriginalIndexInRow].StackDetails = "";
+                            dealtCardSource.StackDetails = "";
+
                             cardButtonToMove.StackDetails = "";
                         }
 
                         // Set the destination card to be the same as the card being moved.
-                        vm.DealtCards[cardButtonDestinationRow][cardButtonDestinationColumn].Card =
-                                vm.DealtCards[dealtCardToMove.PyramidRow]
-                                    [dealtCardToMove.PyramidCardOriginalIndexInRow].Card;
+                        if ((dealtCardDestination != null) && (dealtCardSource != null))
+                        {
+                            dealtCardDestination.Card = dealtCardSource.Card;
+                        }
 
                         // If the card being moved is on the first 3 rows, set its contained card to null.
                         // If it's on the 4th row, null out the entire slot.
-                        if (dealtCardToMove.PyramidRow < 3)
+                        if ((dealtCardToMove.PyramidRow < 3) && (dealtCardSource != null))
                         {
-                            vm.DealtCards[dealtCardToMove.PyramidRow]
-                                [dealtCardToMove.PyramidCardOriginalIndexInRow].Card = null;
+                            dealtCardSource.Card = null;
                         }
                         else
                         {
@@ -203,12 +207,12 @@ namespace Sa11ytaire4All
                                     (vm.DealtCards[dealtCardToMove.PyramidRow]
                                         [dealtCardToMove.PyramidCardOriginalIndexInRow % 8] != null);
 
+                        AdjustFourthRowMofN();
+
                         // If any card now occupies the moved card slot, it's not open.
-                        if (vm.DealtCards[dealtCardToMove.PyramidRow]
-                            [dealtCardToMove.PyramidCardOriginalIndexInRow] != null)
+                        if (dealtCardSource != null)
                         {
-                            vm.DealtCards[dealtCardToMove.PyramidRow]
-                                [dealtCardToMove.PyramidCardOriginalIndexInRow].Open = false;
+                            dealtCardSource.Open = false;
 
                             cardButtonToMove.Open = false;
                         }
@@ -218,7 +222,11 @@ namespace Sa11ytaire4All
                         PlaySound(true);
 
                         // The destination slot is always open and has one card in it.
-                        vm.DealtCards[cardButtonDestinationRow][cardButtonDestinationColumn].Open = true;
+                        if (dealtCardDestination != null)
+                        {
+                            dealtCardDestination.Open = true;
+                        }
+
                         cardButtonDestination.Open = true;
 
                         cardButtonDestination.RefreshVisuals();
@@ -238,9 +246,68 @@ namespace Sa11ytaire4All
         private void SetRoyalParadeCardButtonEmpty(CardButton cardButton)
         {
             cardButton.IsVisible = false;
+
+            AdjustFourthRowMofN();
+
             cardButton.Card = null;
             cardButton.Open = false;
             cardButton.StackDetails = "";
+        }
+
+        private void AdjustFourthRowMofN()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null) || (vm.DealtCards[3] == null))
+            {
+                return;
+            }
+
+            var gridCards = CardPileGridPyramid.Children;
+
+            if (gridCards.Count != 32)
+            {
+                return;
+            }
+
+            var countVisibleCardOnFourthRow = 0;
+
+            for (var i = 24; i < 32; ++i)
+            {
+                var cardButton = (gridCards[i] as CardButton);
+                if (cardButton != null)
+                {
+                    if (cardButton.IsVisible)
+                    {
+                        ++countVisibleCardOnFourthRow;
+                    }
+                }
+            }
+
+            var visibleCardIndexOnRow = 0;
+
+            for (var i = 24; i < 32; ++i)
+            {
+                var cardButton = (gridCards[i] as CardButton);
+                if ((cardButton != null) && (cardButton.Card != null))
+                {
+                    CollectionView? list;
+                    var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
+                    if (dealtCard != null)
+                    {
+                        dealtCard.PyramidCardCurrentCountOfCardsOnRow = countVisibleCardOnFourthRow;
+
+                        if (cardButton.IsVisible)
+                        {
+                            dealtCard.PyramidCardCurrentIndexInRow = (visibleCardIndexOnRow % 8);
+
+                            ++visibleCardIndexOnRow;
+                        }
+
+                        cardButton.RefreshCardButtonMofN();
+                        cardButton.RefreshAccessibleName();
+                    }
+                }
+            }
         }
 
         private void PrepareCardsForRoyalParade()
@@ -483,30 +550,36 @@ namespace Sa11ytaire4All
 
                                 cardButtonClicked.StackDetails += " " + cardAlreadySelected.Card.Rank.ToString();
 
-                                vm.DealtCards[dealtCardClicked.PyramidRow]
-                                    [dealtCardClicked.PyramidCardOriginalIndexInRow].StackDetails =
-                                        cardButtonClicked.StackDetails;
+                                var dealtCardClickedByIndex = vm.DealtCards[dealtCardClicked.PyramidRow]
+                                                                [dealtCardClicked.PyramidCardOriginalIndexInRow];
+                                if (dealtCardClickedByIndex != null)
+                                {
+                                    dealtCardClickedByIndex.StackDetails = cardButtonClicked.StackDetails;
+                                }
 
                                 // Next set the card associated with the dealt cards, and the CardButtons.
                                 // The card clicked adopts the playing card from the already-selected card.
 
-                                vm.DealtCards[dealtCardClicked.PyramidRow]
-                                    [dealtCardClicked.PyramidCardOriginalIndexInRow].Card =
-                                        vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                            [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card;
+                                var dealtCardAlreadySelectedByIndex = vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
+                                                                        [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow];
+                                if ((dealtCardClickedByIndex != null) && (dealtCardAlreadySelectedByIndex != null))
+                                {
+                                    dealtCardClickedByIndex.Card = dealtCardAlreadySelectedByIndex.Card;
+                                }
 
                                 // The already-selected card is either nulled at the playing card level or at 
                                 // the dealt card array itself.
 
-                                if (dealtCardAlreadySelected.PyramidRow < 3)
+                                if (dealtCardAlreadySelectedByIndex != null)
                                 {
-                                    vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                        [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow].Card = null;
-                                }
-                                else
-                                {
-                                    vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
-                                        [dealtCardAlreadySelected.PyramidCardOriginalIndexInRow] = null;
+                                    if (dealtCardAlreadySelected.PyramidRow < 3)
+                                    {
+                                        dealtCardAlreadySelectedByIndex.Card = null;
+                                    }
+                                    else
+                                    {
+                                        dealtCardAlreadySelectedByIndex = null;
+                                    }
                                 }
 
                                 // Now update the associated CardButtons.
@@ -595,8 +668,13 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void MoveCardFromFourthRow(DealtCard dealtCardAlreadySelected, CardButton cardAlreadySelected, string announcement)
+        private void MoveCardFromFourthRow(DealtCard dealtCardAlreadySelected, CardButton cardAlreadySelected, string? announcement)
         {
+            if (announcement == null)
+            {
+                return;
+            }
+
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
@@ -622,24 +700,31 @@ namespace Sa11ytaire4All
             else
             {
                 // Show the revealed card.
-                cardAlreadySelected.Card = vm.DealtCards[3][cardRevealedIndex].Card;
-
-                if (cardAlreadySelected.Card == null)
+                var dealtCardRevealed = vm.DealtCards[3][cardRevealedIndex];
+                if (dealtCardRevealed != null)
                 {
-                    Debug.WriteLine("MoveCardFromFourthRow: Unexpected null card on revealed card on fourth row.");
+                    cardAlreadySelected.Card = dealtCardRevealed.Card;
+
+                    if (cardAlreadySelected.Card == null)
+                    {
+                        Debug.WriteLine("MoveCardFromFourthRow: Unexpected null card on revealed card on fourth row.");
+                    }
+
+                    cardAlreadySelected.StackDetails = dealtCardRevealed.StackDetails;
+
+                    cardAlreadySelected.IsVisible = true;
+
+                    cardAlreadySelected.RefreshVisuals();
+
+                    if (cardAlreadySelected.Card != null)
+                    {
+                        revealedAnnouncement = cardAlreadySelected.Card.GetCardAccessibleName() +
+                                                " " + MyGetString("Revealed") + ".";
+                    }
                 }
-
-                cardAlreadySelected.StackDetails = vm.DealtCards[3][cardRevealedIndex].StackDetails;
-
-                cardAlreadySelected.IsVisible = true;
-
-                cardAlreadySelected.RefreshVisuals();
-
-                revealedAnnouncement = cardAlreadySelected.Card.GetCardAccessibleName() + 
-                                        " " + MyGetString("Revealed") + ".";
             }
 
-            MakeDelayedScreenReaderAnnouncement(announcement + " "+ revealedAnnouncement, true);
+            MakeDelayedScreenReaderAnnouncement(announcement + " " + revealedAnnouncement, true);
         }
 
         private void DiscardAce(CardButton? cardButton)
@@ -680,6 +765,8 @@ namespace Sa11ytaire4All
                     MoveCardFromFourthRow(dealtCard, cardButton, discardMessage);
                 }
 
+                cardButton.RefreshAccessibleName();
+
                 PlaySound(true);
             }
         }
@@ -712,7 +799,22 @@ namespace Sa11ytaire4All
                 var currentPileCount = vm.DealtCards[i].Count;
                 if (currentPileCount > 0)
                 {
-                    if ((currentPileCount > 1) || (vm.DealtCards[i][0].CardState != CardState.KingPlaceHolder))
+                    var markTopMost = false;
+
+                    if (currentPileCount > 1)
+                    {
+                        markTopMost = true;
+                    }
+                    else
+                    {
+                        var dealtCard = vm.DealtCards[i][0];
+                        if ((dealtCard != null) && (dealtCard.CardState != CardState.KingPlaceHolder))
+                        {
+                            markTopMost = true;
+                        }
+                    }
+
+                    if (markTopMost) 
                     {
                         // The pile is not empty, so mark the existing topmost card in the pile as no longer topmost.
                         var currentDealtCard = vm.DealtCards[i][currentPileCount - 1] as DealtCard;
@@ -734,6 +836,7 @@ namespace Sa11ytaire4All
 
                 // PyramidCardOriginalIndexInRow is the index of the bottom row pile containing the dealt card.
                 newDealtCard.PyramidCardOriginalIndexInRow = i;
+                newDealtCard.PyramidCardCurrentCountOfCardsOnRow = 8;
 
                 // This card lies on the bottom row of the dealt card piles.
                 newDealtCard.PyramidRow = 3;
@@ -743,22 +846,26 @@ namespace Sa11ytaire4All
 
                 var lowerCardStackDetails = "";
 
-                while ((index < 72) && (vm.DealtCards[3][index] != null) && (vm.DealtCards[3][index].Card != null))
+                while (index < 72) 
                 {
-                    lowerCardStackDetails = vm.DealtCards[3][index].StackDetails;
+                    var dealtCard = vm.DealtCards[3][index];
+                    if ((dealtCard == null) || (dealtCard.Card == null))
+                    {
+                        break;
+                    }
+
+                    lowerCardStackDetails = dealtCard.StackDetails;
 
                     index += 8;
-                }
 
-                if (index >= 72)
-                {
-                    return;
+                    if (index >= 72)
+                    {
+                        return;
+                    }
                 }
 
                 newDealtCard.PyramidCardOriginalIndexInRow = index;
                 newDealtCard.PyramidCardCurrentIndexInRow = index;
-
-                //newDealtCard.PyramidCardCurrentCountOfCardsOnRow 
 
                 vm.DealtCards[3][index] = newDealtCard;
 
@@ -775,7 +882,12 @@ namespace Sa11ytaire4All
                         cardButtonsNext.Card = card;
 
                         var newStackDetails = lowerCardStackDetails + " " + card.Rank.ToString();
-                        vm.DealtCards[3][index].StackDetails = newStackDetails;
+                        var dealtCard = vm.DealtCards[3][index];
+                        if (dealtCard != null)
+                        {
+                            dealtCard.StackDetails = newStackDetails;
+                        }
+
                         cardButtonsNext.StackDetails = newStackDetails;
 
                         cardButtonsNext.IsVisible = true;
@@ -785,6 +897,8 @@ namespace Sa11ytaire4All
                 // Make sure its image is loaded to appear in the dealt card pile.
                 TryToAddCardImageWithPictureToDictionary(newDealtCard);
             }
+
+            AdjustFourthRowMofN();
 
             // If we're not announcing a message about a sequence completing, announce the deal.
             if (announceDealMessage)

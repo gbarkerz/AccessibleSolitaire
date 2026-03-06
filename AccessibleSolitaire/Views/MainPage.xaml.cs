@@ -1,16 +1,11 @@
-﻿using CommunityToolkit.Maui.Converters;
-using CommunityToolkit.Maui.Extensions;
+﻿using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
-using Microsoft.Maui.Controls;
 using Plugin.Maui.KeyListener;
-using Sa11ytaire4All;
 using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
-using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Sa11ytaire4All
 {
@@ -802,10 +797,12 @@ namespace Sa11ytaire4All
                         for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                         {
                             var pileCard = vm.DealtCards[i][j];
+                            if (pileCard != null)
+                            {
+                                Debug.WriteLine("RefreshAllCardVisuals: pileCard " + pileCard.AccessibleName);
 
-                            Debug.WriteLine("RefreshAllCardVisuals: pileCard " + pileCard.AccessibleName);
-
-                            pileCard.RefreshVisuals();
+                                pileCard.RefreshVisuals();
+                            }
                         }
                     }
 
@@ -1354,14 +1351,14 @@ namespace Sa11ytaire4All
         }
 
         // Barker: Use the approved method of getting the items source.
-        private ObservableCollection<DealtCard>? GetListSource(CollectionView? list)
+        private ObservableCollection<DealtCard?>? GetListSource(CollectionView? list)
         {
             if (list == null)
             {
                 return null;
             }
 
-            ObservableCollection<DealtCard>? col = null;
+            ObservableCollection<DealtCard?>? col = null;
 
             int index = int.Parse(list.AutomationId.Replace("CardPile", ""));
             var vm = this.BindingContext as DealtCardViewModel;
@@ -2158,42 +2155,45 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
                 for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                 {
-                    if (j == vm.DealtCards[i].Count - 1)
+                    var dealtCard = vm.DealtCards[i][j] as DealtCard;
+                    if (dealtCard != null)
                     {
-                        if ((vm.DealtCards[i][j] as DealtCard).CardState == CardState.KingPlaceHolder)
+                        if (j == vm.DealtCards[i].Count - 1)
                         {
-                            stateMessage += empty;
-                        }
-                        else
-                        {
-                            stateMessage += (vm.DealtCards[i][j] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
-                        }
-                    }
-                    else
-                    {
-                        if ((vm.DealtCards[i][j] as DealtCard).FaceDown)
-                        {
-                            if (includeFacedownCardsInAnnouncement)
+                            if (dealtCard.CardState == CardState.KingPlaceHolder)
                             {
-                                var dealtCard = (vm.DealtCards[i][j] as DealtCard);
-                                if ((dealtCard != null) && (dealtCard.Card != null))
-                                {
-                                    faceDownMessage += MyGetString("FaceDown") + " " +
-                                                        dealtCard.Card.GetCardAccessibleName() + ", ";
-                                }
+                                stateMessage += empty;
                             }
                             else
                             {
-                                ++cFaceDown;
+                                stateMessage += dealtCard.AccessibleNameWithoutSelectionAndMofN;
                             }
-                        }
-                        else if (currentGameType == SolitaireGameType.Spider)
-                        {
-                            stateMessage += ", " + (vm.DealtCards[i][j] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
                         }
                         else
                         {
-                            indexLastFaceUp = j;
+                            if (dealtCard.FaceDown)
+                            {
+                                if (includeFacedownCardsInAnnouncement)
+                                {
+                                    if (dealtCard.Card != null)
+                                    {
+                                        faceDownMessage += MyGetString("FaceDown") + " " +
+                                                            dealtCard.Card.GetCardAccessibleName() + ", ";
+                                    }
+                                }
+                                else
+                                {
+                                    ++cFaceDown;
+                                }
+                            }
+                            else if (currentGameType == SolitaireGameType.Spider)
+                            {
+                                stateMessage += ", " + dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                            }
+                            else
+                            {
+                                indexLastFaceUp = j;
+                            }
                         }
                     }
                 }
@@ -2201,7 +2201,11 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                 if ((currentGameType != SolitaireGameType.Spider) &&
                     ((indexLastFaceUp != -1) && (indexLastFaceUp != vm.DealtCards[i].Count - 1)))
                 {
-                    stateMessage += " " + to + " " + (vm.DealtCards[i][indexLastFaceUp] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
+                    var dealtCardFaceUp = (vm.DealtCards[i][indexLastFaceUp] as DealtCard);
+                    if (dealtCardFaceUp != null)
+                    {
+                        stateMessage += " " + to + " " + dealtCardFaceUp.AccessibleNameWithoutSelectionAndMofN;
+                    }
                 }
 
                 stateMessage += ", ";
@@ -2245,18 +2249,22 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
                 for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                 {
-                    if ((vm.DealtCards[i][j] as DealtCard).CardState == CardState.KingPlaceHolder)
+                    var dealtCard = vm.DealtCards[i][j] as DealtCard;
+                    if (dealtCard != null)
                     {
-                        stateMessage += empty;
-                    }
-                    else
-                    {
-                        stateMessage += (vm.DealtCards[i][j] as DealtCard).AccessibleNameWithoutSelectionAndMofN;
-                    }
+                        if (dealtCard.CardState == CardState.KingPlaceHolder)
+                        {
+                            stateMessage += empty;
+                        }
+                        else
+                        {
+                            stateMessage += dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                        }
 
-                    if ((i < countPiles - 1) | (j > 0))
-                    {
-                        stateMessage += ", ";
+                        if ((i < countPiles - 1) | (j > 0))
+                        {
+                            stateMessage += ", ";
+                        }
                     }
                 }
             }
@@ -2343,14 +2351,16 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                 for (int i = 0; i < dealtPileCollectionView.Count; ++i)
                 {
                     var nextCard = dealtPileCollectionView[i];
-
-                    if (foundSelectedCard)
+                    if (nextCard != null)
                     {
-                        nextCard.InSelectedSet = dealtCard.CardSelected;
-                    }
-                    else if (nextCard == dealtCard)
-                    {
-                        foundSelectedCard = true;
+                        if (foundSelectedCard)
+                        {
+                            nextCard.InSelectedSet = dealtCard.CardSelected;
+                        }
+                        else if (nextCard == dealtCard)
+                        {
+                            foundSelectedCard = true;
+                        }
                     }
                 }
             }
@@ -2717,7 +2727,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             return removedOk;
         }
 
-        private bool RemoveDealtCardFromDealtCardCollection(ObservableCollection<DealtCard> collection, DealtCard? dealtCard)
+        private bool RemoveDealtCardFromDealtCardCollection(ObservableCollection<DealtCard?> collection, DealtCard? dealtCard)
         {
             bool removedOk = false;
 
