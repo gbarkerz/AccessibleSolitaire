@@ -457,7 +457,10 @@ namespace Sa11ytaire4All
                     for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                     {
                         var pileCard = (DealtCard?)vm.DealtCards[i][j];
-                        if ((pileCard != null) && (pileCard.Card == card))
+
+                        // Some games used two packs of playing cards, so some cards contain the same values.
+                        if ((pileCard != null) &&
+                            System.Object.ReferenceEquals(pileCard.Card, card))
                         {
                             dealtCard = pileCard;
                             break;
@@ -507,7 +510,8 @@ namespace Sa11ytaire4All
                                 nearestFaceUpDealtCard = pileCard;
                             }
 
-                            if (pileCard.Card == card)
+                            // Some games used two packs of playing cards, so some cards contain the same values.
+                            if (System.Object.ReferenceEquals(pileCard.Card, card))
                             {
                                 // We've found the card that was tapped on.
                                 list = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
