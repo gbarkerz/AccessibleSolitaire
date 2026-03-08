@@ -861,4 +861,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="Spot" xml:space="preserve">
     <value>miejsce</value>
   </data>
+  <data name="CardsBeneath" xml:space="preserve">
+    <value>karty poniżej</value>
+  </data>
 </root>

@@ -2,7 +2,6 @@ using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Xml.Linq;
 
 namespace Sa11ytaire4All.Views;
 
@@ -164,6 +163,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                                     name = MainPage.MyGetString("FaceDown");
                                 }
 
+                                if (MainPage.currentGameType == SolitaireGameType.Royalparade)
+                                {
+                                    name += " " + AppendRoyalParadeLowerCardCount(dealtCard);
+                                }
+
                                 cardPileAccessibleName = name +
                                                     ", " + MainPage.MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) +
                                                     ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) +
@@ -270,6 +274,29 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
             return cardPileAccessibleName;
         }
     }
+
+    private string AppendRoyalParadeLowerCardCount(DealtCard dealtCard)
+    {
+        var cardStackDetails = "";
+
+        if ((dealtCard.PyramidRow == 3) && !string.IsNullOrEmpty(dealtCard.StackDetails))
+        {
+            var spaceCount = 0;
+
+            foreach (var c in dealtCard.StackDetails)
+            {
+                spaceCount += (c == ' ' ? 1 : 0);
+            }
+
+            if (spaceCount > 1)
+            {
+                cardStackDetails = spaceCount.ToString() + " " + MainPage.MyGetString("CardsBeneath");
+            }
+        }
+
+        return cardStackDetails;
+    }
+
 
     public ImageSource? CardPileImage
     {

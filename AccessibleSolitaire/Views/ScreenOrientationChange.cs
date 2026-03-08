@@ -198,7 +198,6 @@ namespace Sa11ytaire4All
             if (isPortrait ||
                 (currentGameType == SolitaireGameType.Pyramid) ||
                 (currentGameType == SolitaireGameType.Tripeaks))
-//                (currentGameType == SolitaireGameType.Royalparade))
             {
                 switch (currentGameType)
                 {
@@ -222,10 +221,10 @@ namespace Sa11ytaire4All
                         cardPileGridRowSpan = 9;
                         break;
 
-                    //case SolitaireGameType.Tripeaks:
-                    //    cardPileGridRow = 4;
-                    //    cardPileGridRowSpan = 4;
-                    //    break;
+                    case SolitaireGameType.Tripeaks:
+                        cardPileGridRow = 4;
+                        cardPileGridRowSpan = 9;
+                        break;
 
                     default: // Klondike:
                         cardPileGridRow = 3;

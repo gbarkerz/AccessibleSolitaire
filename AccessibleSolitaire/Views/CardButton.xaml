@@ -226,6 +226,7 @@
             <!--IsVisible="False"-->
 
             <Label Text="{Binding StackDetails}" 
+                IsVisible="False"
                 FontAttributes="Bold"
                 BackgroundColor="White"
                 HorizontalOptions="CenterAndExpand" VerticalOptions="End" />

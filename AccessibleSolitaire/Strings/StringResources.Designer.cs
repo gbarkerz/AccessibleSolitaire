@@ -565,6 +565,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to cards beneath.
+        /// </summary>
+        internal static string CardsBeneath {
+            get {
+                return ResourceManager.GetString("CardsBeneath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of cards turned up (Klondike only).
         /// </summary>
         internal static string CardTurnCount {

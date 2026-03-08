@@ -2712,7 +2712,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
                     e.Handled = false;
 
-                    if ((MainPage.MainPageSingleton != null) && (MainPage.currentGameType == SolitaireGameType.Pyramid))
+                    if ((MainPage.MainPageSingleton != null) && !IsGameCollectionViewBased())
                     {
                         MainPage.MainPageSingleton.MoveBetweenPyramidRow(e.Keys == KeyboardKeys.UpArrow);
 

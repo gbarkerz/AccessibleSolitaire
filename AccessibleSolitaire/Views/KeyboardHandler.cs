@@ -15,7 +15,7 @@ namespace Sa11ytaire4All
     public partial class MainPage : ContentPage
     {
         public void MoveToNearbyDealtCardPile(bool moveForward)
-        {
+         {
             // Barker Note: I've not found a way of moving keyboard focus directly to an
             // item in a CollectionView. All I can do it move focus to the CollectionView
             // and then have the user press Tab to move to a contained item. That defeats
@@ -76,7 +76,16 @@ namespace Sa11ytaire4All
                                 var targetRow = -1;
 
                                 CollectionView? list;
-                                var dealtCard = FindDealtCardFromCard(rowCard.Card, false, out list);
+                                DealtCard? dealtCard;
+                                if (currentGameType == SolitaireGameType.Tripeaks)
+                                {
+                                    dealtCard = FindAnyDealtCardFromCard(rowCard.Card);
+                                }
+                                else
+                                {
+                                    dealtCard = FindDealtCardFromCard(rowCard.Card, false, out list);
+                                }
+
                                 if (dealtCard != null)
                                 {
                                     if (moveUp)
@@ -88,7 +97,9 @@ namespace Sa11ytaire4All
                                         targetRow = dealtCard.PyramidRow + 1;
                                     }
 
-                                    if ((targetRow >= 0) && (targetRow < 7))
+                                    var maxTargetRow = (currentGameType == SolitaireGameType.Tripeaks ? 4 : 7);
+
+                                    if ((targetRow >= 0) && (targetRow < maxTargetRow))
                                     {
                                         CardButton? cardToFocus = null;
 
@@ -97,7 +108,16 @@ namespace Sa11ytaire4All
                                             var rowCardInPyramid = cardInPyramid as CardButton;
                                             if ((rowCardInPyramid != null) && (rowCardInPyramid.Card != null))
                                             {
-                                                var dealtCardToFocus = FindDealtCardFromCard(rowCardInPyramid.Card, false, out list);
+                                                DealtCard? dealtCardToFocus;
+                                                if (currentGameType == SolitaireGameType.Tripeaks)
+                                                {
+                                                    dealtCardToFocus = FindAnyDealtCardFromCard(rowCardInPyramid.Card);
+                                                }
+                                                else
+                                                {
+                                                    dealtCardToFocus = FindDealtCardFromCard(rowCardInPyramid.Card, false, out list);
+                                                }
+
                                                 if ((dealtCardToFocus != null) && (dealtCardToFocus.PyramidRow == targetRow))
                                                 {
                                                     cardToFocus = rowCardInPyramid;
