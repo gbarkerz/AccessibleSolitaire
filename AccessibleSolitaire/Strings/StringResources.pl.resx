@@ -861,7 +861,10 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="Spot" xml:space="preserve">
     <value>miejsce</value>
   </data>
-  <data name="CardsBeneath" xml:space="preserve">
-    <value>karty poniżej</value>
+  <data name="Beneath" xml:space="preserve">
+    <value>poniżej</value>
+  </data>
+  <data name="FullRoyalParadeStack" xml:space="preserve">
+    <value>Pełny stos</value>
   </data>
 </root>

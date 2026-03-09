@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Markup;
-using Sa11ytaire4All.Source;
+﻿using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
@@ -52,6 +51,35 @@ namespace Sa11ytaire4All
                 // Move up to the next horiztonal slot.
                 index += 8;
             }
+        }
+
+        public bool IsRoyalParadeFourCardPileFull(string? stackDetails)
+        {
+            if (string.IsNullOrEmpty(stackDetails))
+            {
+                return false;
+            }
+
+            var stackFull = false;
+
+            var fullPiles = new string[3]
+                {
+                    "2 5 8 11",
+                    "3 6 9 12",
+                    "4 7 10 13"
+                };
+
+            foreach (var fullPileDetails in fullPiles)
+            {
+                if (stackDetails == fullPileDetails)
+                {
+                    stackFull = true;
+
+                    break;
+                }
+            }
+
+            return stackFull;
         }
 
         private void LoadRoyalParadeDealtCardsRowFour(string preferenceSuffix)
@@ -546,7 +574,7 @@ namespace Sa11ytaire4All
                                                 (dealtCardClicked.PyramidRow + 1).ToString() + ".";
 
                                 // First set the StackDetails for the two cards involved. The clicked card gets
-                                // appended with tge rank of the already-clicked cards.
+                                // appended with the rank of the already-clicked cards.
 
                                 cardButtonClicked.StackDetails += " " + cardAlreadySelected.Card.Rank.ToString();
 
@@ -677,24 +705,12 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            var fullPiles = new string[3]
-            {
-                "2 5 8 11",
-                "3 6 9 12",
-                "4 7 10 13"
-            };
+            if (IsRoyalParadeFourCardPileFull(dealtCardClickedByIndex.StackDetails))
+            { 
+                dealtCardClickedByIndex.Open = false;
 
-            foreach (var fullPileDetails in fullPiles)
-            {
-                if (dealtCardClickedByIndex.StackDetails == fullPileDetails)
-                {
-                    dealtCardClickedByIndex.Open = false;
-
-                    Debug.WriteLine("SetFinalOpenState: Set complete pile not open " +
-                        dealtCardClickedByIndex.Card.GetCardAccessibleName());
-
-                    break;
-                }
+                Debug.WriteLine("SetFinalOpenState: Set complete pile not open " +
+                    dealtCardClickedByIndex.Card.GetCardAccessibleName());
             }
         }
 
@@ -919,8 +935,9 @@ namespace Sa11ytaire4All
                         }
 
                         cardButtonsNext.StackDetails = newStackDetails;
-
                         cardButtonsNext.IsVisible = true;
+
+                        cardButtonsNext.RefreshAccessibleName();
                     }
                 }
 

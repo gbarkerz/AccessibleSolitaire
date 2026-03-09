@@ -367,6 +367,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to beneath.
+        /// </summary>
+        internal static string Beneath {
+            get {
+                return ResourceManager.GetString("Beneath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Black.
         /// </summary>
         internal static string Black {
@@ -561,15 +570,6 @@ namespace Sa11ytaire4All.Strings {
         internal static string Cards {
             get {
                 return ResourceManager.GetString("Cards", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to cards beneath.
-        /// </summary>
-        internal static string CardsBeneath {
-            get {
-                return ResourceManager.GetString("CardsBeneath", resourceCulture);
             }
         }
         
@@ -986,6 +986,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string FlipGameLayoutHorizontallySwitchLabel {
             get {
                 return ResourceManager.GetString("FlipGameLayoutHorizontallySwitchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full pile.
+        /// </summary>
+        internal static string FullRoyalParadeStack {
+            get {
+                return ResourceManager.GetString("FullRoyalParadeStack", resourceCulture);
             }
         }
         

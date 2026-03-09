@@ -861,7 +861,10 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="Spot" xml:space="preserve">
     <value>spot</value>
   </data>
-  <data name="CardsBeneath" xml:space="preserve">
-    <value>cards beneath</value>
+  <data name="Beneath" xml:space="preserve">
+    <value>beneath</value>
+  </data>
+  <data name="FullRoyalParadeStack" xml:space="preserve">
+    <value>Full pile</value>
   </data>
 </root>

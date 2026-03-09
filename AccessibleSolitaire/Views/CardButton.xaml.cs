@@ -165,7 +165,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
                                 if (MainPage.currentGameType == SolitaireGameType.Royalparade)
                                 {
-                                    name += " " + AppendRoyalParadeLowerCardCount(dealtCard);
+                                    name += " " + AppendRoyalParadeAccessibleNameDetails(dealtCard);
                                 }
 
                                 cardPileAccessibleName = name +
@@ -275,12 +275,25 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
         }
     }
 
-    private string AppendRoyalParadeLowerCardCount(DealtCard dealtCard)
+    private string AppendRoyalParadeAccessibleNameDetails(DealtCard dealtCard)
     {
-        var cardStackDetails = "";
-
-        if ((dealtCard.PyramidRow == 3) && !string.IsNullOrEmpty(dealtCard.StackDetails))
+        if (MainPage.MainPageSingleton == null)
         {
+            return "";
+        }
+
+        var cardDetails = "";
+
+        if (dealtCard.PyramidRow < 3)
+        {
+            if (MainPage.MainPageSingleton.IsRoyalParadeFourCardPileFull(dealtCard.StackDetails))
+            {
+                cardDetails = " " + MainPage.MyGetString("FullRoyalParadeStack");
+            }
+        }
+        else if (!string.IsNullOrEmpty(dealtCard.StackDetails))
+        {
+            // This is the fourth row, so check for stacks of cards.
             var spaceCount = 0;
 
             foreach (var c in dealtCard.StackDetails)
@@ -288,15 +301,16 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                 spaceCount += (c == ' ' ? 1 : 0);
             }
 
-            if (spaceCount > 1)
+            if (spaceCount >= 1)
             {
-                cardStackDetails = spaceCount.ToString() + " " + MainPage.MyGetString("CardsBeneath");
+                cardDetails = spaceCount.ToString() + " " +
+                                MainPage.MyGetString(spaceCount == 1 ? "Card" : "Cards") + " " +
+                                MainPage.MyGetString("Beneath");
             }
         }
 
-        return cardStackDetails;
+        return cardDetails;
     }
-
 
     public ImageSource? CardPileImage
     {
