@@ -584,22 +584,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
             if (Card != null)
             {
-                var fullPiles = new string[3]
-                    {
-                        "2 5 8 11",
-                        "3 6 9 12",
-                        "4 7 10 13"
-                    };
-
-                foreach (var fullPileDetails in fullPiles)
+                if ((MainPage.MainPageSingleton != null) && 
+                    MainPage.MainPageSingleton.IsRoyalParadeFourCardPileFull(StackDetails))
                 {
-                    if (StackDetails == fullPileDetails)
-                    {
-                        colour = Colors.LightGrey;
-                    }
+                    colour = Colors.LightGrey;
                 }
-
-                if ((colour == Colors.White) && Open)
+                else if (Open)
                 {
                     colour = Colors.Yellow;
                 }
