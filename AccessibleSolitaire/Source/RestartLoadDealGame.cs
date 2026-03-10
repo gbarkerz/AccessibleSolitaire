@@ -336,7 +336,7 @@ namespace Sa11ytaire4All
                     }
                     else if (currentGameType == SolitaireGameType.Royalparade)
                     {
-                        //rowCardCount = (i < 3 ? 8 : 72);
+                        //rowCardCount = (i < 3 ? 8 : 80);
                         rowCardCount = 8;
                     }
                     else if (currentGameType == SolitaireGameType.Spider)
@@ -417,8 +417,8 @@ namespace Sa11ytaire4All
                 {
                     DealtCard? dummyDealtCard = null;
 
-                    // Fill the entire 8 piles of 9 slots with null entries.
-                    for (var i = 0; i < 8 * 8; ++i)
+                    // Fill the entire 8 piles of 10 slots with null entries.
+                    for (var i = 0; i < 8 * 9; ++i)
                     {
                         vm.DealtCards[3].Add(dummyDealtCard);
                     }
@@ -611,7 +611,7 @@ namespace Sa11ytaire4All
                     {
                         LoadRoyalParadeDealtCardsRowFour(preferenceSuffix);
 
-                        for (var j = 0; j < 9; ++j)
+                        for (var j = 0; j < 10; ++j)
                         {
                             var dealtCardPileBottomRowJson = (string)Preferences.Get(
                                                         "DealtCardsSessionBottomRow" + j.ToString() + preferenceSuffix, "");

@@ -392,7 +392,7 @@ namespace Sa11ytaire4All
                 }
                 else if (currentGameType == SolitaireGameType.Royalparade)
                 {
-                    countCardsPerRow = (i < countOfRows - 1 ? 8 : 72);
+                    countCardsPerRow = (i < countOfRows - 1 ? 8 : 80);
                 }
 
                 if (currentGameType != SolitaireGameType.Royalparade)

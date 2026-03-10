@@ -9,7 +9,96 @@ namespace Sa11ytaire4All
 {
     public partial class MainPage : ContentPage
     {
-        private void PersistRoyalParadeDealtCardsRowFour(string preferenceSuffix)
+        private void VerifyRoyalParadeGameState()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            // Check that there are two (and only two) of every card somewhere.
+            Dictionary<int, int> cardCount = new Dictionary<int, int>();
+
+            for (var i = 0; i < _deckRemaining.Count; i++)
+            {
+                int count = 0;
+                if (cardCount.TryGetValue(_deckRemaining[i].Rank, out count))
+                {
+                    cardCount[_deckRemaining[i].Rank]++;
+                }
+                else
+                {
+                    cardCount.Add(_deckRemaining[i].Rank, 1);
+                }
+            }
+
+            for (var i = 0; i < 4; ++i)
+            {
+                if (vm.DealtCards[i] != null)
+                {
+                    for (var j = 0; j < vm.DealtCards[i].Count; ++j)
+                    {
+                        var dealtCard = vm.DealtCards[i][j];
+                        if (dealtCard != null)
+                        {
+                            var card = dealtCard.Card;
+                            if (card != null)
+                            {
+                                // Ignore all Aces, as they simply get discarded.
+                                if (card.Rank == 1)
+                                {
+                                    continue;
+                                }
+
+                                AddCardToDebugCheckList(card.Rank, cardCount);
+;
+                                if (i < 3)
+                                {
+                                    var stackDetails = dealtCard.StackDetails;
+                                    if (!string.IsNullOrEmpty(stackDetails))
+                                    {
+                                        int[] cardRanks = stackDetails.Split(' ').Select(n => Convert.ToInt32(n)).ToArray();
+                                        if (cardRanks.Length > 1)
+                                        {
+                                            for (var rankValueIndex = 0; rankValueIndex < cardRanks.Length - 1; ++rankValueIndex)
+                                            {
+                                                AddCardToDebugCheckList(cardRanks[rankValueIndex], cardCount);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Ignore all Aces.
+            for (var i = 2; i <= 13; ++i)
+            {
+                if (cardCount[i] != 8)
+                {
+                    Debug.WriteLine("*** VerifyRoyalParadeGameState ***: Expected count for rank " + i + ", " +
+                        "count = " + cardCount[i]);
+                }
+            }
+        }
+
+        private void AddCardToDebugCheckList(int cardRank, Dictionary<int, int> cardCount)
+        {
+            int count = 0;
+            if (cardCount.TryGetValue(cardRank, out count))
+            {
+                cardCount[cardRank]++;
+            }
+            else
+            {
+                cardCount.Add(cardRank, 1);
+            }
+        }
+
+    private void PersistRoyalParadeDealtCardsRowFour(string preferenceSuffix)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -25,7 +114,7 @@ namespace Sa11ytaire4All
             var dealtCardsBottomRowSlot = new DealtCard?[8];
 
             // Process each of the nine horizontal slots of the eight piles of cards on the bottom row.
-            for (var bottowRowSlotIndex = 0; bottowRowSlotIndex < 9; ++bottowRowSlotIndex)
+            for (var bottowRowSlotIndex = 0; bottowRowSlotIndex < 10; ++bottowRowSlotIndex)
             {
                 // Now output each card of this particular horizontal slot, (some slots may be null).
                 for (var pileIndex = 0; pileIndex < 8; ++pileIndex)
@@ -91,7 +180,7 @@ namespace Sa11ytaire4All
             }
 
             // Process each of the nine horizontal slots of the eight piles of cards on the bottom row.
-            for (var bottowRowSlotIndex = 0; bottowRowSlotIndex < 9; ++bottowRowSlotIndex)
+            for (var bottowRowSlotIndex = 0; bottowRowSlotIndex < 10; ++bottowRowSlotIndex)
             {
                 // Load each card of this particular horizontal slot, (and the card can ne null).
                 var dealtCardPileBottomRowJson = (string)Preferences.Get("DealtCardsSessionBottomRow" + 
@@ -518,10 +607,13 @@ namespace Sa11ytaire4All
                         // The clicked card is not empty. Can the already selected card be moved to clicked card?
                         // Royal Parade expects the cards to be the same suit.
                         var rankDifference = cardAlreadySelected.Card.Rank - cardButtonClicked.Card.Rank;
-                        if ((rankDifference == 3) && cardButtonClicked.Open &&
-                            (cardButtonClicked.Card.Suit == cardAlreadySelected.Card.Suit))
+                        if ((rankDifference == 3) && cardButtonClicked.Open)
                         {
-                            moveCard = true;
+                            // BARKER TEST: Remove same-suit requirement.
+                            //if (cardButtonClicked.Card.Suit == cardAlreadySelected.Card.Suit)
+                            {
+                                moveCard = true;
+                            }
                         }
                     }
                 }
@@ -696,6 +788,10 @@ namespace Sa11ytaire4All
             {
                 ShowEndOfGameDialog(false);
             }
+
+#if DEBUG
+            VerifyRoyalParadeGameState();
+#endif
         }
 
         private void SetFinalOpenState(DealtCard? dealtCardClickedByIndex)
@@ -733,9 +829,6 @@ namespace Sa11ytaire4All
             var cardRevealedIndex = dealtCardAlreadySelected.PyramidCardOriginalIndexInRow - 8;
             if (cardRevealedIndex < 0)
             {
-                // Null out the slot for the dealt card.
-                vm.DealtCards[3][dealtCardAlreadySelected.PyramidCardOriginalIndexInRow] = null;
-
                 // This spot in the fourth row is now empty.
                 SetRoyalParadeCardButtonEmpty(cardAlreadySelected);
 
@@ -769,6 +862,10 @@ namespace Sa11ytaire4All
                     }
                 }
             }
+
+            // Always null out the slot for the moved dealt card, regardless of whether another card 
+            // has been revleaed.
+            vm.DealtCards[3][dealtCardAlreadySelected.PyramidCardOriginalIndexInRow] = null;
 
             MakeDelayedScreenReaderAnnouncement(announcement + " " + revealedAnnouncement, true);
         }
@@ -829,6 +926,8 @@ namespace Sa11ytaire4All
             {
                 return;
             }
+
+            ClearPyramidCardsSelection();
 
             // There should always be a multiple of 8 cards left.
 
@@ -892,7 +991,7 @@ namespace Sa11ytaire4All
 
                 var lowerCardStackDetails = "";
 
-                while (index < 72) 
+                while (index < 80) 
                 {
                     var dealtCard = vm.DealtCards[3][index];
                     if ((dealtCard == null) || (dealtCard.Card == null))
@@ -904,8 +1003,10 @@ namespace Sa11ytaire4All
 
                     index += 8;
 
-                    if (index >= 72)
+                    if (index >= 80)
                     {
+                        Debug.WriteLine("RoyalparadePerformNextCardAction: Unexpected index " + index);
+
                         return;
                     }
                 }
@@ -953,6 +1054,10 @@ namespace Sa11ytaire4All
                 var announcement = MainPage.MyGetString("RoyalparadeDealtEightCards");
                 MakeDelayedScreenReaderAnnouncement(announcement, false);
             }
+
+#if DEBUG
+            VerifyRoyalParadeGameState();
+#endif
         }
     }
 }

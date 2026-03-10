@@ -29,7 +29,8 @@ namespace Sa11ytaire4All
                     DeselectAllCardsFromDealtCardPile(list);
                 }
             }
-            else if (currentGameType == SolitaireGameType.Pyramid)
+            else if ((currentGameType == SolitaireGameType.Pyramid) ||
+                     (currentGameType == SolitaireGameType.Royalparade))
             {
                 ClearPyramidCardsSelection();
             }

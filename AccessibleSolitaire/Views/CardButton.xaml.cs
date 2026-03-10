@@ -64,14 +64,14 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void RefreshCardButtonMofN()
     {
-        if (this.card != null)
-        {
-            Debug.WriteLine("CardButton: RefreshCardButtonMofN " + this.card.GetCardAccessibleName());
-        }
-        else
-        {
-            Debug.WriteLine("CardButton: RefreshCardButtonMofN NULL card");
-        }
+        //if (this.card != null)
+        //{
+        //    Debug.WriteLine("CardButton: RefreshCardButtonMofN " + this.card.GetCardAccessibleName());
+        //}
+        //else
+        //{
+        //    Debug.WriteLine("CardButton: RefreshCardButtonMofN NULL card");
+        //}
 
         if (this.Card != null)
         {
@@ -701,14 +701,14 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public void RefreshVisuals()
     {
-        if (this.card != null)
-        {
-            Debug.WriteLine("CardButton: RefreshVisuals " + this.card.GetCardAccessibleName());
-        }
-        else
-        {
-            Debug.WriteLine("CardButton: RefreshVisuals NULL card");
-        }
+        //if (this.card != null)
+        //{
+        //    Debug.WriteLine("CardButton: RefreshVisuals " + this.card.GetCardAccessibleName());
+        //}
+        //else
+        //{
+        //    Debug.WriteLine("CardButton: RefreshVisuals NULL card");
+        //}
 
         this.OnPropertyChanged("Card");
         this.OnPropertyChanged("CardPileAccessibleName");
