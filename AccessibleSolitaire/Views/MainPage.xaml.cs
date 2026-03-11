@@ -537,6 +537,7 @@ namespace Sa11ytaire4All
         private int OptionCardTurnCount = 1;
         private bool OptionKingsOnlyToEmptyPile = false;
         private bool OptionAutoCompleteGame = false;
+        private bool OptionRoyalParadeSameSuitRule = false;
 
         private bool firstAppAppearanceSinceStarting = true;
 
@@ -684,6 +685,8 @@ namespace Sa11ytaire4All
                 OptionKingsOnlyToEmptyPile = (bool)Preferences.Get("KingsOnlyToEmptyPile", false);
 
                 OptionAutoCompleteGame = (bool)Preferences.Get("AutoCompleteGame", false);
+
+                OptionRoyalParadeSameSuitRule = (bool)Preferences.Get("RoyalParadeSameSuitRule", false);
 
                 allowSelectionByFaceDownCard = (bool)Preferences.Get("AllowSelectionByFaceDownCard", true);
 

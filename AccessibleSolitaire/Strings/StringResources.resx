@@ -867,4 +867,13 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="FullRoyalParadeStack" xml:space="preserve">
     <value>Full pile</value>
   </data>
+  <data name="RoyalParadeSameSuitRule" xml:space="preserve">
+    <value>Same Suit Rule (Royal Parade Only)</value>
+  </data>
+  <data name="RoyalParadeSameSuitRuleSwitchName" xml:space="preserve">
+    <value>Same Suit Rule:</value>
+  </data>
+  <data name="RoyalParadeSameSuitRuleInstructions" xml:space="preserve">
+    <value>By default when playing Royal Parade in this app, the suit of cards does not affect whether a card can be placed on another card. Turn on this setting if you'd prefer the traditional Royal Parade requirement that a card can only be placed on another card if their suits match. </value>
+  </data>
 </root>

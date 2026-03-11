@@ -61,6 +61,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- Number of cards turned over. -->
@@ -133,6 +136,30 @@
                             Margin="0"
                             SemanticProperties.Description="{x:Static resources:Strings.StringResources.AutoCompleteGameSwitchName}"
                             SemanticProperties.Hint="{x:Static resources:Strings.StringResources.AutoCompleteGameInstructions}" />
+                    </HorizontalStackLayout>
+
+                    <!-- Same-Suit rule for Royal Parade game. -->
+
+                    <Label Grid.Row="9"
+                        FontAttributes="Bold" 
+                        Margin="8,8,8,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:Strings.StringResources.RoyalParadeSameSuitRule}" />
+
+                    <Label Grid.Row="10"
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.RoyalParadeSameSuitRuleInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="11" Padding="0" Margin="8,0,8,0">
+                        <Label 
+                            Margin="0" VerticalOptions="Center" Padding="0"
+                            Text="{x:Static resources:Strings.StringResources.RoyalParadeSameSuitRuleSwitchName}" />
+
+                        <Switch x:Name="RoyalParadeSameSuitRuleSwitch"
+                            Margin="0"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.RoyalParadeSameSuitRuleSwitchName}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.RoyalParadeSameSuitRuleInstructions}" />
                     </HorizontalStackLayout>
 
                 </Grid>

@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui.Core.Views;
 using CommunityToolkit.Maui.Views;
 using System.Diagnostics;
 
@@ -114,6 +113,9 @@ public partial class SettingsPage : ContentPage
 
         var autoCompleteGame = (bool)Preferences.Get("AutoCompleteGame", false);
         AutoCompleteGameSwitch.IsToggled = autoCompleteGame;
+
+        var royalParadeSameSuitRule = (bool)Preferences.Get("RoyalParadeSameSuitRule", false);
+        RoyalParadeSameSuitRuleSwitch.IsToggled = royalParadeSameSuitRule;
 
 #if WINDOWS
         this.Loaded += SettingsPage_Loaded;
@@ -260,6 +262,9 @@ public partial class SettingsPage : ContentPage
 
         var autoCompleteGame = AutoCompleteGameSwitch.IsToggled;
         Preferences.Set("AutoCompleteGame", autoCompleteGame);
+
+        var royalParadeSameSuitRule = RoyalParadeSameSuitRuleSwitch.IsToggled;
+        Preferences.Set("RoyalParadeSameSuitRule", royalParadeSameSuitRule);
 
         Navigation.PopModalAsync();
     }

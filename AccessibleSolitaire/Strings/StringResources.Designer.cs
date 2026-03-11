@@ -1844,6 +1844,33 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Same Suit Rule (Royal Parade Only).
+        /// </summary>
+        internal static string RoyalParadeSameSuitRule {
+            get {
+                return ResourceManager.GetString("RoyalParadeSameSuitRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By default when playing Royal Parade in this app, the suit of cards does not affect whether a card can be placed on another card. Turn on this setting if you&apos;d prefer the traditional Royal Parade requirement that a card can only be placed on another card if their suits match. .
+        /// </summary>
+        internal static string RoyalParadeSameSuitRuleInstructions {
+            get {
+                return ResourceManager.GetString("RoyalParadeSameSuitRuleInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Same Suit Rule:.
+        /// </summary>
+        internal static string RoyalParadeSameSuitRuleSwitchName {
+            get {
+                return ResourceManager.GetString("RoyalParadeSameSuitRuleSwitchName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Royal Parade Solitaire.
         /// </summary>
         internal static string RoyalparadeSolitaire {

@@ -633,8 +633,9 @@ namespace Sa11ytaire4All
                         var rankDifference = cardAlreadySelected.Card.Rank - cardButtonClicked.Card.Rank;
                         if ((rankDifference == 3) && cardButtonClicked.Open)
                         {
-                            // BARKER TEST: Remove same-suit requirement.
-                            //if (cardButtonClicked.Card.Suit == cardAlreadySelected.Card.Suit)
+                            // If the setting is on for requiring the suits match, make sure they match.
+                            if (!OptionRoyalParadeSameSuitRule || 
+                                (cardButtonClicked.Card.Suit == cardAlreadySelected.Card.Suit))
                             {
                                 moveCard = true;
                             }
