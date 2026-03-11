@@ -299,7 +299,7 @@ namespace Sa11ytaire4All
                         if (dealtCardToMove.PyramidRow == 3)
                         {
                             // Work downwards from the highest slot in this 4th row pile.
-                            for (var j = dealtCardToMove.PyramidCardOriginalIndexInRow - 8; j > 0; j -= 8)
+                            for (var j = dealtCardToMove.PyramidCardOriginalIndexInRow - 8; j >= 0; j -= 8)
                             {
                                 // Is there a card now exposed?
                                 var dealtCardBelow = vm.DealtCards[3][j];

@@ -358,14 +358,18 @@ namespace Sa11ytaire4All
                                 else if (baseCard.Open)
                                 {
                                     // Can the card be placed on top of the other card?
-                                    if ((cardToMove.Card.Suit == baseCard.Card.Suit) &&
-                                        (cardToMove.Card.Rank == baseCard.Card.Rank + 3))
+                                    if (cardToMove.Card.Rank == baseCard.Card.Rank + 3)
                                     {
-                                        moveComment += cardToMove.Card.GetCardAccessibleName() + " " +
+                                        // If the setting is on for requiring the suits match, make sure they match.
+                                        if (!OptionRoyalParadeSameSuitRule ||
+                                            (cardToMove.Card.Suit == baseCard.Card.Suit))
+                                        {
+                                            moveComment += cardToMove.Card.GetCardAccessibleName() + " " +
                                                         MyGetString("Row") + " " + ((j / 8) + 1).ToString() + " " +
                                                         MyGetString("CanBeMovedTo") + " " +
                                                         baseCard.Card.GetCardAccessibleName() + " " +
                                                         MyGetString("Row") + " " + ((i / 8) + 1).ToString() + ". ";
+                                        }
                                     }
                                 }
                             }
