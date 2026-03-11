@@ -610,23 +610,6 @@ namespace Sa11ytaire4All
                     if ((currentGameType == SolitaireGameType.Royalparade) && (i == 3))
                     {
                         LoadRoyalParadeDealtCardsRowFour(preferenceSuffix);
-
-                        for (var j = 0; j < 10; ++j)
-                        {
-                            var dealtCardPileBottomRowJson = (string)Preferences.Get(
-                                                        "DealtCardsSessionBottomRow" + j.ToString() + preferenceSuffix, "");
-                            if (!string.IsNullOrEmpty(dealtCardPileBottomRowJson))
-                            {
-                                var dealtCardPile = JsonSerializer.Deserialize<ObservableCollection<DealtCard>>(dealtCardPileBottomRowJson);
-                                if (dealtCardPile != null)
-                                {
-                                    foreach (var dealtCard in dealtCardPile)
-                                    {
-                                        vm.DealtCards[i].Add(dealtCard);
-                                    }
-                                }
-                            }
-                        }
                     }
                     else
                     {
@@ -680,6 +663,11 @@ namespace Sa11ytaire4All
 
             Debug.WriteLine("LoadSession: DONE " + loadedSession +
                 ", duration " + (DateTime.Now - timeStartLoadSession).TotalMilliseconds);
+
+
+#if DEBUG
+            VerifyRoyalParadeGameState();
+#endif
 
             return loadedSession;
         }

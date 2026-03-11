@@ -98,7 +98,7 @@ namespace Sa11ytaire4All
             }
         }
 
-    private void PersistRoyalParadeDealtCardsRowFour(string preferenceSuffix)
+        private void PersistRoyalParadeDealtCardsRowFour(string preferenceSuffix)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -113,7 +113,7 @@ namespace Sa11ytaire4All
 
             var dealtCardsBottomRowSlot = new DealtCard?[8];
 
-            // Process each of the nine horizontal slots of the eight piles of cards on the bottom row.
+            // Process each of the ten horizontal slots of the eight piles of cards on the bottom row.
             for (var bottowRowSlotIndex = 0; bottowRowSlotIndex < 10; ++bottowRowSlotIndex)
             {
                 // Now output each card of this particular horizontal slot, (some slots may be null).
@@ -577,6 +577,20 @@ namespace Sa11ytaire4All
 
             return cardAlreadySelected;
         }
+        
+        private bool IsFullPile(CardButton cardButton)
+        {
+            var isFullPile = false;
+
+            if ((cardButton.StackDetails == "2 5 8 11") ||
+                (cardButton.StackDetails == "3 6 9 12") ||
+                (cardButton.StackDetails == "4 7 10 13"))
+            {
+                isFullPile = true;
+            }
+
+            return isFullPile;
+        }
 
         // Handle a click on any card in the Royal Parade game.
         private async void HandleRoyalParadePyramidCardClick(CardButton cardButtonClicked)
@@ -588,6 +602,16 @@ namespace Sa11ytaire4All
             }
 
             var moveCard = false;
+
+            // A full pile cannot be selected.
+            if (IsFullPile(cardButtonClicked))
+            {
+                cardButtonClicked.IsToggled = false;
+
+                PlaySound(false);
+
+                return;
+            }
 
             // Was another pyramid card already selected?
             CardButton? cardAlreadySelected = GetAlreadySelectedCard(cardButtonClicked);
@@ -768,7 +792,7 @@ namespace Sa11ytaire4All
 
                         moveCard = true;
                     }
-                    else
+                    else 
                     {
                         // No other card was selected, so we'll simply select the clicked card.
                         string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
