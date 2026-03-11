@@ -582,6 +582,12 @@ namespace Sa11ytaire4All
                 PerformNextCardAction();
             }
 
+            // Account for the fourth row in Royal Parade having some spaces.
+            if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                AdjustFourthRowMofN();
+            }
+
             return true;
         }
 

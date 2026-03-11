@@ -52,7 +52,7 @@ namespace Sa11ytaire4All
                                 }
 
                                 AddCardToDebugCheckList(card.Rank, cardCount);
-;
+
                                 if (i < 3)
                                 {
                                     var stackDetails = dealtCard.StackDetails;
@@ -81,6 +81,28 @@ namespace Sa11ytaire4All
                 {
                     Debug.WriteLine("*** VerifyRoyalParadeGameState ***: Expected count for rank " + i + ", " +
                         "count = " + cardCount[i]);
+                }
+            }
+
+            // Check the N in M of N for first three rows.
+            var gridCards = CardPileGridPyramid.Children;
+
+            // Find the row and column of the destination slot.
+            for (var i = 0; i < 24; ++i)
+            {
+                var cardButton = gridCards[i] as CardButton;
+                if ((cardButton != null) && (cardButton.Card != null))
+                {
+                    CollectionView? list;
+                    var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
+                    if (dealtCard != null)
+                    {
+                        if (dealtCard.PyramidCardCurrentCountOfCardsOnRow != 8)
+                        {
+                            Debug.WriteLine("*** VerifyRoyalParadeGameState ***: dealtCard " + dealtCard.AccessibleNameWithoutSelectionAndMofN + 
+                                ",  PyramidCardCurrentCountOfCardsOnRow " + dealtCard.PyramidCardCurrentCountOfCardsOnRow);
+                        }
+                    }
                 }
             }
         }
@@ -286,6 +308,8 @@ namespace Sa11ytaire4All
                         {
                             vm.DealtCards[dealtCardToMove.PyramidRow]
                                 [dealtCardToMove.PyramidCardOriginalIndexInRow] = null;
+
+                            AdjustFourthRowMofN();
                         }
 
                         // Set the desintation card on the visual CardButton.
@@ -323,8 +347,6 @@ namespace Sa11ytaire4All
                         cardButtonToMove.IsVisible = (dealtCardToMove.PyramidRow < 3) ||
                                     (vm.DealtCards[dealtCardToMove.PyramidRow]
                                         [dealtCardToMove.PyramidCardOriginalIndexInRow % 8] != null);
-
-                        AdjustFourthRowMofN();
 
                         // If any card now occupies the moved card slot, it's not open.
                         if (dealtCardSource != null)
@@ -411,6 +433,12 @@ namespace Sa11ytaire4All
                     var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
                     if (dealtCard != null)
                     {
+                        if (dealtCard.PyramidRow < 3)
+                        {
+                            // The card is in the process of being moved, so don't change its details here.
+                            continue;
+                        }
+
                         dealtCard.PyramidCardCurrentCountOfCardsOnRow = countVisibleCardOnFourthRow;
 
                         if (cardButton.IsVisible)
@@ -724,6 +752,8 @@ namespace Sa11ytaire4All
                                     else
                                     {
                                         dealtCardAlreadySelectedByIndex = null;
+
+                                        AdjustFourthRowMofN();
                                     }
                                 }
 
@@ -1053,7 +1083,12 @@ namespace Sa11ytaire4All
 
                         cardButtonsNext.Card = card;
 
-                        var newStackDetails = lowerCardStackDetails + " " + card.Rank.ToString();
+                        if (!string.IsNullOrEmpty(lowerCardStackDetails))
+                        {
+                            lowerCardStackDetails += " ";
+                        }
+
+                        var newStackDetails = lowerCardStackDetails + card.Rank.ToString();
                         var dealtCard = vm.DealtCards[3][index];
                         if (dealtCard != null)
                         {

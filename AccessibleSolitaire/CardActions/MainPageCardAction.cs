@@ -154,9 +154,9 @@ namespace Sa11ytaire4All
                             var dealtCard = vm.DealtCards[i][j];
                             if (dealtCard != null)
                             {
-                                if (((i == 0) && (dealtCard.Card != null) && (dealtCard.StackDetails != "2 5 8 11")) ||
-                                    ((i == 1) && (dealtCard.Card != null) && (dealtCard.StackDetails != "3 6 9 12")) ||
-                                    ((i == 2) && (dealtCard.Card != null) && (dealtCard.StackDetails != "4 7 10 13")))
+                                if (((i == 0) && (dealtCard.StackDetails != "2 5 8 11")) ||
+                                    ((i == 1) && (dealtCard.StackDetails != "3 6 9 12")) ||
+                                    ((i == 2) && (dealtCard.StackDetails != "4 7 10 13")))
                                 {
                                     gameIsOver = false;
 
