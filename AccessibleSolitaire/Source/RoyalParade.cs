@@ -671,6 +671,8 @@ namespace Sa11ytaire4All
                     }
                 }
 
+                var adjustMofNsOnFourthRow = false;
+
                 // Can we consider moving a card?
                 if (moveCard)
                 {
@@ -753,6 +755,7 @@ namespace Sa11ytaire4All
                                     {
                                         dealtCardAlreadySelectedByIndex = null;
 
+                                        adjustMofNsOnFourthRow = true;
                                         AdjustFourthRowMofN();
                                     }
                                 }
@@ -770,6 +773,8 @@ namespace Sa11ytaire4All
                             if (dealtCardAlreadySelected.PyramidRow == 3)
                             {
                                 MoveCardFromFourthRow(dealtCardAlreadySelected, cardAlreadySelected, announcement);
+
+                                adjustMofNsOnFourthRow = true;
                             }
                             else
                             {
@@ -790,6 +795,11 @@ namespace Sa11ytaire4All
                                 cardAlreadySelected,
                                 dealtCardAlreadySelected);
                         }
+                    }
+
+                    if (adjustMofNsOnFourthRow)
+                    {
+                        AdjustFourthRowMofN();
                     }
 
                     cardAlreadySelected.IsToggled = false;
@@ -814,20 +824,32 @@ namespace Sa11ytaire4All
             else
             {
                 // No card was already selected. Has an Ace been clicked?
-                if ((cardButtonClicked != null) && (cardButtonClicked.Card != null))
+                if (cardButtonClicked != null)
                 {
-                    if (cardButtonClicked.Card.Rank == 1)
+                    if (cardButtonClicked.Card != null)
                     {
-                        // Discard the ace.
-                        DiscardAce(cardButtonClicked);
+                        if (cardButtonClicked.Card.Rank == 1)
+                        {
+                            // Discard the ace.
+                            DiscardAce(cardButtonClicked);
 
-                        moveCard = true;
+                            moveCard = true;
+                        }
+                        else
+                        {
+                            // No other card was selected, so we'll simply select the clicked card.
+                            string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
+                            MakeDelayedScreenReaderAnnouncement(announcement, false);
+                        }
                     }
-                    else 
+                    else
                     {
-                        // No other card was selected, so we'll simply select the clicked card.
-                        string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
-                        MakeDelayedScreenReaderAnnouncement(announcement, false);
+                        // Cannot select an empty square.
+                        cardButtonClicked.IsToggled = false;
+
+                        PlaySound(false);
+
+                        return;
                     }
                 }
             }
@@ -837,7 +859,10 @@ namespace Sa11ytaire4All
                 cardAlreadySelected.IsToggled = false;
             }
 
-            PlaySound(moveCard);
+            if (moveCard)
+            {
+                PlaySound(true);
+            }
 
             if (GameOver())
             {
@@ -921,6 +946,8 @@ namespace Sa11ytaire4All
             // Always null out the slot for the moved dealt card, regardless of whether another card 
             // has been revleaed.
             vm.DealtCards[3][dealtCardAlreadySelected.PyramidCardOriginalIndexInRow] = null;
+
+            PlaySound(true);
 
             MakeDelayedScreenReaderAnnouncement(announcement + " " + revealedAnnouncement, true);
         }
