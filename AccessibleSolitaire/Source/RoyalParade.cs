@@ -335,7 +335,7 @@ namespace Sa11ytaire4All
                                     cardButtonToMove.StackDetails = dealtCardBelow.StackDetails;
 
                                     announcement += " " + cardButtonToMove.Card.GetCardAccessibleName() +
-                                                            " " + MyGetString("Revealed" + ".");
+                                                            " " + MyGetString("Revealed") + ".";
 
                                     break;
                                 }
@@ -356,7 +356,7 @@ namespace Sa11ytaire4All
                             cardButtonToMove.Open = false;
                         }
 
-                        MakeDelayedScreenReaderAnnouncement(announcement, false);
+                        MakeDelayedScreenReaderAnnouncement(announcement, true);
 
                         PlaySound(true);
 
@@ -785,7 +785,7 @@ namespace Sa11ytaire4All
 
                                 cardAlreadySelected.StackDetails = "";
 
-                                MakeDelayedScreenReaderAnnouncement(announcement, false);
+                                MakeDelayedScreenReaderAnnouncement(announcement, true);
                             }
                         }
                         else
@@ -839,7 +839,7 @@ namespace Sa11ytaire4All
                         {
                             // No other card was selected, so we'll simply select the clicked card.
                             string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
-                            MakeDelayedScreenReaderAnnouncement(announcement, false);
+                            MakeDelayedScreenReaderAnnouncement(announcement, true);
                         }
                     }
                     else

@@ -576,32 +576,35 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
     public Color GetCardButtonImageBackgroundColour()
     {
+        if (Application.Current == null)
+        {
+            return Colors.Transparent;
+        }
+
         Color colour;
 
         if (MainPage.currentGameType == SolitaireGameType.Royalparade)
         {
-            colour = Colors.White;
+            colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                        Colors.White : Colors.Black);
 
             if (Card != null)
             {
                 if ((MainPage.MainPageSingleton != null) && 
                     MainPage.MainPageSingleton.IsRoyalParadeFourCardPileFull(StackDetails))
                 {
-                    colour = Colors.LightGrey;
+                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                Colors.LightGrey : Color.FromRgb(0x80, 0x80, 0x80));
                 }
                 else if (Open)
                 {
-                    colour = Colors.Yellow;
+                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                Colors.Yellow : Colors.DarkGoldenrod);
                 }
             }
         }
         else
         {
-            if (Application.Current == null)
-            {
-                return Colors.Transparent;
-            }
-
             if (Application.Current.RequestedTheme != AppTheme.Dark)
             {
                 var cardBackground = (IsToggled ? isToggledLightColor : Colors.White);
