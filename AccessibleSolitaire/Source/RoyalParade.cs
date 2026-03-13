@@ -839,7 +839,7 @@ namespace Sa11ytaire4All
                         {
                             // No other card was selected, so we'll simply select the clicked card.
                             string? announcement = cardButtonClicked.CardPileAccessibleNameWithoutMofN;
-                            MakeDelayedScreenReaderAnnouncement(announcement, true);
+                            MakeDelayedScreenReaderAnnouncement(announcement, false);
                         }
                     }
                     else
