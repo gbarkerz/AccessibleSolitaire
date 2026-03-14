@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessibleSolitaireVersion" xml:space="preserve">
-    <value>Accessible Solitaire V4.3</value>
+    <value>Accessible Solitaire V4.4</value>
   </data>
   <data name="Ace" xml:space="preserve">
     <value>Ace</value>
@@ -748,7 +748,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Auto-Complete Game:</value>
   </data>
   <data name="AutoCompleteGameInstructions" xml:space="preserve">
-    <value>When all dealt cards have been turned face-up, and the remaining cards are set to be turned up one at a time, automatically complete the game.</value>
+    <value>When all dealt cards have been turned face-up, automatically complete the game. This setting only applies to the Klondike game, and only when either the remaining cards are set to be turned up one at a time, or turned up three at a time and there are no more remaining cards to be dealt out.</value>
   </data>
   <data name="GameWasAutoCompleted" xml:space="preserve">
     <value>You turned up all the dealt cards, and the game was auto-completed.</value>

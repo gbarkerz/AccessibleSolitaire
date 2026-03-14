@@ -86,6 +86,10 @@ namespace Sa11ytaire4All
 
             // Check the N in M of N for first three rows.
             var gridCards = CardPileGridPyramid.Children;
+            if (gridCards.Count <= 0)
+            {
+                return;
+            }
 
             // Find the row and column of the destination slot.
             for (var i = 0; i < 24; ++i)
@@ -224,20 +228,22 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void RoyalParadeMoveCardToEmptySlot(
+        private bool RoyalParadeMoveCardToEmptySlot(
             CardButton cardButtonDestination,
             CardButton cardButtonToMove,
             DealtCard dealtCardToMove)
         {
+            var movedCard = false;
+
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
-                return;
+                return movedCard;
             }
 
             if ((dealtCardToMove == null) || ((dealtCardToMove.Card == null)))
             {
-                return;
+                return movedCard;
             }
 
             var cardButtonDestinationRow = -1;
@@ -370,6 +376,8 @@ namespace Sa11ytaire4All
 
                         cardButtonDestination.RefreshVisuals();
                         cardButtonToMove.RefreshVisuals();
+
+                        movedCard = true;
                     }
                     else
                     {
@@ -380,6 +388,8 @@ namespace Sa11ytaire4All
                     break;
                 }
             }
+
+            return movedCard;
         }
 
         private void SetRoyalParadeCardButtonEmpty(CardButton cardButton)
@@ -790,7 +800,7 @@ namespace Sa11ytaire4All
                         }
                         else
                         {
-                            RoyalParadeMoveCardToEmptySlot(
+                            moveCard = RoyalParadeMoveCardToEmptySlot(
                                 cardButtonClicked,
                                 cardAlreadySelected,
                                 dealtCardAlreadySelected);

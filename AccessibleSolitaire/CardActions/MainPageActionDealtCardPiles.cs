@@ -222,6 +222,18 @@ namespace Sa11ytaire4All
                         cardUpturned.RefreshVisuals();
 
                         movedCard = true;
+
+                        // A card has been brought down from the upturned pile to a dealt card pile.
+                        // If this is the Klondike game, and auto-complete is turned on, and we draw
+                        // three cards at a time, the game might be auto-completable.
+                        if ((currentGameType == SolitaireGameType.Klondike) && OptionAutoCompleteGame &&
+                            (OptionCardTurnCount != 1))
+                        {
+                            if (CheckForAutoComplete())
+                            {
+                                AutoCompleteGameNow(true);
+                            }
+                        }
                     }
                     else
                     {
@@ -1309,9 +1321,16 @@ namespace Sa11ytaire4All
 
         private bool CheckForAutoComplete()
         {
-            // Auto-complete is only available in specific circumstances in the Klondike game.
-            if ((currentGameType != SolitaireGameType.Klondike) || 
-                !OptionAutoCompleteGame || (OptionCardTurnCount != 1))
+            // Auto-complete is only available in the Klondike game.
+            if ((currentGameType != SolitaireGameType.Klondike) || !OptionAutoCompleteGame)
+            {
+                return false;
+            }
+
+            // If we currently draw three cards at a time, insist that there are no more remaining cards.
+            var totalCardsToBeDealt = _deckRemaining.Count + _deckUpturned.Count;
+
+            if ((OptionCardTurnCount != 1) && (totalCardsToBeDealt > 0))
             {
                 return false;
             }

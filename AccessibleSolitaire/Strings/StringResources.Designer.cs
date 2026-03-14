@@ -178,7 +178,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V4.3.
+        ///   Looks up a localized string similar to Accessible Solitaire V4.4.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -313,7 +313,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When all dealt cards have been turned face-up, and the remaining cards are set to be turned up one at a time, automatically complete the game..
+        ///   Looks up a localized string similar to When all dealt cards have been turned face-up, automatically complete the game. This setting only applies to the Klondike game, and only when either the remaining cards are set to be turned up one at a time, or turned up three at a time and there are no more remaining cards to be dealt out..
         /// </summary>
         internal static string AutoCompleteGameInstructions {
             get {

@@ -666,7 +666,10 @@ namespace Sa11ytaire4All
 
 
 #if DEBUG
-            VerifyRoyalParadeGameState();
+            if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                VerifyRoyalParadeGameState();
+            }
 #endif
 
             return loadedSession;
