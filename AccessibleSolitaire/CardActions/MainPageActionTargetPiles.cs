@@ -196,9 +196,30 @@ namespace Sa11ytaire4All
                 {
                     ClearSelectionStatesAfterTargetCardSelectionChange(cardButton);
                 }
-                else if (GameOver()) // A card was moved from the Upturned Card Pile to a Target Card Pile.
+                else
                 {
-                    ShowEndOfGameDialog(false);
+                    // A card was moved from the Upturned Card Pile to a Target Card Pile.
+
+                    // If this is the Klondike game, and auto-complete is turned on, and we draw
+                    // three cards at a time, the game might be auto-completable.
+
+                    var autoCompleted = false;
+
+                    if ((currentGameType == SolitaireGameType.Klondike) && OptionAutoCompleteGame &&
+                        (OptionCardTurnCount != 1))
+                    {
+                        if (CheckForAutoComplete())
+                        {
+                            autoCompleted = true;
+
+                            AutoCompleteGameNow(true);
+                        }
+                    }
+
+                    if (!autoCompleted && GameOver())
+                    {
+                        ShowEndOfGameDialog(false);
+                    }
                 }
             }
             else
