@@ -155,8 +155,12 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
                                 if (this.IsFaceUp)
                                 {
-                                    name = this.Card.GetCardAccessibleName() + (dealtCard.Open ? ", " +
-                                                        MainPage.MyGetString("Open") : "");
+                                    name = this.Card.GetCardAccessibleName();
+
+                                    if (MainPage.currentGameType != SolitaireGameType.Grandfathersclock)
+                                    {
+                                        name += (dealtCard.Open ? ", " + MainPage.MyGetString("Open") : "");
+                                    }
                                 }
                                 else
                                 {
@@ -168,10 +172,20 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                                     name += " " + AppendRoyalParadeAccessibleNameDetails(dealtCard);
                                 }
 
-                                cardPileAccessibleName = name +
-                                                    ", " + MainPage.MyGetString("Row") + " " + (dealtCard.PyramidRow + 1) +
-                                                    ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) +
-                                                    " " + MainPage.MyGetString("Of") + " " + dealtCard.PyramidCardCurrentCountOfCardsOnRow;
+                                cardPileAccessibleName = name + ", ";
+
+                                if (MainPage.currentGameType != SolitaireGameType.Grandfathersclock)
+                                {
+                                    cardPileAccessibleName += MainPage.MyGetString("Row") + " " + (dealtCard.PyramidRow + 1);
+                                }
+                                else
+                                {
+                                    cardPileAccessibleName += MainPage.MyGetString("Clock");
+                                }
+
+                                cardPileAccessibleName += ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) +
+                                                    " " + MainPage.MyGetString("Of") + " " + 
+                                                    dealtCard.PyramidCardCurrentCountOfCardsOnRow;
                             }
                         }
                         else

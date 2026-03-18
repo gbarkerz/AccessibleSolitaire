@@ -73,7 +73,15 @@ namespace Sa11ytaire4All
                     return;
                 }
 
-                if ((currentGameType == SolitaireGameType.Bakersdozen) && !selectedCard.IsLastCardInPile)
+                if (!selectedCard.IsLastCardInPile &&
+                    (currentGameType == SolitaireGameType.Bakersdozen))
+                {
+                    return;
+                }
+
+                if ((currentGameType == SolitaireGameType.Grandfathersclock) &&
+                     !selectedCard.IsLastCardInPile &&
+                     (selectedCard.CardState != CardState.KingPlaceHolder))
                 {
                     return;
                 }
@@ -1431,12 +1439,15 @@ namespace Sa11ytaire4All
         private void RefreshDealtCardPileAccessibleNames(CollectionView collectionView)
         {
             var items = collectionView.ItemsSource;
-            foreach (var item in items)
+            if (items != null)
             {
-                var dealtCard = item as DealtCard;
-                if (dealtCard != null)
+                foreach (var item in items)
                 {
-                    dealtCard.RefreshAccessibleName();
+                    var dealtCard = item as DealtCard;
+                    if (dealtCard != null)
+                    {
+                        dealtCard.RefreshAccessibleName();
+                    }
                 }
             }
         }

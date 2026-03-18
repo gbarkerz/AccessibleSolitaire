@@ -691,6 +691,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clock.
+        /// </summary>
+        internal static string Clock {
+            get {
+                return ResourceManager.GetString("Clock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
@@ -1058,6 +1067,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string GeneralGamePlay {
             get {
                 return ResourceManager.GetString("GeneralGamePlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grandfather&apos;s Clock Solitaire.
+        /// </summary>
+        internal static string GrandfathersclockSolitaire {
+            get {
+                return ResourceManager.GetString("GrandfathersclockSolitaire", resourceCulture);
             }
         }
         

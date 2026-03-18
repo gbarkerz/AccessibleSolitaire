@@ -15,6 +15,7 @@ namespace Sa11ytaire4All
         Bakersdozen = 4,
         Spider = 5,
         Royalparade = 6,
+        Grandfathersclock = 7,
     }
 
     public partial class MainPage : ContentPage
@@ -46,7 +47,27 @@ namespace Sa11ytaire4All
         {
             if (IsGameCollectionViewBased())
             {
+                if (currentGameType == SolitaireGameType.Grandfathersclock)
+                {
+                    AddGrandfathersclockButtons();
+                }
+
                 return;
+            }
+
+            var targetPiles = TargetPiles.Children;
+            if (targetPiles != null)
+            {
+                if ((currentGameType != SolitaireGameType.Grandfathersclock) &&
+                    (targetPiles.Count != 4))
+                {
+                    targetPiles.Clear();
+
+                    targetPiles.Add(TargetPileC);
+                    targetPiles.Add(TargetPileD);
+                    targetPiles.Add(TargetPileH);
+                    targetPiles.Add(TargetPileS);
+                }
             }
 
             cardGradientBrushRed.Center = new Point(0, 0);
@@ -1201,6 +1222,7 @@ namespace Sa11ytaire4All
 
             if ((currentGameType == SolitaireGameType.Klondike) ||
                 (currentGameType == SolitaireGameType.Bakersdozen) ||
+                (currentGameType == SolitaireGameType.Grandfathersclock) ||
                 (currentGameType == SolitaireGameType.Spider) ||
                 (currentGameType == SolitaireGameType.Pyramid))
             {

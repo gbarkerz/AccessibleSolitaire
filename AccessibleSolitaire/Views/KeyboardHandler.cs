@@ -1031,6 +1031,126 @@ namespace Sa11ytaire4All
             return moveComment;
         }
 
+        private string? AnnounceAvailableMovesGrandfathersclock()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return null;
+            }
+
+            // In Baker's Dozen cards can either be moved between dealt piles, or 
+            // from dealt card piles to target card piles.
+
+            int numberOfMoves = 0;
+            string moveComment = "";
+
+            // Barker Note: If this ever does get translated, consider using formatted strings here, 
+            // rather than concatenating all the various strings.
+
+            var moveAnnouncementInPileString = MyGetString("MoveAnnouncementInPile");
+            var onString = MyGetString("On");
+            var targetCardPile = MyGetString("TargetCardPile");
+            var dealtCardPile = MyGetString("DealtCardPile");
+            var canBeMovedTo = MyGetString("CanBeMovedTo");
+
+            // d is a destination for a move between dealt cards.
+            for (int d = 0; d < GetGameCardPileCount(); d++)
+            {
+                var destinationDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (d + 1));
+                if (destinationDealtCardPile != null)
+                {
+                    var destinationPileItems = destinationDealtCardPile.ItemsSource.Cast<DealtCard>().ToArray();
+
+                    var countOfCardsInDestinationPile = destinationPileItems.Count();
+                    if (countOfCardsInDestinationPile == 0)
+                    {
+                        continue;
+                    }
+
+                    // No cards can be moved to an empty pile.
+                    if ((countOfCardsInDestinationPile == 1) &&
+                        (destinationPileItems[0].CardState == CardState.KingPlaceHolder))
+                    {
+                        continue;
+                    }
+
+                    // We're only interested in the top card in the pile.
+                    var destinationCard = destinationPileItems[countOfCardsInDestinationPile - 1];
+
+                    var suitTarget = CanCardBeMovedToTargetPile(destinationCard);
+                    if (!string.IsNullOrEmpty(suitTarget))
+                    {
+                        if (numberOfMoves > 0)
+                        {
+                            moveComment += ", \r\n";
+                        }
+
+                        ++numberOfMoves;
+
+                        moveComment += destinationCard.AccessibleNameWithoutSelectionAndMofN +
+                            " " +
+                            onString + " " + dealtCardPile + " " + (d + 1).ToString() +
+                            " " + canBeMovedTo + " " +
+                            suitTarget + " " +
+                            MainPage.MyGetString("TargetCardPile");
+                    }
+
+                    // Now move through all the dealt card piles looking for a source card for a move.
+                    for (int s = 0; s < GetGameCardPileCount(); s++)
+                    {
+                        var sourceDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (s + 1));
+
+                        // Don't attempt to move a card onto itself.
+                        if ((destinationDealtCardPile != null) && (destinationDealtCardPile != sourceDealtCardPile))
+                        {
+                            var itemsSource = vm.DealtCards[s];
+                            if (itemsSource.Count == 0)
+                            {
+                                continue;
+                            }
+
+                            // Only the top card in a dealt card pile can be moved.
+                            var sourceDealtCard = (itemsSource[itemsSource.Count - 1] as DealtCard);
+                            if (sourceDealtCard == null)
+                            {
+                                continue;
+                            }
+
+                            // If this source dealt card pile is either empty, or only holds a King, no move is possible.
+                            if ((itemsSource.Count() == 1) && (sourceDealtCard.CardState == CardState.KingPlaceHolder))
+                            {
+                                continue;
+                            }
+
+                            // Check whether the source card can be moved on top of another card in 
+                            // the destination pile.
+                            if (CanMoveCardToDealtCardPile(destinationCard, sourceDealtCard))
+                            {
+                                if (numberOfMoves > 0)
+                                {
+                                    moveComment += ", \r\n";
+                                }
+
+                                moveComment +=
+                                    sourceDealtCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                    moveAnnouncementInPileString + " " +
+                                    dealtCardPile + " " + localizedNumbers[s].ToString() + " " +
+                                    canBeMovedTo + " " +
+                                    destinationCard.AccessibleNameWithoutSelectionAndMofN + " " +
+                                    moveAnnouncementInPileString + " " +
+                                    dealtCardPile + " " + localizedNumbers[d].ToString();
+
+                                numberOfMoves++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return moveComment;
+        }
+
         public string? AnnouncePyramidOpenCards(bool makeAnnouncement)
         {
             var noMoveIsAvailable = MyGetString("NoOpenCardsAreAvailable");
@@ -1038,7 +1158,8 @@ namespace Sa11ytaire4All
             var openCardsComment = "";
 
             if ((currentGameType != SolitaireGameType.Klondike) &&
-                (currentGameType != SolitaireGameType.Bakersdozen))
+                (currentGameType != SolitaireGameType.Bakersdozen) &&
+                (currentGameType != SolitaireGameType.Grandfathersclock))
             {
                 if (currentGameType == SolitaireGameType.Royalparade)
                 {
@@ -1079,7 +1200,7 @@ namespace Sa11ytaire4All
                 {
                     if (!string.IsNullOrEmpty(openCardsComment))
                     {
-                        Debug.WriteLine("AnnounceBakersdozenOpenCards: Announce " + openCardsComment);
+                        Debug.WriteLine("AnnounceCollectionViewBasedOpenCards: Announce " + openCardsComment);
 
                         MakeDelayedScreenReaderAnnouncement(openCardsComment, false);
                     }
@@ -1110,6 +1231,10 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Bakersdozen)
             {
                 moveComment = AnnounceAvailableMovesBakersdozen();
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                moveComment = AnnounceAvailableMovesGrandfathersclock();
             }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {

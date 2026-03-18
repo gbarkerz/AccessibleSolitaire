@@ -38,7 +38,7 @@
         of selected state continued to work fine. -->
     
         <Border 
-            BackgroundColor="Transparent"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
             Stroke="{AppThemeBinding Light=Black, Dark=White}"
             StrokeThickness="1">
             

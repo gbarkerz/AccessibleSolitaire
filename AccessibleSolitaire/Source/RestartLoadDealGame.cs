@@ -82,6 +82,10 @@ namespace Sa11ytaire4All
                 {
                     DealPyramidCardsPostprocess(false);
                 }
+                else if (currentGameType == SolitaireGameType.Grandfathersclock)
+                {
+                    DealCardsToGrandfathersclockPostprocess();
+                }
 
                 RefreshUpperCards();
 
@@ -169,8 +173,13 @@ namespace Sa11ytaire4All
             {
                 PrepareCardsForRoyalParade();
             }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                PrepareCardsForGrandfathersclock();
+            }
 
-            if (currentGameType == SolitaireGameType.Bakersdozen)
+            if ((currentGameType == SolitaireGameType.Bakersdozen) ||
+                (currentGameType == SolitaireGameType.Grandfathersclock))
             {
                 MoveBakersdozenKingsAroundDealtCard();
             }
@@ -242,6 +251,12 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("BakersdozenSessionDuration", 0);
             }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                timeStartOfThisGrandfathersclockSession = DateTime.Now;
+
+                Preferences.Set("GrandfathersclockSessionDuration", 0);
+            }
             else if (currentGameType == SolitaireGameType.Spider)
             {
                 timeStartOfThisSpiderSession = DateTime.Now;
@@ -275,6 +290,11 @@ namespace Sa11ytaire4All
                     count = 13;
                     break;
 
+                case SolitaireGameType.Grandfathersclock:
+                    // This includes the foundation pile above all the CollectionView piles.
+                    count = 9;
+                    break;
+
                 case SolitaireGameType.Spider:
                     count = 10;
                     break;
@@ -303,7 +323,7 @@ namespace Sa11ytaire4All
         // when the app is started or switching between games, so deal out the cards now.
         // Assume all dealt card piles have been cleared before this is called.
 
-        // This will add cards to the CollectionView datasources, and so muct be called on the UI thread.
+        // This will add cards to the CollectionView datasources, and so must be called on the UI thread.
         private async void DealCards()
         {
             int cardIndex = 0;
@@ -333,6 +353,10 @@ namespace Sa11ytaire4All
                     else if (currentGameType == SolitaireGameType.Bakersdozen)
                     {
                         rowCardCount = 4;
+                    }
+                    else if (currentGameType == SolitaireGameType.Grandfathersclock)
+                    {
+                        rowCardCount = (i < 8 ? 5 : 12);
                     }
                     else if (currentGameType == SolitaireGameType.Royalparade)
                     {
@@ -390,7 +414,8 @@ namespace Sa11ytaire4All
 
                         card.IsLastCardInPile = cardEnabled;
 
-                        if (currentGameType == SolitaireGameType.Bakersdozen)
+                        if ((currentGameType == SolitaireGameType.Bakersdozen) ||
+                            (currentGameType == SolitaireGameType.Grandfathersclock))
                         {
                             card.FaceDown = false;
                             card.CardState = CardState.FaceUp;
@@ -445,6 +470,10 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("DealCards: DealPyramidCardsPostprocess failed.");
                 }
             }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                DealCardsToGrandfathersclockPostprocess();
+            }
         }
 
         // This is called on the UI thread.
@@ -462,12 +491,16 @@ namespace Sa11ytaire4All
             // Barker Todo: Remove currentGameType now that we have vm.CurrentGameType.
             currentGameType = targetGameType;
 
+            Debug.WriteLine("ChangeGameType: currentGameType now " + currentGameType);
+
             Preferences.Set("CurrentGameType", Convert.ToInt32(currentGameType));
 
             var vm = this.BindingContext as DealtCardViewModel;
             if (vm != null)
             {
                 vm.CurrentGameType = currentGameType;
+
+                Debug.WriteLine("ChangeGameType: vm.CurrentGameType now " + vm.CurrentGameType);
             }
 
             AddPyramidButtons();
@@ -525,6 +558,10 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Bakersdozen)
             {
                 preferenceSuffix = "Bakersdozen";
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                preferenceSuffix = "Grandfathersclock";
             }
             else if (currentGameType == SolitaireGameType.Spider)
             {

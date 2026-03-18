@@ -110,6 +110,22 @@ namespace Sa11ytaire4All
                             }
                         }
                     }
+                    else if (currentGameType == SolitaireGameType.Grandfathersclock)
+                    {
+                        var element = clickedCardButton.Parent;
+                        while (element is not CardButton)
+                        {
+                            element = element.Parent;
+                        }
+
+                        cardButton = element as CardButton;
+                        if ((cardButton != null) && (cardButton.Card != null))
+                        {
+                            HandleGrandfathersclockCardClick(cardButton);
+                        }
+
+                        return;
+                    }
 
                     break;
             }
@@ -178,7 +194,8 @@ namespace Sa11ytaire4All
 
             // Barker Todo: Check if action can be taken here.
             if ((currentGameType != SolitaireGameType.Klondike) &&
-                (currentGameType != SolitaireGameType.Bakersdozen))
+                (currentGameType != SolitaireGameType.Bakersdozen) &&
+                (currentGameType != SolitaireGameType.Grandfathersclock))
             {
                 HandlePyramidCardClick(cardButton);
 
@@ -224,7 +241,7 @@ namespace Sa11ytaire4All
             }
             else
             {
-                // Attempt to move a card from from of the Dealt Card piles to the Target Card pile.
+                // Attempt to move a card from one of the Dealt Card piles to the Target Card pile.
                 cardWasMoved = MoveDealtCardToTargetPileAsAppropriate(cardButton);
             }
         }
@@ -407,7 +424,8 @@ namespace Sa11ytaire4All
 
             if (listAlreadySelected == null)
             {
-                if (currentGameType == SolitaireGameType.Bakersdozen)
+                if ((currentGameType == SolitaireGameType.Bakersdozen) ||
+                    (currentGameType == SolitaireGameType.Grandfathersclock))
                 {
                     // Target card pile cards can't be selected in a Baker's Dozen game.
                     PlaySound(false);

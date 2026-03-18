@@ -876,4 +876,10 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="RoyalParadeSameSuitRuleInstructions" xml:space="preserve">
     <value>By default when playing Royal Parade in this app, the suit of cards does not affect whether a card can be placed on another card. Turn on this setting if you'd prefer the traditional Royal Parade requirement that a card can only be placed on another card if their suits match. </value>
   </data>
+  <data name="GrandfathersclockSolitaire" xml:space="preserve">
+    <value>Grandfather's Clock Solitaire</value>
+  </data>
+  <data name="Clock" xml:space="preserve">
+    <value>Clock</value>
+  </data>
 </root>

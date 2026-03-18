@@ -31,6 +31,10 @@ namespace Sa11ytaire4All
             {
                 preferenceSuffix = "Bakersdozen";
             }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                preferenceSuffix = "Grandfathersclock";
+            }
             else if (currentGameType == SolitaireGameType.Spider)
             {
                 preferenceSuffix = "Spider";
@@ -154,6 +158,16 @@ namespace Sa11ytaire4All
 
                 Preferences.Set("BakersdozenSessionDuration", timeSpentPlayingPrevious + timeSession);
             }
+            else if ((currentGameType == SolitaireGameType.Grandfathersclock) && !vm.GamePausedGrandfathersclock)
+            {
+                Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Grandfathersclock session time.");
+
+                timeSpentPlayingPrevious = (int)Preferences.Get("GrandfathersclockSessionDuration", 0);
+
+                timeSession = (int)(DateTime.Now - timeStartOfThisGrandfathersclockSession).TotalSeconds;
+
+                Preferences.Set("GrandfathersclockSessionDuration", timeSpentPlayingPrevious + timeSession);
+            }
             else if ((currentGameType == SolitaireGameType.Spider) && !vm.GamePausedSpider)
             {
                 Debug.WriteLine("SaveCurrentTimeSpentPlayingStateIfAppropriate: Persisting Spider session time.");
@@ -192,12 +206,13 @@ namespace Sa11ytaire4All
             vm.GamePausedPyramid = (bool)Preferences.Get("GamePausedPyramid", false);
             vm.GamePausedTripeaks = (bool)Preferences.Get("GamePausedTripeaks", false);
             vm.GamePausedBakersdozen = (bool)Preferences.Get("GamePausedBakersdozen", false);
+            vm.GamePausedGrandfathersclock = (bool)Preferences.Get("GamePausedGrandfathersclock", false);
             vm.GamePausedSpider = (bool)Preferences.Get("GamePausedSpider", false);
 
             Debug.WriteLine("LoadAllGamesPausedState: Loaded current games' paused state. " + 
                 "Klondike " + vm.GamePausedKlondike + ", Pyramid " + vm.GamePausedPyramid +
                 ", Tripeaks " + vm.GamePausedTripeaks + ", Bakersdozen " + vm.GamePausedBakersdozen +
-                ", Spider " + vm.GamePausedSpider);
+                ", Spider " + vm.GamePausedSpider + ", Grandfathersclock " + vm.GamePausedGrandfathersclock);
 
             SetPauseResumeButtonState();
         }
@@ -238,6 +253,12 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Barkersdozen set start of this session to now.");
 
                 timeStartOfThisBakersdozenSession = DateTime.Now;
+            }
+            else if ((currentGameType == SolitaireGameType.Grandfathersclock) && !vm.GamePausedGrandfathersclock)
+            {
+                Debug.WriteLine("SetNowAsStartOfCurrentGameSessionIfAppropriate: Grandfathersclock set start of this session to now.");
+
+                timeStartOfThisGrandfathersclockSession = DateTime.Now;
             }
             else if ((currentGameType == SolitaireGameType.Spider) && !vm.GamePausedSpider)
             {

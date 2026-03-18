@@ -464,6 +464,55 @@ namespace Sa11ytaire4All
                 }
             }
         }
+               
+        private void PrepareCardsForGrandfathersclock()
+        {
+            var foundationCards = new Card[]
+                {
+                    new Card(){Suit = Suit.Clubs, Rank = 9},
+                    new Card(){Suit = Suit.Hearts, Rank = 10},
+                    new Card(){Suit = Suit.Spades, Rank = 11},
+                    new Card(){Suit = Suit.Diamonds, Rank = 12},
+                    new Card(){Suit = Suit.Clubs, Rank = 13},
+                    new Card(){Suit = Suit.Hearts, Rank = 2},
+                    new Card(){Suit = Suit.Spades, Rank = 3},
+                    new Card(){Suit = Suit.Diamonds, Rank = 4},
+                    new Card(){Suit = Suit.Clubs, Rank = 5},
+                    new Card(){Suit = Suit.Hearts, Rank = 6},
+                    new Card(){Suit = Suit.Spades, Rank = 7},
+                    new Card(){Suit = Suit.Diamonds, Rank = 8},
+                };
+
+            var foundationCardsPlaced = 0;
+
+            for (var i = 0; i < foundationCards.Length; ++i)
+            {
+                var foundationCard = foundationCards[i];
+
+                for (var j = 0; j < _deckRemaining.Count; ++j)
+                {
+                    var card = _deckRemaining[j];
+                    if (card != null)
+                    {
+                        if ((card.Rank == foundationCard.Rank) &&
+                            (card.Suit == foundationCard.Suit))
+                        {
+                            // Place the foundations card at the end of the cards.
+                            SwapCard(40 + i, j);
+
+                            ++foundationCardsPlaced;
+
+                            break;
+                        }
+                    }
+                }
+
+                if (foundationCardsPlaced >= 12)
+                {
+                    break;
+                }
+            }
+        }
 
         private void PrepareCardsForRoyalParade()
         {

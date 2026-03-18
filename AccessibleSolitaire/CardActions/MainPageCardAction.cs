@@ -20,7 +20,8 @@ namespace Sa11ytaire4All
         private void ClearDealtCardPileSelections()
         {
             if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
+                (currentGameType == SolitaireGameType.Bakersdozen) ||
+                (currentGameType == SolitaireGameType.Grandfathersclock))
             {
                 for (int i = 0; i < GetGameCardPileCount(); i++)
                 {
@@ -52,26 +53,29 @@ namespace Sa11ytaire4All
                 if (list != null)
                 {
                     var items = list.ItemsSource;
-                    foreach (var item in items)
+                    if (items != null)
                     {
-                        var dealtCard = item as DealtCard;
-                        if (dealtCard != null)
+                        foreach (var item in items)
                         {
-                            if (dealtCard.CardSelected)
+                            var dealtCard = item as DealtCard;
+                            if (dealtCard != null)
                             {
-                                selectedCard = dealtCard;
+                                if (dealtCard.CardSelected)
+                                {
+                                    selectedCard = dealtCard;
 
-                                listAlreadySelected = list;
-                                listAlreadySelectedIndex = i;
+                                    listAlreadySelected = list;
+                                    listAlreadySelectedIndex = i;
 
-                                break;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (selectedCard != null)
-                    {
-                        break;
+                        if (selectedCard != null)
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -115,8 +119,39 @@ namespace Sa11ytaire4All
                     (TargetPileD.Card == null) || (TargetPileD.Card.Rank != 13) ||
                     (TargetPileH.Card == null) || (TargetPileH.Card.Rank != 13) ||
                     (TargetPileS.Card == null) || (TargetPileS.Card.Rank != 13))
-                {    
+                {
                     gameIsOver = false;
+                }
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                gameIsOver = false;
+
+                var clockCards = TargetPiles.Children;
+                if ((clockCards != null) && (clockCards.Count == 12))
+                {
+                    var foundCorrectNumber = 0;
+
+                    for (var i = 0; i < clockCards.Count; i++)
+                    {
+                        var clockCard = clockCards[i] as CardButton;
+                        if ((clockCard != null) && (clockCard.Card != null))
+                        {
+                            var finalClockNumber = (i > 0 ? i : 12);
+
+                            if (clockCard.Card.Rank != finalClockNumber)
+                            {
+                                break;
+                            }
+
+                            ++foundCorrectNumber;
+                        }
+                    }
+
+                    if (foundCorrectNumber == 12)
+                    {
+                        gameIsOver = true;
+                    }
                 }
             }
             else if (currentGameType == SolitaireGameType.Spider)

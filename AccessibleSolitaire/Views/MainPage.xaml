@@ -749,6 +749,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
                     
                     <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"

@@ -30,6 +30,16 @@ namespace Sa11ytaire4All
             }
         }
 
+        private void GrandfathersclockSolitaireMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            if (MainPage.currentGameType != SolitaireGameType.Grandfathersclock)
+            {
+                MainPage.MainPageSingleton?.LoadGrandfathersclockGame();
+            }
+        }
+
         private void PyramidSolitaireMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;
@@ -59,7 +69,7 @@ namespace Sa11ytaire4All
                 MainPage.MainPageSingleton?.LoadSpiderGame();
             }
         }
-        
+
         private void RoyalparadeSolitaireMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;

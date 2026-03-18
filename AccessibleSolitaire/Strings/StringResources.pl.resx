@@ -876,4 +876,10 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="RoyalParadeSameSuitRuleInstructions" xml:space="preserve">
     <value>Domyślnie podczas gry w Royal Parade w tej aplikacji kolor kart nie wpływa na to, czy kartę można położyć na innej karcie. Włącz to ustawienie, jeśli wolisz tradycyjne wymaganie Royal Parade, zgodnie z którym kartę można położyć na innej karcie tylko wtedy, gdy ich kolory są takie same.</value>
   </data>
+  <data name="GrandfathersclockSolitaire" xml:space="preserve">
+    <value>Grandfather's Clock Solitaire</value>
+  </data>
+  <data name="Clock" xml:space="preserve">
+    <value>Zegar</value>
+  </data>
 </root>

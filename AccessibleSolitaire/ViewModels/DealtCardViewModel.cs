@@ -107,6 +107,9 @@ namespace Sa11ytaire4All.ViewModels
         public partial bool GamePausedBakersdozen { get; set; }
 
         [ObservableProperty]
+        public partial bool GamePausedGrandfathersclock { get; set; }
+
+        [ObservableProperty]
         public partial bool GamePausedPyramid { get; set; }
 
         [ObservableProperty]
@@ -166,6 +169,8 @@ namespace Sa11ytaire4All.ViewModels
                 if (currentGameType != value)
                 {
                     currentGameType = value;
+
+                    Debug.WriteLine("CurrentGameType Property: currentGameType now " + currentGameType);
 
                     OnPropertyChanged("CurrentGameType");
                     OnPropertyChanged("CardWidth");

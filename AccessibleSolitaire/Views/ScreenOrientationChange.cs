@@ -144,13 +144,6 @@ namespace Sa11ytaire4All
 
                         break;
                     }
-                    //else if ((currentGameType == SolitaireGameType.Royalparade) &&
-                    //            (i >= 4))
-                    //{
-                    //    upperGridRowSpan = 1;
-
-                    //    break;
-                    //}
 
                     rowDefinitionCollection.Add( new RowDefinition(new GridLength(1, GridUnitType.Star)));
                 }
@@ -180,7 +173,8 @@ namespace Sa11ytaire4All
 
                 InnerMainGrid.RowDefinitions = rowDefinitionCollection;
 
-                Grid.SetRowSpan(UpperGrid, 1);
+                var upperGridRowSpan = (currentGameType != SolitaireGameType.Grandfathersclock ? 1 : 2);
+                Grid.SetRowSpan(UpperGrid, upperGridRowSpan);
 
                 Grid.SetColumnSpan(TopCornerPiles, 1);
 
@@ -211,6 +205,11 @@ namespace Sa11ytaire4All
                         cardPileGridRowSpan = 13;
                         break;
 
+                    case SolitaireGameType.Grandfathersclock:
+                        cardPileGridRow = 3;
+                        cardPileGridRowSpan = 13;
+                        break;
+
                     case SolitaireGameType.Pyramid:
                         cardPileGridRow = 4;
                         cardPileGridRowSpan = 9;
@@ -234,8 +233,16 @@ namespace Sa11ytaire4All
             }
             else // Landscape.
             {
-                cardPileGridRow = 1;
-                cardPileGridRowSpan = 2;
+                if (currentGameType != SolitaireGameType.Grandfathersclock)
+                {
+                    cardPileGridRow = 1;
+                    cardPileGridRowSpan = 2;
+                }
+                else
+                {
+                    cardPileGridRow = 2;
+                    cardPileGridRowSpan = 1;
+                }
             }
 
             if (IsGameCollectionViewBased())
@@ -290,6 +297,11 @@ namespace Sa11ytaire4All
                 Grid.SetColumnSpan(collectionView, 1);
 
                 collectionView.ItemsLayout = LinearItemsLayout.Vertical;
+
+                if (currentGameType == SolitaireGameType.Grandfathersclock)
+                {
+                    collectionView.HeightRequest = InnerMainGrid.Height / 3;
+                }
             }
         }
     }

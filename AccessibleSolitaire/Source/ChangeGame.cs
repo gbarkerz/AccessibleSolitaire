@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 
 using Sa11ytaire4All.ViewModels;
+using Sa11ytaire4All.Views;
 
 namespace Sa11ytaire4All
 {
@@ -31,6 +32,19 @@ namespace Sa11ytaire4All
             }
 
             ChangeGameType(SolitaireGameType.Bakersdozen);
+
+            ComleteVisualsUpdateFollowingGameChange();
+        }
+
+        public void LoadGrandfathersclockGame()
+        {
+            var previousGame = currentGameType;
+            if (previousGame == SolitaireGameType.Grandfathersclock)
+            {
+                return;
+            }
+
+            ChangeGameType(SolitaireGameType.Grandfathersclock);
 
             ComleteVisualsUpdateFollowingGameChange();
         }
@@ -107,6 +121,7 @@ namespace Sa11ytaire4All
             {
                 case SolitaireGameType.Klondike:
                 case SolitaireGameType.Bakersdozen:
+                case SolitaireGameType.Grandfathersclock:
                 case SolitaireGameType.Spider:
                     CardPileGrid.IsVisible = true;
                     CardPileGridPyramid.IsVisible = false;
@@ -138,6 +153,10 @@ namespace Sa11ytaire4All
 
                 case SolitaireGameType.Bakersdozen:
                     gameType = MyGetString("BakersdozenSolitaire");
+                    break;
+
+                case SolitaireGameType.Grandfathersclock:
+                    gameType = MyGetString("GrandfathersclockSolitaire");
                     break;
 
                 case SolitaireGameType.Spider:
@@ -204,6 +223,12 @@ namespace Sa11ytaire4All
 
                         break;
 
+                    case SolitaireGameType.Grandfathersclock:
+
+                        currentCardHeight = (InnerMainGrid.Height / 15) - 5;
+
+                        break;
+
                     case SolitaireGameType.Spider:
 
                         currentCardHeight = (InnerMainGrid.Height / 12) - 3;
@@ -244,7 +269,16 @@ namespace Sa11ytaire4All
                 {
                     vm.CardHeight = (3 * MainPageGrid.Height) / 13;
 
-                    var currentCardWidth = (MainPageGrid.Width - 1) / GetGameCardPileCount();
+                    var cardPileCount = GetGameCardPileCount();
+
+                    if (currentGameType == SolitaireGameType.Grandfathersclock)
+                    {
+                        // In the Grandfather's Clock game, there's one less CollectionView pile than
+                        // dealt card piles.
+                        --cardPileCount;
+                    }
+
+                    var currentCardWidth = (MainPageGrid.Width - 1) / cardPileCount;
 
                     if (currentCardWidth != vm.CardWidth)
                     {
@@ -265,20 +299,36 @@ namespace Sa11ytaire4All
 
             // The first seven dealt card piles are always of interest.
 
-            for (int i = 8; i < 13; i++)
+            for (int i = 8; i <= 13; i++)
             {
                 var collectionView = (CollectionView)CardPileGrid.FindByName("CardPile" + i);
 
                 // Piles 8, 9, and 10 are of interest to both Spider and Baker's Dozen.
                 // Piles 11, 12, and 13 are only of interest to Baker's Dozen.
 
-                var hideDealtCardPile = (currentGameType == SolitaireGameType.Klondike) ||
-                                         ((currentGameType == SolitaireGameType.Spider) && (i > 10));
+                var hideDealtCardPile = false;
+                
+                if (currentGameType == SolitaireGameType.Klondike)
+                {
+                    hideDealtCardPile = true;
+                }
+                else if ((currentGameType == SolitaireGameType.Spider) && (i > 10))
+                {
+                    hideDealtCardPile = true;
+                }
+                else if ((currentGameType == SolitaireGameType.Grandfathersclock) && (i > 8))
+                {
+                    hideDealtCardPile = true;
+                }
 
                 // Important: Do not use SetIsInAccessibleTree here, as that won't impact the
                 // items contained within the CollectionViews.
 
                 AutomationProperties.SetExcludedWithChildren(collectionView, hideDealtCardPile);
+
+                // Barker: It seems that calling SetExcludedWithChildren() is no longer sufficient.
+                // So call SetIsInAccessibleTree() also.
+                AutomationProperties.SetIsInAccessibleTree(collectionView, !hideDealtCardPile);
             }
         }
 
@@ -355,7 +405,12 @@ namespace Sa11ytaire4All
             {
 #if (ANDROID || WINDOWS)
                 // Spider solitaire does not show a group of upturned card elements.
-                SemanticProperties.SetDescription(UpturnedCardsGrid, MyGetString("UpturnedCards"));
+
+                if (currentGameType != SolitaireGameType.Grandfathersclock)
+                {
+                    SemanticProperties.SetDescription(UpturnedCardsGrid, MyGetString("UpturnedCards"));
+                }
+
                 SemanticProperties.SetDescription(TargetPiles, MyGetString("TargetCardPiles"));
 #endif
 
@@ -374,6 +429,22 @@ namespace Sa11ytaire4All
                     CardDeckUpturnedObscuredHigher.IsVisible = false;
                     CardDeckUpturned.IsVisible = false;
                 }
+
+                if (currentGameType == SolitaireGameType.Grandfathersclock)
+                {
+                    NextCardDeck.IsVisible = false;
+
+                    CardDeckUpturnedObscuredLower.IsVisible = false;
+                    CardDeckUpturnedObscuredHigher.IsVisible = false;
+                    CardDeckUpturned.IsVisible = false;
+
+                    TargetPiles.IsVisible = true;
+
+                    TargetPileC.IsVisible = false;
+                    TargetPileD.IsVisible = false;
+                    TargetPileH.IsVisible = false;
+                    TargetPileS.IsVisible = false;
+                }
                 else
                 {
                     NextCardDeck.IsVisible = true;
@@ -383,13 +454,33 @@ namespace Sa11ytaire4All
                     CardDeckUpturnedObscuredHigher.IsVisible = (currentGameType != SolitaireGameType.Tripeaks);
                     CardDeckUpturnedObscuredLower.IsVisible = (currentGameType == SolitaireGameType.Klondike);
                 }
+
+                Debug.WriteLine("SetRemainingCardUIVisibility: Final currentGameType is " + currentGameType);
+                if (currentGameType != SolitaireGameType.Grandfathersclock)
+                {
+                    var targetPiles = TargetPiles.Children;
+                    if ((targetPiles != null) && (targetPiles.Count > 0))
+                    {
+                        Debug.WriteLine("SetRemainingCardUIVisibility: Count of target piles was " + targetPiles.Count);
+
+                        if (targetPiles.Count != 4)
+                        {
+                            targetPiles.Clear();
+
+                            targetPiles.Add(TargetPileC);
+                            targetPiles.Add(TargetPileD);
+                            targetPiles.Add(TargetPileH);
+                            targetPiles.Add(TargetPileS);
+                        }
+                    }
+                }
             }
         }
 
         private bool LoadedCardCountUnexpected()
         {
             var vm = this.BindingContext as DealtCardViewModel;
-            if (vm == null)
+            if ((vm == null) || (vm.DealtCards == null))
             {
                 return false;
             }
@@ -407,6 +498,10 @@ namespace Sa11ytaire4All
                      (countCardsLoaded != 52))
             {
                 countUnexpected = true;
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                countUnexpected = IsGrandfathersclockCardCountUnexpected();
             }
             else if (currentGameType == SolitaireGameType.Spider)
             {
@@ -456,6 +551,11 @@ namespace Sa11ytaire4All
                 }
                 else
                 {
+                    if (currentGameType == SolitaireGameType.Grandfathersclock)
+                    {
+                        DealCardsToGrandfathersclockPostprocess();
+                    }
+
                     // Without this refreshing of the cards' accessible name, the N in MofN is stuck
                     // as it was when the card was added to the pile, and doesn't account for the 
                     // total number of cards added. 

@@ -545,6 +545,7 @@ namespace Sa11ytaire4All
         {
             return ((currentGameType == SolitaireGameType.Klondike) ||
                     (currentGameType == SolitaireGameType.Bakersdozen) ||
+                    (currentGameType == SolitaireGameType.Grandfathersclock) ||
                     (currentGameType == SolitaireGameType.Spider));
         }
 
@@ -564,6 +565,8 @@ namespace Sa11ytaire4All
                 currentGameType = (SolitaireGameType)Preferences.Get("CurrentGameType", 
                                                         Convert.ToInt32(SolitaireGameType.Klondike));
 
+                Debug.WriteLine("OnAppearing: currentGameType now " + currentGameType);
+
                 // Barker: Bind this on startup and remove all this explicit setting here.
                 var layout = (IsPortrait() ? LinearItemsLayout.Horizontal : LinearItemsLayout.Vertical);
                 CardPile1.ItemsLayout = layout;
@@ -581,6 +584,8 @@ namespace Sa11ytaire4All
                 CardPile13.ItemsLayout = layout;
 
                 vm.CurrentGameType = currentGameType;
+
+                Debug.WriteLine("OnAppearing: vm.CurrentGameType now " + vm.CurrentGameType);
 
                 //SetRemainingCardUIVisibility();
 
@@ -608,12 +613,14 @@ namespace Sa11ytaire4All
                     vm.GamePausedPyramid = false;
                     vm.GamePausedTripeaks = false;
                     vm.GamePausedBakersdozen = false;
+                    vm.GamePausedGrandfathersclock = false;
 
                     Preferences.Set("GamePausedKlondike", false);
                     Preferences.Set("GamePausedSpider", false);
                     Preferences.Set("GamePausedPyramid", false);
                     Preferences.Set("GamePausedTripeaks", false);
                     Preferences.Set("GamePausedBakersdozen", false);
+                    Preferences.Set("GamePausedGrandfathersclock", false);
                     
                     SetPauseResumeButtonState();
                 }
@@ -743,12 +750,22 @@ namespace Sa11ytaire4All
                     // Set firstAppAppearanceSinceStarting false inside the first handling
                     // of CardPileGrid_Loaded.
                     CardPileGrid.Loaded += CardPileGrid_Loaded;
+
+                    if (currentGameType == SolitaireGameType.Grandfathersclock)
+                    {
+                        TargetPiles.Loaded += TargetPiles_Loaded;
+                    }
                 }
             }
 
             var timeInOnAppearing = (DateTime.Now - timeOnAppearingStart).TotalMilliseconds;
 
             Debug.WriteLine("OnAppearing: DONE timeInOnAppearing ms " + timeInOnAppearing);
+        }
+
+        private void TargetPiles_Loaded(object? sender, EventArgs e)
+        {
+            AddGrandfathersclockButtons();
         }
 
         private void SetCardButtonsHeadingState(bool isHeading)
@@ -961,6 +978,13 @@ namespace Sa11ytaire4All
             SetOrientationLayout();
 
             ResizeDealtCard(false);
+
+            if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                Debug.WriteLine("InnerMainPageGrid_SizeChanged: InnerMainGrid.Height " + InnerMainGrid.Height);
+
+                ArrangeGrandfathersclockButtons();
+            }
         }
 
         private void ClearTargetPileButtons()
@@ -1173,6 +1197,13 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("PauseResumeButton_Click: Bakersdozen paused game state " + vm.GamePausedBakersdozen);
                     break;
 
+                case SolitaireGameType.Grandfathersclock:
+                    vm.GamePausedGrandfathersclock = !vm.GamePausedGrandfathersclock;
+                    Preferences.Set("GamePausedGrandfathersclock", vm.GamePausedGrandfathersclock);
+
+                    Debug.WriteLine("PauseResumeButton_Click: Grandfathersclock paused game state " + vm.GamePausedGrandfathersclock);
+                    break;
+
                 default:
                     break;
             }
@@ -1275,6 +1306,13 @@ namespace Sa11ytaire4All
                     Debug.WriteLine("IsCurrentGamePaused: Current Bakersdozen paused state " + currentGameIsPaused);
 
                     currentGameIsPaused = vm.GamePausedBakersdozen;
+                    break;
+
+                case SolitaireGameType.Grandfathersclock:
+
+                    Debug.WriteLine("IsCurrentGamePaused: Current Grandfathersclock paused state " + currentGameIsPaused);
+
+                    currentGameIsPaused = vm.GamePausedGrandfathersclock;
                     break;
 
                 default:
@@ -1396,11 +1434,23 @@ namespace Sa11ytaire4All
                 {
                     if ((cardBelow.Card != null) && (cardAbove.Card != null))
                     {
-                        if (cardBelow.Card.Rank == cardAbove.Card.Rank + 1)
+                        var moveOk = (cardBelow.Card.Rank == cardAbove.Card.Rank + 1);
+
+                        if (!moveOk && (currentGameType == SolitaireGameType.Grandfathersclock))
+                        {
+                            // In the Grandfather's Clock game, a King can be moved onto an Ace.
+                            if ((cardBelow.Card.Rank == 1) && (cardAbove.Card.Rank == 13))
+                            {
+                                moveOk = true;
+                            }
+                        }
+
+                        if (moveOk)
                         {
                             // Suit doesn't matter in the Spider and Baker's Dozen games.
                             if ((currentGameType != SolitaireGameType.Spider) &&
-                                (currentGameType != SolitaireGameType.Bakersdozen))
+                                (currentGameType != SolitaireGameType.Bakersdozen) &&
+                                (currentGameType != SolitaireGameType.Grandfathersclock))
                             {
                                 bool isBelowRed = ((cardBelow.Card.Suit == Suit.Diamonds) || (cardBelow.Card.Suit == Suit.Hearts));
                                 bool isAboveRed = ((cardAbove.Card.Suit == Suit.Diamonds) || (cardAbove.Card.Suit == Suit.Hearts));
@@ -1450,6 +1500,7 @@ namespace Sa11ytaire4All
         private DateTime timeStartOfThisPyramidSession;
         private DateTime timeStartOfThisTripeaksSession;
         private DateTime timeStartOfThisBakersdozenSession;
+        private DateTime timeStartOfThisGrandfathersclockSession;
         private DateTime timeStartOfThisSpiderSession;
         private DateTime timeStartOfThisRoyalparadeSession;
 
@@ -1498,6 +1549,10 @@ namespace Sa11ytaire4All
                 case SolitaireGameType.Bakersdozen:
                     nameOfCurrentGame = MainPage.MyGetString("BakersdozenSolitaire");
                     break;
+
+                case SolitaireGameType.Grandfathersclock:
+                    nameOfCurrentGame = MainPage.MyGetString("GrandfathersclockSolitaire");
+                    break;
             }
 
             message1 = string.Format(message1, nameOfCurrentGame);
@@ -1539,6 +1594,10 @@ namespace Sa11ytaire4All
             {
                 timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisBakersdozenSession;
             }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                timeSpentPlayingCurrent = DateTime.Now - timeStartOfThisGrandfathersclockSession;
+            }
 
             Debug.WriteLine("Accessible Solitaire: Time spent currently playing this game " +
                 timeSpentPlayingCurrent.TotalSeconds);
@@ -1568,6 +1627,10 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Bakersdozen)
             {
                 secondsSpentPlayingPrevious = (int)Preferences.Get("BakersDozenSessionDuration", 0);
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                secondsSpentPlayingPrevious = (int)Preferences.Get("GrandfathersclockSessionDuration", 0);
             }
 
             if (secondsSpentPlayingPrevious > 0)
@@ -1621,6 +1684,21 @@ namespace Sa11ytaire4All
                 TargetPileD.RotateToAsync(0, 0);
                 TargetPileH.RotateToAsync(0, 0);
                 TargetPileS.RotateToAsync(0, 0);
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                var clocksCards = TargetPiles.Children;
+                if ((clocksCards != null) && (clocksCards.Count == 12))
+                {
+                    for (var i = 0; i < 12; ++i)
+                    {
+                        var clockCard = clocksCards[i] as CardButton;
+                        if (clockCard != null)
+                        {
+                            clockCard.RotateToAsync(0, 0);
+                        }
+                    }
+                }
             }
             else if (currentGameType == SolitaireGameType.Spider)
             {
@@ -1709,6 +1787,34 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
                         case 3:
                             TargetPileS.RelRotateToAsync(3600, 10000);
+                            break;
+
+                        default:
+                            timerDelayCardSpin?.Dispose();
+                            timerDelayCardSpin = null;
+
+                            break;
+                    }
+                }
+                else if (currentGameType == SolitaireGameType.Grandfathersclock)
+                {
+                    switch (countOfSpinningCards)
+                    {
+                        case 0:
+
+                            var clocksCards = TargetPiles.Children;
+                            if ((clocksCards != null) && (clocksCards.Count == 12))
+                            {
+                                for (var i = 0; i < 12; ++i)
+                                {
+                                    var clockCard = clocksCards[i] as CardButton;
+                                    if (clockCard != null)
+                                    {
+                                        clockCard.RelRotateToAsync(3600, 10000);
+                                    }
+                                }
+                            }
+
                             break;
 
                         default:
@@ -1828,8 +1934,9 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             //SentrySdk.CaptureMessage("Accessible Solitaire: Button Clicked: StateAnnouncementButton", SentryLevel.Info);
 
             var announcementRemainingCards = "";
-            
-            if (currentGameType != SolitaireGameType.Bakersdozen)
+
+            if ((currentGameType != SolitaireGameType.Bakersdozen) &&
+                (currentGameType != SolitaireGameType.Grandfathersclock))
             {
                 announcementRemainingCards = AnnounceStateRemainingCards(false);
             }
@@ -1939,7 +2046,8 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             string stateMessage = "";
 
             if ((currentGameType == SolitaireGameType.Klondike) ||
-                (currentGameType == SolitaireGameType.Bakersdozen))
+                (currentGameType == SolitaireGameType.Bakersdozen) ||
+                (currentGameType == SolitaireGameType.Grandfathersclock))
             {
                 stateMessage = AnnounceStateRemainingCardsKlondike();
             }
@@ -2118,6 +2226,10 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             {
                 stateMessage = AnnounceStateDealtCardPilesBakersDozen();
             }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                stateMessage = AnnounceStateDealtCardPilesGrandfathersclock();
+            }
             else if ((currentGameType == SolitaireGameType.Pyramid) ||
                      (currentGameType == SolitaireGameType.Tripeaks))
             {
@@ -2238,6 +2350,55 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
         }
 
         public string AnnounceStateDealtCardPilesBakersDozen()
+        {
+            string stateMessage = "";
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return "";
+            }
+
+            string empty = MyGetString("Empty");
+            string pile = MyGetString("Pile");
+            string card = MyGetString("Card");
+            string cards = MyGetString("Cards");
+
+            var countPiles = GetGameCardPileCount();
+
+            for (int i = 0; i < countPiles; i++)
+            {
+                stateMessage += pile + " " + (i + 1) + ", ";
+
+                for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                {
+                    var dealtCard = vm.DealtCards[i][j] as DealtCard;
+                    if (dealtCard != null)
+                    {
+                        if (dealtCard.CardState == CardState.KingPlaceHolder)
+                        {
+                            stateMessage += empty;
+                        }
+                        else
+                        {
+                            stateMessage += dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                        }
+
+                        if ((i < countPiles - 1) | (j > 0))
+                        {
+                            stateMessage += ", ";
+                        }
+                    }
+                }
+            }
+
+            stateMessage += ".";
+
+            return stateMessage;
+        }
+
+
+        public string AnnounceStateDealtCardPilesGrandfathersclock()
         {
             string stateMessage = "";
 
@@ -2504,6 +2665,9 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
         private string Sa11ytaireHelpPageBakersdozen =
             "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";
 
+        private string Sa11ytaireHelpPageGrandfathersclock =
+            "https://accessiblesolitaire.com/2026/02/01/accessible-grandfathers-clock-solitaire";
+
         private string Sa11ytaireHelpPagePyramid =
             "https://accessiblesolitaire.com/2025/11/26/coming-soon-accessible-pyramid-solitaire";
 
@@ -2534,7 +2698,11 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                     case SolitaireGameType.Bakersdozen:
                         gameSpecificUrl = Sa11ytaireHelpPageBakersdozen;
                         break;
-                    
+
+                    case SolitaireGameType.Grandfathersclock:
+                        gameSpecificUrl = Sa11ytaireHelpPageGrandfathersclock;
+                        break;
+
                     case SolitaireGameType.Pyramid:
                         gameSpecificUrl = Sa11ytaireHelpPagePyramid;
                         break;

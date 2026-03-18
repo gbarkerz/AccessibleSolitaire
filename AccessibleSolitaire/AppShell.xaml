@@ -37,6 +37,12 @@
         Text="{x:Static resources:Strings.StringResources.SpiderSolitaire}">
     </MenuItem>
 
+    <MenuItem x:Name="GrandfathersclockSolitaireMenuItem" 
+        Clicked="GrandfathersclockSolitaireMenuItem_Clicked"
+        IconImageSource="menugrandfathersclock.png"
+        Text="{x:Static resources:Strings.StringResources.GrandfathersclockSolitaire}">
+    </MenuItem>
+
     <MenuItem x:Name="BakersdozenSolitaireMenuItem" 
         Clicked="BakersdozenSolitaireMenuItem_Clicked"
         IconImageSource="cardbackbakersdozen.png"
