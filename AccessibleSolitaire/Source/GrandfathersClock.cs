@@ -72,26 +72,28 @@ namespace Sa11ytaire4All
 
                 var stretchFactor = sizeFactor;
 
-                if ((i >= 0) && (i < 3))
+                var isPortrait = MainPage.IsPortrait();
+                //if (!isPortrait)
                 {
-                    stretchFactor *= (i % 3);
-                }
-                else if ((i >= 3) && (i < 6))
-                {
-                    stretchFactor *= (3 - (i % 3));
-                }
-                else if ((i >= 6) && (i < 9))
-                {
-                    stretchFactor *= -(i % 3);
-                }
-                else
-                {
-                    stretchFactor *= -(3 - (i % 3));
+                    if ((i >= 0) && (i < 3))
+                    {
+                        stretchFactor *= (i % 3);
+                    }
+                    else if ((i >= 3) && (i < 6))
+                    {
+                        stretchFactor *= (3 - (i % 3));
+                    }
+                    else if ((i >= 6) && (i < 9))
+                    {
+                        stretchFactor *= -(i % 3);
+                    }
+                    else
+                    {
+                        stretchFactor *= -(3 - (i % 3));
+                    }
                 }
 
                 var xTranslate = stretchFactor * vm.CardWidth;
-
-                //var xTranslate = radius * Math.Sin(angle);
 
                 // Move a little away from the top border.
                 var yTranslate = ((availableHeight - vm.CardHeight + 16) / 2) - (radius * Math.Cos(angle));
@@ -102,7 +104,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        private bool DealCardsToGrandfathersclockPostprocess()
+        private bool DealCardsToGrandfathersclockPostprocess(bool setDealtCardProperties)
         {
             if (Application.Current == null)
             {
@@ -155,6 +157,11 @@ namespace Sa11ytaire4All
                 dealtCard.FaceDown = false;
                 dealtCard.Open = true;
 
+                if (setDealtCardProperties && (dealtCard.Card != null))
+                {
+                    dealtCard.StackDetails = dealtCard.Card.Rank.ToString();
+                }
+
                 var cardUI = cardButtonsUI[cardUIIndex] as CardButton;
                 if (cardUI != null)
                 {
@@ -164,7 +171,11 @@ namespace Sa11ytaire4All
 
                     cardUI.RefreshAccessibleName();
 
+                    cardUI.StackDetails = dealtCard.StackDetails;
+
                     SetPyramidCardButtonBindingProperties(cardUI);
+
+                    cardUI.RefreshVisuals();
 
                     ++cardUIIndex;
                 }
@@ -213,11 +224,15 @@ namespace Sa11ytaire4All
 
                 if (moveOk)
                 {
+                    // Keep track of all the cards added to this spot.
+                    cardButton.StackDetails += " " + cardAlreadySelected.StackDetails;
+
                     CollectionView? list;
                     var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
                     if (dealtCard != null)
                     {
                         dealtCard.Card = cardAlreadySelected.Card;
+                        dealtCard.StackDetails = cardButton.StackDetails;
                     }
 
                     // Move the dealt card to the clock.
@@ -247,6 +262,8 @@ namespace Sa11ytaire4All
                     {
                         AddEmptyCardToCollectionView(itemsSource, listAlreadySelectedIndex);
                     }
+
+                    cardButton.RefreshVisuals();
                 }
                 else
                 {
@@ -299,28 +316,18 @@ namespace Sa11ytaire4All
             {
                 for (var i = 0; i < 12; ++i)
                 {
+                    var spaceCount = 0;
+
                     var clockCard = vm.DealtCards[8][i];
-                    if ((clockCard != null) && (clockCard.Card != null))
+                    if ((clockCard != null) && (clockCard.StackDetails != null))
                     {
-                        var difference = 0;
-
-                        if ((i > 0) && (i < 5))
+                        foreach (var c in clockCard.StackDetails)
                         {
-                            var topCardRank = clockCard.Card.Rank;
-                            if (topCardRank < 5)
-                            {
-                                topCardRank += 13;
-                            }
-
-                            difference = topCardRank - i - 9;
+                            spaceCount += (c == ' ' ? 1 : 0);
                         }
-                        else
-                        {
-                            difference = (clockCard.Card.Rank + 3 - i) % 12;
-                        }
-
-                        clockCardCount += 1 + difference;
                     }
+
+                    clockCardCount += 1 + spaceCount;
                 }
             }
 
@@ -334,6 +341,35 @@ namespace Sa11ytaire4All
             }
 
             return countUnexpected;
+        }
+
+        public bool IsGrandfathersclockCardPileFull(string? stackDetails)
+        {
+            if (string.IsNullOrEmpty(stackDetails))
+            {
+                return false;
+            }
+
+            var isFullPile = false;
+
+            if ((stackDetails == "9 10 11 12") ||
+                (stackDetails == "10 11 12 13 1") ||
+                (stackDetails == "11 12 13 1 2") ||
+                (stackDetails == "12 13 1 2 3") ||
+                (stackDetails == "13 1 2 3 4") ||
+                (stackDetails == "1 2 3 4") ||
+                (stackDetails == "2 3 4 5") ||
+                (stackDetails == "3 4 5 6") ||
+                (stackDetails == "4 5 6 7") ||
+                (stackDetails == "5 6 7 8") ||
+                (stackDetails == "6 7 8 9") ||
+                (stackDetails == "7 8 9 10") ||
+                (stackDetails == "8 9 10 11"))
+            {
+                isFullPile = true;
+            }
+
+            return isFullPile;
         }
     }
 }

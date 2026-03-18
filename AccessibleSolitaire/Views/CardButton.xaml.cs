@@ -597,23 +597,37 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
 
         Color colour;
 
-        if (MainPage.currentGameType == SolitaireGameType.Royalparade)
+        if ((MainPage.currentGameType == SolitaireGameType.Royalparade) ||
+            (MainPage.currentGameType == SolitaireGameType.Grandfathersclock))
         {
             colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
                         Colors.White : Colors.Black);
 
             if (Card != null)
             {
-                if ((MainPage.MainPageSingleton != null) && 
-                    MainPage.MainPageSingleton.IsRoyalParadeFourCardPileFull(StackDetails))
+                if (MainPage.MainPageSingleton != null)
                 {
-                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
-                                Colors.LightGrey : Color.FromRgb(0x80, 0x80, 0x80));
-                }
-                else if (Open)
-                {
-                    colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
-                                Colors.Yellow : Colors.DarkGoldenrod);
+                    if (MainPage.currentGameType == SolitaireGameType.Royalparade)
+                    {
+                        if (MainPage.MainPageSingleton.IsRoyalParadeFourCardPileFull(StackDetails))
+                        {
+                            colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                        Colors.LightGrey : Color.FromRgb(0x80, 0x80, 0x80));
+                        }
+                        else if (Open)
+                        {
+                            colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                        Colors.Yellow : Colors.DarkGoldenrod);
+                        }
+                    }
+                    else if (MainPage.currentGameType == SolitaireGameType.Grandfathersclock)
+                    {
+                        if (MainPage.MainPageSingleton.IsGrandfathersclockCardPileFull(StackDetails))
+                        {
+                            colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
+                                        Colors.LightGrey : Color.FromRgb(0x80, 0x80, 0x80));
+                        }
+                    }
                 }
             }
         }

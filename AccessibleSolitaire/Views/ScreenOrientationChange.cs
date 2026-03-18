@@ -298,10 +298,8 @@ namespace Sa11ytaire4All
 
                 collectionView.ItemsLayout = LinearItemsLayout.Vertical;
 
-                if (currentGameType == SolitaireGameType.Grandfathersclock)
-                {
-                    collectionView.HeightRequest = InnerMainGrid.Height / 3;
-                }
+                collectionView.HeightRequest = ((currentGameType != SolitaireGameType.Grandfathersclock ? 2 : 1) * 
+                                                    InnerMainGrid.Height) / 3;
             }
         }
     }

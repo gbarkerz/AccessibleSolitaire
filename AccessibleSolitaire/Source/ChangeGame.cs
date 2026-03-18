@@ -553,7 +553,7 @@ namespace Sa11ytaire4All
                 {
                     if (currentGameType == SolitaireGameType.Grandfathersclock)
                     {
-                        DealCardsToGrandfathersclockPostprocess();
+                        DealCardsToGrandfathersclockPostprocess(false);
                     }
 
                     // Without this refreshing of the cards' accessible name, the N in MofN is stuck

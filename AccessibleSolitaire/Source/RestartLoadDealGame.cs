@@ -84,7 +84,7 @@ namespace Sa11ytaire4All
                 }
                 else if (currentGameType == SolitaireGameType.Grandfathersclock)
                 {
-                    DealCardsToGrandfathersclockPostprocess();
+                    DealCardsToGrandfathersclockPostprocess(false);
                 }
 
                 RefreshUpperCards();
@@ -392,6 +392,8 @@ namespace Sa11ytaire4All
 
                         card.Card = _deckRemaining[cardIndex];
 
+                        card.StackDetails = card.Card.Rank.ToString();
+
                         var cardEnabled = false;
 
                         if (currentGameType == SolitaireGameType.Royalparade)
@@ -472,7 +474,7 @@ namespace Sa11ytaire4All
             }
             else if (currentGameType == SolitaireGameType.Grandfathersclock)
             {
-                DealCardsToGrandfathersclockPostprocess();
+                DealCardsToGrandfathersclockPostprocess(true);
             }
         }
 
