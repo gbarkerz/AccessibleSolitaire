@@ -882,4 +882,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="Clock" xml:space="preserve">
     <value>Zegar</value>
   </data>
+  <data name="1" xml:space="preserve">
+    <value>1</value>
+  </data>
 </root>

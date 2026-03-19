@@ -200,8 +200,6 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            var discardMessage = "";
-
             // Get the already-selected card from the other list if there is one.
             CollectionView? listAlreadySelected;
             int listAlreadySelectedIndex;
@@ -249,24 +247,48 @@ namespace Sa11ytaire4All
                         --cardsCount;
                     }
 
+                    string inDealtCardPile = MainPage.MyGetString("InDealtCardPile");
+                    string revealedString = MainPage.MyGetString("Revealed");
+
+                    string announcement =
+                        MainPage.MyGetString("Moved") + " " +
+                        cardButton.Card.GetCardAccessibleName() + " " +
+                        MainPage.MyGetString("To") + " " +
+                        MainPage.MyGetString("Clock");
+
+                    announcement += ", " +
+                        revealedString + " ";
+
                     // Check for the pile now being empty.
                     if (cardsCount > 0)
                     {
                         var newTopCard = itemsSource[cardsCount - 1];
-                        if (newTopCard != null)
+                        if ((newTopCard != null) && (newTopCard.Card != null))
                         {
                             newTopCard.IsLastCardInPile = true;
+
+                            announcement += newTopCard.Card.GetCardAccessibleName();
                         }
                     }
                     else
                     {
                         AddEmptyCardToCollectionView(itemsSource, listAlreadySelectedIndex);
+
+                        announcement += MainPage.MyGetString("Empty");
                     }
+
+                    announcement += " " + inDealtCardPile + " " + localizedNumbers[listAlreadySelectedIndex];
+
+                    MakeDelayedScreenReaderAnnouncement(announcement, true);
+
+                    PlaySound(true);
 
                     cardButton.RefreshVisuals();
                 }
                 else
                 {
+                    PlaySound(false);
+
                     cardAlreadySelected.CardSelected = false;
                 }
 
