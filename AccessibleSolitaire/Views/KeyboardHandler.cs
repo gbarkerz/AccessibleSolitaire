@@ -564,7 +564,9 @@ namespace Sa11ytaire4All
 
             var openCardsComment = "";
 
-            for (int i = 0; i < GetGameCardPileCount(); ++i)
+            var pileCount = (currentGameType != SolitaireGameType.Grandfathersclock ? GetGameCardPileCount() : 8);
+
+            for (int i = 0; i < pileCount; ++i)
             {
                 var includedPileIndex = false;
 
@@ -1054,8 +1056,55 @@ namespace Sa11ytaire4All
             var dealtCardPile = MyGetString("DealtCardPile");
             var canBeMovedTo = MyGetString("CanBeMovedTo");
 
+            // First check if any card can be moved to the clock.
+
+            var clockCards = TargetPiles.Children;
+            if ((clockCards != null) && (clockCards.Count == 12))
+            {
+                for (var i = 0; i < clockCards.Count; i++)
+                {
+                    var clockCard = clockCards[i] as CardButton;
+                    if ((clockCard != null) && (clockCard.Card != null))
+                    {
+                        for (var j = 0; j < 8; ++j)
+                        {
+                            if (vm.DealtCards[j] != null)
+                            {
+                                var pileCardCount = vm.DealtCards[j].Count;
+                                if (pileCardCount > 0)
+                                {
+                                    var topCardInPile = vm.DealtCards[j][pileCardCount - 1];
+                                    if ((topCardInPile != null) && (topCardInPile.Card != null) &&
+                                        (topCardInPile.CardState != CardState.KingPlaceHolder))
+                                    {
+                                        if (topCardInPile.Card.Suit == clockCard.Card.Suit)
+                                        {
+                                            if ((topCardInPile.Card.Rank == clockCard.Card.Rank + 1) ||
+                                                ((topCardInPile.Card.Rank == 1) && (clockCard.Card.Rank == 13)))
+                                            {
+                                                var hour = (i > 0 ? i : 12);
+
+                                                moveComment += topCardInPile.AccessibleNameWithoutSelectionAndMofN +
+                                                    " " +
+                                                    onString + " " + dealtCardPile + " " + (j + 1).ToString() +
+                                                    " " + canBeMovedTo + " " +
+                                                    MyGetString(hour.ToString()) + " " + MyGetString("Oclock") + ", ";
+
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // d is a destination for a move between dealt cards.
-            for (int d = 0; d < GetGameCardPileCount(); d++)
+            var pileCount = (currentGameType != SolitaireGameType.Grandfathersclock ? GetGameCardPileCount() : 8);
+
+            for (int d = 0; d < pileCount; d++)
             {
                 var destinationDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (d + 1));
                 if (destinationDealtCardPile != null)
@@ -1097,7 +1146,7 @@ namespace Sa11ytaire4All
                     }
 
                     // Now move through all the dealt card piles looking for a source card for a move.
-                    for (int s = 0; s < GetGameCardPileCount(); s++)
+                    for (int s = 0; s < pileCount; s++)
                     {
                         var sourceDealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (s + 1));
 

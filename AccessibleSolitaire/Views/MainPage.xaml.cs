@@ -2199,7 +2199,9 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                 var cardButton = cardButtons[i] as CardButton;
                 if (cardButton != null)
                 {
-                    stateMessage += MyGetString((i + 1).ToString()) + " " + MyGetString("Oclock") + ", ";
+                    var hour = (i > 0 ? i : 12);
+
+                    stateMessage += MyGetString(hour.ToString()) + " " + MyGetString("Oclock") + ", ";
 
                     if (cardButton.Card != null)
                     {
