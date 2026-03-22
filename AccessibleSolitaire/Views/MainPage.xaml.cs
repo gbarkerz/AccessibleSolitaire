@@ -1941,7 +1941,16 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                 announcementRemainingCards = AnnounceStateRemainingCards(false);
             }
 
-            var announceStateTargetPiles = AnnounceStateTargetPiles(false);
+            var announceStateTargetPiles = "";
+
+            if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                announceStateTargetPiles = AnnounceStateClockPiles(false);
+            }
+            else
+            {
+                announceStateTargetPiles = AnnounceStateTargetPiles(false);
+            }
 
             var announcementDealtCards = AnnounceStateDealtCardPiles(false);
 
@@ -2168,6 +2177,49 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
             return stateMessage;
         }
+
+        public string AnnounceStateClockPiles(bool makeAnnouncement)
+        {
+            if (currentGameType != SolitaireGameType.Grandfathersclock)
+            {
+                return "";
+            }
+
+            string stateMessage = MyGetString("ClockPiles") + ", ";
+
+            string empty = MyGetString("Empty");
+            string pile = MyGetString("Pile");
+
+            var cardButtons = TargetPiles.Children;
+
+            for (int i = 0; i < 12; i++)
+            {
+                var button = new CardButton();
+
+                var cardButton = cardButtons[i] as CardButton;
+                if (cardButton != null)
+                {
+                    stateMessage += MyGetString((i + 1).ToString()) + " " + MyGetString("Oclock") + ", ";
+
+                    if (cardButton.Card != null)
+                    {
+                        stateMessage += cardButton.Card.GetCardAccessibleName() + ", ";
+                    }
+                    else
+                    {
+                        stateMessage += empty + ", ";
+                    }
+                }
+            }
+
+            if (makeAnnouncement)
+            {
+                MakeDelayedScreenReaderAnnouncement(stateMessage, false);
+            }
+
+            return stateMessage;
+        }
+
 
         public string AnnounceStateTargetPiles(bool makeAnnouncement)
         {
@@ -2397,7 +2449,6 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             return stateMessage;
         }
 
-
         public string AnnounceStateDealtCardPilesGrandfathersclock()
         {
             string stateMessage = "";
@@ -2415,7 +2466,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
             var countPiles = GetGameCardPileCount();
 
-            for (int i = 0; i < countPiles; i++)
+            for (int i = 0; i < 8; i++)
             {
                 stateMessage += pile + " " + (i + 1) + ", ";
 
@@ -2852,7 +2903,15 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
                     //SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: T", SentryLevel.Info);
 
-                    AnnounceStateTargetPiles(true);
+                    if (currentGameType == SolitaireGameType.Grandfathersclock)
+                    {
+                        AnnounceStateClockPiles(true);
+                    }
+                    else
+                    {
+                        AnnounceStateTargetPiles(true);
+                    }
+
                     e.Handled = true;
                     break;
 

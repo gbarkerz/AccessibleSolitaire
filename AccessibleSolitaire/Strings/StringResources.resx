@@ -885,4 +885,10 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="1" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="ClockPiles" xml:space="preserve">
+    <value>Grandfather clock piles</value>
+  </data>
+  <data name="Oclock" xml:space="preserve">
+    <value>o'clock</value>
+  </data>
 </root>

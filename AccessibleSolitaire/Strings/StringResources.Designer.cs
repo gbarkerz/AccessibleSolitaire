@@ -709,6 +709,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grandfather clock piles.
+        /// </summary>
+        internal static string ClockPiles {
+            get {
+                return ResourceManager.GetString("ClockPiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
@@ -1578,6 +1587,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string ObscuredUpturnedCardCannotBeSelected {
             get {
                 return ResourceManager.GetString("ObscuredUpturnedCardCannotBeSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to o&apos;clock.
+        /// </summary>
+        internal static string Oclock {
+            get {
+                return ResourceManager.GetString("Oclock", resourceCulture);
             }
         }
         

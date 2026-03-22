@@ -885,4 +885,10 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="1" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="ClockPiles" xml:space="preserve">
+    <value>Grandfather clock stos</value>
+  </data>
+  <data name="Oclock" xml:space="preserve">
+    <value>godzina</value>
+  </data>
 </root>
