@@ -31,22 +31,16 @@
         Text="{x:Static resources:Strings.StringResources.KlondikeSolitaire}">
     </MenuItem>
 
-    <MenuItem x:Name="SpiderSolitaireMenuItem" 
-        Clicked="SpiderSolitaireMenuItem_Clicked"
-        IconImageSource="menuspider.png"
-        Text="{x:Static resources:Strings.StringResources.SpiderSolitaire}">
-    </MenuItem>
-
     <MenuItem x:Name="GrandfathersclockSolitaireMenuItem" 
         Clicked="GrandfathersclockSolitaireMenuItem_Clicked"
         IconImageSource="menugrandfathersclock.png"
         Text="{x:Static resources:Strings.StringResources.GrandfathersclockSolitaire}">
     </MenuItem>
 
-    <MenuItem x:Name="BakersdozenSolitaireMenuItem" 
-        Clicked="BakersdozenSolitaireMenuItem_Clicked"
-        IconImageSource="cardbackbakersdozen.png"
-        Text="{x:Static resources:Strings.StringResources.BakersdozenSolitaire}">
+    <MenuItem x:Name="RoyalparadeSolitaireMenuItem" 
+        Clicked="RoyalparadeSolitaireMenuItem_Clicked"
+        IconImageSource="menuroyalparade.png"
+        Text="{x:Static resources:Strings.StringResources.RoyalparadeSolitaire}">
     </MenuItem>
 
     <MenuItem x:Name="PyramidSolitaireMenuItem" 
@@ -61,10 +55,16 @@
         Text="{x:Static resources:Strings.StringResources.TripeaksSolitaire}">
     </MenuItem>
 
-    <MenuItem x:Name="RoyalparadeSolitaireMenuItem" 
-        Clicked="RoyalparadeSolitaireMenuItem_Clicked"
-        IconImageSource="menuroyalparade.png"
-        Text="{x:Static resources:Strings.StringResources.RoyalparadeSolitaire}">
+    <MenuItem x:Name="SpiderSolitaireMenuItem" 
+        Clicked="SpiderSolitaireMenuItem_Clicked"
+        IconImageSource="menuspider.png"
+        Text="{x:Static resources:Strings.StringResources.SpiderSolitaire}">
+    </MenuItem>
+
+    <MenuItem x:Name="BakersdozenSolitaireMenuItem" 
+        Clicked="BakersdozenSolitaireMenuItem_Clicked"
+        IconImageSource="cardbackbakersdozen.png"
+        Text="{x:Static resources:Strings.StringResources.BakersdozenSolitaire}">
     </MenuItem>
 
     <MenuItem x:Name="HelpMenuItem" 

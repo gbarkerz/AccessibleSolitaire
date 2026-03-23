@@ -73,7 +73,9 @@ namespace Sa11ytaire4All
 
             var columnDefinitionCollection = new ColumnDefinitionCollection();
 
-            var columnWidth = vm.CardWidth / 2;
+            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+
+            var columnWidth = vm.CardWidth / (isPortrait ? 1 : 2);
 
             for (int i = 0; i < 8; i++)
             {
@@ -90,7 +92,7 @@ namespace Sa11ytaire4All
                     break;
                 }
 
-                button.WidthRequest = vm.CardWidth / 2;
+                button.WidthRequest = columnWidth;
                 button.HeightRequest = 2 * rowHeight;
 
                 var column = 0;

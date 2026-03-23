@@ -568,7 +568,9 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("OnAppearing: currentGameType now " + currentGameType);
 
                 // Barker: Bind this on startup and remove all this explicit setting here.
-                var layout = (IsPortrait() ? LinearItemsLayout.Horizontal : LinearItemsLayout.Vertical);
+                var layout = (IsPortrait() && (currentGameType != SolitaireGameType.Grandfathersclock) ? 
+                                LinearItemsLayout.Horizontal : LinearItemsLayout.Vertical);
+
                 CardPile1.ItemsLayout = layout;
                 CardPile2.ItemsLayout = layout;
                 CardPile3.ItemsLayout = layout;
@@ -947,6 +949,11 @@ namespace Sa11ytaire4All
         static public bool IsPortrait()
         {
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+
+            if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                return false;
+            }
 
 #if WINDOWS
             isPortrait = false;
