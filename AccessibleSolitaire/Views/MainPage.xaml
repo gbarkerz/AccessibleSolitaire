@@ -736,6 +736,7 @@
                         Converter={StaticResource PyramidCardDiscardedToDiscardPileImageSource}}" />-->
 
                 <Grid x:Name="TargetPiles"
+                    Grid.Row="0"
                     IsVisible="{Binding Mode=OneWay,
                         Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
                         x:DataType={x:Type vm:DealtCardViewModel},
@@ -743,16 +744,6 @@
                         Converter={StaticResource CurrentGameTypeToKlondikeUIVisibility}}"
                     HorizontalOptions="Center"
                     Margin="0" Padding="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
                     
                     <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"

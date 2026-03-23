@@ -463,6 +463,24 @@ namespace Sa11ytaire4All
                     {
                         Debug.WriteLine("SetRemainingCardUIVisibility: Count of target piles was " + targetPiles.Count);
 
+                        var rowDefinitionCollection = new RowDefinitionCollection();
+                        if (rowDefinitionCollection != null)
+                        {
+                            rowDefinitionCollection.Add(new RowDefinition(new GridLength(1, GridUnitType.Star)));
+                            TargetPiles.RowDefinitions = rowDefinitionCollection;
+                        }
+
+                        var columnDefinitionCollection = new ColumnDefinitionCollection();
+                        if (columnDefinitionCollection != null)
+                        {
+                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
+                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
+                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
+                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
+
+                            TargetPiles.ColumnDefinitions = columnDefinitionCollection;
+                        }
+
                         if (targetPiles.Count != 4)
                         {
                             targetPiles.Clear();
@@ -473,6 +491,10 @@ namespace Sa11ytaire4All
                             targetPiles.Add(TargetPileS);
                         }
                     }
+                }
+                else
+                {
+                    ArrangeGrandfathersclockButtons();
                 }
             }
         }

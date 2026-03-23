@@ -180,7 +180,11 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                                 }
                                 else
                                 {
-                                    cardPileAccessibleName += MainPage.MyGetString("Clock");
+                                    var hour = (dealtCard.PyramidCardCurrentIndexInRow > 0 ? 
+                                                    dealtCard.PyramidCardCurrentIndexInRow : 12);
+
+                                    cardPileAccessibleName += hour.ToString() + " " + 
+                                                                MainPage.MyGetString("Oclock");
                                 }
 
                                 cardPileAccessibleName += ", " + (dealtCard.PyramidCardCurrentIndexInRow + 1) +

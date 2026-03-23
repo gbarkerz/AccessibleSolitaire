@@ -22,8 +22,14 @@ namespace Sa11ytaire4All
             {
                 var button = new CardButton();
 
-                button.Margin = new Thickness(2, 0, 2, 0);
+                button.Padding = new Thickness(2);
+
                 button.IsToggled = false;
+
+                if (i % 3 == 0)
+                {
+                    button.SetHeadingState(true);
+                }
 
                 TargetPiles.Children.Add(button);
             }
@@ -48,7 +54,119 @@ namespace Sa11ytaire4All
 
             var radius = (availableHeight - vm.CardHeight) / 2;
 
-            var foundationCards = TargetPiles.Children; 
+            var foundationCards = TargetPiles.Children;
+            if ((foundationCards == null) || (foundationCards.Count != 12))
+            {
+                return;
+            }
+
+            var rowDefinitionCollection = new RowDefinitionCollection();
+
+            var rowHeight = availableHeight / 8;
+
+            for (int i = 0; i < 9; i++)
+            {
+                rowDefinitionCollection.Add(new RowDefinition(new GridLength(rowHeight, GridUnitType.Absolute)));
+            }
+
+            TargetPiles.RowDefinitions = rowDefinitionCollection;
+
+            var columnDefinitionCollection = new ColumnDefinitionCollection();
+
+            var columnWidth = vm.CardWidth / 2;
+
+            for (int i = 0; i < 8; i++)
+            {
+                columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(columnWidth, GridUnitType.Absolute)));
+            }
+
+            TargetPiles.ColumnDefinitions = columnDefinitionCollection;
+
+            for (int i = 0; i < 12; i++)
+            {
+                var button = foundationCards[i] as CardButton;
+                if (button == null)
+                {
+                    break;
+                }
+
+                button.WidthRequest = vm.CardWidth / 2;
+                button.HeightRequest = 2 * rowHeight;
+
+                var column = 0;
+                
+                if (i < 4)
+                {
+                    column = i + 3;
+                }
+                else if (i < 10)
+                {
+                    column = 9 - i;
+                }
+                else 
+                {
+                    column = i - 9;
+                }
+
+                TargetPiles.SetColumn(button, column);
+
+                var row = 0;
+
+                if (i == 0)
+                {
+                    row = 0;
+                }
+                else if ((i == 1) || (i == 11))
+                {
+                    row = 1;
+                }
+                else if ((i == 2) || (i == 10))
+                {
+                    row = 2;
+                }
+                else if ((i == 3) || (i == 9))
+                {
+                    row = 3;
+                }
+                else if ((i == 4) || (i == 8))
+                {
+                    row = 4;
+                }
+                else if ((i == 5) || (i == 7))
+                {
+                    row = 5;
+                }
+                else if (i == 6)
+                {
+                    row = 6;
+                }
+
+                TargetPiles.SetRow(button, row);
+                TargetPiles.SetRowSpan(button, 2);
+            }
+        }
+
+        /*
+         * Android (and apparently iOS) click handlers don't get called if the 
+         * button's been translated away from its original position.
+        private void ArrangeGrandfathersclockButtons()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            // Assume available height is less than the available width.
+            var availableHeight = 2 * InnerMainGrid.Height / 3;
+            if (availableHeight < 0)
+            {
+                return;
+            }
+
+            var radius = (availableHeight - vm.CardHeight) / 2;
+
+            var foundationCards = TargetPiles.Children;
             if ((foundationCards == null) || (foundationCards.Count != 12))
             {
                 return;
@@ -103,6 +221,7 @@ namespace Sa11ytaire4All
                 //button.RotateToAsync(30 * i);
             }
         }
+        */
 
         private bool DealCardsToGrandfathersclockPostprocess(bool setDealtCardProperties)
         {

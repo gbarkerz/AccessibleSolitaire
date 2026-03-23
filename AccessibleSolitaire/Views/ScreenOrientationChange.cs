@@ -110,9 +110,10 @@ namespace Sa11ytaire4All
 
         private void SetUpperGridViewOrientationLayout(bool isPortrait)
         {
-            if (isPortrait ||
-                (currentGameType == SolitaireGameType.Pyramid) ||
-                (currentGameType == SolitaireGameType.Tripeaks))
+            if ((isPortrait ||
+                 (currentGameType == SolitaireGameType.Pyramid) ||
+                 (currentGameType == SolitaireGameType.Tripeaks)) &&
+                (currentGameType != SolitaireGameType.Grandfathersclock))
             {
                 // First set the rows for the InnerMainGrid based on the current game.
 
@@ -189,9 +190,10 @@ namespace Sa11ytaire4All
             int cardPileGridRow;
             int cardPileGridRowSpan;
 
-            if (isPortrait ||
-                (currentGameType == SolitaireGameType.Pyramid) ||
-                (currentGameType == SolitaireGameType.Tripeaks))
+            if ((isPortrait ||
+                 (currentGameType == SolitaireGameType.Pyramid) ||
+                 (currentGameType == SolitaireGameType.Tripeaks)) &&
+                (currentGameType != SolitaireGameType.Grandfathersclock))
             {
                 switch (currentGameType)
                 {
@@ -205,10 +207,10 @@ namespace Sa11ytaire4All
                         cardPileGridRowSpan = 13;
                         break;
 
-                    case SolitaireGameType.Grandfathersclock:
-                        cardPileGridRow = 3;
-                        cardPileGridRowSpan = 13;
-                        break;
+                    //case SolitaireGameType.Grandfathersclock:
+                    //    cardPileGridRow = 3;
+                    //    cardPileGridRowSpan = 13;
+                    //    break;
 
                     case SolitaireGameType.Pyramid:
                         cardPileGridRow = 4;
@@ -278,7 +280,7 @@ namespace Sa11ytaire4All
 
         private void SetCollectionViewOrientationLayout(bool isPortrait, int index, CollectionView collectionView)
         {
-            if (isPortrait)
+            if (isPortrait && (currentGameType != SolitaireGameType.Grandfathersclock))
             {
                 Grid.SetRow(collectionView, index);
                 Grid.SetRowSpan(collectionView, 1);
