@@ -818,7 +818,10 @@ namespace Sa11ytaire4All
                 // Refresh all the cards to show the required visuals.
                 if (IsGameCollectionViewBased())
                 {
-                    for (int i = 0; i < GetGameCardPileCount(); i++)
+                    var pileCount = (currentGameType != SolitaireGameType.Grandfathersclock ?
+                                        GetGameCardPileCount() : 8);
+
+                    for (int i = 0; i < pileCount; i++)
                     {
                         for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                         {
@@ -832,12 +835,17 @@ namespace Sa11ytaire4All
                         }
                     }
 
-                    TargetPileC.RefreshVisuals();
-                    TargetPileD.RefreshVisuals();
-                    TargetPileH.RefreshVisuals();
-                    TargetPileS.RefreshVisuals();
+                    Debug.WriteLine("RefreshAllCardVisuals: Done refresh of dealt cards.");
 
-                    CardDeckUpturnedObscuredLower.RefreshVisuals();
+                    if (currentGameType != SolitaireGameType.Grandfathersclock)
+                    {
+                        TargetPileC.RefreshVisuals();
+                        TargetPileD.RefreshVisuals();
+                        TargetPileH.RefreshVisuals();
+                        TargetPileS.RefreshVisuals();
+
+                        CardDeckUpturnedObscuredLower.RefreshVisuals();
+                    }
                 }
                 else
                 {
@@ -856,6 +864,8 @@ namespace Sa11ytaire4All
                 CardDeckUpturnedObscuredHigher.RefreshVisuals();
                 CardDeckUpturned.RefreshVisuals();
             }
+
+            Debug.WriteLine("RefreshAllCardVisuals: Done work.");
         }
 
         private void TimedDelayMakeFirstDealSounds()

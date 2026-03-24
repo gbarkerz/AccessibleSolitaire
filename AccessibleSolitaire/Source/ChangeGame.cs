@@ -288,6 +288,8 @@ namespace Sa11ytaire4All
                     }
                 }
             }
+
+            Debug.WriteLine("ResizeDealtCard: Done resizing.");
         }
 
         private void RefreshDealtCardPilesIsInAccessibleTree()
