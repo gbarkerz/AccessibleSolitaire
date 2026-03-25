@@ -289,6 +289,27 @@ namespace Sa11ytaire4All
                 Grid.SetColumnSpan(collectionView, 7);
 
                 collectionView.ItemsLayout = LinearItemsLayout.Horizontal;
+
+                if ((MainPageGrid.Height > 0) && ((InnerMainGrid.Height > 0)))
+                {
+                    var vm = this.BindingContext as DealtCardViewModel;
+                    if (vm != null)
+                    {
+                        if ((currentGameType == SolitaireGameType.Klondike) ||
+                            (currentGameType == SolitaireGameType.Spider) ||
+                            (currentGameType == SolitaireGameType.Bakersdozen))
+                        {
+                            var height = InnerMainGrid.Height / (3 + GetGameCardPileCount());
+
+                            if (currentGameType == SolitaireGameType.Bakersdozen)
+                            {
+                                height -= 1;
+                            }
+
+                            collectionView.HeightRequest = height;
+                        }
+                    }
+                }
             }
             else
             {

@@ -452,7 +452,7 @@ namespace Sa11ytaire4All
                     TargetPileH.IsVisible = false;
                     TargetPileS.IsVisible = false;
                 }
-                else
+                else if (currentGameType != SolitaireGameType.Bakersdozen)
                 {
                     NextCardDeck.IsVisible = true;
 
