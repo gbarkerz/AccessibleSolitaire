@@ -135,8 +135,11 @@ namespace Sa11ytaire4All
                 if (selectedCard.CardState == CardState.KingPlaceHolder)
                 {
                     // In Baker's Dozen, a card cannot be moved to an empty pile.
-                    if (currentGameType != SolitaireGameType.Bakersdozen)
-                    {
+
+                    // BARKER IMPORTANT! Based on player feedback, allow moves to an empty pile.
+                    // Add this as an optional setting at some point.
+                    //if (currentGameType != SolitaireGameType.Bakersdozen)
+                    //{
                         // Attempt to move the upturned card over to the empty card pile.
                         if (timerDelayAttemptToMoveCard == null)
                         {
@@ -148,14 +151,14 @@ namespace Sa11ytaire4All
                         }
 
                         DeselectAllCardsFromDealtCardPile(listSelectionChanged);
-                    }
-                    else
-                    {
-                        PlaySound(false);
+                    //}
+                    //else
+                    //{
+                    //    PlaySound(false);
 
-                        var announcement = MainPage.MyGetString("NoMoveToEmptyPile");
-                        MakeDelayedScreenReaderAnnouncement(announcement, false);
-                    }
+                    //    var announcement = MainPage.MyGetString("NoMoveToEmptyPile");
+                    //    MakeDelayedScreenReaderAnnouncement(announcement, false);
+                    //}
 
                     // Never leave the empty slot selected.
                     selectedCard.CardSelected = false;

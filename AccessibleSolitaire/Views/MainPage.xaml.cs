@@ -2754,7 +2754,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";
 
         private string Sa11ytaireHelpPageGrandfathersclock =
-            "https://accessiblesolitaire.com/2026/02/01/accessible-grandfathers-clock-solitaire";
+            "https://accessiblesolitaire.com/2026/03/25/accessible-grandfathers-clock-solitaire";
 
         private string Sa11ytaireHelpPagePyramid =
             "https://accessiblesolitaire.com/2025/11/26/coming-soon-accessible-pyramid-solitaire";

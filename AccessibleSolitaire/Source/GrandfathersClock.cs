@@ -301,9 +301,18 @@ namespace Sa11ytaire4All
                 }
             }
 
+            // Barker: Why does the mofn need refreshing here, but not with similar games?
+            for (int i = 0; i < 8; i++)
+            {
+                var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
+                if ((dealtCardPile != null) && (dealtCardPile.ItemsSource != null))
+                {
+                    RefreshDealtCardPileAccessibleNames(dealtCardPile);
+                }
+            }
+
             return true;
         }
-
 
         // Handle a click on one of the CardButtons in the Grandfather Clock.
         private void HandleGrandfathersclockCardClick(CardButton cardButton)

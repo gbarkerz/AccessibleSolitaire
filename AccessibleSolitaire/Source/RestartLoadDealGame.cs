@@ -505,6 +505,16 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("ChangeGameType: vm.CurrentGameType now " + vm.CurrentGameType);
             }
 
+            if ((currentGameType == SolitaireGameType.Spider) || (currentGameType == SolitaireGameType.Bakersdozen))
+            {
+                CardPile9.IsVisible = true;
+
+                if ((vm != null) && (vm.DealtCards != null))
+                {
+                    CardPile9.ItemsSource = vm.DealtCards[8];
+                }
+            }
+
             AddPyramidButtons();
 
             Preferences.Set("ChangeGameType: currentGameType now ", currentGameType.ToString());

@@ -299,6 +299,18 @@ namespace Sa11ytaire4All
                 Grid.SetColumnSpan(collectionView, 1);
 
                 collectionView.ItemsLayout = LinearItemsLayout.Vertical;
+
+                if ((MainPageGrid.Height > 0) && ((InnerMainGrid.Height > 0)))
+                {
+                    if (currentGameType != SolitaireGameType.Grandfathersclock)
+                    {
+                        collectionView.HeightRequest = (2 * InnerMainGrid.Height) / 3;
+                    }
+                    else
+                    {
+                        collectionView.HeightRequest = MainPageGrid.Height / 3;
+                    }
+                }
             }
         }
     }
