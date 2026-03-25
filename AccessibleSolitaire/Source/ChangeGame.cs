@@ -19,9 +19,8 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Klondike);
 
-            ComleteVisualsUpdateFollowingGameChange();
+            CompleteVisualsUpdateFollowingGameChange();
         }
-
 
         public void LoadBakersdozenGame()
         {
@@ -33,7 +32,7 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Bakersdozen);
 
-            ComleteVisualsUpdateFollowingGameChange();
+            CompleteVisualsUpdateFollowingGameChange();
         }
 
         public void LoadGrandfathersclockGame()
@@ -46,7 +45,7 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Grandfathersclock);
 
-            ComleteVisualsUpdateFollowingGameChange();
+            CompleteVisualsUpdateFollowingGameChange();
         }
 
         public void LoadPyramidGame()
@@ -59,7 +58,7 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Pyramid);
 
-            ComleteVisualsUpdateFollowingGameChange();
+            CompleteVisualsUpdateFollowingGameChange();
         }
 
         public void LoadTripeaksGame()
@@ -72,7 +71,7 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Tripeaks);
 
-            ComleteVisualsUpdateFollowingGameChange();
+            CompleteVisualsUpdateFollowingGameChange();
         }
 
         public void LoadSpiderGame()
@@ -85,7 +84,7 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Spider);
 
-            ComleteVisualsUpdateFollowingGameChange();
+            CompleteVisualsUpdateFollowingGameChange();
         }
 
         public void LoadRoyalparadeGame()
@@ -98,10 +97,10 @@ namespace Sa11ytaire4All
 
             ChangeGameType(SolitaireGameType.Royalparade);
 
-            ComleteVisualsUpdateFollowingGameChange();
+            CompleteVisualsUpdateFollowingGameChange();
         }
 
-        private void ComleteVisualsUpdateFollowingGameChange()
+        private void CompleteVisualsUpdateFollowingGameChange()
         {
             SetRemainingCardUIVisibility();
 
@@ -329,8 +328,12 @@ namespace Sa11ytaire4All
                 AutomationProperties.SetExcludedWithChildren(collectionView, hideDealtCardPile);
 
                 // Barker: It seems that calling SetExcludedWithChildren() is no longer sufficient.
-                // So call SetIsInAccessibleTree() also.
-                AutomationProperties.SetIsInAccessibleTree(collectionView, !hideDealtCardPile);
+                // So call SetIsInAccessibleTree() also. Todo: Investigate why this impacts the 
+                // VoiceControl use of the 8th pile in the Grandfather's Clock game.
+                if (currentGameType != SolitaireGameType.Grandfathersclock)
+                {
+                    AutomationProperties.SetIsInAccessibleTree(collectionView, !hideDealtCardPile);
+                }
             }
         }
 
@@ -338,6 +341,8 @@ namespace Sa11ytaire4All
         {
             if (currentGameType == SolitaireGameType.Spider)
             {
+                TargetPiles.IsVisible = false;
+
                 NextCardDeck.IsVisible = true;
 
                 CardDeckUpturnedObscuredLower.IsVisible = false;
@@ -586,7 +591,7 @@ namespace Sa11ytaire4All
                     for (int i = 0; i < GetGameCardPileCount(); i++)
                     {
                         var dealtCardPile = (CollectionView)CardPileGrid.FindByName("CardPile" + (i + 1));
-                        if (dealtCardPile != null)
+                        if ((dealtCardPile != null) && (dealtCardPile.ItemsSource != null))
                         {
                             RefreshDealtCardPileAccessibleNames(dealtCardPile);
                         }

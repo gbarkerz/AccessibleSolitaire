@@ -1127,24 +1127,6 @@ namespace Sa11ytaire4All
                     // We're only interested in the top card in the pile.
                     var destinationCard = destinationPileItems[countOfCardsInDestinationPile - 1];
 
-                    var suitTarget = CanCardBeMovedToTargetPile(destinationCard);
-                    if (!string.IsNullOrEmpty(suitTarget))
-                    {
-                        if (numberOfMoves > 0)
-                        {
-                            moveComment += ", \r\n";
-                        }
-
-                        ++numberOfMoves;
-
-                        moveComment += destinationCard.AccessibleNameWithoutSelectionAndMofN +
-                            " " +
-                            onString + " " + dealtCardPile + " " + (d + 1).ToString() +
-                            " " + canBeMovedTo + " " +
-                            suitTarget + " " +
-                            MainPage.MyGetString("TargetCardPile");
-                    }
-
                     // Now move through all the dealt card piles looking for a source card for a move.
                     for (int s = 0; s < pileCount; s++)
                     {

@@ -767,7 +767,10 @@ namespace Sa11ytaire4All
 
         private void TargetPiles_Loaded(object? sender, EventArgs e)
         {
-            AddGrandfathersclockButtons();
+            if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                AddGrandfathersclockButtons();
+            }
         }
 
         private void SetCardButtonsHeadingState(bool isHeading)
@@ -779,7 +782,22 @@ namespace Sa11ytaire4All
             TargetPileH.SetHeadingState(isHeading);
             TargetPileS.SetHeadingState(isHeading);
 
-            if (IsGameCollectionViewBased())
+            if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                var clockButtons = TargetPiles.Children;
+                if ((clockButtons != null) && (clockButtons.Count == 12))
+                {
+                    for (int i = 0; i < 12; i += 3)
+                    {
+                        var clockButton = clockButtons[i] as CardButton;
+                        if (clockButton != null)
+                        {
+                            clockButton.SetHeadingState(isHeading);
+                        }
+                    }
+                }
+            }
+            else if (IsGameCollectionViewBased())
             {
                 var vm = this.BindingContext as DealtCardViewModel;
                 if ((vm != null) && (vm.DealtCards != null))

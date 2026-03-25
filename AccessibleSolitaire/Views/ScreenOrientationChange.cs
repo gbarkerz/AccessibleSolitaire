@@ -20,7 +20,7 @@ namespace Sa11ytaire4All
 
             processingScreenOrientationChange = true;
 
-            var isPortrait = MainPage.IsPortrait();
+            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
             Debug.WriteLine("SetOrientationLayout: initialScreenOrientationPortrait " + initialScreenOrientationPortrait);
 
@@ -299,9 +299,6 @@ namespace Sa11ytaire4All
                 Grid.SetColumnSpan(collectionView, 1);
 
                 collectionView.ItemsLayout = LinearItemsLayout.Vertical;
-
-                collectionView.HeightRequest = ((currentGameType != SolitaireGameType.Grandfathersclock ? 2 : 1) * 
-                                                    InnerMainGrid.Height) / 3;
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using Sa11ytaire4All.Source;
-using Sa11ytaire4All.ViewModels;
+﻿using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
 
@@ -26,7 +25,7 @@ namespace Sa11ytaire4All
 
                 button.IsToggled = false;
 
-                if (i % 3 == 0)
+                if (vm.CardButtonsHeadingState && (i % 3 == 0))
                 {
                     button.SetHeadingState(true);
                 }
@@ -45,12 +44,12 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            // Assume available height is less than the available width.
-            var availableHeight = 2 * InnerMainGrid.Height / 3;
-            if (availableHeight < 0)
+            if ((InnerMainGrid.Height < 0) || (InnerMainGrid.Width < 0))
             {
                 return;
             }
+
+            var availableHeight = 2 * InnerMainGrid.Height / 3;
 
             var radius = (availableHeight - vm.CardHeight) / 2;
 
@@ -75,7 +74,7 @@ namespace Sa11ytaire4All
 
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
-            var columnWidth = vm.CardWidth / (isPortrait ? 1 : 2);
+            var columnWidth = Math.Min(vm.CardWidth / (isPortrait ? 1 : 2), InnerMainGrid.Width / 8);
 
             for (int i = 0; i < 8; i++)
             {
@@ -398,7 +397,7 @@ namespace Sa11ytaire4All
                         announcement += MainPage.MyGetString("Empty");
                     }
 
-                    announcement += " " + inDealtCardPile + " " + localizedNumbers[listAlreadySelectedIndex];
+                    announcement += " " + inDealtCardPile + " " + localizedNumbers[listAlreadySelectedIndex] + ". ";
 
                     MakeDelayedScreenReaderAnnouncement(announcement, true);
 

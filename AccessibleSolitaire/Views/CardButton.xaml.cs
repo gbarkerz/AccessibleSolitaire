@@ -629,7 +629,7 @@ public partial class CardButton : ContentView, INotifyPropertyChanged
                         if (MainPage.MainPageSingleton.IsGrandfathersclockCardPileFull(StackDetails))
                         {
                             colour = (Application.Current.RequestedTheme != AppTheme.Dark ?
-                                        Colors.LightGrey : Color.FromRgb(0x80, 0x80, 0x80));
+                                        Colors.LightGrey : Color.FromRgb(0x40, 0x40, 0x40));
                         }
                     }
                 }

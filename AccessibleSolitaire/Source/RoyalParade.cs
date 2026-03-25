@@ -17,53 +17,56 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            // Check that there are two (and only two) of every card somewhere.
-            Dictionary<int, int> cardCount = new Dictionary<int, int>();
-
-            for (var i = 0; i < _deckRemaining.Count; i++)
+            try
             {
-                int count = 0;
-                if (cardCount.TryGetValue(_deckRemaining[i].Rank, out count))
-                {
-                    cardCount[_deckRemaining[i].Rank]++;
-                }
-                else
-                {
-                    cardCount.Add(_deckRemaining[i].Rank, 1);
-                }
-            }
+                // Check that there are two (and only two) of every card somewhere.
+                Dictionary<int, int> cardCount = new Dictionary<int, int>();
 
-            for (var i = 0; i < 4; ++i)
-            {
-                if (vm.DealtCards[i] != null)
+                for (var i = 0; i < _deckRemaining.Count; i++)
                 {
-                    for (var j = 0; j < vm.DealtCards[i].Count; ++j)
+                    int count = 0;
+                    if (cardCount.TryGetValue(_deckRemaining[i].Rank, out count))
                     {
-                        var dealtCard = vm.DealtCards[i][j];
-                        if (dealtCard != null)
+                        cardCount[_deckRemaining[i].Rank]++;
+                    }
+                    else
+                    {
+                        cardCount.Add(_deckRemaining[i].Rank, 1);
+                    }
+                }
+
+                for (var i = 0; i < 4; ++i)
+                {
+                    if (vm.DealtCards[i] != null)
+                    {
+                        for (var j = 0; j < vm.DealtCards[i].Count; ++j)
                         {
-                            var card = dealtCard.Card;
-                            if (card != null)
+                            var dealtCard = vm.DealtCards[i][j];
+                            if (dealtCard != null)
                             {
-                                // Ignore all Aces, as they simply get discarded.
-                                if (card.Rank == 1)
+                                var card = dealtCard.Card;
+                                if (card != null)
                                 {
-                                    continue;
-                                }
-
-                                AddCardToDebugCheckList(card.Rank, cardCount);
-
-                                if (i < 3)
-                                {
-                                    var stackDetails = dealtCard.StackDetails;
-                                    if (!string.IsNullOrEmpty(stackDetails))
+                                    // Ignore all Aces, as they simply get discarded.
+                                    if (card.Rank == 1)
                                     {
-                                        int[] cardRanks = stackDetails.Split(' ').Select(n => Convert.ToInt32(n)).ToArray();
-                                        if (cardRanks.Length > 1)
+                                        continue;
+                                    }
+
+                                    AddCardToDebugCheckList(card.Rank, cardCount);
+
+                                    if (i < 3)
+                                    {
+                                        var stackDetails = dealtCard.StackDetails;
+                                        if (!string.IsNullOrEmpty(stackDetails))
                                         {
-                                            for (var rankValueIndex = 0; rankValueIndex < cardRanks.Length - 1; ++rankValueIndex)
+                                            int[] cardRanks = stackDetails.Split(' ').Select(n => Convert.ToInt32(n)).ToArray();
+                                            if (cardRanks.Length > 1)
                                             {
-                                                AddCardToDebugCheckList(cardRanks[rankValueIndex], cardCount);
+                                                for (var rankValueIndex = 0; rankValueIndex < cardRanks.Length - 1; ++rankValueIndex)
+                                                {
+                                                    AddCardToDebugCheckList(cardRanks[rankValueIndex], cardCount);
+                                                }
                                             }
                                         }
                                     }
@@ -72,42 +75,44 @@ namespace Sa11ytaire4All
                         }
                     }
                 }
-            }
 
-            // Ignore all Aces.
-            for (var i = 2; i <= 13; ++i)
-            {
-                if (cardCount[i] != 8)
+                // Ignore all Aces.
+                for (var i = 2; i <= 13; ++i)
                 {
-                    Debug.WriteLine("*** VerifyRoyalParadeGameState ***: Expected count for rank " + i + ", " +
-                        "count = " + cardCount[i]);
-                }
-            }
-
-            // Check the N in M of N for first three rows.
-            var gridCards = CardPileGridPyramid.Children;
-            if (gridCards.Count <= 0)
-            {
-                return;
-            }
-
-            // Find the row and column of the destination slot.
-            for (var i = 0; i < 24; ++i)
-            {
-                var cardButton = gridCards[i] as CardButton;
-                if ((cardButton != null) && (cardButton.Card != null))
-                {
-                    CollectionView? list;
-                    var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
-                    if (dealtCard != null)
+                    if (cardCount[i] != 8)
                     {
-                        if (dealtCard.PyramidCardCurrentCountOfCardsOnRow != 8)
+                        Debug.WriteLine("*** VerifyRoyalParadeGameState ***: Expected count for rank " + i + ", " +
+                            "count = " + cardCount[i]);
+                    }
+                }
+
+                // Check the N in M of N for first three rows.
+                var gridCards = CardPileGridPyramid.Children;
+                if (gridCards.Count > 0)
+                {
+                    // Find the row and column of the destination slot.
+                    for (var i = 0; i < 24; ++i)
+                    {
+                        var cardButton = gridCards[i] as CardButton;
+                        if ((cardButton != null) && (cardButton.Card != null))
                         {
-                            Debug.WriteLine("*** VerifyRoyalParadeGameState ***: dealtCard " + dealtCard.AccessibleNameWithoutSelectionAndMofN + 
-                                ",  PyramidCardCurrentCountOfCardsOnRow " + dealtCard.PyramidCardCurrentCountOfCardsOnRow);
+                            CollectionView? list;
+                            var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
+                            if (dealtCard != null)
+                            {
+                                if (dealtCard.PyramidCardCurrentCountOfCardsOnRow != 8)
+                                {
+                                    Debug.WriteLine("*** VerifyRoyalParadeGameState ***: dealtCard " + dealtCard.AccessibleNameWithoutSelectionAndMofN +
+                                        ",  PyramidCardCurrentCountOfCardsOnRow " + dealtCard.PyramidCardCurrentCountOfCardsOnRow);
+                                }
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("VerifyRoyalParadeGameState: " + ex); 
             }
         }
 

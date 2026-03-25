@@ -715,80 +715,88 @@ namespace Sa11ytaire4All
         }
 
         private Timer? timerPackImagesLoad;
+        private DateTime timeMostRecentPackImagesLoadRequest;
 
         private async void CardPackImagesLoad()
         {
-            timerPackImagesLoad = new Timer(
-                new TimerCallback((s) => BackgroundLoadCardImagesAfterDealtCardReady()),
-                    null,
-                    TimeSpan.FromMilliseconds(500),
-                    TimeSpan.FromMilliseconds(Timeout.Infinite));
+            timeMostRecentPackImagesLoadRequest = DateTime.Now;
+
+            if (timerPackImagesLoad == null)
+            {
+                timerPackImagesLoad = new Timer(
+                    new TimerCallback((s) => BackgroundLoadCardImagesAfterDealtCardReady()),
+                        null,
+                        TimeSpan.FromMilliseconds(500),
+                        TimeSpan.FromMilliseconds(500));
+            }
         }
 
         public static Dictionary<string, ImageSource> PackImageSourcesLarge = new Dictionary<string, ImageSource>();
 
         private void BackgroundLoadCardImagesAfterDealtCardReady()
         {
-            timerPackImagesLoad?.Dispose();
-            timerPackImagesLoad = null;
-
-            var vm = this.BindingContext as DealtCardViewModel;
-            if ((vm == null) || (vm.DealtCards == null))
+            // Always wait at least 2 seconds before reacting to a request to load all the card images.
+            if ((DateTime.Now - timeMostRecentPackImagesLoadRequest).TotalMilliseconds < 1000)
             {
                 return;
             }
 
-            Debug.WriteLine("BackgroundImagesLoad: START.");
+            timerPackImagesLoad?.Dispose();
+            timerPackImagesLoad = null;
 
-            var timeImageLoadStart = DateTime.Now;
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm != null) && (vm.DealtCards != null))
+            {
+                Debug.WriteLine("BackgroundLoadCardImagesAfterDealtCardReady: START.");
 
-            LoadAllCardImages();
+                var timeImageLoadStart = DateTime.Now;
 
-            Debug.WriteLine("BackgroundImagesLoad: Done time (ms) = " +
-                (DateTime.Now - timeImageLoadStart).TotalMilliseconds);
+                LoadAllCardImages();
+
+                Debug.WriteLine("BackgroundLoadCardImagesAfterDealtCardReady: Done time (ms) = " +
+                    (DateTime.Now - timeImageLoadStart).TotalMilliseconds);
+            }
         }
 
         private void LoadAllCardImages()
         {
             var vm = this.BindingContext as DealtCardViewModel;
-            if ((vm == null) || (vm.DealtCards == null))
+            if ((vm != null) && (vm.DealtCards != null))
             {
-                return;
-            }
+                Debug.WriteLine("LoadAllCardImages: START.");
 
-            Debug.WriteLine("LoadAllCardImages: START.");
+                var emptyCardName = "emptydealtcardpile.png";
+                PackImageSourcesLarge.TryAdd(emptyCardName, ImageSource.FromFile(emptyCardName));
 
-            var emptyCardName = "emptydealtcardpile.png";
-            PackImageSourcesLarge.TryAdd(emptyCardName, ImageSource.FromFile(emptyCardName));
+                var darkemptyCardName = "darkemptyCardName.png";
+                PackImageSourcesLarge.TryAdd(darkemptyCardName, ImageSource.FromFile(darkemptyCardName));
 
-            var darkemptyCardName = "darkemptyCardName.png";
-            PackImageSourcesLarge.TryAdd(darkemptyCardName, ImageSource.FromFile(darkemptyCardName));
+                var timeImageLoadStart = DateTime.Now;
 
-            var timeImageLoadStart = DateTime.Now;
-
-            // Ok, all the dealt card sources are ready, so begin loading the images.
-            for (int i = 0; i < GetGameCardPileCount(); i++)
-            {
-                Debug.WriteLine("LoadAllCardImages: Pile " + i + ", count " + vm.DealtCards[i].Count);
-
-                for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
+                // Ok, all the dealt card sources are ready, so begin loading the images.
+                for (int i = 0; i < GetGameCardPileCount(); i++)
                 {
-                    var pileCard = vm.DealtCards[i][j];
+                    Debug.WriteLine("LoadAllCardImages: Pile " + i + ", count " + vm.DealtCards[i].Count);
 
-                    if ((pileCard != null) && (pileCard.Card != null))
+                    for (int j = vm.DealtCards[i].Count - 1; j >= 0; j--)
                     {
-                        Debug.WriteLine("LoadAllCardImages: Get image name for Rank " +
-                            pileCard.Card.Rank + ", Suit " + pileCard.Card.Suit);
+                        var pileCard = vm.DealtCards[i][j];
 
-                        TryToAddCardImageWithPictureToDictionary(pileCard);
+                        if ((pileCard != null) && (pileCard.Card != null))
+                        {
+                            Debug.WriteLine("LoadAllCardImages: Get image name for Rank " +
+                                pileCard.Card.Rank + ", Suit " + pileCard.Card.Suit);
+
+                            TryToAddCardImageWithPictureToDictionary(pileCard);
+                        }
                     }
+
+                    Thread.Sleep(100);
                 }
 
-                Thread.Sleep(100);
+                Debug.WriteLine("LoadAllCardImages: Done time (ms) = " +
+                    (DateTime.Now - timeImageLoadStart).TotalMilliseconds);
             }
-
-            Debug.WriteLine("LoadAllCardImages: Done time (ms) = " +
-                (DateTime.Now - timeImageLoadStart).TotalMilliseconds);
         }
 
         private void TryToAddCardImageWithPictureToDictionary(DealtCard pileCard)
