@@ -1701,7 +1701,7 @@ namespace Sa11ytaire4All
             }
             else if (currentGameType == SolitaireGameType.Grandfathersclock)
             {
-                var clocksCards = TargetPiles.Children;
+                var clocksCards = TargetPilesClock.Children;
                 if ((clocksCards != null) && (clocksCards.Count == 12))
                 {
                     for (var i = 0; i < 12; ++i)
@@ -1816,7 +1816,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
                     {
                         case 0:
 
-                            var clocksCards = TargetPiles.Children;
+                            var clocksCards = TargetPilesClock.Children;
                             if ((clocksCards != null) && (clocksCards.Count == 12))
                             {
                                 for (var i = 0; i < 12; ++i)

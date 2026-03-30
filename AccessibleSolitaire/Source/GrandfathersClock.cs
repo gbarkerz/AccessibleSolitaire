@@ -30,8 +30,8 @@ namespace Sa11ytaire4All
                 var button = clockButtons[i] as CardButton;
                 if (button != null)
                 {
-                    button.Margin = new Thickness(0);
-                    button.Padding = new Thickness(0, 0, 2, 0);
+                    button.Margin = new Thickness(0, 0, 2, 0);
+                    button.Padding = new Thickness(0);
 
                     if (vm.CardButtonsHeadingState && (i % 3 == 0))
                     {
@@ -190,8 +190,9 @@ namespace Sa11ytaire4All
                 var cardUI = cardButtonsUI[cardUIIndex] as CardButton;
                 if (cardUI != null)
                 {
-                    cardUI.IsVisible = true;
                     cardUI.Card = dealtCard.Card;
+
+                    cardUI.IsVisible = true;
                     cardUI.IsFaceUp = true;
 
                     cardUI.RefreshAccessibleName();

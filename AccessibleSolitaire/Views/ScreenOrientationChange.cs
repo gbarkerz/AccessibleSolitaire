@@ -288,6 +288,11 @@ namespace Sa11ytaire4All
                 {
                     cardPileGridRow = 2;
                     cardPileGridRowSpan = 1;
+
+                    if ((InnerMainGrid.Height > 0) && !isPortrait)
+                    {
+                        CardPileGrid.HeightRequest = InnerMainGrid.Height / 3;
+                    }
                 }
             }
 
@@ -380,7 +385,7 @@ namespace Sa11ytaire4All
                     }
                     else
                     {
-                        collectionView.HeightRequest = (2 * MainPageGrid.Height) / 3;
+                        collectionView.HeightRequest = (1 * MainPageGrid.Height) / 3;
                     }
                 }
             }

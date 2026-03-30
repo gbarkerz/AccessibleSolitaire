@@ -810,17 +810,6 @@
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileClock12" AutomationId="TargetPileClock12" />
 
-                    <local_views:CardButton Grid.Row="1" Grid.Column="2" 
-                        Style="{StaticResource CardButtonStyle}"
-                        IsEnabled="True"
-                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
-                        LongPressZoomDuration="{Binding Mode=OneWay, 
-                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                            x:DataType={x:Type vm:DealtCardViewModel},
-                            Path=LongPressZoomDuration,
-                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                        x:Name="TargetPileClock11" AutomationId="TargetPileClock11" />
-
                     <local_views:CardButton Grid.Row="1" Grid.Column="4" 
                         Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
@@ -831,17 +820,6 @@
                             Path=LongPressZoomDuration,
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileClock1" AutomationId="TargetPileClock1" />
-
-                    <local_views:CardButton Grid.Row="2" Grid.Column="1" 
-                        Style="{StaticResource CardButtonStyle}"
-                        IsEnabled="True"
-                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
-                        LongPressZoomDuration="{Binding Mode=OneWay, 
-                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                            x:DataType={x:Type vm:DealtCardViewModel},
-                            Path=LongPressZoomDuration,
-                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                        x:Name="TargetPileClock10" AutomationId="TargetPileClock10" />
 
                     <local_views:CardButton Grid.Row="2" Grid.Column="5" 
                         Style="{StaticResource CardButtonStyle}"
@@ -854,17 +832,6 @@
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileClock2" AutomationId="TargetPileClock2" />
 
-                    <local_views:CardButton Grid.Row="3" Grid.Column="0" 
-                        Style="{StaticResource CardButtonStyle}"
-                        IsEnabled="True"
-                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
-                        LongPressZoomDuration="{Binding Mode=OneWay, 
-                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                            x:DataType={x:Type vm:DealtCardViewModel},
-                            Path=LongPressZoomDuration,
-                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                        x:Name="TargetPileClock9" AutomationId="TargetPileClock9" />
-
                     <local_views:CardButton Grid.Row="3" Grid.Column="6" 
                         Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
@@ -876,17 +843,6 @@
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileClock3" AutomationId="TargetPileClock3" />
 
-                    <local_views:CardButton Grid.Row="4" Grid.Column="1" 
-                        Style="{StaticResource CardButtonStyle}"
-                        IsEnabled="True"
-                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
-                        LongPressZoomDuration="{Binding Mode=OneWay, 
-                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                            x:DataType={x:Type vm:DealtCardViewModel},
-                            Path=LongPressZoomDuration,
-                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                        x:Name="TargetPileClock8" AutomationId="TargetPileClock8" />
-
                     <local_views:CardButton Grid.Row="4" Grid.Column="5" 
                         Style="{StaticResource CardButtonStyle}"
                         IsEnabled="True"
@@ -897,17 +853,6 @@
                             Path=LongPressZoomDuration,
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileClock4" AutomationId="TargetPileClock4" />
-
-                    <local_views:CardButton Grid.Row="5" Grid.Column="2" 
-                        Style="{StaticResource CardButtonStyle}"
-                        IsEnabled="True"
-                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
-                        LongPressZoomDuration="{Binding Mode=OneWay, 
-                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                            x:DataType={x:Type vm:DealtCardViewModel},
-                            Path=LongPressZoomDuration,
-                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
-                        x:Name="TargetPileClock7" AutomationId="TargetPileClock7" />
 
                     <local_views:CardButton Grid.Row="5" Grid.Column="4" 
                         Style="{StaticResource CardButtonStyle}"
@@ -931,7 +876,62 @@
                             Converter={StaticResource LongPressZoomDurationToActualDuration}}"
                         x:Name="TargetPileClock6" AutomationId="TargetPileClock6" />
 
-                </Grid>
+                    <local_views:CardButton Grid.Row="5" Grid.Column="2" 
+                        Style="{StaticResource CardButtonStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileClock7" AutomationId="TargetPileClock7" />
+
+                    <local_views:CardButton Grid.Row="4" Grid.Column="1" 
+                        Style="{StaticResource CardButtonStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileClock8" AutomationId="TargetPileClock8" />
+
+                    <local_views:CardButton Grid.Row="3" Grid.Column="0" 
+                        Style="{StaticResource CardButtonStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileClock9" AutomationId="TargetPileClock9" />
+
+                    <local_views:CardButton Grid.Row="2" Grid.Column="1" 
+                        Style="{StaticResource CardButtonStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileClock10" AutomationId="TargetPileClock10" />
+
+                    <local_views:CardButton Grid.Row="1" Grid.Column="2" 
+                        Style="{StaticResource CardButtonStyle}"
+                        IsEnabled="True"
+                        BackgroundColor="{AppThemeBinding Light=LightGreen, Dark=DarkGreen}"                               
+                        LongPressZoomDuration="{Binding Mode=OneWay, 
+                            Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
+                            x:DataType={x:Type vm:DealtCardViewModel},
+                            Path=LongPressZoomDuration,
+                            Converter={StaticResource LongPressZoomDurationToActualDuration}}"
+                        x:Name="TargetPileClock11" AutomationId="TargetPileClock11" />
+
+                    </Grid>
             </Grid>
 
             <!-- Add the seven dealt card piles.  -->
