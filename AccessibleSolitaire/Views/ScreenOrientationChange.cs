@@ -299,6 +299,11 @@ namespace Sa11ytaire4All
                 {
                     cardPileGridRow = 1;
                     cardPileGridRowSpan = 2;
+
+                    if ((InnerMainGrid.Height > 0) && !isPortrait)
+                    {
+                        CardPileGrid.HeightRequest = (2 * InnerMainGrid.Height) / 3;
+                    }
                 }
                 else
                 {

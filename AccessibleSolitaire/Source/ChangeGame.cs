@@ -321,6 +321,10 @@ namespace Sa11ytaire4All
                 {
                     hideDealtCardPile = true;
                 }
+                else if ((currentGameType == SolitaireGameType.Grandfathersclock) && (i > 9))
+                {
+                    hideDealtCardPile = true;
+                }
 
                 // Important: Do not use SetIsInAccessibleTree here, as that won't impact the
                 // items contained within the CollectionViews.
@@ -328,12 +332,8 @@ namespace Sa11ytaire4All
                 AutomationProperties.SetExcludedWithChildren(collectionView, hideDealtCardPile);
 
                 // Barker: It seems that calling SetExcludedWithChildren() is no longer sufficient.
-                // So call SetIsInAccessibleTree() also. Todo: Investigate why this impacts the 
-                // VoiceControl use of the 8th pile in the Grandfather's Clock game.
-                if (currentGameType != SolitaireGameType.Grandfathersclock)
-                {
-                    AutomationProperties.SetIsInAccessibleTree(collectionView, !hideDealtCardPile);
-                }
+                // So call SetIsInAccessibleTree() also. 
+                AutomationProperties.SetIsInAccessibleTree(collectionView, !hideDealtCardPile);
             }
         }
 
