@@ -167,35 +167,51 @@ namespace Sa11ytaire4All
 
                 if (currentGameType != SolitaireGameType.Grandfathersclock)
                 {
-                    Grid.SetRow(TargetPiles, 1);
+                    var row = (currentGameType != SolitaireGameType.Bakersdozen ? 1 : 0);
+                    Grid.SetRow(TargetPiles, row);
 
                     Grid.SetColumn(TargetPiles, 2);
                     Grid.SetColumnSpan(TargetPiles, 2);
 
-                    if ((currentGameType == SolitaireGameType.Pyramid) ||
-                        (currentGameType == SolitaireGameType.Tripeaks))
-                    { 
-                        var vm = this.BindingContext as DealtCardViewModel;
-                        if (vm != null)
+                    var height = 0;
+
+                    var vm = this.BindingContext as DealtCardViewModel;
+                    if (vm != null)
+                    {
+                        if (InnerMainGrid.Height > 0)
                         {
-                            if (InnerMainGrid.Height > 0)
+                            if ((currentGameType == SolitaireGameType.Pyramid) ||
+                                (currentGameType == SolitaireGameType.Tripeaks))
                             {
-                                var height = (2 * InnerMainGrid.Height) / 9;
+                                height = (int)(2 * InnerMainGrid.Height) / 9;
+                            }
+                            else
+                            {
+                                height = (int)(1 * InnerMainGrid.Height) / 9;
 
-                                NextCardDeck.HeightRequest = height;
-
-                                UpturnedCardsGrid.HeightRequest = height;
-
-                                CardDeckUpturnedObscuredLower.HeightRequest = height;
-                                CardDeckUpturnedObscuredHigher.HeightRequest = height;
-                                CardDeckUpturned.HeightRequest = height;
-
-                                TargetPileC.HeightRequest = height;
-                                TargetPileD.HeightRequest = height;
-                                TargetPileH.HeightRequest = height;
-                                TargetPileS.HeightRequest = height;
+                                if (currentGameType == SolitaireGameType.Spider)
+                                {
+                                    SpiderDiscardedSequenceCountLabelContainer.HeightRequest = height;
+                                    SpiderDiscardedSequenceCountLabel.HeightRequest = height;
+                                }
                             }
                         }
+                    }
+
+                    if (height > 0)
+                    { 
+                        NextCardDeck.HeightRequest = height;
+
+                        UpturnedCardsGrid.HeightRequest = height;
+
+                        CardDeckUpturnedObscuredLower.HeightRequest = height;
+                        CardDeckUpturnedObscuredHigher.HeightRequest = height;
+                        CardDeckUpturned.HeightRequest = height;
+
+                        TargetPileC.HeightRequest = height;
+                        TargetPileD.HeightRequest = height;
+                        TargetPileH.HeightRequest = height;
+                        TargetPileS.HeightRequest = height;
                     }
                 }
                 else

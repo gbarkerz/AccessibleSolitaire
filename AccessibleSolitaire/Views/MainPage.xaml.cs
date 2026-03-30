@@ -84,6 +84,22 @@ namespace Sa11ytaire4All
 
             this.InitializeComponent();
 
+            this.SemanticOrderView.ViewOrder = new List<View>
+                {
+                    TargetPileClock12,
+                    TargetPileClock1,
+                    TargetPileClock2,
+                    TargetPileClock3,
+                    TargetPileClock4,
+                    TargetPileClock5,
+                    TargetPileClock6,
+                    TargetPileClock7,
+                    TargetPileClock8,
+                    TargetPileClock9,
+                    TargetPileClock10,
+                    TargetPileClock11
+            };
+
             // Add all the buttons for a game of Pyramid Solitaire.
             AddPyramidButtons();
     

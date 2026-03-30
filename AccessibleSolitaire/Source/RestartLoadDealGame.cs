@@ -504,26 +504,34 @@ namespace Sa11ytaire4All
             // Barker Todo: Remove currentGameType now that we have vm.CurrentGameType.
             currentGameType = targetGameType;
 
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            foreach (var dealtCardPile in vm.DealtCards)
+            {
+                dealtCardPile.Clear();
+            }
+
             Debug.WriteLine("ChangeGameType: currentGameType now " + currentGameType);
 
             Preferences.Set("CurrentGameType", Convert.ToInt32(currentGameType));
 
-            var vm = this.BindingContext as DealtCardViewModel;
-            if (vm != null)
-            {
-                vm.CurrentGameType = currentGameType;
+            vm.CurrentGameType = currentGameType;
 
-                Debug.WriteLine("ChangeGameType: vm.CurrentGameType now " + vm.CurrentGameType);
-            }
+            Debug.WriteLine("ChangeGameType: vm.CurrentGameType now " + vm.CurrentGameType);
 
             if ((currentGameType == SolitaireGameType.Spider) || (currentGameType == SolitaireGameType.Bakersdozen))
             {
                 CardPile9.IsVisible = true;
-
-                if ((vm != null) && (vm.DealtCards != null))
-                {
-                    CardPile9.ItemsSource = vm.DealtCards[8];
-                }
+                CardPile9.ItemsSource = vm.DealtCards[8];
+            }
+            else
+            {
+                CardPile9.IsVisible = false;
+                CardPile9.ItemsSource = null;
             }
 
             if (currentGameType != SolitaireGameType.Grandfathersclock)

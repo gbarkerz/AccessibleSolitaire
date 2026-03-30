@@ -343,41 +343,14 @@ namespace Sa11ytaire4All
         {
             Debug.WriteLine("SetRemainingCardUIVisibility START.");
 
-            if (currentGameType != SolitaireGameType.Grandfathersclock)
-            {
-                TargetPiles.IsVisible = true;
-                TargetPilesClock.IsVisible = false;
-            }
-            else
-            {
-                TargetPiles.IsVisible = false;
-                TargetPilesClock.IsVisible = true;
-
-                Debug.WriteLine("SetRemainingCardUIVisibility InnerMainGrid.Height " + InnerMainGrid.Height);
-
-                if (InnerMainGrid.Height > 0)
-                {
-                    TargetPilesClock.HeightRequest = (7 * InnerMainGrid.Height) / 15;
-
-                    ArrangeGrandfathersclockButtons();
-                }
-            }
-
             if (currentGameType == SolitaireGameType.Spider)
             {
-                TargetPiles.IsVisible = false;
-
                 NextCardDeck.IsVisible = true;
 
                 CardDeckUpturnedObscuredLower.IsVisible = false;
                 CardDeckUpturnedObscuredHigher.IsVisible = false;
 
                 CardDeckUpturned.IsVisible = false;
-
-                TargetPileC.IsVisible = false;
-                TargetPileD.IsVisible = false;
-                TargetPileH.IsVisible = false;
-                TargetPileS.IsVisible = false;
 
                 var cardCount = _deckRemaining.Count;
 
@@ -419,11 +392,6 @@ namespace Sa11ytaire4All
 
                 CardDeckUpturned.IsVisible = false;
 
-                TargetPileC.IsVisible = false;
-                TargetPileD.IsVisible = false;
-                TargetPileH.IsVisible = false;
-                TargetPileS.IsVisible = false;
-
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = false;
 
 #if (ANDROID || WINDOWS)
@@ -447,14 +415,6 @@ namespace Sa11ytaire4All
 
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = false;
 
-                var targetPilesVisible = ((currentGameType != SolitaireGameType.Pyramid) &&
-                                          (currentGameType != SolitaireGameType.Tripeaks));
-
-                TargetPileC.IsVisible = targetPilesVisible;
-                TargetPileD.IsVisible = targetPilesVisible;
-                TargetPileH.IsVisible = targetPilesVisible;
-                TargetPileS.IsVisible = targetPilesVisible;
-
                 if (currentGameType == SolitaireGameType.Bakersdozen)
                 {
                     NextCardDeck.IsVisible = false;
@@ -471,13 +431,6 @@ namespace Sa11ytaire4All
                     CardDeckUpturnedObscuredLower.IsVisible = false;
                     CardDeckUpturnedObscuredHigher.IsVisible = false;
                     CardDeckUpturned.IsVisible = false;
-
-                    TargetPiles.IsVisible = true;
-
-                    TargetPileC.IsVisible = false;
-                    TargetPileD.IsVisible = false;
-                    TargetPileH.IsVisible = false;
-                    TargetPileS.IsVisible = false;
                 }
                 else if (currentGameType != SolitaireGameType.Bakersdozen)
                 {
@@ -490,6 +443,48 @@ namespace Sa11ytaire4All
                 }
 
                 Debug.WriteLine("SetRemainingCardUIVisibility: Final currentGameType is " + currentGameType);
+            }
+
+            if ((currentGameType == SolitaireGameType.Klondike) ||
+                (currentGameType == SolitaireGameType.Bakersdozen))
+            {
+                TargetPiles.IsVisible = true;
+
+                SemanticOrderView.IsVisible = false;
+                TargetPilesClock.IsVisible = false;
+
+                TargetPileC.IsVisible = true;
+                TargetPileD.IsVisible = true;
+                TargetPileH.IsVisible = true;
+                TargetPileS.IsVisible = true;
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                TargetPiles.IsVisible = false;
+
+                SemanticOrderView.IsVisible = true;
+                TargetPilesClock.IsVisible = true;
+
+                Debug.WriteLine("SetRemainingCardUIVisibility InnerMainGrid.Height " + InnerMainGrid.Height);
+
+                if (InnerMainGrid.Height > 0)
+                {
+                    TargetPilesClock.HeightRequest = (7 * InnerMainGrid.Height) / 15;
+
+                    ArrangeGrandfathersclockButtons();
+                }
+            }
+            else
+            {
+                TargetPiles.IsVisible = false;
+
+                SemanticOrderView.IsVisible = false;
+                TargetPilesClock.IsVisible = false;
+
+                TargetPileC.IsVisible = false;
+                TargetPileD.IsVisible = false;
+                TargetPileH.IsVisible = false;
+                TargetPileS.IsVisible = false;
             }
 
             Debug.WriteLine("SetRemainingCardUIVisibility Done.");
