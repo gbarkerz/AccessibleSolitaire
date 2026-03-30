@@ -568,8 +568,7 @@ namespace Sa11ytaire4All
                 Debug.WriteLine("OnAppearing: currentGameType now " + currentGameType);
 
                 // Barker: Bind this on startup and remove all this explicit setting here.
-                var layout = (IsPortrait() && (currentGameType != SolitaireGameType.Grandfathersclock) ? 
-                                LinearItemsLayout.Horizontal : LinearItemsLayout.Vertical);
+                var layout = (IsPortrait() ? LinearItemsLayout.Horizontal : LinearItemsLayout.Vertical);
 
                 CardPile1.ItemsLayout = layout;
                 CardPile2.ItemsLayout = layout;
@@ -752,25 +751,12 @@ namespace Sa11ytaire4All
                     // Set firstAppAppearanceSinceStarting false inside the first handling
                     // of CardPileGrid_Loaded.
                     CardPileGrid.Loaded += CardPileGrid_Loaded;
-
-                    if (currentGameType == SolitaireGameType.Grandfathersclock)
-                    {
-                        TargetPiles.Loaded += TargetPiles_Loaded;
-                    }
                 }
             }
 
             var timeInOnAppearing = (DateTime.Now - timeOnAppearingStart).TotalMilliseconds;
 
             Debug.WriteLine("OnAppearing: DONE timeInOnAppearing ms " + timeInOnAppearing);
-        }
-
-        private void TargetPiles_Loaded(object? sender, EventArgs e)
-        {
-            if (currentGameType == SolitaireGameType.Grandfathersclock)
-            {
-                AddGrandfathersclockButtons();
-            }
         }
 
         private void SetCardButtonsHeadingState(bool isHeading)
@@ -978,11 +964,6 @@ namespace Sa11ytaire4All
         {
             var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
 
-            if (currentGameType == SolitaireGameType.Grandfathersclock)
-            {
-                return false;
-            }
-
 #if WINDOWS
             isPortrait = false;
 
@@ -1016,9 +997,7 @@ namespace Sa11ytaire4All
 
             if (currentGameType == SolitaireGameType.Grandfathersclock)
             {
-                Debug.WriteLine("InnerMainPageGrid_SizeChanged: InnerMainGrid.Height " + InnerMainGrid.Height);
-
-                ArrangeGrandfathersclockButtons();
+                InitialiseGrandfathersclockButtons();
             }
         }
 
@@ -1589,6 +1568,8 @@ namespace Sa11ytaire4All
                     nameOfCurrentGame = MainPage.MyGetString("GrandfathersclockSolitaire");
                     break;
             }
+
+            Debug.WriteLine("ShowEndOfGameDialog: Name of the game is " + nameOfCurrentGame);
 
             message1 = string.Format(message1, nameOfCurrentGame);
 

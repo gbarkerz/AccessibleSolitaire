@@ -21,16 +21,19 @@ namespace Sa11ytaire4All
         private void DeselectFirstSelectedCardInCollectionView(CollectionView collectionView)
         {
             var items = collectionView.ItemsSource;
-            foreach (var item in items)
+            if (items != null)
             {
-                var dealtCard = item as DealtCard;
-                if (dealtCard != null)
+                foreach (var item in items)
                 {
-                    if (dealtCard.CardSelected)
+                    var dealtCard = item as DealtCard;
+                    if (dealtCard != null)
                     {
-                        DeselectCard(dealtCard);
+                        if (dealtCard.CardSelected)
+                        {
+                            DeselectCard(dealtCard);
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -1463,12 +1466,15 @@ namespace Sa11ytaire4All
                 if (collectionView != null)
                 {
                     var items = collectionView.ItemsSource;
-                    foreach (var item in items)
+                    if (items != null)
                     {
-                        var dealtCard = item as DealtCard;
-                        if (dealtCard != null)
+                        foreach (var item in items)
                         {
-                            dealtCard.RefreshCardIsInAccessibleTree();
+                            var dealtCard = item as DealtCard;
+                            if (dealtCard != null)
+                            {
+                                dealtCard.RefreshCardIsInAccessibleTree();
+                            }
                         }
                     }
                 }

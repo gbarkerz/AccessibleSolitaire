@@ -1,8 +1,8 @@
-﻿using CommunityToolkit.Maui.Behaviors;
-using Sa11ytaire4All.Source;
+﻿using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Sa11ytaire4All
 {
@@ -47,27 +47,7 @@ namespace Sa11ytaire4All
         {
             if (IsGameCollectionViewBased())
             {
-                if (currentGameType == SolitaireGameType.Grandfathersclock)
-                {
-                    AddGrandfathersclockButtons();
-                }
-
                 return;
-            }
-
-            var targetPiles = TargetPiles.Children;
-            if (targetPiles != null)
-            {
-                if ((currentGameType != SolitaireGameType.Grandfathersclock) &&
-                    (targetPiles.Count != 4))
-                {
-                    targetPiles.Clear();
-
-                    targetPiles.Add(TargetPileC);
-                    targetPiles.Add(TargetPileD);
-                    targetPiles.Add(TargetPileH);
-                    targetPiles.Add(TargetPileS);
-                }
             }
 
             cardGradientBrushRed.Center = new Point(0, 0);

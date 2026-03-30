@@ -127,7 +127,7 @@ namespace Sa11ytaire4All
             {
                 gameIsOver = false;
 
-                var clockCards = TargetPiles.Children;
+                var clockCards = TargetPilesClock.Children;
                 if ((clockCards != null) && (clockCards.Count == 12))
                 {
                     var foundCorrectNumber = 0;

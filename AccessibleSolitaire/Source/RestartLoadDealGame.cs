@@ -20,6 +20,8 @@ namespace Sa11ytaire4All
         // called on the UI thread.
         private void CardPileGrid_Loaded(object? sender, EventArgs e)
         {
+            Debug.WriteLine("CardPileGrid_Loaded: START");
+
             // We're here when the app is first started, and when returning to the MainPage after
             // visiting the Settings page or the Help content. We only need to take action here
             // in response to the app starting.
@@ -37,6 +39,8 @@ namespace Sa11ytaire4All
                         TimeSpan.FromMilliseconds(1000),
                         TimeSpan.FromMilliseconds(Timeout.Infinite));
             }
+
+            Debug.WriteLine("CardPileGrid_Loaded: Done.");
         }
 
         private Timer? timerDelayRefreshAllCards;
@@ -98,7 +102,14 @@ namespace Sa11ytaire4All
             {
                 ClearAllPiles();
 
-                AddPyramidButtons();
+                if (currentGameType != SolitaireGameType.Grandfathersclock)
+                {
+                    AddPyramidButtons();
+                }
+                else
+                {
+                    InitialiseGrandfathersclockButtons();
+                }
 
                 // We'll load card images below RestartGame();
                 RestartGame(false /* screenReaderAnnouncement. */);
@@ -515,7 +526,14 @@ namespace Sa11ytaire4All
                 }
             }
 
-            AddPyramidButtons();
+            if (currentGameType != SolitaireGameType.Grandfathersclock)
+            {
+                AddPyramidButtons();
+            }
+            else
+            {
+                InitialiseGrandfathersclockButtons();
+            }
 
             Preferences.Set("ChangeGameType: currentGameType now ", currentGameType.ToString());
 

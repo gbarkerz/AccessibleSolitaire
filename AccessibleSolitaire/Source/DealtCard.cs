@@ -147,9 +147,12 @@ namespace Sa11ytaire4All.Source
                     var collectionView = MainPage.FindCollectionView(this);
                     if (collectionView != null)
                     {
-                        name += ", " + (this.CurrentCardIndexInDealtCardPile + 1).ToString() + " " +
-                                 MainPage.MyGetString("Of") + // Has a trailing space. 
-                                 collectionView.ItemsSource.Cast<DealtCard>().Count();
+                        if (collectionView.ItemsSource != null)
+                        {
+                            name += ", " + (this.CurrentCardIndexInDealtCardPile + 1).ToString() + " " +
+                                     MainPage.MyGetString("Of") + // Has a trailing space. 
+                                     collectionView.ItemsSource.Cast<DealtCard>().Count();
+                        }
                     }
                 }
 
@@ -193,24 +196,27 @@ namespace Sa11ytaire4All.Source
                         if (collectionView != null)
                         {
                             var items = collectionView.ItemsSource;
-                            foreach (var item in items)
+                            if (items != null)
                             {
-                                var dealtCard = item as DealtCard;
-                                if ((dealtCard != null) && (dealtCard.Card != null))
+                                foreach (var item in items)
                                 {
-                                    if (!dealtCard.FaceDown)
+                                    var dealtCard = item as DealtCard;
+                                    if ((dealtCard != null) && (dealtCard.Card != null))
                                     {
-                                        if (dealtCard.IsLastCardInPile)
+                                        if (!dealtCard.FaceDown)
                                         {
-                                            hint = MainPage.MyGetString("NoMoreFaceupCards");
-                                        }
-                                        else
-                                        {
-                                            hint = MainPage.MyGetString("HintBottommostFaceupCard") + " " +
-                                                        dealtCard.Card.GetCardAccessibleName();
-                                        }
+                                            if (dealtCard.IsLastCardInPile)
+                                            {
+                                                hint = MainPage.MyGetString("NoMoreFaceupCards");
+                                            }
+                                            else
+                                            {
+                                                hint = MainPage.MyGetString("HintBottommostFaceupCard") + " " +
+                                                            dealtCard.Card.GetCardAccessibleName();
+                                            }
 
-                                        break;
+                                            break;
+                                        }
                                     }
                                 }
                             }
