@@ -337,8 +337,32 @@ namespace Sa11ytaire4All
             }
         }
 
+        // SetRemainingCardUIVisibility() is called following the CardPileGrid being loaded when the app starts,
+        // and following the current game being changed.
         private void SetRemainingCardUIVisibility()
         {
+            Debug.WriteLine("SetRemainingCardUIVisibility START.");
+
+            if (currentGameType != SolitaireGameType.Grandfathersclock)
+            {
+                TargetPiles.IsVisible = true;
+                TargetPilesClock.IsVisible = false;
+            }
+            else
+            {
+                TargetPiles.IsVisible = false;
+                TargetPilesClock.IsVisible = true;
+
+                Debug.WriteLine("SetRemainingCardUIVisibility InnerMainGrid.Height " + InnerMainGrid.Height);
+
+                if (InnerMainGrid.Height > 0)
+                {
+                    TargetPilesClock.HeightRequest = (7 * InnerMainGrid.Height) / 15;
+
+                    ArrangeGrandfathersclockButtons();
+                }
+            }
+
             if (currentGameType == SolitaireGameType.Spider)
             {
                 TargetPiles.IsVisible = false;
@@ -423,10 +447,13 @@ namespace Sa11ytaire4All
 
                 SpiderDiscardedSequenceCountLabelContainer.IsVisible = false;
 
-                TargetPileC.IsVisible = true;
-                TargetPileD.IsVisible = true;
-                TargetPileH.IsVisible = true;
-                TargetPileS.IsVisible = true;
+                var targetPilesVisible = ((currentGameType != SolitaireGameType.Pyramid) &&
+                                          (currentGameType != SolitaireGameType.Tripeaks));
+
+                TargetPileC.IsVisible = targetPilesVisible;
+                TargetPileD.IsVisible = targetPilesVisible;
+                TargetPileH.IsVisible = targetPilesVisible;
+                TargetPileS.IsVisible = targetPilesVisible;
 
                 if (currentGameType == SolitaireGameType.Bakersdozen)
                 {
@@ -463,47 +490,9 @@ namespace Sa11ytaire4All
                 }
 
                 Debug.WriteLine("SetRemainingCardUIVisibility: Final currentGameType is " + currentGameType);
-                if (currentGameType != SolitaireGameType.Grandfathersclock)
-                {
-                    var targetPiles = TargetPiles.Children;
-                    if ((targetPiles != null) && (targetPiles.Count > 0))
-                    {
-                        Debug.WriteLine("SetRemainingCardUIVisibility: Count of target piles was " + targetPiles.Count);
-
-                        var rowDefinitionCollection = new RowDefinitionCollection();
-                        if (rowDefinitionCollection != null)
-                        {
-                            rowDefinitionCollection.Add(new RowDefinition(new GridLength(1, GridUnitType.Star)));
-                            TargetPiles.RowDefinitions = rowDefinitionCollection;
-                        }
-
-                        var columnDefinitionCollection = new ColumnDefinitionCollection();
-                        if (columnDefinitionCollection != null)
-                        {
-                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
-                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
-                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
-                            columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(1, GridUnitType.Star)));
-
-                            TargetPiles.ColumnDefinitions = columnDefinitionCollection;
-                        }
-
-                        if (targetPiles.Count != 4)
-                        {
-                            targetPiles.Clear();
-
-                            targetPiles.Add(TargetPileC);
-                            targetPiles.Add(TargetPileD);
-                            targetPiles.Add(TargetPileH);
-                            targetPiles.Add(TargetPileS);
-                        }
-                    }
-                }
-                else
-                {
-                    ArrangeGrandfathersclockButtons();
-                }
             }
+
+            Debug.WriteLine("SetRemainingCardUIVisibility Done.");
         }
 
         private bool LoadedCardCountUnexpected()

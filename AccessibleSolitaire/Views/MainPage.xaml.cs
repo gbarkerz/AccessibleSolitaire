@@ -588,8 +588,6 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine("OnAppearing: vm.CurrentGameType now " + vm.CurrentGameType);
 
-                //SetRemainingCardUIVisibility();
-
                 if (IsGameCollectionViewBased())
                 {
                     CardPileGrid.IsVisible = true;

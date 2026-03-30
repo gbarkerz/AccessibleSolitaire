@@ -11,6 +11,8 @@ namespace Sa11ytaire4All
 
         private bool processingScreenOrientationChange = false;
 
+        // SetOrientationLayout() is called when the app starts, when the display info changes, 
+        // when the size of InnerMainPageGrid changes, and when the current game changes.
         public void SetOrientationLayout()
         {
             if (processingScreenOrientationChange)
@@ -110,16 +112,17 @@ namespace Sa11ytaire4All
 
         private void SetUpperGridViewOrientationLayout(bool isPortrait)
         {
-            if ((isPortrait ||
+            if (isPortrait ||
                  (currentGameType == SolitaireGameType.Pyramid) ||
-                 (currentGameType == SolitaireGameType.Tripeaks)) &&
-                (currentGameType != SolitaireGameType.Grandfathersclock))
+                 (currentGameType == SolitaireGameType.Tripeaks))
             {
                 // First set the rows for the InnerMainGrid based on the current game.
 
                 var rowDefinitionCollection = new RowDefinitionCollection();
 
-                int upperGridRowSpan = 2; // Baker's Dozen
+                int upperGridRowSpan = (currentGameType != SolitaireGameType.Grandfathersclock ?
+                                            2 : // Baker's Dozen
+                                            7); // Grandfather's Clock
 
                 for (int i = 0; i < 15; ++i)
                 {
@@ -153,13 +156,55 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine("SetUpperGridViewOrientationLayout: Main area row count " + rowDefinitionCollection.Count);
 
+                if (currentGameType == SolitaireGameType.Royalparade)
+                {
+                    upperGridRowSpan = 4;
+                }
+
                 Grid.SetRowSpan(UpperGrid, upperGridRowSpan);
 
                 Grid.SetColumnSpan(TopCornerPiles, 2);
 
-                Grid.SetRow(TargetPiles, 1);
-                Grid.SetColumn(TargetPiles, 2);
-                Grid.SetColumnSpan(TargetPiles, 2);
+                if (currentGameType != SolitaireGameType.Grandfathersclock)
+                {
+                    Grid.SetRow(TargetPiles, 1);
+
+                    Grid.SetColumn(TargetPiles, 2);
+                    Grid.SetColumnSpan(TargetPiles, 2);
+
+                    if ((currentGameType == SolitaireGameType.Pyramid) ||
+                        (currentGameType == SolitaireGameType.Tripeaks))
+                    { 
+                        var vm = this.BindingContext as DealtCardViewModel;
+                        if (vm != null)
+                        {
+                            if (InnerMainGrid.Height > 0)
+                            {
+                                var height = (2 * InnerMainGrid.Height) / 9;
+
+                                NextCardDeck.HeightRequest = height;
+
+                                UpturnedCardsGrid.HeightRequest = height;
+
+                                CardDeckUpturnedObscuredLower.HeightRequest = height;
+                                CardDeckUpturnedObscuredHigher.HeightRequest = height;
+                                CardDeckUpturned.HeightRequest = height;
+
+                                TargetPileC.HeightRequest = height;
+                                TargetPileD.HeightRequest = height;
+                                TargetPileH.HeightRequest = height;
+                                TargetPileS.HeightRequest = height;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Grid.SetRow(TargetPilesClock, 0);
+                    Grid.SetRowSpan(TargetPilesClock, 7);
+
+                    Grid.SetColumn(TargetPilesClock, 3);
+                }
             }
             else // Landscape.
             {
@@ -190,10 +235,9 @@ namespace Sa11ytaire4All
             int cardPileGridRow;
             int cardPileGridRowSpan;
 
-            if ((isPortrait ||
+            if (isPortrait ||
                  (currentGameType == SolitaireGameType.Pyramid) ||
-                 (currentGameType == SolitaireGameType.Tripeaks)) &&
-                (currentGameType != SolitaireGameType.Grandfathersclock))
+                 (currentGameType == SolitaireGameType.Tripeaks))
             {
                 switch (currentGameType)
                 {
@@ -207,10 +251,10 @@ namespace Sa11ytaire4All
                         cardPileGridRowSpan = 13;
                         break;
 
-                    //case SolitaireGameType.Grandfathersclock:
-                    //    cardPileGridRow = 3;
-                    //    cardPileGridRowSpan = 13;
-                    //    break;
+                    case SolitaireGameType.Grandfathersclock:
+                        cardPileGridRow = 7;
+                        cardPileGridRowSpan = 8;
+                        break;
 
                     case SolitaireGameType.Pyramid:
                         cardPileGridRow = 4;
@@ -280,7 +324,7 @@ namespace Sa11ytaire4All
 
         private void SetCollectionViewOrientationLayout(bool isPortrait, int index, CollectionView collectionView)
         {
-            if (isPortrait && (currentGameType != SolitaireGameType.Grandfathersclock))
+            if (isPortrait)
             {
                 Grid.SetRow(collectionView, index);
                 Grid.SetRowSpan(collectionView, 1);
@@ -308,6 +352,13 @@ namespace Sa11ytaire4All
 
                             collectionView.HeightRequest = height;
                         }
+                        else if (currentGameType == SolitaireGameType.Grandfathersclock)
+                        {
+                            // Add some space between all the rows.
+                            collectionView.HeightRequest = (InnerMainGrid.Height / 15) - 2;
+
+                            collectionView.WidthRequest = InnerMainGrid.Width;
+                        }
                     }
                 }
             }
@@ -329,7 +380,7 @@ namespace Sa11ytaire4All
                     }
                     else
                     {
-                        collectionView.HeightRequest = MainPageGrid.Height / 3;
+                        collectionView.HeightRequest = (2 * MainPageGrid.Height) / 3;
                     }
                 }
             }

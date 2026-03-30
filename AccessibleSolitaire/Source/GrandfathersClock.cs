@@ -6,7 +6,7 @@ namespace Sa11ytaire4All
 {
     public partial class MainPage : ContentPage
     {
-        private void AddGrandfathersclockButtons()
+        private void InitialiseGrandfathersclockButtons()
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -14,30 +14,55 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            // First add all the CardButtons for the clock.
-            TargetPiles.Children.Clear();
+            Debug.WriteLine("InitialiseGrandfathersclockButtons: START.");
+
+            var clockButtons = TargetPilesClock.Children;
+
+            if ((clockButtons == null) || (clockButtons.Count != 12))
+            {
+                Debug.WriteLine("InitialiseGrandfathersclockButtons: Unexpected clock buttons state.");
+
+                return;
+            }
 
             for (int i = 0; i < 12; i++)
             {
-                var button = new CardButton();
-
-                button.Padding = new Thickness(2);
-
-                button.IsToggled = false;
-
-                if (vm.CardButtonsHeadingState && (i % 3 == 0))
+                var button = clockButtons[i] as CardButton;
+                if (button != null)
                 {
-                    button.SetHeadingState(true);
-                }
+                    button.Margin = new Thickness(0);
+                    button.Padding = new Thickness(0, 0, 2, 0);
 
-                TargetPiles.Children.Add(button);
+                    if (vm.CardButtonsHeadingState && (i % 3 == 0))
+                    {
+                        button.SetHeadingState(true);
+                    }
+
+                    if ((vm.DealtCards != null) && (vm.DealtCards[8] != null) &&
+                        (vm.DealtCards[8].Count == 12))
+                    {
+                        var dealtCard = vm.DealtCards[8][i];
+                        if (dealtCard != null)
+                        {
+                            button.Card = dealtCard.Card;
+
+                            button.StackDetails = dealtCard.StackDetails;
+
+                            SetPyramidCardButtonBindingProperties(button);
+                        }
+                    }
+                }
             }
+
+            Debug.WriteLine("InitialiseGrandfathersclockButtons: Done.");
 
             ArrangeGrandfathersclockButtons();
         }
 
         private void ArrangeGrandfathersclockButtons()
         {
+            Debug.WriteLine("ArrangeGrandfathersclockButtons: START.");
+
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
@@ -46,190 +71,68 @@ namespace Sa11ytaire4All
 
             if ((InnerMainGrid.Height < 0) || (InnerMainGrid.Width < 0))
             {
+                Debug.WriteLine("ArrangeGrandfathersclockButtons: InnerMainGrid not ready.");
+
                 return;
             }
 
-            var availableHeight = 2 * InnerMainGrid.Height / 3;
+            Debug.WriteLine("ArrangeGrandfathersclockButtons: Arrange buttons now.");
 
-            var radius = (availableHeight - vm.CardHeight) / 2;
-
-            var foundationCards = TargetPiles.Children;
-            if ((foundationCards == null) || (foundationCards.Count != 12))
+            if (currentGameType == SolitaireGameType.Grandfathersclock)
             {
-                return;
+                TargetPilesClock.HeightRequest = (7 * InnerMainGrid.Height) / 15;
+
+                var buttonWidthTotal = 0;
+
+                if (vm.CardWidth > 0)
+                {
+                    buttonWidthTotal = (int)((vm.CardWidth / 3) + 4) * (vm.ShowScreenReaderAnnouncementButtons ? 2 : 1);
+                }
+
+                var clockCardWidth = (InnerMainGrid.Width - buttonWidthTotal) / 8;
+                var clockCardHeight = (2 * 7 * InnerMainGrid.Height) / (1 * 8 * 15);
+
+                Debug.WriteLine("ArrangeGrandfathersclockButtons: clockCardWidth " + clockCardWidth +
+                    ", clockCardHeight " + clockCardHeight);
+
+                var clockCards = TargetPilesClock.Children;
+                if ((clockCards != null) && (clockCards.Count == 12))
+                {
+                    for (var i = 0; i < clockCards.Count; i++)
+                    {
+                        var clockCard = TargetPilesClock[i] as CardButton;
+                        if (clockCard != null)
+                        {
+                            clockCard.IsVisible = true;
+
+                            clockCard.WidthRequest = clockCardWidth;
+
+                            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
+
+                            clockCard.HeightRequest = clockCardHeight;
+
+                            if ((i < 8) && (TargetPilesClock.RowDefinitions != null) &&
+                                (TargetPilesClock.RowDefinitions[i] != null) &&
+                                (clockCard.HeightRequest > 0))
+                            {
+                                Debug.WriteLine("ArrangeGrandfathersclockButtons: Set row " + i + " height " + 
+                                    (clockCardHeight / 2));
+
+                                TargetPilesClock.RowDefinitions[i] = new RowDefinition(
+                                                                        new GridLength(clockCardHeight / 2,
+                                                                            GridUnitType.Absolute));
+                            }
+                        }
+                    }
+                }
             }
 
-            var rowDefinitionCollection = new RowDefinitionCollection();
-
-            var rowHeight = availableHeight / 8;
-
-            for (int i = 0; i < 9; i++)
-            {
-                rowDefinitionCollection.Add(new RowDefinition(new GridLength(rowHeight, GridUnitType.Absolute)));
-            }
-
-            TargetPiles.RowDefinitions = rowDefinitionCollection;
-
-            var columnDefinitionCollection = new ColumnDefinitionCollection();
-
-            var isPortrait = (DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait);
-
-            var columnWidth = Math.Min(vm.CardWidth / (isPortrait ? 1 : 2), InnerMainGrid.Width / 8);
-
-            for (int i = 0; i < 8; i++)
-            {
-                columnDefinitionCollection.Add(new ColumnDefinition(new GridLength(columnWidth, GridUnitType.Absolute)));
-            }
-
-            TargetPiles.ColumnDefinitions = columnDefinitionCollection;
-
-            for (int i = 0; i < 12; i++)
-            {
-                var button = foundationCards[i] as CardButton;
-                if (button == null)
-                {
-                    break;
-                }
-
-                button.WidthRequest = columnWidth;
-                button.HeightRequest = 2 * rowHeight;
-
-                var column = 0;
-                
-                if (i < 4)
-                {
-                    column = i + 3;
-                }
-                else if (i < 10)
-                {
-                    column = 9 - i;
-                }
-                else 
-                {
-                    column = i - 9;
-                }
-
-                TargetPiles.SetColumn(button, column);
-
-                var row = 0;
-
-                if (i == 0)
-                {
-                    row = 0;
-                }
-                else if ((i == 1) || (i == 11))
-                {
-                    row = 1;
-                }
-                else if ((i == 2) || (i == 10))
-                {
-                    row = 2;
-                }
-                else if ((i == 3) || (i == 9))
-                {
-                    row = 3;
-                }
-                else if ((i == 4) || (i == 8))
-                {
-                    row = 4;
-                }
-                else if ((i == 5) || (i == 7))
-                {
-                    row = 5;
-                }
-                else if (i == 6)
-                {
-                    row = 6;
-                }
-
-                TargetPiles.SetRow(button, row);
-                TargetPiles.SetRowSpan(button, 2);
-            }
+            Debug.WriteLine("ArrangeGrandfathersclockButtons: Done.");
         }
-
-        /*
-         * Android (and apparently iOS) click handlers don't get called if the 
-         * button's been translated away from its original position.
-        private void ArrangeGrandfathersclockButtons()
-        {
-            var vm = this.BindingContext as DealtCardViewModel;
-            if ((vm == null) || (vm.DealtCards == null))
-            {
-                return;
-            }
-
-            // Assume available height is less than the available width.
-            var availableHeight = 2 * InnerMainGrid.Height / 3;
-            if (availableHeight < 0)
-            {
-                return;
-            }
-
-            var radius = (availableHeight - vm.CardHeight) / 2;
-
-            var foundationCards = TargetPiles.Children;
-            if ((foundationCards == null) || (foundationCards.Count != 12))
-            {
-                return;
-            }
-
-            for (int i = 0; i < 12; i++)
-            {
-                var button = foundationCards[i] as CardButton;
-                if (button == null)
-                {
-                    break;
-                }
-
-                // Barker: Check this scaling is acceptable on different screen sizes.
-                var sizeFactor = 0.75;
-
-                button.WidthRequest = sizeFactor * vm.CardWidth;
-                button.HeightRequest = sizeFactor * vm.CardHeight;
-
-                var angle = UnitConverters.DegreesToRadians(30 * i);
-
-                var stretchFactor = sizeFactor;
-
-                var isPortrait = MainPage.IsPortrait();
-                //if (!isPortrait)
-                {
-                    if ((i >= 0) && (i < 3))
-                    {
-                        stretchFactor *= (i % 3);
-                    }
-                    else if ((i >= 3) && (i < 6))
-                    {
-                        stretchFactor *= (3 - (i % 3));
-                    }
-                    else if ((i >= 6) && (i < 9))
-                    {
-                        stretchFactor *= -(i % 3);
-                    }
-                    else
-                    {
-                        stretchFactor *= -(3 - (i % 3));
-                    }
-                }
-
-                var xTranslate = stretchFactor * vm.CardWidth;
-
-                // Move a little away from the top border.
-                var yTranslate = ((availableHeight - vm.CardHeight + 16) / 2) - (radius * Math.Cos(angle));
-
-                button.TranslateToAsync(xTranslate, yTranslate);
-
-                //button.RotateToAsync(30 * i);
-            }
-        }
-        */
 
         private bool DealCardsToGrandfathersclockPostprocess(bool setDealtCardProperties)
         {
-            if (Application.Current == null)
-            {
-                return false;
-            }
+            Debug.WriteLine("DealCardsToGrandfathersclockPostprocess: START.");
 
             if (!IsGameCollectionViewBased())
             {
@@ -247,11 +150,13 @@ namespace Sa11ytaire4All
                 return false;
             }
 
+            Debug.WriteLine("DealCardsToGrandfathersclockPostprocess: Continue.");
+
             // The first CollectionView does nothing in the Grandfather's Clock game.
             CardPile9.IsVisible = false;
             CardPile9.ItemsSource = null;
 
-            var cardButtonsUI = TargetPiles.Children;
+            var cardButtonsUI = TargetPilesClock.Children;
             if ((cardButtonsUI == null) || (cardButtonsUI.Count != 12))
             {
                 return false;
@@ -310,6 +215,8 @@ namespace Sa11ytaire4All
                     RefreshDealtCardPileAccessibleNames(dealtCardPile);
                 }
             }
+
+            Debug.WriteLine("DealCardsToGrandfathersclockPostprocess: Done.");
 
             return true;
         }
