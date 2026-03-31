@@ -669,7 +669,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Headings</value>
   </data>
   <data name="CardButtonsHeadingStateInstructions" xml:space="preserve">
-    <value>Make the top-most upturned card and all target card piles headings for faster VoiceOver navigation. Please note that if these headings are enabled, Accessible Solitaire may not be usable with iOS Voice Control. So turn this setting off if you plan to play the game using Voice Control.</value>
+    <value>Make the top-most upturned card and all target card piles headings for faster VoiceOver navigation. Please note that if these headings are enabled, Accessible Solitaire may not be usable with iOS Voice Control. So turn this setting off if you plan to play the game using Voice Control. Also note that on some devices, Accessible Solitaire may need to be restarted for the change in this setting to take effect.</value>
   </data>
   <data name="CardButtonsHeadingStateSwitchLabel" xml:space="preserve">
     <value>Set as headings:</value>

@@ -430,7 +430,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Make the top-most upturned card and all target card piles headings for faster VoiceOver navigation. Please note that if these headings are enabled, Accessible Solitaire may not be usable with iOS Voice Control. So turn this setting off if you plan to play the game using Voice Control..
+        ///   Looks up a localized string similar to Make the top-most upturned card and all target card piles headings for faster VoiceOver navigation. Please note that if these headings are enabled, Accessible Solitaire may not be usable with iOS Voice Control. So turn this setting off if you plan to play the game using Voice Control. Also note that on some devices, Accessible Solitaire may need to be restarted for the change in this setting to take effect..
         /// </summary>
         internal static string CardButtonsHeadingStateInstructions {
             get {

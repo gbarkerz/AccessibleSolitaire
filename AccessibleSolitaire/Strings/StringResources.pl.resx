@@ -669,7 +669,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Nagłówki</value>
   </data>
   <data name="CardButtonsHeadingStateInstructions" xml:space="preserve">
-    <value>Ustaw nagłówki dla wierzchniej odwróconej karty i wszystkich stosów kart docelowych, aby przyspieszyć nawigację VoiceOver. Pamiętaj, że po włączeniu tych nagłówków, Accessible Solitaire może nie działać z funkcją sterowania głosowego w systemie iOS. Wyłącz to ustawienie, jeśli planujesz grać z użyciem sterowania głosowego.</value>
+    <value>Ustaw nagłówki dla wierzchniej odwróconej karty i wszystkich stosów kart docelowych, aby przyspieszyć nawigację VoiceOver. Pamiętaj, że po włączeniu tych nagłówków, Accessible Solitaire może nie działać z funkcją sterowania głosowego w systemie iOS. Wyłącz to ustawienie, jeśli planujesz grać z użyciem sterowania głosowego. Należy pamiętać, że na niektórych urządzeniach konieczne może być ponowne uruchomienie aplikacji Accessible Solitaire, aby zmiany w tym ustawieniu zostały uwzględnione.</value>
   </data>
   <data name="CardButtonsHeadingStateSwitchLabel" xml:space="preserve">
     <value>Ustaw jako nagłówki:</value>

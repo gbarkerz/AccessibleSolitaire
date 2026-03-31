@@ -26,8 +26,6 @@ namespace Sa11ytaire4All
 
             Debug.WriteLine("SetOrientationLayout: initialScreenOrientationPortrait " + initialScreenOrientationPortrait);
 
-            SetUpperGridViewOrientationLayout(isPortrait);
-
             var changedLayout = true;
 
 #if WINDOWS
@@ -93,12 +91,14 @@ namespace Sa11ytaire4All
             }
 #endif
 
-            SetLowerScrollViewOrientationLayout(isPortrait);
-
-            var isGameCollectionViewBased = IsGameCollectionViewBased();
-
             if (changedLayout)
             {
+                SetLowerScrollViewOrientationLayout(isPortrait);
+
+                var isGameCollectionViewBased = IsGameCollectionViewBased();
+
+                SetUpperGridViewOrientationLayout(isPortrait);
+
                 InnerMainGrid.IsVisible = true;
 
                 CardPileGrid.IsVisible = isGameCollectionViewBased;

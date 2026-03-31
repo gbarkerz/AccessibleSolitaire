@@ -333,7 +333,12 @@ namespace Sa11ytaire4All
 
                 // Barker: It seems that calling SetExcludedWithChildren() is no longer sufficient.
                 // So call SetIsInAccessibleTree() also. 
+
+                // Barker: Also, it seems this can leave the list out of the tree and all its contents
+                // in the tree on iOS, so investigate this at some point.
+#if ANDROID || WINDOWS
                 AutomationProperties.SetIsInAccessibleTree(collectionView, !hideDealtCardPile);
+#endif
             }
         }
 

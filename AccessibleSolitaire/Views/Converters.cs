@@ -251,6 +251,12 @@ namespace Sa11ytaire4All.Views
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+#if ANDROID
+            // Barker: On Android, sometimes a card can't be pressed without it triggering 
+            // the zoom popup, so disable it for now. Revisit this when time permits.
+            return 600000;
+#endif
+
             if (value == null)
             {
                 return null;
