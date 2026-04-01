@@ -1058,7 +1058,7 @@ namespace Sa11ytaire4All
 
             // First check if any card can be moved to the clock.
 
-            var clockCards = TargetPiles.Children;
+            var clockCards = TargetPilesClock.Children;
             if ((clockCards != null) && (clockCards.Count == 12))
             {
                 for (var i = 0; i < clockCards.Count; i++)

@@ -2220,26 +2220,28 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             string empty = MyGetString("Empty");
             string pile = MyGetString("Pile");
 
-            var cardButtons = TargetPiles.Children;
-
-            for (int i = 0; i < 12; i++)
+            var cardButtons = TargetPilesClock.Children;
+            if ((cardButtons != null) && (cardButtons.Count == 12))
             {
-                var button = new CardButton();
-
-                var cardButton = cardButtons[i] as CardButton;
-                if (cardButton != null)
+                for (int i = 0; i < 12; i++)
                 {
-                    var hour = (i > 0 ? i : 12);
+                    var button = new CardButton();
 
-                    stateMessage += MyGetString(hour.ToString()) + " " + MyGetString("Oclock") + ", ";
+                    var cardButton = cardButtons[i] as CardButton;
+                    if (cardButton != null)
+                    {
+                        var hour = (i > 0 ? i : 12);
 
-                    if (cardButton.Card != null)
-                    {
-                        stateMessage += cardButton.Card.GetCardAccessibleName() + ", ";
-                    }
-                    else
-                    {
-                        stateMessage += empty + ", ";
+                        stateMessage += MyGetString(hour.ToString()) + " " + MyGetString("Oclock") + ", ";
+
+                        if (cardButton.Card != null)
+                        {
+                            stateMessage += cardButton.Card.GetCardAccessibleName() + ", ";
+                        }
+                        else
+                        {
+                            stateMessage += empty + ", ";
+                        }
                     }
                 }
             }
@@ -2251,7 +2253,6 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
             return stateMessage;
         }
-
 
         public string AnnounceStateTargetPiles(bool makeAnnouncement)
         {

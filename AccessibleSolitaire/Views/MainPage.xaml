@@ -564,6 +564,7 @@
                     <!-- Add the Next Card button. -->
                     <local_source:NextCardPileButton Grid.Column="0" x:Name="NextCardDeck" 
                         AutomationId="NextCardButton"
+                        IsVisible="False"
                         WidthRequest="{Binding CardWidth}"
                         HeightRequest="{Binding CardHeight}"
                         Clicked="NextCard_Click"
@@ -623,11 +624,7 @@
 
                             <local_views:CardButton Grid.Column="0" Style="{StaticResource CardButtonStyle}"
                                 x:Name="CardDeckUpturnedObscuredLower" AutomationId="CardDeckUpturnedObscuredLower" 
-                                IsVisible="{Binding Mode=OneWay,
-                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                                    x:DataType={x:Type vm:DealtCardViewModel},
-                                    Path=CurrentGameType,
-                                    Converter={StaticResource CurrentGameTypeToKlondikeUIVisibility}}"
+                                IsVisible="False"
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
                                     x:DataType={x:Type local_views:CardButton},
@@ -647,11 +644,7 @@
 
                             <local_views:CardButton Grid.Column="1" Style="{StaticResource CardButtonStyle}"
                                 x:Name="CardDeckUpturnedObscuredHigher" AutomationId="CardDeckUpturnedObscuredHigher"
-                                IsVisible="{Binding Mode=OneWay,
-                                    Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
-                                    x:DataType={x:Type vm:DealtCardViewModel},
-                                    Path=CurrentGameType,
-                                    Converter={StaticResource CurrentGameTypeToUpperObscuredVisibility}}"
+                                IsVisible="False"
                                 IsEnabled="{Binding Path=Card, Mode=OneWay, 
                                     Source={RelativeSource Self}, 
                                     x:DataType={x:Type local_views:CardButton},
@@ -673,6 +666,7 @@
                                 <local_views:CardButton Style="{StaticResource CardButtonStyle}"
                                     Margin="0" Padding="0" 
                                     x:Name="CardDeckUpturned" AutomationId="CardDeckUpturned" 
+                                    IsVisible="False"
                                     LongPressZoomDuration="{Binding Mode=OneWay, 
                                         Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type vm:DealtCardViewModel}},
                                         x:DataType={x:Type vm:DealtCardViewModel},

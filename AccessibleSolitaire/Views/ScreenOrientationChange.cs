@@ -300,7 +300,7 @@ namespace Sa11ytaire4All
                     cardPileGridRow = 1;
                     cardPileGridRowSpan = 2;
 
-                    if ((InnerMainGrid.Height > 0) && !isPortrait)
+                    if (InnerMainGrid.Height > 0)
                     {
                         CardPileGrid.HeightRequest = (2 * InnerMainGrid.Height) / 3;
                     }
@@ -310,7 +310,7 @@ namespace Sa11ytaire4All
                     cardPileGridRow = 2;
                     cardPileGridRowSpan = 1;
 
-                    if ((InnerMainGrid.Height > 0) && !isPortrait)
+                    if (InnerMainGrid.Height > 0)
                     {
                         CardPileGrid.HeightRequest = InnerMainGrid.Height / 3;
                     }

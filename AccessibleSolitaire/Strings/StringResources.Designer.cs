@@ -187,7 +187,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V4.6.
+        ///   Looks up a localized string similar to Accessible Solitaire V4.7.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {

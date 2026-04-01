@@ -252,9 +252,9 @@ namespace Sa11ytaire4All
             {
                 if (!IsGameCollectionViewBased())
                 {
-                    vm.CardHeight = (3 * MainPageGrid.Height) / 13;
+                    vm.CardHeight = (3 * InnerMainGrid.Height) / 13;
 
-                    var currentCardWidth = MainPageGrid.Width /
+                    var currentCardWidth = InnerMainGrid.Width /
                                             (currentGameType == SolitaireGameType.Pyramid ? 7 : 10);
 
                     if (currentCardWidth != vm.CardWidth)
@@ -266,7 +266,7 @@ namespace Sa11ytaire4All
                 }
                 else
                 {
-                    vm.CardHeight = (3 * MainPageGrid.Height) / 13;
+                    vm.CardHeight = (3 * InnerMainGrid.Height) / 13;
 
                     var cardPileCount = GetGameCardPileCount();
 
@@ -277,7 +277,7 @@ namespace Sa11ytaire4All
                         --cardPileCount;
                     }
 
-                    var currentCardWidth = (MainPageGrid.Width - 1) / cardPileCount;
+                    var currentCardWidth = (InnerMainGrid.Width - 1) / cardPileCount;
 
                     if (currentCardWidth != vm.CardWidth)
                     {
