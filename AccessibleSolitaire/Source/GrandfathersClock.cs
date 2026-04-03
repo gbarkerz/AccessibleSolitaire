@@ -92,6 +92,9 @@ namespace Sa11ytaire4All
                 var clockCardWidth = (InnerMainGrid.Width - buttonWidthTotal) / 8;
                 var clockCardHeight = (2 * 7 * InnerMainGrid.Height) / (1 * 8 * 15);
 
+                // Account for the margins here.
+                clockCardWidth -= 2;
+
                 Debug.WriteLine("ArrangeGrandfathersclockButtons: clockCardWidth " + clockCardWidth +
                     ", clockCardHeight " + clockCardHeight);
 

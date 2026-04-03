@@ -214,13 +214,6 @@ namespace Sa11ytaire4All
                         TargetPileS.HeightRequest = height;
                     }
                 }
-                else
-                {
-                    Grid.SetRow(TargetPilesClock, 0);
-                    Grid.SetRowSpan(TargetPilesClock, 7);
-
-                    Grid.SetColumn(TargetPilesClock, 3);
-                }
             }
             else // Landscape.
             {
@@ -241,6 +234,8 @@ namespace Sa11ytaire4All
                 Grid.SetColumnSpan(TopCornerPiles, 1);
 
                 Grid.SetRow(TargetPiles, 0);
+                Grid.SetRowSpan(TargetPiles, 1);
+
                 Grid.SetColumn(TargetPiles, 3);
                 Grid.SetColumnSpan(TargetPiles, 1);
             }

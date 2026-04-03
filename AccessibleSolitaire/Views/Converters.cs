@@ -810,7 +810,7 @@ namespace Sa11ytaire4All.Views
 
             var cardWidth = (double)value;
 
-            return cardWidth - 3;
+            return cardWidth - 5;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

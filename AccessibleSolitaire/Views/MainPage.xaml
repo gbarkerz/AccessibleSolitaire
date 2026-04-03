@@ -255,12 +255,13 @@
             <Grid x:Name="UpperGrid"
                 Grid.Row="0" Grid.Column="0"
                 Margin="0" Padding="0"
+                HorizontalOptions="Start"
                 FlowDirection="{Binding Path=FlipGameLayoutHorizontally,
                     Converter={StaticResource FlipGameLayoutHorizontallyToFlowDirection}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -702,8 +703,8 @@
 
                 <Grid x:Name="TargetPiles"
                     IsVisible="False"
-                    Grid.Row="0"
-                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Center" 
                     Margin="0" Padding="0">
 
                     <Grid.ColumnDefinitions>
@@ -773,11 +774,6 @@
                         Margin="0" Padding="0">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
