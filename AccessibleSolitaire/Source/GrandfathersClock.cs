@@ -133,24 +133,50 @@ namespace Sa11ytaire4All
             Debug.WriteLine("ArrangeGrandfathersclockButtons: Done.");
         }
 
-        private bool DealCardsToGrandfathersclockPostprocess(bool setDealtCardProperties)
+        private Timer? timerDelayDealCardsToGrandfathersclockPostprocess;
+
+        private void DelayedDealCardsToGrandfathersclockPostprocess(bool setDealtCardProperties)
+        {
+            if (timerDelayDealCardsToGrandfathersclockPostprocess == null)
+            {
+                timerDelayDealCardsToGrandfathersclockPostprocess = new Timer(
+                                    new TimerCallback((s) => TimedDealCardsToGrandfathersclockPostprocess(setDealtCardProperties)),
+                                        null,
+                                        TimeSpan.FromMilliseconds(1000),
+                                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+            }
+        }
+
+        private void TimedDealCardsToGrandfathersclockPostprocess(bool setDealtCardProperties)
+        {
+            timerDelayDealCardsToGrandfathersclockPostprocess?.Dispose();
+            timerDelayDealCardsToGrandfathersclockPostprocess = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                DealCardsToGrandfathersclockPostprocess(setDealtCardProperties);
+            });
+        }
+
+        private void DealCardsToGrandfathersclockPostprocess(bool setDealtCardProperties)
         {
             Debug.WriteLine("DealCardsToGrandfathersclockPostprocess: START.");
 
             if (!IsGameCollectionViewBased())
             {
-                return false;
+                return;
             }
 
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
-                return false;
+                return;
             }
 
             if (vm.DealtCards[8].Count == 0)
             {
-                return false;
+                return;
             }
 
             Debug.WriteLine("DealCardsToGrandfathersclockPostprocess: Continue.");
@@ -162,7 +188,7 @@ namespace Sa11ytaire4All
             var cardButtonsUI = TargetPilesClock.Children;
             if ((cardButtonsUI == null) || (cardButtonsUI.Count != 12))
             {
-                return false;
+                return;
             }
 
             var cardUIIndex = 0;
@@ -221,8 +247,6 @@ namespace Sa11ytaire4All
             }
 
             Debug.WriteLine("DealCardsToGrandfathersclockPostprocess: Done.");
-
-            return true;
         }
 
         // Handle a click on one of the CardButtons in the Grandfather Clock.

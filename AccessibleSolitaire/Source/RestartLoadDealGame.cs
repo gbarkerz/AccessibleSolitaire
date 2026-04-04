@@ -88,7 +88,7 @@ namespace Sa11ytaire4All
                 }
                 else if (currentGameType == SolitaireGameType.Grandfathersclock)
                 {
-                    DealCardsToGrandfathersclockPostprocess(false);
+                    DelayedDealCardsToGrandfathersclockPostprocess(false);
                 }
 
                 RefreshUpperCards();
@@ -477,15 +477,11 @@ namespace Sa11ytaire4All
 
             if (!IsGameCollectionViewBased())
             {
-                var postprocessSuccess = DealPyramidCardsPostprocess(true);
-                if (!postprocessSuccess)
-                {
-                    Debug.WriteLine("DealCards: DealPyramidCardsPostprocess failed.");
-                }
+                DelayedDealCardsToGrandfathersclockPostprocess(true);
             }
             else if (currentGameType == SolitaireGameType.Grandfathersclock)
             {
-                DealCardsToGrandfathersclockPostprocess(true);
+                DelayedDealCardsToGrandfathersclockPostprocess(true);
             }
         }
 
