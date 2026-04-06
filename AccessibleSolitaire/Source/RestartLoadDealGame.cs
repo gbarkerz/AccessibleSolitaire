@@ -477,7 +477,11 @@ namespace Sa11ytaire4All
 
             if (!IsGameCollectionViewBased())
             {
-                DelayedDealCardsToGrandfathersclockPostprocess(true);
+                var postprocessSuccess = DealPyramidCardsPostprocess(true);
+                if (!postprocessSuccess)
+                {
+                    Debug.WriteLine("DealCards: DealPyramidCardsPostprocess failed.");
+                }
             }
             else if (currentGameType == SolitaireGameType.Grandfathersclock)
             {
