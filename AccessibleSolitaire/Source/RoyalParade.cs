@@ -1,4 +1,5 @@
-﻿using Sa11ytaire4All.Source;
+﻿using Sa11ytaire4All.Services;
+using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
@@ -644,8 +645,52 @@ namespace Sa11ytaire4All
 
             if (currentGameType == SolitaireGameType.Royalparade)
             {
-                RefreshAllCardVisuals();
+                var model = DeviceInfoService.Model();
+                var platform = DeviceInfoService.Platform();
+
+                Debug.WriteLine("CheckForOpenCardsRoyalParade: Model " + model + ", Platform " + platform);
+
+                // An iPhone 12 user has reported that the Royal Parade game crashes whenever an attempt is
+                // made to restart the game. So delay the refreshing of all the cards here on an iphone 12
+                // to see if that avoids the crash.
+
+                if (model.StartsWith("iPhone 12"))
+                {
+                    DelayRefreshAllCardVisuals();
+                }
+                else
+                {
+                    RefreshAllCardVisuals();
+                }
             }
+        }
+
+        private Timer? timerDelayRefreshAllCardVisuals;
+
+        private void DelayRefreshAllCardVisuals()
+        {
+            if (timerDelayRefreshAllCardVisuals == null)
+            {
+                timerDelayRefreshAllCardVisuals = new Timer(
+                                    new TimerCallback((s) => TimedDelayRefreshAllCardVisuals()),
+                                        null,
+                                        TimeSpan.FromMilliseconds(500),
+                                        TimeSpan.FromMilliseconds(Timeout.Infinite));
+            }
+        }
+
+        private void TimedDelayRefreshAllCardVisuals()
+        {
+            timerDelayRefreshAllCardVisuals?.Dispose();
+            timerDelayRefreshAllCardVisuals = null;
+
+            // Always run this on the UI thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Debug.WriteLine("TimedDelayRefreshAllCardVisuals: Refresh all card visuals after delay.");
+
+                RefreshAllCardVisuals();
+            });
         }
 
         private CardButton? GetAlreadySelectedCard(CardButton? ignoreCardButton)

@@ -122,13 +122,18 @@
                             CornerRadius="0"
                             Clicked="CardButton_Clicked">
 
-                            <Button.Behaviors>
+                            <!-- Long press action can get triggered unexpectedly, and both I and users have 
+                                found a Long press can end up always getting triggered in the Royal Parade
+                                game, meaning that a card cannot be selected. Until Long press functionality
+                                can be made completely robust, remove it. -->
+                            
+                            <!--<Button.Behaviors>
                                 <toolkit:TouchBehavior
                                     BindingContext="{Binding Path=BindingContext, 
                                         Source={x:Reference CardButtonInstance}, x:DataType=local_views:CardButton}"
                                     LongPressDuration="{Binding LongPressZoomDuration}"
                                     LongPressCompleted="TouchBehavior_LongPressCompleted" />
-                            </Button.Behaviors>
+                            </Button.Behaviors>-->
 
                         </Button>
 
