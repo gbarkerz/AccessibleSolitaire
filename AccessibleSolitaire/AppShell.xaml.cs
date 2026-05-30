@@ -1,4 +1,5 @@
-﻿using Sa11ytaire4All.Views;
+﻿using Sa11ytaire4All.Services;
+using Sa11ytaire4All.Views;
 using System.Diagnostics;
 
 namespace Sa11ytaire4All
@@ -93,6 +94,20 @@ namespace Sa11ytaire4All
 
             var settingsPage = new SettingsPage();
             await Navigation.PushModalAsync(settingsPage);
+        }
+
+        private async void YourDeviceMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            var yourDeviceMessage = MainPage.MyGetString("YourDeviceDetails") + "\n\n" +
+                MainPage.MyGetString("Model") + " " + DeviceInfoService.Model() + "\n\n" +
+                MainPage.MyGetString("Platform") + " " + DeviceInfoService.Platform();
+
+            await DisplayAlertAsync(
+                MainPage.MyGetString("AccessibleSolitaire"),
+                yourDeviceMessage,
+                MainPage.MyGetString("OK"));
         }
 
         private void RestartGameMenuItem_Clicked(object sender, EventArgs e)

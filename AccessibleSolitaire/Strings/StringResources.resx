@@ -891,4 +891,16 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="Oclock" xml:space="preserve">
     <value>o'clock</value>
   </data>
+  <data name="YourDevice" xml:space="preserve">
+    <value>Your device</value>
+  </data>
+  <data name="YourDeviceDetails" xml:space="preserve">
+    <value>The details shown here will be helpful if you report problems with the Accessible Solitaire app.</value>
+  </data>
+  <data name="Model" xml:space="preserve">
+    <value>Model:</value>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>Platform:</value>
+  </data>
 </root>

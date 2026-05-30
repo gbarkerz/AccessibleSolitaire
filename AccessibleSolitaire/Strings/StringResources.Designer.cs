@@ -1384,6 +1384,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Model:.
+        /// </summary>
+        internal static string Model {
+            get {
+                return ResourceManager.GetString("Model", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to More cards are available to turn over.
         /// </summary>
         internal static string MoreCardsAreAvailable {
@@ -1695,6 +1704,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Pink {
             get {
                 return ResourceManager.GetString("Pink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Platform:.
+        /// </summary>
+        internal static string Platform {
+            get {
+                return ResourceManager.GetString("Platform", resourceCulture);
             }
         }
         
@@ -2335,6 +2353,24 @@ namespace Sa11ytaire4All.Strings {
         internal static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device.
+        /// </summary>
+        internal static string YourDevice {
+            get {
+                return ResourceManager.GetString("YourDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The details shown here will be helpful if you report problems with the Accessible Solitaire app..
+        /// </summary>
+        internal static string YourDeviceDetails {
+            get {
+                return ResourceManager.GetString("YourDeviceDetails", resourceCulture);
             }
         }
     }

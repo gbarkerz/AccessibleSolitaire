@@ -891,4 +891,16 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="Oclock" xml:space="preserve">
     <value>godzina</value>
   </data>
+  <data name="YourDevice" xml:space="preserve">
+    <value>Twoje urządzenie</value>
+  </data>
+  <data name="YourDeviceDetails" xml:space="preserve">
+    <value>Podane tutaj szczegóły będą pomocne, jeśli zgłosisz problemy z aplikacją Accessible Solitaire.</value>
+  </data>
+  <data name="Model" xml:space="preserve">
+    <value>Model:</value>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>Platforma:</value>
+  </data>
 </root>

@@ -89,6 +89,17 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
+    <MenuItem x:Name="YourDeviceMenuItem" 
+        Clicked="YourDeviceMenuItem_Clicked"
+        Text="{x:Static resources:Strings.StringResources.YourDevice}">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#x1f4f1;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
     <MenuItem x:Name="CloseMenuItem" 
         Clicked="CloseMenuItem_Clicked"
         Text="{x:Static resources:Strings.StringResources.CloseMenu}">
