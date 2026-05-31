@@ -1,7 +1,5 @@
 ﻿using Foundation;
-using Microsoft.Maui.Essentials;
 using ObjCRuntime;
-using System;
 using System.Runtime.InteropServices;
 using UIKit;
 
@@ -60,6 +58,11 @@ internal static partial class DeviceInfoService
             Marshal.FreeHGlobal(pLen);
             Marshal.FreeHGlobal(pStr);
 
+            if (hardwareStr == null)
+            {
+                return "Unknown";
+            }
+
             return hardwareStr;
         }
         catch (Exception ex)
@@ -76,6 +79,47 @@ internal static partial class DeviceInfoService
         {
             switch (version)
             {
+                // The following are from https://gist.github.com/adamawolf/3048717.
+
+                case "iPhone14,6":
+                    return "iPhone SE 3rd Gen";
+                case "iPhone14,7":
+                    return "iPhone 14";
+                case "iPhone14,8":
+                    return "iPhone 14 Plus";
+                case "iPhone15,2":
+                    return "iPhone 14 Pro";
+                case "iPhone15,3":
+                    return "iPhone 14 Pro Max";
+                case "iPhone15,4":
+                    return "iPhone 15";
+                case "iPhone15,5":
+                    return "iPhone 15 Plus";
+                case "iPhone16,1":
+                    return "iPhone 15 Pro";
+                case "iPhone16,2":
+                    return "iPhone 15 Pro Max";
+                case "iPhone17,1":
+                    return "iPhone 16 Pro";
+                case "iPhone17,2":
+                    return "iPhone 16 Pro Max";
+                case "iPhone17,3":
+                    return "iPhone 16";
+                case "iPhone17,4":
+                    return "iPhone 16 Plus";
+                case "iPhone17,5":
+                    return "iPhone 16e";
+                case "iPhone18,1":
+                    return "iPhone 17 Pro";
+                case "iPhone18,2":
+                    return "iPhone 17 Pro Max";
+                case "iPhone18,3":
+                    return "iPhone 17";
+                case "iPhone18,4":
+                    return "iPhone Air";
+
+                // The following are from the original code sample found.
+
                 case "iPhone14,2":
                     return "iPhone 13 Pro";
                 case "iPhone14,3":
@@ -151,10 +195,20 @@ internal static partial class DeviceInfoService
         {
             switch (version)
             {
-                case "iPod9,1":
-                    return "iPod touch 7G";
+                case "iPod1,1":
+                    return "1st Gen iPod";
+                case "iPod2,1":
+                    return "2nd Gen iPod";
+                case "iPod3,1":
+                    return "3rd Gen iPod";
+                case "iPod4,1":
+                    return "4th Gen iPod";
+                case "iPod5,1":
+                    return "5th Gen iPod";
                 case "iPod7,1":
-                    return "iPod touch 6G";
+                    return "6th Gen iPod";
+                case "iPod9,1":
+                    return "7th Gen iPod";
             }
         }
 
@@ -162,10 +216,59 @@ internal static partial class DeviceInfoService
         {
             switch (version)
             {
+                case "iPad13,16":
+                    return "iPad Air 5th generation) Wi-Fi";
+                case "iPad13,17":
+                    return "iPad Air 5th generation) Wi-Fi + Cellular";
+                case "iPad13,18":
+                    return "iPad 10th generation) Wi-Fi";
+                case "iPad13,19":
+                    return "iPad 10th generation) Wi-Fi + Cellular";
+                case "iPad14,3":
+                    return "iPad Pro 11 inch (4th generation) Wi-Fi";
+                case "iPad14,4":
+                    return "iPad Pro 11 inch (4th generation) Wi-Fi + Cellular";
+                case "iPad14,5":
+                    return "iPad Pro 12.9 inch (6th generation) Wi-Fi";
+                case "iPad14,6":
+                    return "iPad Pro 12.9 inch (6th generation) Wi-Fi + Cellular";
+                case "iPad14,8":
+                    return "iPad Air 11 inch (6th generation) Wi-Fi";
+                case "iPad14,9":
+                    return "iPad Air 11 inch (6th generation) Wi-Fi + Cellular";
+                case "iPad14,10":
+                    return "iPad Air 13 inch (6th generation) Wi-Fi";
+                case "iPad14,11":
+                    return "iPad Air 13 inch (6th generation) Wi-Fi + Cellular";
+                case "iPad15,3":
+                    return "iPad Air 11 inch (7th generation) Wi-Fi";
+                case "iPad15,4":
+                    return "iPad Air 11 inch (7th generation) Wi-Fi + Cellular";
+                case "iPad15,5":
+                    return "iPad Air 13 inch (7th generation) Wi-Fi";
+                case "iPad15,6":
+                    return "iPad Air 13 inch (7th generation) Wi-Fi + Cellular";
+                case "iPad15,7":
+                    return "iPad 11th generation) Wi-Fi";
+                case "iPad15,8":
+                    return "iPad 11th generation) Wi-Fi + Cellular";
+                case "iPad16,1":
+                    return "iPad mini 7th generation) Wi-Fi";
+                case "iPad16,2":
+                    return "iPad mini 7th generation) Wi-Fi + Cellular";
+                case "iPad16,3":
+                    return "iPad Pro 11 inch (5th generation) Wi-Fi";
+                case "iPad16,4":
+                    return "iPad Pro 11 inch (5th generation) Wi-Fi + Cellular";
+                case "iPad16,5":
+                    return "iPad Pro 12.9 inch (7th generation) Wi-Fi";
+                case "iPad16,6":
+                    return "iPad Pro 12.9 inch (7th generation) Wi-Fi + Cellular";
+
                 case "iPad14,2":
-                    return "iPad mini (6th generation) Wi-FI + Cellular";
+                    return "iPad mini (6th generation) Wi-Fi + Cellular";
                 case "iPad14,1":
-                    return "iPad mini (6th generation) Wi-FI";
+                    return "iPad mini (6th generation) Wi-Fi";
                 case "iPad13,11":
                 case "iPad13,10":
                     return "iPad Pro (12.9-inch) (5th generation) Wi-Fi + Cellular";

@@ -100,9 +100,22 @@ namespace Sa11ytaire4All
         {
             Shell.Current.FlyoutIsPresented = false;
 
+            string? model = DeviceInfoService.Model();
+            if (model == null)
+            {
+                model = "Unknown";
+            }
+
+
+            string? platform = DeviceInfoService.Platform();
+            if (platform == null)
+            {
+                platform = "Unknown";
+            }
+
             var yourDeviceMessage = MainPage.MyGetString("YourDeviceDetails") + "\n\n" +
-                MainPage.MyGetString("Model") + " " + DeviceInfoService.Model() + "\n\n" +
-                MainPage.MyGetString("Platform") + " " + DeviceInfoService.Platform();
+                MainPage.MyGetString("Model") + " " + model + "\n\n" +
+                MainPage.MyGetString("Platform") + " " + platform;
 
             await DisplayAlertAsync(
                 MainPage.MyGetString("AccessibleSolitaire"),

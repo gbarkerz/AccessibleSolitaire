@@ -654,14 +654,20 @@ namespace Sa11ytaire4All
                 // made to restart the game. So delay the refreshing of all the cards here on an iphone 12
                 // to see if that avoids the crash.
 
-                if (model.StartsWith("iPhone 12"))
-                {
-                    DelayRefreshAllCardVisuals();
-                }
-                else
-                {
-                    RefreshAllCardVisuals();
-                }
+                // Change of plan. The user with the iPhone 12 states that the model reported by the app is
+                // iPhone 15. So don't base the delaying action here on a particular model, rather always
+                // delay the action. That dealy should be acceptable on all devices.
+
+                DelayRefreshAllCardVisuals();
+
+                //if (model.StartsWith("iPhone 12"))
+                //{
+                //    DelayRefreshAllCardVisuals();
+                //}
+                //else
+                //{
+                //    RefreshAllCardVisuals();
+                //}
             }
         }
 
