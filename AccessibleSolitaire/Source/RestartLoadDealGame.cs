@@ -112,7 +112,7 @@ namespace Sa11ytaire4All
                 }
 
                 // We'll load card images below RestartGame();
-                RestartGame(false /* screenReaderAnnouncement. */);
+                RestartGame(true, false /* screenReaderAnnouncement. */);
 
                 if (playSoundOther)
                 {
@@ -141,7 +141,7 @@ namespace Sa11ytaire4All
             }
         }
 
-        public void RestartGame(bool screenReaderAnnouncement)
+        public void RestartGame(bool startNewGame, bool screenReaderAnnouncement)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
@@ -177,8 +177,26 @@ namespace Sa11ytaire4All
                 }
             }
 
-            _shuffler = new Shuffler();
-            _shuffler.Shuffle(_deckRemaining);
+            var shuffleAndStartNewGame = startNewGame;
+
+            if (!startNewGame)
+            {
+                // Load up the persisted deck for the current game.
+                var loadedCardDeckOK = LoadNewGameDeck();
+                if (!loadedCardDeckOK)
+                {
+                    shuffleAndStartNewGame = true;
+                }
+            }
+
+            if (shuffleAndStartNewGame)
+            {
+                _shuffler = new Shuffler();
+                _shuffler.Shuffle(_deckRemaining);
+
+                // Persist this deck in case we need to restart this specific game later.
+                PersistNewGameDeck();
+            }
 
             if (currentGameType == SolitaireGameType.Royalparade)
             {
@@ -578,43 +596,7 @@ namespace Sa11ytaire4All
                 return false;
             }
 
-            var preferenceSuffix = "";
-
-            if (currentGameType == SolitaireGameType.Klondike)
-            {
-                // The Klondide data being loaded has no prefix.
-                preferenceSuffix = "";
-            }
-            else if (currentGameType == SolitaireGameType.Pyramid)
-            {
-                preferenceSuffix = "Pyramid";
-            }
-            else if (currentGameType == SolitaireGameType.Tripeaks)
-            {
-                preferenceSuffix = "Tripeaks";
-            }
-            else if (currentGameType == SolitaireGameType.Bakersdozen)
-            {
-                preferenceSuffix = "Bakersdozen";
-            }
-            else if (currentGameType == SolitaireGameType.Grandfathersclock)
-            {
-                preferenceSuffix = "Grandfathersclock";
-            }
-            else if (currentGameType == SolitaireGameType.Spider)
-            {
-                preferenceSuffix = "Spider";
-            }
-            else if (currentGameType == SolitaireGameType.Royalparade)
-            {
-                preferenceSuffix = "Royalparade";
-            }
-            else
-            {
-                Debug.WriteLine("LoadSession: Unknown current game type.");
-
-                return false;
-            }
+            var preferenceSuffix = GetCurrentPersistPrefix();
 
             Debug.WriteLine("LoadSession: currentGameType " + currentGameType);
 

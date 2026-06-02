@@ -1825,11 +1825,11 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to restart the game?.
+        ///   Looks up a localized string similar to Are you sure you want to restart this game?.
         /// </summary>
-        internal static string QueryRestartGame {
+        internal static string QueryRestartThisGame {
             get {
-                return ResourceManager.GetString("QueryRestartGame", resourceCulture);
+                return ResourceManager.GetString("QueryRestartThisGame", resourceCulture);
             }
         }
         
@@ -1862,11 +1862,20 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restart Game.
+        ///   Looks up a localized string similar to Are you sure you want to start a new game?.
         /// </summary>
-        internal static string RestartGame {
+        internal static string QueryStartNewGame {
             get {
-                return ResourceManager.GetString("RestartGame", resourceCulture);
+                return ResourceManager.GetString("QueryStartNewGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart this game.
+        /// </summary>
+        internal static string RestartThisGame {
+            get {
+                return ResourceManager.GetString("RestartThisGame", resourceCulture);
             }
         }
         
@@ -2042,7 +2051,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show the Restart button.
+        ///   Looks up a localized string similar to Show the Start new game button.
         /// </summary>
         internal static string ShowRestartButton {
             get {
@@ -2051,7 +2060,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check this option if you&apos;d like a Restart button to show below the Menu button..
+        ///   Looks up a localized string similar to Check this option if you&apos;d like a Start new game button to show below the Menu button..
         /// </summary>
         internal static string ShowRestartButtonInstructions {
             get {
@@ -2060,7 +2069,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Restart button:.
+        ///   Looks up a localized string similar to Show Start new game button:.
         /// </summary>
         internal static string ShowRestartButtonSwitchLabel {
             get {
@@ -2182,6 +2191,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string Spot {
             get {
                 return ResourceManager.GetString("Spot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start new game.
+        /// </summary>
+        internal static string StartNewGame {
+            get {
+                return ResourceManager.GetString("StartNewGame", resourceCulture);
             }
         }
         

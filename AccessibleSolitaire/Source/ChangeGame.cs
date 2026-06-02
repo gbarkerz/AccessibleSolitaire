@@ -611,7 +611,7 @@ namespace Sa11ytaire4All
 
                 Debug.WriteLine("ChangeGameLoadSessionPostprocess: Failed to LoadSession, so restart game.");
 
-                RestartGame(true /* screenReaderAnnouncement. */);
+                RestartGame(true, true /* screenReaderAnnouncement. */);
             }
         }
     }

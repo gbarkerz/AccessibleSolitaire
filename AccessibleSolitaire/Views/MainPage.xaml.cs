@@ -44,7 +44,6 @@ namespace Sa11ytaire4All
         // Barker Todo: Remove as much of the timer use as possible.
         private Timer? timerFirstRunAnnouncement;
         private Timer? timerPlayFirstDealSounds;
-        private Timer? timerDelayDealCards;
         private Timer? timerDelayCardSpin;
         private Timer? timerDelayScreenReaderAnnouncement;
         private Timer? timerDelayAttemptToMoveCard;
@@ -1108,18 +1107,6 @@ namespace Sa11ytaire4All
             }
         }
 
-        private void TimedDelayDealCards()
-        {
-            timerDelayDealCards?.Dispose();
-            timerDelayDealCards = null;
-
-            // Always run this on the UI thread.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                DealCards();
-            });
-        }
-
         private void MenuButton_Click(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = true;
@@ -1693,7 +1680,7 @@ namespace Sa11ytaire4All
             {
                 StopCelebratoryActions();
 
-                RestartGame(true /* screenReaderAnnouncement. */);
+                RestartGame(true, true /* screenReaderAnnouncement. */);
             }
         }
 
@@ -2813,11 +2800,11 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             }
         }
 
-        public async void QueryRestartGame()
+        public async void QueryRestartGame(bool startNewGame)
         {
             var answer = await DisplayAlertAsync(
                 MainPage.MyGetString("AccessibleSolitaire"),
-                MainPage.MyGetString("QueryRestartGame"),
+                MainPage.MyGetString(startNewGame ? "QueryStartNewGame" : "QueryRestartThisGame"),
                 MainPage.MyGetString("Yes"),
                 MainPage.MyGetString("No"));
 
@@ -2825,7 +2812,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             {
                 Shell.Current.FlyoutIsPresented = false;
 
-                MainPage.MainPageSingleton?.RestartGame(true);
+                MainPage.MainPageSingleton?.RestartGame(startNewGame, true);
             }
         }
 
@@ -2912,7 +2899,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
                     //SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: R", SentryLevel.Info);
 
-                    QueryRestartGame();
+                    QueryRestartGame(false);
                     e.Handled = true;
                     break;
 
@@ -3112,7 +3099,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
         private void RestartButton_Clicked(object sender, EventArgs e)
         {
-            QueryRestartGame();
+            QueryRestartGame(true);
         }
     }
 }

@@ -123,11 +123,18 @@ namespace Sa11ytaire4All
                 MainPage.MyGetString("OK"));
         }
 
-        private void RestartGameMenuItem_Clicked(object sender, EventArgs e)
+        private void RestartThisGameMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;
 
-            MainPage.MainPageSingleton?.QueryRestartGame();
+            MainPage.MainPageSingleton?.QueryRestartGame(false);
+        }
+
+        private void StartNewGameMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            MainPage.MainPageSingleton?.QueryRestartGame(true);
         }
 
         private void CloseMenuItem_Clicked(object sender, EventArgs e)

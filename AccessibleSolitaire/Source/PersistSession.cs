@@ -7,17 +7,9 @@ namespace Sa11ytaire4All
 {
     public partial class MainPage : ContentPage
     {
-        public bool SaveSession()
+        private string GetCurrentPersistPrefix()
         {
-            var savedSession = false;
-
-            var vm = this.BindingContext as DealtCardViewModel;
-            if ((vm == null) || (vm.DealtCards == null))
-            {
-                return false;
-            }
-
-            var preferenceSuffix = "";
+            var preferenceSuffix = ""; // Klondike game has no persistence prefix.
 
             if (currentGameType == SolitaireGameType.Pyramid)
             {
@@ -43,6 +35,21 @@ namespace Sa11ytaire4All
             {
                 preferenceSuffix = "Royalparade";
             }
+
+            return preferenceSuffix;
+        }
+
+        public bool SaveSession()
+        {
+            var savedSession = false;
+
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return false;
+            }
+
+            var preferenceSuffix = GetCurrentPersistPrefix();
 
             try
             {
@@ -272,6 +279,74 @@ namespace Sa11ytaire4All
 
                 timeStartOfThisRoyalparadeSession = DateTime.Now;
             }
+        }
+
+        private void PersistNewGameDeck()
+        {
+            var preferenceSuffix = GetCurrentPersistPrefix();
+
+            try
+            {
+                var deckRemainingJson = JsonSerializer.Serialize(_deckRemaining);
+
+                var newDeckPersistancePreferenceName = "NewDeck" + preferenceSuffix;
+
+                Preferences.Set(newDeckPersistancePreferenceName, deckRemainingJson);
+
+                Debug.WriteLine("PersistNewGameDeck: Persisting new deck as " + newDeckPersistancePreferenceName);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("PersistNewGameDeck: Failed to persist deck, " + ex.Message);
+            }
+        }
+
+        private bool LoadNewGameDeck()
+        {
+            var loadedCardDeckOK = false;
+
+            _deckRemaining.Clear();
+
+            var preferenceSuffix = GetCurrentPersistPrefix();
+
+            var newDeckPersistancePreferenceName = "NewDeck" + preferenceSuffix;
+
+            try
+            {
+                var deckRemainingJson = (string)Preferences.Get(newDeckPersistancePreferenceName, "");
+                if (!string.IsNullOrEmpty(deckRemainingJson))
+                {
+                    var deckRemaining = JsonSerializer.Deserialize<List<Card>>(deckRemainingJson);
+                    if (deckRemaining != null)
+                    {
+                        foreach (var card in deckRemaining)
+                        {
+                            _deckRemaining.Add(card);
+                        }
+
+                        var expectedCardCount = 52;
+
+                        if ((currentGameType == SolitaireGameType.Spider) ||
+                            (currentGameType == SolitaireGameType.Royalparade))
+                        {
+                            expectedCardCount = 104;
+                        }
+
+                        loadedCardDeckOK = (_deckRemaining.Count == expectedCardCount);
+
+                        Debug.WriteLine("LoadNewGameDeck: Loaded new deck from " +
+                            newDeckPersistancePreferenceName + ", card count is " + _deckRemaining.Count);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("LoadNewGameDeck: Failed to load deck, " + ex.Message);
+
+                loadedCardDeckOK = false;
+            }
+
+            return loadedCardDeckOK;
         }
     }
 }

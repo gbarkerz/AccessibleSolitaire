@@ -275,8 +275,8 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
   <data name="QueryRestartWonGame" xml:space="preserve">
     <value>Gratulacje, wygrałeś grę {0}!</value>
   </data>
-  <data name="RestartGame" xml:space="preserve">
-    <value>Rozdaj karty ponownie</value>
+  <data name="RestartThisGame" xml:space="preserve">
+    <value>Uruchom ponownie tę grę</value>
   </data>
   <data name="Revealed" xml:space="preserve">
     <value>Odkryto</value>
@@ -722,8 +722,8 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="Open" xml:space="preserve">
     <value>Dostępna</value>
   </data>
-  <data name="QueryRestartGame" xml:space="preserve">
-    <value>Czy na pewno chcesz ponownie rozdać karty?</value>
+  <data name="QueryRestartThisGame" xml:space="preserve">
+    <value>Czy na pewno chcesz ponownie uruchomić tę grę?</value>
   </data>
   <data name="QueryRestartWonGame1" xml:space="preserve">
     <value>Chcesz zacząć nową grę?</value>
@@ -823,13 +823,13 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Przygotowywanie układu {0}</value>
   </data>
   <data name="ShowRestartButton" xml:space="preserve">
-    <value>Pokaż przycisk Rozdaj karty</value>
+    <value>Pokaż przycisk Rozpocznij nową grę</value>
   </data>
   <data name="ShowRestartButtonInstructions" xml:space="preserve">
     <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk Rozdaj karty był wyświetlany pod przyciskiem Menu.</value>
   </data>
   <data name="ShowRestartButtonSwitchLabel" xml:space="preserve">
-    <value>Pokaż przycisk Rozdaj karty:</value>
+    <value>Pokaż przycisk Rozpocznij nową grę:</value>
   </data>
   <data name="SpiderSolitaire" xml:space="preserve">
     <value>Spider Solitaire</value>
@@ -902,5 +902,11 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   </data>
   <data name="Platform" xml:space="preserve">
     <value>Platforma:</value>
+  </data>
+  <data name="QueryStartNewGame" xml:space="preserve">
+    <value>Czy na pewno chcesz rozpocząć nową grę?</value>
+  </data>
+  <data name="StartNewGame" xml:space="preserve">
+    <value>Rozpocznij nową grę</value>
   </data>
 </root>

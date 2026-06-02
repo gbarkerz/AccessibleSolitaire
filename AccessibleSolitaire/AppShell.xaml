@@ -14,9 +14,20 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
-    <MenuItem x:Name="RestartGameMenuItem" 
-        Clicked="RestartGameMenuItem_Clicked"
-        Text="{x:Static resources:Strings.StringResources.RestartGame}">
+    <MenuItem x:Name="RestartThisGameMenuItem" 
+        Clicked="RestartThisGameMenuItem_Clicked"
+        Text="{x:Static resources:Strings.StringResources.RestartThisGame}">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#x21BB;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <MenuItem x:Name="StartNewGameMenuItem" 
+        Clicked="StartNewGameMenuItem_Clicked"
+        Text="{x:Static resources:Strings.StringResources.StartNewGame}">
         <MenuItem.IconImageSource>
             <FontImageSource
                 Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"

@@ -321,7 +321,7 @@
                     <ImageButton
                         x:Name="RestartButton"
                         AutomationId="RestartButton"
-                        SemanticProperties.Description="{x:Static resources:Strings.StringResources.RestartGame}"
+                        SemanticProperties.Description="{x:Static resources:Strings.StringResources.StartNewGame}"
                         Aspect="Fill"
                         WidthRequest="{Binding 
                             Path=CardWidth,
