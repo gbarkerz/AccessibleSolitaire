@@ -2,7 +2,6 @@
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace Sa11ytaire4All
 {
@@ -711,7 +710,7 @@ namespace Sa11ytaire4All
                                 discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
 
                                 // Has a card now been revealed? 
-                                SetOnTopStateFollowingMove(dealtCardAlreadySelected, false);
+                                SetOnTopStateFollowingMove(dealtCardAlreadySelected, false, false);
 
                                 RefreshCardButtonMofNInRow(cardAlreadySelected);
 
@@ -768,7 +767,7 @@ namespace Sa11ytaire4All
                     discardMessage += " " + dealtCard.AccessibleNameWithoutSelectionAndMofN + ". ";
 
                     // Has a card now been revealed? 
-                    SetOnTopStateFollowingMove(dealtCard, true);
+                    SetOnTopStateFollowingMove(dealtCard, true, false);
 
                     RefreshCardButtonMofNInRow(cardButtonClicked);
 
@@ -850,8 +849,10 @@ namespace Sa11ytaire4All
                     var difference = Math.Abs(CardDeckUpturned.Card.Rank - cardButtonClicked.Card.Rank);
                     if ((difference == 1) || (difference == 12))
                     {
+                        RememberTriPeaksStateForUndo(dealtCard);
+
                         // Has a card now been revealed? 
-                        SetOnTopStateFollowingMove(dealtCard, true);
+                        SetOnTopStateFollowingMove(dealtCard, true, false);
 
                         RefreshCardButtonMofNInRow(cardButtonClicked);
 
@@ -970,7 +971,7 @@ namespace Sa11ytaire4All
                                                         cardAlreadySelected.CardPileAccessibleNameWithoutMofN;
 
                                     // Has a card now been revealed? 
-                                    SetOnTopStateFollowingMove(dealtCardAlreadySelected, false);
+                                    SetOnTopStateFollowingMove(dealtCardAlreadySelected, false, false);
 
                                     RefreshCardButtonMofNInRow(cardAlreadySelected);
 
@@ -1345,7 +1346,7 @@ namespace Sa11ytaire4All
         //
         // **************************************************************************************************
 
-        private void SetOnTopStateFollowingMove(DealtCard dealtCard, bool moveFocus)
+        private void SetOnTopStateFollowingMove(DealtCard dealtCard, bool moveFocus, bool undoInProgress)
         {
             if (Application.Current == null)
             {
@@ -1490,7 +1491,7 @@ namespace Sa11ytaire4All
                                 var cardButtonAboveToLeft = GetCardButtonFromPyramidDealtCard(cardAboveToLeft, out cardButtonPyramidIndex);
                                 if (cardButtonAboveToLeft != null)
                                 {
-                                    cardButtonAboveToLeft.IsFaceUp = true;
+                                    cardButtonAboveToLeft.IsFaceUp = !undoInProgress;
 
                                     cardButtonAboveToLeft.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                                                 Colors.White : Colors.Black);
@@ -1614,7 +1615,7 @@ namespace Sa11ytaire4All
                             var cardButtonAboveToRight = GetCardButtonFromPyramidDealtCard(cardAboveToRight, out cardButtonPyramidIndex);
                             if (cardButtonAboveToRight != null)
                             {
-                                cardButtonAboveToRight.IsFaceUp = true;
+                                cardButtonAboveToRight.IsFaceUp = !undoInProgress;
 
                                 cardButtonAboveToRight.BackgroundColor = (Application.Current.RequestedTheme != AppTheme.Dark ?
                                                             Colors.White : Colors.Black);

@@ -27,16 +27,39 @@ namespace Sa11ytaire4All
         private bool undoSpiderNextCardsAction = false;
         private int undoSpiderDiscardedSequenceCount = -1;
 
-        private void RememberCardStateForUndo(bool toUpturnedPile,
-                                                bool fromUpturnedPile,
-                                                int targetPileIndex,
-                                                Card? targetCardPile,
-                                                int indexSource,
-                                                ObservableCollection<DealtCard?>? itemsMoveSource,
-                                                int indexDestination,
-                                                ObservableCollection<DealtCard?>? itemsMoveDestination)
+        private void ClearUndoState()
         {
+            moveToUpturnedPile = false;
+            moveToUpturnedCard = null;
+
+            moveFromUpturnedPile = false;
+            moveFromUpturnedCard = null;
+
+            moveTargetPileIndex = -1;
+            moveTargetPileCard = null;
+
+            moveIndexSource = -1;
+            moveIndexDestination = -1;
+
+            dealtCardCollectionMoveSource.Clear();
+            dealtCardCollectionMoveDestination.Clear();
+
             undoSpiderNextCardsAction = false;
+            undoSpiderDiscardedSequenceCount = -1;
+
+            moveTriPeakCard = null;
+        }
+
+        private void RememberCardStateForUndo(bool toUpturnedPile,
+                                              bool fromUpturnedPile,
+                                              int targetPileIndex,
+                                              Card? targetCardPile,
+                                              int indexSource,
+                                              ObservableCollection<DealtCard?>? itemsMoveSource,
+                                              int indexDestination,
+                                              ObservableCollection<DealtCard?>? itemsMoveDestination)
+        {
+            ClearUndoState();
 
             // Check the upturned cards.
 
@@ -110,13 +133,6 @@ namespace Sa11ytaire4All
 
         public void UndoLastMove()
         {
-            if (undoSpiderNextCardsAction)
-            {
-                UndoSpiderNextCardsAction();
-
-                return;
-            }
-
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
@@ -264,11 +280,22 @@ namespace Sa11ytaire4All
             if (currentGameType == SolitaireGameType.Spider)
             {
                 UndoCheckSpiderDiscardedSequenceCount();
+
+                if (undoSpiderNextCardsAction)
+                {
+                    UndoSpiderNextCardsAction();
+                }
+            }
+            else if (currentGameType == SolitaireGameType.Tripeaks)
+            {
+                UndoTriPeaksMove();
             }
         }
 
         private void RememberSpiderCardStateForUndoNextCards()
         {
+            ClearUndoState();
+
             undoSpiderNextCardsAction = true;
 
             undoSpiderDiscardedSequenceCount = -1;
@@ -343,6 +370,67 @@ namespace Sa11ytaire4All
 
                 undoSpiderDiscardedSequenceCount = -1;
             }
+        }
+
+        private DealtCard? moveTriPeakCard = null;
+
+        private void RememberTriPeaksStateForUndo(DealtCard? triPeakCard)
+        {
+            ClearUndoState();
+
+            moveTriPeakCard = triPeakCard;
+        }
+
+        private void UndoTriPeaksMove()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            if ((moveTriPeakCard != null) &&
+                (moveTriPeakCard.PyramidRow >= 0) && (moveTriPeakCard.PyramidCardOriginalIndexInRow >= 0))
+            {
+                var dealtCard = vm.DealtCards[moveTriPeakCard.PyramidRow][moveTriPeakCard.PyramidCardOriginalIndexInRow];
+                if (dealtCard != null)
+                {
+                    var upturnedCount = _deckUpturned.Count;
+                    if (upturnedCount > 0)
+                    {
+                        // Get the card that was previously moved to the upturned card pile.
+                        var card = _deckUpturned[upturnedCount - 1];
+
+                        // Restore the card to the card that was moved.
+                        moveTriPeakCard.Card = card;
+
+                        // Find the CardButton that was previously made not visible.
+                        int cardButtonPyramidIndex;
+                        var cardButton = GetCardButtonFromPyramidDealtCard(moveTriPeakCard, out cardButtonPyramidIndex);
+                        if (cardButton != null)
+                        {
+                            cardButton.IsVisible = true;
+
+                            // Now restore the top card shown on the upturned card pile.
+                            _deckUpturned.RemoveAt(upturnedCount - 1);
+
+                            --upturnedCount;
+
+                            if (upturnedCount > 0)
+                            {
+                                CardDeckUpturned.Card = _deckUpturned[upturnedCount - 1];
+                            }
+                        }
+
+                        // Has a card now been revealed? 
+                        SetOnTopStateFollowingMove(dealtCard, false, true);
+
+                        //RefreshCardButtonMofNInRow(cardButtonClicked);
+                    }
+                }
+            }
+
+            moveTriPeakCard = null;
         }
     }
 }
