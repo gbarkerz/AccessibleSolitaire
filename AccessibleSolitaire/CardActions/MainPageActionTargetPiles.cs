@@ -347,6 +347,15 @@ namespace Sa11ytaire4All
 
                 if (moveCard)
                 {
+                    // Remember the state of the two related card piles in case we later undo this move.
+                    RememberDealtCardPileState(
+                        false,
+                        true,
+                        targetPileIndex,
+                        null,
+                        -1, null,
+                        -1, null);
+
                     // Move the upturned card to the Target Pile.
                     _targetPiles[targetPileIndex].Add(cardAbove.Card);
 

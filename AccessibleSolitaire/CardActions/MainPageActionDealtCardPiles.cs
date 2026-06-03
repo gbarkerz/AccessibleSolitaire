@@ -3,6 +3,7 @@ using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace Sa11ytaire4All
 {
@@ -207,12 +208,22 @@ namespace Sa11ytaire4All
                         // Make sure its image is loaded to appear in the dealt card pile.
                         TryToAddCardImageWithPictureToDictionary(cardUpturned);
 
+                        var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
+
+                        // Remember the state of the two related card piles in case we later undo this move.
+                        RememberDealtCardPileState(
+                            false,
+                            true,
+                            -1, // Target pile index.
+                            null,
+                            -1, null, 
+                            listSelectedIndex, itemsAdded);
+
                         itemsAdded.Add(cardUpturned);
 
                         cardDealtPile.IsLastCardInPile = false;
                         cardUpturned.IsLastCardInPile = true;
 
-                        var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
                         cardUpturned.CurrentDealtCardPileIndex = listSelectedIndex;
                         cardUpturned.CurrentCardIndexInDealtCardPile = itemsAdded.Count - 1;
 
@@ -331,6 +342,17 @@ namespace Sa11ytaire4All
                         return;    
                     }
 
+                    var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelected);
+
+                    // Remember the state of the two related card piles in case we later undo this move.
+                    RememberDealtCardPileState(
+                        false,
+                        true,
+                        -1, // Target pile index.
+                        null,
+                        -1, null,
+                        listSelectedIndex, itemsAdded);
+
                     itemsAdded.RemoveAt(0);
 
                     // Add a new card to add to the dealt card pile.
@@ -345,7 +367,6 @@ namespace Sa11ytaire4All
 
                     itemsAdded.Add(cardAddedToPile);
 
-                    var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelected);
                     cardAddedToPile.CurrentDealtCardPileIndex = listSelectedIndex;
                     cardAddedToPile.CurrentCardIndexInDealtCardPile = itemsAdded.Count - 1;
 
@@ -484,10 +505,21 @@ namespace Sa11ytaire4All
                 cardRevealed = listArray[movingCardIndex - 1] as DealtCard;
             }
 
+            var listSelectedIndex = GetDealtPileIndexFromCollectionView(listEmpty);
+
+            // Remember the state of the two related card piles in case we later undo this move.
+            RememberDealtCardPileState(
+                false,
+                false,
+                -1, // Target pile index.
+                null,
+                movingCardIndex, 
+                itemsRemoved, 
+                listSelectedIndex, 
+                itemsAdded);
+
             // Remove the empty card from the dealt card pile.
             itemsAdded.RemoveAt(0);
-
-            var listSelectedIndex = GetDealtPileIndexFromCollectionView(listEmpty);
 
             var listArrayCount = listArray.Count;
             var itemsAddedCount = itemsAdded.Count;
@@ -587,25 +619,36 @@ namespace Sa11ytaire4All
             CardButton? cardButton = null;
             List<Card>? listTargetPile = null;
 
+            var targetCardPileIndex = -1;
+
             if (TargetPileC.IsToggled)
             {
                 cardButton = TargetPileC;
-                listTargetPile = _targetPiles[0];
+
+                targetCardPileIndex = 0;
             }
             else if (TargetPileD.IsToggled)
             {
                 cardButton = TargetPileD;
-                listTargetPile = _targetPiles[1];
+
+                targetCardPileIndex = 1;
             }
             else if (TargetPileH.IsToggled)
             {
                 cardButton = TargetPileH;
-                listTargetPile = _targetPiles[2];
+
+                targetCardPileIndex = 2;
             }
             else if (TargetPileS.IsToggled)
             {
                 cardButton = TargetPileS;
-                listTargetPile = _targetPiles[3];
+
+                targetCardPileIndex = 3;
+            }
+
+            if (targetCardPileIndex >= 0)
+            {
+                listTargetPile = _targetPiles[targetCardPileIndex];
             }
 
             if ((cardButton != null) && (listTargetPile != null) && (listTargetPile.Count > 0))
@@ -628,6 +671,22 @@ namespace Sa11ytaire4All
 
                         if (CanMoveCardToDealtCardPile(cardBelow, cardAbove))
                         {
+                            var itemsAdded = GetListSource(listDealtCardPile);
+                            if (itemsAdded == null)
+                            {
+                                return false;
+                            }
+
+                            var listSelectedIndex = GetDealtPileIndexFromCollectionView(listDealtCardPile);
+
+                            RememberDealtCardPileState(
+                                false,
+                                false,
+                                targetCardPileIndex, // Target pile index.
+                                cardAbove.Card,
+                                -1, null,
+                                listSelectedIndex, itemsAdded);
+
                             // Move the card from the TargetPile to this CardPile list.
                             RemoveDealtCardFromDealtCardList(listTargetPile, cardAbove);
 
@@ -638,12 +697,6 @@ namespace Sa11ytaire4All
                             else
                             {
                                 cardButton.Card = listTargetPile[listTargetPile.Count - 1];
-                            }
-
-                            var itemsAdded = GetListSource(listDealtCardPile);
-                            if (itemsAdded == null)
-                            {
-                                return false;
                             }
 
                             var itemsAddedCurrentCount = itemsAdded.Count;
@@ -666,7 +719,6 @@ namespace Sa11ytaire4All
 
                             cardAbove.IsLastCardInPile = true;
 
-                            var listSelectedIndex = GetDealtPileIndexFromCollectionView(listDealtCardPile);
                             cardAbove.CurrentDealtCardPileIndex = listSelectedIndex;
                             cardAbove.CurrentCardIndexInDealtCardPile = itemsAddedCurrentCount - 1;
 
@@ -959,6 +1011,15 @@ namespace Sa11ytaire4All
 
                 var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
 
+                // Remember the state of the two related card piles in case we later undo this move.
+                RememberDealtCardPileState(
+                    false,
+                    false,
+                    -1, // Target pile index.
+                    null,
+                    index, itemsRemoved, 
+                    listSelectedIndex, itemsAdded);
+
                 var sourceArrayCount = sourceArray.Count;
                 var itemsAddedCurrentCount = itemsAdded.Count;
 
@@ -1065,6 +1126,99 @@ namespace Sa11ytaire4All
             }
         }
 
+        private bool moveToUpturnedPile;
+        private Card? moveToUpturnedCard;
+
+        private bool moveFromUpturnedPile;
+        private Card? moveFromUpturnedCard;
+
+        private int moveTargetPileIndex;
+        private Card? moveTargetPileCard;
+
+        private int moveIndexSource = -1;
+        private int moveIndexDestination = -1;
+        private ObservableCollection<DealtCard> dealtCardCollectionMoveSource = new ObservableCollection<DealtCard>();
+        private ObservableCollection<DealtCard> dealtCardCollectionMoveDestination = new ObservableCollection<DealtCard>();
+
+        private void RememberDealtCardPileState(bool toUpturnedPile, 
+                                                bool fromUpturnedPile,
+                                                int targetPileIndex,
+                                                Card? targetCardPile,
+                                                int indexSource,
+                                                ObservableCollection<DealtCard?>? itemsMoveSource,
+                                                int indexDestination,
+                                                ObservableCollection<DealtCard?>? itemsMoveDestination)
+        {
+            // Check the upturned cards.
+
+            moveFromUpturnedPile = fromUpturnedPile;
+            moveFromUpturnedCard = null;
+
+            if (moveFromUpturnedPile)
+            {
+                moveFromUpturnedCard = CardDeckUpturned.Card;
+            }
+
+            moveToUpturnedPile = toUpturnedPile;
+            moveToUpturnedCard = null;
+
+            if (moveToUpturnedPile)
+            {
+                var remainingCount = _deckRemaining.Count;
+
+                moveToUpturnedCard = (remainingCount > 0 ? _deckRemaining[remainingCount - 1] : null);
+            }
+
+            // Check the target card piles.
+
+            moveTargetPileIndex = targetPileIndex;
+            moveTargetPileCard = targetCardPile; 
+
+            // Check the dealt card piles.
+
+            moveIndexSource = indexSource;
+            moveIndexDestination = indexDestination;
+
+            dealtCardCollectionMoveSource.Clear();
+            dealtCardCollectionMoveDestination.Clear();
+
+            if (itemsMoveSource != null)
+            {
+                foreach (var card in itemsMoveSource)
+                {
+                    DealtCard? newCard = null;
+
+                    var cardJson = JsonSerializer.Serialize(card);
+                    if (!string.IsNullOrEmpty(cardJson))
+                    {
+                        newCard = JsonSerializer.Deserialize<DealtCard>(cardJson);
+                        if (newCard != null)
+                        {
+                            dealtCardCollectionMoveSource.Add(newCard);
+                        }
+                    }
+                }
+            }
+
+            if (itemsMoveDestination != null)
+            {
+                foreach (var card in itemsMoveDestination)
+                {
+                    DealtCard? newCard = null;
+
+                    var cardJson = JsonSerializer.Serialize(card);
+                    if (!string.IsNullOrEmpty(cardJson))
+                    {
+                        newCard = JsonSerializer.Deserialize<DealtCard>(cardJson);
+                        if (newCard != null)
+                        {
+                            dealtCardCollectionMoveDestination.Add(newCard);
+                        }
+                    }
+                }
+            }
+        }
+
         private void AnnounceNoMove(Card card)
         {
             if (card != null)
@@ -1126,20 +1280,30 @@ namespace Sa11ytaire4All
 
                 bool movedCard = false;
 
+                var items = GetListSource(listAlreadySelected);
+                if (items == null)
+                {
+                    return;
+                }
+
                 // Should we move an Ace?
                 if ((cardAbove.Card.Rank == 1) && (_targetPiles[targetPileIndex].Count == 0))
                 {
                     // We will move the selected Ace over to its target pile.
-                    var items = GetListSource(listAlreadySelected);
-                    if (items == null)
-                    {
-                        return;
-                    }
 
                     // Create a new Card object for use in the target pile.
                     Card newCard = new Card();
                     newCard.Rank = cardAbove.Card.Rank;
                     newCard.Suit = cardAbove.Card.Suit;
+
+                    // Remember the state of the two related card piles in case we later undo this move.
+                    RememberDealtCardPileState(
+                        false,
+                        false,
+                        targetPileIndex,
+                        null,
+                        -1, null,
+                        listAlreadySelectedIndex, items);
 
                     _targetPiles[targetPileIndex].Add(newCard);
 
@@ -1213,6 +1377,15 @@ namespace Sa11ytaire4All
                     if ((cardBelow.Suit == cardAbove.Card.Suit) &&
                         (cardBelow.Rank == cardAbove.Card.Rank - 1))
                     {
+                        // Remember the state of the two related card piles in case we later undo this move.
+                        RememberDealtCardPileState(
+                            false,
+                            false,
+                            targetPileIndex,
+                            null,
+                            -1, null,
+                            listAlreadySelectedIndex, items);
+
                         // Create a new Card object for use in the target pile.
                         Card newCard = new Card();
                         newCard.Rank = cardAbove.Card.Rank;

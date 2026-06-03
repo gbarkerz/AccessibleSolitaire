@@ -72,6 +72,15 @@ namespace Sa11ytaire4All
 
                     soundFilename = (countCardsToTurn > 1 ? "movecards.mp4" : "movecard.mp4");
 
+                    // Remember the state of the two related card piles in case we later undo this move.
+                    RememberDealtCardPileState(
+                        true,
+                        false,
+                        -1,
+                        null,
+                        -1, null,
+                        -1, null);
+
                     // Turn over each card in turn.
                     for (int i = 0; i < countCardsToTurn; ++i)
                     {

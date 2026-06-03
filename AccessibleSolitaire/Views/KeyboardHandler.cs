@@ -1514,6 +1514,153 @@ namespace Sa11ytaire4All
             }
         }
 
+        public void UndoLastMove()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            // Check the upturned card pile.
+
+            var countUpturned = -1;
+
+            if (moveFromUpturnedPile && (moveFromUpturnedCard != null))
+            {
+                _deckUpturned.Add(moveFromUpturnedCard);
+
+                countUpturned = _deckUpturned.Count;
+
+                CardDeckUpturned.Card = moveFromUpturnedCard;
+
+                if (countUpturned > 1)
+                {
+                    CardDeckUpturnedObscuredHigher.Card = _deckUpturned[countUpturned - 2];
+
+                    if (countUpturned > 2)
+                    {
+                        CardDeckUpturnedObscuredLower.Card = _deckUpturned[countUpturned - 3];
+                    }
+                }
+            }
+
+            moveFromUpturnedPile = false;
+            moveFromUpturnedCard = null;
+
+            if (moveToUpturnedPile && (moveToUpturnedCard != null))
+            {
+                _deckRemaining.Add(moveToUpturnedCard);
+
+                countUpturned = _deckUpturned.Count;
+
+                if (countUpturned > 0)
+                { 
+                    _deckUpturned.RemoveAt(countUpturned - 1);
+
+                    --countUpturned;
+
+                    CardDeckUpturned.Card = (countUpturned > 0 ? _deckUpturned[countUpturned - 1] : null);
+                }
+
+                CardDeckUpturnedObscuredHigher.Card = (countUpturned > 1 ? _deckUpturned[countUpturned - 2] : null);
+                CardDeckUpturnedObscuredLower.Card = (countUpturned > 2 ? _deckUpturned[countUpturned - 3] : null);
+            }
+
+            moveToUpturnedPile = false;
+            moveToUpturnedCard = null;
+
+            // Check target card piles.
+
+            if (moveTargetPileIndex >= 0)
+            {
+                var countTargetCards = _targetPiles[moveTargetPileIndex].Count;
+                if (countTargetCards > 0)
+                {
+                    if (moveTargetPileCard == null)
+                    {
+                        _targetPiles[moveTargetPileIndex].RemoveAt(countTargetCards - 1);
+
+                        --countTargetCards;
+                    }
+                    else
+                    {
+                        _targetPiles[moveTargetPileIndex].Add(moveTargetPileCard);
+
+                        ++countTargetCards;
+                    }
+
+                    var newTopCard = (countTargetCards > 0 ? _targetPiles[moveTargetPileIndex][countTargetCards - 1] : null);
+
+                    switch (moveTargetPileIndex)
+                    {
+                        case 0:
+                            TargetPileC.Card = newTopCard;
+                            break;
+                        case 1:
+                            TargetPileD.Card = newTopCard;
+                            break;
+                        case 2:
+                            TargetPileH.Card = newTopCard;
+                            break;
+                        case 3:
+                            TargetPileS.Card = newTopCard;
+                            break;
+                    }
+                }
+            }
+
+            moveTargetPileIndex = -1;
+            moveTargetPileCard = null;
+
+            // Check the dealt card piles.
+
+            if (moveIndexSource >= 0)
+            {
+                var sourceCardArray = vm.DealtCards[moveIndexSource];
+
+                var sourceCount = dealtCardCollectionMoveSource.Count;
+                if (sourceCount > 0)
+                {
+                    sourceCardArray.Clear();
+
+                    for (int i = 0; i < sourceCount; ++i)
+                    {
+                        var card = dealtCardCollectionMoveSource[i];
+
+                        card.IsLastCardInPile = (i == sourceCount - 1);
+
+                        sourceCardArray.Add(card);
+                    }
+                }
+            }
+
+            if (moveIndexDestination >= 0)
+            {
+                var destinationCardArray = vm.DealtCards[moveIndexDestination];
+
+                var destinationCount = dealtCardCollectionMoveDestination.Count;
+                if (destinationCount > 0)
+                {
+                    destinationCardArray.Clear();
+
+                    for (int i = 0; i < destinationCount; ++i)
+                    {
+                        var card = dealtCardCollectionMoveDestination[i];
+
+                        card.IsLastCardInPile = (i == destinationCount - 1);
+
+                        destinationCardArray.Add(card);
+                    }
+                }
+            }
+
+            dealtCardCollectionMoveSource.Clear();
+            dealtCardCollectionMoveDestination.Clear();
+
+            ClearDealtCardPileSelections();
+        }
+
         public void MoveSelectedCardToSuitPile()
         {
             var dealtCardSelected = false;

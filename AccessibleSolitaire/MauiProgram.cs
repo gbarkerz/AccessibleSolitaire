@@ -116,6 +116,17 @@ namespace Sa11ytaire4All
 
             if (e.Key == Windows.System.VirtualKey.Z)
             {
+                // Check whether this is Ctrl+Z for Undo.
+                var isCtrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(
+                                        VirtualKey.Control).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+
+                if (isCtrlPressed)
+                {
+                    MainPage.MainPageSingleton?.UndoLastMove();
+
+                    return;
+                }
+
                 //SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: Z", SentryLevel.Info);
 
                 // Note: Context menus seem to appear in response to a right click, but not in response
