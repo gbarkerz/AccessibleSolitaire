@@ -73,7 +73,7 @@ namespace Sa11ytaire4All
                     soundFilename = (countCardsToTurn > 1 ? "movecards.mp4" : "movecard.mp4");
 
                     // Remember the state of the two related card piles in case we later undo this move.
-                    RememberDealtCardPileState(
+                    RememberCardStateForUndo(
                         true,
                         false,
                         -1,

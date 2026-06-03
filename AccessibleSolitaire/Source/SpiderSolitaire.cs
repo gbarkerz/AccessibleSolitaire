@@ -47,6 +47,8 @@ namespace Sa11ytaire4All
                 return;
             }
 
+            RememberSpiderCardStateForUndoNextCards();
+
             var announceDealMessage = true;
 
             for (int i = 0; i < 10; ++i)
@@ -253,6 +255,8 @@ namespace Sa11ytaire4All
                             }
                         }
                     }
+
+                    RememberSpiderDiscardedSequenceCount();
 
                     ++vm.SpiderDiscardedSequenceCount;
 

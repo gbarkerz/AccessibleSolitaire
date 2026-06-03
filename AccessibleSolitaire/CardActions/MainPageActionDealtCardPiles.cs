@@ -211,7 +211,7 @@ namespace Sa11ytaire4All
                         var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
 
                         // Remember the state of the two related card piles in case we later undo this move.
-                        RememberDealtCardPileState(
+                        RememberCardStateForUndo(
                             false,
                             true,
                             -1, // Target pile index.
@@ -345,7 +345,7 @@ namespace Sa11ytaire4All
                     var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelected);
 
                     // Remember the state of the two related card piles in case we later undo this move.
-                    RememberDealtCardPileState(
+                    RememberCardStateForUndo(
                         false,
                         true,
                         -1, // Target pile index.
@@ -508,7 +508,7 @@ namespace Sa11ytaire4All
             var listSelectedIndex = GetDealtPileIndexFromCollectionView(listEmpty);
 
             // Remember the state of the two related card piles in case we later undo this move.
-            RememberDealtCardPileState(
+            RememberCardStateForUndo(
                 false,
                 false,
                 -1, // Target pile index.
@@ -679,7 +679,7 @@ namespace Sa11ytaire4All
 
                             var listSelectedIndex = GetDealtPileIndexFromCollectionView(listDealtCardPile);
 
-                            RememberDealtCardPileState(
+                            RememberCardStateForUndo(
                                 false,
                                 false,
                                 targetCardPileIndex, // Target pile index.
@@ -1012,7 +1012,7 @@ namespace Sa11ytaire4All
                 var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
 
                 // Remember the state of the two related card piles in case we later undo this move.
-                RememberDealtCardPileState(
+                RememberCardStateForUndo(
                     false,
                     false,
                     -1, // Target pile index.
@@ -1126,99 +1126,6 @@ namespace Sa11ytaire4All
             }
         }
 
-        private bool moveToUpturnedPile;
-        private Card? moveToUpturnedCard;
-
-        private bool moveFromUpturnedPile;
-        private Card? moveFromUpturnedCard;
-
-        private int moveTargetPileIndex;
-        private Card? moveTargetPileCard;
-
-        private int moveIndexSource = -1;
-        private int moveIndexDestination = -1;
-        private ObservableCollection<DealtCard> dealtCardCollectionMoveSource = new ObservableCollection<DealtCard>();
-        private ObservableCollection<DealtCard> dealtCardCollectionMoveDestination = new ObservableCollection<DealtCard>();
-
-        private void RememberDealtCardPileState(bool toUpturnedPile, 
-                                                bool fromUpturnedPile,
-                                                int targetPileIndex,
-                                                Card? targetCardPile,
-                                                int indexSource,
-                                                ObservableCollection<DealtCard?>? itemsMoveSource,
-                                                int indexDestination,
-                                                ObservableCollection<DealtCard?>? itemsMoveDestination)
-        {
-            // Check the upturned cards.
-
-            moveFromUpturnedPile = fromUpturnedPile;
-            moveFromUpturnedCard = null;
-
-            if (moveFromUpturnedPile)
-            {
-                moveFromUpturnedCard = CardDeckUpturned.Card;
-            }
-
-            moveToUpturnedPile = toUpturnedPile;
-            moveToUpturnedCard = null;
-
-            if (moveToUpturnedPile)
-            {
-                var remainingCount = _deckRemaining.Count;
-
-                moveToUpturnedCard = (remainingCount > 0 ? _deckRemaining[remainingCount - 1] : null);
-            }
-
-            // Check the target card piles.
-
-            moveTargetPileIndex = targetPileIndex;
-            moveTargetPileCard = targetCardPile; 
-
-            // Check the dealt card piles.
-
-            moveIndexSource = indexSource;
-            moveIndexDestination = indexDestination;
-
-            dealtCardCollectionMoveSource.Clear();
-            dealtCardCollectionMoveDestination.Clear();
-
-            if (itemsMoveSource != null)
-            {
-                foreach (var card in itemsMoveSource)
-                {
-                    DealtCard? newCard = null;
-
-                    var cardJson = JsonSerializer.Serialize(card);
-                    if (!string.IsNullOrEmpty(cardJson))
-                    {
-                        newCard = JsonSerializer.Deserialize<DealtCard>(cardJson);
-                        if (newCard != null)
-                        {
-                            dealtCardCollectionMoveSource.Add(newCard);
-                        }
-                    }
-                }
-            }
-
-            if (itemsMoveDestination != null)
-            {
-                foreach (var card in itemsMoveDestination)
-                {
-                    DealtCard? newCard = null;
-
-                    var cardJson = JsonSerializer.Serialize(card);
-                    if (!string.IsNullOrEmpty(cardJson))
-                    {
-                        newCard = JsonSerializer.Deserialize<DealtCard>(cardJson);
-                        if (newCard != null)
-                        {
-                            dealtCardCollectionMoveDestination.Add(newCard);
-                        }
-                    }
-                }
-            }
-        }
-
         private void AnnounceNoMove(Card card)
         {
             if (card != null)
@@ -1297,7 +1204,7 @@ namespace Sa11ytaire4All
                     newCard.Suit = cardAbove.Card.Suit;
 
                     // Remember the state of the two related card piles in case we later undo this move.
-                    RememberDealtCardPileState(
+                    RememberCardStateForUndo(
                         false,
                         false,
                         targetPileIndex,
@@ -1378,7 +1285,7 @@ namespace Sa11ytaire4All
                         (cardBelow.Rank == cardAbove.Card.Rank - 1))
                     {
                         // Remember the state of the two related card piles in case we later undo this move.
-                        RememberDealtCardPileState(
+                        RememberCardStateForUndo(
                             false,
                             false,
                             targetPileIndex,

@@ -348,7 +348,7 @@ namespace Sa11ytaire4All
                 if (moveCard)
                 {
                     // Remember the state of the two related card piles in case we later undo this move.
-                    RememberDealtCardPileState(
+                    RememberCardStateForUndo(
                         false,
                         true,
                         targetPileIndex,
