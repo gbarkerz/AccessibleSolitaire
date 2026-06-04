@@ -28,6 +28,18 @@ namespace Sa11ytaire4All
         private CardButton? undoGrandfatherClockCardButton;
         private DealtCard? undoGrandfatherClockDealtCard;
 
+        private CardButton? undoPyramidCardButtonClicked;
+        private DealtCard? undoPyramidDealtCardClicked;
+        private CardButton? undoPyramidCardButtonAlreadySelected;
+        private DealtCard? undoPyramidDealtCardAlreadySelected;
+        private CardButton? undoPyramidCardButtonUpturned;
+        private Card? undoPyramidCardUpturned;
+        private Card? undoPyramidCardObscuredHigher;
+
+        private bool undoRemoveFromUpturnedPile;
+        private CardButton? undoPyramidCardButtonKing;
+        private Card? undoPyramidCardKing;
+
         private void ClearUndoState()
         {
             moveToUpturnedPile = false;
@@ -52,6 +64,17 @@ namespace Sa11ytaire4All
 
             undoGrandfatherClockCardButton = null;
             undoGrandfatherClockDealtCard = null;
+
+            undoPyramidCardButtonClicked = null;
+            undoPyramidDealtCardClicked = null;
+            undoPyramidCardButtonAlreadySelected = null;
+            undoPyramidDealtCardAlreadySelected = null;
+            undoPyramidCardButtonUpturned = null;
+            undoPyramidCardUpturned = null;
+            undoPyramidCardObscuredHigher = null;
+            undoPyramidCardButtonKing = null;
+            undoPyramidCardKing = null;
+            undoRemoveFromUpturnedPile = false;
         }
 
         private void RememberCardStateForUndo(bool toUpturnedPile,
@@ -309,6 +332,10 @@ namespace Sa11ytaire4All
                     UndoSpiderNextCardsAction();
                 }
             }
+            else if (currentGameType == SolitaireGameType.Pyramid)
+            {
+                UndoPyramidMove();
+            }
             else if (currentGameType == SolitaireGameType.Tripeaks)
             {
                 UndoTriPeaksMove();
@@ -342,6 +369,63 @@ namespace Sa11ytaire4All
             undoSpiderNextCardsAction = true;
 
             undoSpiderDiscardedSequenceCount = -1;
+        }
+
+        private void RememberPyramidCardStateForUndo(
+            bool clearUndoState,
+            CardButton? cardButtonClicked,
+            DealtCard? dealtCardClicked,
+            CardButton? cardAlreadySelected,
+            DealtCard? dealtCardAlreadySelected)
+        {
+            if (clearUndoState)
+            {
+                ClearUndoState();
+            }
+
+            undoPyramidCardButtonClicked = cardButtonClicked;
+            undoPyramidDealtCardClicked = dealtCardClicked;
+
+            undoPyramidCardButtonAlreadySelected = cardAlreadySelected;
+            undoPyramidDealtCardAlreadySelected = dealtCardAlreadySelected;
+        }
+
+        private void RememberPyramidCardDeckUpturnedForUndo(
+            bool clearUndoState,
+            bool isUpturnedPile, 
+            CardButton cardDeckUpturned)
+        {
+            if (clearUndoState)
+            {
+                ClearUndoState();
+            }
+
+            if (cardDeckUpturned.Card != null)
+            {
+                undoRemoveFromUpturnedPile = isUpturnedPile;
+
+                undoPyramidCardUpturned = cardDeckUpturned.Card;
+
+                undoPyramidCardButtonUpturned = cardDeckUpturned;
+            }
+        }
+
+        private void RememberPyramidCardRemoveKing(bool isUpturnedPile, CardButton cardDeckUpturned)
+        {
+            ClearUndoState();
+
+            undoRemoveFromUpturnedPile = isUpturnedPile;
+
+            undoPyramidCardButtonKing = cardDeckUpturned;
+            undoPyramidCardKing = cardDeckUpturned.Card;
+        }
+
+        private void RememberPyramidCardUpturnedAndObscuredForUndo(Card? cardUpturned, Card? cardObscuredHigher)
+        {
+            ClearUndoState();
+
+            undoPyramidCardUpturned = cardUpturned;
+            undoPyramidCardObscuredHigher = cardObscuredHigher;
         }
 
         private void RememberSpiderDiscardedSequenceCount()
@@ -415,6 +499,91 @@ namespace Sa11ytaire4All
             }
         }
 
+        private void UndoPyramidMove()
+        {
+            // Has a card now been revealed? 
+            if (undoPyramidDealtCardClicked != null)
+            {
+                SetOnTopStateFollowingMove(undoPyramidDealtCardClicked, false, true);
+            }
+
+            if (undoPyramidDealtCardAlreadySelected != null)
+            {
+                SetOnTopStateFollowingMove(undoPyramidDealtCardAlreadySelected, false, true);
+            }
+
+            if ((undoPyramidCardButtonKing != null) && (undoPyramidCardKing != null))
+            {
+                undoPyramidCardButtonKing.Card = undoPyramidCardKing;
+
+                if (undoRemoveFromUpturnedPile)
+                {
+                    _deckUpturned.Add(undoPyramidCardKing);
+
+                    CardDeckUpturned.Card = undoPyramidCardKing;
+                }
+                else
+                {
+                    if (CardDeckUpturned.Card == null)
+                    {
+                        _deckUpturned.Add(undoPyramidCardKing);
+                    }
+                    else
+                    {
+                        var upturnedCount = _deckUpturned.Count;
+                        if (upturnedCount > 0)
+                        {
+                            _deckUpturned.Insert(upturnedCount - 1, undoPyramidCardKing);
+                        }
+                    }
+                }
+
+                SetUpturnedCardsVisuals();
+            }
+
+            if (undoPyramidCardObscuredHigher != null)
+            {
+                _deckUpturned.Add(undoPyramidCardObscuredHigher);
+
+                // The upturned card will be added below.
+                undoRemoveFromUpturnedPile = true;
+            }
+
+            if (undoPyramidCardUpturned != null)
+            {
+                undoPyramidCardButtonUpturned?.Card = undoPyramidCardUpturned;
+
+                if (undoRemoveFromUpturnedPile)
+                {
+                    _deckUpturned.Add(undoPyramidCardUpturned);
+                }
+                else
+                {
+                    if (CardDeckUpturned.Card == null)
+                    {
+                        _deckUpturned.Add(undoPyramidCardUpturned);
+                    }
+                    else
+                    {
+                        var upturnedCount = _deckUpturned.Count;
+                        if (upturnedCount > 0)
+                        {
+                            _deckUpturned.Insert(upturnedCount - 1, undoPyramidCardUpturned);
+                        }
+                    }
+                }
+
+                SetUpturnedCardsVisuals();
+            }
+
+            undoPyramidCardButtonClicked?.IsVisible = true;
+
+            undoPyramidCardButtonAlreadySelected?.IsVisible = true;
+
+            undoPyramidDealtCardClicked?.Card = undoPyramidCardButtonClicked?.Card;
+            undoPyramidDealtCardAlreadySelected?.Card = undoPyramidCardButtonAlreadySelected?.Card;
+        }
+
         private DealtCard? moveTriPeakCard = null;
 
         private void RememberTriPeaksStateForUndo(DealtCard? triPeakCard)
@@ -441,6 +610,9 @@ namespace Sa11ytaire4All
                     var upturnedCount = _deckUpturned.Count;
                     if (upturnedCount > 0)
                     {
+                        // Has a card now been revealed? 
+                        SetOnTopStateFollowingMove(dealtCard, false, true);
+
                         // Get the card that was previously moved to the upturned card pile.
                         var card = _deckUpturned[upturnedCount - 1];
 
@@ -464,9 +636,6 @@ namespace Sa11ytaire4All
                                 CardDeckUpturned.Card = _deckUpturned[upturnedCount - 1];
                             }
                         }
-
-                        // Has a card now been revealed? 
-                        SetOnTopStateFollowingMove(dealtCard, false, true);
 
                         //RefreshCardButtonMofNInRow(cardButtonClicked);
                     }
