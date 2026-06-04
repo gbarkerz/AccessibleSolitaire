@@ -1,9 +1,7 @@
 ﻿using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
-using System;
-using System.Collections.Generic;
+using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Text.Json;
 
 namespace Sa11ytaire4All
@@ -27,6 +25,9 @@ namespace Sa11ytaire4All
         private bool undoSpiderNextCardsAction = false;
         private int undoSpiderDiscardedSequenceCount = -1;
 
+        private CardButton? undoGrandfatherClockCardButton;
+        private DealtCard? undoGrandfatherClockDealtCard;
+
         private void ClearUndoState()
         {
             moveToUpturnedPile = false;
@@ -48,12 +49,17 @@ namespace Sa11ytaire4All
             undoSpiderDiscardedSequenceCount = -1;
 
             moveTriPeakCard = null;
+
+            undoGrandfatherClockCardButton = null;
+            undoGrandfatherClockDealtCard = null;
         }
 
         private void RememberCardStateForUndo(bool toUpturnedPile,
                                               bool fromUpturnedPile,
                                               int targetPileIndex,
                                               Card? targetCardPile,
+                                              CardButton? grandfatherClockCardButton,
+                                              DealtCard? grandfatherClockDealtCard,
                                               int indexSource,
                                               ObservableCollection<DealtCard?>? itemsMoveSource,
                                               int indexDestination,
@@ -126,6 +132,23 @@ namespace Sa11ytaire4All
                         {
                             dealtCardCollectionMoveDestination.Add(newCard);
                         }
+                    }
+                }
+            }
+
+            if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                DealtCard? newDealtCard = null;
+
+                var cardJson = JsonSerializer.Serialize(grandfatherClockDealtCard);
+                if (!string.IsNullOrEmpty(cardJson))
+                {
+                    newDealtCard = JsonSerializer.Deserialize<DealtCard>(cardJson);
+                    if (newDealtCard != null)
+                    {
+                        undoGrandfatherClockDealtCard = newDealtCard;
+
+                        undoGrandfatherClockCardButton = grandfatherClockCardButton;
                     }
                 }
             }
@@ -289,6 +312,26 @@ namespace Sa11ytaire4All
             else if (currentGameType == SolitaireGameType.Tripeaks)
             {
                 UndoTriPeaksMove();
+            }
+            else if (currentGameType == SolitaireGameType.Grandfathersclock)
+            {
+                if ((undoGrandfatherClockCardButton != null) && (undoGrandfatherClockDealtCard != null))
+                {
+                    for (var i = 0; i < 12; ++i)
+                    {
+                        var clockDealtCard = vm.DealtCards[8][i];
+                        if ((clockDealtCard != null) && (clockDealtCard.StackDetails == undoGrandfatherClockCardButton.StackDetails))
+                        {
+                            clockDealtCard.Card = undoGrandfatherClockDealtCard.Card;
+                            clockDealtCard.StackDetails = undoGrandfatherClockDealtCard.StackDetails;
+
+                            undoGrandfatherClockCardButton.StackDetails = undoGrandfatherClockDealtCard.StackDetails;
+                            undoGrandfatherClockCardButton.Card = undoGrandfatherClockDealtCard.Card;
+
+                            break;
+                        }
+                    }
+                }
             }
         }
 

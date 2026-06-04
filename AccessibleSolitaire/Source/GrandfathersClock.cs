@@ -284,8 +284,13 @@ namespace Sa11ytaire4All
                               ((cardAlreadySelected.Card.Rank == 1) && (cardButton.Card.Rank == 13));
                 }
 
+                var itemsRemoved = GetListSource(listAlreadySelected);
+
                 if (moveOk)
                 {
+                    // Remembering the entire source pile is a little over the top here given that in the
+                    // Grandfather's Clock game, only the top card can be moved from a dealt card pile.
+
                     // Keep track of all the cards added to this spot.
                     cardButton.StackDetails += " " + cardAlreadySelected.StackDetails;
 
@@ -293,6 +298,18 @@ namespace Sa11ytaire4All
                     var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
                     if (dealtCard != null)
                     {
+                        RememberCardStateForUndo(
+                            false,
+                            false,
+                            -1, // Target pile index.
+                            null,
+                            cardButton, // GrandfatherClock clock CardButton
+                            dealtCard,  // GrandfatherClock clock DealtCard
+                            listAlreadySelectedIndex,
+                            itemsRemoved,
+                            -1,
+                            null);
+
                         dealtCard.Card = cardAlreadySelected.Card;
                         dealtCard.StackDetails = cardButton.StackDetails;
                     }

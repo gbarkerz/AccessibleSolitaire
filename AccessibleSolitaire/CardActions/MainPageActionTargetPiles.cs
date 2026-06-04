@@ -353,6 +353,8 @@ namespace Sa11ytaire4All
                         true,
                         targetPileIndex,
                         null,
+                        null, // GrandfatherClock clock CardButton
+                        null, // GrandfatherClock clock DealtCard
                         -1, null,
                         -1, null);
 

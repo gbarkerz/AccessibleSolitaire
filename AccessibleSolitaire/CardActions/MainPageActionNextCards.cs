@@ -78,6 +78,8 @@ namespace Sa11ytaire4All
                         false,
                         -1,
                         null,
+                        null, // GrandfatherClock clock CardButton
+                        null, // GrandfatherClock clock DealtCard
                         -1, null,
                         -1, null);
 

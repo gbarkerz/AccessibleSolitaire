@@ -216,6 +216,8 @@ namespace Sa11ytaire4All
                             true,
                             -1, // Target pile index.
                             null,
+                            null, // GrandfatherClock clock CardButton
+                            null, // GrandfatherClock clock DealtCard
                             -1, null, 
                             listSelectedIndex, itemsAdded);
 
@@ -350,6 +352,8 @@ namespace Sa11ytaire4All
                         true,
                         -1, // Target pile index.
                         null,
+                        null, // GrandfatherClock clock CardButton
+                        null, // GrandfatherClock clock DealtCard
                         -1, null,
                         listSelectedIndex, itemsAdded);
 
@@ -513,6 +517,8 @@ namespace Sa11ytaire4All
                 false,
                 -1, // Target pile index.
                 null,
+                null, // GrandfatherClock clock CardButton
+                null, // GrandfatherClock clock DealtCard
                 movingCardIndex, 
                 itemsRemoved, 
                 listSelectedIndex, 
@@ -684,6 +690,8 @@ namespace Sa11ytaire4All
                                 false,
                                 targetCardPileIndex, // Target pile index.
                                 cardAbove.Card,
+                                null, // GrandfatherClock clock CardButton
+                                null, // GrandfatherClock clock DealtCard
                                 -1, null,
                                 listSelectedIndex, itemsAdded);
 
@@ -1017,6 +1025,8 @@ namespace Sa11ytaire4All
                     false,
                     -1, // Target pile index.
                     null,
+                    null, // GrandfatherClock clock CardButton
+                    null, // GrandfatherClock clock DealtCard
                     index, itemsRemoved, 
                     listSelectedIndex, itemsAdded);
 
@@ -1209,6 +1219,8 @@ namespace Sa11ytaire4All
                         false,
                         targetPileIndex,
                         null,
+                        null, // GrandfatherClock clock CardButton
+                        null, // GrandfatherClock clock DealtCard
                         -1, null,
                         listAlreadySelectedIndex, items);
 
@@ -1290,6 +1302,8 @@ namespace Sa11ytaire4All
                             false,
                             targetPileIndex,
                             null,
+                            null, // GrandfatherClock clock CardButton
+                            null, // GrandfatherClock clock DealtCard
                             -1, null,
                             listAlreadySelectedIndex, items);
 
