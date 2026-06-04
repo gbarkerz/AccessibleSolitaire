@@ -1,4 +1,5 @@
-﻿using Sa11ytaire4All.Source;
+﻿using CommunityToolkit.Maui.Behaviors;
+using Sa11ytaire4All.Source;
 using Sa11ytaire4All.ViewModels;
 using Sa11ytaire4All.Views;
 using System.Collections.ObjectModel;
@@ -50,8 +51,24 @@ namespace Sa11ytaire4All
         private CardButton? undoCardButtonAlreadySelected;
         private bool undoRoyalParadeNextCardAction;
 
+        private void SetUndoButtonState(bool enabled)
+        {
+            UndoButton.Behaviors.Clear();
+
+            var behavior = new IconTintColorBehavior
+            {
+                TintColor = (enabled ? Colors.White : Color.FromRgb(0xA0, 0xA0, 0xA0))
+            };
+
+            UndoButton.Behaviors.Add(behavior);
+
+            UndoButton.IsEnabled = enabled;
+        }
+
         private void ClearUndoState()
         {
+            SetUndoButtonState(false);
+
             moveToUpturnedPile = false;
             moveToUpturnedCard = null;
 
@@ -194,10 +211,14 @@ namespace Sa11ytaire4All
                     }
                 }
             }
+
+            SetUndoButtonState(true);
         }
 
         public void UndoLastMove()
         {
+            SetUndoButtonState(false);
+
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
@@ -392,6 +413,8 @@ namespace Sa11ytaire4All
             undoSpiderNextCardsAction = true;
 
             undoSpiderDiscardedSequenceCount = -1;
+
+            SetUndoButtonState(true);
         }
 
         private void RememberRoyalParadeCardStateForUndo(
@@ -447,6 +470,8 @@ namespace Sa11ytaire4All
                     }
                 }
             }
+
+            SetUndoButtonState(true);
         }
 
         private void RememberRoyalParadeNextCardAction()
@@ -454,6 +479,8 @@ namespace Sa11ytaire4All
             ClearUndoState();
 
             undoRoyalParadeNextCardAction = true;
+
+            SetUndoButtonState(true);
         }
 
         private void RememberPyramidCardStateForUndo(
@@ -473,6 +500,8 @@ namespace Sa11ytaire4All
 
             undoPyramidCardButtonAlreadySelected = cardAlreadySelected;
             undoPyramidDealtCardAlreadySelected = dealtCardAlreadySelected;
+
+            SetUndoButtonState(true);
         }
 
         private void RememberPyramidCardDeckUpturnedForUndo(
@@ -493,6 +522,8 @@ namespace Sa11ytaire4All
 
                 undoPyramidCardButtonUpturned = cardDeckUpturned;
             }
+
+            SetUndoButtonState(true);
         }
 
         private void RememberPyramidCardRemoveKing(bool isUpturnedPile, CardButton cardDeckUpturned)
@@ -503,6 +534,8 @@ namespace Sa11ytaire4All
 
             undoPyramidCardButtonKing = cardDeckUpturned;
             undoPyramidCardKing = cardDeckUpturned.Card;
+
+            SetUndoButtonState(true);
         }
 
         private void RememberPyramidCardUpturnedAndObscuredForUndo(Card? cardUpturned, Card? cardObscuredHigher)
@@ -511,6 +544,8 @@ namespace Sa11ytaire4All
 
             undoPyramidCardUpturned = cardUpturned;
             undoPyramidCardObscuredHigher = cardObscuredHigher;
+
+            SetUndoButtonState(true);
         }
 
         private void RememberSpiderDiscardedSequenceCount()
@@ -522,6 +557,8 @@ namespace Sa11ytaire4All
             }
 
             undoSpiderDiscardedSequenceCount = vm.SpiderDiscardedSequenceCount;
+
+            SetUndoButtonState(true);
         }
 
         private void UndoSpiderNextCardsAction()

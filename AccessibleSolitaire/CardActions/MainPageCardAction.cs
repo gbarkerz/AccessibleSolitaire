@@ -108,6 +108,8 @@ namespace Sa11ytaire4All
                 return false;
             }
 
+            SetUndoButtonState(false);
+
             var gameIsOver = true;
 
             if ((currentGameType == SolitaireGameType.Klondike) ||

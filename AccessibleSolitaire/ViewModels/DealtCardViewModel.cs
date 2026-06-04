@@ -41,6 +41,24 @@ namespace Sa11ytaire4All.ViewModels
         [ObservableProperty] 
         public partial ObservableCollection<DealtCard?>[]? DealtCards { get; set; }
 
+        private Color undoTintColour;
+        public Color UndoTintColour
+        {
+            get
+            {
+                return Colors.Red; //  undoTintColour;
+            }
+            set
+            {
+                if (undoTintColour != value)
+                {
+                    UndoTintColour = value;
+
+                    OnPropertyChanged("UndoTintColour");
+                }
+            }
+        }
+
         private double cardWidth;
         public double CardWidth
         {

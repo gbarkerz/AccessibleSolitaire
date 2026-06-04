@@ -70,6 +70,9 @@ public partial class SettingsPage : ContentPage
         var showRestartButton = (bool)Preferences.Get("ShowRestartButton", false);
         ShowRestartButtonSwitch.IsToggled = showRestartButton;
 
+        var showUndoButton = (bool)Preferences.Get("ShowUndoButton", false);
+        ShowUndoButtonSwitch.IsToggled = showUndoButton;
+
         var showPauseResumeButton = (bool)Preferences.Get("ShowPauseResumeButton", false);
         ShowPauseResumeButtonSwitch.IsToggled = showPauseResumeButton;
 
@@ -228,6 +231,9 @@ public partial class SettingsPage : ContentPage
 
         var showRestartButton = ShowRestartButtonSwitch.IsToggled;
         Preferences.Set("ShowRestartButton", showRestartButton);
+
+        var showUndoButton = ShowUndoButtonSwitch.IsToggled;
+        Preferences.Set("ShowUndoButton", showUndoButton);
 
         var showPauseResumeButton = ShowPauseResumeButtonSwitch.IsToggled;
         Preferences.Set("ShowPauseResumeButton", showPauseResumeButton);

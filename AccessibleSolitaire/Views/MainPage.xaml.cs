@@ -572,6 +572,8 @@ namespace Sa11ytaire4All
 
             base.OnAppearing();
 
+            SetUndoButtonState(false);
+
             // Accessibility-related options.
 
             var vm = this.BindingContext as DealtCardViewModel;
@@ -617,6 +619,7 @@ namespace Sa11ytaire4All
                 RefreshDealtCardPilesIsInAccessibleTree();
 
                 RestartButton.IsVisible = (bool)Preferences.Get("ShowRestartButton", false);
+                UndoButton.IsVisible = (bool)Preferences.Get("ShowUndoButton", false);
                 PauseResumeButton.IsVisible = (bool)Preferences.Get("ShowPauseResumeButton", false);
 
                 // If the Pause/Resume button is not visible, make sure no game is currently paused.
@@ -1110,6 +1113,11 @@ namespace Sa11ytaire4All
         private void MenuButton_Click(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = true;
+        }
+
+        private void UndoButton_Click(object sender, EventArgs e)
+        {
+            UndoLastMove();
         }
 
         // Toggle the pasued state of the current game.

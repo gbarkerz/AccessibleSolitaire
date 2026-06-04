@@ -2105,6 +2105,33 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show the Undo button.
+        /// </summary>
+        internal static string ShowUndoButton {
+            get {
+                return ResourceManager.GetString("ShowUndoButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check this option if you&apos;d like an Undo button to show below the Menu button. When the button is clicked, the most recent move made in the current game is reverted..
+        /// </summary>
+        internal static string ShowUndoButtonInstructions {
+            get {
+                return ResourceManager.GetString("ShowUndoButtonInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Undo button:.
+        /// </summary>
+        internal static string ShowUndoButtonSwitchLabel {
+            get {
+                return ResourceManager.GetString("ShowUndoButtonSwitchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show zoom popup.
         /// </summary>
         internal static string ShowZoomPopup {
@@ -2290,6 +2317,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string TripeaksSolitaire {
             get {
                 return ResourceManager.GetString("TripeaksSolitaire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo.
+        /// </summary>
+        internal static string Undo {
+            get {
+                return ResourceManager.GetString("Undo", resourceCulture);
             }
         }
         

@@ -909,4 +909,16 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="StartNewGame" xml:space="preserve">
     <value>Rozpocznij nową grę</value>
   </data>
+  <data name="ShowUndoButton" xml:space="preserve">
+    <value>Pokaż przycisk Cofnij</value>
+  </data>
+  <data name="ShowUndoButtonInstructions" xml:space="preserve">
+    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk „Cofnij” wyświetlał się pod przyciskiem „Menu”. Po kliknięciu przycisku cofnięty zostanie ostatni ruch wykonany w bieżącej grze.</value>
+  </data>
+  <data name="ShowUndoButtonSwitchLabel" xml:space="preserve">
+    <value>Pokaż przycisk Cofnij:</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Cofnij</value>
+  </data>
 </root>

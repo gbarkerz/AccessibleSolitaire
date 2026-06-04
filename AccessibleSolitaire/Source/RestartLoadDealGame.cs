@@ -22,6 +22,8 @@ namespace Sa11ytaire4All
         {
             Debug.WriteLine("CardPileGrid_Loaded: START");
 
+            SetUndoButtonState(false);
+
             // We're here when the app is first started, and when returning to the MainPage after
             // visiting the Settings page or the Help content. We only need to take action here
             // in response to the app starting.
@@ -148,6 +150,8 @@ namespace Sa11ytaire4All
             {
                 return;
             }
+
+            SetUndoButtonState(false);
 
             ClearCardButtonSelections(true);
 
@@ -511,6 +515,8 @@ namespace Sa11ytaire4All
         private async void ChangeGameType(SolitaireGameType targetGameType)
         {
             Preferences.Set("ChangeGameType: targetGameType ", targetGameType.ToString());
+
+            SetUndoButtonState(false);
 
             StopCelebratoryActions();
 

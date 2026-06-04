@@ -188,6 +188,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <!-- Show rank and suit large in cards. -->
@@ -279,7 +282,7 @@
 
                     </HorizontalStackLayout>
 
-                    <!-- Show Restart button. -->
+                    <!-- Show Start new game button. -->
 
                     <Label Grid.Row="8"
                         FontAttributes="Bold" 
@@ -306,20 +309,48 @@
 
                     </HorizontalStackLayout>
 
-                    <!-- Show Pause/Resume button. -->
+
+                    <!-- Show Start new game button. -->
 
                     <Label Grid.Row="11"
                         FontAttributes="Bold" 
                         Margin="8,8,0,0"
                         FontSize="Header" SemanticProperties.HeadingLevel="Level3"
-                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButton}" />
+                        Text="{x:Static resources:Strings.StringResources.ShowUndoButton}" />
 
                     <Label Grid.Row="12" 
                         Margin="8,0,8,0"
                         LineBreakMode="WordWrap"
-                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonInstructions}" />
+                        Text="{x:Static resources:Strings.StringResources.ShowUndoButtonInstructions}" />
 
                     <HorizontalStackLayout Grid.Row="13" Padding="0" Margin="8,0,8,0">
+
+                        <Label
+                            VerticalOptions="Center"                
+                            Text="{x:Static resources:Strings.StringResources.ShowUndoButtonSwitchLabel}" 
+                            Margin="0" Padding="0" />
+
+                        <Switch x:Name="ShowUndoButtonSwitch"
+                            Margin="0" HorizontalOptions="Start"
+                            SemanticProperties.Description="{x:Static resources:Strings.StringResources.ShowUndoButtonSwitchLabel}"
+                            SemanticProperties.Hint="{x:Static resources:Strings.StringResources.ShowUndoButtonInstructions}" />
+
+                    </HorizontalStackLayout>
+
+                    <!-- Show Pause/Resume button. -->
+
+                    <Label Grid.Row="14"
+                        FontAttributes="Bold" 
+                        Margin="8,8,0,0"
+                        FontSize="Header" SemanticProperties.HeadingLevel="Level3"
+                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButton}" />
+
+                    <Label Grid.Row="15" 
+                        Margin="8,0,8,0"
+                        LineBreakMode="WordWrap"
+                        Text="{x:Static resources:Strings.StringResources.ShowPauseResumeButtonInstructions}" />
+
+                    <HorizontalStackLayout Grid.Row="16" Padding="0" Margin="8,0,8,0">
 
                         <Label
                             VerticalOptions="Center"                
