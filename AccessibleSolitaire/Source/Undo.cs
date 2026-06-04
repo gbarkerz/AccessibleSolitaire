@@ -40,6 +40,16 @@ namespace Sa11ytaire4All
         private CardButton? undoPyramidCardButtonKing;
         private Card? undoPyramidCardKing;
 
+        private int undoDealtCardClickedPyramidRow = -1;
+        private int undoDealtCardClickedPyramidCardOriginalIndexInRow = -1;
+        private int undoDealtCardAlreadySelectedPyramidRow = -1;
+        private int undoDealtCardAlreadySelectedPyramidCardOriginalIndexInRow = -1;
+        private DealtCard? undoDealtCardClicked;
+        private DealtCard? undoDealtCardAlreadySelected;
+        private CardButton? undoCardButtonClicked;
+        private CardButton? undoCardButtonAlreadySelected;
+        private bool undoRoyalParadeNextCardAction;
+
         private void ClearUndoState()
         {
             moveToUpturnedPile = false;
@@ -75,6 +85,15 @@ namespace Sa11ytaire4All
             undoPyramidCardButtonKing = null;
             undoPyramidCardKing = null;
             undoRemoveFromUpturnedPile = false;
+
+            undoDealtCardClickedPyramidRow = -1;
+            undoDealtCardClickedPyramidCardOriginalIndexInRow = -1;
+            undoDealtCardAlreadySelectedPyramidRow = -1;
+            undoDealtCardAlreadySelectedPyramidCardOriginalIndexInRow = -1;
+            undoDealtCardAlreadySelected = null;
+            undoCardButtonClicked = null;
+            undoCardButtonAlreadySelected = null;
+            undoRoyalParadeNextCardAction = false;
         }
 
         private void RememberCardStateForUndo(bool toUpturnedPile,
@@ -332,6 +351,10 @@ namespace Sa11ytaire4All
                     UndoSpiderNextCardsAction();
                 }
             }
+            else if (currentGameType == SolitaireGameType.Royalparade)
+            {
+                UndoRoyalPyramidMove();
+            }
             else if (currentGameType == SolitaireGameType.Pyramid)
             {
                 UndoPyramidMove();
@@ -369,6 +392,68 @@ namespace Sa11ytaire4All
             undoSpiderNextCardsAction = true;
 
             undoSpiderDiscardedSequenceCount = -1;
+        }
+
+        private void RememberRoyalParadeCardStateForUndo(
+            bool clearUndoState,
+            CardButton? cardButtonClicked,
+            DealtCard? dealtCardClicked,
+            int dealtCardClickedPyramidRow,
+            int dealtCardClickedPyramidCardOriginalIndexInRow,
+            CardButton? cardButtonAlreadySelected,
+            DealtCard? dealtCardAlreadySelected,
+            int dealtCardAlreadySelectedPyramidRow,
+            int dealtCardAlreadySelectedPyramidCardOriginalIndexInRow)
+        {
+            if (clearUndoState)
+            {
+                ClearUndoState();
+            }
+
+            DealtCard? newCard = null;
+
+            if (dealtCardClicked != null)
+            {
+                var cardJson = JsonSerializer.Serialize(dealtCardClicked);
+                if (!string.IsNullOrEmpty(cardJson))
+                {
+                    newCard = JsonSerializer.Deserialize<DealtCard>(cardJson);
+                    if (newCard != null)
+                    {
+                        undoDealtCardClicked = newCard;
+
+                        undoCardButtonClicked = cardButtonClicked;
+
+                        undoDealtCardClickedPyramidRow = dealtCardClickedPyramidRow;
+                        undoDealtCardClickedPyramidCardOriginalIndexInRow = dealtCardClickedPyramidCardOriginalIndexInRow;
+                    }
+                }
+            }
+
+            if (dealtCardAlreadySelected != null)
+            {
+                var cardJson = JsonSerializer.Serialize(dealtCardAlreadySelected);
+                if (!string.IsNullOrEmpty(cardJson))
+                {
+                    newCard = JsonSerializer.Deserialize<DealtCard>(cardJson);
+                    if (newCard != null)
+                    {
+                        undoDealtCardAlreadySelected = newCard;
+
+                        undoCardButtonAlreadySelected = cardButtonAlreadySelected;
+
+                        undoDealtCardAlreadySelectedPyramidRow = dealtCardAlreadySelectedPyramidRow;
+                        undoDealtCardAlreadySelectedPyramidCardOriginalIndexInRow = dealtCardAlreadySelectedPyramidCardOriginalIndexInRow;
+                    }
+                }
+            }
+        }
+
+        private void RememberRoyalParadeNextCardAction()
+        {
+            ClearUndoState();
+
+            undoRoyalParadeNextCardAction = true;
         }
 
         private void RememberPyramidCardStateForUndo(
@@ -496,6 +581,108 @@ namespace Sa11ytaire4All
                 SetSpiderDiscardedSequenceDetails();
 
                 undoSpiderDiscardedSequenceCount = -1;
+            }
+        }
+
+        private void UndoRoyalPyramidMove()
+        {
+            var vm = this.BindingContext as DealtCardViewModel;
+            if ((vm == null) || (vm.DealtCards == null))
+            {
+                return;
+            }
+
+            if (undoRoyalParadeNextCardAction)
+            {
+                var gridCards = CardPileGridPyramid.Children;
+
+                // Remove the top ten cards from the fourth row.
+
+                for (var cardIndexInPile = 0; cardIndexInPile < 8; ++cardIndexInPile)
+                {
+                    for (var fourthRowPileIndex = 9; fourthRowPileIndex > 0; --fourthRowPileIndex)
+                    {
+                        var index = ((8 * fourthRowPileIndex) - 1) - cardIndexInPile;
+                        
+                        var fourthRowDealtCard = vm.DealtCards[3][index];
+                        if (fourthRowDealtCard != null)
+                        {
+                            _deckRemaining.Add(fourthRowDealtCard.Card);
+
+                            vm.DealtCards[3][index] = null;
+
+                            if (fourthRowPileIndex > 0)
+                            {
+                                CardButton? cardButton = null;
+
+                                var revealedCardIndex = index - 8;
+                                if (revealedCardIndex >= 0)
+                                {
+                                    cardButton = gridCards[24 + (revealedCardIndex % 8)] as CardButton;
+                                    if (cardButton != null)
+                                    {
+                                        var revealedDealtCard = vm.DealtCards[3][revealedCardIndex];
+                                        if (revealedDealtCard != null)
+                                        {
+                                            cardButton.Card = revealedDealtCard.Card;
+
+                                            cardButton.RefreshVisuals();
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    cardButton = gridCards[24 + index] as CardButton;
+                                    if (cardButton != null)
+                                    {
+                                        cardButton.Card = null;
+                                        cardButton.IsVisible = false;
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+                }
+
+                return;
+            }
+
+            if ((undoCardButtonClicked != null) && (undoDealtCardClicked != null))
+            {
+                undoDealtCardClicked.PyramidRow = undoDealtCardClickedPyramidRow;
+                undoDealtCardClicked.PyramidCardOriginalIndexInRow = undoDealtCardClickedPyramidCardOriginalIndexInRow;
+
+                vm.DealtCards[undoDealtCardClickedPyramidRow][undoDealtCardClickedPyramidCardOriginalIndexInRow] =
+                    undoDealtCardClicked;
+
+                undoCardButtonClicked.Card = undoDealtCardClicked?.Card;
+                undoCardButtonClicked.StackDetails = undoDealtCardClicked?.StackDetails;
+
+                if (undoDealtCardClickedPyramidRow == 3)
+                {
+                    undoCardButtonClicked.IsVisible = true;
+                }
+
+                undoCardButtonClicked.RefreshVisuals();
+            }
+
+            if ((undoCardButtonAlreadySelected != null) && (undoDealtCardAlreadySelected != null))
+            {
+                undoDealtCardAlreadySelected.PyramidRow = undoDealtCardAlreadySelectedPyramidRow;
+                undoDealtCardAlreadySelected.PyramidCardOriginalIndexInRow = undoDealtCardAlreadySelectedPyramidCardOriginalIndexInRow;
+
+                vm.DealtCards[undoDealtCardAlreadySelectedPyramidRow][undoDealtCardAlreadySelectedPyramidCardOriginalIndexInRow] =
+                    undoDealtCardAlreadySelected;
+
+                undoCardButtonAlreadySelected.Card = undoDealtCardAlreadySelected?.Card;
+                undoCardButtonAlreadySelected.StackDetails = undoDealtCardAlreadySelected?.StackDetails;
+
+                if (undoDealtCardAlreadySelectedPyramidRow == 3)
+                {
+                    undoCardButtonAlreadySelected.IsVisible = true;
+                }
             }
         }
 
