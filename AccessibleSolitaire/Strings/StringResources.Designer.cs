@@ -2006,7 +2006,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check this option if you&apos;d like a Pause button to show below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button..
+        ///   Looks up a localized string similar to Check this option if you&apos;d like a Pause button to show at the top of the app. When the button is clicked, the current game is paused, and the button becomes a Resume button..
         /// </summary>
         internal static string ShowPauseResumeButtonInstructions {
             get {
@@ -2060,7 +2060,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check this option if you&apos;d like a Start new game button to show below the Menu button..
+        ///   Looks up a localized string similar to Check this option if you&apos;d like a Start new game button to show  to show at the top of the app..
         /// </summary>
         internal static string ShowRestartButtonInstructions {
             get {
@@ -2087,7 +2087,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show buttons to have a screen reader announce the state of the entire game, and the moves currently available..
+        ///   Looks up a localized string similar to Show buttons at the top of the app to have a screen reader announce the state of the entire game, and the moves currently available..
         /// </summary>
         internal static string ShowScreenReaderAnnouncementButtonsInstructions {
             get {
@@ -2114,7 +2114,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check this option if you&apos;d like an Undo button to show below the Menu button. When the button is clicked, the most recent move made in the current game is reverted..
+        ///   Looks up a localized string similar to Check this option if you&apos;d like an Undo button to show at the top of the app. When the button is clicked, the most recent move made in the current game is reverted..
         /// </summary>
         internal static string ShowUndoButtonInstructions {
             get {

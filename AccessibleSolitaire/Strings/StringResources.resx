@@ -294,7 +294,7 @@ Please click the Menu button and review the Help content to learn how to get the
     <value>Show screen reader buttons:</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtonsInstructions" xml:space="preserve">
-    <value>Show buttons to have a screen reader announce the state of the entire game, and the moves currently available.</value>
+    <value>Show buttons at the top of the app to have a screen reader announce the state of the entire game, and the moves currently available.</value>
   </data>
   <data name="Spades" xml:space="preserve">
     <value>Spades</value>
@@ -773,7 +773,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Show the Pause/Resume button</value>
   </data>
   <data name="ShowPauseResumeButtonInstructions" xml:space="preserve">
-    <value>Check this option if you'd like a Pause button to show below the Menu button. When the button is clicked, the current game is paused, and the button becomes a Resume button.</value>
+    <value>Check this option if you'd like a Pause button to show at the top of the app. When the button is clicked, the current game is paused, and the button becomes a Resume button.</value>
   </data>
   <data name="ShowPauseResumeButtonSwitchLabel" xml:space="preserve">
     <value>Show Pause/Resume button:</value>
@@ -827,7 +827,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Show the Start new game button</value>
   </data>
   <data name="ShowRestartButtonInstructions" xml:space="preserve">
-    <value>Check this option if you'd like a Start new game button to show below the Menu button.</value>
+    <value>Check this option if you'd like a Start new game button to show  to show at the top of the app.</value>
   </data>
   <data name="ShowRestartButtonSwitchLabel" xml:space="preserve">
     <value>Show Start new game button:</value>
@@ -914,7 +914,7 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Show the Undo button</value>
   </data>
   <data name="ShowUndoButtonInstructions" xml:space="preserve">
-    <value>Check this option if you'd like an Undo button to show below the Menu button. When the button is clicked, the most recent move made in the current game is reverted.</value>
+    <value>Check this option if you'd like an Undo button to show at the top of the app. When the button is clicked, the most recent move made in the current game is reverted.</value>
   </data>
   <data name="ShowUndoButtonSwitchLabel" xml:space="preserve">
     <value>Show Undo button:</value>

@@ -294,7 +294,7 @@ Kliknij przycisk Menu i zapoznaj się z treścią Pomocy, aby dowiedzieć się, 
     <value>Pokaż przyciski czytnika ekranu:</value>
   </data>
   <data name="ShowScreenReaderAnnouncementButtonsInstructions" xml:space="preserve">
-    <value>Pokaż przyciski, które umożliwiają anonsowanie przez czytnik ekranu stanu gry oraz dostępnych ruchów.</value>
+    <value>Wyświetl przyciski na górze aplikacji, aby czytnik ekranu informował o stanie całej gry i dostępnych ruchach.</value>
   </data>
   <data name="Spades" xml:space="preserve">
     <value>Pik</value>
@@ -772,7 +772,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Pokaż przycisk Pauza/Wznów</value>
   </data>
   <data name="ShowPauseResumeButtonInstructions" xml:space="preserve">
-    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk Pauza był wyświetlany pod przyciskiem Menu. Po kliknięciu przycisku bieżąca gra zostanie wstrzymana, a przycisk zmieni się w przycisk Wznów.</value>
+    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk Pauza był widoczny u góry aplikacji. Po kliknięciu przycisku bieżąca gra zostanie wstrzymana, a przycisk zmieni się w przycisk Wznów.</value>
   </data>
   <data name="ShowPauseResumeButtonSwitchLabel" xml:space="preserve">
     <value>Pokaż przycisk Pauza/Wznów:</value>
@@ -826,7 +826,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Pokaż przycisk Rozpocznij nową grę</value>
   </data>
   <data name="ShowRestartButtonInstructions" xml:space="preserve">
-    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk Rozdaj karty był wyświetlany pod przyciskiem Menu.</value>
+    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk Rozpocznij nową grę był wyświetlany u góry aplikacji.</value>
   </data>
   <data name="ShowRestartButtonSwitchLabel" xml:space="preserve">
     <value>Pokaż przycisk Rozpocznij nową grę:</value>
@@ -913,7 +913,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Pokaż przycisk Cofnij</value>
   </data>
   <data name="ShowUndoButtonInstructions" xml:space="preserve">
-    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk „Cofnij” wyświetlał się pod przyciskiem „Menu”. Po kliknięciu przycisku cofnięty zostanie ostatni ruch wykonany w bieżącej grze.</value>
+    <value>Zaznacz tę opcję, jeśli chcesz, aby przycisk „Cofnij” wyświetlał się u góry aplikacji. Po kliknięciu przycisku cofnięty zostanie ostatni ruch wykonany w bieżącej grze.</value>
   </data>
   <data name="ShowUndoButtonSwitchLabel" xml:space="preserve">
     <value>Pokaż przycisk Cofnij:</value>
