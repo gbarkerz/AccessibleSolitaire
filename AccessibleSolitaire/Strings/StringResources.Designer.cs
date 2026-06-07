@@ -187,7 +187,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessible Solitaire V4.12.
+        ///   Looks up a localized string similar to Accessible Solitaire V5.0.
         /// </summary>
         internal static string AccessibleSolitaireVersion {
             get {
@@ -2321,7 +2321,7 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo.
+        ///   Looks up a localized string similar to Undo move.
         /// </summary>
         internal static string Undo {
             get {

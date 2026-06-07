@@ -137,6 +137,13 @@ namespace Sa11ytaire4All
             MainPage.MainPageSingleton?.QueryRestartGame(true);
         }
 
+        private void UndoMenuItem_Clicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+
+            MainPage.MainPageSingleton?.UndoLastMove();
+        }
+
         private void CloseMenuItem_Clicked(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = false;

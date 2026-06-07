@@ -250,9 +250,11 @@ namespace Sa11ytaire4All
             }
             else // Landscape.
             {
+                var usableHeight = InnerMainGrid.Height - OptionalButtonsContainer.Height;
+
                 if (!IsGameCollectionViewBased())
                 {
-                    vm.CardHeight = (3 * InnerMainGrid.Height) / 13;
+                    vm.CardHeight = (3 * usableHeight) / 13;
 
                     var currentCardWidth = InnerMainGrid.Width /
                                             (currentGameType == SolitaireGameType.Pyramid ? 7 : 10);
@@ -266,7 +268,7 @@ namespace Sa11ytaire4All
                 }
                 else
                 {
-                    vm.CardHeight = (3 * InnerMainGrid.Height) / 13;
+                    vm.CardHeight = (3 * usableHeight) / 13;
 
                     var cardPileCount = GetGameCardPileCount();
 
@@ -474,7 +476,7 @@ namespace Sa11ytaire4All
 
                 if (InnerMainGrid.Height > 0)
                 {
-                    TargetPilesClock.HeightRequest = (7 * InnerMainGrid.Height) / 15;
+                    TargetPilesClock.HeightRequest = (7 * (InnerMainGrid.Height - OptionalButtonsContainer.Height)) / 15;
 
                     ArrangeGrandfathersclockButtons();
                 }

@@ -36,6 +36,17 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
+    <MenuItem x:Name="UndoMenuItem" 
+        Clicked="UndoMenuItem_Clicked"
+        Text="{x:Static resources:Strings.StringResources.Undo}">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                Glyph="&#x21B6;"
+                FontFamily="FA" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
     <MenuItem x:Name="KlondikeSolitaireMenuItem" 
         Clicked="KlondikeSolitaireMenuItem_Clicked"
         IconImageSource="cardbackklondike.png"

@@ -53,6 +53,11 @@ namespace Sa11ytaire4All
 
         private void SetUndoButtonState(bool enabled)
         {
+            if (UndoButton.IsEnabled == enabled)
+            {
+                return;
+            }
+
             UndoButton.Behaviors.Clear();
 
             var behavior = new IconTintColorBehavior

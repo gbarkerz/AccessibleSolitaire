@@ -80,7 +80,7 @@ namespace Sa11ytaire4All
 
             if (currentGameType == SolitaireGameType.Grandfathersclock)
             {
-                TargetPilesClock.HeightRequest = (7 * InnerMainGrid.Height) / 15;
+                TargetPilesClock.HeightRequest = (7 * (InnerMainGrid.Height - OptionalButtonsContainer.Height)) / 15;
 
                 var buttonWidthTotal = 0;
 
@@ -90,7 +90,7 @@ namespace Sa11ytaire4All
                 }
 
                 var clockCardWidth = (InnerMainGrid.Width - buttonWidthTotal) / 8;
-                var clockCardHeight = (2 * 7 * InnerMainGrid.Height) / (1 * 8 * 15);
+                var clockCardHeight = (2 * 7 * (InnerMainGrid.Height - OptionalButtonsContainer.Height)) / (1 * 8 * 15);
 
                 // Account for the margins here.
                 clockCardWidth -= 2;

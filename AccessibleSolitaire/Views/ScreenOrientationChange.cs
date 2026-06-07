@@ -167,11 +167,11 @@ namespace Sa11ytaire4All
 
                 if (currentGameType != SolitaireGameType.Grandfathersclock)
                 {
-                    var row = (currentGameType != SolitaireGameType.Bakersdozen ? 1 : 0);
+                    var row = (currentGameType != SolitaireGameType.Bakersdozen ? 2 : 1);
                     Grid.SetRow(TargetPiles, row);
 
                     Grid.SetColumn(TargetPiles, 2);
-                    Grid.SetColumnSpan(TargetPiles, 2);
+                    Grid.SetColumnSpan(TargetPiles, 1);
 
                     var height = 0;
 
@@ -199,7 +199,7 @@ namespace Sa11ytaire4All
                     }
 
                     if (height > 0)
-                    { 
+                    {
                         NextCardDeck.HeightRequest = height;
 
                         UpturnedCardsGrid.HeightRequest = height;
@@ -233,10 +233,10 @@ namespace Sa11ytaire4All
 
                 Grid.SetColumnSpan(TopCornerPiles, 1);
 
-                Grid.SetRow(TargetPiles, 0);
+                Grid.SetRow(TargetPiles, 1);
                 Grid.SetRowSpan(TargetPiles, 1);
 
-                Grid.SetColumn(TargetPiles, 3);
+                Grid.SetColumn(TargetPiles, 2);
                 Grid.SetColumnSpan(TargetPiles, 1);
             }
         }
@@ -297,7 +297,7 @@ namespace Sa11ytaire4All
 
                     if (InnerMainGrid.Height > 0)
                     {
-                        CardPileGrid.HeightRequest = (2 * InnerMainGrid.Height) / 3;
+                        CardPileGrid.HeightRequest = (2 * (InnerMainGrid.Height - OptionalButtonsContainer.Height)) / 3;
                     }
                 }
                 else
@@ -307,7 +307,7 @@ namespace Sa11ytaire4All
 
                     if (InnerMainGrid.Height > 0)
                     {
-                        CardPileGrid.HeightRequest = InnerMainGrid.Height / 3;
+                        CardPileGrid.HeightRequest = (InnerMainGrid.Height - OptionalButtonsContainer.Height) / 3;
                     }
                 }
             }
