@@ -857,11 +857,13 @@ namespace Sa11ytaire4All
 
             var cardMoved = false;
 
-            if (CardDeckUpturned.Card != null)
+            if (cardButtonClicked.IsFaceUp && (CardDeckUpturned.Card != null))
             {
                 CollectionView? list;
                 var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
-                if (dealtCard != null)
+                
+                // Check the clicked card is face-up.
+                if ((dealtCard != null) && !dealtCard.FaceDown)
                 {
                     // Is the difference between the cards a value of 1 or 12? (A difference of 12 means
                     // that one of the cards is an Ace and one is a King.)

@@ -820,6 +820,8 @@ namespace Sa11ytaire4All
             ClearUndoState();
 
             moveTriPeakCard = triPeakCard;
+
+            SetUndoButtonState(true);
         }
 
         private void UndoTriPeaksMove()
