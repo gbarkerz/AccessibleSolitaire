@@ -24,10 +24,10 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            PerformNextCardAction();
+            PerformNextCardAction(true);
         }
 
-        public void PerformNextCardAction()
+        public void PerformNextCardAction(bool allowUndo)
         { 
             // Barker Todo: Figure out why we get two rapid clicks when invoked by TalkBack.
             var timeSinceMostRecentNextCardClick = DateTime.Now - timeOfMostRecentNextCardClick;
@@ -73,15 +73,18 @@ namespace Sa11ytaire4All
                     soundFilename = (countCardsToTurn > 1 ? "movecards.mp4" : "movecard.mp4");
 
                     // Remember the state of the two related card piles in case we later undo this move.
-                    RememberCardStateForUndo(
-                        true,
-                        false,
-                        -1,
-                        null,
-                        null, // GrandfatherClock clock CardButton
-                        null, // GrandfatherClock clock DealtCard
-                        -1, null,
-                        -1, null);
+                    if (allowUndo)
+                    {
+                        RememberCardStateForUndo(
+                            true,
+                            false,
+                            -1,
+                            null,
+                            null, // GrandfatherClock clock CardButton
+                            null, // GrandfatherClock clock DealtCard
+                            -1, null,
+                            -1, null);
+                    }
 
                     // Turn over each card in turn.
                     for (int i = 0; i < countCardsToTurn; ++i)

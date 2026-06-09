@@ -579,7 +579,7 @@ namespace Sa11ytaire4All
             // For Tripeaks, automatically turn over the top remaining card.
             if (setDealtCardProperties && (currentGameType == SolitaireGameType.Tripeaks))
             {
-                PerformNextCardAction();
+                PerformNextCardAction(false);
             }
 
             // Account for the fourth row in Royal Parade having some spaces.

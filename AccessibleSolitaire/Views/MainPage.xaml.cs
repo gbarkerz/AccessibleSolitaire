@@ -2899,7 +2899,7 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
                     //SentrySdk.CaptureMessage("Accessible Solitaire: Key Down: N", SentryLevel.Info);
 
-                    PerformNextCardAction();
+                    PerformNextCardAction(true);
                     e.Handled = true;
                     break;
 
