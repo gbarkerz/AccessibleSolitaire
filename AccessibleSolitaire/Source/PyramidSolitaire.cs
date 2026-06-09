@@ -724,7 +724,7 @@ namespace Sa11ytaire4All
                                 // Has a card now been revealed? 
                                 SetOnTopStateFollowingMove(dealtCardAlreadySelected, false, false);
 
-                                RefreshCardButtonMofNInRow(cardAlreadySelected);
+                                RefreshCardButtonMofNInRow(cardAlreadySelected, false);
 
                                 // Always null out this card after the call to refresh the accessible name.
                                 var dealtCardAlreadySelectedByIndex = vm.DealtCards[dealtCardAlreadySelected.PyramidRow]
@@ -788,7 +788,7 @@ namespace Sa11ytaire4All
                     // Has a card now been revealed? 
                     SetOnTopStateFollowingMove(dealtCard, true, false);
 
-                    RefreshCardButtonMofNInRow(cardButtonClicked);
+                    RefreshCardButtonMofNInRow(cardButtonClicked, false);
 
                     var dealtCardClicked = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow];
                     if (dealtCardClicked != null)
@@ -875,7 +875,7 @@ namespace Sa11ytaire4All
                         // Has a card now been revealed? 
                         SetOnTopStateFollowingMove(dealtCard, true, false);
 
-                        RefreshCardButtonMofNInRow(cardButtonClicked);
+                        RefreshCardButtonMofNInRow(cardButtonClicked, false);
 
                         var dealtCardSource = vm.DealtCards[dealtCard.PyramidRow][dealtCard.PyramidCardOriginalIndexInRow];
                         if (dealtCardSource != null)
@@ -1016,7 +1016,7 @@ namespace Sa11ytaire4All
                                     // Has a card now been revealed? 
                                     SetOnTopStateFollowingMove(dealtCardAlreadySelected, false, false);
 
-                                    RefreshCardButtonMofNInRow(cardAlreadySelected);
+                                    RefreshCardButtonMofNInRow(cardAlreadySelected, false);
 
                                     dealtCardAlreadySelected.Card = null;
 
@@ -1231,7 +1231,7 @@ namespace Sa11ytaire4All
         }
 
         // Adjust the M of N for all cards on a row.
-        private void RefreshCardButtonMofNInRow(CardButton cardButton)
+        private void RefreshCardButtonMofNInRow(CardButton cardButton, bool isUndo)
         {
             if (cardButton.Card == null)
             {
@@ -1269,7 +1269,14 @@ namespace Sa11ytaire4All
                     if ((cardButtonPyramid != null) && (cardButtonPyramid.Card != null) &&
                         (cardButtonPyramid.Card == cardButton.Card))
                     {
-                        --dealtCard.PyramidCardCurrentCountOfCardsOnRow;
+                        if (!isUndo)
+                        {
+                            --dealtCard.PyramidCardCurrentCountOfCardsOnRow;
+                        }
+                        else
+                        {
+                            ++dealtCard.PyramidCardCurrentCountOfCardsOnRow;
+                        }
 
                         var dealtCardsInRow = vm.DealtCards[dealtCard.PyramidRow];
                         if (dealtCardsInRow != null)
@@ -1281,7 +1288,14 @@ namespace Sa11ytaire4All
                                 {
                                     if (j > dealtCard.PyramidCardOriginalIndexInRow)
                                     {
-                                        --dealtCardInRow.PyramidCardCurrentIndexInRow;
+                                        if (!isUndo)
+                                        {
+                                            --dealtCardInRow.PyramidCardCurrentIndexInRow;
+                                        }
+                                        else
+                                        {
+                                            ++dealtCardInRow.PyramidCardCurrentIndexInRow;
+                                        }
                                     }
 
                                     dealtCardInRow.PyramidCardCurrentCountOfCardsOnRow = dealtCard.PyramidCardCurrentCountOfCardsOnRow;

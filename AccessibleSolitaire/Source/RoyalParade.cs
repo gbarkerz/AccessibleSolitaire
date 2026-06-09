@@ -830,12 +830,8 @@ namespace Sa11ytaire4All
                                     true,
                                     cardButtonClicked,
                                     dealtCardClicked,
-                                    dealtCardClicked.PyramidRow,
-                                    dealtCardClicked.PyramidCardOriginalIndexInRow,
                                     cardAlreadySelected,
-                                    dealtCardAlreadySelected,
-                                    dealtCardAlreadySelected.PyramidRow,
-                                    dealtCardAlreadySelected.PyramidCardOriginalIndexInRow);
+                                    dealtCardAlreadySelected);
 
                                 announcement = MainPage.MyGetString("Moved") + " " +
                                                 cardAlreadySelected.Card.GetCardAccessibleName() + " " +
@@ -1104,12 +1100,8 @@ namespace Sa11ytaire4All
                     true,
                     cardButton,
                     dealtCard,
-                    dealtCard.PyramidRow,
-                    dealtCard.PyramidCardOriginalIndexInRow,
                     null,
-                    null,
-                    -1,
-                    -1);
+                    null);
 
                 dealtCard.Card = null;
                 dealtCard.StackDetails = "";
