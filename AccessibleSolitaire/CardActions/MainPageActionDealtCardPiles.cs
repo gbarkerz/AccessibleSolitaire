@@ -519,7 +519,7 @@ namespace Sa11ytaire4All
                 null,
                 null, // GrandfatherClock clock CardButton
                 null, // GrandfatherClock clock DealtCard
-                movingCardIndex, 
+                listKingIndex, 
                 itemsRemoved, 
                 listSelectedIndex, 
                 itemsAdded);
