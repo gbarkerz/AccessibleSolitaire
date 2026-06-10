@@ -381,8 +381,24 @@ namespace Sa11ytaire4All
             undoPyramidCardButtonClicked = cardButtonClicked;
             undoPyramidDealtCardClicked = dealtCardClicked;
 
+            if (dealtCardClicked != null)
+            {
+                undoDealtCardClickedPyramidCardCurrentCountOfCardsOnRow = dealtCardClicked.PyramidCardCurrentCountOfCardsOnRow;
+                undoDealtCardClickedPyramidRow = dealtCardClicked.PyramidRow;
+                undoDealtCardClickedPyramidCardOriginalIndexInRow = dealtCardClicked.PyramidCardOriginalIndexInRow;
+                undoDealtCardClickedPyramidCardCurrentIndexInRow = dealtCardClicked.PyramidCardCurrentIndexInRow;
+            }
+
             undoPyramidCardButtonAlreadySelected = cardAlreadySelected;
             undoPyramidDealtCardAlreadySelected = dealtCardAlreadySelected;
+
+            if (dealtCardAlreadySelected != null)
+            {
+                undoDealtCardAlreadySelectedPyramidCardCurrentCountOfCardsOnRow = dealtCardAlreadySelected.PyramidCardCurrentCountOfCardsOnRow;
+                undoDealtCardAlreadySelectedPyramidRow = dealtCardAlreadySelected.PyramidRow;
+                undoDealtCardAlreadySelectedPyramidCardOriginalIndexInRow = dealtCardAlreadySelected.PyramidCardOriginalIndexInRow;
+                undoDealtCardAlreadySelectedPyramidCardCurrentIndexInRow = dealtCardAlreadySelected.PyramidCardCurrentIndexInRow;
+            }
 
             SetUndoButtonState(true);
         }
@@ -928,12 +944,32 @@ namespace Sa11ytaire4All
 
             undoPyramidCardButtonAlreadySelected?.IsVisible = true;
 
-            undoPyramidDealtCardClicked?.Card = undoPyramidCardButtonClicked?.Card;
-            undoPyramidDealtCardAlreadySelected?.Card = undoPyramidCardButtonAlreadySelected?.Card;
+            if (undoPyramidDealtCardClicked != null)
+            {
+                undoPyramidDealtCardClicked.Card = undoPyramidCardButtonClicked?.Card;
+
+                undoPyramidDealtCardClicked.PyramidRow = undoDealtCardClickedPyramidRow;
+                undoPyramidDealtCardClicked.PyramidCardOriginalIndexInRow = undoDealtCardClickedPyramidCardOriginalIndexInRow;
+                undoPyramidDealtCardClicked.PyramidCardCurrentIndexInRow = undoDealtCardClickedPyramidCardCurrentIndexInRow;
+            }
+
+            if (undoPyramidDealtCardAlreadySelected != null)
+            {
+                undoPyramidDealtCardAlreadySelected.Card = undoPyramidCardButtonAlreadySelected?.Card;
+
+                undoPyramidDealtCardAlreadySelected.PyramidRow = undoDealtCardAlreadySelectedPyramidRow;
+                undoPyramidDealtCardAlreadySelected.PyramidCardOriginalIndexInRow = undoDealtCardAlreadySelectedPyramidCardOriginalIndexInRow;
+                undoPyramidDealtCardAlreadySelected.PyramidCardCurrentIndexInRow = undoDealtCardAlreadySelectedPyramidCardCurrentIndexInRow;
+            }
 
             if (undoPyramidCardButtonClicked != null)
             {
                 RefreshCardButtonMofNInRow(undoPyramidCardButtonClicked, true);
+            }
+
+            if (undoPyramidCardButtonAlreadySelected != null)
+            {
+                RefreshCardButtonMofNInRow(undoPyramidCardButtonAlreadySelected, true);
             }
         }
 
