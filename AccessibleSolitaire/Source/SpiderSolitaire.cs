@@ -47,7 +47,9 @@ namespace Sa11ytaire4All
                 return;
             }
 
-            RememberSpiderCardStateForUndoNextCards();
+            var undoMessage = MainPage.MyGetString("SpiderDealtTenCards");
+
+            RememberSpiderCardStateForUndoNextCards(undoMessage);
 
             var announceDealMessage = true;
 
@@ -256,7 +258,7 @@ namespace Sa11ytaire4All
                         }
                     }
 
-                    RememberSpiderDiscardedSequenceCount();
+                    RememberSpiderDiscardedSequenceCount("");
 
                     ++vm.SpiderDiscardedSequenceCount;
 

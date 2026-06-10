@@ -639,7 +639,14 @@ namespace Sa11ytaire4All
                     discardMessage = MainPage.MyGetString("Discarded");
                     discardMessage += " " + upturnedCardAccessibleName;
 
-                    RememberPyramidCardDeckUpturnedForUndo(true, true, CardDeckUpturned);
+                    var undoMessage = MainPage.MyGetString("Discarded") + " " +
+                                        upturnedCardAccessibleName;
+
+                    RememberPyramidCardDeckUpturnedForUndo(
+                        true, 
+                        true, 
+                        CardDeckUpturned,
+                        undoMessage);
 
                     clearUndoState = false;
 
@@ -663,7 +670,14 @@ namespace Sa11ytaire4All
                                                                         out obscuredHigherCardAccessibleName);
                     if (removeCard)
                     {
-                        RememberPyramidCardDeckUpturnedForUndo(clearUndoState, false, CardDeckUpturnedObscuredHigher);
+                        var undoMessage = MainPage.MyGetString("Discard") + " " + 
+                                            obscuredHigherCardAccessibleName;
+
+                        RememberPyramidCardDeckUpturnedForUndo(
+                            clearUndoState, 
+                            false, 
+                            CardDeckUpturnedObscuredHigher,
+                            undoMessage);
 
                         clearUndoState = false;
 
@@ -767,12 +781,16 @@ namespace Sa11ytaire4All
                 var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
                 if (dealtCard != null)
                 {
+                    var undoMessage = MainPage.MyGetString("Discard") + " " + 
+                                        dealtCard.AccessibleNameWithoutSelectionAndMofN;
+
                     RememberPyramidCardStateForUndo(
                         clearUndoState,
                         cardButtonClicked, 
                         dealtCard, 
                         cardAlreadySelected, 
-                        dealtCardAlreadySelected);
+                        dealtCardAlreadySelected,
+                        undoMessage);
 
                     if (string.IsNullOrEmpty(discardMessage))
                     {
@@ -823,7 +841,7 @@ namespace Sa11ytaire4All
                 // Barker Todo: Figure out how to announce the results of the operation without
                 // the announcement conflicting with the default VoiceOver announcement relating
                 // to focus moving.
-                //MakeDelayedScreenReaderAnnouncementWithDelayTime(discardMessage, true, 2000);
+                MakeDelayedScreenReaderAnnouncement(discardMessage, true);
 
                 // Barker Todo: Still announce the available moves if necessary.
                 if (automaticallyAnnounceMoves)
@@ -870,7 +888,13 @@ namespace Sa11ytaire4All
                     var difference = Math.Abs(CardDeckUpturned.Card.Rank - cardButtonClicked.Card.Rank);
                     if ((difference == 1) || (difference == 12))
                     {
-                        RememberTriPeaksStateForUndo(dealtCard);
+                        var discardMessage = MainPage.MyGetString("Discarded") + " " +
+                                                cardButtonClicked.Card.GetCardAccessibleName();
+
+                        var undoMessage = MainPage.MyGetString("Discard") + " " +
+                                                cardButtonClicked.Card.GetCardAccessibleName();
+
+                        RememberTriPeaksStateForUndo(dealtCard, undoMessage);
 
                         // Has a card now been revealed? 
                         SetOnTopStateFollowingMove(dealtCard, true, false);
@@ -891,7 +915,13 @@ namespace Sa11ytaire4All
 
                         RefreshUpperCards();
 
+
                         // Barker Todo: Figure out how to announce the results of the operation without
+                        // the announcement conflicting with the default VoiceOver announcement relating
+                        // to focus moving.
+                        MakeDelayedScreenReaderAnnouncement(discardMessage, true);
+
+                        // Barker Todo: Still announce the available moves if necessary.
                         if (automaticallyAnnounceMoves)
                         {
                             var availableMoveAnnouncement = AnnounceAvailableMoves(false);
@@ -934,7 +964,13 @@ namespace Sa11ytaire4All
                     discardMessage = MainPage.MyGetString("Discarded") + " " +
                                         cardDeckUpturned.Card.GetCardAccessibleName();
 
-                    RememberPyramidCardRemoveKing(cardDeckUpturned == CardDeckUpturned, cardDeckUpturned);
+                    var undoMessage = MainPage.MyGetString("Discard") + " " +
+                                        cardDeckUpturned.Card.GetCardAccessibleName();
+
+                    RememberPyramidCardRemoveKing(
+                        cardDeckUpturned == CardDeckUpturned, 
+                        cardDeckUpturned,
+                        undoMessage);
 
                     // Move the King to the discard pile.
                     RemoveCardButtonCard(_deckUpturned, cardDeckUpturned.Card);
@@ -1004,14 +1040,19 @@ namespace Sa11ytaire4All
                                     RememberPyramidCardDeckUpturnedForUndo(
                                         true,
                                         CardDeckUpturned == cardDeckUpturned,
-                                        cardDeckUpturned);
+                                        cardDeckUpturned,
+                                        "");
+
+                                    var undoMessage = MainPage.MyGetString("Discard") + " " +
+                                                        upturnedCardAccessibleName;
 
                                     RememberPyramidCardStateForUndo(
                                         false, 
                                         null, 
                                         null, 
                                         cardAlreadySelected, 
-                                        dealtCardAlreadySelected);
+                                        dealtCardAlreadySelected,
+                                        undoMessage);
 
                                     // Has a card now been revealed? 
                                     SetOnTopStateFollowingMove(dealtCardAlreadySelected, false, false);
@@ -1065,7 +1106,7 @@ namespace Sa11ytaire4All
                     // Barker Todo: Figure out how to announce the results of the operation without
                     // the announcement conflicting with the default VoiceOver announcement relating
                     // to focus moving.
-                    //MakeDelayedScreenReaderAnnouncement(discardMessage, true);
+                    MakeDelayedScreenReaderAnnouncement(discardMessage, true);
 
                     // Barker Todo: Still announce the available moves if necessary.
                     if (automaticallyAnnounceMoves)
@@ -1140,7 +1181,21 @@ namespace Sa11ytaire4All
 
                 if (CardDeckUpturned.Card.Rank + CardDeckUpturnedObscuredHigher.Card.Rank == 13)
                 {
-                    RememberPyramidCardUpturnedAndObscuredForUndo(CardDeckUpturned.Card, CardDeckUpturnedObscuredHigher.Card);
+                    var discardMessage = MainPage.MyGetString("Discarded") + " " +
+                                            CardDeckUpturned.Card.GetCardAccessibleName() + " " + 
+                                            MainPage.MyGetString("And") + " " +
+                                            CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName();
+
+                    var undoMessage = MainPage.MyGetString("Discard") + " " +
+                                        CardDeckUpturned.Card.GetCardAccessibleName() + " " +
+                                        MainPage.MyGetString("And") + " " +
+                                        CardDeckUpturnedObscuredHigher.Card.GetCardAccessibleName();
+
+                    // Barker: Where's the move announcement here?
+                    RememberPyramidCardUpturnedAndObscuredForUndo(
+                        CardDeckUpturned.Card, 
+                        CardDeckUpturnedObscuredHigher.Card,
+                        undoMessage);
 
                     RemoveCardButtonCard(_deckUpturned, CardDeckUpturned.Card);
                     RemoveCardButtonCard(_deckUpturned, CardDeckUpturnedObscuredHigher.Card);
@@ -1162,6 +1217,8 @@ namespace Sa11ytaire4All
                         CardDeckUpturnedObscuredHigher.IsToggled = false;
                         CardDeckUpturnedObscuredHigher.RefreshVisuals();
                     }
+
+                    MakeDelayedScreenReaderAnnouncement(discardMessage, true);
 
                     PlaySound(true);
                 }

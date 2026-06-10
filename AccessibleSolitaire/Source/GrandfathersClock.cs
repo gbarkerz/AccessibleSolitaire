@@ -298,6 +298,9 @@ namespace Sa11ytaire4All
                     var dealtCard = FindDealtCardFromCard(cardButton.Card, false, out list);
                     if (dealtCard != null)
                     {
+                        var undoMessage = MainPage.MyGetString("Move") + " " +
+                                            cardAlreadySelected.Card.GetCardAccessibleName();
+
                         RememberCardStateForUndo(
                             false,
                             false,
@@ -308,7 +311,8 @@ namespace Sa11ytaire4All
                             listAlreadySelectedIndex,
                             itemsRemoved,
                             -1,
-                            null);
+                            null,
+                            undoMessage);
 
                         dealtCard.Card = cardAlreadySelected.Card;
                         dealtCard.StackDetails = cardButton.StackDetails;

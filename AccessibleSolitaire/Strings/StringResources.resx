@@ -920,6 +920,18 @@ S: Move the selected card to a target card pile if possible.</value>
     <value>Show Undo button:</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo move</value>
+    <value>Undo</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>move</value>
+  </data>
+  <data name="TurnOverNextCards" xml:space="preserve">
+    <value>Turn over next cards</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>discard</value>
+  </data>
+  <data name="Undone" xml:space="preserve">
+    <value>Undone</value>
   </data>
 </root>

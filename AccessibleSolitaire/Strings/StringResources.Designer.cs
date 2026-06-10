@@ -889,6 +889,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to discard.
+        /// </summary>
+        internal static string Discard {
+            get {
+                return ResourceManager.GetString("Discard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discarded.
         /// </summary>
         internal static string Discarded {
@@ -1398,6 +1407,15 @@ namespace Sa11ytaire4All.Strings {
         internal static string MoreCardsAreAvailable {
             get {
                 return ResourceManager.GetString("MoreCardsAreAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to move.
+        /// </summary>
+        internal static string Move {
+            get {
+                return ResourceManager.GetString("Move", resourceCulture);
             }
         }
         
@@ -2321,11 +2339,29 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo move.
+        ///   Looks up a localized string similar to Turn over next cards.
+        /// </summary>
+        internal static string TurnOverNextCards {
+            get {
+                return ResourceManager.GetString("TurnOverNextCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo.
         /// </summary>
         internal static string Undo {
             get {
                 return ResourceManager.GetString("Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undone.
+        /// </summary>
+        internal static string Undone {
+            get {
+                return ResourceManager.GetString("Undone", resourceCulture);
             }
         }
         

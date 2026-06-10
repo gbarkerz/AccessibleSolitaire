@@ -210,6 +210,9 @@ namespace Sa11ytaire4All
 
                         var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
 
+                        var undoMessage = MainPage.MyGetString("Move") + " " +
+                                            cardUpturned.Card.GetCardAccessibleName();
+
                         // Remember the state of the two related card piles in case we later undo this move.
                         RememberCardStateForUndo(
                             false,
@@ -219,7 +222,9 @@ namespace Sa11ytaire4All
                             null, // GrandfatherClock clock CardButton
                             null, // GrandfatherClock clock DealtCard
                             -1, null, 
-                            listSelectedIndex, itemsAdded);
+                            listSelectedIndex, 
+                            itemsAdded,
+                            undoMessage);
 
                         itemsAdded.Add(cardUpturned);
 
@@ -346,19 +351,6 @@ namespace Sa11ytaire4All
 
                     var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelected);
 
-                    // Remember the state of the two related card piles in case we later undo this move.
-                    RememberCardStateForUndo(
-                        false,
-                        true,
-                        -1, // Target pile index.
-                        null,
-                        null, // GrandfatherClock clock CardButton
-                        null, // GrandfatherClock clock DealtCard
-                        -1, null,
-                        listSelectedIndex, itemsAdded);
-
-                    itemsAdded.RemoveAt(0);
-
                     // Add a new card to add to the dealt card pile.
                     cardMoving = new DealtCard();
                     cardMoving.CardState = CardState.FaceUp;
@@ -368,6 +360,24 @@ namespace Sa11ytaire4All
                     cardAddedToPile.CardState = CardState.FaceUp;
                     cardAddedToPile.Card = cardMoving.Card;
                     cardAddedToPile.IsLastCardInPile = true;
+
+                    var undoMessage = MainPage.MyGetString("Move") + " " +
+                                        cardAddedToPile.Card.GetCardAccessibleName();
+
+                    // Remember the state of the two related card piles in case we later undo this move.
+                    RememberCardStateForUndo(
+                        false,
+                        true,
+                        -1, // Target pile index.
+                        null,
+                        null, // GrandfatherClock clock CardButton
+                        null, // GrandfatherClock clock DealtCard
+                        -1, null,
+                        listSelectedIndex, 
+                        itemsAdded,
+                        undoMessage);
+
+                    itemsAdded.RemoveAt(0);
 
                     itemsAdded.Add(cardAddedToPile);
 
@@ -511,6 +521,9 @@ namespace Sa11ytaire4All
 
             var listSelectedIndex = GetDealtPileIndexFromCollectionView(listEmpty);
 
+            var undoMessage = MainPage.MyGetString("Move") + " " +
+                                cardKing.Card.GetCardAccessibleName();
+
             // Remember the state of the two related card piles in case we later undo this move.
             RememberCardStateForUndo(
                 false,
@@ -522,7 +535,8 @@ namespace Sa11ytaire4All
                 listKingIndex, 
                 itemsRemoved, 
                 listSelectedIndex, 
-                itemsAdded);
+                itemsAdded,
+                undoMessage);
 
             // Remove the empty card from the dealt card pile.
             itemsAdded.RemoveAt(0);
@@ -685,6 +699,9 @@ namespace Sa11ytaire4All
 
                             var listSelectedIndex = GetDealtPileIndexFromCollectionView(listDealtCardPile);
 
+                            var undoMessage = MainPage.MyGetString("Move") + " " +
+                                                cardAbove.Card.GetCardAccessibleName();
+
                             RememberCardStateForUndo(
                                 false,
                                 false,
@@ -692,8 +709,11 @@ namespace Sa11ytaire4All
                                 cardAbove.Card,
                                 null, // GrandfatherClock clock CardButton
                                 null, // GrandfatherClock clock DealtCard
-                                -1, null,
-                                listSelectedIndex, itemsAdded);
+                                -1, 
+                                null,
+                                listSelectedIndex, 
+                                itemsAdded,
+                                undoMessage);
 
                             // Move the card from the TargetPile to this CardPile list.
                             RemoveDealtCardFromDealtCardList(listTargetPile, cardAbove);
@@ -1019,6 +1039,9 @@ namespace Sa11ytaire4All
 
                 var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
 
+                var undoMessage = MainPage.MyGetString("Move") + " " +
+                                    cardAbove.Card.GetCardAccessibleName();
+
                 // Remember the state of the two related card piles in case we later undo this move.
                 RememberCardStateForUndo(
                     false,
@@ -1027,8 +1050,11 @@ namespace Sa11ytaire4All
                     null,
                     null, // GrandfatherClock clock CardButton
                     null, // GrandfatherClock clock DealtCard
-                    index, itemsRemoved, 
-                    listSelectedIndex, itemsAdded);
+                    index, 
+                    itemsRemoved, 
+                    listSelectedIndex, 
+                    itemsAdded,
+                    undoMessage);
 
                 var sourceArrayCount = sourceArray.Count;
                 var itemsAddedCurrentCount = itemsAdded.Count;
@@ -1213,6 +1239,9 @@ namespace Sa11ytaire4All
                     newCard.Rank = cardAbove.Card.Rank;
                     newCard.Suit = cardAbove.Card.Suit;
 
+                    var undoMessage = MyGetString("Move") + " " +
+                                        cardAbove.Card.GetCardAccessibleName();
+
                     // Remember the state of the two related card piles in case we later undo this move.
                     RememberCardStateForUndo(
                         false,
@@ -1221,8 +1250,11 @@ namespace Sa11ytaire4All
                         null,
                         null, // GrandfatherClock clock CardButton
                         null, // GrandfatherClock clock DealtCard
-                        -1, null,
-                        listAlreadySelectedIndex, items);
+                        -1, 
+                        null,
+                        listAlreadySelectedIndex, 
+                        items,
+                        undoMessage);
 
                     _targetPiles[targetPileIndex].Add(newCard);
 
@@ -1296,6 +1328,9 @@ namespace Sa11ytaire4All
                     if ((cardBelow.Suit == cardAbove.Card.Suit) &&
                         (cardBelow.Rank == cardAbove.Card.Rank - 1))
                     {
+                        var undoMessage = MainPage.MyGetString("Move") + " " +
+                                            cardAbove.Card.GetCardAccessibleName();
+
                         // Remember the state of the two related card piles in case we later undo this move.
                         RememberCardStateForUndo(
                             false,
@@ -1304,8 +1339,11 @@ namespace Sa11ytaire4All
                             null,
                             null, // GrandfatherClock clock CardButton
                             null, // GrandfatherClock clock DealtCard
-                            -1, null,
-                            listAlreadySelectedIndex, items);
+                            -1, 
+                            null,
+                            listAlreadySelectedIndex, 
+                            items,
+                            undoMessage);
 
                         // Create a new Card object for use in the target pile.
                         Card newCard = new Card();

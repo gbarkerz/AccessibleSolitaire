@@ -919,6 +919,18 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
     <value>Pokaż przycisk Cofnij:</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Cofnij ruch</value>
+    <value>Cofnij</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>przenosić</value>
+  </data>
+  <data name="TurnOverNextCards" xml:space="preserve">
+    <value>Odwracaj kolejne karty</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>odrzucić</value>
+  </data>
+  <data name="Undone" xml:space="preserve">
+    <value>Nie spełniony</value>
   </data>
 </root>

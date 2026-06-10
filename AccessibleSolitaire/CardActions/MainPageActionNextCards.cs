@@ -72,6 +72,8 @@ namespace Sa11ytaire4All
 
                     soundFilename = (countCardsToTurn > 1 ? "movecards.mp4" : "movecard.mp4");
 
+                    var undoMessage = MyGetString("TurnOverNextCards");
+
                     // Remember the state of the two related card piles in case we later undo this move.
                     if (allowUndo)
                     {
@@ -82,8 +84,11 @@ namespace Sa11ytaire4All
                             null,
                             null, // GrandfatherClock clock CardButton
                             null, // GrandfatherClock clock DealtCard
-                            -1, null,
-                            -1, null);
+                            -1, 
+                            null,
+                            -1, 
+                            null,
+                            undoMessage);
                     }
 
                     // Turn over each card in turn.

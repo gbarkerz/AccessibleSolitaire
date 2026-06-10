@@ -826,12 +826,16 @@ namespace Sa11ytaire4All
 
                                 // Ok, there's no going back on the move now.
 
+                                var undoMessage = MainPage.MyGetString("Move") + " " +
+                                                    cardAlreadySelected.Card.GetCardAccessibleName();
+
                                 RememberRoyalParadeCardStateForUndo(
                                     true,
                                     cardButtonClicked,
                                     dealtCardClicked,
                                     cardAlreadySelected,
-                                    dealtCardAlreadySelected);
+                                    dealtCardAlreadySelected,
+                                    undoMessage);
 
                                 announcement = MainPage.MyGetString("Moved") + " " +
                                                 cardAlreadySelected.Card.GetCardAccessibleName() + " " +
@@ -1096,12 +1100,16 @@ namespace Sa11ytaire4All
 
                 cardButton.IsToggled = false;
 
+                var undoMessage = MainPage.MyGetString("Discard") + " " +
+                                    dealtCard.AccessibleNameWithoutSelectionAndMofN;
+
                 RememberRoyalParadeCardStateForUndo(
                     true,
                     cardButton,
                     dealtCard,
                     null,
-                    null);
+                    null,
+                    undoMessage);
 
                 dealtCard.Card = null;
                 dealtCard.StackDetails = "";
@@ -1140,7 +1148,9 @@ namespace Sa11ytaire4All
 
             ClearPyramidCardsSelection();
 
-            RememberRoyalParadeNextCardAction();
+            var undoMessage = MainPage.MyGetString("RoyalparadeDealtEightCards");
+
+            RememberRoyalParadeNextCardAction(undoMessage);
 
             // There should always be a multiple of 8 cards left.
 

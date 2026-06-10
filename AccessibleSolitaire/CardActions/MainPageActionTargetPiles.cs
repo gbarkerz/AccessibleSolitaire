@@ -347,6 +347,9 @@ namespace Sa11ytaire4All
 
                 if (moveCard)
                 {
+                    var undoMessage = MainPage.MyGetString("Move") + " " +
+                                        cardAbove.Card.GetCardAccessibleName();
+
                     // Remember the state of the two related card piles in case we later undo this move.
                     RememberCardStateForUndo(
                         false,
@@ -355,8 +358,11 @@ namespace Sa11ytaire4All
                         null,
                         null, // GrandfatherClock clock CardButton
                         null, // GrandfatherClock clock DealtCard
-                        -1, null,
-                        -1, null);
+                        -1, 
+                        null,
+                        -1, 
+                        null,
+                        undoMessage);
 
                     // Move the upturned card to the Target Pile.
                     _targetPiles[targetPileIndex].Add(cardAbove.Card);

@@ -57,6 +57,8 @@ namespace Sa11ytaire4All
 
         private DealtCard? moveTriPeakCard = null;
 
+        private string undoAnnouncementMessage = "";
+
         private void SetUndoButtonState(bool enabled)
         {
             if (UndoButton.IsEnabled == enabled)
@@ -128,6 +130,24 @@ namespace Sa11ytaire4All
             undoCardButtonClicked = null;
             undoCardButtonAlreadySelected = null;
             undoRoyalParadeNextCardAction = false;
+
+            undoAnnouncementMessage = "";
+        }
+
+        private void RefreshUndoMessage(string undoMessage)
+        {
+            if (!String.IsNullOrEmpty(undoMessage))
+            {
+                undoAnnouncementMessage = undoMessage;
+
+                SemanticProperties.SetDescription(UndoButton,
+                    MyGetString("Undo") + " " + undoAnnouncementMessage);
+            }
+            else
+            {
+                SemanticProperties.SetDescription(UndoButton,
+                    MyGetString("Undo"));
+            }
         }
 
         private void RememberCardStateForUndo(bool toUpturnedPile,
@@ -139,9 +159,12 @@ namespace Sa11ytaire4All
                                               int indexSource,
                                               ObservableCollection<DealtCard?>? itemsMoveSource,
                                               int indexDestination,
-                                              ObservableCollection<DealtCard?>? itemsMoveDestination)
+                                              ObservableCollection<DealtCard?>? itemsMoveDestination,
+                                              string undoMessage)
         {
             ClearUndoState();
+
+            RefreshUndoMessage(undoMessage);
 
             // Check the upturned cards.
 
@@ -232,9 +255,11 @@ namespace Sa11ytaire4All
             SetUndoButtonState(true);
         }
 
-        private void RememberSpiderCardStateForUndoNextCards()
+        private void RememberSpiderCardStateForUndoNextCards(string undoMessage)
         {
             ClearUndoState();
+
+            RefreshUndoMessage(undoMessage);
 
             undoSpiderNextCardsAction = true;
 
@@ -248,12 +273,15 @@ namespace Sa11ytaire4All
             CardButton? cardButtonClicked,
             DealtCard? dealtCardClicked,
             CardButton? cardButtonAlreadySelected,
-            DealtCard? dealtCardAlreadySelected)
+            DealtCard? dealtCardAlreadySelected,
+            string undoMessage)
         {
             if (clearUndoState)
             {
                 ClearUndoState();
             }
+
+            RefreshUndoMessage(undoMessage);
 
             int dealtCardAlreadySelectedPyramidRow = -1;
             int dealtCardAlreadySelectedPyramidCardOriginalIndexInRow = -1;
@@ -313,18 +341,22 @@ namespace Sa11ytaire4All
             SetUndoButtonState(true);
         }
 
-        private void RememberRoyalParadeNextCardAction()
+        private void RememberRoyalParadeNextCardAction(string undoMessage)
         {
             ClearUndoState();
+
+            RefreshUndoMessage(undoMessage);
 
             undoRoyalParadeNextCardAction = true;
 
             SetUndoButtonState(true);
         }
 
-        private void RememberTriPeaksStateForUndo(DealtCard? triPeakCard)
+        private void RememberTriPeaksStateForUndo(DealtCard? triPeakCard, string undoMessage)
         {
             ClearUndoState();
+
+            RefreshUndoMessage(undoMessage);
 
             moveTriPeakCard = triPeakCard;
 
@@ -336,12 +368,15 @@ namespace Sa11ytaire4All
             CardButton? cardButtonClicked,
             DealtCard? dealtCardClicked,
             CardButton? cardAlreadySelected,
-            DealtCard? dealtCardAlreadySelected)
+            DealtCard? dealtCardAlreadySelected,
+            string undoMessage)
         {
             if (clearUndoState)
             {
                 ClearUndoState();
             }
+
+            RefreshUndoMessage(undoMessage);
 
             undoPyramidCardButtonClicked = cardButtonClicked;
             undoPyramidDealtCardClicked = dealtCardClicked;
@@ -355,12 +390,15 @@ namespace Sa11ytaire4All
         private void RememberPyramidCardDeckUpturnedForUndo(
             bool clearUndoState,
             bool isUpturnedPile, 
-            CardButton cardDeckUpturned)
+            CardButton cardDeckUpturned,
+            string undoMessage)
         {
             if (clearUndoState)
             {
                 ClearUndoState();
             }
+
+            RefreshUndoMessage(undoMessage);
 
             if (cardDeckUpturned.Card != null)
             {
@@ -374,9 +412,13 @@ namespace Sa11ytaire4All
             SetUndoButtonState(true);
         }
 
-        private void RememberPyramidCardRemoveKing(bool isUpturnedPile, CardButton cardDeckUpturned)
+        private void RememberPyramidCardRemoveKing(bool isUpturnedPile, 
+                                                   CardButton cardDeckUpturned,
+                                                   string undoMessage)
         {
             ClearUndoState();
+
+            RefreshUndoMessage(undoMessage);
 
             undoRemoveFromUpturnedPile = isUpturnedPile;
 
@@ -386,9 +428,13 @@ namespace Sa11ytaire4All
             SetUndoButtonState(true);
         }
 
-        private void RememberPyramidCardUpturnedAndObscuredForUndo(Card? cardUpturned, Card? cardObscuredHigher)
+        private void RememberPyramidCardUpturnedAndObscuredForUndo(Card? cardUpturned, 
+                                                                   Card? cardObscuredHigher,
+                                                                   string undoMessage)
         {
             ClearUndoState();
+
+            RefreshUndoMessage(undoMessage);
 
             undoPyramidCardUpturned = cardUpturned;
             undoPyramidCardObscuredHigher = cardObscuredHigher;
@@ -396,13 +442,15 @@ namespace Sa11ytaire4All
             SetUndoButtonState(true);
         }
 
-        private void RememberSpiderDiscardedSequenceCount()
+        private void RememberSpiderDiscardedSequenceCount(string undoMessage)
         {
             var vm = this.BindingContext as DealtCardViewModel;
             if ((vm == null) || (vm.DealtCards == null))
             {
                 return;
             }
+
+            RefreshUndoMessage(undoMessage);
 
             undoSpiderDiscardedSequenceCount = vm.SpiderDiscardedSequenceCount;
 
@@ -472,38 +520,39 @@ namespace Sa11ytaire4All
             if (moveTargetPileIndex >= 0)
             {
                 var countTargetCards = _targetPiles[moveTargetPileIndex].Count;
-                if (countTargetCards > 0)
+
+                if (moveTargetPileCard == null)
                 {
-                    if (moveTargetPileCard == null)
+                    if (countTargetCards > 0)
                     {
                         _targetPiles[moveTargetPileIndex].RemoveAt(countTargetCards - 1);
 
                         --countTargetCards;
                     }
-                    else
-                    {
-                        _targetPiles[moveTargetPileIndex].Add(moveTargetPileCard);
+                }
+                else
+                {
+                    _targetPiles[moveTargetPileIndex].Add(moveTargetPileCard);
 
-                        ++countTargetCards;
-                    }
+                    ++countTargetCards;
+                }
 
-                    var newTopCard = (countTargetCards > 0 ? _targetPiles[moveTargetPileIndex][countTargetCards - 1] : null);
+                var newTopCard = (countTargetCards > 0 ? _targetPiles[moveTargetPileIndex][countTargetCards - 1] : null);
 
-                    switch (moveTargetPileIndex)
-                    {
-                        case 0:
-                            TargetPileC.Card = newTopCard;
-                            break;
-                        case 1:
-                            TargetPileD.Card = newTopCard;
-                            break;
-                        case 2:
-                            TargetPileH.Card = newTopCard;
-                            break;
-                        case 3:
-                            TargetPileS.Card = newTopCard;
-                            break;
-                    }
+                switch (moveTargetPileIndex)
+                {
+                    case 0:
+                        TargetPileC.Card = newTopCard;
+                        break;
+                    case 1:
+                        TargetPileD.Card = newTopCard;
+                        break;
+                    case 2:
+                        TargetPileH.Card = newTopCard;
+                        break;
+                    case 3:
+                        TargetPileS.Card = newTopCard;
+                        break;
                 }
             }
 
@@ -597,6 +646,18 @@ namespace Sa11ytaire4All
                         }
                     }
                 }
+            }
+
+            if (!String.IsNullOrEmpty(undoAnnouncementMessage))
+            {
+                SemanticProperties.SetDescription(UndoButton, MyGetString("Undo"));
+
+                // Don't announce available moves after the undo.
+                MakeDelayedScreenReaderAnnouncement(
+                    MyGetString("Undone") + " " +
+                    undoAnnouncementMessage, false);
+
+                undoAnnouncementMessage = "";
             }
         }
 
