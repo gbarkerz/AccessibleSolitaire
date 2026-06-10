@@ -255,7 +255,7 @@ namespace Sa11ytaire4All.Views
             // Barker: On Android, sometimes a card can't be pressed without it triggering 
             // the zoom popup, so disable it for now. Revisit this when time permits.
             return 600000;
-#endif
+#else
 
             if (value == null)
             {
@@ -266,6 +266,7 @@ namespace Sa11ytaire4All.Views
 
             // Assume ten minutes is sufficient for the "Never" timeout.
             return (timeout > 0 ? timeout : 600000);
+#endif
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -934,4 +934,7 @@ S: Move the selected card to a target card pile if possible.</value>
   <data name="Undone" xml:space="preserve">
     <value>Undone</value>
   </data>
+  <data name="NoUndoAvailable" xml:space="preserve">
+    <value>No undo action is available.</value>
+  </data>
 </root>

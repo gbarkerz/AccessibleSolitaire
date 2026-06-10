@@ -459,6 +459,14 @@ namespace Sa11ytaire4All
 
         public void UndoLastMove()
         {
+            if (!UndoButton.IsEnabled)
+            {
+                MakeDelayedScreenReaderAnnouncement(
+                    MyGetString("NoUndoAvailable"), false);
+
+                return;
+            }
+
             SetUndoButtonState(false);
 
             var vm = this.BindingContext as DealtCardViewModel;
@@ -676,26 +684,28 @@ namespace Sa11ytaire4All
                 var pileCount = vm.DealtCards[i].Count;
                 if (pileCount > 0)
                 {
-                    var dealtCard = vm.DealtCards[i][pileCount - 1];
-
-                    _deckRemaining.Add(dealtCard.Card);
-
-                    vm.DealtCards[i].RemoveAt(pileCount - 1);
-
-                    --pileCount;
-
-                    if (pileCount > 0)
+                    DealtCard? dealtCard = vm.DealtCards[i][pileCount - 1];
+                    if ((dealtCard != null) && (dealtCard.Card != null))
                     {
-                        var lastCard = vm.DealtCards[i][pileCount - 1];
-                        if (lastCard != null)
+                        _deckRemaining.Add(dealtCard.Card);
+
+                        vm.DealtCards[i].RemoveAt(pileCount - 1);
+
+                        --pileCount;
+
+                        if (pileCount > 0)
                         {
-                            lastCard.IsLastCardInPile = true;
+                            var lastCard = vm.DealtCards[i][pileCount - 1];
+                            if (lastCard != null)
+                            {
+                                lastCard.IsLastCardInPile = true;
+                            }
                         }
-                    }
-                    else
-                    {
-                        // The pile is now empty again, so add the empty placeholder item.
-                        AddEmptyCardToCollectionView(vm.DealtCards[i], i);
+                        else
+                        {
+                            // The pile is now empty again, so add the empty placeholder item.
+                            AddEmptyCardToCollectionView(vm.DealtCards[i], i);
+                        }
                     }
                 }
             }
@@ -742,7 +752,7 @@ namespace Sa11ytaire4All
                         var index = ((8 * fourthRowPileIndex) - 1) - cardIndexInPile;
                         
                         var fourthRowDealtCard = vm.DealtCards[3][index];
-                        if (fourthRowDealtCard != null)
+                        if ((fourthRowDealtCard != null) && (fourthRowDealtCard.Card != null))
                         {
                             _deckRemaining.Add(fourthRowDealtCard.Card);
 

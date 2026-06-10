@@ -933,4 +933,7 @@ S: Jeżeli to możliwe, przenieś wybraną kartę na docelowe stosy kart.</value
   <data name="Undone" xml:space="preserve">
     <value>Nie spełniony</value>
   </data>
+  <data name="NoUndoAvailable" xml:space="preserve">
+    <value>Nie można cofnąć akcji.</value>
+  </data>
 </root>

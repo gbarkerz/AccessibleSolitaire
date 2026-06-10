@@ -1600,6 +1600,15 @@ namespace Sa11ytaire4All.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No undo action is available..
+        /// </summary>
+        internal static string NoUndoAvailable {
+            get {
+                return ResourceManager.GetString("NoUndoAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This pyramid card is not open and cannot be selected..
         /// </summary>
         internal static string ObscuredPryamidCardCannotBeSelected {

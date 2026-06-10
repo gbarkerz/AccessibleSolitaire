@@ -522,7 +522,7 @@ namespace Sa11ytaire4All
             var listSelectedIndex = GetDealtPileIndexFromCollectionView(listEmpty);
 
             var undoMessage = MainPage.MyGetString("Move") + " " +
-                                cardKing.Card.GetCardAccessibleName();
+                                (cardKing.Card != null ? cardKing.Card.GetCardAccessibleName() : "");
 
             // Remember the state of the two related card piles in case we later undo this move.
             RememberCardStateForUndo(
@@ -1040,7 +1040,7 @@ namespace Sa11ytaire4All
                 var listSelectedIndex = GetDealtPileIndexFromCollectionView(listSelectionChanged);
 
                 var undoMessage = MainPage.MyGetString("Move") + " " +
-                                    cardAbove.Card.GetCardAccessibleName();
+                                    (cardAbove.Card != null ? cardAbove.Card.GetCardAccessibleName() : "") ;
 
                 // Remember the state of the two related card piles in case we later undo this move.
                 RememberCardStateForUndo(
