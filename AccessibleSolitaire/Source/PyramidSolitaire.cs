@@ -701,6 +701,16 @@ namespace Sa11ytaire4All
 
             DealtCard? dealtCardAlreadySelected = null;
 
+            var doneRememberForUndo = false;
+
+            DealtCard? dealtCard = null;
+
+            CollectionView? list;
+            if (cardButtonClicked.Card != null)
+            {
+                dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
+            }
+
             // If we've not removed the Upturned card or higher Obscured card, check the rest of the pyramid.
             if (!removeCard)
             {
@@ -728,10 +738,22 @@ namespace Sa11ytaire4All
                         if (total == 13)
                         {
                             // Remove the already selected card.
-                            CollectionView? list;
                             dealtCardAlreadySelected = FindDealtCardFromCard(cardAlreadySelected.Card, false, out list);
                             if (dealtCardAlreadySelected != null)
                             {
+                                var undoMessage = MainPage.MyGetString("Discard") + " " +
+                                                    (dealtCard != null ? dealtCard.AccessibleNameWithoutSelectionAndMofN : "");
+
+                                RememberPyramidCardStateForUndo(
+                                    clearUndoState,
+                                    cardButtonClicked,
+                                    dealtCard,
+                                    cardAlreadySelected,
+                                    dealtCardAlreadySelected,
+                                    undoMessage);
+
+                                doneRememberForUndo = true;
+
                                 discardMessage = MainPage.MyGetString("Discarded");
                                 discardMessage += " " + dealtCardAlreadySelected.AccessibleNameWithoutSelectionAndMofN;
 
@@ -777,20 +799,21 @@ namespace Sa11ytaire4All
             // Should we remove the clicked pyramid card?
             if (removeCard && (cardButtonClicked != null) && (cardButtonClicked.Card != null))
             {
-                CollectionView? list;
-                var dealtCard = FindDealtCardFromCard(cardButtonClicked.Card, false, out list);
                 if (dealtCard != null)
                 {
-                    var undoMessage = MainPage.MyGetString("Discard") + " " + 
-                                        dealtCard.AccessibleNameWithoutSelectionAndMofN;
+                    if (!doneRememberForUndo)
+                    {
+                        var undoMessage = MainPage.MyGetString("Discard") + " " +
+                                            dealtCard.AccessibleNameWithoutSelectionAndMofN;
 
-                    RememberPyramidCardStateForUndo(
-                        clearUndoState,
-                        cardButtonClicked, 
-                        dealtCard, 
-                        cardAlreadySelected, 
-                        dealtCardAlreadySelected,
-                        undoMessage);
+                        RememberPyramidCardStateForUndo(
+                            clearUndoState,
+                            cardButtonClicked,
+                            dealtCard,
+                            cardAlreadySelected,
+                            dealtCardAlreadySelected,
+                            undoMessage);
+                    }
 
                     if (string.IsNullOrEmpty(discardMessage))
                     {

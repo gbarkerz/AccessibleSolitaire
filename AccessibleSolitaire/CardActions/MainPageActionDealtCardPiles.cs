@@ -1516,6 +1516,9 @@ namespace Sa11ytaire4All
 
         private void AutoCompleteGameNow(bool showAutoCompleteMessage)
         {
+            // Can't undo a move after this.
+            SetUndoButtonState(false);
+
             // Barker Todo: Move all the dealt cards and remaining cards 
             // up to the target card. For now, simply end the game.
 

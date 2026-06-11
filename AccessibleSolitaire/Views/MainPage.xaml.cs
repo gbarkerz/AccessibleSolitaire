@@ -1739,7 +1739,7 @@ namespace Sa11ytaire4All
                     var cardButton = gridCards[i] as CardButton;
                     if (cardButton != null)
                     {
-                        cardButton.RelRotateToAsync(0, 0);
+                        cardButton.RotateToAsync(0, 0);
                     }
                 }
             }
@@ -1757,8 +1757,8 @@ namespace Sa11ytaire4All
 
 #pragma warning restore CS4014
 
-// Stop any running sounds.
-if ((mainMediaElement != null) && (mainMediaElement.Source != null))
+            // Stop any running sounds.
+            if ((mainMediaElement != null) && (mainMediaElement.Source != null))
             {
                 mainMediaElement.Source = null;
             }
@@ -2818,6 +2818,8 @@ if ((mainMediaElement != null) && (mainMediaElement.Source != null))
 
             if (answer)
             {
+                StopCelebratoryActions();
+                    
                 Shell.Current.FlyoutIsPresented = false;
 
                 MainPage.MainPageSingleton?.RestartGame(startNewGame, true);
