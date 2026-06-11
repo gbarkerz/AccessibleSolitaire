@@ -121,7 +121,7 @@ namespace Sa11ytaire4All
                 var rowDefinitionCollection = new RowDefinitionCollection();
 
                 int upperGridRowSpan = (currentGameType != SolitaireGameType.Grandfathersclock ?
-                                            2 : // Baker's Dozen
+                                            3 : // Baker's Dozen
                                             7); // Grandfather's Clock
 
                 for (int i = 0; i < 15; ++i)
@@ -136,7 +136,7 @@ namespace Sa11ytaire4All
                     else if ((currentGameType == SolitaireGameType.Spider) &&
                         (i >= 10))
                     {
-                        upperGridRowSpan = 1;
+                        upperGridRowSpan = 2;
 
                         break;
                     }
