@@ -2729,29 +2729,26 @@ namespace Sa11ytaire4All
             }
         }
 
-        private string Sa11ytaireHelpPageGeneral =
-            "https://accessiblesolitaire.com";
-
         private string Sa11ytaireHelpPageKlondike =
-            "https://accessiblesolitaire.com/2025/07/17/accessible-solitaire-for-ios-android-and-windows";
+            "https://www.facebook.com/permalink.php?story_fbid=122096494101366092&id=61590982766655";
 
         private string Sa11ytaireHelpPageSpider =
-            "https://accessiblesolitaire.com/2026/02/16/accessible-spider-solitaire";
+            "https://www.facebook.com/permalink.php?story_fbid=122096504799366092&id=61590982766655";
 
         private string Sa11ytaireHelpPageRoyalparade =
-            "https://accessiblesolitaire.com/2026/03/04/accessible-royal-parade-solitaire";
+            "https://www.facebook.com/permalink.php?story_fbid=122096507889366092&id=61590982766655";
 
         private string Sa11ytaireHelpPageBakersdozen =
-            "https://accessiblesolitaire.com/2026/02/01/accessible-bakers-dozen-solitaire";
+            "https://www.facebook.com/permalink.php?story_fbid=122096501385366092&id=61590982766655";
 
         private string Sa11ytaireHelpPageGrandfathersclock =
-            "https://accessiblesolitaire.com/2026/03/25/accessible-grandfathers-clock-solitaire";
+            "https://www.facebook.com/permalink.php?story_fbid=122096514849366092&id=61590982766655";
 
         private string Sa11ytaireHelpPagePyramid =
-            "https://accessiblesolitaire.com/2025/11/26/coming-soon-accessible-pyramid-solitaire";
+            "https://www.facebook.com/permalink.php?story_fbid=122096495415366092&id=61590982766655";
 
         private string Sa11ytaireHelpPageTripeaks =
-            "https://accessiblesolitaire.com/2026/01/21/accessible-tri-peaks-solitaire";
+            "https://www.facebook.com/permalink.php?story_fbid=122096498313366092&id=61590982766655";
 
         public async void LaunchHelp()
         {
@@ -2762,10 +2759,6 @@ namespace Sa11ytaire4All
 
                 switch (currentGameType)
                 {
-                    case SolitaireGameType.Klondike:
-                        gameSpecificUrl = Sa11ytaireHelpPageKlondike;
-                        break;
-
                     case SolitaireGameType.Spider:
                         gameSpecificUrl = Sa11ytaireHelpPageSpider;
                         break;
@@ -2790,8 +2783,9 @@ namespace Sa11ytaire4All
                         gameSpecificUrl = Sa11ytaireHelpPageTripeaks;
                         break;
 
+                    case SolitaireGameType.Klondike:
                     default:
-                        gameSpecificUrl = Sa11ytaireHelpPageGeneral;
+                        gameSpecificUrl = Sa11ytaireHelpPageKlondike;
                         break;
                 }
 
